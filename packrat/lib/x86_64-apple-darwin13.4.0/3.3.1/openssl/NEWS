@@ -1,0 +1,49 @@
+0.9.4
+ - Fix ec_keygen() for old versions of OpenSSL
+ - Added aes_ctr() and aes_gcm() modes
+ - Added aes_keygen()
+ - Added bignum_mod_inv()
+ - Internal tools for JWT/JWK support (see pkg: jose)
+
+0.9.3
+ - Added ec_dh() function for ECDH
+ - Added --atleast-version=1.0 to pkg-config in configure script
+ - Switch as.list(cert) to RFC2253 format for 'subject' and 'issuer' fields
+
+0.9.2
+ - Disable EC stuff for OPENSSL_NO_EC (needed on some Solaris / Gentoo)
+ - Added openssl_config() function to test if libssl is built with EC support
+ - Make configure script bourne compatible (remove bash shebang)
+ - Tweak for OpenBSD in ssl.c
+ - Added sha224, sha384 and sha2 functions
+ - Export the fingerprint function
+
+0.9.1
+ - Fix for getaddrinfo() in Solaris
+ - Use the configurable askpass() for password prompt
+
+0.9
+ - Switched download_ssl_cert to getaddrinfo() api for ipv6 support
+ - Fix for example for naming conflict with new digest package
+
+0.8
+ - Configure script now checks for OpenSSL minimum version 1.0.0
+
+0.7
+ - Breaking change: hash functions now use hmac 'key' instead of a 'salt'
+ - The my_key() and my_pubkey() functions now work as documented
+ - as.list(cert) add alt_names field for https certs with multiple domains
+ - added export_pem for certificates
+
+0.6
+ - Added --force-bottle to autobrew installer
+ - Use nonblocking socket in ssl to set connection timeout
+ - Fix UBSAN problem in ssl.c
+ - Fix ASAN problem in hash.c
+
+0.5
+ - Major overhaul, add encryption, signature, cert stuff
+ - Upgrade libssl and libcrypto on windows to 1.0.2d
+
+0.4
+ - Added base64 functions

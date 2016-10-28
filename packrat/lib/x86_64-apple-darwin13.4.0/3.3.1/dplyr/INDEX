@@ -1,0 +1,77 @@
+add_rownames            Convert row names to an explicit variable.
+all_equal               Flexible equality comparison for data frames.
+arrange                 Arrange rows by variables.
+as.table.tbl_cube       Coerce a 'tbl_cube' to other data structures
+as.tbl_cube             Coerce an existing data structure into a
+                        'tbl_cube'
+auto_copy               Copy tables to same source, if necessary.
+bench_compare           Evaluate, compare, benchmark operations of a
+                        set of srcs.
+between                 Do values in a numeric vector fall in specified
+                        range?
+bind                    Efficiently bind multiple data frames by row
+                        and column.
+build_sql               Build a SQL string.
+case_when               A general vectorised if.
+coalesce                Find first non-missing element
+compute                 Compute a lazy tbl.
+copy_to                 Copy a local data frame to a remote src.
+copy_to.src_sql         Copy a local data frame to a sqlite src.
+cumall                  Cumulativate versions of any, all, and mean
+desc                    Descending order.
+distinct                Select distinct/unique rows.
+do                      Do arbitrary operations on a tbl.
+dplyr                   dplyr: a grammar of data manipulation
+explain                 Explain details of a tbl.
+failwith                Fail with specified value.
+filter                  Return rows with matching conditions.
+funs                    Create a list of functions calls.
+group_by                Group a tbl by one or more variables.
+group_indices           Group id.
+group_size              Calculate group sizes.
+groups                  Get/set the grouping variables for tbl.
+if_else                 Vectorised if.
+join                    Join two tbls together.
+join.tbl_df             Join data frame tbls.
+join.tbl_sql            Join sql tbls.
+lead-lag                Lead and lag.
+location                Print the location in memory of a data frame
+mutate                  Add new variables.
+n                       The number of observations in the current
+                        group.
+n_distinct              Efficiently count the number of unique values
+                        in a set of vector
+na_if                   Convert values to NA.
+nasa                    NASA spatio-temporal data
+near                    Compare two numeric vectors.
+nth                     Extract the first, last or nth value from a
+                        vector.
+order_by                A helper function for ordering window function
+                        output.
+ranking                 Windowed rank functions.
+recode                  Recode values
+rowwise                 Group input by rows
+sample                  Sample n rows from a table.
+select                  Select/rename variables by name.
+select_helpers          Select helpers
+select_if               Select columns using a predicate
+setops                  Set operations.
+slice                   Select rows by position.
+src-test                A set of DBI methods to ease unit testing dplyr
+                        with DBI
+src_memdb               Per-session in-memory SQLite databases.
+src_mysql               Connect to mysql/mariadb.
+src_postgres            Connect to postgresql.
+src_sqlite              Connect to a sqlite database.
+src_tbls                List all tbls provided by a source.
+summarise               Summarise multiple values to a single value.
+summarise_all           Summarise and mutate multiple columns.
+summarise_each          Summarise and mutate multiple columns.
+tally                   Counts/tally observations by group.
+tbl                     Create a table from a data source
+tbl_cube                A data cube tbl.
+tbl_df                  Create a data frame tbl.
+tbl_vars                List variables provided by a tbl.
+top_n                   Select top (or bottom) n rows (by value).
+translate_sql           Translate an expression to sql.
+vars                    Select columns

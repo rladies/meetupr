@@ -1,0 +1,12 @@
+with_collate            Collation Order
+with_dir                Working directory
+with_envvar             Environment variables
+with_libpaths           Library paths
+with_locale             Locale settings
+with_makevars           Makevars variables
+with_options            Options
+with_par                Graphics parameters
+with_path               PATH environment variable
+with_sink               Output redirection
+with_temp_libpaths      Library paths
+withr                   Execute code in temporarily altered environment

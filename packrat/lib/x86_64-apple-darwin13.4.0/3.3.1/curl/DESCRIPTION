@@ -1,0 +1,41 @@
+Package: curl
+Type: Package
+Title: A Modern and Flexible Web Client for R
+Version: 2.2
+Authors@R: c( person("Jeroen", "Ooms", , "jeroen.ooms@stat.ucla.edu",
+    role = c("cre", "aut")), person("Hadley", "Wickham", ,
+    "hadley@rstudio.com", role = "ctb"), person("RStudio", role =
+    "cph") )
+Description: The curl() and curl_download() functions provide highly
+    configurable drop-in replacements for base url() and
+    download.file() with better performance, support for encryption
+    (https, ftps), gzip compression, authentication, and other
+    'libcurl' goodies. The core of the package implements a framework
+    for performing fully customized requests where data can be
+    processed either in memory, on disk, or streaming via the callback
+    or connection interfaces. Some knowledge of 'libcurl' is
+    recommended; for a more-user-friendly web client see the 'httr'
+    package which builds on this package with http specific tools and
+    logic.
+License: MIT + file LICENSE
+SystemRequirements: libcurl: libcurl-devel (rpm) or
+    libcurl4-openssl-dev (deb).
+URL: https://github.com/jeroenooms/curl#readme
+BugReports: https://github.com/jeroenooms/curl/issues
+Suggests: testthat (>= 1.0.0), knitr, jsonlite, rmarkdown, magrittr
+VignetteBuilder: knitr
+Depends: R (>= 3.0.0)
+LazyData: true
+RoxygenNote: 5.0.1.9000
+NeedsCompilation: yes
+Packaged: 2016-10-21 11:29:44 UTC; jeroen
+Author: Jeroen Ooms [cre, aut], Hadley Wickham [ctb], RStudio [cph]
+Maintainer: Jeroen Ooms <jeroen.ooms@stat.ucla.edu>
+Repository: CRAN
+Date/Publication: 2016-10-21 14:09:41
+Built: R 3.3.0; x86_64-apple-darwin13.4.0; 2016-10-23 09:54:50 UTC;
+    unix
+Archs: curl.so.dSYM
+InstallAgent: packrat 0.4.8.1
+InstallSource: CRAN
+Hash: 4533829fb0026bd0dea77ba8f1612d37

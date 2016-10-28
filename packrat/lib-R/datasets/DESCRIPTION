@@ -1,0 +1,9 @@
+Package: datasets
+Version: 3.3.1
+Priority: base
+Title: The R Datasets Package
+Author: R Core Team and contributors worldwide
+Maintainer: R Core Team <R-core@r-project.org>
+Description: Base R datasets.
+License: Part of R 3.3.1
+Built: R 3.3.1; ; 2016-06-24 18:36:19 UTC; unix

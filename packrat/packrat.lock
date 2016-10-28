@@ -1,0 +1,142 @@
+PackratFormat: 1.4
+PackratVersion: 0.4.8.1
+RVersion: 3.3.1
+Repos: CRAN=https://cran.rstudio.com/
+
+Package: BH
+Source: CRAN
+Version: 1.60.0-2
+Hash: be2967bcff307e561d9ba17faf03205c
+
+Package: DBI
+Source: CRAN
+Version: 0.5-1
+Hash: 375869004db963f9915f2b8a49b4a718
+
+Package: R6
+Source: CRAN
+Version: 2.2.0
+Hash: 712773a3439bd32db5c40938e1a9aac2
+
+Package: Rcpp
+Source: CRAN
+Version: 0.12.7
+Hash: f0ba7322cfb66f1b563462faa9c2b2ab
+
+Package: assertthat
+Source: CRAN
+Version: 0.1
+Hash: 0afb92b59b02593c70ff8046700ba9d3
+
+Package: brew
+Source: CRAN
+Version: 1.0-6
+Hash: 931f9972deae0f205e1c78a51f33149b
+
+Package: curl
+Source: CRAN
+Version: 2.2
+Hash: 4533829fb0026bd0dea77ba8f1612d37
+
+Package: devtools
+Source: CRAN
+Version: 1.12.0
+Hash: bbad95109ae75cbb14099281cda43af2
+Requires: digest, git2r, httr, jsonlite, memoise, rstudioapi, whisker,
+    withr
+
+Package: digest
+Source: CRAN
+Version: 0.6.10
+Hash: 87165608ca8aeb0958835c3c5b52b6b7
+
+Package: dplyr
+Source: CRAN
+Version: 0.5.0
+Hash: 03e5e71801c0f49217922e2cd4680f06
+Requires: BH, DBI, R6, Rcpp, assertthat, lazyeval, magrittr, tibble
+
+Package: git2r
+Source: CRAN
+Version: 0.15.0
+Hash: 92d5a9f3cba5e146b92a76dabbc29fbb
+
+Package: httr
+Source: CRAN
+Version: 1.2.1
+Hash: 7de1f8f760441881804af7c1ff324340
+Requires: R6, curl, jsonlite, mime, openssl
+
+Package: jsonlite
+Source: CRAN
+Version: 1.1
+Hash: 86d4b85b84421a4815f1bb4872e30ef4
+
+Package: lazyeval
+Source: CRAN
+Version: 0.2.0
+Hash: 3d6e7608e65bbf5cb170dab1e3c9ed8b
+
+Package: magrittr
+Source: CRAN
+Version: 1.5
+Hash: bdc4d48c3135e8f3b399536ddf160df4
+
+Package: memoise
+Source: CRAN
+Version: 1.0.0
+Hash: 56e7087c3559eb7ba72a9afb349bf896
+Requires: digest
+
+Package: mime
+Source: CRAN
+Version: 0.5
+Hash: 463550cf44fb6f0a2359368f42eebe62
+
+Package: openssl
+Source: CRAN
+Version: 0.9.4
+Hash: 5ceb5d83bba44e8e5a764ac6ad32e9fb
+
+Package: packrat
+Source: CRAN
+Version: 0.4.8-1
+Hash: 6ad605ba7b4b476d84be6632393f5765
+
+Package: roxygen2
+Source: CRAN
+Version: 5.0.1
+Hash: 77e2e933d3709300a251c7ef9cef82fc
+Requires: Rcpp, brew, digest, stringi, stringr
+
+Package: rstudioapi
+Source: CRAN
+Version: 0.6
+Hash: fd256f8bfb9a64cc35f98b0decb1a79f
+
+Package: stringi
+Source: CRAN
+Version: 1.1.2
+Hash: 1ad6b1cc11d982ac233bf2fa2f7c9684
+
+Package: stringr
+Source: CRAN
+Version: 1.1.0
+Hash: 4d21d0063b37a17ea18eaec6acd29bf3
+Requires: magrittr, stringi
+
+Package: tibble
+Source: CRAN
+Version: 1.2
+Hash: 3b35b556ef7acddb0d28fe6a27ad50e4
+Requires: Rcpp, assertthat, lazyeval
+
+Package: whisker
+Source: CRAN
+Version: 0.3-2
+Hash: 803d662762e532705c2c066a82d066e7
+
+Package: withr
+Source: CRAN
+Version: 1.0.2
+Hash: 774eb7be9087cdc24b53b74e5359cfac

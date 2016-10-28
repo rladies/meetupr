@@ -1,0 +1,34 @@
+Package: jsonlite
+Version: 1.1
+Title: A Robust, High Performance JSON Parser and Generator for R
+License: MIT + file LICENSE
+NeedsCompilation: yes
+Depends: methods
+Author: Jeroen Ooms, Duncan Temple Lang, Lloyd Hilaiel
+URL: http://arxiv.org/abs/1403.2805,
+    https://www.opencpu.org/posts/jsonlite-a-smarter-json-encoder
+BugReports: http://github.com/jeroenooms/jsonlite/issues
+Maintainer: Jeroen Ooms <jeroen.ooms@stat.ucla.edu>
+VignetteBuilder: knitr, R.rsp
+Description: A fast JSON parser and generator optimized for statistical
+    data and the web. Started out as a fork of 'RJSONIO', but has been
+    completely rewritten in recent versions. The package offers
+    flexible, robust, high performance tools for working with JSON in R
+    and is particularly powerful for building pipelines and interacting
+    with a web API. The implementation is based on the mapping
+    described in the vignette (Ooms, 2014). In addition to converting
+    JSON data from/to R objects, 'jsonlite' contains functions to
+    stream, validate, and prettify JSON data. The unit tests included
+    with the package verify that all edge cases are encoded and decoded
+    consistently for use with dynamic data in systems and applications.
+Suggests: httr, curl, plyr, testthat, knitr, rmarkdown, R.rsp
+RoxygenNote: 5.0.1
+Packaged: 2016-09-14 10:32:48 UTC; jeroen
+Repository: CRAN
+Date/Publication: 2016-09-14 19:44:17
+Built: R 3.3.0; x86_64-apple-darwin13.4.0; 2016-09-15 10:18:41 UTC;
+    unix
+Archs: jsonlite.so.dSYM
+InstallAgent: packrat 0.4.8.1
+InstallSource: CRAN
+Hash: 86d4b85b84421a4815f1bb4872e30ef4

@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<meta name="date" content="2016-06-23" />
+
+<title>Databases</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Databases</h1>
+<h4 class="date"><em>2016-06-23</em></h4>
+
+
+
+<p>As well as working with local in-memory data like data frames and data tables, dplyr also works with remote on-disk data stored in databases. Generally, if your data fits in memory there is no advantage to putting it in a database: it will only be slower and more hassle. The reason you’d want to use dplyr with a database is because either your data is already in a database (and you don’t want to work with static csv files that someone else has dumped out for you), or you have so much data that it does not fit in memory and you have to use a database. Currently dplyr supports the three most popular open source databases (sqlite, mysql and postgresql), and google’s bigquery.</p>
+<p>Since R almost exclusively works with in-memory data, if you do have a lot of data in a database, you can’t just dump it into R. Instead, you’ll have to work with subsets or aggregates. dplyr aims to make this task as easy as possible. If you’re working with large data, it’s also likely that you’ll need support to get the data into the database and to ensure you have the right indices for good performance. While dplyr provides some simple tools to help with these tasks, they are no substitute for a local expert.</p>
+<p>The motivation for supporting databases in dplyr is that you never pull down the right subset or aggregate from the database on your first try. Usually you have to iterate between R and SQL many times before you get the perfect dataset. But because switching between languages is cognitively challenging (especially because R and SQL are so perilously similar), dplyr helps you by allowing you to write R code that is automatically translated to SQL. The goal of dplyr is not to replace every SQL function with an R function; that would be difficult and error prone. Instead, dplyr only generates <code>SELECT</code> statements, the SQL you write most often as an analyst.</p>
+<p>To get the most out of this chapter, you’ll need to be familiar with querying SQL databases using the <code>SELECT</code> statement. If you have some familiarity with SQL and you’d like to learn more, I found <a href="http://www.sqlite.org/queryplanner.html">how indexes work in SQLite</a> and <a href="http://blog.jooq.org/2016/03/17/10-easy-steps-to-a-complete-understanding-of-sql">10 easy steps to a complete understanding of SQL</a> to be particularly helpful.</p>
+<div id="getting-started" class="section level2">
+<h2>Getting started</h2>
+<p>The easiest way to experiement with databases using dplyr is to use SQLite. This is because everything you need is already included in the R package. You won’t need to install anything, and you won’t need to deal with the hassle of setting up a database server. Doing so is really easy: just give the path and the ok to create a table.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_db &lt;-<span class="st"> </span><span class="kw">src_sqlite</span>(<span class="st">&quot;my_db.sqlite3&quot;</span>, <span class="dt">create =</span> T)</code></pre></div>
+<p>The main new concept here is the <code>src</code>, which is a collection of types of database tables. Use <code>src_sqlite()</code>, <code>src_mysql()</code>, <code>src_postgres()</code> and <code>src_bigquery()</code> to connect to the specific types supported by dplyr.</p>
+<p><code>my_db</code> currently has no data in it, so we’ll import the <code>flights</code> data using the convenient <code>copy_to()</code> function. This is a quick and dirty way of getting data into a database. Because all the data has to flow through R, you should note that this is not suitable for very large datasets.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(nycflights13)
+flights_sqlite &lt;-<span class="st"> </span><span class="kw">copy_to</span>(my_db, flights, <span class="dt">temporary =</span> <span class="ot">FALSE</span>, <span class="dt">indexes =</span> <span class="kw">list</span>(
+  <span class="kw">c</span>(<span class="st">&quot;year&quot;</span>, <span class="st">&quot;month&quot;</span>, <span class="st">&quot;day&quot;</span>), <span class="st">&quot;carrier&quot;</span>, <span class="st">&quot;tailnum&quot;</span>))</code></pre></div>
+<p>As you can see, the <code>copy_to()</code> operation has an additional argument that allows you to supply indexes for the table. Here we set up indexes that will allow us to quickly process the data by day, by carrier and by plane. <code>copy_to()</code> also executes the SQL <code>ANALYZE</code> command: this ensures that the database has up-to-date table statistics and performs the appropriate query optimisations.</p>
+<p>For this particular dataset, there’s a built-in <code>src</code> that will cache <code>flights</code> in a standard location:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights_sqlite &lt;-<span class="st"> </span><span class="kw">tbl</span>(<span class="kw">nycflights13_sqlite</span>(), <span class="st">&quot;flights&quot;</span>)
+<span class="co">#&gt; Caching nycflights db at /private/tmp/RtmpduTf9z/Rinst1430371d1558/dplyr/db/nycflights13.sqlite</span>
+flights_sqlite
+<span class="co">#&gt; Source:   query [?? x 16]</span>
+<span class="co">#&gt; Database: sqlite 3.8.6 [/private/tmp/RtmpduTf9z/Rinst1430371d1558/dplyr/db/nycflights13.sqlite]</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; # S3: tbl_sqlite</span>
+<span class="co">#&gt;    year month   day dep_time dep_delay arr_time arr_delay carrier tailnum</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;   &lt;chr&gt;   &lt;chr&gt;</span>
+<span class="co">#&gt; 1  2013     1     1      517         2      830        11      UA  N14228</span>
+<span class="co">#&gt; 2  2013     1     1      533         4      850        20      UA  N24211</span>
+<span class="co">#&gt; 3  2013     1     1      542         2      923        33      AA  N619AA</span>
+<span class="co">#&gt; 4  2013     1     1      544        -1     1004       -18      B6  N804JB</span>
+<span class="co">#&gt; ... with more rows, and 7 more variables: flight &lt;int&gt;, origin &lt;chr&gt;,</span>
+<span class="co">#&gt;   dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;</span></code></pre></div>
+<p>You can also use arbitrary SQL:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tbl</span>(my_db, <span class="kw">sql</span>(<span class="st">&quot;SELECT * FROM flights&quot;</span>))</code></pre></div>
+</div>
+<div id="basic-verbs" class="section level2">
+<h2>Basic verbs</h2>
+<p>Whether you’re dealing with remote or local data sources, you use the same five verbs:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">select</span>(flights_sqlite, year:day, dep_delay, arr_delay)
+<span class="co">#&gt; Source:   query [?? x 5]</span>
+<span class="co">#&gt; Database: sqlite 3.8.6 [/private/tmp/RtmpduTf9z/Rinst1430371d1558/dplyr/db/nycflights13.sqlite]</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; # S3: tbl_sqlite</span>
+<span class="co">#&gt;    year month   day dep_delay arr_delay</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;     &lt;dbl&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt; 1  2013     1     1         2        11</span>
+<span class="co">#&gt; 2  2013     1     1         4        20</span>
+<span class="co">#&gt; 3  2013     1     1         2        33</span>
+<span class="co">#&gt; 4  2013     1     1        -1       -18</span>
+<span class="co">#&gt; ... with more rows</span>
+<span class="kw">filter</span>(flights_sqlite, dep_delay &gt;<span class="st"> </span><span class="dv">240</span>)
+<span class="co">#&gt; Source:   query [?? x 16]</span>
+<span class="co">#&gt; Database: sqlite 3.8.6 [/private/tmp/RtmpduTf9z/Rinst1430371d1558/dplyr/db/nycflights13.sqlite]</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; # S3: tbl_sqlite</span>
+<span class="co">#&gt;    year month   day dep_time dep_delay arr_time arr_delay carrier tailnum</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;   &lt;chr&gt;   &lt;chr&gt;</span>
+<span class="co">#&gt; 1  2013     1     1      848       853     1001       851      MQ  N942MQ</span>
+<span class="co">#&gt; 2  2013     1     1     1815       290     2120       338      EV  N17185</span>
+<span class="co">#&gt; 3  2013     1     1     1842       260     1958       263      EV  N18120</span>
+<span class="co">#&gt; 4  2013     1     1     2115       255     2330       250      9E  N924XJ</span>
+<span class="co">#&gt; ... with more rows, and 7 more variables: flight &lt;int&gt;, origin &lt;chr&gt;,</span>
+<span class="co">#&gt;   dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;</span>
+<span class="kw">arrange</span>(flights_sqlite, year, month, day)
+<span class="co">#&gt; Source:   query [?? x 16]</span>
+<span class="co">#&gt; Database: sqlite 3.8.6 [/private/tmp/RtmpduTf9z/Rinst1430371d1558/dplyr/db/nycflights13.sqlite]</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; # S3: tbl_sqlite</span>
+<span class="co">#&gt;    year month   day dep_time dep_delay arr_time arr_delay carrier tailnum</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;   &lt;chr&gt;   &lt;chr&gt;</span>
+<span class="co">#&gt; 1  2013     1     1      517         2      830        11      UA  N14228</span>
+<span class="co">#&gt; 2  2013     1     1      533         4      850        20      UA  N24211</span>
+<span class="co">#&gt; 3  2013     1     1      542         2      923        33      AA  N619AA</span>
+<span class="co">#&gt; 4  2013     1     1      544        -1     1004       -18      B6  N804JB</span>
+<span class="co">#&gt; ... with more rows, and 7 more variables: flight &lt;int&gt;, origin &lt;chr&gt;,</span>
+<span class="co">#&gt;   dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;</span>
+<span class="kw">mutate</span>(flights_sqlite, <span class="dt">speed =</span> air_time /<span class="st"> </span>distance)
+<span class="co">#&gt; Source:   query [?? x 17]</span>
+<span class="co">#&gt; Database: sqlite 3.8.6 [/private/tmp/RtmpduTf9z/Rinst1430371d1558/dplyr/db/nycflights13.sqlite]</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; # S3: tbl_sqlite</span>
+<span class="co">#&gt;    year month   day dep_time dep_delay arr_time arr_delay carrier tailnum</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;   &lt;chr&gt;   &lt;chr&gt;</span>
+<span class="co">#&gt; 1  2013     1     1      517         2      830        11      UA  N14228</span>
+<span class="co">#&gt; 2  2013     1     1      533         4      850        20      UA  N24211</span>
+<span class="co">#&gt; 3  2013     1     1      542         2      923        33      AA  N619AA</span>
+<span class="co">#&gt; 4  2013     1     1      544        -1     1004       -18      B6  N804JB</span>
+<span class="co">#&gt; ... with more rows, and 8 more variables: flight &lt;int&gt;, origin &lt;chr&gt;,</span>
+<span class="co">#&gt;   dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;,</span>
+<span class="co">#&gt;   speed &lt;dbl&gt;</span>
+<span class="kw">summarise</span>(flights_sqlite, <span class="dt">delay =</span> <span class="kw">mean</span>(dep_time))
+<span class="co">#&gt; Source:   query [?? x 1]</span>
+<span class="co">#&gt; Database: sqlite 3.8.6 [/private/tmp/RtmpduTf9z/Rinst1430371d1558/dplyr/db/nycflights13.sqlite]</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; # S3: tbl_sqlite</span>
+<span class="co">#&gt;     delay</span>
+<span class="co">#&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 1349.11</span></code></pre></div>
+<p>The most important difference is that the expressions in <code>select()</code>, <code>filter()</code>, <code>arrange()</code>, <code>mutate()</code>, and <code>summarise()</code> are translated into SQL so they can be run on the database. While the translations for the most common operations are almost perfect there are some limitations, which you’ll learn about later.</p>
+</div>
+<div id="laziness" class="section level2">
+<h2>Laziness</h2>
+<p>When working with databases, dplyr tries to be as lazy as possible:</p>
+<ul>
+<li><p>It never pulls data into R unless you explicitly ask for it.</p></li>
+<li><p>It delays doing any work until the last possible moment: it collects together everything you want to do and then sends it to the database in one step.</p></li>
+</ul>
+<p>For example, take the following code:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">c1 &lt;-<span class="st"> </span><span class="kw">filter</span>(flights_sqlite, year ==<span class="st"> </span><span class="dv">2013</span>, month ==<span class="st"> </span><span class="dv">1</span>, day ==<span class="st"> </span><span class="dv">1</span>)
+c2 &lt;-<span class="st"> </span><span class="kw">select</span>(c1, year, month, day, carrier, dep_delay, air_time, distance)
+c3 &lt;-<span class="st"> </span><span class="kw">mutate</span>(c2, <span class="dt">speed =</span> distance /<span class="st"> </span>air_time *<span class="st"> </span><span class="dv">60</span>)
+c4 &lt;-<span class="st"> </span><span class="kw">arrange</span>(c3, year, month, day, carrier)</code></pre></div>
+<p>Suprisingly, this sequence of operations never actually touches the database. It’s not until you ask for the data (e.g. by printing <code>c4</code>) that dplyr generates the SQL and requests the results from the database. Even then it only pulls down 10 rows.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">c4
+<span class="co">#&gt; Source:   query [?? x 8]</span>
+<span class="co">#&gt; Database: sqlite 3.8.6 [/private/tmp/RtmpduTf9z/Rinst1430371d1558/dplyr/db/nycflights13.sqlite]</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; # S3: tbl_sqlite</span>
+<span class="co">#&gt;    year month   day carrier dep_delay air_time distance    speed</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;   &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;</span>
+<span class="co">#&gt; 1  2013     1     1      9E         0      189     1029 326.6667</span>
+<span class="co">#&gt; 2  2013     1     1      9E        -9       57      228 240.0000</span>
+<span class="co">#&gt; 3  2013     1     1      9E        -3       68      301 265.5882</span>
+<span class="co">#&gt; 4  2013     1     1      9E        -6       57      209 220.0000</span>
+<span class="co">#&gt; ... with more rows</span></code></pre></div>
+<p>To pull down all the results use <code>collect()</code>, which returns a <code>tbl_df()</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">collect</span>(c4)
+<span class="co">#&gt; # A tibble: 842 x 8</span>
+<span class="co">#&gt;    year month   day carrier dep_delay air_time distance    speed</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;   &lt;chr&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;</span>
+<span class="co">#&gt; 1  2013     1     1      9E         0      189     1029 326.6667</span>
+<span class="co">#&gt; 2  2013     1     1      9E        -9       57      228 240.0000</span>
+<span class="co">#&gt; 3  2013     1     1      9E        -3       68      301 265.5882</span>
+<span class="co">#&gt; 4  2013     1     1      9E        -6       57      209 220.0000</span>
+<span class="co">#&gt; ... with 838 more rows</span></code></pre></div>
+<p>You can see the query dplyr has generated by looking at the <code>query</code> component of the object:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">c4$query
+<span class="co">#&gt; NULL</span></code></pre></div>
+<p>You can also ask the database how it plans to execute the query with <code>explain()</code>. The output for SQLite is described in more detail on the <a href="http://www.sqlite.org/eqp.html">SQLite website</a>. It’s helpful if you’re trying to figure out which indexes are being used.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">explain</span>(c4)
+<span class="co">#&gt; &lt;SQL&gt;</span>
+<span class="co">#&gt; SELECT *</span>
+<span class="co">#&gt; FROM (SELECT `year`, `month`, `day`, `carrier`, `dep_delay`, `air_time`, `distance`, `distance` / `air_time` * 60.0 AS `speed`</span>
+<span class="co">#&gt; FROM (SELECT `year` AS `year`, `month` AS `month`, `day` AS `day`, `carrier` AS `carrier`, `dep_delay` AS `dep_delay`, `air_time` AS `air_time`, `distance` AS `distance`</span>
+<span class="co">#&gt; FROM (SELECT *</span>
+<span class="co">#&gt; FROM `flights`</span>
+<span class="co">#&gt; WHERE ((`year` = 2013.0) AND (`month` = 1.0) AND (`day` = 1.0)))))</span>
+<span class="co">#&gt; ORDER BY `year`, `month`, `day`, `carrier`</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; &lt;PLAN&gt;</span>
+<span class="co">#&gt;    addr       opcode p1    p2 p3                   p4 p5 comment</span>
+<span class="co">#&gt; 1     0         Init  0    62  0                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 2     1   SorterOpen  4     3  0           k(2,B,nil) 00    &lt;NA&gt;</span>
+<span class="co">#&gt; 3     2     OpenRead  3   100  0                   16 00    &lt;NA&gt;</span>
+<span class="co">#&gt; 4     3     OpenRead  5 18795  0 k(4,nil,nil,nil,nil) 00    &lt;NA&gt;</span>
+<span class="co">#&gt; 5     4         Real  0     1  0                 2013 00    &lt;NA&gt;</span>
+<span class="co">#&gt; 6     5         Real  0     2  0                    1 00    &lt;NA&gt;</span>
+<span class="co">#&gt; 7     6         Real  0     3  0                    1 00    &lt;NA&gt;</span>
+<span class="co">#&gt; 8     7     Affinity  1     3  0                  ddd 00    &lt;NA&gt;</span>
+<span class="co">#&gt; 9     8       SeekGE  5    40  1                    3 00    &lt;NA&gt;</span>
+<span class="co">#&gt; 10    9        IdxGT  5    40  1                    3 00    &lt;NA&gt;</span>
+<span class="co">#&gt; 11   10     IdxRowid  5     4  0                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 12   11         Seek  3     4  0                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 13   12       Column  5     0  5                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 14   13       Column  5     1  6                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 15   14       Column  5     2  7                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 16   15       Column  3     7  8                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 17   16       Column  3     4  9                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 18   17 RealAffinity  9     0  0                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 19   18       Column  3    12 10                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 20   19 RealAffinity 10     0  0                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 21   20       Column  3    13 11                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 22   21 RealAffinity 11     0  0                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 23   22       Divide 10    11 13                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 24   23     Multiply 15    13 12                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 25   24   MakeRecord  5     8 13                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 26   25       Column  5     0 17                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 27   26       Column  5     1 18                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 28   27       Column  5     2 19                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 29   28       Column  3     7 20                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 30   29     Sequence  4    21  0                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 31   30         Move 13    22  1                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 32   31   MakeRecord 20     3 16                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 33   32        IfNot 21    37  0                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 34   33      Compare 23    17  3         k(4,B,B,B,B) 00    &lt;NA&gt;</span>
+<span class="co">#&gt; 35   34         Jump 35    38 35                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 36   35        Gosub 26    44  0                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 37   36  ResetSorter  4     0  0                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 38   37         Move 17    23  3                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 39   38 SorterInsert  4    16  0                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 40   39         Next  5     9  1                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 41   40        Close  3     0  0                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 42   41        Close  5     0  0                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 43   42        Gosub 26    44  0                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 44   43         Goto  0    61  0                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 45   44         Once  0    47  0                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 46   45   OpenPseudo  6    13  8                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 47   46   OpenPseudo  7    27  3                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 48   47   SorterSort  4    61  0                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 49   48   SorterData  4    27  0                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 50   49       Column  7     2 13                      20    &lt;NA&gt;</span>
+<span class="co">#&gt; 51   50       Column  6     0  5                      20    &lt;NA&gt;</span>
+<span class="co">#&gt; 52   51       Column  6     1  6                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 53   52       Column  6     2  7                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 54   53       Column  6     3  8                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 55   54       Column  6     4  9                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 56   55       Column  6     5 10                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 57   56       Column  6     6 11                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 58   57       Column  6     7 12                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 59   58    ResultRow  5     8  0                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 60   59   SorterNext  4    48  0                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 61   60       Return 26     0  0                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 62   61         Halt  0     0  0                      00    &lt;NA&gt;</span>
+<span class="co">#&gt; 63   62  Transaction  0     0 16                    0 01    &lt;NA&gt;</span>
+<span class="co">#&gt; 64   63    TableLock  0   100  0              flights 00    &lt;NA&gt;</span>
+<span class="co">#&gt; 65   64         Real  0    15  0                   60 00    &lt;NA&gt;</span>
+<span class="co">#&gt; 66   65         Goto  0     1  0                      00    &lt;NA&gt;</span></code></pre></div>
+<div id="forcing-computation" class="section level3">
+<h3>Forcing computation</h3>
+<p>There are three ways to force the computation of a query:</p>
+<ul>
+<li><p><code>collect()</code> executes the query and returns the results to R.</p></li>
+<li><p><code>compute()</code> executes the query and stores the results in a temporary table in the database.</p></li>
+<li><p><code>collapse()</code> turns the query into a table expression.</p></li>
+</ul>
+<p><code>collect()</code> is the function you’ll use most. Once you reach the set of operations you want, you use collect() to pull the data into a local <code>tbl_df()</code>. If you know SQL, you can use <code>compute()</code> and <code>collapse()</code> to optimise performance.</p>
+</div>
+<div id="performance-considerations" class="section level3">
+<h3>Performance considerations</h3>
+<p>dplyr tries to prevent you from accidentally performing expensive query operations:</p>
+<ul>
+<li><p>Because there’s generally no way to determine how many rows a query will return unless you actually run it, <code>nrow()</code> is always <code>NA</code>.</p></li>
+<li><p>Printing a tbl only runs the query for the first 10 rows.</p></li>
+<li><p>Because you can’t find the last few rows without executing the whole query, you can’t use <code>tail()</code>.</p></li>
+</ul>
+</div>
+</div>
+<div id="sql-translation" class="section level2">
+<h2>SQL translation</h2>
+<p>When performing the simple mathematical operations used when filtering, mutating or summarising, translating R code to SQL (or indeed to any programming language) is relatively straightforward.</p>
+<p>To experiment with this, use <code>translate_sql()</code>. The following examples work through some of the basic differences between R and SQL.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># In SQLite variable names are escaped by double quotes:</span>
+<span class="kw">translate_sql</span>(x)
+<span class="co">#&gt; &lt;SQL&gt; &quot;x&quot;</span>
+<span class="co"># And strings are escaped by single quotes</span>
+<span class="kw">translate_sql</span>(<span class="st">&quot;x&quot;</span>)
+<span class="co">#&gt; &lt;SQL&gt; 'x'</span>
+
+<span class="co"># Many functions have slightly different names</span>
+<span class="kw">translate_sql</span>(x ==<span class="st"> </span><span class="dv">1</span> &amp;&amp;<span class="st"> </span>(y &lt;<span class="st"> </span><span class="dv">2</span> ||<span class="st"> </span>z &gt;<span class="st"> </span><span class="dv">3</span>))
+<span class="co">#&gt; &lt;SQL&gt; &quot;x&quot; = 1.0 AND (&quot;y&quot; &lt; 2.0 OR &quot;z&quot; &gt; 3.0)</span>
+<span class="kw">translate_sql</span>(x ^<span class="st"> </span><span class="dv">2</span> &lt;<span class="st"> </span><span class="dv">10</span>)
+<span class="co">#&gt; &lt;SQL&gt; POWER(&quot;x&quot;, 2.0) &lt; 10.0</span>
+<span class="kw">translate_sql</span>(x %%<span class="st"> </span><span class="dv">2</span> ==<span class="st"> </span><span class="dv">10</span>)
+<span class="co">#&gt; &lt;SQL&gt; &quot;x&quot; % 2.0 = 10.0</span>
+
+<span class="co"># R and SQL have different defaults for integers and reals.</span>
+<span class="co"># In R, 1 is a real, and 1L is an integer</span>
+<span class="co"># In SQL, 1 is an integer, and 1.0 is a real</span>
+<span class="kw">translate_sql</span>(<span class="dv">1</span>)
+<span class="co">#&gt; &lt;SQL&gt; 1.0</span>
+<span class="kw">translate_sql</span>(1L)
+<span class="co">#&gt; &lt;SQL&gt; 1</span></code></pre></div>
+<p>dplyr knows how to convert the following R functions to SQL:</p>
+<ul>
+<li>basic math operators: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%%</code>, <code>^</code></li>
+<li>math functions: <code>abs</code>, <code>acos</code>, <code>acosh</code>, <code>asin</code>, <code>asinh</code>, <code>atan</code>, <code>atan2</code>, <code>atanh</code>, <code>ceiling</code>, <code>cos</code>, <code>cosh</code>, <code>cot</code>, <code>coth</code>, <code>exp</code>, <code>floor</code>, <code>log</code>, <code>log10</code>, <code>round</code>, <code>sign</code>, <code>sin</code>, <code>sinh</code>, <code>sqrt</code>, <code>tan</code>, <code>tanh</code></li>
+<li>logical comparisons: <code>&lt;</code>, <code>&lt;=</code>, <code>!=</code>, <code>&gt;=</code>, <code>&gt;</code>, <code>==</code>, <code>%in%</code></li>
+<li>boolean operations: <code>&amp;</code>, <code>&amp;&amp;</code>, <code>|</code>, <code>||</code>, <code>!</code>, <code>xor</code></li>
+<li>basic aggregations: <code>mean</code>, <code>sum</code>, <code>min</code>, <code>max</code>, <code>sd</code>, <code>var</code></li>
+</ul>
+<p>The basic techniques that underlie the implementation of <code>translate_sql()</code> are described in the <a href="http://adv-r.had.co.nz/dsl.html">Advanced R book</a>. <code>translate_sql()</code> is built on top of R’s parsing engine and has been carefully designed to generate correct SQL. It also protects you against SQL injection attacks by correctly escaping the strings and variable names needed by the database that you’re connecting to.</p>
+<p>Perfect translation is not possible because databases don’t have all the functions that R does. The goal of dplyr is to provide a semantic rather than a literal translation: what you mean rather than what is done. In fact, even for functions that exist both in databases and R, you shouldn’t expect results to be identical; database programmers have different priorities than R core programmers. For example, in R in order to get a higher level of numerical accuracy, <code>mean()</code> loops through the data twice. R’s <code>mean()</code> also provides a <code>trim</code> option for computing trimmed means; this is something that databases do not provide. Databases automatically drop NULLs (their equivalent of missing values) whereas in R you have to ask nicely. This means the essence of simple calls like <code>mean(x)</code> will be translated accurately, but more complicated calls like <code>mean(x, trim = 0.5, na.rm = TRUE)</code> will raise an error:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">translate_sql</span>(<span class="kw">mean</span>(x, <span class="dt">trim =</span> T))
+<span class="co"># Error: Invalid number of args to SQL AVG. Expecting 1</span></code></pre></div>
+<p>Any function that dplyr doesn’t know how to convert is left as is. This means that database functions that are not covered by dplyr can be used directly via <code>translate_sql()</code>. Here a couple of examples that will work with <a href="http://www.sqlite.org/lang_corefunc.html">SQLite</a>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">translate_sql</span>(<span class="kw">glob</span>(x, y))
+<span class="co">#&gt; &lt;SQL&gt; GLOB(&quot;x&quot;, &quot;y&quot;)</span>
+<span class="kw">translate_sql</span>(x %like%<span class="st"> &quot;ab*&quot;</span>)
+<span class="co">#&gt; &lt;SQL&gt; &quot;x&quot; LIKE 'ab*'</span></code></pre></div>
+</div>
+<div id="grouping" class="section level2">
+<h2>Grouping</h2>
+<p>SQLite lacks the window functions that are needed for grouped mutation and filtering. This means that the only really useful operations for grouped SQLite tables are found in <code>summarise()</code>. The grouped summarise from the introduction translates well - the only difference is that databases always drop NULLs (their equivalent of missing values), so we don’t supply <code>na.rm = TRUE</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">by_tailnum &lt;-<span class="st"> </span><span class="kw">group_by</span>(flights_sqlite, tailnum)
+delay &lt;-<span class="st"> </span><span class="kw">summarise</span>(by_tailnum,
+  <span class="dt">count =</span> <span class="kw">n</span>(),
+  <span class="dt">dist =</span> <span class="kw">mean</span>(distance),
+  <span class="dt">delay =</span> <span class="kw">mean</span>(arr_delay)
+)
+delay &lt;-<span class="st"> </span><span class="kw">filter</span>(delay, count &gt;<span class="st"> </span><span class="dv">20</span>, dist &lt;<span class="st"> </span><span class="dv">2000</span>)
+delay_local &lt;-<span class="st"> </span><span class="kw">collect</span>(delay)</code></pre></div>
+<p>Other databases do support window functions. You can learn about them in the corresponding vignette. It’s sometimes possible to simulate grouped filtering and mutation using self joins, which join the original table with a summarised version, but that topic is beyond the scope of this introduction.</p>
+</div>
+<div id="other-databases" class="section level2">
+<h2>Other databases</h2>
+<p>Aside from SQLite, the overall workflow is essentially the same regardless of the database you’re connecting to. The following sections go in to more details about the peculiarities of each database engine. All of these databases follow a client-server model - a computer that connects to the database and the computer that is running the database (the two may be one and the same but usually isn’t). Getting one of these databases up and running is beyond the scope of this article, but there are plenty of tutorials available on the web.</p>
+<div id="postgresql" class="section level3">
+<h3>PostgreSQL</h3>
+<p><code>src_postgres()</code> has five arguments: <code>dbname</code>, <code>host</code>, <code>port</code>, <code>user</code> and <code>password</code>. If you are running a local postgresql database with the default settings you only need <code>dbname</code>. But in most cases, you’ll need all five. dplyr uses the RPostgreSQL package to connect to postgres databases. This means that you can’t currently connect to remote databases that require a SSL connection (e.g. Heroku).</p>
+<p>For example, the following code allows me to connect to a local PostgreSQL database that contains a copy of the <code>flights</code> data:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights_postgres &lt;-<span class="st"> </span><span class="kw">tbl</span>(<span class="kw">src_postgres</span>(<span class="st">&quot;nycflights13&quot;</span>), <span class="st">&quot;flights&quot;</span>)</code></pre></div>
+<p>PostgreSQL is a considerably more powerful database than SQLite. It has:</p>
+<ul>
+<li><p>a much wider range of <a href="http://www.postgresql.org/docs/9.3/static/functions.html">built-in functions</a></p></li>
+<li><p>support for <a href="http://www.postgresql.org/docs/9.3/static/tutorial-window.html">window functions</a>, which allow grouped subset and mutates to work.</p></li>
+</ul>
+<p>The following examples show how we can perform grouped filter and mutate operations with PostgreSQL. Because you can’t filter on window functions directly, the SQL generated from the grouped filter is quite complex; so they instead have to go in a subquery.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">daily &lt;-<span class="st"> </span><span class="kw">group_by</span>(flights_postgres, year, month, day)
+
+<span class="co"># Find the most and least delayed flight each day</span>
+bestworst &lt;-<span class="st"> </span>daily %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">select</span>(flight, arr_delay) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">filter</span>(arr_delay ==<span class="st"> </span><span class="kw">min</span>(arr_delay) ||<span class="st"> </span>arr_delay ==<span class="st"> </span><span class="kw">max</span>(arr_delay))
+bestworst$query
+
+<span class="co"># Rank each flight within a daily</span>
+ranked &lt;-<span class="st"> </span>daily %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">select</span>(arr_delay) %&gt;%<span class="st"> </span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">rank =</span> <span class="kw">rank</span>(<span class="kw">desc</span>(arr_delay)))
+ranked$query</code></pre></div>
+</div>
+<div id="mysql-and-mariadb" class="section level3">
+<h3>MySQL and MariaDB</h3>
+<p>You can connect to MySQL and MariaDB (a recent fork of MySQL) using <code>src_mysql()</code>, mediated by the <a href="https://github.com/jeffreyhorner/RMySQL">RMySQL</a> package. Like PostgreSQL, you’ll need to provide a <code>dbname</code>, <code>username</code>, <code>password</code>, <code>host</code>, and <code>port</code>.</p>
+<p>In terms of functionality, MySQL lies somewhere between SQLite and PostgreSQL. It provides a wider range of <a href="http://dev.mysql.com/doc/refman/5.0/en/functions.html">built-in functions</a>, but it does not support window functions (so you can’t do grouped mutates and filters).</p>
+</div>
+<div id="bigquery" class="section level3">
+<h3>BigQuery</h3>
+<p>BigQuery is a hosted database server provided by Google. To connect, you need to provide your <code>project</code>, <code>dataset</code> and optionally a project for <code>billing</code> (if billing for <code>project</code> isn’t enabled). After you create the src, your web browser will open and ask you to authenticate. Your credentials are stored in a local cache, so you should only need to do this once.</p>
+<p>BigQuery supports only one SQL statement: <a href="https://developers.google.com/bigquery/query-reference">SELECT</a>. Fortunately this is all you need for data analysis. Within SELECT, BigQuery provides comprehensive coverage at a similar level to PostgreSQL.</p>
+</div>
+</div>
+<div id="picking-a-database" class="section level2">
+<h2>Picking a database</h2>
+<p>If you don’t already have a database, here’s some advice from my experiences setting up and running all of them. SQLite is by far the easiest to get started with, but the lack of window functions makes it limited for data analysis. PostgreSQL is not too much harder to use and has a wide range of built-in functions. Don’t bother with MySQL/MariaDB: it’s a pain to set up and the documentation is subpar. Google BigQuery might be a good fit if you have very large data, or if you’re willing to pay (a small amount of) money to someone who’ll look after your database.</p>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

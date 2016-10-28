@@ -1,0 +1,16 @@
+Package: meetupr
+Type: Package
+Title: Meetup API
+Version: 0.0.1
+Date: 2016-10-28
+Authors@R: c(person("Gabriela", "De Queiroz", email = "gabriela@rladies.org", role = c("aut")),
+             person("Erin", "LeDell", email = "erin@rladies.org", role = c("aut", "cre")))
+Description: R package to access data from meetup.com
+License: MIT
+LazyData: TRUE
+RoxygenNote: 5.0.1
+Depends: R (>= 2.10)
+Author: Gabriela De Queiroz [aut],
+  Erin LeDell [aut, cre]
+Maintainer: Erin LeDell <erin@rladies.org>
+Built: R 3.3.1; ; 2016-10-28 07:02:13 UTC; unix

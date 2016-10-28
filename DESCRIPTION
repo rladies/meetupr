@@ -8,5 +8,6 @@ Authors@R: c(person("Gabriela", "De Queiroz", email = "gabriela@rladies.org", ro
 Description: R package to access data from meetup.com
 License: MIT
 LazyData: TRUE
-Depends: R (>= 3.3)
-
+Depends:
+    R (>= 3.3)
+RoxygenNote: 5.0.1

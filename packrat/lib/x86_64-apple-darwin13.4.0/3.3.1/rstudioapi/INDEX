@@ -1,0 +1,17 @@
+askForPassword          Ask the user for a password interactively
+callFun                 Call an RStudio API function
+document_position       Create a Document Position
+document_range          Create a Range
+editor-information      Retrieve Information about an RStudio Editor
+getActiveProject        Path to Active RStudio Project
+getVersion              Return the current version of the RStudio API
+hasFun                  Exists/get for RStudio functions
+insertText              Modify the Contents of a Document
+isAvailable             Check if RStudio is running.
+navigateToFile          Navigate to File
+previewRd               Preview an Rd topic in the Help pane
+primary_selection       Extract the Primary Selection
+sendToConsole           Send Code to the R Console
+sourceMarkers           Display Source Markers
+versionInfo             RStudio Version Information
+viewer                  View local web content within RStudio

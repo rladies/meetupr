@@ -1,0 +1,10 @@
+Package: tcltk
+Version: 3.3.1
+Priority: base
+Title: Tcl/Tk Interface
+Author: R Core Team
+Maintainer: R Core Team <R-core@r-project.org>
+Description: Interface and language bindings to Tcl/Tk GUI elements.
+License: Part of R 3.3.1
+Imports: utils
+Built: R 3.3.1; x86_64-apple-darwin13.4.0; 2016-06-24 18:36:48 UTC; unix
