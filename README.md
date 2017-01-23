@@ -5,7 +5,7 @@ R interface to the meetup.com API
 
 ##Installation
 
-xxx
+TO DO
 
 ##Usage
 
