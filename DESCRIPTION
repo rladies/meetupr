@@ -10,5 +10,6 @@ License: MIT
 LazyData: TRUE
 Depends:
     R (>= 3.3)
-Imports: dplyr
+Imports: dplyr, httr
 RoxygenNote: 5.0.1
+Suggests: testthat
