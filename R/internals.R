@@ -1,7 +1,7 @@
 
 .quick_fetch <- function(api_url,
                          api_key,
-                         event_status=NULL) {
+                         event_status = NULL) {
 
 
   req <- httr::GET(url = api_url,          # the endpoint
@@ -23,8 +23,7 @@
 }
 
 
-
-.fetch_results <- function(api_url, api_key, event_status=NULL) {
+.fetch_results <- function(api_url, api_key, event_status = NULL) {
 
     # Fetch first set of results (limited to 200 records each call)
     res <- .quick_fetch(api_url = api_url, api_key = api_key, event_status = event_status)

@@ -4,11 +4,14 @@ Title: Meetup API
 Version: 0.0.1
 Date: 2016-10-28
 Authors@R: c(person("Gabriela", "De Queiroz", email = "gabriela@rladies.org", role = c("aut")),
-             person("Erin", "LeDell", email = "erin@rladies.org", role = c("aut", "cre")))
+             person("Erin", "LeDell", email = "erin@rladies.org", role = c("aut", "cre")),
+             person("Olga", "Mierzwa-Sulima", email = "olga@rladies.org", role = c("aut")))
 Description: R package to access data from meetup.com
 License: MIT
 LazyData: TRUE
 Depends:
     R (>= 3.3)
-Imports: dplyr
+Imports:
+    dplyr,
+    pkgmaker
 RoxygenNote: 5.0.1
