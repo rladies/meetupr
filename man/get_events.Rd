@@ -4,12 +4,12 @@
 \alias{get_events}
 \title{Get the events from a meetup group}
 \usage{
-get_events(group_name, api_key)
+get_events(urlname, api_key, event_status = NULL)
 }
 \arguments{
-\item{group_name}{The name of the group.}
-
 \item{api_key}{Your api key.}
+
+\item{group_name}{The name of the group.}
 }
 \value{
 The events.

@@ -4,14 +4,14 @@
 \alias{get_meetup_attendees}
 \title{Get the attendees}
 \usage{
-get_meetup_attendees(group_name, id, api_key)
+get_meetup_attendees(urlname, api_key, event_id)
 }
 \arguments{
-\item{group_name}{The name of the group.}
-
-\item{id}{The id of the event.}
+\item{urlname}{The name of the group.}
 
 \item{api_key}{Your api key.}
+
+\item{event_id}{The id of the event.}
 }
 \description{
 Get the attendees
