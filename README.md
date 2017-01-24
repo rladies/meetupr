@@ -36,5 +36,13 @@ First, take a look at some resources:
 
 We are going to support v3 first.
 
+### DONE:
+- pull meetup events
+- pull event comments
+- pull event attendance
 
+### TODO:
+- pull meetup members
+- add tests
+- update README with installation information
 
