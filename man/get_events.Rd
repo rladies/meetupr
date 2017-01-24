@@ -7,17 +7,16 @@
 get_events(urlname, api_key, event_status = NULL)
 }
 \arguments{
+\item{urlname}{The name of the group.}
+
 \item{api_key}{Your api key.}
 
-\item{group_name}{The name of the group.}
+\item{event_status}{Status of the event.}
 }
 \value{
 The events.
 }
 \description{
 Get the events from a meetup group
-}
-\examples{
-get_events
 }
 
