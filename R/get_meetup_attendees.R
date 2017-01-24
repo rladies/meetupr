@@ -5,6 +5,7 @@
 #' @param event_id The id of the event.
 #'
 #' @examples
+#' \dontrun{
 #' urlname <- "rladies-san-francisco"
 #' api_key <- Sys.getenv("rladies_api_key")
 #' past_events <- get_events(urlname = "rladies-san-francisco",
@@ -12,9 +13,8 @@
 #'                       event_status = "past")
 #' event_id <- past_events[[1]]$id
 #' tes <- get_meetup_attendees(urlname, api_key, event_id)
-#'
+#'}
 #' @export
-
 get_meetup_attendees <- function(urlname, api_key, event_id){
   meetup_api_prefix <- "https://api.meetup.com/"
   api_url <- paste0(meetup_api_prefix,
