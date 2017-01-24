@@ -1,15 +1,21 @@
 #' Get the attendees
 #'
-#' @param group_name The name of the group.
-#' @param id The id of the event.
+#' @param urlname The name of the group.
 #' @param api_key Your api key.
+#' @param event_id The id of the event.
 
 
 
-get_meetup_attendees <- function(group_name, id, api_key){
-  api <- 'https://api.meetup.com/'
-  url_attendes <- paste0(api, group_name, "/events/", id, "/attendance")
-  url_attendes %>%
-    httr::GET(query = list(key = api_key)) %>%
-    httr::content()
+
+get_meetup_attendees <- function(urlname, api_key, event_id){
+  meetup_api_prefix <- "https://api.meetup.com/"
+  api_url <- paste0(meetup_api_prefix, urlname, "/events/", event_id, "/attendance")
+  .fetch_results(api_url, api_key)
 }
+
+
+
+# Example:
+# urlname <- "rladies-san-francisco"
+# event_id <- past_events[[1]]$id
+# get_meetup_attendees(urlname, api_key, event_id)

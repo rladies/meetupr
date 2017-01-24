@@ -20,5 +20,5 @@ get_events <- function(urlname, api_key, event_status = NULL) {
 
 
 ## Example
-past_events <- get_events(urlname = "rladies-san-francisco", api_key = api_key, event_status = "past")
-future_events <- get_events(urlname = "rladies-san-francisco",  api_key, event_status = "upcoming")
+# past_events <- get_events(urlname = "rladies-san-francisco", api_key = api_key, event_status = "past")
+# future_events <- get_events(urlname = "rladies-san-francisco",  api_key, event_status = "upcoming")
