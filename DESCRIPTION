@@ -14,4 +14,17 @@ Depends:
 Imports:
     dplyr,
     pkgmaker
+Authors@R: c(person("Gabriela", "De Queiroz", 
+                     email = "gabriela@rladies.org", 
+                     role = c("aut")),
+             person("Erin", "LeDell", 
+                     email = "erin@rladies.org", 
+                     role = c("aut", "cre")))
+Description: R package to access data from `meetup.com`.
+License:  MIT + file LICENSE
+LazyData: TRUE
+Depends:
+    R (>= 3.3)
+Imports: dplyr, httr
 RoxygenNote: 5.0.1
+Suggests: testthat

@@ -12,7 +12,9 @@
                      ))
 
   if (req$status_code >= 400) {
-    stop(sprintf("Meetup API returned an error: HTTP status code %s, %s", req$status_code, req$headers$statusmessage))
+    stop(sprintf("Meetup API returned an error: HTTP status code %s, %s",
+                 req$status_code,
+                 req$headers$statusmessage))
   }
   httr::stop_for_status(req)
   reslist <- httr::content(req, "parsed")
@@ -26,7 +28,9 @@
 .fetch_results <- function(api_url, api_key, event_status = NULL) {
 
     # Fetch first set of results (limited to 200 records each call)
-    res <- .quick_fetch(api_url = api_url, api_key = api_key, event_status = event_status)
+    res <- .quick_fetch(api_url = api_url,
+                        api_key = api_key,
+                        event_status = event_status)
 
     # Total number of records matching the query
     total_records <- as.integer(res$headers$`x-total-count`)
