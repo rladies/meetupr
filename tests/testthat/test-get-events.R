@@ -1,4 +1,4 @@
-
+skip_on_travis()
 api_key <- Sys.getenv("rladies_api_key")
 event_status <- "past"
 urlname <- "rladies-san-francisco"
