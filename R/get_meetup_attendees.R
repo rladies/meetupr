@@ -3,9 +3,6 @@
 #' @param urlname The name of the group.
 #' @param api_key Your api key.
 #' @param event_id The id of the event.
-#' @export
-get_meetup_attendees <- function(urlname, api_key, event_id){
-  api_url <- paste0(meetup_api_prefix(), urlname, "/events/", event_id, "/attendance")
 #'
 #' @examples
 #' \dontrun{
