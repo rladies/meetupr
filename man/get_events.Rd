@@ -10,11 +10,13 @@ get_events(urlname, api_key, event_status = NULL)
 \item{urlname}{The name of the group.}
 
 \item{api_key}{Your api key.}
+\item{event_status}{A character string defining an event type. If empty upcoming meetups will be provided.}
 
+\item{group_name}{The name of the group.}
 \item{event_status}{Status of the event.}
 }
 \value{
-The events.
+List containing requested events.
 }
 \description{
 Get the events from a meetup group

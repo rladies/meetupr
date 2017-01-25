@@ -2,6 +2,11 @@
 #'
 #' @param urlname The name of the group.
 #' @param api_key Your api key.
+#' @param event_status A character string defining an event type. If empty upcoming meetups will be provided.
+#'
+#' @return List containing requested events.
+#' @examples
+#' get_events
 #' @param event_status Status of the event.
 #'
 #'
@@ -20,5 +25,7 @@ get_events <- function(urlname, api_key, event_status = NULL) {
 }
 
 
-
-
+## Example
+#past_events <- get_events(urlname = 'Spotkania-Entuzjastow-R-Warsaw-R-Users-Group-Meetup', api_key = api_key, event_status = "past")
+# future_events <- get_events(urlname = "rladies-san-francisco",  api_key, event_status = "upcoming")
+# get_events(urlname = 'Spotkania-Entuzjastow-R-Warsaw-R-Users-Group-Meetup', api_key = api_key, event_status = "future") ##error

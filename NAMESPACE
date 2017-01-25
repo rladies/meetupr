@@ -2,3 +2,6 @@
 
 export(get_events)
 export(get_meetup_attendees)
+export(get_meetup_comments)
+importFrom(pkgmaker,"sVariable")
+
