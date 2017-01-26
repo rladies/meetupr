@@ -16,12 +16,11 @@
 #'}
 #' @export
 get_meetup_attendees <- function(urlname, api_key, event_id){
-  api_url <- paste0(meetup_api_prefix,
-                    urlname,
+  api_params <- paste0(urlname,
                     "/events/",
                     event_id,
                     "/attendance")
-  .fetch_results(api_url, api_key)
+  .fetch_results(api_params, api_key)
 }
 
 
