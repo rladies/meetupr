@@ -16,7 +16,6 @@
 #'}
 #' @export
 get_meetup_attendees <- function(urlname, api_key, event_id){
-  meetup_api_prefix <- "https://api.meetup.com/"
   api_url <- paste0(meetup_api_prefix,
                     urlname,
                     "/events/",
