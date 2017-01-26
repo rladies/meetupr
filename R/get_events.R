@@ -5,12 +5,6 @@
 #' @param event_status A character string defining an event type. If empty upcoming meetups will be provided.
 #'
 #' @return List containing requested events.
-#' @examples
-#' get_events
-#' @param event_status Status of the event.
-#'
-#'
-#' @return The events.
 #'
 #'
 #'
@@ -20,7 +14,7 @@ get_events <- function(urlname, api_key, event_status = NULL) {
     stop(sprintf("Event status %s not allowed", event_status))
   }
   meetup_api_prefix <- "https://api.meetup.com/"
-  api_url <- paste0(meetup_api_prefix(), urlname, "/events")
+  api_url <- paste0(meetup_api_prefix, urlname, "/events")
   .fetch_results(api_url, api_key, event_status)
 }
 
