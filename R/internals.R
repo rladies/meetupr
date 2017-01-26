@@ -25,12 +25,12 @@
 }
 
 
-.fetch_results <- function(api_url, api_key, event_status = NULL) {
+.fetch_results <- function(api_params, api_key, event_status = NULL) {
   meetup_api_prefix <- "https://api.meetup.com/"
-  full_api_url <- paste0(meetup_api_prefix, api_url)
+  api_url <- paste0(meetup_api_prefix, api_params)
 
   # Fetch first set of results (limited to 200 records each call)
-  res <- .quick_fetch(api_url = full_api_url,
+  res <- .quick_fetch(api_url = api_url,
                       api_key = api_key,
                       event_status = event_status)
 

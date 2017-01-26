@@ -13,6 +13,6 @@
 #'}
 #' @export
 get_boards <- function(urlname, api_key) {
-  api_url <- paste0(urlname, "/boards")
-  .fetch_results(api_url, api_key)
+  api_params <- paste0(urlname, "/boards")
+  .fetch_results(api_params, api_key)
 }
