@@ -13,6 +13,6 @@
 #'}
 #' @export
 get_boards <- function(urlname, api_key) {
-  api_url <- paste0(meetup_api_prefix, urlname, "/boards")
+  api_url <- paste0(urlname, "/boards")
   .fetch_results(api_url, api_key)
 }
