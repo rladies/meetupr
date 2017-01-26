@@ -3,13 +3,16 @@ meetupr: R interface to the meetup.com API
 
 [![Build Status](https://travis-ci.org/rladies/meetupr.svg?branch=master)](https://travis-ci.org/rladies/meetupr)
 
-**Authors:** [Gabriela de Queiroz](http://gdequeiroz.github.io/), [Erin LeDell](http://www.stat.berkeley.edu/~ledell/),Olga Mierzwa-Sulima, [Lucy D'Agostino McGowan](http://www.lucymcgowan.com)<br/>
+**Authors:** [Gabriela de Queiroz](http://gdequeiroz.github.io/), [Erin LeDell](http://www.stat.berkeley.edu/~ledell/), Olga Mierzwa-Sulima, [Lucy D'Agostino McGowan](http://www.lucymcgowan.com)<br/>
 **License:** [MIT](https://opensource.org/licenses/MIT)
 
 
 ##Installation
 
-TO DO
+```
+library(devtools)
+install_github("rladies/meetupr")
+```
 
 ##Usage
 
@@ -40,9 +43,9 @@ We are going to support v3 first.
 - pull meetup events
 - pull event comments
 - pull event attendance
+- pull meetup members
 
 ### TODO:
-- pull meetup members
 - add tests
 - update README with installation information
 
