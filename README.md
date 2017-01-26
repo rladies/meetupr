@@ -3,7 +3,7 @@ meetupr: R interface to the meetup.com API
 
 [![Build Status](https://travis-ci.org/rladies/meetupr.svg?branch=master)](https://travis-ci.org/rladies/meetupr)
 
-**Authors:** [Gabriela de Queiroz](http://gdequeiroz.github.io/), [Erin LeDell](http://www.stat.berkeley.edu/~ledell/)<br/>
+**Authors:** [Gabriela de Queiroz](http://gdequeiroz.github.io/), [Erin LeDell](http://www.stat.berkeley.edu/~ledell/),Olga Mierzwa-Sulima, [Lucy D'Agostino McGowan](http://www.lucymcgowan.com)<br/>
 **License:** [MIT](https://opensource.org/licenses/MIT)
 
 

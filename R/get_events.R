@@ -16,7 +16,7 @@
 #' upcoming_events <- get_events(urlname = urlname,
 #'                       api_key = api_key,
 #'                       event_status = "upcoming")
-#'
+#'}
 #' @export
 get_events <- function(urlname, api_key, event_status = NULL) {
   if(!is.null(event_status) && !event_status %in% c("cancelled", "draft", "past", "proposed", "suggested", "upcoming")) {
