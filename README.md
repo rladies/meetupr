@@ -47,5 +47,4 @@ We are going to support v3 first.
 
 ### TODO:
 - add tests
-- update README with installation information
 
