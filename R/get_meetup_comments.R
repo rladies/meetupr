@@ -5,7 +5,8 @@
 #' @param event_id The id of the event.
 #' @export
 get_meetup_comments <- function(urlname, api_key, event_id){
-  api_url <- paste0(meetup_api_prefix(), urlname, "/events/", event_id, "/comments")
+  meetup_api_prefix <- "https://api.meetup.com/"
+  api_url <- paste0(meetup_api_prefix, urlname, "/events/", event_id, "/comments")
   .fetch_results(api_url, api_key)
 }
 
