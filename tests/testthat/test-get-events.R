@@ -4,7 +4,7 @@ test_that("parse content is null if no body", {
   skip_on_cran()
   api_key <- Sys.getenv("rladies_api_key")
   event_status <- "past"
-  urlname <- "rladies-san-francisco"
+  urlname <- "rladies-nashville"
   meetup_api_prefix <- "https://api.meetup.com/"
   api_url <- paste0(meetup_api_prefix, urlname, "/events")
 

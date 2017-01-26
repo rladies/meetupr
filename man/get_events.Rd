@@ -11,12 +11,24 @@ get_events(urlname, api_key, event_status = NULL)
 
 \item{api_key}{Your api key.}
 
-\item{event_status}{A character string defining an event type. If empty upcoming meetups will be provided.}
+\item{event_status}{A character string defining an event type - can be one of the following ("cancelled", "draft", "past", "proposed", "suggested", "upcoming").  If empty upcoming meetups will be provided.}
 }
 \value{
 List containing requested events.
 }
 \description{
 Get the events from a meetup group
+}
+\examples{
+\dontrun{
+urlname <- "rladies-nashville"
+api_key <- Sys.getenv("rladies_api_key")
+past_events <- get_events(urlname = urlname,
+                      api_key = api_key,
+                      event_status = "past")
+upcoming_events <- get_events(urlname = urlname,
+                      api_key = api_key,
+                      event_status = "upcoming")
+}
 }
 

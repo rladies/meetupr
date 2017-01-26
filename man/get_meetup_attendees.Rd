@@ -20,11 +20,11 @@ Get the attendees
 \dontrun{
 urlname <- "rladies-san-francisco"
 api_key <- Sys.getenv("rladies_api_key")
-past_events <- get_events(urlname = "rladies-san-francisco",
+past_events <- get_events(urlname = urlname,
                       api_key = api_key,
                       event_status = "past")
 event_id <- past_events[[1]]$id
-tes <- get_meetup_attendees(urlname, api_key, event_id)
+attendees <- get_meetup_attendees(urlname, api_key, event_id)
 }
 }
 
