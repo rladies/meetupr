@@ -11,6 +11,7 @@ meetupr: R interface to the meetup.com API
 
 ```
 # install.packages("devtools")
+library(devtools)
 devtools::install_github("rladies/meetupr")
 ```
 
@@ -22,7 +23,6 @@ To use this package, you will first need to get your meetup API key. To do so, g
 library(meetupr)
 
 api_key <- "INSERT_KEY_HERE"
-
 group_name <- "INSERT THE NAME OF THE GROUP"
 
 events <- get_events(group_name, api_key)
