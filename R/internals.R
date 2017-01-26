@@ -1,3 +1,5 @@
+#set meetup api prefix for all functions
+meetup_api_prefix <- "https://api.meetup.com/"
 
 .quick_fetch <- function(api_url,
                          api_key,

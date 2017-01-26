@@ -11,7 +11,6 @@
 #'}
 #' @export
 get_members <- function(urlname, api_key){
-  meetup_api_prefix <- "https://api.meetup.com/"
   api_url <- paste0(meetup_api_prefix, urlname, "/members/")
   .fetch_results(api_url, api_key)
 }
