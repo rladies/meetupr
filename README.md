@@ -3,15 +3,15 @@ meetupr: R interface to the meetup.com API
 
 [![Build Status](https://travis-ci.org/rladies/meetupr.svg?branch=master)](https://travis-ci.org/rladies/meetupr)
 
-**Authors:** [Gabriela de Queiroz](http://gdequeiroz.github.io/), [Erin LeDell](http://www.stat.berkeley.edu/~ledell/), Olga Mierzwa-Sulima, [Lucy D'Agostino McGowan](http://www.lucymcgowan.com)<br/>
+**Authors:** [Gabriela de Queiroz](http://gdequeiroz.github.io/), [Erin LeDell](http://www.stat.berkeley.edu/~ledell/), [Olga Mierzwa-Sulima](https://github.com/olgamie), [Lucy D'Agostino McGowan](http://www.lucymcgowan.com)<br/>
 **License:** [MIT](https://opensource.org/licenses/MIT)
 
 
 ##Installation
 
 ```
-library(devtools)
-install_github("rladies/meetupr")
+# install.packages("devtools")
+devtools::install_github("rladies/meetupr")
 ```
 
 ##Usage
@@ -21,14 +21,18 @@ To use this package, you will first need to get your meetup API key. To do so, g
 ```
 library(meetupr)
 
-api_key <- "INSERT_HERE"
+api_key <- "INSERT_KEY_HERE"
 
 group_name <- "INSERT THE NAME OF THE GROUP"
 
 events <- get_events(group_name, api_key)
 ```
 
+When you have your Meetup API key, you can set up an environment variable, by adding the following to your `.Rprofile`:
 
+```
+Sys.setenv(meetup_api_key = "INSERT_KEY_HERE")
+```
 
 ## How can you contribute?
 
@@ -44,6 +48,7 @@ We are going to support v3 first.
 - pull event comments
 - pull event attendance
 - pull meetup members
+- pull meetup boards
 
 ### TODO:
 - add tests
