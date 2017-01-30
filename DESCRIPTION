@@ -7,9 +7,8 @@ Authors@R: c(person("Gabriela", "De Queiroz", email = "gabriela@rladies.org", ro
              person("Erin", "LeDell", email = "erin@rladies.org", role = c("aut")),
              person("Olga", "Mierzwa-Sulima", email = "olga@rladies.org", role = c("aut")),
              person("Lucy", "D'Agostino McGowan", email = "lucy@rladies.org", role = c("aut")))
-Description: R package to access data from meetup.com
+Description: Provides access to data from 'meetup.com' (see https://www.meetup.com/meetup_api/ for more information).
 LazyData: TRUE
-Description: R package to access data from `meetup.com`.
 License:  MIT + file LICENSE
 LazyData: TRUE
 Depends:
