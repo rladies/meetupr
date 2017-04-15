@@ -9,7 +9,7 @@ meetupr: R interface to the meetup.com API
 
 ## Installation
 
-```
+```{r}
 # install.packages("devtools")
 library(devtools)
 devtools::install_github("rladies/meetupr")
@@ -19,7 +19,7 @@ devtools::install_github("rladies/meetupr")
 
 To use this package, you will first need to get your meetup API key. To do so, go to this link: [https://secure.meetup.com/meetup_api/key/](https://secure.meetup.com/meetup_api/key/)
 
-```
+```{r}
 library(meetupr)
 
 api_key <- "INSERT_KEY_HERE"
@@ -30,7 +30,7 @@ events <- get_events(group_name, api_key)
 
 When you have your Meetup API key, you can set up an environment variable, by adding the following to your `.Rprofile`:
 
-```
+```{r}
 Sys.setenv(meetup_api_key = "INSERT_KEY_HERE")
 ```
 
