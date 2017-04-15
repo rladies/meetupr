@@ -7,7 +7,7 @@ meetupr: R interface to the meetup.com API
 **License:** [MIT](https://opensource.org/licenses/MIT)
 
 
-##Installation
+## Installation
 
 ```
 # install.packages("devtools")
@@ -15,7 +15,7 @@ library(devtools)
 devtools::install_github("rladies/meetupr")
 ```
 
-##Usage
+## Usage
 
 To use this package, you will first need to get your meetup API key. To do so, go to this link: [https://secure.meetup.com/meetup_api/key/](https://secure.meetup.com/meetup_api/key/)
 
