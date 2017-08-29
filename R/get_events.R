@@ -1,27 +1,44 @@
 #' Get the events from a meetup group
 #'
-#' @param urlname The name of the group.
-#' @param api_key Your api key.
-#' @param event_status A character string defining an event type - can be one of the following ("cancelled", "draft", "past", "proposed", "suggested", "upcoming").  If empty upcoming meetups will be provided.
+#' @template urlname
+#' @param event_status Character. Event type - defaults to "upcomming".
+#'  Valid inputs are:
+#'  * cancelled
+#'  * draft
+#'  * past
+#'  * proposed
+#'  * suggested
+#'  * upcoming
+#' @template api_key
 #'
-#' @return List containing requested events.
+#' @return A tibble with the following columns:
+#'    * id
+#'    * name
+#'    * n_rsvp
+#'    * time
+#'    * events_resource
 #'
 #'@examples
 #' \dontrun{
 #' urlname <- "rladies-nashville"
-#' api_key <- Sys.getenv("rladies_api_key")
 #' past_events <- get_events(urlname = urlname,
-#'                       api_key = api_key,
 #'                       event_status = "past")
 #' upcoming_events <- get_events(urlname = urlname,
-#'                       api_key = api_key,
 #'                       event_status = "upcoming")
 #'}
 #' @export
-get_events <- function(urlname, api_key, event_status = NULL) {
-  if(!is.null(event_status) && !event_status %in% c("cancelled", "draft", "past", "proposed", "suggested", "upcoming")) {
+get_events <- function(urlname, event_status = "upcoming", api_key = NULL) {
+  if(!is.null(event_status) &&
+     !event_status %in% c("cancelled", "draft", "past", "proposed", "suggested", "upcoming")) {
     stop(sprintf("Event status %s not allowed", event_status))
   }
   api_url <- paste0(meetup_api_prefix, urlname, "/events")
-  .fetch_results(api_url, api_key, event_status)
+  res <- .fetch_results(api_url, api_key, event_status)
+  tibble::tibble(
+    id = purrr::map_chr(res, "id"),
+    name = purrr::map_chr(res, "name"),
+    n_rsvp = purrr::map_int(res, "yes_rsvp_count"),
+    time = date_helper(purrr::map_dbl(res, "time")),
+    events_resource = res
+  )
 }

@@ -7,16 +7,15 @@ Authors@R: c(person("Gabriela", "De Queiroz", email = "gabriela@rladies.org", ro
              person("Erin", "LeDell", email = "erin@rladies.org", role = c("aut", "cre")),
              person("Olga", "Mierzwa-Sulima", email = "olga@rladies.org", role = c("aut")),
              person("Lucy", "D'Agostino McGowan", email = "lucy@rladies.org", role = c("aut")))
-Description: R package to access data from meetup.com
+Description: R package to access data from meetup.com.
 LazyData: TRUE
-Description: R package to access data from `meetup.com`.
-License:  MIT + file LICENSE
-LazyData: TRUE
+License: MIT + file LICENSE
 Depends:
     R (>= 3.3)
 Imports:
-    dplyr,
-    pkgmaker,
-    httr
-RoxygenNote: 5.0.1
+    httr,
+    purrr,
+    tibble
+RoxygenNote: 6.0.1
 Suggests: testthat
+Roxygen: list(markdown = TRUE)
