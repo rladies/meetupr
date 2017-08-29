@@ -7,7 +7,7 @@ meetupr
 
 R interface to the Meetup API (v3)
 
-**Authors:** [Gabriela de Queiroz](http://gdequeiroz.github.io/), [Erin LeDell](http://www.stat.berkeley.edu/~ledell/), Olga Mierzwa-Sulima, [Lucy D'Agostino McGowan](http://www.lucymcgowan.com)<br/> **License:** [MIT](https://opensource.org/licenses/MIT)
+**Authors:** [Gabriela de Queiroz](http://gdequeiroz.github.io/), [Erin LeDell](http://www.stat.berkeley.edu/~ledell/), [Olga Mierzwa-Sulima](https://github.com/olgamie), [Lucy D'Agostino McGowan](http://www.lucymcgowan.com)<br/> **License:** [MIT](https://opensource.org/licenses/MIT)
 
 Installation
 ------------
@@ -60,6 +60,12 @@ Take a look at some resources:
 
 -   <https://www.meetup.com/meetup_api/>
 -   <https://www.meetup.com/meetup_api/clients/>
+
+In order to run our tests, you will have to set the `urlname` for meetup you belong to as an environment variable using the following code:
+
+``` r
+Sys.setenv(MEETUP_NAME = "YOUR MEETUP NAME")
+```
 
 ### DONE:
 

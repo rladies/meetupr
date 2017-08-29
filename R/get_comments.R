@@ -23,8 +23,8 @@
 #'}
 #' @export
 get_comments <- function(urlname, event_id, api_key = NULL){
-  api_url <- paste0(meetup_api_prefix, urlname, "/events/", event_id, "/comments")
-  res <- .fetch_results(api_url, api_key)
+  api_params <- paste0(urlname, "/events/", event_id, "/comments")
+  res <- .fetch_results(api_params, api_key)
   tibble::tibble(
     id = purrr::map_chr(res, "id"),
     comment = purrr::map_chr(res, "comment"),

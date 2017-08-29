@@ -32,8 +32,8 @@ get_events <- function(urlname, event_status = "upcoming", api_key = NULL) {
      !event_status %in% c("cancelled", "draft", "past", "proposed", "suggested", "upcoming")) {
     stop(sprintf("Event status %s not allowed", event_status))
   }
-  api_url <- paste0(meetup_api_prefix, urlname, "/events")
-  res <- .fetch_results(api_url, api_key, event_status)
+  api_params <- paste0(urlname, "/events")
+  res <- .fetch_results(api_params, api_key, event_status)
   tibble::tibble(
     id = purrr::map_chr(res, "id"),
     name = purrr::map_chr(res, "name"),

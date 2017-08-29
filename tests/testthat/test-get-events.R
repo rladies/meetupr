@@ -4,7 +4,7 @@ test_that(".quick_fetch() works properly", {
   skip_on_cran()
   api_key <- Sys.getenv("MEETUP_KEY")
   event_status <- "past"
-  urlname <- "rladies-nashville"
+  urlname <- Sys.getenv("MEETUP_NAME")
   meetup_api_prefix <- "https://api.meetup.com/"
   api_url <- paste0(meetup_api_prefix, urlname, "/events")
 
