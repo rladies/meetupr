@@ -21,4 +21,3 @@ api_key <- Sys.getenv("rladies_api_key")
 members <- get_members(urlname, api_key)
 }
 }
-

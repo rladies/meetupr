@@ -24,11 +24,10 @@ Get the events from a meetup group
 urlname <- "rladies-nashville"
 api_key <- Sys.getenv("rladies_api_key")
 past_events <- get_events(urlname = urlname,
-                      api_key = api_key,
-                      event_status = "past")
+                          api_key = api_key,
+                          event_status = "past")
 upcoming_events <- get_events(urlname = urlname,
-                      api_key = api_key,
-                      event_status = "upcoming")
+                              api_key = api_key,
+                              event_status = "upcoming")
 }
 }
-

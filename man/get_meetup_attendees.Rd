@@ -27,4 +27,3 @@ event_id <- past_events[[1]]$id
 attendees <- get_meetup_attendees(urlname, api_key, event_id)
 }
 }
-

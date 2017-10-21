@@ -9,7 +9,7 @@
 #' urlname <- "rladies-nashville"
 #' api_key <- Sys.getenv("rladies_api_key")
 #' meetup_boards <- get_boards(urlname = urlname,
-#'                       api_key = api_key)
+#'                             api_key = api_key)
 #'}
 #' @export
 get_boards <- function(urlname, api_key) {

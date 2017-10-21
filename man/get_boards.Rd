@@ -22,7 +22,6 @@ Get the boards from a meetup group
 urlname <- "rladies-nashville"
 api_key <- Sys.getenv("rladies_api_key")
 meetup_boards <- get_boards(urlname = urlname,
-                      api_key = api_key)
+                            api_key = api_key)
 }
 }
-
