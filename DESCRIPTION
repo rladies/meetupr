@@ -1,14 +1,13 @@
 Package: meetupr
 Type: Package
 Title: Meetup API
-Version: 0.0.1
+Version: 0.0.2
 Date: 2017-01-28
 Authors@R: c(person("Gabriela", "De Queiroz", email = "gabriela@rladies.org", role = c("aut", "cre")),
              person("Erin", "LeDell", email = "erin@rladies.org", role = c("aut")),
              person("Olga", "Mierzwa-Sulima", email = "olga@rladies.org", role = c("aut")),
              person("Lucy", "D'Agostino McGowan", email = "lucy@rladies.org", role = c("aut")))
 Description: Provides access to data from 'meetup.com' (see https://www.meetup.com/meetup_api/ for more information).
-LazyData: TRUE
 License: MIT + file LICENSE
 Depends:
     R (>= 3.3)
@@ -17,5 +16,8 @@ Imports:
     purrr,
     tibble
 RoxygenNote: 6.0.1
-Suggests: testthat
+Suggests: testthat,
+    knitr,
+    rmarkdown
 Roxygen: list(markdown = TRUE)
+VignetteBuilder: knitr
