@@ -27,4 +27,3 @@ event_id <- past_events[[1]]$id
 comments <- get_meetup_comments(urlname, api_key, event_id)
 }
 }
-

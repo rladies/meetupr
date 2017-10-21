@@ -8,7 +8,7 @@ test_that("parse content is null if no body", {
   meetup_api_prefix <- "https://api.meetup.com/"
   api_url <- paste0(meetup_api_prefix, urlname, "/events")
 
-  res <- .quick_fetch(api_url = api_url,
+  res <- meetupr:::.quick_fetch(api_url = api_url,
                       api_key = api_key,
                       event_status = event_status)
   total_records <- as.integer(res$headers$`x-total-count`)
