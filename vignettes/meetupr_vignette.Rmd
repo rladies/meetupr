@@ -35,14 +35,9 @@ api_key <- "YOUR_API_KEY_GOES_HERE"
 ## How many R-Ladies chapter are out there?
 
 ```{r groups}
-meetup_groups <- get_groups(api_key = api_key,
-                            sign   = "true",
-                            text = "r-ladies",
-                            radius = "global",
-                            only = "urlname")
+meetup_groups <- get_groups(api_key = api_key, text = "r-ladies")
 
-rladies_groups <- as.character(unlist(meetup_groups))
-
+rladies_groups <- as.character(unlist(meetup_groups$urlname))
 # Cleanup
 rladies_groups <- rladies_groups[grep(pattern = "ladies", 
                                       x = rladies_groups,

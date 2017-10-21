@@ -4,15 +4,20 @@
 \alias{get_groups}
 \title{Get list of meetup groups using text-based search}
 \usage{
-get_groups(api_key, ...)
+get_groups(api_key, text = NULL, radius = "global")
 }
 \arguments{
 \item{api_key}{Your api key.}
 
-\item{...}{any parameter listed in meetup API (\url{https://www.meetup.com/meetup_api/docs/find/groups/})}
+\item{text}{string used to filter groups}
+
+\item{radius}{can be either "global" (default) or distance in miles in the
+range 0-100.}
 }
 \value{
-List containing relevant groups.
+Tibble containing the list of selected groups. The table contains 12
+columns: name, urlname, who, members, status, created, organizer, lat, lon,
+city, country, timezone.
 }
 \description{
 Get list of meetup groups using text-based search
@@ -20,11 +25,6 @@ Get list of meetup groups using text-based search
 \examples{
 \dontrun{
 api_key <- Sys.getenv("rladies_api_key")
-groups <- get_groups(api_key = api_key,
-                     sign   = "true",
-                     text = "r-ladies",
-                     radius = "global",
-                     only = "urlname")
-rladies_groups <- as.character(unlist(groups))
+groups <- get_groups(api_key = api_key, text = "r-ladies")
 }
 }
