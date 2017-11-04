@@ -16,7 +16,7 @@
 #'    * name
 #'    * n_rsvp
 #'    * time
-#'    * events_resource
+#'    * resource
 #'
 #'@examples
 #' \dontrun{
@@ -39,6 +39,6 @@ get_events <- function(urlname, event_status = "upcoming", api_key = NULL) {
     name = purrr::map_chr(res, "name"),
     n_rsvp = purrr::map_int(res, "yes_rsvp_count"),
     time = .date_helper(purrr::map_dbl(res, "time")),
-    events_resource = res
+    resource = res
   )
 }

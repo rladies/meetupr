@@ -21,7 +21,7 @@ A tibble with the following columns:
 \item id
 \item name
 \item n_posts
-\item boards_resource
+\item resource
 }
 }
 \description{

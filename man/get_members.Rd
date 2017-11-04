@@ -22,7 +22,7 @@ A tibble with the following columns:
 \item name
 \item status
 \item photo_url
-\item members_resource
+\item resource
 }
 }
 \description{

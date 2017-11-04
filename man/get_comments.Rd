@@ -27,7 +27,7 @@ A tibble with the following columns:
 \item time
 \item member_id
 \item member_name
-\item comments_resource
+\item resource
 }
 }
 \description{

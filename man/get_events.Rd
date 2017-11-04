@@ -33,7 +33,7 @@ A tibble with the following columns:
 \item name
 \item n_rsvp
 \item time
-\item events_resource
+\item resource
 }
 }
 \description{

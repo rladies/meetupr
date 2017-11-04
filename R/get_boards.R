@@ -6,7 +6,7 @@
 #'    * id
 #'    * name
 #'    * n_posts
-#'    * boards_resource
+#'    * resource
 #'
 #'@examples
 #' \dontrun{
@@ -22,6 +22,6 @@ get_boards <- function(urlname, api_key) {
     id = purrr::map_chr(res, "id"),
     name = purrr::map_chr(res, "name"),
     n_posts = purrr::map_int(res, "post_count"),
-    boards_resource = res
+    resource = res
   )
 }

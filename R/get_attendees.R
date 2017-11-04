@@ -9,7 +9,7 @@
 #'    * id
 #'    * name
 #'    * status
-#'    * attendees_resource
+#'    * resource
 #' @examples
 #' \dontrun{
 #' urlname <- "rladies-nashville"
@@ -29,7 +29,7 @@ get_attendees <- function(urlname, event_id, api_key = NULL){
     id = purrr::map_chr(res, c("member", "id")),
     name = purrr::map_chr(res, c("member", "name")),
     status = purrr::map_chr(res, "status"),
-    attendees_resource = res
+    resource = res
   )
 }
 

@@ -8,7 +8,7 @@
 #'    * name
 #'    * status
 #'    * photo_url
-#'    * members_resource
+#'    * resource
 #' @examples
 #' \dontrun{
 #' urlname <- "rladies-nashville"
@@ -23,6 +23,6 @@ get_members <- function(urlname, api_key = NULL){
     name = purrr::map_chr(res, "name"),
     status = purrr::map_chr(res, "status"),
     photo_url = purrr::map_chr(res, c("photo", "photo_link"), .null = NA),
-    members_resource = res
+    resource = res
   )
 }

@@ -24,7 +24,7 @@ A tibble with the following columns:
 \item id
 \item name
 \item status
-\item attendees_resource
+\item resource
 }
 }
 \description{

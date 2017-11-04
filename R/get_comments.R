@@ -12,7 +12,7 @@
 #'    * time
 #'    * member_id
 #'    * member_name
-#'    * comments_resource
+#'    * resource
 #' @examples
 #' \dontrun{
 #' urlname <- "rladies-nashville"
@@ -32,7 +32,7 @@ get_comments <- function(urlname, event_id, api_key = NULL){
     time = .date_helper(purrr::map_dbl(res, "created")),
     member_id = purrr::map_chr(res, c("member", "id")),
     member_name = purrr::map_chr(res, c("member", "name")),
-    comments_resource = res
+    resource = res
   )
 }
 
