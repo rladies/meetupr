@@ -61,7 +61,7 @@
 }
 
 
-date_helper <- function(time) {
+.date_helper <- function(time) {
   seconds <- time / 1000
   as.POSIXct(seconds, origin = "1970-01-01")
 }

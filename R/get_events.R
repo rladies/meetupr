@@ -38,7 +38,7 @@ get_events <- function(urlname, event_status = "upcoming", api_key = NULL) {
     id = purrr::map_chr(res, "id"),
     name = purrr::map_chr(res, "name"),
     n_rsvp = purrr::map_int(res, "yes_rsvp_count"),
-    time = date_helper(purrr::map_dbl(res, "time")),
+    time = .date_helper(purrr::map_dbl(res, "time")),
     events_resource = res
   )
 }
