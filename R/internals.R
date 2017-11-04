@@ -1,16 +1,17 @@
-
 .quick_fetch <- function(api_url,
                          api_key,
-                         event_status = NULL) {
+                         event_status = NULL,
+                         ...) {
 
-  api_key <- get_api_key(api_key)
+  # list of parameters
+  parameters <- list(key = api_key,         # your api_key
+                     status = event_status, # you need to add the status
+                     # otherwise it will get only the upcoming event
+                     ...                    # other parameters
+  )
 
   req <- httr::GET(url = api_url,          # the endpoint
-                   query = list(           # list of parameters
-                     key = api_key,        # your api_key
-                     status = event_status # you need to add the status
-                     # otherwise it will get only the upcoming event
-                   ))
+                   query = parameters)
 
   httr::stop_for_status(req)
   reslist <- httr::content(req, "parsed")
@@ -24,14 +25,15 @@
 }
 
 
-.fetch_results <- function(api_params, api_key, event_status = NULL) {
+.fetch_results <- function(api_params, api_key, event_status = NULL, ...) {
   meetup_api_prefix <- "https://api.meetup.com/"
   api_url <- paste0(meetup_api_prefix, api_params)
 
   # Fetch first set of results (limited to 200 records each call)
   res <- .quick_fetch(api_url = api_url,
                       api_key = api_key,
-                      event_status = event_status)
+                      event_status = event_status,
+                      ...)
 
   # Total number of records matching the query
   total_records <- as.integer(res$headers$`x-total-count`)

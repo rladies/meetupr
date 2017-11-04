@@ -1,0 +1,103 @@
+---
+title: "Find and analyse R-Ladies chapters on meetup.com"
+author: "Claudia Vitolo"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r init, echo=FALSE}
+knitr::opts_chunk$set(
+  comment = "#>",
+  collapse = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  cache = FALSE,
+  eval = FALSE
+)
+```
+
+## Install and initialise package
+
+```{r install, eval = FALSE}
+devtools::install_github("rladies/meetupr")
+```
+
+```{r load}
+library("meetupr")
+
+api_key <- "YOUR_API_KEY_GOES_HERE"
+```
+
+## How many R-Ladies chapter are out there?
+
+```{r groups}
+meetup_groups <- get_groups(api_key = api_key, text = "r-ladies")
+
+rladies_groups <- as.character(unlist(meetup_groups$urlname))
+# Cleanup
+rladies_groups <- rladies_groups[grep(pattern = "ladies", 
+                                      x = rladies_groups,
+                                      ignore.case = TRUE)]
+rladies_groups <- rladies_groups[grep(pattern = "r", 
+                                      x = rladies_groups,
+                                      ignore.case = TRUE)]
+rladies_groups <- rladies_groups[-grep(pattern = "gentlemen",
+                                       x = rladies_groups,
+                                       ignore.case = TRUE)]
+```
+
+Wooowww, there seem to be 59 R-Ladies groups on meetup.com!
+
+## Is the urlname consistent across groups?
+
+The official urlname should follow this naming convention:
+__rladies-cityname__. However, only the following chapters have a consistent urlname:
+
+```{r consistency}
+excellent <- rladies_groups[grep(pattern = "rladies-", 
+                                 x = rladies_groups,
+                                 ignore.case = FALSE)]
+excellent
+
+# [1] "rladies-barcelona"       "rladies-madrid"          "rladies-london"    
+# [4] "rladies-berlin"          "rladies-natal"           "rladies-la"        
+# [7] "rladies-munich"          "rladies-montevideo"      "rladies-santa-rosa"
+# [10] "rladies-tbilisi"         "rladies-buenos-aires"    "rladies-paris"    
+# [13] "rladies-charlottesville" "rladies-nashville"       "rladies-scl"
+# [16] "rladies-cape-town"       "rladies-san-diego"       "rladies-montreal" 
+# [19] "rladies-philly"          "rladies-dc"              "rladies-portland-maine" 
+# [22] "rladies-ldnont"          "rladies-newyork"         "rladies-chicago"
+# [25] "rladies-istanbul"        "rladies-san-francisco"   "rladies-connecticut"
+# [28] "rladies-austin"          "rladies-san-jose"        "rladies-adelaide"
+```
+
+Few only have a problem with capitalisation:
+```{r good}
+good <- rladies_groups[grep(pattern = "rladies-",
+                            x = rladies_groups,
+                            ignore.case = TRUE)]
+good <- setdiff(good, excellent)
+good
+
+# [1] "RLadies-Columbus" "RLadies-Buffalo"
+```
+
+Here is the list of chapter that got it almost right:
+```{r almost}
+almost <- setdiff(rladies_groups, c(excellent, good))
+almost
+
+# [1] "R-Ladies-Belgrade"       "R-Ladies_Quito"          "R-Ladies-Boston" 
+# [4] "R-Ladies-Dublin"         "R-Ladies-Ames"           "R-Ladies-Manchester"
+# [7] "R-Ladies-Vancouver"      "R-Ladies-Melbourne"      "R-Ladies-Brussels"
+# [10] "R-Ladies-Miami"          "R-Ladies-Orlando"        "R-Ladies-Strasbourg"
+# [13] "R-Ladies-RTP"            "R-Ladies-Sarasota"       "R-Ladies-Milan"
+# [16] "R-Ladies-Taipei"         "R-Ladies-Lisboa"         "R-Ladies-St-Louis"  
+# [19] "R-Ladies-Americana"      "R-Ladies-PDX"            "R-Ladies-Budapest"
+# [22] "R-Ladies-Chennai"        "R-Ladies-Rio-de-Janeiro" "RLadiesTC"
+# [25] "R-Ladies-İzmiR"          "R-Ladies-Bogota"         "rladiescdmx"  
+```
