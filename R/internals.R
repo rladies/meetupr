@@ -66,7 +66,7 @@ date_helper <- function(time) {
   as.POSIXct(seconds, origin = "1970-01-01")
 }
 
-get_api_key <- function(api_key) {
+.get_api_key <- function(api_key) {
   api_key <- api_key %||% Sys.getenv("MEETUP_KEY")
   if (api_key == "") {
     stop("You do not have a valid API key. Retrieve one:\n  * https://secure.meetup.com/meetup_api/key/",
