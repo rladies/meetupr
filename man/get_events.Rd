@@ -31,7 +31,7 @@ A tibble with the following columns:
 \itemize{
 \item id
 \item name
-\item n_rsvp
+\item yes_rsvp_count
 \item time
 \item resource
 }

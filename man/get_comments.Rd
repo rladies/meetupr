@@ -23,8 +23,8 @@ A tibble with the following columns:
 \itemize{
 \item id
 \item comment
-\item n_like
-\item time
+\item like_count
+\item created
 \item member_id
 \item member_name
 \item resource

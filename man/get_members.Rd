@@ -21,7 +21,7 @@ A tibble with the following columns:
 \item id
 \item name
 \item status
-\item photo_url
+\item photo_link
 \item resource
 }
 }

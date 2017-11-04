@@ -5,7 +5,7 @@
 #' @return A tibble with the following columns:
 #'    * id
 #'    * name
-#'    * n_posts
+#'    * post_count
 #'    * resource
 #'
 #'@examples
@@ -21,7 +21,7 @@ get_boards <- function(urlname, api_key) {
   tibble::tibble(
     id = purrr::map_chr(res, "id"),
     name = purrr::map_chr(res, "name"),
-    n_posts = purrr::map_int(res, "post_count"),
+    post_count = purrr::map_int(res, "post_count"),
     resource = res
   )
 }

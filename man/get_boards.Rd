@@ -20,7 +20,7 @@ A tibble with the following columns:
 \itemize{
 \item id
 \item name
-\item n_posts
+\item post_count
 \item resource
 }
 }

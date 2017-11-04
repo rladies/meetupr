@@ -14,7 +14,7 @@
 #' @return A tibble with the following columns:
 #'    * id
 #'    * name
-#'    * n_rsvp
+#'    * yes_rsvp_count
 #'    * time
 #'    * resource
 #'
@@ -37,7 +37,7 @@ get_events <- function(urlname, event_status = "upcoming", api_key = NULL) {
   tibble::tibble(
     id = purrr::map_chr(res, "id"),
     name = purrr::map_chr(res, "name"),
-    n_rsvp = purrr::map_int(res, "yes_rsvp_count"),
+    yes_rsvp_count = purrr::map_int(res, "yes_rsvp_count"),
     time = .date_helper(purrr::map_dbl(res, "time")),
     resource = res
   )
