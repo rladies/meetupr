@@ -1,5 +1,5 @@
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
+<!-- README.md is generated from README.Rmd. Please edit the Rmd file -->
 meetupr
 =======
 
@@ -32,12 +32,13 @@ Sys.setenv(MEETUP_KEY = "PASTE YOUR MEETUP KEY HERE")
 
 If you don't want to save it here, you can input it in each function using the `api_key` parameter (just be sure not to send any documents with your key to GitHub 🙊).
 
-We currently have four functions:
+We currently have the following functions:
 
 -   `get_events()`
 -   `get_members()`
 -   `get_attendees()`
 -   `get_comments()`
+-   `get_groups()`
 
 Each will output a tibble with information extracted into from the API as well as a `list-col` named `*_resource` with all API output. For example, the following code will get all upcoming events for the [RLadies Nashville](https://meetup.com/rladies-nashville) meetup.
 
@@ -46,11 +47,12 @@ library(meetupr)
 
 urlname <- "rladies-nashville"
 (events <- get_events(urlname))
-#> # A tibble: 1 x 5
-#>          id                                  name n_rsvp
-#>       <chr>                                 <chr>  <int>
-#> 1 242098493 Working with Pipes %>% + GIS Tutorial     16
-#> # ... with 2 more variables: time <dttm>, event_resource <list>
+#> # A tibble: 2 x 5
+#>          id                    name yes_rsvp_count                time
+#>       <chr>                   <chr>          <int>              <dttm>
+#> 1 243331077   Introduction to purrr             11 2017-11-14 00:00:00
+#> 2 243331084 TBA with Laurie Samuels              5 2017-12-01 18:00:00
+#> # ... with 1 more variables: resource <list>
 ```
 
 How can you contribute?
@@ -73,6 +75,7 @@ Sys.setenv(MEETUP_NAME = "YOUR MEETUP NAME")
 -   pull event comments
 -   pull event attendance
 -   pull meetup members
+-   pull groups
 
 ### TODO:
 

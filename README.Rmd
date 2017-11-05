@@ -2,7 +2,7 @@
 output: github_document
 ---
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
+<!-- README.md is generated from README.Rmd. Please edit the Rmd file -->
 
 ```{r, echo = FALSE}
 knitr::opts_chunk$set(
@@ -10,6 +10,8 @@ knitr::opts_chunk$set(
   comment = "#>",
   fig.path = "README-"
 )
+
+# devtools::install_github("hadley/emo")
 ```
 
 # meetupr
@@ -41,12 +43,13 @@ Sys.setenv(MEETUP_KEY = "PASTE YOUR MEETUP KEY HERE")
 
 If you don't want to save it here, you can input it in each function using the `api_key` parameter (just be sure not to send any documents with your key to GitHub `r emo::ji("speak_no_evil")`).
 
-We currently have four functions:
+We currently have the following functions:
 
 * `get_events()`  
 * `get_members()`  
 * `get_attendees()`  
 * `get_comments()`
+* `get_groups()`
 
 Each will output a tibble with information extracted into from the API as well as a `list-col` named `*_resource` with all API output. For example, the following code will get all upcoming events for the [RLadies Nashville](https://meetup.com/rladies-nashville) meetup.
 
@@ -75,6 +78,7 @@ Sys.setenv(MEETUP_NAME = "YOUR MEETUP NAME")
 - pull event comments
 - pull event attendance
 - pull meetup members
+- pull groups
 
 ### TODO:
 - add tests
