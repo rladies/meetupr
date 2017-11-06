@@ -1,12 +1,13 @@
 Package: meetupr
 Type: Package
-Title: Meetup API
+Title: Meetup R API
 Version: 0.1.0
-Date: 2017-01-28
-Authors@R: c(person("Gabriela", "De Queiroz", email = "gabriela@rladies.org", role = c("aut", "cre")),
-             person("Erin", "LeDell", email = "erin@rladies.org", role = c("aut")),
+Date: 2017-11-06
+Authors@R: c(person("Gabriela", "De Queiroz", email = "gabriela@rladies.org", role = c("aut")),
+             person("Erin", "LeDell", email = "oss@ledell.org", role = c("aut", "cre")),
              person("Olga", "Mierzwa-Sulima", email = "olga@rladies.org", role = c("aut")),
-             person("Lucy", "D'Agostino McGowan", email = "lucy@rladies.org", role = c("aut")))
+             person("Lucy", "D'Agostino McGowan", email = "lucy@rladies.org", role = c("aut")),
+             person("Claudia", "Vitolo", role = c("aut")))
 Description: Provides access to data from 'meetup.com' (see https://www.meetup.com/meetup_api/ for more information).
 License: MIT + file LICENSE
 Depends:
