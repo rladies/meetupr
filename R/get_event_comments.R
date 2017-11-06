@@ -8,6 +8,7 @@
 #' @return A tibble with the following columns:
 #'    * id
 #'    * comment
+#'    * link
 #'    * like_count
 #'    * created
 #'    * member_id
@@ -28,11 +29,12 @@ get_event_comments <- function(urlname, event_id, api_key = NULL) {
   api_method <- paste0(urlname, "/events/", event_id, "/comments")
   res <- .fetch_results(api_method, api_key)
   tibble::tibble(
-    id = purrr::map_chr(res, "id"),
+    id = purrr::map_int(res, "id"),
     comment = purrr::map_chr(res, "comment"),
+    link = purrr::map_chr(res, "link"),
     like_count = purrr::map_int(res, "like_count"),
     created = .date_helper(purrr::map_dbl(res, "created")),
-    member_id = purrr::map_chr(res, c("member", "id")),
+    member_id = purrr::map_int(res, c("member", "id")),
     member_name = purrr::map_chr(res, c("member", "name")),
     resource = res
   )

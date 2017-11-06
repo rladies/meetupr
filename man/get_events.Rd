@@ -44,6 +44,8 @@ A tibble with the following columns:
 \item venue_lon
 \item venue_address_1
 \item venue_city
+\item venue_state
+\item venue_zip
 \item venue_country
 \item description
 \item link

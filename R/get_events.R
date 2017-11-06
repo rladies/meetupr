@@ -28,6 +28,8 @@
 #'    * venue_lon
 #'    * venue_address_1
 #'    * venue_city
+#'    * venue_state
+#'    * venue_zip
 #'    * venue_country
 #'    * description
 #'    * link
@@ -56,14 +58,14 @@ get_events <- function(urlname, event_status = "upcoming", api_key = NULL) {
   api_method <- paste0(urlname, "/events")
   res <- .fetch_results(api_method, api_key, event_status)
   tibble::tibble(
-    id = purrr::map_chr(res, "id"),
+    id = purrr::map_chr(res, "id"),  #this is returned as chr (not int)
     name = purrr::map_chr(res, "name"),
     created = .date_helper(purrr::map_dbl(res, "created")),
     status = purrr::map_chr(res, "status"),
     time = .date_helper(purrr::map_dbl(res, "time")),
     local_date = as.Date(purrr::map_chr(res, "local_date")),
     local_time = purrr::map_chr(res, "local_time", .null = NA),
-    # TO DO: Add a local_datetime combining the two above
+    # TO DO: Add a local_datetime combining the two above?
     waitlist_count = purrr::map_int(res, "waitlist_count"),
     yes_rsvp_count = purrr::map_int(res, "yes_rsvp_count"),
     venue_id = purrr::map_int(res, c("venue", "id"), .null = NA),
@@ -72,6 +74,8 @@ get_events <- function(urlname, event_status = "upcoming", api_key = NULL) {
     venue_lon = purrr::map_dbl(res, c("venue", "lon"), .null = NA),
     venue_address_1 = purrr::map_chr(res, c("venue", "address_1"), .null = NA),
     venue_city = purrr::map_chr(res, c("venue", "city"), .null = NA),
+    venue_state = purrr::map_chr(res, c("venue", "state"), .null = NA),
+    venue_zip = purrr::map_chr(res, c("venue", "zip"), .null = NA),
     venue_country = purrr::map_chr(res, c("venue", "country"), .null = NA),
     description = purrr::map_chr(res, c("description"), .null = NA),
     link = purrr::map_chr(res, c("link")),

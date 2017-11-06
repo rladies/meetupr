@@ -23,6 +23,7 @@ A tibble with the following columns:
 \itemize{
 \item id
 \item comment
+\item link
 \item like_count
 \item created
 \item member_id
