@@ -10,7 +10,7 @@ get_events(urlname, event_status = "upcoming", api_key = NULL)
 \item{urlname}{Character. The name of the group as indicicated in the
 \url{https://meetup.com} url.}
 
-\item{event_status}{Character. Event type - defaults to "upcomming".
+\item{event_status}{Character or character vector (e.g. "upcoming" or c("past", "upcoming")). Event type - defaults to "upcoming".
 Valid inputs are:
 \itemize{
 \item cancelled
@@ -31,8 +31,22 @@ A tibble with the following columns:
 \itemize{
 \item id
 \item name
-\item yes_rsvp_count
+\item created
+\item status
 \item time
+\item local_date
+\item local_time
+\item waitlist_count
+\item yes_rsvp_count
+\item venue_id
+\item venue_name
+\item venue_lat
+\item venue_lon
+\item venue_address_1
+\item venue_city
+\item venue_country
+\item description
+\item link
 \item resource
 }
 }
