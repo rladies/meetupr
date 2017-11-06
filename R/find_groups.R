@@ -6,24 +6,34 @@
 #' @template api_key
 #'
 #' @return A tibble with the following columns:
+#'    * id
 #'    * name
 #'    * urlname
+#'    * description
+#'    * created
 #'    * who
 #'    * members
 #'    * status
-#'    * created
 #'    * organizer
 #'    * lat
 #'    * lon
 #'    * city
+#'    * state
 #'    * country
 #'    * timezone
+#'    * organizer_id
+#'    * organizer_name
+#'    * organizer_bio
+#'    * organizer_photo_link
+#'    * group_photo_link
+#'    * category_id
+#'    * category_name
 #'
 #' @references
 #' \url{https://www.meetup.com/meetup_api/docs/find/groups/}
 #'@examples
 #' \dontrun{
-#' api_key <- Sys.getenv("rladies_api_key")
+#' api_key <- Sys.getenv("MEETUP_KEY")
 #' groups <- find_groups(text = "r-ladies", api_key = api_key)
 #'}
 #' @export
@@ -34,17 +44,27 @@ find_groups <- function(text = NULL, radius = "global", api_key = NULL) {
                         text = text,
                         radius = radius)
   tibble::tibble(
+    id = purrr::map_int(res, "id"),
     name = purrr::map_chr(res, "name"),
     urlname = purrr::map_chr(res, "urlname"),
+    description = purrr::map_chr(res, "description"),
+    created = .date_helper(purrr::map_dbl(res, "created")),
     who = purrr::map_chr(res, "who"),
     members = purrr::map_int(res, "members"),
     status = purrr::map_chr(res, "status"),
-    created = purrr::map_chr(res, "created"),
     organizer = purrr::map_chr(res, c("organizer", "name")),
     lat = purrr::map_dbl(res, "lat"),
     lon = purrr::map_dbl(res, "lon"),
     city = purrr::map_chr(res, "city"),
+    state = purrr::map_chr(res, "state", .null = NA),
     country = purrr::map_chr(res, "country"),
-    timezone = purrr::map_chr(res, "timezone")
+    timezone = purrr::map_chr(res, "timezone", .null = NA),
+    organizer_id = purrr::map_int(res, c("organizer", "id")),
+    organizer_name = purrr::map_chr(res, c("organizer", "name")),
+    organizer_bio = purrr::map_chr(res, c("organizer", "bio"), .null = NA),
+    organizer_photo_link = purrr::map_chr(res, c("organizer", "photo", "photo_link"), .null = NA),
+    group_photo_link = purrr::map_chr(res, c("group_photo", "photo_link"), .null = NA),
+    category_id = purrr::map_int(res, c("category", "id"), .null = NA),
+    category_name = purrr::map_chr(res, c("category", "name"), .null = NA)
   )
 }

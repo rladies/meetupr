@@ -20,18 +20,28 @@ run \code{Sys.setenv(MEETUP_KEY = "PASTE YOUR MEETUP KEY HERE")}.}
 \value{
 A tibble with the following columns:
 \itemize{
+\item id
 \item name
 \item urlname
+\item description
+\item created
 \item who
 \item members
 \item status
-\item created
 \item organizer
 \item lat
 \item lon
 \item city
+\item state
 \item country
 \item timezone
+\item organizer_id
+\item organizer_name
+\item organizer_bio
+\item organizer_photo_link
+\item group_photo_link
+\item category_id
+\item category_name
 }
 }
 \description{
@@ -39,7 +49,7 @@ Find meetup groups using text-based search
 }
 \examples{
 \dontrun{
-api_key <- Sys.getenv("rladies_api_key")
+api_key <- Sys.getenv("MEETUP_KEY")
 groups <- find_groups(text = "r-ladies", api_key = api_key)
 }
 }
