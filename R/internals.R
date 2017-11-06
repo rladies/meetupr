@@ -1,5 +1,5 @@
 .quick_fetch <- function(api_url,
-                         api_key,
+                         api_key = NULL,
                          event_status = NULL,
                          ...) {
 
@@ -25,9 +25,15 @@
 }
 
 
-.fetch_results <- function(api_params, api_key, event_status = NULL, ...) {
+.fetch_results <- function(api_params, api_key = NULL, event_status = NULL, ...) {
+
+  # Build the API endpoint URL
   meetup_api_prefix <- "https://api.meetup.com/"
   api_url <- paste0(meetup_api_prefix, api_params)
+
+  # Get the API key from MEETUP_KEY environment variable if NULL
+  if (is.null(api_key)) api_key <- .get_api_key()
+  if (!is.character(api_key)) stop("api_key must be a character string")
 
   # Fetch first set of results (limited to 200 records each call)
   res <- .quick_fetch(api_url = api_url,
@@ -82,10 +88,10 @@
 }
 
 # function to return meetup.com API key stored in the MEETUP_KEY environment variable
-.get_api_key <- function(api_key) {
-  api_key <- api_key %||% Sys.getenv("MEETUP_KEY")
+.get_api_key <- function() {
+  api_key <- Sys.getenv("MEETUP_KEY")
   if (api_key == "") {
-    stop("You do not have a valid API key. Retrieve one:\n  * https://secure.meetup.com/meetup_api/key/",
+    stop("You have not set a MEETUP_KEY environment variable.\nIf you do not yet have a meetup.com API key, you can retrieve one here:\n  * https://secure.meetup.com/meetup_api/key/",
          call. = FALSE)
   }
   return(api_key)
