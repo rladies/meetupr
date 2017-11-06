@@ -11,7 +11,7 @@ get_event_attendees(urlname, event_id, api_key = NULL)
 \url{https://meetup.com} url.}
 
 \item{event_id}{Character. The id of the event. Event ids can be obtained
-using \code{\link[=get_events]{get_events()}}.}
+using \code{\link[=get_events]{get_events()}} or by looking at the event page URL.}
 
 \item{api_key}{Character. Your api key. Defaults to checking your environment
 for a parameter called "MEETUP_KEY" via \code{Sys.getenv("MEETUP_KEY")}. This key can be

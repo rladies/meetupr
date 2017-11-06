@@ -2,7 +2,7 @@
 #'
 #' @template urlname
 #' @param event_id Character. The id of the event. Event ids can be obtained
-#'   using [get_events()].
+#'   using [get_events()] or by looking at the event page URL.
 #' @template api_key
 #'
 #' @return A tibble with the following columns:
