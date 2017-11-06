@@ -38,6 +38,7 @@
   # Total number of records matching the query
   total_records <- as.integer(res$headers$`x-total-count`)
   records <- res$result
+  cat(paste("Downloading", total_records, "records..."))
 
   # If you have not yet retrieved all records, calculate the # of remaining calls required
   extra_calls <- ifelse(
