@@ -34,3 +34,6 @@ urlname <- "rladies-nashville"
 members <- get_members(urlname)
 }
 }
+\references{
+\url{https://www.meetup.com/meetup_api/docs/2/members/}
+}

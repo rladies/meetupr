@@ -9,6 +9,8 @@
 #'    * status
 #'    * photo_link
 #'    * resource
+#' @references
+#' \url{https://www.meetup.com/meetup_api/docs/2/members/}
 #' @examples
 #' \dontrun{
 #' urlname <- "rladies-nashville"

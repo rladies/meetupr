@@ -1,21 +1,33 @@
-#' Get list of meetup groups using text-based search
+#' Find meetup groups using text-based search
 #'
 #' @param text string used to filter groups
 #' @param radius can be either "global" (default) or distance in miles in the
 #' range 0-100.
 #' @template api_key
 #'
-#' @return Tibble containing the list of selected groups. The table contains 12
-#' columns: name, urlname, who, members, status, created, organizer, lat, lon,
-#' city, country, timezone.
+#' @return A tibble with the following columns:
+#'    * name
+#'    * urlname
+#'    * who
+#'    * members
+#'    * status
+#'    * created
+#'    * organizer
+#'    * lat
+#'    * lon
+#'    * city
+#'    * country
+#'    * timezone
 #'
+#' @references
+#' \url{https://www.meetup.com/meetup_api/docs/find/groups/}
 #'@examples
 #' \dontrun{
 #' api_key <- Sys.getenv("rladies_api_key")
-#' groups <- get_groups(text = "r-ladies", api_key = api_key)
+#' groups <- find_groups(text = "r-ladies", api_key = api_key)
 #'}
 #' @export
-get_groups <- function(text = NULL, radius = "global", api_key = NULL) {
+find_groups <- function(text = NULL, radius = "global", api_key = NULL) {
   api_params <- "find/groups"
   res <- .fetch_results(api_params = api_params,
                         api_key = api_key,
