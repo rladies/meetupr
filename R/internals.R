@@ -61,16 +61,31 @@
 }
 
 
+# helper function to convert a vector of milliseconds since epoch into POSIXct
 .date_helper <- function(time) {
-  seconds <- time / 1000
-  as.POSIXct(seconds, origin = "1970-01-01")
+  if (is.character(time)) {
+    # if date is character string, try to convert to numeric
+    time <- tryCatch(expr = as.numeric(time),
+                     error = warning("One or more dates could not be converted properly"))
+  }
+  if (is.numeric(time)) {
+    # divide milliseconds by 1000 to get seconds; convert to POSIXct
+    seconds <- time / 1000
+    out <- as.POSIXct(seconds, origin = "1970-01-01")
+  } else {
+    # if no conversion can be done, then return NA
+    warning("One or more dates could not be converted properly")
+    out <- rep(NA, length(time))
+  }
+  return(out)
 }
 
+# function to return meetup.com API key stored in the MEETUP_KEY environment variable
 .get_api_key <- function(api_key) {
   api_key <- api_key %||% Sys.getenv("MEETUP_KEY")
   if (api_key == "") {
     stop("You do not have a valid API key. Retrieve one:\n  * https://secure.meetup.com/meetup_api/key/",
          call. = FALSE)
   }
-  api_key
+  return(api_key)
 }
