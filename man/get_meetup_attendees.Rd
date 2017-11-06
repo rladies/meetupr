@@ -2,7 +2,7 @@
 % Please edit documentation in R/deprecated.R
 \name{get_meetup_attendees}
 \alias{get_meetup_attendees}
-\title{DEPRECATED: Get the attendees}
+\title{DEPRECATED: Get the attendees (as a list)}
 \usage{
 get_meetup_attendees(urlname, api_key, event_id)
 }
@@ -14,7 +14,7 @@ get_meetup_attendees(urlname, api_key, event_id)
 \item{event_id}{The id of the event.}
 }
 \description{
-DEPRECATED: Get the attendees
+DEPRECATED: Get the attendees (as a list)
 }
 \examples{
 \dontrun{

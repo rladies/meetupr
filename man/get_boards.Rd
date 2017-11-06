@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_boards.R
 \name{get_boards}
 \alias{get_boards}
-\title{Get the boards from a meetup group}
+\title{Get the discussion boards from a meetup group}
 \usage{
 get_boards(urlname, api_key)
 }
@@ -20,12 +20,18 @@ A tibble with the following columns:
 \itemize{
 \item id
 \item name
+\item description
+\item created
+\item updated
 \item post_count
+\item discussion_count
+\item latest_reply_created
+\item latest_reply_member_name
 \item resource
 }
 }
 \description{
-Get the boards from a meetup group
+Get the discussion boards from a meetup group
 }
 \examples{
 \dontrun{
@@ -33,4 +39,7 @@ urlname <- "rladies-nashville"
 meetup_boards <- get_boards(urlname = urlname,
                       api_key = api_key)
 }
+}
+\references{
+\url{https://www.meetup.com/meetup_api/docs/:urlname/boards/}
 }

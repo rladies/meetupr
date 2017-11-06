@@ -2,7 +2,7 @@
 % Please edit documentation in R/deprecated.R
 \name{get_meetup_comments}
 \alias{get_meetup_comments}
-\title{DEPRECATED: Get the comments}
+\title{DEPRECATED: Get the comments (as a list)}
 \usage{
 get_meetup_comments(urlname, api_key, event_id)
 }
@@ -14,7 +14,7 @@ get_meetup_comments(urlname, api_key, event_id)
 \item{event_id}{The id of the event.}
 }
 \description{
-DEPRECATED: Get the comments
+DEPRECATED: Get the comments (as a list)
 }
 \examples{
 \dontrun{
