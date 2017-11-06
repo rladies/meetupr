@@ -28,8 +28,8 @@
 #'}
 #' @export
 find_groups <- function(text = NULL, radius = "global", api_key = NULL) {
-  api_params <- "find/groups"
-  res <- .fetch_results(api_params = api_params,
+  api_method <- "find/groups"
+  res <- .fetch_results(api_method = api_method,
                         api_key = api_key,
                         text = text,
                         radius = radius)

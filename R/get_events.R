@@ -18,6 +18,8 @@
 #'    * time
 #'    * resource
 #'
+#' @references
+#' \url{https://www.meetup.com/meetup_api/docs/:urlname/events/#list}
 #'@examples
 #' \dontrun{
 #' urlname <- "rladies-nashville"
@@ -28,12 +30,12 @@
 #'}
 #' @export
 get_events <- function(urlname, event_status = "upcoming", api_key = NULL) {
-  if(!is.null(event_status) &&
+  if (!is.null(event_status) &&
      !event_status %in% c("cancelled", "draft", "past", "proposed", "suggested", "upcoming")) {
     stop(sprintf("Event status %s not allowed", event_status))
   }
-  api_params <- paste0(urlname, "/events")
-  res <- .fetch_results(api_params, api_key, event_status)
+  api_method <- paste0(urlname, "/events")
+  res <- .fetch_results(api_method, api_key, event_status)
   tibble::tibble(
     id = purrr::map_chr(res, "id"),
     name = purrr::map_chr(res, "name"),

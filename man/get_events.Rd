@@ -48,3 +48,6 @@ upcoming_events <- get_events(urlname = urlname,
                       event_status = "upcoming")
 }
 }
+\references{
+\url{https://www.meetup.com/meetup_api/docs/:urlname/events/#list}
+}

@@ -25,8 +25,8 @@
 #'}
 #' @export
 get_members <- function(urlname, api_key = NULL){
-  api_params <- paste0(urlname, "/members/")
-  res <- .fetch_results(api_params, api_key)
+  api_method <- paste0(urlname, "/members/")
+  res <- .fetch_results(api_method, api_key)
   tibble::tibble(
     id = purrr::map_chr(res, "id"),
     name = purrr::map_chr(res, "name", .null = NA),

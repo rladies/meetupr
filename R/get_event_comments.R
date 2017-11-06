@@ -25,8 +25,8 @@
 #'}
 #' @export
 get_event_comments <- function(urlname, event_id, api_key = NULL) {
-  api_params <- paste0(urlname, "/events/", event_id, "/comments")
-  res <- .fetch_results(api_params, api_key)
+  api_method <- paste0(urlname, "/events/", event_id, "/comments")
+  res <- .fetch_results(api_method, api_key)
   tibble::tibble(
     id = purrr::map_chr(res, "id"),
     comment = purrr::map_chr(res, "comment"),

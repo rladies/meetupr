@@ -1,3 +1,5 @@
+# This helper function makes a single call, given the full API endpoint URL
+# Used as the workhorse function inside .fetch_results() below
 .quick_fetch <- function(api_url,
                          api_key = NULL,
                          event_status = NULL,
@@ -25,11 +27,14 @@
 }
 
 
-.fetch_results <- function(api_params, api_key = NULL, event_status = NULL, ...) {
+# Fetch all the results of a query given an API Method
+# Will make multiple calls to the API if needed
+# API Methods listed here: https://www.meetup.com/meetup_api/docs/
+.fetch_results <- function(api_method, api_key = NULL, event_status = NULL, ...) {
 
   # Build the API endpoint URL
   meetup_api_prefix <- "https://api.meetup.com/"
-  api_url <- paste0(meetup_api_prefix, api_params)
+  api_url <- paste0(meetup_api_prefix, api_method)
 
   # Get the API key from MEETUP_KEY environment variable if NULL
   if (is.null(api_key)) api_key <- .get_api_key()
