@@ -14,6 +14,14 @@ meetupr: R interface to the meetup.com API
 library(devtools)
 devtools::install_github("rladies/meetupr")
 ```
+🚧 **WARNING**: The package is undergoing a big re-org and we'd recommend that you install the "deprecated_etc" branch.  Many of the functions in the master branch will be deprecated and functions return tibbles now instead of lists.  To install that branch, do the following:
+
+```{r}
+# install.packages("devtools")
+library(devtools)
+devtools::install_github("rladies/meetupr", ref = "deprecated_etc")
+```
+The new version will be on CRAN soon.
 
 ## Usage
 
