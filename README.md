@@ -14,10 +14,16 @@ Installation
 
 You can install meetupr from github with:
 
-``` r
+🚧🚧🚧 **WARNING** 🚧🚧🚧: The package is undergoing a big re-org and we'd recommend that you install the ["deprecated_etc"](https://github.com/rladies/meetupr/tree/deprecated_etc) branch instead of the master branch.  Many of the functions in the master branch will be deprecated and functions return tibbles now instead of lists.  
+
+To install the "deprecated_etc" branch from GitHub:
+
+```{r}
 # install.packages("devtools")
-devtools::install_github("rladies/meetupr")
+library(devtools)
+devtools::install_github("rladies/meetupr", ref = "deprecated_etc")
 ```
+The new version will be on CRAN soon.
 
 Usage
 -----
