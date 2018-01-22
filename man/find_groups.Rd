@@ -23,7 +23,6 @@ A tibble with the following columns:
 \item id
 \item name
 \item urlname
-\item description
 \item created
 \item members
 \item status

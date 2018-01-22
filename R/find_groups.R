@@ -9,7 +9,6 @@
 #'    * id
 #'    * name
 #'    * urlname
-#'    * description
 #'    * created
 #'    * members
 #'    * status
@@ -44,7 +43,6 @@ find_groups <- function(text = NULL, radius = "global", api_key = NULL) {
     id = purrr::map_int(res, "id"),
     name = purrr::map_chr(res, "name"),
     urlname = purrr::map_chr(res, "urlname"),
-    description = purrr::map_chr(res, "description"),
     created = .date_helper(purrr::map_dbl(res, "created")),
     members = purrr::map_int(res, "members"),
     status = purrr::map_chr(res, "status"),
