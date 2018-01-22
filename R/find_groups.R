@@ -49,7 +49,6 @@ find_groups <- function(text = NULL, radius = "global", api_key = NULL) {
     urlname = purrr::map_chr(res, "urlname"),
     description = purrr::map_chr(res, "description"),
     created = .date_helper(purrr::map_dbl(res, "created")),
-    who = purrr::map_chr(res, "who"),
     members = purrr::map_int(res, "members"),
     status = purrr::map_chr(res, "status"),
     organizer = purrr::map_chr(res, c("organizer", "name")),
@@ -61,9 +60,6 @@ find_groups <- function(text = NULL, radius = "global", api_key = NULL) {
     timezone = purrr::map_chr(res, "timezone", .null = NA),
     organizer_id = purrr::map_int(res, c("organizer", "id")),
     organizer_name = purrr::map_chr(res, c("organizer", "name")),
-    organizer_bio = purrr::map_chr(res, c("organizer", "bio"), .null = NA),
-    organizer_photo_link = purrr::map_chr(res, c("organizer", "photo", "photo_link"), .null = NA),
-    group_photo_link = purrr::map_chr(res, c("group_photo", "photo_link"), .null = NA),
     category_id = purrr::map_int(res, c("category", "id"), .null = NA),
     category_name = purrr::map_chr(res, c("category", "name"), .null = NA)
   )
