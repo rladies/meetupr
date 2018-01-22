@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_members.R
 \name{get_members}
 \alias{get_members}
-\title{Get the current meetup members}
+\title{Get the current meetup members from a meetup group}
 \usage{
 get_members(urlname, api_key = NULL)
 }
@@ -20,17 +20,27 @@ A tibble with the following columns:
 \itemize{
 \item id
 \item name
+\item bio
 \item status
+\item joined
+\item city
+\item country
+\item state
+\item lat
+\item lon
 \item photo_link
 \item resource
 }
 }
 \description{
-Get the current meetup members
+Get the current meetup members from a meetup group
 }
 \examples{
 \dontrun{
 urlname <- "rladies-nashville"
 members <- get_members(urlname)
 }
+}
+\references{
+\url{https://www.meetup.com/meetup_api/docs/:urlname/members/#list}
 }

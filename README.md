@@ -7,7 +7,7 @@ meetupr
 
 R interface to the Meetup API (v3)
 
-**Authors:** [Gabriela de Queiroz](http://gdequeiroz.github.io/), [Erin LeDell](http://www.stat.berkeley.edu/~ledell/), [Olga Mierzwa-Sulima](https://github.com/olgamie), [Lucy D'Agostino McGowan](http://www.lucymcgowan.com)<br/> **License:** [MIT](https://opensource.org/licenses/MIT)
+**Authors:** [Gabriela de Queiroz](http://gdequeiroz.github.io/), [Erin LeDell](http://www.stat.berkeley.edu/~ledell/), [Olga Mierzwa-Sulima](https://github.com/olgamie), [Lucy D'Agostino McGowan](http://www.lucymcgowan.com), [Claudia Vitolo](https://github.com/cvitolo)<br/> **License:** [MIT](https://opensource.org/licenses/MIT)
 
 Installation
 ------------
@@ -40,11 +40,12 @@ If you don't want to save it here, you can input it in each function using the `
 
 We currently have the following functions:
 
--   `get_events()`
 -   `get_members()`
--   `get_attendees()`
--   `get_comments()`
--   `get_groups()`
+-   `get_boards()`
+-   `get_events()`
+-   `get_event_attendees()`
+-   `get_event_comments()`
+-   `find_groups()`
 
 Each will output a tibble with information extracted into from the API as well as a `list-col` named `*_resource` with all API output. For example, the following code will get all upcoming events for the [RLadies Nashville](https://meetup.com/rladies-nashville) meetup.
 
@@ -83,6 +84,6 @@ Sys.setenv(MEETUP_NAME = "YOUR MEETUP NAME")
 -   pull meetup members
 -   pull groups
 
-### TODO:
+### TO DO:
 
 -   add tests
