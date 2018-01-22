@@ -2,27 +2,44 @@
 % Please edit documentation in R/get_boards.R
 \name{get_boards}
 \alias{get_boards}
-\title{Get the boards from a meetup group}
+\title{Get the discussion boards from a meetup group}
 \usage{
 get_boards(urlname, api_key)
 }
 \arguments{
-\item{urlname}{The name of the group.}
+\item{urlname}{Character. The name of the group as indicicated in the
+\url{https://meetup.com} url.}
 
-\item{api_key}{Your api key.}
+\item{api_key}{Character. Your api key. Defaults to checking your environment
+for a parameter called "MEETUP_KEY" via \code{Sys.getenv("MEETUP_KEY")}. This key can be
+obtained from \url{https://secure.meetup.com/meetup_api/key/}. To set the environment variable
+run \code{Sys.setenv(MEETUP_KEY = "PASTE YOUR MEETUP KEY HERE")}.}
 }
 \value{
-List containing requested events.
+A tibble with the following columns:
+\itemize{
+\item id
+\item name
+\item description
+\item created
+\item updated
+\item post_count
+\item discussion_count
+\item latest_reply_created
+\item latest_reply_member_name
+\item resource
+}
 }
 \description{
-Get the boards from a meetup group
+Get the discussion boards from a meetup group
 }
 \examples{
 \dontrun{
 urlname <- "rladies-nashville"
-api_key <- Sys.getenv("rladies_api_key")
 meetup_boards <- get_boards(urlname = urlname,
                       api_key = api_key)
 }
 }
-
+\references{
+\url{https://www.meetup.com/meetup_api/docs/:urlname/boards/}
+}

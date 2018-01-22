@@ -2,5 +2,6 @@
 .Rhistory
 .RData
 .Ruserdata
-packrat/lib*/
-packrat/src/
+inst/doc
+vignettes/*.R
+vignettes/*.html

@@ -4,17 +4,53 @@
 \alias{get_events}
 \title{Get the events from a meetup group}
 \usage{
-get_events(urlname, api_key, event_status = NULL)
+get_events(urlname, event_status = "upcoming", api_key = NULL)
 }
 \arguments{
-\item{urlname}{The name of the group.}
+\item{urlname}{Character. The name of the group as indicicated in the
+\url{https://meetup.com} url.}
 
-\item{api_key}{Your api key.}
+\item{event_status}{Character or character vector (e.g. "upcoming" or c("past", "upcoming")). Event type - defaults to "upcoming".
+Valid inputs are:
+\itemize{
+\item cancelled
+\item draft
+\item past
+\item proposed
+\item suggested
+\item upcoming
+}}
 
-\item{event_status}{A character string defining an event type - can be one of the following ("cancelled", "draft", "past", "proposed", "suggested", "upcoming").  If empty upcoming meetups will be provided.}
+\item{api_key}{Character. Your api key. Defaults to checking your environment
+for a parameter called "MEETUP_KEY" via \code{Sys.getenv("MEETUP_KEY")}. This key can be
+obtained from \url{https://secure.meetup.com/meetup_api/key/}. To set the environment variable
+run \code{Sys.setenv(MEETUP_KEY = "PASTE YOUR MEETUP KEY HERE")}.}
 }
 \value{
-List containing requested events.
+A tibble with the following columns:
+\itemize{
+\item id
+\item name
+\item created
+\item status
+\item time
+\item local_date
+\item local_time
+\item waitlist_count
+\item yes_rsvp_count
+\item venue_id
+\item venue_name
+\item venue_lat
+\item venue_lon
+\item venue_address_1
+\item venue_city
+\item venue_state
+\item venue_zip
+\item venue_country
+\item description
+\item link
+\item resource
+}
 }
 \description{
 Get the events from a meetup group
@@ -22,13 +58,12 @@ Get the events from a meetup group
 \examples{
 \dontrun{
 urlname <- "rladies-nashville"
-api_key <- Sys.getenv("rladies_api_key")
 past_events <- get_events(urlname = urlname,
-                      api_key = api_key,
                       event_status = "past")
 upcoming_events <- get_events(urlname = urlname,
-                      api_key = api_key,
                       event_status = "upcoming")
 }
 }
-
+\references{
+\url{https://www.meetup.com/meetup_api/docs/:urlname/events/#list}
+}
