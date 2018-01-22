@@ -11,7 +11,6 @@
 #'    * urlname
 #'    * description
 #'    * created
-#'    * who
 #'    * members
 #'    * status
 #'    * organizer
@@ -23,11 +22,9 @@
 #'    * timezone
 #'    * organizer_id
 #'    * organizer_name
-#'    * organizer_bio
-#'    * organizer_photo_link
-#'    * group_photo_link
 #'    * category_id
 #'    * category_name
+#'    * resource
 #'
 #' @references
 #' \url{https://www.meetup.com/meetup_api/docs/find/groups/}
@@ -61,6 +58,7 @@ find_groups <- function(text = NULL, radius = "global", api_key = NULL) {
     organizer_id = purrr::map_int(res, c("organizer", "id")),
     organizer_name = purrr::map_chr(res, c("organizer", "name")),
     category_id = purrr::map_int(res, c("category", "id"), .null = NA),
-    category_name = purrr::map_chr(res, c("category", "name"), .null = NA)
+    category_name = purrr::map_chr(res, c("category", "name"), .null = NA),
+    resource = res
   )
 }

@@ -25,7 +25,6 @@ A tibble with the following columns:
 \item urlname
 \item description
 \item created
-\item who
 \item members
 \item status
 \item organizer
@@ -37,11 +36,9 @@ A tibble with the following columns:
 \item timezone
 \item organizer_id
 \item organizer_name
-\item organizer_bio
-\item organizer_photo_link
-\item group_photo_link
 \item category_id
 \item category_name
+\item resource
 }
 }
 \description{
