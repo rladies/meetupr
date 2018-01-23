@@ -24,12 +24,13 @@ R interface to the Meetup API (v3)
 
 ## Installation
 
-You can install meetupr from github with:
+To install the development version from GitHub:
 
 ```{r gh-installation, eval = FALSE}
 # install.packages("devtools")
 devtools::install_github("rladies/meetupr")
 ```
+A released version will be on CRAN soon.
 
 ## Usage
 
