@@ -1,6 +1,7 @@
-#' Find meetup groups using text-based search
+#' Find meetup groups matching a search query
 #'
-#' @param text string used to filter groups
+#' @param text Character. Raw full text search query.
+#' @param topic_id  Integer. Topic ID.
 #' @param radius can be either "global" (default) or distance in miles in the
 #' range 0-100.
 #' @template api_key
@@ -33,11 +34,12 @@
 #' groups <- find_groups(text = "r-ladies", api_key = api_key)
 #'}
 #' @export
-find_groups <- function(text = NULL, radius = "global", api_key = NULL) {
+find_groups <- function(text = NULL, topic_id = NULL, radius = "global", api_key = NULL) {
   api_method <- "find/groups"
   res <- .fetch_results(api_method = api_method,
                         api_key = api_key,
                         text = text,
+                        topic_id = topic_id,
                         radius = radius)
   tibble::tibble(
     id = purrr::map_int(res, "id"),

@@ -2,12 +2,15 @@
 % Please edit documentation in R/find_groups.R
 \name{find_groups}
 \alias{find_groups}
-\title{Find meetup groups using text-based search}
+\title{Find meetup groups matching a search query}
 \usage{
-find_groups(text = NULL, radius = "global", api_key = NULL)
+find_groups(text = NULL, topic_id = NULL, radius = "global",
+  api_key = NULL)
 }
 \arguments{
-\item{text}{string used to filter groups}
+\item{text}{Character. Raw full text search query.}
+
+\item{topic_id}{Integer. Topic ID.}
 
 \item{radius}{can be either "global" (default) or distance in miles in the
 range 0-100.}
@@ -41,7 +44,7 @@ A tibble with the following columns:
 }
 }
 \description{
-Find meetup groups using text-based search
+Find meetup groups matching a search query
 }
 \examples{
 \dontrun{
