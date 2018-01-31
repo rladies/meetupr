@@ -48,6 +48,7 @@
 
   # Total number of records matching the query
   total_records <- as.integer(res$headers$`x-total-count`)
+  if (length(total_records) == 0) total_records <- 1L
   records <- res$result
   cat(paste("Downloading", total_records, "record(s)..."))
 
