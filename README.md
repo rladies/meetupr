@@ -41,6 +41,7 @@ We currently have the following functions:
 -   `get_events()`
 -   `get_event_attendees()`
 -   `get_event_comments()`
+-   `get_event_rsvps()`   
 -   `find_groups()`
 
 Each will output a tibble with information extracted into from the API as well as a `list-col` named `*_resource` with all API output. For example, the following code will get all upcoming events for the [RLadies Nashville](https://meetup.com/rladies-nashville) meetup.
@@ -71,14 +72,6 @@ In order to run our tests, you will have to set the `urlname` for meetup you bel
 ``` r
 Sys.setenv(MEETUP_NAME = "YOUR MEETUP NAME")
 ```
-
-### DONE:
-
--   pull meetup events
--   pull event comments
--   pull event attendance
--   pull meetup members
--   pull groups
 
 ### TO DO:
 

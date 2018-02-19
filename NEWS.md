@@ -1,7 +1,10 @@
+# meetupr 0.1.1
+* Added `get_event_rsvps()` function.  Contribution by Michael Beigelmacher: https://github.com/rladies/meetupr/pull/19
+
+
 # meetupr 0.1.0
 
 * Added `NEWS.md` file.
-* First CRAN release.
 * **BREAKING CHANGE**: Updated `get_events()`, `get_boards()`, and `get_members()` to output a tibble with summarised information. The raw content previously output by these functions can be found in the `resource` column of each output tibble.  
 * **BREAKING CHANGE**: Changed the name of `get_meetup_attendees()` and `get_meetup_comments()` to `get_comments()` and `get_attendees()` for distinction (all other `get_*` functions get something about a group, not a specific event from that group).  Also updated the output of these functions from lists to tibbles. The raw content previously output by these functions can be found in the `resource` column of each output tibble.  
 * Officially deprecated the `get_meetup_attendees()` and `get_meetup_comments()` functions.

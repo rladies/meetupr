@@ -20,7 +20,7 @@
 #' \dontrun{
 #' urlname <- "rladies-nashville"
 #' upcoming_events <- get_events(urlname = urlname,
-#'                       event_status = "upcoming")
+#'                       event_status = "past")
 #' event_id <- upcoming_events$id[1]  #first event for this group
 #' rsvps <- get_event_rsvps(urlname, event_id)
 #'}
