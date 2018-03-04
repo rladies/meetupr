@@ -1,6 +1,5 @@
 #' Get the events from a meetup group
 #'
-#' Must be an administrator of the queried Meetup group because of Meetup.com API restriction on get_events
 #' @template urlname
 #' @param event_status Character or character vector (e.g. "upcoming" or c("past", "upcoming")). Event type - defaults to "upcoming".
 #'  Valid inputs are:

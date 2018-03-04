@@ -1,5 +1,6 @@
 #' Get the attendees for a specified event
 #'
+#' Must be an administrator of the queried Meetup group because of Meetup.com API restriction on get_event_attendees
 #' @template urlname
 #' @param event_id Character. The id of the event. Event ids can be obtained
 #'   using [get_events()] or by looking at the event page URL.
