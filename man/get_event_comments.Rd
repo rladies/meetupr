@@ -7,7 +7,7 @@
 get_event_comments(urlname, event_id, api_key = NULL)
 }
 \arguments{
-\item{urlname}{Character. The name of the group as indicicated in the
+\item{urlname}{Character. The name of the group as indicated in the
 \url{https://meetup.com} url.}
 
 \item{event_id}{Character. The id of the event. Event ids can be obtained
