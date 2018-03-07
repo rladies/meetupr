@@ -49,18 +49,18 @@ We currently have the following functions:
 * `get_members()`
 * `get_boards()`
 * `get_events()`  
-* `get_event_attendees()`  
+* `get_event_attendees()` *Note: Must be a Meetup group administrator to use because of API restriction.
 * `get_event_comments()`
-* `get_event_rsvps()`
+* `get_event_rsvps()` 
 * `find_groups()`
 
-Each will output a tibble with information extracted into from the API as well as a `list-col` named `*_resource` with all API output. For example, the following code will get all upcoming events for the [RLadies Nashville](https://meetup.com/rladies-nashville) meetup.
+Each will output a tibble with information extracted into from the API as well as a `list-col` named `*_resource` with all API output. For example, the following code will get all past events for the [RLadies Nashville](https://meetup.com/rladies-nashville) meetup.
 
 ```{r}
 library(meetupr)
 
 urlname <- "rladies-nashville"
-(events <- get_events(urlname))
+(events <- get_events(urlname, event_status = "past"))
 ```
 
 

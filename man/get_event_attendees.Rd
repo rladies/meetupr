@@ -28,7 +28,7 @@ A tibble with the following columns:
 }
 }
 \description{
-Get the attendees for a specified event
+Must be an administrator of the queried Meetup group because of Meetup.com API restriction on get_event_attendees
 }
 \examples{
 \dontrun{

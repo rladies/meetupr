@@ -1,5 +1,6 @@
 #' Get the attendees for a specified event
 #'
+#' Must be an administrator of the queried Meetup group because of Meetup.com API restriction on get_event_attendees
 #' @template urlname
 #' @param event_id Character. The id of the event. Event ids can be obtained
 #'   using [get_events()] or by looking at the event page URL.
@@ -23,9 +24,9 @@
 #' @export
 get_event_attendees <- function(urlname, event_id, api_key = NULL) {
   api_method <- paste0(urlname,
-                    "/events/",
-                    event_id,
-                    "/attendance")
+                       "/events/",
+                       event_id,
+                       "/attendance")
   res <- .fetch_results(api_method, api_key)
   tibble::tibble(
     id = purrr::map_int(res, c("member", "id")),
