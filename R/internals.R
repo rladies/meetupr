@@ -14,11 +14,10 @@
 
   req <- httr::GET(url = api_url,          # the endpoint
                    query = parameters)
-  if(req$status_code == 400){
-    stop(paste0("HTTP 400 error encountered. Might you have requested",
-                " data for which the Meetup API requires that you be",
-                " the respective group's administrator (e.g., event",
-                " attendee data)?"))
+  if(req$status_code == 400) {
+    stop(paste0("HTTP 400 error encountered. Note for some endpoints",
+                " the Meetup API requires you to be the respective",
+                " group’s administrator"))
   }
   httr::stop_for_status(req)
   reslist <- httr::content(req, "parsed")
