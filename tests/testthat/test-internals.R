@@ -14,3 +14,7 @@ test_that(".quick_fetch() success case", {
   expect_equal(names(res), c("result", "headers"), info="check .quick_fetch() return value")
   expect_equal(res$headers$`content-type`, "application/json;charset=utf-8", info="check .quick_fetch() header content-type")
 })
+
+# TODO .fetch_results()
+
+# TODO .fetch_results() no api key
