@@ -20,6 +20,7 @@ Imports:
     tibble
 RoxygenNote: 6.0.1
 Suggests: testthat,
+    here,
     knitr,
     rmarkdown
 Roxygen: list(markdown = TRUE)
