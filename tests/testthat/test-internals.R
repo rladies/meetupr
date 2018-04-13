@@ -3,7 +3,6 @@ context("internals")
 test_that(".quick_fetch() success case", {
   res <- with_mock(
     `httr::GET` = function(url, query, ...) {
-      print(getwd())
       load(here::here("tests/testdata/httr_get_find_groups.rda"))
       return(req)
     },

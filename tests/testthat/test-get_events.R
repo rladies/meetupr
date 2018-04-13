@@ -3,7 +3,6 @@ context("get_events")
 test_that("get_events() success case", {
   meetup_events <- with_mock(
     `httr::GET` = function(url, query, ...) {
-      print(getwd())
       load(here::here("tests/testdata/httr_get_get_events.rda"))
       return(req)
     },

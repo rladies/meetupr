@@ -18,7 +18,6 @@ test_that("find_groups() with parameters", {
 
   meetup_groups <- with_mock(
     `httr::GET` = function(url, query, ...) {
-      print(getwd())
       load(here::here("tests/testdata/httr_get_find_groups.rda"))
       return(req)
     },
