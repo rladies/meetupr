@@ -46,7 +46,7 @@ find_groups <- function(text = NULL, radius = "global", api_key = NULL) {
     created = .date_helper(purrr::map_dbl(res, "created")),
     members = purrr::map_int(res, "members"),
     status = purrr::map_chr(res, "status"),
-    organizer = purrr::map_chr(res, c("organizer", "name")),
+    organizer = purrr::map_chr(res, c("organizer", "name"), .default = NA),
     lat = purrr::map_dbl(res, "lat"),
     lon = purrr::map_dbl(res, "lon"),
     city = purrr::map_chr(res, "city"),
