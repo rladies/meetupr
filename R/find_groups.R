@@ -53,8 +53,8 @@ find_groups <- function(text = NULL, radius = "global", api_key = NULL) {
     state = purrr::map_chr(res, "state", .null = NA),
     country = purrr::map_chr(res, "country"),
     timezone = purrr::map_chr(res, "timezone", .null = NA),
-    organizer_id = purrr::map_int(res, c("organizer", "id")),
-    organizer_name = purrr::map_chr(res, c("organizer", "name")),
+    organizer_id = purrr::map_int(res, c("organizer", "id"), .default = NA),
+    organizer_name = purrr::map_chr(res, c("organizer", "name"), .default = NA),
     category_id = purrr::map_int(res, c("category", "id"), .null = NA),
     category_name = purrr::map_chr(res, c("category", "name"), .null = NA),
     resource = res
