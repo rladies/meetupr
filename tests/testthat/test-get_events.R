@@ -1,18 +1,24 @@
+context("get_events")
 
-test_that(".quick_fetch() works properly", {
-  skip_on_travis()
-  skip_on_cran()
-  api_key <- Sys.getenv("MEETUP_KEY")
-  event_status <- "past"
-  urlname <- Sys.getenv("MEETUP_NAME")
-  meetup_api_prefix <- "https://api.meetup.com/"
-  api_url <- paste0(meetup_api_prefix, urlname, "/events")
+test_that("get_events() success case", {
+  meetup_events <- with_mock(
+    `httr::GET` = function(url, query, ...) {
+      load(here::here("tests/testdata/httr_get_get_events.rda"))
+      return(req)
+    },
+    meetup_events <- get_events(api_key="yay",
+                                urlname = "<3",
+                                event_status = "upcoming")
+  )
 
-  res <- .quick_fetch(api_url = api_url,
-                      api_key = api_key,
-                      event_status = event_status)
-  total_records <- as.integer(res$headers$`x-total-count`)
-  length_results <- length(res$result)
-  expect_equal(total_records,length_results)
+  expect_equal(nrow(meetup_events), 1, label="check get_events() returns one result")
+  expect_equal(meetup_events$status, "upcoming", label="check get_events() content (status)")
 })
+
+# TODO: multiple statuses
+
+# TODO: event type is not allowed
+
+# TODO: "urlname is missing"
+
 
