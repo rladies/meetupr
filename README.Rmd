@@ -54,12 +54,12 @@ We currently have the following functions:
 * `get_event_rsvps()`
 * `find_groups()`
 
-Each will output a tibble with information extracted into from the API as well as a `list-col` named `*_resource` with all API output. For example, the following code will get all upcoming events for the [RLadies Nashville](https://meetup.com/rladies-nashville) meetup.
+Each will output a tibble with information extracted into from the API as well as a `list-col` named `*_resource` with all API output. For example, the following code will get all upcoming events for the [R-Ladies San Francisco](https://meetup.com/rladies-san-francisco) meetup.
 
 ```{r}
 library(meetupr)
 
-urlname <- "rladies-nashville"
+urlname <- "rladies-san-francisco"
 (events <- get_events(urlname))
 ```
 
@@ -71,6 +71,8 @@ Take a look at some resources:
 - [https://www.meetup.com/meetup_api/](https://www.meetup.com/meetup_api/)
 - [https://www.meetup.com/meetup_api/clients/](https://www.meetup.com/meetup_api/clients/)
 
+
+
 In order to run our tests, you will have to set the `urlname` for meetup you belong to as an environment variable using the following code:
 ```{r, eval = FALSE}
 Sys.setenv(MEETUP_NAME = "YOUR MEETUP NAME")
@@ -79,3 +81,6 @@ Sys.setenv(MEETUP_NAME = "YOUR MEETUP NAME")
 ### TODO:
 - add tests
 
+--
+
+Please note that the 'meetupr' project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
