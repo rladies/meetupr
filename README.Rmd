@@ -44,7 +44,7 @@ Sys.setenv(MEETUP_KEY = "PASTE YOUR MEETUP KEY HERE")
 
 Alternatively, you can set it permanently with the help of `usethis::edit_r_environ()` by adding the line to your `.Renviron`: 
 
-```{r, eval = FALSE}
+```
 MEETUP_KEY=PASTE YOUR MEETUP KEY HERE
 ```
 
