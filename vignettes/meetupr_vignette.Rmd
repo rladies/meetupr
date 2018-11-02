@@ -200,9 +200,9 @@ no_recent_events <- meetup_groups %>%
 
 `r dim(no_recent_events)[1]` chapters had no events in the past 6 months and have not even planned one.
 
-## R-Ladies quarterly budget
+## R-Ladies quarterly growth
 
-In the spirit of transparency, here is how we estimate our quartely budget:
+Here is how we estimate our quartely growth:
 
 ```{r budget}
 # Define a function to get the quarter's start date
@@ -236,13 +236,4 @@ chap_lastq <- dim(meetup_groups[meetup_groups$created < qsd(last_quarter), ])[1]
 growth <- chap_thisq - chap_lastq
 # Expected number of chapters in the next quarter
 chap_nextq <- chap_thisq + growth
-
-# Variable costs (proportional to the number of chapters: meetup-pro fees, merchandise and shipping costs
-variable_costs <- 58.5 * chap_nextq
-
-# Quarterly fixed costs: Web/email hosting, domain registration, mattermost
-fixed_costs <- 218.25
-
-# Quarterly budget
-fixed_costs + variable_costs
 ```
