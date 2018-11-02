@@ -1,5 +1,5 @@
 ---
-title: "Find and analyse R-Ladies chapters on meetup.com"
+title: "R-Ladies chapters on meetup.com"
 author: "Claudia Vitolo"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -16,88 +16,233 @@ knitr::opts_chunk$set(
   warning = FALSE,
   message = FALSE,
   cache = FALSE,
-  eval = FALSE
+  eval = TRUE
 )
 ```
 
-## Install and initialise package
+## Install and load packages
 
 ```{r install, eval = FALSE}
 devtools::install_github("rladies/meetupr")
+
+# Set up your meetup API key
+Sys.setenv(MEETUP_KEY = "PASTE YOUR MEETUP KEY HERE")
 ```
 
 ```{r load}
 library("meetupr")
-
-api_key <- "YOUR_API_KEY_GOES_HERE"
+library("purrr")
+library("dplyr")
+library("lubridate")
 ```
 
 ## How many R-Ladies chapter are out there?
 
 ```{r groups}
-meetup_groups <- find_groups(api_key = api_key, text = "r-ladies")
+meetup_groups <- find_groups(text = "r-ladies")
 
-rladies_groups <- as.character(unlist(meetup_groups$urlname))
-# Cleanup
-rladies_groups <- rladies_groups[grep(pattern = "ladies", 
-                                      x = rladies_groups,
-                                      ignore.case = TRUE)]
-rladies_groups <- rladies_groups[grep(pattern = "r", 
-                                      x = rladies_groups,
-                                      ignore.case = TRUE)]
-rladies_groups <- rladies_groups[-grep(pattern = "gentlemen",
-                                       x = rladies_groups,
-                                       ignore.case = TRUE)]
+# Keep only groups whose name starts with "r"
+first_letter <- tolower(substr(meetup_groups$name, 1, 1))
+meetup_groups <- meetup_groups[which(first_letter == "r"),]
+
+# Keep only groups whose urlname contains the string "ladies"
+urlnames <- meetup_groups$urlname
+meetup_groups <- meetup_groups[which(grepl("ladies", tolower(urlnames))),]
 ```
 
-Wooowww, there seem to be 59 R-Ladies groups on meetup.com!
+As per `r format(Sys.time(), '%d-%m-%Y')`, there are `r dim(meetup_groups)[1]` R-Ladies groups on meetup.com!
 
 ## Is the urlname consistent across groups?
 
 The official urlname should follow this naming convention:
-__rladies-cityname__. However, only the following chapters have a consistent urlname:
+__rladies-cityname__.
 
-```{r consistency}
-excellent <- rladies_groups[grep(pattern = "rladies-", 
-                                 x = rladies_groups,
-                                 ignore.case = FALSE)]
-excellent
+*How many chapters have a consistent urlname?*
 
-# [1] "rladies-barcelona"       "rladies-madrid"          "rladies-london"    
-# [4] "rladies-berlin"          "rladies-natal"           "rladies-la"        
-# [7] "rladies-munich"          "rladies-montevideo"      "rladies-santa-rosa"
-# [10] "rladies-tbilisi"         "rladies-buenos-aires"    "rladies-paris"    
-# [13] "rladies-charlottesville" "rladies-nashville"       "rladies-scl"
-# [16] "rladies-cape-town"       "rladies-san-diego"       "rladies-montreal" 
-# [19] "rladies-philly"          "rladies-dc"              "rladies-portland-maine" 
-# [22] "rladies-ldnont"          "rladies-newyork"         "rladies-chicago"
-# [25] "rladies-istanbul"        "rladies-san-francisco"   "rladies-connecticut"
-# [28] "rladies-austin"          "rladies-san-jose"        "rladies-adelaide"
+```{r groupA}
+urlnames <- meetup_groups$urlname
+
+groupA <- urlnames[grep(pattern = "rladies-",
+                              x = urlnames,
+                              ignore.case = FALSE)]
+groupA
 ```
 
-Few only have a problem with capitalisation:
-```{r good}
-good <- rladies_groups[grep(pattern = "rladies-",
-                            x = rladies_groups,
-                            ignore.case = TRUE)]
-good <- setdiff(good, excellent)
-good
+`r length(groupA)` chapters have a consistent urlname.
+ 
+*How many chapters have a problem with capitalisation?*
 
-# [1] "RLadies-Columbus" "RLadies-Buffalo"
+```{r groupB}
+groupB <- urlnames[grep(pattern = "rladies-",
+                              x = urlnames,
+                              ignore.case = TRUE)]
+groupB <- setdiff(groupB, groupA)
+groupB
 ```
 
-Here is the list of chapter that got it almost right:
-```{r almost}
-almost <- setdiff(rladies_groups, c(excellent, good))
-almost
+`r length(groupB)` chapters have a problem with capitalisation.
 
-# [1] "R-Ladies-Belgrade"       "R-Ladies_Quito"          "R-Ladies-Boston" 
-# [4] "R-Ladies-Dublin"         "R-Ladies-Ames"           "R-Ladies-Manchester"
-# [7] "R-Ladies-Vancouver"      "R-Ladies-Melbourne"      "R-Ladies-Brussels"
-# [10] "R-Ladies-Miami"          "R-Ladies-Orlando"        "R-Ladies-Strasbourg"
-# [13] "R-Ladies-RTP"            "R-Ladies-Sarasota"       "R-Ladies-Milan"
-# [16] "R-Ladies-Taipei"         "R-Ladies-Lisboa"         "R-Ladies-St-Louis"  
-# [19] "R-Ladies-Americana"      "R-Ladies-PDX"            "R-Ladies-Budapest"
-# [22] "R-Ladies-Chennai"        "R-Ladies-Rio-de-Janeiro" "RLadiesTC"
-# [25] "R-Ladies-İzmiR"          "R-Ladies-Bogota"         "rladiescdmx"  
+Here is the list of chapters that need some extra changes:
+
+```{r groupC}
+groupC <- setdiff(urlnames, c(groupA, groupB))
+groupC
+```
+
+## Is the chapter name consistent across groups?
+
+The official chapter name should follow this naming convention:
+__R-Ladies Cityname__.
+
+*How many chapters have a consistent name?*
+
+```{r groupD}
+chapternames <- meetup_groups$name
+groupD <- chapternames[grep(pattern = "R-Ladies ",
+                            x = chapternames,
+                            ignore.case = FALSE)]
+groupD
+```
+
+`r length(groupD)` chapters have a consistent name.
+
+The chapters below should, ideally, change their names
+
+```{r groupE}
+groupE <- setdiff(chapternames, groupD)
+groupE
+```
+
+## Chapters to migrate to meetup pro
+
+*Which chapters do not belong to R-Ladies Global?*
+
+```{r migration}
+chapters2migrate <- meetup_groups[meetup_groups$organizer != "R-Ladies Global",]
+chapters2migrate$name
+```
+
+## Chapter activity
+
+To check chapter activity is better to use R-Ladies Global API key so that we have access to private groups.
+
+Let's now extract the number of past events and the dates of last and next events, for each chapter.
+
+```{r activity}
+meetup_groups$past_events <- NA
+meetup_groups$date_last_event <- NA
+meetup_groups$date_next_event <- NA
+
+# To avoid to exceed API request limit we use Jesse Maegan's solution:
+# https://github.com/rladies/meetupr/issues/30
+slowly <- function(f, delay = 0.5) {
+  function(...) {
+    Sys.sleep(delay)
+    f(...)
+  }
+}
+x <- map(meetup_groups$urlname,
+         slowly(safely(get_events)),
+         event_status = c("past", "upcoming"))
+
+for (i in seq_along(x)){
+  message(meetup_groups$urlname[i])
+  if (is.null(x[[i]]$error)){
+    temp <- x[[i]]$result
+    if ("past" %in% temp$status){
+      past <- temp %>%
+        group_by(status) %>%
+        summarise(count = n(),
+                  mydates = format(max(local_date), '%Y-%m-%d'))
+    meetup_groups$past_events[i] <- past$count[past$status == "past"]
+    meetup_groups$date_last_event[i] <- past$mydates[past$status == "past"]
+    }else{
+      meetup_groups$past_events[i] <- 0
+      meetup_groups$date_last_event[i] <- NA
+    }
+    if ("upcoming" %in% temp$status){
+      upcoming <- temp %>%
+        group_by(status) %>%
+        summarise(count = n(),
+                  mydates = format(min(local_date), '%Y-%m-%d'))
+      meetup_groups$date_next_event[i] <- upcoming$mydates[upcoming$status == "upcoming"]
+    }else{
+      meetup_groups$date_next_event[i] <- NA
+    }
+  }else{
+    meetup_groups$past_events[i] <- 0
+    meetup_groups$date_last_event[i] <- NA
+    meetup_groups$date_next_event[i] <- NA
+  }
+}
+```
+
+*Which chapters have never had events and have not even planned one (and have been created more than 6 months ago)?*
+
+```{r noevents}
+no_events <- meetup_groups %>%
+  filter(past_events == 0,
+         is.na(date_next_event),
+         created < as.POSIXct("2018-04-30")) %>%
+  arrange(created)
+```
+
+`r dim(no_events)[1]` chapters have never had events and have not even planned one (and have been created more than 6 months ago).
+
+*Which chapters had no events in the past 6 months and have not even planned one?*
+
+```{r no_recent_events}
+no_recent_events <- meetup_groups %>%
+  filter(date_last_event < as.POSIXct("2018-04-30"),
+         is.na(date_next_event)) %>%
+  arrange(date_last_event)
+```
+
+`r dim(no_recent_events)[1]` chapters had no events in the past 6 months and have not even planned one.
+
+## R-Ladies quarterly budget
+
+In the spirit of transparency, here is how we estimate our quartely budget:
+
+```{r budget}
+# Define a function to get the quarter's start date
+qsd <- function(quarter_number){
+  if (quarter_number == 1){
+    quarter_date <- "01-07-2018"
+  }
+  if (quarter_number == 2){
+    quarter_date <- "01-04-2018"
+  }
+  if (quarter_number == 3){
+    quarter_date <- "01-07-2018"
+  }
+  if (quarter_number == 4){
+    quarter_date <- "01-10-2018"
+  }
+  return(as.POSIXct(quarter_date, format = "%d-%m-%Y"))
+}
+
+# Get this and last quarter
+this_quarter <- quarter(Sys.Date())
+last_quarter <- ifelse(test = this_quarter > 1, this_quarter - 1, 4)
+
+# Number of chapters in last quarter
+chap_thisq <- dim(meetup_groups[meetup_groups$created < qsd(this_quarter), ])[1]
+
+# Number of chapters in this quarter
+chap_lastq <- dim(meetup_groups[meetup_groups$created < qsd(last_quarter), ])[1]
+
+# Chapter growth in the past quarter
+growth <- chap_thisq - chap_lastq
+# Expected number of chapters in the next quarter
+chap_nextq <- chap_thisq + growth
+
+# Variable costs (proportional to the number of chapters: meetup-pro fees, merchandise and shipping costs
+variable_costs <- 58.5 * chap_nextq
+
+# Quarterly fixed costs: Web/email hosting, domain registration, mattermost
+fixed_costs <- 218.25
+
+# Quarterly budget
+fixed_costs + variable_costs
 ```
