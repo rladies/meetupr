@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
   warning = FALSE,
   message = FALSE,
   cache = FALSE,
-  eval = TRUE
+  eval = FALSE
 )
 ```
 
@@ -204,7 +204,7 @@ no_recent_events <- meetup_groups %>%
 
 Here is how we estimate our quartely growth:
 
-```{r budget}
+```{r growth}
 # Define a function to get the quarter's start date
 qsd <- function(quarter_number){
   if (quarter_number == 1){
