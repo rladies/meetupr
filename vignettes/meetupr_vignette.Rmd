@@ -50,8 +50,6 @@ urlnames <- meetup_groups$urlname
 meetup_groups <- meetup_groups[which(grepl("ladies", tolower(urlnames))),]
 ```
 
-As per `r format(Sys.time(), '%d-%m-%Y')`, there are `r dim(meetup_groups)[1]` R-Ladies groups on meetup.com!
-
 ## Is the urlname consistent across groups?
 
 The official urlname should follow this naming convention:
@@ -68,8 +66,6 @@ groupA <- urlnames[grep(pattern = "rladies-",
 groupA
 ```
 
-`r length(groupA)` chapters have a consistent urlname.
- 
 *How many chapters have a problem with capitalisation?*
 
 ```{r groupB}
@@ -79,8 +75,6 @@ groupB <- urlnames[grep(pattern = "rladies-",
 groupB <- setdiff(groupB, groupA)
 groupB
 ```
-
-`r length(groupB)` chapters have a problem with capitalisation.
 
 Here is the list of chapters that need some extra changes:
 
@@ -103,8 +97,6 @@ groupD <- chapternames[grep(pattern = "R-Ladies ",
                             ignore.case = FALSE)]
 groupD
 ```
-
-`r length(groupD)` chapters have a consistent name.
 
 The chapters below should, ideally, change their names
 
@@ -187,8 +179,6 @@ no_events <- meetup_groups %>%
   arrange(created)
 ```
 
-`r dim(no_events)[1]` chapters have never had events and have not even planned one (and have been created more than 6 months ago).
-
 *Which chapters had no events in the past 6 months and have not even planned one?*
 
 ```{r no_recent_events}
@@ -197,8 +187,6 @@ no_recent_events <- meetup_groups %>%
          is.na(date_next_event)) %>%
   arrange(date_last_event)
 ```
-
-`r dim(no_recent_events)[1]` chapters had no events in the past 6 months and have not even planned one.
 
 ## R-Ladies quarterly growth
 
@@ -236,4 +224,19 @@ chap_lastq <- dim(meetup_groups[meetup_groups$created < qsd(last_quarter), ])[1]
 growth <- chap_thisq - chap_lastq
 # Expected number of chapters in the next quarter
 chap_nextq <- chap_thisq + growth
+```
+
+## R-Ladies quarterly budget
+
+The quarterly budget is calculated as the sum of fixed costs and variable costs, where the variable costs are proportional to the expected number of chapters in the next quarter.
+
+```{r budget}
+# Variable costs (proportional to the number of chapters: meetup-pro fees, merchandise and shipping costs
+variable_costs <- 58.5 * chap_nextq
+
+# Quarterly fixed costs: Web/email hosting, domain registration, mattermost
+fixed_costs <- 218.25
+
+# Quarterly budget
+fixed_costs + variable_costs
 ```
