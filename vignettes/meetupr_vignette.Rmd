@@ -34,6 +34,9 @@ library("meetupr")
 library("purrr")
 library("dplyr")
 library("lubridate")
+library("tidyr")
+library("forecast")
+library("ggplot2")
 ```
 
 ## How many R-Ladies chapter are out there?
@@ -189,10 +192,9 @@ no_recent_events <- meetup_groups %>%
 ```
 
 ## R-Ladies quarterly growth
+If the chapter growth is calculated based on the growth during the last quarter, here is the estimate:
 
-Here is how we estimate our quartely growth:
-
-```{r growth}
+```{r qgrowth}
 # Define a function to get the quarter's start date
 qsd <- function(quarter_number){
   if (quarter_number == 1){
@@ -230,7 +232,7 @@ chap_nextq <- chap_thisq + growth
 
 The quarterly budget is calculated as the sum of fixed costs and variable costs, where the variable costs are proportional to the expected number of chapters in the next quarter.
 
-```{r budget}
+```{r qbudget}
 # Variable costs (proportional to the number of chapters: meetup-pro fees, merchandise and shipping costs
 variable_costs <- 58.5 * chap_nextq
 
@@ -238,5 +240,48 @@ variable_costs <- 58.5 * chap_nextq
 fixed_costs <- 218.25
 
 # Quarterly budget
+fixed_costs + variable_costs
+```
+
+## R-Ladies yearly growth
+If the chapter growth is calculated based on the yearly growth since R-Ladies was founded, here is the estimate:
+
+```{r ygrowth}
+# Get year of chapter activation and make it a factor
+meetup_groups$year <- year(meetup_groups$created)
+meetup_groups$year <- factor(meetup_groups$year, levels = seq(2012, 2018, 1))
+
+# Get chapters activated every year
+yearly_chapters <- meetup_groups %>%
+  group_by(year) %>%
+  summarise(count = n()) %>%
+  complete(year, fill = list(count = 0)) %>%
+  mutate(year = as.numeric(as.character(year)), cumsum = cumsum(count))
+
+# Forecast next year's active chapters
+chap <- ts(data = yearly_chapters$cumsum, start = 2012, frequency = 1)
+fc <- holt(chap, h = 3)
+
+autoplot(chap) +
+  autolayer(fc, series="Holt's method", PI=TRUE) +
+  ggtitle("Forecast from Holt's method") + xlab("Year") +
+  ylab("R-Ladies active chapters") +
+  guides(colour=guide_legend(title="2019 Forecast"))
+
+chap_nexty <- fc$mean[1]
+```
+
+## R-Ladies yearly budget
+
+The quarterly budget is calculated as the sum of fixed costs and variable costs, where the variable costs are proportional to the expected number of chapters in the next quarter.
+
+```{r ybudget}
+# Variable costs (proportional to the number of chapters: meetup-pro fees, merchandise and shipping costs
+variable_costs <- 234 * chap_nexty
+
+# Fixed costs: Web/email hosting, domain registration, mattermost
+fixed_costs <- 873
+
+# Yearly budget
 fixed_costs + variable_costs
 ```
