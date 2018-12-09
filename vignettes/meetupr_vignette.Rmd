@@ -51,6 +51,8 @@ meetup_groups <- meetup_groups[which(first_letter == "r"),]
 # Keep only groups whose urlname contains the string "ladies"
 urlnames <- meetup_groups$urlname
 meetup_groups <- meetup_groups[which(grepl("ladies", tolower(urlnames))),]
+
+rm(first_letter, urlnames)
 ```
 
 ## Is the urlname consistent across groups?
