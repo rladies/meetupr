@@ -7,7 +7,7 @@
 get_boards(urlname, api_key)
 }
 \arguments{
-\item{urlname}{Character. The name of the group as indicicated in the
+\item{urlname}{Character. The name of the group as indicated in the
 \url{https://meetup.com} url.}
 
 \item{api_key}{Character. Your api key. Defaults to checking your environment

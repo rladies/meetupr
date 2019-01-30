@@ -7,7 +7,7 @@
 get_event_rsvps(urlname, event_id, api_key = NULL)
 }
 \arguments{
-\item{urlname}{Character. The name of the group as indicicated in the
+\item{urlname}{Character. The name of the group as indicated in the
 \url{https://meetup.com} url.}
 
 \item{event_id}{Character. The id of the event. Event ids can be obtained
@@ -23,11 +23,11 @@ A tibble with the following columns:
 \itemize{
 \item member_id
 \item member_name
+\item member_is_host
 \item response
 \item guests
 \item created
 \item updated
-\item member_is_host
 \item resource
 }
 }
@@ -38,7 +38,7 @@ Get the RSVPs for a specified event
 \dontrun{
 urlname <- "rladies-nashville"
 upcoming_events <- get_events(urlname = urlname,
-                      event_status = "upcoming")
+                      event_status = "past")
 event_id <- upcoming_events$id[1]  #first event for this group
 rsvps <- get_event_rsvps(urlname, event_id)
 }
