@@ -60,10 +60,10 @@ get_events <- function(urlname, event_status = "upcoming", api_key = NULL) {
   tibble::tibble(
     id = purrr::map_chr(res, "id"),  #this is returned as chr (not int)
     name = purrr::map_chr(res, "name"),
-    created = .date_helper(purrr::map_dbl(res, "created")),
-    status = purrr::map_chr(res, "status"),
-    time = .date_helper(purrr::map_dbl(res, "time")),
-    local_date = as.Date(purrr::map_chr(res, "local_date")),
+    created = .date_helper(purrr::map_dbl(res, "created", .default = NA)),
+    status = purrr::map_chr(res, "status", .default = NA),
+    time = .date_helper(purrr::map_dbl(res, "time", .default = NA)),
+    local_date = as.Date(purrr::map_chr(res, "local_date", .default = NA)),
     local_time = purrr::map_chr(res, "local_time", .null = NA),
     # TO DO: Add a local_datetime combining the two above?
     waitlist_count = purrr::map_int(res, "waitlist_count"),
