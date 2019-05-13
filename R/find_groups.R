@@ -1,7 +1,7 @@
 #' Find meetup groups matching a search query
 #'
 #' @param text Character. Raw full text search query.
-#' @param topic_id  Integer. Topic ID.
+#' @param topic_id  Integer. Meetup.com topic ID.
 #' @param radius can be either "global" (default) or distance in miles in the
 #' range 0-100.
 #' @template api_key
