@@ -10,7 +10,7 @@ find_groups(text = NULL, topic_id = NULL, radius = "global",
 \arguments{
 \item{text}{Character. Raw full text search query.}
 
-\item{topic_id}{Integer. Topic ID.}
+\item{topic_id}{Integer. Meetup.com topic ID.}
 
 \item{radius}{can be either "global" (default) or distance in miles in the
 range 0-100.}
