@@ -33,6 +33,7 @@
 #' \dontrun{
 #' api_key <- Sys.getenv("MEETUP_KEY")
 #' groups <- find_groups(text = "r-ladies", api_key = api_key)
+#' groups <- find_groups(topic_id = 1513883, api_key = api_key)
 #'}
 #' @export
 find_groups <- function(text = NULL, topic_id = NULL, radius = "global", api_key = NULL) {
