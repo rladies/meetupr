@@ -28,6 +28,7 @@
 #'
 #' @references
 #' \url{https://www.meetup.com/meetup_api/docs/find/groups/}
+#' \url{https://www.meetup.com/meetup_api/docs/find/topics/}
 #'@examples
 #' \dontrun{
 #' api_key <- Sys.getenv("MEETUP_KEY")
