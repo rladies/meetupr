@@ -32,10 +32,10 @@ get_boards <- function(urlname, api_key = NULL) {
     description = purrr::map_chr(res, "description"),
     created = .date_helper(purrr::map_dbl(res, "created")),
     updated = .date_helper(purrr::map_dbl(res, "updated")),
-    post_count = purrr::map_int(res, "post_count", .null = NA),
-    discussion_count = purrr::map_int(res, "discussion_count", .null = NA),
-    latest_reply_created = .date_helper(purrr::map_dbl(res, c("latest_reply", "created"), .null = NA)),
-    latest_reply_member_name = purrr::map_chr(res, c("latest_reply", "member", "name"), .null = NA),
+    post_count = purrr::map_int(res, "post_count", .default = NA),
+    discussion_count = purrr::map_int(res, "discussion_count", .default = NA),
+    latest_reply_created = .date_helper(purrr::map_dbl(res, c("latest_reply", "created"), .default = NA)),
+    latest_reply_member_name = purrr::map_chr(res, c("latest_reply", "member", "name"), .default = NA),
     resource = res
   )
 }
