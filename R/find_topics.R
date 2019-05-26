@@ -1,9 +1,6 @@
-#' Find meetup groups matching a search query
+#' Find meetup topic IDs matching a text search query
 #'
 #' @param text Character. Raw full text search query.
-#' @param topic_id  Integer. Meetup.com topic ID.
-#' @param radius can be either "global" (default) or distance in miles in the
-#' range 0-100.
 #' @template api_key
 #'
 #' @return A tibble with the following columns:
@@ -21,7 +18,7 @@
 #'@examples
 #' \dontrun{
 #' api_key <- Sys.getenv("MEETUP_KEY")
-#' groups <- find_groups(text = "r-ladies", api_key = api_key)
+#' groups <- find_topics(text = "r-ladies", api_key = api_key)
 #'}
 #' @export
 
@@ -29,17 +26,10 @@
 # devtools::install_github("rladies/meetupr")
 
 urlname <- "rladies-san-francisco"
-m<-get_members(urlname, api_key = MEETUP_KEY)
 
-events <- get_events(urlname, "past", api_key = MEETUP_KEY)
-dplyr::arrange(events, desc(created))
-
-
-find_topics <- function(searchText = NULL, radius = "global", api_key = NULL) {
+find_topics <- function(text = NULL, api_key = NULL) {
   api_method <- "find/topics"
-  res <- .fetch_results(api_method = api_method,
-                        api_key = api_key,
-                        query = searchText)
+  res <- .fetch_results(api_method = api_method, api_key = api_key, query = text)
   tibble::tibble(
     id = purrr::map_int(res, "id"),
     name = purrr::map_chr(res, "name"),
