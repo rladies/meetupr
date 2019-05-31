@@ -38,9 +38,12 @@
 #' api_key <- Sys.getenv("MEETUP_KEY")
 #' groups <- find_groups(text = "r-ladies", api_key = api_key)
 #' groups <- find_groups(topic_id = 1513883, api_key = api_key)
-#' groups <- find_groups(text = "r-ladies", fields = "past_event_count, upcoming_event_count", api_key = api_key)
-#' past_event_counts <- purrr::map_dbl(groups$resource, "past_event_count", .default = 0)
-#' upcoming_event_counts <- purrr::map_dbl(groups$resource, "upcoming_event_count", .default = 0)
+#' groups <- find_groups(text = "r-ladies", fields = "past_event_count,
+#'  upcoming_event_count", api_key = api_key)
+#' past_event_counts <- purrr::map_dbl(groups$resource, "past_event_count",
+#'  .default = 0)
+#' upcoming_event_counts <- purrr::map_dbl(groups$resource, "upcoming_event_count",
+#'  .default = 0)
 #'}
 #' @export
 find_groups <- function(text = NULL, topic_id = NULL, radius = "global", fields = NULL, api_key = NULL) {

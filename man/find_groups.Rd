@@ -5,7 +5,7 @@
 \title{Find meetup groups matching a search query}
 \usage{
 find_groups(text = NULL, topic_id = NULL, radius = "global",
-  api_key = NULL)
+  fields = NULL, api_key = NULL)
 }
 \arguments{
 \item{text}{Character. Raw full text search query.}
@@ -14,6 +14,8 @@ find_groups(text = NULL, topic_id = NULL, radius = "global",
 
 \item{radius}{can be either "global" (default) or distance in miles in the
 range 0-100.}
+
+\item{fields}{Character. Optional fields that are not returned by default.}
 
 \item{api_key}{Character. Your api key. Defaults to checking your environment
 for a parameter called "MEETUP_KEY" via \code{Sys.getenv("MEETUP_KEY")}. This key can be
@@ -53,9 +55,16 @@ Find meetup groups matching a search query
 \dontrun{
 api_key <- Sys.getenv("MEETUP_KEY")
 groups <- find_groups(text = "r-ladies", api_key = api_key)
-groups <- find_groups(topic_id = 1513883, api_key = api_key)  
+groups <- find_groups(topic_id = 1513883, api_key = api_key)
+groups <- find_groups(text = "r-ladies", fields = "past_event_count,
+ upcoming_event_count", api_key = api_key)
+past_event_counts <- purrr::map_dbl(groups$resource, "past_event_count",
+ .default = 0)
+upcoming_event_counts <- purrr::map_dbl(groups$resource, "upcoming_event_count",
+ .default = 0)
 }
 }
 \references{
 \url{https://www.meetup.com/meetup_api/docs/find/groups/}
+\url{https://www.meetup.com/meetup_api/docs/find/topics/}
 }
