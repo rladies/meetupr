@@ -4,6 +4,7 @@
 #' @param topic_id  Integer. Meetup.com topic ID.
 #' @param radius can be either "global" (default) or distance in miles in the
 #' range 0-100.
+#' @param fields Character. Optional fields that are not returned by default.
 #' @template api_key
 #'
 #' @return A tibble with the following columns:
