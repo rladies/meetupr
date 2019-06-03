@@ -1,3 +1,10 @@
+# meetupr 0.1.1
+
+* Added `topic_id` argument to the `find_groups()` function so you can find all the groups related to precise topics (e.g. "R-Ladies") instead of a fuzzy text based search.
+* Added `find_topics()` function so you can find meetup.com topic IDs.
+ for use in the `find_groups()` function.
+ 
+ 
 # meetupr 0.1.0
 
 * Added `NEWS.md` file.

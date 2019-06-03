@@ -7,7 +7,7 @@ meetupr
 
 R interface to the Meetup API (v3)
 
-**Authors:** [Gabriela de Queiroz](http://gdequeiroz.github.io/), [Erin LeDell](http://www.stat.berkeley.edu/~ledell/), [Olga Mierzwa-Sulima](https://github.com/olgamie), [Lucy D'Agostino McGowan](http://www.lucymcgowan.com), [Claudia Vitolo](https://github.com/cvitolo)<br/> **License:** [MIT](https://opensource.org/licenses/MIT)
+**Authors:** [Lucy D'Agostino McGowan](http://www.lucymcgowan.com), [Gabriela de Queiroz](http://gdequeiroz.github.io/), [Erin LeDell](http://www.stat.berkeley.edu/~ledell/), [Olga Mierzwa-Sulima](https://github.com/olgamie), [Claudia Vitolo](https://github.com/cvitolo)<br/> **License:** [MIT](https://opensource.org/licenses/MIT)
 
 Installation
 ------------
@@ -42,6 +42,7 @@ We currently have the following functions:
 -   `get_event_attendees()`
 -   `get_event_comments()`
 -   `find_groups()`
+-   `find_topics()`
 
 Each will output a tibble with information extracted into from the API as well as a `list-col` named `*_resource` with all API output. For example, the following code will get all upcoming events for the [RLadies Nashville](https://meetup.com/rladies-nashville) meetup.
 
