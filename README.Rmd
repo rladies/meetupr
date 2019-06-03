@@ -36,10 +36,16 @@ A released version will be on CRAN soon.
 
 To use this package, you will first need to get your meetup API key. To do so, go to this link: [https://secure.meetup.com/meetup_api/key/](https://secure.meetup.com/meetup_api/key/)
 
-Once you have your key, save it as an environment variable by running the following:
+Once you have your key, save it as an environment variable for the current session by running the following:
 
 ```{r, eval = FALSE}
 Sys.setenv(MEETUP_KEY = "PASTE YOUR MEETUP KEY HERE")
+```
+
+Alternatively, you can set it permanently with the help of `usethis::edit_r_environ()` by adding the line to your `.Renviron`: 
+
+```
+MEETUP_KEY=PASTE YOUR MEETUP KEY HERE
 ```
 
 If you don't want to save it here, you can input it in each function using the `api_key` parameter (just be sure not to send any documents with your key to GitHub `r emo::ji("speak_no_evil")`).
@@ -51,16 +57,18 @@ We currently have the following functions:
 * `get_events()`  
 * `get_event_attendees()`  
 * `get_event_comments()`
+* `get_event_rsvps()`
 * `find_groups()`
 * `find_topics()`
 
-Each will output a tibble with information extracted into from the API as well as a `list-col` named `*_resource` with all API output. For example, the following code will get all upcoming events for the [RLadies Nashville](https://meetup.com/rladies-nashville) meetup.
+Each will output a tibble with information extracted into from the API as well as a `list-col` named `*_resource` with all API output. For example, the following code will get all upcoming events for the [R-Ladies San Francisco](https://meetup.com/rladies-san-francisco) meetup.
 
 ```{r}
 library(meetupr)
 
-urlname <- "rladies-nashville"
-(events <- get_events(urlname))
+urlname <- "rladies-san-francisco"
+events <- get_events(urlname, "past")
+dplyr::arrange(events, desc(created))
 ```
 
 
@@ -71,18 +79,16 @@ Take a look at some resources:
 - [https://www.meetup.com/meetup_api/](https://www.meetup.com/meetup_api/)
 - [https://www.meetup.com/meetup_api/clients/](https://www.meetup.com/meetup_api/clients/)
 
+
+
 In order to run our tests, you will have to set the `urlname` for meetup you belong to as an environment variable using the following code:
 ```{r, eval = FALSE}
 Sys.setenv(MEETUP_NAME = "YOUR MEETUP NAME")
 ```
 
-### DONE:
-- pull meetup events
-- pull event comments
-- pull event attendance
-- pull meetup members
-- pull groups
-
 ### TODO:
 - add tests
 
+--
+
+Please note that the 'meetupr' project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.

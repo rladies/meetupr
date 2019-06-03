@@ -2,8 +2,8 @@ Package: meetupr
 Type: Package
 Title: Meetup R API
 Version: 0.1.1
-Date: 2019-06-02
-Authors@R: c(person("Lucy", "D'Agostino McGowan", email = "lucy@rladies.org", role = c("aut")),
+Authors@R: c(person("Michael", "Beigelmacher", role = c("ctb")),
+             person("Lucy", "D'Agostino McGowan", email = "lucy@rladies.org", role = c("aut")),
              person("Gabriela", "De Queiroz", email = "gabriela@rladies.org", role = c("aut")),
              person("Priyanka", "Gagneja", email = "priyankaigit@gmail.com", role = c("ctb")),
              person("Erin", "LeDell", email = "oss@ledell.org", role = c("aut", "cre")),
@@ -19,6 +19,7 @@ Imports:
     tibble
 RoxygenNote: 6.1.0
 Suggests: testthat,
+    here,
     knitr,
     rmarkdown
 Roxygen: list(markdown = TRUE)
