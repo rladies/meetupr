@@ -7,7 +7,7 @@
 get_events(urlname, event_status = "upcoming", api_key = NULL)
 }
 \arguments{
-\item{urlname}{Character. The name of the group as indicicated in the
+\item{urlname}{Character. The name of the group as indicated in the
 \url{https://meetup.com} url.}
 
 \item{event_status}{Character or character vector (e.g. "upcoming" or c("past", "upcoming")). Event type - defaults to "upcoming".

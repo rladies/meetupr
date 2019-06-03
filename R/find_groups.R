@@ -20,6 +20,9 @@
 #'    * state
 #'    * country
 #'    * timezone
+#'    * join_mode
+#'    * visibility
+#'    * who
 #'    * organizer_id
 #'    * organizer_name
 #'    * category_id
@@ -57,6 +60,9 @@ find_groups <- function(text = NULL, topic_id = NULL, radius = "global", api_key
     state = purrr::map_chr(res, "state", .null = NA),
     country = purrr::map_chr(res, "country"),
     timezone = purrr::map_chr(res, "timezone", .null = NA),
+    join_mode = purrr::map_chr(res, "join_mode", .null = NA),
+    visibility = purrr::map_chr(res, "visibility", .null = NA),
+    who = purrr::map_chr(res, "who", .null = NA),
     organizer_id = purrr::map_int(res, c("organizer", "id")),
     organizer_name = purrr::map_chr(res, c("organizer", "name")),
     category_id = purrr::map_int(res, c("category", "id"), .null = NA),

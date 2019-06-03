@@ -36,6 +36,9 @@ A tibble with the following columns:
 \item state
 \item country
 \item timezone
+\item join_mode
+\item visibility
+\item who
 \item organizer_id
 \item organizer_name
 \item category_id
