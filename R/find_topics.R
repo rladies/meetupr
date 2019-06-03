@@ -21,12 +21,6 @@
 #' groups <- find_topics(text = "r-ladies", api_key = api_key)
 #'}
 #' @export
-
-# install.packages("devtools")
-# devtools::install_github("rladies/meetupr")
-
-urlname <- "rladies-san-francisco"
-
 find_topics <- function(text = NULL, api_key = NULL) {
   api_method <- "find/topics"
   res <- .fetch_results(api_method = api_method, api_key = api_key, query = text)
