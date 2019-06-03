@@ -18,7 +18,9 @@
 #'@examples
 #' \dontrun{
 #' api_key <- Sys.getenv("MEETUP_KEY")
-#' groups <- find_topics(text = "r-ladies", api_key = api_key)
+#' topics <- find_topics(text = "R-Ladies", api_key = api_key)
+#' # Note that R-Ladies has topic id 1513883
+#' groups <- find_groups(topic_id = 1513883, api_key = api_key)
 #'}
 #' @export
 find_topics <- function(text = NULL, api_key = NULL) {
