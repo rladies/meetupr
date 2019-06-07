@@ -9,7 +9,7 @@
 #'  * proposed
 #'  * suggested
 #'  * upcoming
-#' @param fields Character or characters separated by comma (e.g "event_hosts" or "event_hosts, past_event_count_inclusive").
+#' @param fields Character, character vector or characters separated by comma (e.g "event_hosts" or c("event_hosts","attendance_count") or "event_hosts, group_past_event_count").
 #' @template api_key
 #'
 #' @return A tibble with the following columns:
@@ -64,6 +64,10 @@ get_events <- function(urlname, event_status = "upcoming", fields = NULL, api_ke
   # If event_status contains multiple statuses, we can pass along a comma sep list
   if (length(event_status) > 1) {
     event_status <- paste(event_status, collapse = ",")
+  }
+  # If fields is a vector, change it to single string of comma separated values
+  if(length(fields) > 1){
+    fields <- paste(fields, collapse = ",")
   }
   api_method <- paste0(urlname, "/events")
   res <- .fetch_results(api_method, api_key, event_status, fields = fields)

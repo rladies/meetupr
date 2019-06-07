@@ -22,7 +22,7 @@ Valid inputs are:
 \item upcoming
 }}
 
-\item{fields}{Character or characters separated by comma (e.g "event_hosts" or "event_hosts, past_event_count_inclusive").}
+\item{fields}{Character, character vector or characters separated by comma (e.g "event_hosts" or c("event_hosts","attendance_count") or "event_hosts, group_past_event_count").}
 
 \item{api_key}{Character. Your api key. Defaults to checking your environment
 for a parameter called "MEETUP_KEY" via \code{Sys.getenv("MEETUP_KEY")}. This key can be
