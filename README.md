@@ -13,7 +13,8 @@ LeDell](http://www.stat.berkeley.edu/~ledell/), [Olga
 Mierzwa-Sulima](https://github.com/olgamie), [Lucy D’Agostino
 McGowan](http://www.lucymcgowan.com), [Claudia
 Vitolo](https://github.com/cvitolo)<br/>
-[MIT](https://opensource.org/licenses/MIT) **License:**
+
+**License:**
 [MIT](https://opensource.org/licenses/MIT)
 
 ## Installation
