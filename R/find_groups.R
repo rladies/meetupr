@@ -57,16 +57,16 @@ find_groups <- function(text = NULL, topic_id = NULL, radius = "global", api_key
     lat = purrr::map_dbl(res, "lat"),
     lon = purrr::map_dbl(res, "lon"),
     city = purrr::map_chr(res, "city"),
-    state = purrr::map_chr(res, "state", .null = NA),
+    state = purrr::map_chr(res, "state", .default = NA),
     country = purrr::map_chr(res, "country"),
-    timezone = purrr::map_chr(res, "timezone", .null = NA),
-    join_mode = purrr::map_chr(res, "join_mode", .null = NA),
-    visibility = purrr::map_chr(res, "visibility", .null = NA),
-    who = purrr::map_chr(res, "who", .null = NA),
+    timezone = purrr::map_chr(res, "timezone", .default = NA),
+    join_mode = purrr::map_chr(res, "join_mode", .default = NA),
+    visibility = purrr::map_chr(res, "visibility", .default = NA),
+    who = purrr::map_chr(res, "who", .default = NA),
     organizer_id = purrr::map_int(res, c("organizer", "id")),
     organizer_name = purrr::map_chr(res, c("organizer", "name")),
-    category_id = purrr::map_int(res, c("category", "id"), .null = NA),
-    category_name = purrr::map_chr(res, c("category", "name"), .null = NA),
+    category_id = purrr::map_int(res, c("category", "id"), .default = NA),
+    category_name = purrr::map_chr(res, c("category", "name"), .default = NA),
     resource = res
   )
 }

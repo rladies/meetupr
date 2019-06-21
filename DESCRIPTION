@@ -9,7 +9,8 @@ Authors@R: c(person("Gabriela", "De Queiroz", email = "gabriela@rladies.org", ro
              person("Lucy", "D'Agostino McGowan", email = "lucy@rladies.org", role = c("aut")),
              person("Claudia", "Vitolo", role = c("aut")),
              person("Michael", "Beigelmacher", role = c("ctb")),
-             person("Augustina", "Ragwitz", email="augustina.ragwitz@ibm.com", role = c("ctb")))
+             person("Augustina", "Ragwitz", email="augustina.ragwitz@ibm.com", role = c("ctb")),
+             person("Greg", "Sutcliffe", email="github@emeraldverie.org", role = c("ctb")))
 Description: Provides access to data from 'meetup.com' (see https://www.meetup.com/meetup_api/ for more information).
 License: MIT + file LICENSE
 Depends:
