@@ -1,19 +1,28 @@
+# Wrapper for messages, spotted in googlesheets3
+spf <- function(...) stop(sprintf(...), call. = FALSE)
+
 # This helper function makes a single call, given the full API endpoint URL
 # Used as the workhorse function inside .fetch_results() below
 .quick_fetch <- function(api_url,
-                         api_key = NULL,
+                         api_key = NULL, # deprecated, unused, can't swallow this in `...`
                          event_status = NULL,
                          ...) {
 
   # list of parameters
-  parameters <- list(key = api_key,         # your api_key
-                     status = event_status, # you need to add the status
+  parameters <- list(status = event_status, # you need to add the status
                      # otherwise it will get only the upcoming event
                      ...                    # other parameters
   )
 
+  # Only need API keys if OAuth is disabled...
+  if (!getOption("meetupr.use_oauth")) {
+    parameters <- append(parameters, list(key = get_api_key()))
+  }
+
   req <- httr::GET(url = api_url,          # the endpoint
-                   query = parameters)
+                   query = parameters,
+                   config = meetup_token()
+  )
 
   httr::stop_for_status(req)
   reslist <- httr::content(req, "parsed")
@@ -26,7 +35,6 @@
   return(list(result = reslist, headers = req$headers))
 }
 
-
 # Fetch all the results of a query given an API Method
 # Will make multiple calls to the API if needed
 # API Methods listed here: https://www.meetup.com/meetup_api/docs/
@@ -36,15 +44,8 @@
   meetup_api_prefix <- "https://api.meetup.com/"
   api_url <- paste0(meetup_api_prefix, api_method)
 
-  # Get the API key from MEETUP_KEY environment variable if NULL
-  if (is.null(api_key)) api_key <- .get_api_key()
-  if (!is.character(api_key)) stop("api_key must be a character string")
-
   # Fetch first set of results (limited to 200 records each call)
-  res <- .quick_fetch(api_url = api_url,
-                      api_key = api_key,
-                      event_status = event_status,
-                      ...)
+  res <-  .quick_fetch(api_url, event_status, ...)
 
   # Total number of records matching the query
   total_records <- as.integer(res$headers$`x-total-count`)
@@ -64,7 +65,7 @@
       # TO DO: clean this strsplit up or replace with regex
 
       next_url <- strsplit(strsplit(res$headers$link, split = "<")[[1]][2], split = ">")[[1]][1]
-      res <- .quick_fetch(next_url, api_key, event_status)
+      res <- .quick_fetch(next_url, event_status)
       all_records[[i + 1]] <- res$result
     }
     records <- unlist(all_records, recursive = FALSE)
@@ -91,14 +92,4 @@
     out <- rep(NA, length(time))
   }
   return(out)
-}
-
-# function to return meetup.com API key stored in the MEETUP_KEY environment variable
-.get_api_key <- function() {
-  api_key <- Sys.getenv("MEETUP_KEY")
-  if (api_key == "") {
-    stop("You have not set a MEETUP_KEY environment variable.\nIf you do not yet have a meetup.com API key, you can retrieve one here:\n  * https://secure.meetup.com/meetup_api/key/",
-         call. = FALSE)
-  }
-  return(api_key)
 }
