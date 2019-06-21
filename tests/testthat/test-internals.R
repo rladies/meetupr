@@ -1,6 +1,7 @@
 context("internals")
 
 test_that(".quick_fetch() success case", {
+  options('meetupr.use_oauth' = FALSE)
   res <- with_mock(
     `httr::GET` = function(url, query, ...) {
       load(here::here("tests/testdata/httr_get_find_groups.rda"))
