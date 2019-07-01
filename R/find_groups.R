@@ -1,7 +1,7 @@
 #' Find meetup groups matching a search query
 #'
 #' @param text Character. Raw full text search query.
-#' @param topic_id  Integer. Meetup.com topic ID.
+#' @param topic_id  Integer or integer vector. Meetup.com topic ID.
 #' @param radius can be either "global" (default) or distance in miles in the
 #' range 0-100.
 #' @template api_key
@@ -38,6 +38,10 @@
 #' @export
 find_groups <- function(text = NULL, topic_id = NULL, radius = "global", api_key = NULL) {
   api_method <- "find/groups"
+  # If topic_id is a vector, change it to single string of comma separated values
+  if(length(topic_id) > 1){
+    topic_id <- paste(topic_id, collapse = ",")
+  }    
   res <- .fetch_results(api_method = api_method,
                         api_key = api_key,
                         text = text,
