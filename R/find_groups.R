@@ -48,6 +48,14 @@
 #' @export
 find_groups <- function(text = NULL, topic_id = NULL, radius = "global", fields = NULL, api_key = NULL) {
   api_method <- "find/groups"
+  # If topic_id is a vector, change it to single string of comma separated values
+  if(length(topic_id) > 1){
+    topic_id <- paste(topic_id, collapse = ",")
+  }
+  # If fields is a vector, change it to single string of comma separated values
+  if(length(fields) > 1){
+    fields <- paste(fields, collapse = ",")
+  }
   res <- .fetch_results(api_method = api_method,
                         api_key = api_key,
                         text = text,
