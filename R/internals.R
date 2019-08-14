@@ -45,7 +45,7 @@ spf <- function(...) stop(sprintf(...), call. = FALSE)
   api_url <- paste0(meetup_api_prefix, api_method)
 
   # Fetch first set of results (limited to 200 records each call)
-  res <-  .quick_fetch(api_url, event_status, ...)
+  res <-  .quick_fetch(api_url, event_status = event_status, ...)
 
   # Total number of records matching the query
   total_records <- as.integer(res$headers$`x-total-count`)
