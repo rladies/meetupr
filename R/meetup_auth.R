@@ -34,10 +34,10 @@
 #' \code{meetupr} is loaded, are defined like so:
 #'
 #' \describe{
-#'   \item{key}{Set to option \code{meetupr.client_id}, which defaults to a
-#'   client ID that ships with the package}
-#'   \item{secret}{Set to option \code{meetupr.client_secret}, which defaults to
-#'   a client secret that ships with the package}
+#'   \item{key}{Set to option \code{meetupr.consumer_key}, which defaults to a
+#'   consumer key that ships with the package}
+#'   \item{secret}{Set to option \code{meetupr.consumer_secret}, which defaults to
+#'   a consumer secret that ships with the package}
 #'   \item{cache}{Set to option \code{meetupr.httr_oauth_cache}, which defaults
 #'   to \code{TRUE}}
 #' }
@@ -45,8 +45,8 @@
 #' To override these defaults in persistent way, predefine one or more of them
 #' with lines like this in a \code{.Rprofile} file:
 #' \preformatted{
-#' options(meetupr.client_id = "FOO",
-#'         meetupr.client_secret = "BAR",
+#' options(meetupr.consumer_key = "FOO",
+#'         meetupr.consumer_secret = "BAR",
 #'         meetupr.httr_oauth_cache = FALSE)
 #' }
 #' See \code{\link[base]{Startup}} for possible locations for this file and the
@@ -84,8 +84,8 @@
 #' }
 meetup_auth <- function(token = NULL,
                         new_user = FALSE,
-                        key = getOption("meetupr.client_id"),
-                        secret = getOption("meetupr.client_secret"),
+                        key = getOption("meetupr.consumer_key"),
+                        secret = getOption("meetupr.consumer_secret"),
                         cache = getOption("meetupr.httr_oauth_cache"),
                         verbose = TRUE) {
 
@@ -233,7 +233,7 @@ is_legit_token <- function(x, verbose = FALSE) {
   if ("invalid_client" %in% unlist(x$credentials)) {
     # shouldn't happen if id and secret are good
     if (verbose) {
-      message("Authorization error. Please check client_id and client_secret.")
+      message("Authorization error. Please check consumer_key and consumer_secret")
     }
     return(FALSE)
   }
