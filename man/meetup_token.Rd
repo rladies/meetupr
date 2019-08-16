@@ -14,4 +14,14 @@ If token is not already available, call \code{\link{meetup_auth}} to either
 load from cache or initiate OAuth2.0 flow. Return the token -- not "bare"
 but, rather, prepared for inclusion in downstream requests.
 }
+\examples{
+\dontrun{
+meetup_token()
+}
+}
+\seealso{
+Other auth functions: \code{\link{meetup_auth}},
+  \code{\link{meetup_deauth}}
+}
+\concept{auth functions}
 \keyword{internal}

@@ -68,6 +68,8 @@
 #'   credentials in the default cache file \code{.httr-oauth}
 #' @param verbose logical; do you want informative messages?
 #'
+#' @export
+#' @family auth functions
 #' @examples
 #' \dontrun{
 #' ## load/refresh existing credentials, if available
@@ -143,6 +145,12 @@ meetup_auth <- function(token = NULL,
 #' @return a \code{request} object (an S3 class provided by \code{httr})
 #'
 #' @keywords internal
+#' @export
+#' @family auth functions
+#' @examples
+#' \dontrun{
+#' meetup_token()
+#' }
 meetup_token <- function(verbose = FALSE) {
   if (getOption("meetupr.use_oauth")) {
     if (!token_available(verbose = verbose)) meetup_auth(verbose = verbose)
@@ -196,7 +204,7 @@ token_available <- function(verbose = TRUE) {
 #' @family auth functions
 #' @examples
 #' \dontrun{
-#' gs_deauth()
+#' meetup_deauth()
 #' }
 meetup_deauth <- function(clear_cache = TRUE, verbose = TRUE) {
 

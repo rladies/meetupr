@@ -53,9 +53,10 @@ Find meetup groups matching a search query
 \dontrun{
 api_key <- Sys.getenv("MEETUP_KEY")
 groups <- find_groups(text = "r-ladies", api_key = api_key)
-groups <- find_groups(topic_id = 1513883, api_key = api_key)  
+groups <- find_groups(topic_id = 1513883, api_key = api_key)
 }
 }
 \references{
 \url{https://www.meetup.com/meetup_api/docs/find/groups/}
+\url{https://www.meetup.com/meetup_api/docs/find/topics/}
 }

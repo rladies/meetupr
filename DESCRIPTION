@@ -1,7 +1,7 @@
 Package: meetupr
 Type: Package
 Title: Meetup R API
-Version: 0.1.1
+Version: 0.2.0
 Date: 2018-02-18
 Authors@R: c(person("Gabriela", "De Queiroz", email = "gabriela@rladies.org", role = c("aut")),
              person("Erin", "LeDell", email = "oss@ledell.org", role = c("aut", "cre")),

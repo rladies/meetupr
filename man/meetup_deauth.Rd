@@ -19,7 +19,11 @@ APIs on behalf of the authenticated user.
 }
 \examples{
 \dontrun{
-gs_deauth()
+meetup_deauth()
 }
+}
+\seealso{
+Other auth functions: \code{\link{meetup_auth}},
+  \code{\link{meetup_token}}
 }
 \concept{auth functions}

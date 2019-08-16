@@ -93,3 +93,8 @@ gs_auth(token = ttt)       # from an object
 gs_auth(token = "ttt.rds") # from .rds file
 }
 }
+\seealso{
+Other auth functions: \code{\link{meetup_deauth}},
+  \code{\link{meetup_token}}
+}
+\concept{auth functions}
