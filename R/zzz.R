@@ -5,7 +5,7 @@
   op <- options()
   op.meetupr <- list(
     meetupr.httr_oauth_cache = TRUE,
-    meetupr.consumer_key     = "blah", # replace this
+    meetupr.consumer_key     = "2vagj0ut3btomqbb32tca763m1",
     meetupr.consumer_secret  = "blah", # and this
     meetupr.use_oauth        = TRUE
   )
