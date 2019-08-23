@@ -1,7 +1,7 @@
 Package: meetupr
 Type: Package
 Title: Meetup R API
-Version: 0.1.1
+Version: 0.2.0
 Date: 2018-02-18
 Authors@R: c(person("Gabriela", "De Queiroz", email = "gabriela@rladies.org", role = c("aut")),
              person("Erin", "LeDell", email = "oss@ledell.org", role = c("aut", "cre")),
@@ -19,7 +19,7 @@ Imports:
     httr,
     purrr,
     tibble
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 Suggests: testthat,
     here,
     knitr,
