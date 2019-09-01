@@ -57,6 +57,7 @@ get_events <- function(urlname, event_status = "upcoming", api_key = NULL) {
   }
   api_method <- paste0(urlname, "/events")
   res <- .fetch_results(api_method, api_key, event_status)
+
   tibble::tibble(
     id = purrr::map_chr(res, "id"),  #this is returned as chr (not int)
     name = purrr::map_chr(res, "name"),
