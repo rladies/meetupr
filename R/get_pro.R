@@ -1,4 +1,4 @@
-#' Get the current meetup members from a meetup group
+#' Get the groups under a meetup pro organisation
 #'
 #' @template urlname
 #' @template api_key
@@ -48,7 +48,7 @@ get_pro_groups <- function(urlname, api_key = NULL){
 }
 
 
-#' Get the events from a meetup group
+#' Get the events from a meetup pro group
 #'
 #' @template urlname
 #' @param event_status Character (e.g. "upcoming" or "past"). Event type - defaults to "upcoming".
@@ -110,16 +110,29 @@ get_pro_events <- function(urlname,
   # Get groups that have events matching the wanted status, skips those without entries
   groups_event <- unlist(all_groups[all_groups[,col] > 0, "urlname"])
 
-  events <- list()
-  for( i  in 1:length(groups_event)){
-    suppressMessages(events[[i]] <- get_events(groups_event[i],
+  suppressMessages(
+    events <- get_events(groups_event[1],
+             event_status = event_status,
+             api_key = api_key)
+  )
+
+  pbtxt <- txtProgressBar(1, length(groups_event), style = 3)
+
+  for( i  in 2:length(groups_event)){
+    suppressMessages(
+      events <- rbind.data.frame(
+        events,
+        get_events(groups_event[i],
            event_status = event_status,
            api_key = api_key)
+      )
     )
+
+    setTxtProgressBar(pbtxt, i)
 
     # Add a small sleep to not overcrowd too fast
     Sys.sleep(.1)
   }
 
-  bind_rows(events)
+  events
 }
