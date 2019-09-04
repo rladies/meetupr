@@ -27,9 +27,9 @@ spf <- function(...) stop(sprintf(...), call. = FALSE)
   httr::stop_for_status(req)
   reslist <- httr::content(req, "parsed")
 
+  # return empty list if no results from api
   if (length(reslist) == 0) {
-    stop("Zero records match your filter. Nothing to return.\n",
-         call. = FALSE)
+    return(list(result = list(), headers = req$headers))
   }
 
   return(list(result = reslist, headers = req$headers))
