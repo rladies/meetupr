@@ -92,6 +92,7 @@ get_pro_groups <- function(urlname, api_key = NULL){
 #'                       event_status = "upcoming")
 #'}
 #' @export
+#' @importFrom dplyr bind_rows
 get_pro_events <- function(urlname,
                            event_status = "upcoming",
                            api_key = NULL){
@@ -110,29 +111,26 @@ get_pro_events <- function(urlname,
   # Get groups that have events matching the wanted status, skips those without entries
   groups_event <- unlist(all_groups[all_groups[,col] > 0, "urlname"])
 
-  suppressMessages(
-    events <- get_events(groups_event[1],
-             event_status = event_status,
-             api_key = api_key)
-  )
-
   pbtxt <- txtProgressBar(1, length(groups_event), style = 3)
 
-  for( i  in 2:length(groups_event)){
+  # Do this in a loop rather than map/apply,
+  # in order to keep the sleep, or else will
+  # HTTP 429 from too many requests
+  events = list()
+  for( i  in 1:length(groups_event)){
     suppressMessages(
-      events <- rbind.data.frame(
-        events,
-        get_events(groups_event[i],
+      events[[i]] <- get_events(groups_event[i],
            event_status = event_status,
            api_key = api_key)
-      )
     )
-
     setTxtProgressBar(pbtxt, i)
 
     # Add a small sleep to not overcrowd too fast
     Sys.sleep(.1)
   }
 
-  events
+  names(events) = groups_event
+
+  dplyr::bind_rows(events,
+                   .id="chapter")
 }
