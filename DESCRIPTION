@@ -18,8 +18,7 @@ Depends:
 Imports:
     httr,
     purrr,
-    tibble,
-    dplyr
+    tibble
 RoxygenNote: 6.1.1
 Suggests: testthat,
     here,

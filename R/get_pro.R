@@ -92,7 +92,6 @@ get_pro_groups <- function(urlname, api_key = NULL){
 #'                       event_status = "upcoming")
 #'}
 #' @export
-#' @importFrom dplyr bind_rows
 get_pro_events <- function(urlname,
                            event_status = "upcoming",
                            api_key = NULL){
@@ -123,14 +122,17 @@ get_pro_events <- function(urlname,
            event_status = event_status,
            api_key = api_key)
     )
+    events[[i]]$chapter <- groups_event[i]
     setTxtProgressBar(pbtxt, i)
 
     # Add a small sleep to not overcrowd too fast
     Sys.sleep(.1)
   }
 
-  names(events) = groups_event
+  events <- do.call(rbind, events)
 
-  dplyr::bind_rows(events,
-                   .id="chapter")
+  # Alter so that chapter column is first
+  nms <- names(events)[-length(events)]
+  events[, c("chapter", nms)]
+
 }
