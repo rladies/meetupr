@@ -126,7 +126,7 @@ get_pro_events <- function(urlname,
     setTxtProgressBar(pbtxt, i)
 
     # Add a small sleep to not overcrowd too fast
-    Sys.sleep(.1)
+    Sys.sleep(.2)
   }
 
   events <- do.call(rbind, events)
