@@ -122,7 +122,12 @@ get_pro_events <- function(urlname,
            event_status = event_status,
            api_key = api_key)
     )
-    events[[i]]$chapter <- groups_event[i]
+
+    # Add chapter info if events are returned
+    if(nrow(events[[i]])>0){
+      events[[i]]$chapter <- groups_event[i]
+    }
+
     setTxtProgressBar(pbtxt, i)
 
     # Add a small sleep to not overcrowd too fast
