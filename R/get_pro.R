@@ -1,7 +1,6 @@
 #' Get the groups under a meetup pro organisation
 #'
 #' @template urlname
-#' @template api_key
 #'
 #' @return A tibble with the following columns:
 #'    * id
@@ -25,10 +24,10 @@
 #' members <- get_pro_groups(urlname)
 #'}
 #' @export
-get_pro_groups <- function(urlname, api_key = NULL){
+get_pro_groups <- function(urlname){
 
   api_method <- paste0("/pro/", urlname, "/groups/")
-  res <- .fetch_results(api_method, api_key)
+  res <- .fetch_results(api_method)
 
   tibble::tibble(
     id = purrr::map_int(res, "id"),
@@ -55,8 +54,6 @@ get_pro_groups <- function(urlname, api_key = NULL){
 #'  Valid inputs are:
 #'  * past
 #'  * upcoming
-#'
-#' @template api_key
 #'
 #' @return A tibble with the following columns:
 #'    * id
@@ -86,15 +83,14 @@ get_pro_groups <- function(urlname, api_key = NULL){
 #'@examples
 #' \dontrun{
 #' urlname <- "rladies"
-#' past_events <- get_events(urlname = urlname,
-#'                       event_status = "past")
-#' upcoming_events <- get_events(urlname = urlname,
+# past_events <- get_pro_events(urlname = urlname,
+#                       event_status = "past")
+#' upcoming_events <- get_pro_events(urlname = urlname,
 #'                       event_status = "upcoming")
 #'}
 #' @export
 get_pro_events <- function(urlname,
-                           event_status = "upcoming",
-                           api_key = NULL){
+                           event_status = "upcoming"){
 
   if (!is.null(event_status) &&
       !event_status %in% c("past", "upcoming")) {
@@ -104,35 +100,24 @@ get_pro_events <- function(urlname,
   col <- paste0(event_status, "_events")
 
   all_groups <- suppressMessages(
-    get_pro_groups(urlname = urlname, api_key = api_key)
+    get_pro_groups(urlname = urlname)
   )
 
   # Get groups that have events matching the wanted status, skips those without entries
   groups_event <- unlist(all_groups[all_groups[,col] > 0, "urlname"])
 
-  pbtxt <- txtProgressBar(1, length(groups_event), style = 3)
-
-  # Do this in a loop rather than map/apply,
-  # in order to keep the sleep, or else will
+  # slowly to avoid
   # HTTP 429 from too many requests
-  events = list()
-  for( i  in 1:length(groups_event)){
-    suppressMessages(
-      events[[i]] <- get_events(groups_event[i],
-           event_status = event_status,
-           api_key = api_key)
-    )
+  events <- lapply(groups_event,
+         slowly_get_events,
+         event_status = event_status)
 
-    # Add chapter info if events are returned
-    if(nrow(events[[i]])>0){
-      events[[i]]$chapter <- groups_event[i]
-    }
-
-    setTxtProgressBar(pbtxt, i)
-
-    # Add a small sleep to not overcrowd too fast
-    Sys.sleep(.2)
-  }
+  # add chapter names to df
+  events <- purrr::map2(events, groups_event,
+              function(.x, .y){
+                .x[,"chapter"] <- .y
+                .x
+              })
 
   events <- do.call(rbind, events)
 
@@ -141,3 +126,12 @@ get_pro_events <- function(urlname,
   events[, c("chapter", nms)]
 
 }
+
+#' to avoid making too many
+#' requests too rapidly when
+#' getting pro events
+slowly_get_events <- purrr::slowly(
+  get_events,
+  rate = purrr::rate_delay(pause = .3,
+                           max_times = Inf)
+)
