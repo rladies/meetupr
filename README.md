@@ -15,8 +15,8 @@ Installation
 To install the development version from GitHub:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("rladies/meetupr")
+# install.packages("remotes")
+remotes::install_github("rladies/meetupr")
 ```
 
 A released version will be on CRAN [soon](https://github.com/rladies/meetupr/issues/24).

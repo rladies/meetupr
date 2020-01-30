@@ -28,8 +28,8 @@ R interface to the Meetup API (v3)
 To install the development version from GitHub:
 
 ```{r gh-installation, eval = FALSE}
-# install.packages("devtools")
-devtools::install_github("rladies/meetupr")
+# install.packages("remotes")
+remotes::install_github("rladies/meetupr")
 ```
 A released version will be on CRAN [soon](https://github.com/rladies/meetupr/issues/24).
 
