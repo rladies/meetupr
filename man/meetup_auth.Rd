@@ -4,10 +4,14 @@
 \alias{meetup_auth}
 \title{Authorize \code{meetupr}}
 \usage{
-meetup_auth(token = NULL, new_user = FALSE,
+meetup_auth(
+  token = NULL,
+  new_user = FALSE,
   key = getOption("meetupr.consumer_key"),
   secret = getOption("meetupr.consumer_secret"),
-  cache = getOption("meetupr.httr_oauth_cache"), verbose = TRUE)
+  cache = getOption("meetupr.httr_oauth_cache"),
+  verbose = TRUE
+)
 }
 \arguments{
 \item{token}{optional; an actual token object or the path to a valid token
@@ -94,7 +98,8 @@ gs_auth(token = "ttt.rds") # from .rds file
 }
 }
 \seealso{
-Other auth functions: \code{\link{meetup_deauth}},
-  \code{\link{meetup_token}}
+Other auth functions: 
+\code{\link{meetup_deauth}()},
+\code{\link{meetup_token}()}
 }
 \concept{auth functions}

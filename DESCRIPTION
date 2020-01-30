@@ -19,7 +19,7 @@ Imports:
     httr,
     purrr,
     tibble
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 Suggests: testthat,
     here,
     knitr,

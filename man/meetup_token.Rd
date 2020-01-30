@@ -20,8 +20,9 @@ meetup_token()
 }
 }
 \seealso{
-Other auth functions: \code{\link{meetup_auth}},
-  \code{\link{meetup_deauth}}
+Other auth functions: 
+\code{\link{meetup_auth}()},
+\code{\link{meetup_deauth}()}
 }
 \concept{auth functions}
 \keyword{internal}

@@ -130,6 +130,7 @@ get_pro_events <- function(urlname,
 #' to avoid making too many
 #' requests too rapidly when
 #' getting pro events
+#' @param ... arguments to get_events
 slowly_get_events <- purrr::slowly(
   get_events,
   rate = purrr::rate_delay(pause = .3,

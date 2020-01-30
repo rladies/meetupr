@@ -3,7 +3,6 @@
 \docType{package}
 \name{meetupr}
 \alias{meetupr}
-\alias{meetupr-package}
 \title{meetupr}
 \description{
 meetupr
