@@ -34,6 +34,7 @@ library("tidyr")
 library("forecast")
 library("ggplot2")
 library("meetupr")
+library("raster")
 ```
 
 ## How many R-Ladies chapter are out there?
@@ -82,6 +83,34 @@ ggplot(data = df, aes(x = dategroup, y = cum_sum)) +
   ggtitle("R-Ladies Global chapter growth") +
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) +
   scale_x_discrete(breaks = df$dategroup[seq(1, length(df$dategroup), by = 2)])
+```
+
+## Pie chart
+
+```{r pie}
+df <- data.frame(country = rladies$country) %>%
+  merge(raster::ccodes()[,c("ISO2", "continent")],
+        by.x = "country", by.y = "ISO2", all.x = T) %>%
+  group_by(continent) %>%
+  summarise(count = n())
+
+# Blank theme
+blank_theme <- theme_minimal()+
+  theme(
+  axis.title.x = element_blank(),
+  axis.title.y = element_blank(),
+  panel.border = element_blank(),
+  panel.grid=element_blank(),
+  axis.ticks = element_blank(),
+  plot.title = element_text(size = 14, face = "bold")
+  )
+
+# Piechart
+ggplot(df, aes(x = "", y = count, fill = continent)) +
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0) +
+  scale_fill_brewer("Continent", palette = 3) + blank_theme +
+  theme(axis.text.x = element_blank())
 ```
 
 ## Chapter activity
