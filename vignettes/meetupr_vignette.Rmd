@@ -24,19 +24,16 @@ knitr::opts_chunk$set(
 
 ```{r install, eval = FALSE}
 devtools::install_github("rladies/meetupr")
-
-# Set up your meetup API key
-Sys.setenv(MEETUP_KEY = "PASTE YOUR MEETUP KEY HERE")
 ```
 
 ```{r load}
-library("meetupr")
 library("purrr")
 library("dplyr")
 library("lubridate")
 library("tidyr")
-library("forecast")
 library("ggplot2")
+library("meetupr")
+library("raster")
 ```
 
 ## How many R-Ladies chapter are out there?
@@ -44,89 +41,83 @@ library("ggplot2")
 ```{r groups}
 meetup_groups <- find_groups(text = "r-ladies")
 
-# Keep only groups whose name starts with "r"
-first_letter <- tolower(substr(meetup_groups$name, 1, 1))
-meetup_groups <- meetup_groups[which(first_letter == "r"),]
-
-# Keep only groups whose urlname contains the string "ladies"
-urlnames <- meetup_groups$urlname
-meetup_groups <- meetup_groups[which(grepl("ladies", tolower(urlnames))),]
-
-rm(first_letter, urlnames)
+# Keep only groups whose name contains the string "r-ladies"
+meetup_groups <- meetup_groups[which(grepl("r-ladies",
+                                           tolower(meetup_groups$name))),]
 ```
 
-## Is the urlname consistent across groups?
+## Chapters that require attention
 
-The official urlname should follow this naming convention:
-__rladies-cityname__.
-
-*How many chapters have a consistent urlname?*
-
-```{r groupA}
-urlnames <- meetup_groups$urlname
-
-groupA <- urlnames[grep(pattern = "rladies-",
-                              x = urlnames,
-                              ignore.case = FALSE)]
-groupA
-```
-
-*How many chapters have a problem with capitalisation?*
-
-```{r groupB}
-groupB <- urlnames[grep(pattern = "rladies-",
-                              x = urlnames,
-                              ignore.case = TRUE)]
-groupB <- setdiff(groupB, groupA)
-groupB
-```
-
-Here is the list of chapters that need some extra changes:
-
-```{r groupC}
-groupC <- setdiff(urlnames, c(groupA, groupB))
-groupC
-```
-
-## Is the chapter name consistent across groups?
-
-The official chapter name should follow this naming convention:
-__R-Ladies Cityname__.
-
-*How many chapters have a consistent name?*
-
-```{r groupD}
-chapternames <- meetup_groups$name
-groupD <- chapternames[grep(pattern = "R-Ladies ",
-                            x = chapternames,
-                            ignore.case = FALSE)]
-groupD
-```
-
-The chapters below should, ideally, change their names
-
-```{r groupE}
-groupE <- setdiff(chapternames, groupD)
-groupE
-```
-
-## Chapters to migrate to meetup pro
-
-*Which chapters do not belong to R-Ladies Global?*
+*Which chapters do not belong to R-Ladies Global?* Needed for to migrate to meetup pro
 
 ```{r migration}
 chapters2migrate <- meetup_groups[meetup_groups$organizer != "R-Ladies Global",]
 chapters2migrate$name
 ```
 
+## Onboarded chapters
+
+*Which chapters have been fully onboarded by R-Ladies Global?*
+
+```{r full_list}
+# Keep only groups whose organiser is "R-Ladies Global"
+# and remove the 'resources' column
+rladies <- meetup_groups[meetup_groups$organizer == "R-Ladies Global", 1:20]
+```
+
+## Growth
+
+```{r growth}
+df <- data.frame(Date = as.Date(rladies$created), count = 1) %>%
+  complete(Date = seq.Date(min(Date), max(Date), by="day")) %>%
+  # mutate(dategroup = lubridate::floor_date(Date, "6 months")) %>%
+  mutate(dategroup = format(Date, "%Y-%m")) %>%
+  group_by(dategroup) %>%
+  summarise(count_ymonth = sum(count, na.rm = TRUE)) %>%
+  mutate(cum_sum = cumsum(count_ymonth))
+
+ggplot(data = df, aes(x = dategroup, y = cum_sum)) +
+  geom_bar(stat = "identity", color = "#88398A", fill = "#88398A") +
+  theme_bw() + xlab("") + ylab("Number of chapters") +
+  ggtitle("R-Ladies Global chapter growth") +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) +
+  scale_x_discrete(breaks = df$dategroup[seq(1, length(df$dategroup), by = 2)])
+```
+
+## Pie chart
+
+```{r pie}
+df <- data.frame(country = rladies$country) %>%
+  merge(raster::ccodes()[,c("ISO2", "continent")],
+        by.x = "country", by.y = "ISO2", all.x = T) %>%
+  group_by(continent) %>%
+  summarise(count = n())
+
+# Blank theme
+blank_theme <- theme_minimal()+
+  theme(
+  axis.title.x = element_blank(),
+  axis.title.y = element_blank(),
+  panel.border = element_blank(),
+  panel.grid=element_blank(),
+  axis.ticks = element_blank(),
+  plot.title = element_text(size = 14, face = "bold")
+  )
+
+# Piechart
+ggplot(df, aes(x = "", y = count, fill = continent)) +
+  geom_bar(width = 1, stat = "identity") +
+  coord_polar("y", start=0) +
+  scale_fill_brewer("Continent", palette = 3) + blank_theme +
+  theme(axis.text.x = element_blank())
+```
+
 ## Chapter activity
 
-To check chapter activity is better to use R-Ladies Global API key so that we have access to private groups.
-
-Let's now extract the number of past events and the dates of last and next events, for each chapter.
+Let us now extract the number of past events and the dates of last and next events, for each chapter.
 
 ```{r activity}
-meetup_groups$past_events <- NA
+meetup_groups$past_events <- 0
 meetup_groups$date_last_event <- NA
 meetup_groups$date_next_event <- NA
 
@@ -145,9 +136,9 @@ x <- map(meetup_groups$urlname,
 for (i in seq_along(x)){
   message(meetup_groups$urlname[i])
   if (is.null(x[[i]]$error)){
-    temp <- x[[i]]$result
-    if ("past" %in% temp$status){
-      past <- temp %>%
+    temp_table <- x[[i]]$result
+    if ("past" %in% temp_table$status){
+      past <- temp_table %>%
         group_by(status) %>%
         summarise(count = n(),
                   mydates = format(max(local_date), '%Y-%m-%d'))
@@ -157,8 +148,8 @@ for (i in seq_along(x)){
       meetup_groups$past_events[i] <- 0
       meetup_groups$date_last_event[i] <- NA
     }
-    if ("upcoming" %in% temp$status){
-      upcoming <- temp %>%
+    if ("upcoming" %in% temp_table$status){
+      upcoming <- temp_table %>%
         group_by(status) %>%
         summarise(count = n(),
                   mydates = format(min(local_date), '%Y-%m-%d'))
@@ -180,7 +171,7 @@ for (i in seq_along(x)){
 no_events <- meetup_groups %>%
   filter(past_events == 0,
          is.na(date_next_event),
-         created < as.POSIXct("2018-04-30")) %>%
+         created < Sys.Date() - 6*30) %>%
   arrange(created)
 ```
 
@@ -188,50 +179,7 @@ no_events <- meetup_groups %>%
 
 ```{r no_recent_events}
 no_recent_events <- meetup_groups %>%
-  filter(date_last_event < as.POSIXct("2018-04-30"),
+  filter(date_last_event < as.POSIXct("2019-03-29"),
          is.na(date_next_event)) %>%
   arrange(date_last_event)
-```
-
-## R-Ladies quarterly growth
-Estimated quarterly growth of chapter:
-
-```{r ygrowth}
-# Expand dataframe by quarter
-quarterly_chapters <- meetup_groups %>%
-  mutate(Date = as.Date(created, "%Y-%m-%d")) %>%
-  complete(Date = seq.Date(min(Date), max(Date), by="day")) %>%
-  group_by(qrtr = floor_date(Date, "quarter")) %>%
-  summarize(count = sum(!is.na(urlname))) %>%
-  mutate(cumsum = cumsum(count))
-
-# Forecast next year's active chapters
-chap <- ts(data = quarterly_chapters$cumsum, start = c(2012, 4), frequency = 4)
-fc <- holt(y = chap, h = 5, damped = TRUE)
-
-autoplot(chap) +
-  autolayer(fc, series="Holt's method", PI=TRUE) +
-  ggtitle("2019 forecast using Holt's method") + xlab("") +
-  ylab("R-Ladies active chapters") +
-  guides(fill=FALSE, color=FALSE) + theme_bw()
-
-average_chap_nexty <- round(fc$upper[3], 0)
-
-round(fc$upper[c(3, 5, 7, 9)], 0)
-```
-
-## R-Ladies yearly budget
-
-The quarterly budget is calculated as the sum of fixed costs and variable costs, where the variable costs are proportional to the expected number of chapters in the next quarter.
-
-```{r ybudget}
-# Variable costs (proportional to the number of chapters: meetup-pro fees, merchandise and shipping costs
-variable_costs <- 230 * average_chap_nexty
-
-# Fixed costs:
-# Web/email hosting, domain registration, mattermost, nonprofit filing
-fixed_costs <- 1188
-
-# Yearly budget
-fixed_costs + variable_costs
 ```
