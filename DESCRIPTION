@@ -21,7 +21,6 @@ Imports:
     tibble,
     withr
 Suggests: testthat,
-    here,
     knitr,
     rmarkdown
 Roxygen: list(markdown = TRUE)
