@@ -20,6 +20,7 @@ Imports:
     purrr,
     tibble,
     withr
+RoxygenNote: 6.1.1
 Suggests: testthat,
     knitr,
     rmarkdown
