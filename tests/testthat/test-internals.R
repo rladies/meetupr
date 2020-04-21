@@ -1,12 +1,10 @@
-context("internals")
-
 test_that(".quick_fetch() success case", {
   withr::local_options(list(meetupr.use_oauth = FALSE))
   set_api_key("yay")
 
   res <- with_mock(
     `httr::GET` = function(url, query, ...) {
-      load(here::here("tests/testdata/httr_get_find_groups.rda"))
+      load(test_path("testdata/httr_get_find_groups.rda"))
       return(req)
     },
     # intentionally invalid as there is currently no validation
