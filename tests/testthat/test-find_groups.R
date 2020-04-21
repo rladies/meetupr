@@ -1,8 +1,5 @@
-context("find_groups")
-
 test_that("find_groups() success case", {
-
-  options('meetupr.use_oauth' = FALSE)
+  withr::local_options(list(meetupr.use_oauth = FALSE))
   set_api_key("R-Ladies FTW!")
 
   meetup_groups <- with_mock(
@@ -18,8 +15,7 @@ test_that("find_groups() success case", {
 })
 
 test_that("find_groups() with parameters", {
-
-  options('meetupr.use_oauth' = FALSE)
+  withr::local_options(list(meetupr.use_oauth = FALSE))
   set_api_key("R-Ladies FTW!")
 
   meetup_groups <- with_mock(

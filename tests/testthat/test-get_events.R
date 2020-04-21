@@ -1,7 +1,7 @@
 context("get_events")
 
 test_that("get_events() success case", {
-  options('meetupr.use_oauth' = FALSE)
+  withr::local_options(list(meetupr.use_oauth = FALSE))
   set_api_key("yay")
 
   meetup_events <- with_mock(
