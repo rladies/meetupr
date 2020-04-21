@@ -8,3 +8,4 @@
 ^man-roxygen$
 ^\.github$
 ^\.httr-oauth$
+^CODE_OF_CONDUCT\.md$
