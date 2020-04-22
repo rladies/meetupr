@@ -1,12 +1,10 @@
-context("get_events")
-
 test_that("get_events() success case", {
-  options('meetupr.use_oauth' = FALSE)
+  withr::local_options(list(meetupr.use_oauth = FALSE))
   set_api_key("yay")
 
   meetup_events <- with_mock(
     `httr::GET` = function(url, query, ...) {
-      load(here::here("tests/testdata/httr_get_get_events.rda"))
+      load(test_path("testdata/httr_get_get_events.rda"))
       return(req)
     },
     meetup_events <- get_events(api_key="yay",

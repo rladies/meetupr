@@ -1,14 +1,14 @@
-context("internals")
-
 test_that(".quick_fetch() success case", {
-  options('meetupr.use_oauth' = FALSE)
+  withr::local_options(list(meetupr.use_oauth = FALSE))
+  set_api_key("yay")
+
   res <- with_mock(
     `httr::GET` = function(url, query, ...) {
-      load(here::here("tests/testdata/httr_get_find_groups.rda"))
+      load(test_path("testdata/httr_get_find_groups.rda"))
       return(req)
     },
-    res <- .quick_fetch(api_url = "fake url", # intentionally invalid as there is currently no validation
-                      api_key = "I <3 R-Ladies")
+    # intentionally invalid as there is currently no validation
+    res <- .quick_fetch(api_url = "fake url")
     )
 
   expect_equal(names(res), c("result", "headers"), info="check .quick_fetch() return value")

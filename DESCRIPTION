@@ -41,9 +41,11 @@ Depends:
 Imports:
     httr,
     purrr,
+    tibble,
+    withr
+RoxygenNote: 6.1.1    
+Suggests: testthat,
     tibble
-Suggests: 
-    here,
     knitr,
     rmarkdown,
     testthat

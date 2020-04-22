@@ -1,13 +1,10 @@
-context("find_groups")
-
 test_that("find_groups() success case", {
-
-  options('meetupr.use_oauth' = FALSE)
+  withr::local_options(list(meetupr.use_oauth = FALSE))
   set_api_key("R-Ladies FTW!")
 
   meetup_groups <- with_mock(
     `httr::GET` = function(url, query, ...) {
-      load(here::here("tests/testdata/httr_get_find_groups.rda"))
+      load(test_path("testdata/httr_get_find_groups.rda"))
       return(req)
     },
     meetup_groups <- find_groups(api_key = "R-Ladies FTW!")
@@ -18,13 +15,12 @@ test_that("find_groups() success case", {
 })
 
 test_that("find_groups() with parameters", {
-
-  options('meetupr.use_oauth' = FALSE)
+  withr::local_options(list(meetupr.use_oauth = FALSE))
   set_api_key("R-Ladies FTW!")
 
   meetup_groups <- with_mock(
     `httr::GET` = function(url, query, ...) {
-      load(here::here("tests/testdata/httr_get_find_groups.rda"))
+      load(test_path("testdata/httr_get_find_groups.rda"))
       return(req)
     },
     meetup_groups <- find_groups(api_key = "R-Ladies FTW!",
