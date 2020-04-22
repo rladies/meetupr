@@ -1,17 +1,40 @@
-Package: meetupr
 Type: Package
+Package: meetupr
 Title: Meetup R API
 Version: 0.2.0
-Date: 2018-02-18
-Authors@R: c(person("Gabriela", "De Queiroz", email = "gabriela@rladies.org", role = c("aut")),
-             person("Erin", "LeDell", email = "oss@ledell.org", role = c("aut", "cre")),
-             person("Olga", "Mierzwa-Sulima", email = "olga@rladies.org", role = c("aut")),
-             person("Lucy", "D'Agostino McGowan", email = "lucy@rladies.org", role = c("aut")),
-             person("Claudia", "Vitolo", role = c("aut")),
-             person("Michael", "Beigelmacher", role = c("ctb")),
-             person("Augustina", "Ragwitz", email="augustina.ragwitz@ibm.com", role = c("ctb")),
-             person("Greg", "Sutcliffe", email="github@emeraldverie.org", role = c("ctb")))
-Description: Provides access to data from 'meetup.com' (see https://www.meetup.com/meetup_api/ for more information).
+Authors@R: 
+    c(person(given = "Gabriela",
+             family = "De Queiroz",
+             role = "aut",
+             email = "gabriela@rladies.org"),
+      person(given = "Erin",
+             family = "LeDell",
+             role = c("aut", "cre"),
+             email = "oss@ledell.org"),
+      person(given = "Olga",
+             family = "Mierzwa-Sulima",
+             role = "aut",
+             email = "olga@rladies.org"),
+      person(given = "Lucy",
+             family = "D'Agostino McGowan",
+             role = "aut",
+             email = "lucy@rladies.org"),
+      person(given = "Claudia",
+             family = "Vitolo",
+             role = "aut"),
+      person(given = "Michael",
+             family = "Beigelmacher",
+             role = "ctb"),
+      person(given = "Augustina",
+             family = "Ragwitz",
+             role = "ctb",
+             email = "augustina.ragwitz@ibm.com"),
+      person(given = "Greg",
+             family = "Sutcliffe",
+             role = "ctb",
+             email = "github@emeraldverie.org"))
+Description: Provides access to data from 'meetup.com' (see
+    https://www.meetup.com/meetup_api/ for more information).
 License: MIT + file LICENSE
 Depends:
     R (>= 3.3)
@@ -19,10 +42,13 @@ Imports:
     httr,
     purrr,
     tibble
-RoxygenNote: 6.1.1
-Suggests: testthat,
+Suggests: 
     here,
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat
+VignetteBuilder: 
+    knitr
+Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-VignetteBuilder: knitr
+RoxygenNote: 7.1.0
