@@ -4,8 +4,7 @@
 \alias{find_groups}
 \title{Find meetup groups matching a search query}
 \usage{
-find_groups(text = NULL, topic_id = NULL, radius = "global",
-  api_key = NULL)
+find_groups(text = NULL, topic_id = NULL, radius = "global", api_key = NULL)
 }
 \arguments{
 \item{text}{Character. Raw full text search query.}
