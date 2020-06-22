@@ -30,13 +30,8 @@ get_event_attendees <- function(urlname, event_id, api_key = NULL) {
   tibble::tibble(
     id = purrr::map_int(res, c("member", "id")),
     name = purrr::map_chr(res, c("member", "name")),
-    status = purrr::map_chr(res, "status"),  #currently always "attended" so this is not very useful
-    # rsvp_response = purrr::map_chr(res, c("rsvp", "response"))  #for future after fix status ^^
+    bio = purrr::map_chr(res, c("member", "bio"), .default = NA),
+    rsvp_response = purrr::map_chr(res, c("rsvp", "response")),
     resource = res
   )
 }
-
-
-
-
-
