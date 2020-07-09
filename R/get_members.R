@@ -29,10 +29,10 @@ get_members <- function(urlname, api_key = NULL){
   res <- .fetch_results(api_method, api_key)
   tibble::tibble(
     id = purrr::map_int(res, "id"),
-    name = purrr::map_chr(res, "name", .default = NA),
+    name = purrr::map_chr(res, "name", .default = NA),  
     bio = purrr::map_chr(res, "bio", .default = NA),
     status = purrr::map_chr(res, "status"),
-    joined = .date_helper(purrr::map_dbl(res, "joined")),
+    created = .date_helper(purrr::map_dbl(res, c("group_profile", "created"))),
     city = purrr::map_chr(res, "city", .default = NA),
     country = purrr::map_chr(res, "country", .default = NA),
     state = purrr::map_chr(res, "state", .default = NA),

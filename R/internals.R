@@ -24,6 +24,15 @@ spf <- function(...) stop(sprintf(...), call. = FALSE)
                    config = meetup_token()
   )
 
+  if (req$status_code == 400) {
+    stop(paste0("HTTP 400 Bad Request error encountered for: ",
+                api_url,".\n As of June 30, 2020, this may be ",
+                "because a presumed bug with the Meetup API ",
+                "causes this error for a future event. Please ",
+                "confirm the event has ended."),
+         call. = FALSE)
+  }
+
   httr::stop_for_status(req)
   reslist <- httr::content(req, "parsed")
 

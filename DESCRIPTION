@@ -1,7 +1,7 @@
 Type: Package
 Package: meetupr
 Title: Meetup R API
-Version: 0.2.0
+Version: 0.2.1
 Authors@R: 
     c(person(given = "Gabriela",
              family = "De Queiroz",
@@ -32,7 +32,11 @@ Authors@R:
       person(given = "Greg",
              family = "Sutcliffe",
              role = "ctb",
-             email = "github@emeraldverie.org"))
+             email = "github@emeraldverie.org"),
+      person(given = "Rick",
+             family = "Pack",
+             role = "ctb",
+             email = "rickeyhp@gmail.com"))
 Description: Provides access to data from 'meetup.com' (see
     https://www.meetup.com/meetup_api/ for more information).
 License: MIT + file LICENSE
