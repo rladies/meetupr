@@ -7,3 +7,4 @@ vignettes/*.R
 vignettes/*.html
 .DS_Store
 .httr-oauth
+docs
