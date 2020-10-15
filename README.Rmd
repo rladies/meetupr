@@ -18,10 +18,7 @@ knitr::opts_chunk$set(
 # meetupr
 [![Build Status](https://travis-ci.org/rladies/meetupr.svg?branch=master)](https://travis-ci.org/rladies/meetupr)
 
-R interface to the Meetup API (v3)
-
-**Authors:** [Gabriela de Queiroz](http://gdequeiroz.github.io/), [Erin LeDell](http://github.com/ledell/), [Olga Mierzwa-Sulima](https://github.com/olgamie), [Lucy D'Agostino McGowan](http://www.lucymcgowan.com), [Claudia Vitolo](https://github.com/cvitolo)<br/> 
-**License:** [MIT](https://opensource.org/licenses/MIT)
+R interface to the [Meetup API](https://www.meetup.com/meetup_api/) (v3)
 
 ## Installation
 
@@ -73,13 +70,6 @@ dplyr::arrange(groups, desc(created))
 
 ## How can you contribute?
 
-Take a look at some resources:
+We are looking for new people to join the list of contributors!  Please take a look at the open [issues](https://github.com/rladies/meetupr/issues), file a new issue, contribute tests, or improve the documentation.  We are also looking to expand the set of functions to include more endpoints from the [Meetup API](https://www.meetup.com/meetup_api/).  Lastly, we'd also love to [hear about](https://github.com/rladies/meetupr/issues/74) any applications of the **meetupr** package, so we can compile a list of demos!
 
-- [https://www.meetup.com/meetup_api/](https://www.meetup.com/meetup_api/)
-- [https://www.meetup.com/meetup_api/clients/](https://www.meetup.com/meetup_api/clients/)
-
-We are looking for people to help write tests and vignettes!  You can also take a look at the open [issues](https://github.com/rladies/meetupr/issues).
-
---
-
-Please note that the 'meetupr' project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
+Please note that the this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
