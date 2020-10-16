@@ -18,7 +18,7 @@ Imports:
     httr,
     purrr,
     tibble
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 Suggests: testthat,
     here,
     knitr,
