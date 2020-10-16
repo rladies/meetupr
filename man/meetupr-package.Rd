@@ -26,6 +26,7 @@ Other contributors:
   \item Augustina Ragwitz \email{augustina.ragwitz@ibm.com} [contributor]
   \item Greg Sutcliffe \email{github@emeraldverie.org} [contributor]
   \item Rick Pack \email{rickeyhp@gmail.com} [contributor]
+  \item Ben Ubah \email{ubah.ben22@gmail.com} [contributor]
 }
 
 }
