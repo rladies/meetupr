@@ -6,47 +6,41 @@
 [![Build
 Status](https://travis-ci.org/rladies/meetupr.svg?branch=master)](https://travis-ci.org/rladies/meetupr)
 
-R interface to the Meetup API (v3)
-
-**Authors:** [Gabriela de Queiroz](http://gdequeiroz.github.io/), [Erin
-LeDell](http://www.stat.berkeley.edu/~ledell/), [Olga
-Mierzwa-Sulima](https://github.com/olgamie), [Lucy D’Agostino
-McGowan](http://www.lucymcgowan.com), [Claudia
-Vitolo](https://github.com/cvitolo)<br/>
-[MIT](https://opensource.org/licenses/MIT) **License:**
-[MIT](https://opensource.org/licenses/MIT)
+R interface to the [Meetup API](https://www.meetup.com/meetup_api/) (v3)
 
 ## Installation
 
 To install the development version from GitHub:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("rladies/meetupr")
+# install.packages("remotes")
+remotes::install_github("rladies/meetupr")
 ```
 
-A released version will be on CRAN soon.
+A released version will be on CRAN
+[soon](https://github.com/rladies/meetupr/issues/24).
 
 ## Usage
 
-To use this package, you will first need to get your meetup API key. To
-do so, go to this link: <https://secure.meetup.com/meetup_api/key/>
+### Authentication
 
-Once you have your key, save it as an environment variable for the
-current session by running the following:
+As of August 15, 2019, Meetup.com switched from an API key based
+authentication system to
+[OAuth 2.0](https://www.meetup.com/meetup_api/auth/), so we now [support
+OAuth authentication](https://github.com/rladies/meetupr/issues/51). The
+functions all have a `api_key` argument which is no longer used and will
+eventually be
+[deprecated](https://github.com/rladies/meetupr/issues/59). In order to
+use this package, you can use our built-in OAuth credentials
+(recommended), or if you prefer, you can supply your own by setting the
+`meetupr.consumer_key` and `meetupr.consumer_secret` variables.
 
-``` r
-Sys.setenv(MEETUP_KEY = "PASTE YOUR MEETUP KEY HERE")
-```
+Each time you use the package, you will be prompted to log in to your
+meetup.com account. The first time you run any of the **meetupr**
+functions in your session, R will open a browser window, prompting you
+to “Log In and Grant Access” (to the **meetupr** “application”).
 
-Alternatively, you can set it permanently with the help of
-`usethis::edit_r_environ()` by adding the line to your `.Renviron`:
-
-    MEETUP_KEY=PASTE YOUR MEETUP KEY HERE
-
-If you don’t want to save it here, you can input it in each function
-using the `api_key` parameter (just be sure not to send any documents
-with your key to GitHub 🙊).
+### Functions
 
 We currently have the following functions:
 
@@ -69,49 +63,71 @@ library(meetupr)
 
 urlname <- "rladies-san-francisco"
 events <- get_events(urlname, "past")
-#> Downloading 47 record(s)...
+#> Meetup is moving to OAuth *only* as of 2019-08-15. Set
+#> `meetupr.use_oauth = FALSE` in your .Rprofile, to use
+#> the legacy `api_key` authorization.
+#> Downloading 60 record(s)...
 dplyr::arrange(events, desc(created))
-#> # A tibble: 47 x 21
+#> # A tibble: 60 x 21
 #>    id    name  created             status time                local_date
 #>    <chr> <chr> <dttm>              <chr>  <dttm>              <date>    
-#>  1 2543… ggpl… 2018-09-04 19:45:15 past   2018-09-20 03:00:00 2018-09-19
-#>  2 2533… Rsam… 2018-08-01 01:10:28 past   2018-08-16 03:00:00 2018-08-15
-#>  3 2522… Crea… 2018-06-29 20:06:16 past   2018-07-06 03:00:00 2018-07-05
-#>  4 2520… R Pr… 2018-06-23 00:00:20 past   2018-07-12 03:00:00 2018-07-11
-#>  5 2510… Auto… 2018-05-24 01:34:47 past   2018-06-14 03:00:00 2018-06-13
-#>  6 2500… R-La… 2018-04-22 05:14:13 past   2018-05-12 03:00:00 2018-05-11
-#>  7 2494… Intr… 2018-04-05 03:16:19 past   2018-04-26 03:00:00 2018-04-25
-#>  8 2473… Beyo… 2018-01-30 23:40:46 past   2018-02-11 23:00:00 2018-02-11
-#>  9 2431… R Vi… 2017-09-05 20:18:08 past   2017-09-24 23:00:00 2017-09-24
-#> 10 2413… RShi… 2017-07-06 19:47:58 past   2017-07-30 23:00:00 2017-07-30
-#> # ... with 37 more rows, and 15 more variables: local_time <chr>,
+#>  1 2730… A co… 2020-09-04 11:04:50 past   2020-09-10 15:30:00 2020-09-10
+#>  2 2724… Tang… 2020-08-06 12:24:51 past   2020-08-27 17:30:00 2020-08-27
+#>  3 2679… R-La… 2020-01-16 10:08:03 past   2020-01-30 17:00:00 2020-01-30
+#>  4 2663… Dece… 2019-11-11 14:10:10 past   2019-12-10 18:00:00 2019-12-10
+#>  5 2651… Work… 2019-09-23 12:28:24 past   2019-10-16 18:00:00 2019-10-16
+#>  6 2632… Augu… 2019-07-17 10:29:10 past   2019-08-07 18:00:00 2019-08-07
+#>  7 2627… R-La… 2019-06-28 15:24:12 past   2019-07-21 11:00:00 2019-07-21
+#>  8 2626… Baye… 2019-06-26 20:11:16 past   2019-07-17 18:00:00 2019-07-17
+#>  9 2610… Mini… 2019-04-30 17:49:52 past   2019-05-18 13:30:00 2019-05-18
+#> 10 2590… NLP … 2019-02-15 14:36:58 past   2019-03-12 18:00:00 2019-03-12
+#> # … with 50 more rows, and 15 more variables: local_time <chr>,
 #> #   waitlist_count <int>, yes_rsvp_count <int>, venue_id <int>,
-#> #   venue_name <chr>, venue_lat <dbl>, venue_lon <dbl>,
-#> #   venue_address_1 <chr>, venue_city <chr>, venue_state <chr>,
-#> #   venue_zip <chr>, venue_country <chr>, description <chr>, link <chr>,
-#> #   resource <list>
+#> #   venue_name <chr>, venue_lat <dbl>, venue_lon <dbl>, venue_address_1 <chr>,
+#> #   venue_city <chr>, venue_state <chr>, venue_zip <chr>, venue_country <chr>,
+#> #   description <chr>, link <chr>, resource <list>
+```
+
+Next we can look up all R-Ladies groups by “topic id”. You can find
+topic ids for associated tags by querying
+[here](https://secure.meetup.com/meetup_api/console/?path=/find/topics).
+The `topic_id` for topic, “R-Ladies”, is `1513883`.
+
+``` r
+groups <- find_groups(topic_id = 1513883)
+#> Downloading 138 record(s)...
+dplyr::arrange(groups, desc(created))
+#> # A tibble: 138 x 21
+#>        id name  urlname created             members status organizer   lat
+#>     <int> <chr> <chr>   <dttm>                <int> <chr>  <chr>     <dbl>
+#>  1 3.38e7 R-La… rladie… 2020-06-12 22:50:37     256 active R-Ladies… -1.29
+#>  2 3.34e7 R-La… rladie… 2020-02-22 09:51:34      37 active R-Ladies… 52.4 
+#>  3 3.34e7 R-La… rladie… 2020-02-22 09:39:39       9 active R-Ladies… 43.3 
+#>  4 3.32e7 R-La… rladie… 2020-01-12 09:47:12     281 active R-Ladies… 25.7 
+#>  5 3.32e7 R-La… rladie… 2020-01-12 09:39:04      24 active R-Ladies… 51.8 
+#>  6 3.31e7 R-La… rladie… 2019-12-15 11:50:22      68 active R-Ladies… 38.9 
+#>  7 3.31e7 R-La… rladie… 2019-12-15 05:30:12      38 active R-Ladies…  6.93
+#>  8 3.31e7 R-La… rladie… 2019-11-30 08:55:10      36 active R-Ladies… 30.0 
+#>  9 3.31e7 R-La… rladie… 2019-11-30 08:09:20       7 active R-Ladies… 43.0 
+#> 10 3.30e7 R-La… rladie… 2019-11-23 11:14:43      78 active R-Ladies… 19.0 
+#> # … with 128 more rows, and 13 more variables: lon <dbl>, city <chr>,
+#> #   state <chr>, country <chr>, timezone <chr>, join_mode <chr>,
+#> #   visibility <chr>, who <chr>, organizer_id <int>, organizer_name <chr>,
+#> #   category_id <int>, category_name <chr>, resource <list>
 ```
 
 ## How can you contribute?
 
-Take a look at some resources:
+We are looking for new people to join the list of contributors\! Please
+take a look at the open
+[issues](https://github.com/rladies/meetupr/issues), file a new issue,
+contribute tests, or improve the documentation. We are also looking to
+expand the set of functions to include more endpoints from the [Meetup
+API](https://www.meetup.com/meetup_api/). Lastly, we’d also love to
+[hear about](https://github.com/rladies/meetupr/issues/74) any
+applications of the **meetupr** package, so we can compile a list of
+demos\!
 
-  - <https://www.meetup.com/meetup_api/>
-  - <https://www.meetup.com/meetup_api/clients/>
-
-In order to run our tests, you will have to set the `urlname` for meetup
-you belong to as an environment variable using the following code:
-
-``` r
-Sys.setenv(MEETUP_NAME = "YOUR MEETUP NAME")
-```
-
-### TODO:
-
-  - add tests
-
-–
-
-Please note that the ‘meetupr’ project is released with a [Contributor
-Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project,
-you agree to abide by its terms.
+Please note that the this project is released with a [Contributor Code
+of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you
+agree to abide by its terms.
