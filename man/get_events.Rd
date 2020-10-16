@@ -4,8 +4,7 @@
 \alias{get_events}
 \title{Get the events from a meetup group}
 \usage{
-get_events(urlname, event_status = "upcoming", fields = NULL,
-  api_key = NULL)
+get_events(urlname, event_status = "upcoming", fields = NULL, api_key = NULL)
 }
 \arguments{
 \item{urlname}{Character. The name of the group as indicated in the

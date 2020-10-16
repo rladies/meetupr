@@ -45,16 +45,9 @@ Depends:
 Imports:
     httr,
     purrr,
-<<<<<<< HEAD
-    tibble
-RoxygenNote: 6.1.1
-Suggests: testthat,
-    here,
-=======
     tibble,
     withr
 Suggests:
->>>>>>> 0916f4436fa1ab8f01a3c7d50ff65a5accfdd162
     knitr,
     rmarkdown,
     testthat
@@ -62,4 +55,4 @@ VignetteBuilder:
     knitr
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
