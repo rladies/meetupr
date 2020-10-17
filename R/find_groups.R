@@ -4,6 +4,7 @@
 #' @param topic_id  Integer. Meetup.com topic ID.
 #' @param radius can be either "global" (default) or distance in miles in the
 #' range 0-100.
+#' @param fields Character. Optional fields that are not returned by default.
 #' @template api_key
 #'
 #' @return A tibble with the following columns:
@@ -37,14 +38,29 @@
 #' api_key <- Sys.getenv("MEETUP_KEY")
 #' groups <- find_groups(text = "r-ladies", api_key = api_key)
 #' groups <- find_groups(topic_id = 1513883, api_key = api_key)
+#' groups <- find_groups(text = "r-ladies", fields = "past_event_count,
+#'  upcoming_event_count", api_key = api_key)
+#' past_event_counts <- purrr::map_dbl(groups$resource, "past_event_count",
+#'  .default = 0)
+#' upcoming_event_counts <- purrr::map_dbl(groups$resource, "upcoming_event_count",
+#'  .default = 0)
 #'}
 #' @export
-find_groups <- function(text = NULL, topic_id = NULL, radius = "global", api_key = NULL) {
+find_groups <- function(text = NULL, topic_id = NULL, radius = "global", fields = NULL, api_key = NULL) {
   api_method <- "find/groups"
+  # If topic_id is a vector, change it to single string of comma separated values
+  if(length(topic_id) > 1){
+    topic_id <- paste(topic_id, collapse = ",")
+  }
+  # If fields is a vector, change it to single string of comma separated values
+  if(length(fields) > 1){
+    fields <- paste(fields, collapse = ",")
+  }
   res <- .fetch_results(api_method = api_method,
                         api_key = api_key,
                         text = text,
                         topic_id = topic_id,
+                        fields = fields,
                         radius = radius)
   tibble::tibble(
     id = purrr::map_int(res, "id"),

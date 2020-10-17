@@ -9,7 +9,7 @@
 #'  * proposed
 #'  * suggested
 #'  * upcoming
-#'
+#' @param fields Character, character vector or characters separated by comma (e.g "event_hosts" or c("event_hosts","attendance_count") or "event_hosts, group_past_event_count").
 #' @template api_key
 #'
 #' @return A tibble with the following columns:
@@ -44,9 +44,19 @@
 #'                       event_status = "past")
 #' upcoming_events <- get_events(urlname = urlname,
 #'                       event_status = "upcoming")
+#' past_meetings <- get_events(urlname = urlname,
+#'                  event_status = "past",
+#'                  fields = "event_hosts", api_key = api_key)
+#' # get events hosts (co-organizers) of single past meeting
+#' single_event <- past_meetings$resource[[1]]$event_hosts
+#'
+#' # get all event hosts names (2) and host_counts (6) for that single event
+#' # host_counts represents how events the person has co-organized or hosted.
+#' do.call("rbind", lapply(single_event, '[', c(2,6)))
+
 #'}
 #' @export
-get_events <- function(urlname, event_status = "upcoming", api_key = NULL) {
+get_events <- function(urlname, event_status = "upcoming", fields = NULL, api_key = NULL) {
   if (!is.null(event_status) &&
      !event_status %in% c("cancelled", "draft", "past", "proposed", "suggested", "upcoming")) {
     stop(sprintf("Event status %s not allowed", event_status))
@@ -55,8 +65,12 @@ get_events <- function(urlname, event_status = "upcoming", api_key = NULL) {
   if (length(event_status) > 1) {
     event_status <- paste(event_status, collapse = ",")
   }
+  # If fields is a vector, change it to single string of comma separated values
+  if(length(fields) > 1){
+    fields <- paste(fields, collapse = ",")
+  }
   api_method <- paste0(urlname, "/events")
-  res <- .fetch_results(api_method, api_key, event_status)
+  res <- .fetch_results(api_method, api_key, event_status, fields = fields)
   tibble::tibble(
     id = purrr::map_chr(res, "id"),  #this is returned as chr (not int)
     name = purrr::map_chr(res, "name"),

@@ -36,7 +36,11 @@ Authors@R:
       person(given = "Rick",
              family = "Pack",
              role = "ctb",
-             email = "rickeyhp@gmail.com"))
+             email = "rickeyhp@gmail.com"),
+      person(given = "Ben",
+             family = "Ubah",
+             role = "ctb",
+             email = "ubah.ben22@gmail.com"))
 Description: Provides access to data from 'meetup.com' (see
     https://www.meetup.com/meetup_api/ for more information).
 License: MIT + file LICENSE
@@ -55,4 +59,4 @@ VignetteBuilder:
     knitr
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1

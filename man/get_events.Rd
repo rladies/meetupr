@@ -4,7 +4,7 @@
 \alias{get_events}
 \title{Get the events from a meetup group}
 \usage{
-get_events(urlname, event_status = "upcoming", api_key = NULL)
+get_events(urlname, event_status = "upcoming", fields = NULL, api_key = NULL)
 }
 \arguments{
 \item{urlname}{Character. The name of the group as indicated in the
@@ -20,6 +20,8 @@ Valid inputs are:
 \item suggested
 \item upcoming
 }}
+
+\item{fields}{Character, character vector or characters separated by comma (e.g "event_hosts" or c("event_hosts","attendance_count") or "event_hosts, group_past_event_count").}
 
 \item{api_key}{Character. Your api key. Defaults to checking your environment
 for a parameter called "MEETUP_KEY" via \code{Sys.getenv("MEETUP_KEY")}. This key can be
@@ -62,6 +64,15 @@ past_events <- get_events(urlname = urlname,
                       event_status = "past")
 upcoming_events <- get_events(urlname = urlname,
                       event_status = "upcoming")
+past_meetings <- get_events(urlname = urlname,
+                 event_status = "past",
+                 fields = "event_hosts", api_key = api_key)
+# get events hosts (co-organizers) of single past meeting
+single_event <- past_meetings$resource[[1]]$event_hosts
+
+# get all event hosts names (2) and host_counts (6) for that single event
+# host_counts represents how events the person has co-organized or hosted.
+do.call("rbind", lapply(single_event, '[', c(2,6)))
 }
 }
 \references{
