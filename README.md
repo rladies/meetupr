@@ -24,14 +24,8 @@ A released version will be on CRAN
 
 ### Authentication
 
-As of August 15, 2019, Meetup.com switched from an API key based
-authentication system to
-[OAuth 2.0](https://www.meetup.com/meetup_api/auth/), so we now [support
-OAuth authentication](https://github.com/rladies/meetupr/issues/51). The
-functions all have a `api_key` argument which is no longer used and will
-eventually be
-[deprecated](https://github.com/rladies/meetupr/issues/59). In order to
-use this package, you can use our built-in OAuth credentials
+In order to use this package, you can use our built-in
+[OAuth](https://www.meetup.com/meetup_api/auth/) credentials
 (recommended), or if you prefer, you can supply your own by setting the
 `meetupr.consumer_key` and `meetupr.consumer_secret` variables.
 
@@ -39,6 +33,13 @@ Each time you use the package, you will be prompted to log in to your
 meetup.com account. The first time you run any of the **meetupr**
 functions in your session, R will open a browser window, prompting you
 to “Log In and Grant Access” (to the **meetupr** “application”).
+
+*Note: As of August 15, 2019, Meetup.com switched from an API key based
+authentication system to OAuth 2.0, so we [added
+support](https://github.com/rladies/meetupr/issues/51) for OAuth. For
+backwards compatibility, the functions all still have a `api_key`
+argument which is no longer used and will eventually be
+[deprecated](https://github.com/rladies/meetupr/issues/59).*
 
 ### Functions
 
@@ -100,7 +101,7 @@ dplyr::arrange(groups, desc(created))
 #> # A tibble: 138 x 21
 #>        id name  urlname created             members status organizer   lat
 #>     <int> <chr> <chr>   <dttm>                <int> <chr>  <chr>     <dbl>
-#>  1 3.38e7 R-La… rladie… 2020-06-12 22:50:37     256 active R-Ladies… -1.29
+#>  1 3.38e7 R-La… rladie… 2020-06-12 22:50:37     259 active R-Ladies… -1.29
 #>  2 3.34e7 R-La… rladie… 2020-02-22 09:51:34      37 active R-Ladies… 52.4 
 #>  3 3.34e7 R-La… rladie… 2020-02-22 09:39:39       9 active R-Ladies… 43.3 
 #>  4 3.32e7 R-La… rladie… 2020-01-12 09:47:12     281 active R-Ladies… 25.7 
