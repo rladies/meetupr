@@ -38,7 +38,7 @@ In order to use this package, you can use our built-in [OAuth](https://www.meetu
 
 Each time you use the package, you will be prompted to log in to your meetup.com account.  The first time you run any of the **meetupr** functions in your session, R will open a browser window, prompting you to "Log In and Grant Access" (to the **meetupr** "application").
 
-_Note: As of August 15, 2019, Meetup.com switched from an API key based authentication system to OAuth 2.0, so we [added support](https://github.com/rladies/meetupr/issues/51) for OAuth.  For backwards compatibility, the functions all still have a `api_key` argument which is no longer used and will eventually be [deprecated](https://github.com/rladies/meetupr/issues/59)._ 
+_Note: As of August 15, 2019, Meetup.com switched from an API key based authentication system to OAuth 2.0, so we [added support](https://github.com/rladies/meetupr/issues/51) for OAuth.  For backwards compatibility, the functions all still have an `api_key` argument which is no longer used and will eventually be [deprecated](https://github.com/rladies/meetupr/issues/59)._ 
 
 ### Functions
 
