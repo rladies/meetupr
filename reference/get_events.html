@@ -127,7 +127,7 @@
     <p>Get the events from a meetup group</p>
     </div>
 
-    <pre class="usage"><span class='fu'>get_events</span><span class='op'>(</span><span class='va'>urlname</span>, event_status <span class='op'>=</span> <span class='st'>"upcoming"</span>, fields <span class='op'>=</span> <span class='cn'>NULL</span>, api_key <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get_events</span><span class='op'>(</span><span class='va'>urlname</span>, event_status <span class='op'>=</span> <span class='st'>"upcoming"</span>, api_key <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -148,10 +148,6 @@ Valid inputs are:</p><ul>
 <li><p>suggested</p></li>
 <li><p>upcoming</p></li>
 </ul></td>
-    </tr>
-    <tr>
-      <th>fields</th>
-      <td><p>Character, character vector or characters separated by comma (e.g "event_hosts" or c("event_hosts","attendance_count") or "event_hosts, group_past_event_count").</p></td>
     </tr>
     <tr>
       <th>api_key</th>
@@ -199,15 +195,6 @@ run <code><a href='https://rdrr.io/r/base/Sys.setenv.html'>Sys.setenv(MEETUP_KEY
                       event_status <span class='op'>=</span> <span class='st'>"past"</span><span class='op'>)</span>
 <span class='va'>upcoming_events</span> <span class='op'>&lt;-</span> <span class='fu'>get_events</span><span class='op'>(</span>urlname <span class='op'>=</span> <span class='va'>urlname</span>,
                       event_status <span class='op'>=</span> <span class='st'>"upcoming"</span><span class='op'>)</span>
-<span class='va'>past_meetings</span> <span class='op'>&lt;-</span> <span class='fu'>get_events</span><span class='op'>(</span>urlname <span class='op'>=</span> <span class='va'>urlname</span>,
-                 event_status <span class='op'>=</span> <span class='st'>"past"</span>,
-                 fields <span class='op'>=</span> <span class='st'>"event_hosts"</span>, api_key <span class='op'>=</span> <span class='va'>api_key</span><span class='op'>)</span>
-<span class='co'># get events hosts (co-organizers) of single past meeting</span>
-<span class='va'>single_event</span> <span class='op'>&lt;-</span> <span class='va'>past_meetings</span><span class='op'>$</span><span class='va'>resource</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>$</span><span class='va'>event_hosts</span>
-
-<span class='co'># get all event hosts names (2) and host_counts (6) for that single event</span>
-<span class='co'># host_counts represents how events the person has co-organized or hosted.</span>
-<span class='fu'><a href='https://rdrr.io/r/base/do.call.html'>do.call</a></span><span class='op'>(</span><span class='st'>"rbind"</span>, <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='va'>single_event</span>, <span class='st'>'['</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>2</span>,<span class='fl'>6</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
 <span class='op'>}</span>
 </div></pre>
   </div>
@@ -221,7 +208,7 @@ run <code><a href='https://rdrr.io/r/base/Sys.setenv.html'>Sys.setenv(MEETUP_KEY
 
       <footer>
       <div class="copyright">
-  <p>Developed by Erin LeDell, Olga Mierzwa-Sulima, Lucy D'Agostino McGowan, Claudia Vitolo.</p>
+  <p>Developed by Gabriela De Queiroz, Erin LeDell, Olga Mierzwa-Sulima, Lucy D'Agostino McGowan, Claudia Vitolo.</p>
 </div>
 
 <div class="pkgdown">
