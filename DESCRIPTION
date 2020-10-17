@@ -3,11 +3,7 @@ Package: meetupr
 Title: Meetup R API
 Version: 0.2.1
 Authors@R: 
-    c(person(given = "Gabriela",
-             family = "De Queiroz",
-             role = "aut",
-             email = "gabriela@rladies.org"),
-      person(given = "Erin",
+    c(person(given = "Erin",
              family = "LeDell",
              role = c("aut", "cre"),
              email = "oss@ledell.org"),
@@ -22,6 +18,10 @@ Authors@R:
       person(given = "Claudia",
              family = "Vitolo",
              role = "aut"),
+      person(given = "Gabriela",
+             family = "De Queiroz",
+             role = "ctb",
+             email = "gabriela@rladies.org"),       
       person(given = "Michael",
              family = "Beigelmacher",
              role = "ctb"),
