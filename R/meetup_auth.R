@@ -23,7 +23,7 @@
 #'   \code{.rds} file
 #'   \item TODO: read the token from an object or from an \code{.rds} file
 #'   \item TODO: provide your own app key and secret -- this requires setting up
-#'   a new project in \href{https://console.developers.google.com}{Google Developers Console}
+#'   a new OAuth consumer on \href{https://secure.meetup.com/meetup_api/oauth_consumers/}{Meetup}
 #'   \item TODO: prevent caching of credentials in \code{.httr-oauth}
 #' }
 #'
@@ -74,15 +74,15 @@
 #' \dontrun{
 #' ## load/refresh existing credentials, if available
 #' ## otherwise, go to browser for authentication and authorization
-#' gs_auth()
+#' meetup_auth()
 #'
 #' ## store token in an object and then to file
-#' ttt <- gs_auth()
+#' ttt <- meetup_auth()
 #' saveRDS(ttt, "ttt.rds")
 #'
 #' ## load a pre-existing token
-#' gs_auth(token = ttt)       # from an object
-#' gs_auth(token = "ttt.rds") # from .rds file
+#' meetup_auth(token = ttt)       # from an object
+#' meetup_auth(token = "ttt.rds") # from .rds file
 #' }
 meetup_auth <- function(token = NULL,
                         new_user = FALSE,
