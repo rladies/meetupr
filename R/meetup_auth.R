@@ -175,10 +175,6 @@ meetup_auth <- function(token = meetup_token_path(),
 
   spf(paste0("Input provided via 'token' is neither a token,\n",
                "nor a path to an .rds file containing a token."))
-  }
-
-  save_and_refresh_token(meetup_token, token_path)
-  invisible(.state$token)
 
 }
 
