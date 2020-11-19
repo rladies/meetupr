@@ -2,11 +2,13 @@
 % Please edit documentation in R/meetup_auth.R
 \name{meetup_auth}
 \alias{meetup_auth}
-\alias{meetup_token_get}
+\alias{meetup_token}
+\alias{meetup_deauth}
+\alias{meetup_token_path}
 \title{Authorize \code{meetupr}}
 \usage{
 meetup_auth(
-  token = meetup_token_get(),
+  token = meetup_token_path(),
   new_user = FALSE,
   key = getOption("meetupr.consumer_key"),
   secret = getOption("meetupr.consumer_secret"),
@@ -16,7 +18,11 @@ meetup_auth(
   token_path = NULL
 )
 
-meetup_token_get()
+meetup_token(verbose = FALSE)
+
+meetup_deauth(clear_cache = TRUE, verbose = TRUE)
+
+meetup_token_path()
 }
 \arguments{
 \item{token}{optional; an actual token object or the path to a valid token
@@ -47,8 +53,14 @@ If \code{cache} is \code{FALSE} this is ignored.}
 
 \item{token_path}{Path where to save the token. If \code{set_renv} is \code{FALSE},
 this is ignored.}
+
+\item{clear_cache}{logical indicating whether to disable the
+\code{.httr-oauth} file in working directory, if such exists, by renaming
+to \code{.httr-oauth-SUSPENDED}}
 }
 \value{
+a \code{request} object (an S3 class provided by \code{httr})
+
 Either NULL or the path in which the token is saved.
 }
 \description{
@@ -59,6 +71,13 @@ saved to a file in your home directory whose path is saved in \code{.Renviron}
 as \code{MEETUPR_PAT}.
 If you set \code{set_env} to \code{FALSE} but \code{cache} to \code{TRUE},
 they are cached in a file named \code{.httr-oauth} in the current working directory.
+
+If token is not already available, call \code{\link{meetup_auth}} to either
+load from cache or initiate OAuth2.0 flow. Return the token -- not "bare"
+but, rather, prepared for inclusion in downstream requests.
+
+Suspend \code{\link{meetupr}}'s authorization to place requests to the Meetup
+APIs on behalf of the authenticated user.
 }
 \examples{
 \dontrun{
@@ -74,11 +93,13 @@ saveRDS(ttt, "ttt.rds")
 meetup_auth(token = ttt)       # from an object
 meetup_auth(token = "ttt.rds") # from .rds file
 }
-meetup_token_get()
+\dontrun{
+meetup_token()
 }
-\seealso{
-Other auth functions: 
-\code{\link{meetup_deauth}()},
-\code{\link{meetup_token}()}
+\dontrun{
+meetup_deauth()
+}
+meetup_token_path()
 }
 \concept{auth functions}
+\keyword{internal}
