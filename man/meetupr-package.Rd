@@ -14,7 +14,6 @@ Provides access to data from 'meetup.com' (see
 
 Authors:
 \itemize{
-  \item Gabriela De Queiroz \email{gabriela@rladies.org}
   \item Olga Mierzwa-Sulima \email{olga@rladies.org}
   \item Lucy D'Agostino McGowan \email{lucy@rladies.org}
   \item Claudia Vitolo
@@ -22,6 +21,7 @@ Authors:
 
 Other contributors:
 \itemize{
+  \item Gabriela De Queiroz \email{gabriela@rladies.org} [contributor]
   \item Michael Beigelmacher [contributor]
   \item Augustina Ragwitz \email{augustina.ragwitz@ibm.com} [contributor]
   \item Greg Sutcliffe \email{github@emeraldverie.org} [contributor]

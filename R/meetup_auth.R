@@ -9,8 +9,18 @@
 #' Authorize \code{meetupr} via the OAuth API. You will be directed to a web
 #' browser, asked to sign in to your Meetup account, and to grant \code{meetupr}
 #' permission to operate on your behalf. By default, these user credentials are
-#' cached in a file named \code{.httr-oauth} in the current working directory,
-#' from where they can be automatically refreshed, as necessary.
+#' saved to a file in your home directory whose path is saved in `.Renviron`
+#' as `MEETUPR_PAT`.
+#' If you set `set_env` to `FALSE` but `cache` to `TRUE`,
+#' they are cached in a file named \code{.httr-oauth} in the current working directory.
+#'
+#' @section How to force meetupr to use a given token?
+#'
+#' Save this token somewhere on disk.
+#' Set the environment variable `MEETUPR_PAT` to the path to that file.
+#' Call `meetup_token_get()` and check it returns the right path.
+#'
+#' @section Advanced usage
 #'
 #' Most users, most of the time, do not need to call this function explicitly --
 #' it will be triggered by the first action that requires authorization. Even
@@ -18,18 +28,18 @@
 #' necessary, this function allows the user to
 #'
 #' \itemize{
-#'   \item TODO: force the creation of a new token
-#'   \item TODO: retrieve current token as an object, for possible storage to an
+#'   \item force the creation of a new token
+#'   \item retrieve current token as an object, for possible storage to an
 #'   \code{.rds} file
-#'   \item TODO: read the token from an object or from an \code{.rds} file
-#'   \item TODO: provide your own app key and secret -- this requires setting up
+#'   \item read the token from an object or from an \code{.rds} file
+#'   \item provide your own app key and secret -- this requires setting up
 #'   a new OAuth consumer on \href{https://secure.meetup.com/meetup_api/oauth_consumers/}{Meetup}
-#'   \item TODO: prevent caching of credentials in \code{.httr-oauth}
+#'   \item prevent caching of credentials
 #' }
 #'
 #' In a direct call to \code{meetup_auth}, the user can provide the token, app
 #' key and secret explicitly and can dictate whether interactively-obtained
-#' credentials will be cached in \code{.httr_oauth}. If unspecified, these
+#' credentials will be cached. If unspecified, these
 #' arguments are controlled via options, which, if undefined at the time
 #' \code{meetupr} is loaded, are defined like so:
 #'
@@ -79,6 +89,7 @@
 #'  this is ignored.
 #' @param verbose logical; do you want informative messages?
 #'
+#' @rdname meetup-oauth
 #' @export
 #' @family auth functions
 #' @examples
