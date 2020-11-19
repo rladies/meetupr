@@ -46,17 +46,28 @@ spf <- function(...) stop(sprintf(...), call. = FALSE)
   return(list(result = reslist, headers = req$headers))
 }
 
+meetup_api_prefix <- function() {
+
+  env_url <- Sys.getenv("MEETUP_API_URL")
+
+  if(nzchar(env_url)) {
+    return(env_url)
+  }
+
+  "https://api.meetup.com/"
+}
+
 # Fetch all the results of a query given an API Method
 # Will make multiple calls to the API if needed
 # API Methods listed here: https://www.meetup.com/meetup_api/docs/
 .fetch_results <- function(api_method, api_key = NULL, event_status = NULL, ...) {
 
   # Build the API endpoint URL
-  meetup_api_prefix <- "https://api.meetup.com/"
+  meetup_api_prefix <- meetup_api_prefix()
   api_url <- paste0(meetup_api_prefix, api_method)
 
   # Fetch first set of results (limited to 200 records each call)
-  
+
   res <- .quick_fetch(api_url = api_url,
                       api_key = api_key,
                       event_status = event_status,
@@ -84,7 +95,7 @@ spf <- function(...) stop(sprintf(...), call. = FALSE)
                           event_status = event_status,
                           offset = i,
                           ...)
-      
+
       next_url <- strsplit(strsplit(res$headers$link, split = "<")[[1]][2], split = ">")[[1]][1]
       res <- .quick_fetch(next_url, event_status)
 
