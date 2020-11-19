@@ -3,8 +3,10 @@
 
 # meetupr
 
-[![Build
-Status](https://travis-ci.org/rladies/meetupr.svg?branch=master)](https://travis-ci.org/rladies/meetupr)
+<!-- badges: start -->
+
+[![R-CMD-check](https://github.com/rladies/meetupr/workflows/R-CMD-check/badge.svg)](https://github.com/rladies/meetupr/actions)
+<!-- badges: end -->
 
 R interface to the [Meetup API](https://www.meetup.com/meetup_api/) (v3)
 
@@ -64,24 +66,22 @@ library(meetupr)
 
 urlname <- "rladies-san-francisco"
 events <- get_events(urlname, "past")
-#> Meetup is moving to OAuth *only* as of 2019-08-15. Set
-#> `meetupr.use_oauth = FALSE` in your .Rprofile, to use
-#> the legacy `api_key` authorization.
+#> Auto-refreshing stale OAuth token.
 #> Downloading 60 record(s)...
 dplyr::arrange(events, desc(created))
 #> # A tibble: 60 x 21
 #>    id    name  created             status time                local_date
 #>    <chr> <chr> <dttm>              <chr>  <dttm>              <date>    
-#>  1 2730… A co… 2020-09-04 11:04:50 past   2020-09-10 15:30:00 2020-09-10
-#>  2 2724… Tang… 2020-08-06 12:24:51 past   2020-08-27 17:30:00 2020-08-27
-#>  3 2679… R-La… 2020-01-16 10:08:03 past   2020-01-30 17:00:00 2020-01-30
-#>  4 2663… Dece… 2019-11-11 14:10:10 past   2019-12-10 18:00:00 2019-12-10
-#>  5 2651… Work… 2019-09-23 12:28:24 past   2019-10-16 18:00:00 2019-10-16
-#>  6 2632… Augu… 2019-07-17 10:29:10 past   2019-08-07 18:00:00 2019-08-07
-#>  7 2627… R-La… 2019-06-28 15:24:12 past   2019-07-21 11:00:00 2019-07-21
-#>  8 2626… Baye… 2019-06-26 20:11:16 past   2019-07-17 18:00:00 2019-07-17
-#>  9 2610… Mini… 2019-04-30 17:49:52 past   2019-05-18 13:30:00 2019-05-18
-#> 10 2590… NLP … 2019-02-15 14:36:58 past   2019-03-12 18:00:00 2019-03-12
+#>  1 2730… A co… 2020-09-04 20:04:50 past   2020-09-11 00:30:00 2020-09-10
+#>  2 2724… Tang… 2020-08-06 21:24:51 past   2020-08-28 02:30:00 2020-08-27
+#>  3 2679… R-La… 2020-01-16 19:08:03 past   2020-01-31 02:00:00 2020-01-30
+#>  4 2663… Dece… 2019-11-11 23:10:10 past   2019-12-11 03:00:00 2019-12-10
+#>  5 2651… Work… 2019-09-23 21:28:24 past   2019-10-17 03:00:00 2019-10-16
+#>  6 2632… Augu… 2019-07-17 19:29:10 past   2019-08-08 03:00:00 2019-08-07
+#>  7 2627… R-La… 2019-06-29 00:24:12 past   2019-07-21 20:00:00 2019-07-21
+#>  8 2626… Baye… 2019-06-27 05:11:16 past   2019-07-18 03:00:00 2019-07-17
+#>  9 2610… Mini… 2019-05-01 02:49:52 past   2019-05-18 22:30:00 2019-05-18
+#> 10 2590… NLP … 2019-02-15 23:36:58 past   2019-03-13 02:00:00 2019-03-12
 #> # … with 50 more rows, and 15 more variables: local_time <chr>,
 #> #   waitlist_count <int>, yes_rsvp_count <int>, venue_id <int>,
 #> #   venue_name <chr>, venue_lat <dbl>, venue_lon <dbl>, venue_address_1 <chr>,
@@ -101,16 +101,16 @@ dplyr::arrange(groups, desc(created))
 #> # A tibble: 138 x 21
 #>        id name  urlname created             members status organizer   lat
 #>     <int> <chr> <chr>   <dttm>                <int> <chr>  <chr>     <dbl>
-#>  1 3.38e7 R-La… rladie… 2020-06-12 22:50:37     259 active R-Ladies… -1.29
-#>  2 3.34e7 R-La… rladie… 2020-02-22 09:51:34      37 active R-Ladies… 52.4 
-#>  3 3.34e7 R-La… rladie… 2020-02-22 09:39:39       9 active R-Ladies… 43.3 
-#>  4 3.32e7 R-La… rladie… 2020-01-12 09:47:12     281 active R-Ladies… 25.7 
-#>  5 3.32e7 R-La… rladie… 2020-01-12 09:39:04      24 active R-Ladies… 51.8 
-#>  6 3.31e7 R-La… rladie… 2019-12-15 11:50:22      68 active R-Ladies… 38.9 
-#>  7 3.31e7 R-La… rladie… 2019-12-15 05:30:12      38 active R-Ladies…  6.93
-#>  8 3.31e7 R-La… rladie… 2019-11-30 08:55:10      36 active R-Ladies… 30.0 
-#>  9 3.31e7 R-La… rladie… 2019-11-30 08:09:20       7 active R-Ladies… 43.0 
-#> 10 3.30e7 R-La… rladie… 2019-11-23 11:14:43      78 active R-Ladies… 19.0 
+#>  1 3.38e7 R-La… rladie… 2020-06-13 07:50:37     348 active R-Ladies… -1.29
+#>  2 3.34e7 R-La… rladie… 2020-02-22 18:51:34      75 active R-Ladies… 52.4 
+#>  3 3.34e7 R-La… rladie… 2020-02-22 18:39:39       9 active R-Ladies… 43.3 
+#>  4 3.32e7 R-La… rladie… 2020-01-12 18:47:12     288 active R-Ladies… 25.7 
+#>  5 3.32e7 R-La… rladie… 2020-01-12 18:39:04      26 active R-Ladies… 51.8 
+#>  6 3.31e7 R-La… rladie… 2019-12-15 20:50:22      73 active R-Ladies… 38.9 
+#>  7 3.31e7 R-La… rladie… 2019-12-15 14:30:12      40 active R-Ladies…  6.93
+#>  8 3.31e7 R-La… rladie… 2019-11-30 17:55:10      37 active R-Ladies… 30.0 
+#>  9 3.31e7 R-La… rladie… 2019-11-30 17:09:20       7 active R-Ladies… 43.0 
+#> 10 3.30e7 R-La… rladie… 2019-11-23 20:14:43      77 active R-Ladies… 19.0 
 #> # … with 128 more rows, and 13 more variables: lon <dbl>, city <chr>,
 #> #   state <chr>, country <chr>, timezone <chr>, join_mode <chr>,
 #> #   visibility <chr>, who <chr>, organizer_id <int>, organizer_name <chr>,
