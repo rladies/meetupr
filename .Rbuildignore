@@ -12,3 +12,4 @@
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+^tests/testthat/\.meetup_token\.rds$

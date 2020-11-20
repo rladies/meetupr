@@ -76,7 +76,7 @@
 #' @param key,secret the "Client ID" and "Client secret" for the application;
 #'   defaults to the ID and secret built into the \code{meetupr} package
 #' @param cache logical indicating if \code{meetupr} should cache
-#'   credentials in the default cache file \code{.httr-oauth}
+#'   credentials in the default cache file \code{.httr-oauth} or `token_path`.
 #' @param set_renv Logical indicating whether to save the created token
 #'   as the default environment meetup token variable. Defaults to TRUE,
 #'   meaning the token is saved to user's home directory as either the user
@@ -131,15 +131,30 @@ meetup_auth <- function(token = meetup_token_path(),
       authorize = 'https://secure.meetup.com/oauth2/authorize',
       access    = 'https://secure.meetup.com/oauth2/access'
     )
-    meetup_token <- httr::oauth2.0_token(meetup_endpoints, meetup_app,
-                                         cache = cache)
-    stopifnot(is_legit_token(meetup_token, verbose = TRUE))
-    if (set_renv && cache) {
-      if (is.null(token_path)) {
-        token_path <- uq_filename(file.path(home(), ".meetup_token.rds"))
+
+
+    if (cache) {
+      if (set_renv) {
+        if (is.null(token_path)) {
+          token_path <- token_path <- uq_filename(file.path(home(), ".meetup_token.rds"))
+        }
+
       }
 
-      saveRDS(meetup_token, file = token_path, compress = FALSE)
+      if (!is.null(token_path)) {
+        cache <- token_path
+      }
+    }
+
+    meetup_token <- httr::oauth2.0_token(
+      meetup_endpoints,
+      meetup_app,
+      cache = cache
+      )
+
+    stopifnot(is_legit_token(meetup_token, verbose = TRUE))
+
+    if (set_renv && cache) {
       set_renv("MEETUPR_PAT" = token_path)
     }
 
@@ -154,8 +169,8 @@ meetup_auth <- function(token = meetup_token_path(),
     .state$token <- token
 
     # If you provide a token directly we're not gonna save it for you
-    save_and_refresh_token(meetup_token, NULL)
-    return(invisible(token))
+    save_and_refresh_token(token, NULL)
+    return(invisible(.state$token))
 
   }
 
@@ -374,5 +389,5 @@ save_and_refresh_token <- function(token, path) {
     }
   }
 
-  .state$token <- meetup_token
+  .state$token <- token
 }
