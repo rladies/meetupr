@@ -136,7 +136,7 @@ meetup_auth <- function(token = meetup_token_path(),
     if (cache) {
       if (set_renv) {
         if (is.null(token_path)) {
-          token_path <- token_path <- uq_filename(file.path(home(), ".meetup_token.rds"))
+          token_path <- uq_filename(file.path(home(), ".meetup_token.rds"))
         }
 
       }

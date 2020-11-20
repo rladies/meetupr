@@ -52,6 +52,8 @@ Imports:
     tibble,
     withr
 Suggests:
+    sodium,
+    cyphr,
     knitr,
     rmarkdown,
     testthat

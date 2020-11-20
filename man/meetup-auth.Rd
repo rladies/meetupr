@@ -37,7 +37,7 @@ working directory.}
 defaults to the ID and secret built into the \code{meetupr} package}
 
 \item{cache}{logical indicating if \code{meetupr} should cache
-credentials in the default cache file \code{.httr-oauth}}
+credentials in the default cache file \code{.httr-oauth} or \code{token_path}.}
 
 \item{verbose}{logical; do you want informative messages?}
 
