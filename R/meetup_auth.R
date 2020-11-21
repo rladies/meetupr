@@ -183,8 +183,7 @@ meetup_auth <- function(token = meetup_token_path(),
     stopifnot(is_legit_token(token, verbose = TRUE))
     .state$token <- token
 
-    # If you provide a token directly we're not gonna save it for you
-    save_and_refresh_token(token, NULL)
+    save_and_refresh_token(token, token_path)
     return(invisible(.state$token))
 
   }
