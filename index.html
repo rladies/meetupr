@@ -84,9 +84,9 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p>To install the development version from GitHub:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="co"># install.packages("remotes")</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"rladies/meetupr"</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"rladies/meetupr"</span><span class="op">)</span></code></pre></div>
 <p>A released version will be on CRAN <a href="https://github.com/rladies/meetupr/issues/24">soon</a>.</p>
 </div>
 <div id="usage" class="section level2">
@@ -117,8 +117,8 @@
 <li><code><a href="reference/find_groups.html">find_groups()</a></code></li>
 </ul>
 <p>Each will output a tibble with information extracted into from the API as well as a <code>list-col</code> named <code>*_resource</code> with all API output. For example, the following code will get all upcoming events for the <a href="https://meetup.com/rladies-san-francisco">R-Ladies San Francisco</a> meetup.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">meetupr</span><span class="op">)</span>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">meetupr</span><span class="op">)</span>
 
 <span class="va">urlname</span> <span class="op">&lt;-</span> <span class="st">"rladies-san-francisco"</span>
 <span class="va">events</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_events.html">get_events</a></span><span class="op">(</span><span class="va">urlname</span>, <span class="st">"past"</span><span class="op">)</span>
@@ -144,10 +144,10 @@
 <span class="co">#&gt; #   waitlist_count &lt;int&gt;, yes_rsvp_count &lt;int&gt;, venue_id &lt;int&gt;,</span>
 <span class="co">#&gt; #   venue_name &lt;chr&gt;, venue_lat &lt;dbl&gt;, venue_lon &lt;dbl&gt;, venue_address_1 &lt;chr&gt;,</span>
 <span class="co">#&gt; #   venue_city &lt;chr&gt;, venue_state &lt;chr&gt;, venue_zip &lt;chr&gt;, venue_country &lt;chr&gt;,</span>
-<span class="co">#&gt; #   description &lt;chr&gt;, link &lt;chr&gt;, resource &lt;list&gt;</span></pre></div>
+<span class="co">#&gt; #   description &lt;chr&gt;, link &lt;chr&gt;, resource &lt;list&gt;</span></code></pre></div>
 <p>Next we can look up all R-Ladies groups by “topic id”. You can find topic ids for associated tags by querying <a href="https://secure.meetup.com/meetup_api/console/?path=/find/topics">here</a>. The <code>topic_id</code> for topic, “R-Ladies”, is <code>1513883</code>.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="va">groups</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/find_groups.html">find_groups</a></span><span class="op">(</span>topic_id <span class="op">=</span> <span class="fl">1513883</span><span class="op">)</span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">groups</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/find_groups.html">find_groups</a></span><span class="op">(</span>topic_id <span class="op">=</span> <span class="fl">1513883</span><span class="op">)</span>
 <span class="co">#&gt; Downloading 138 record(s)...</span>
 <span class="fu">dplyr</span><span class="fu">::</span><span class="fu">arrange</span><span class="op">(</span><span class="va">groups</span>, <span class="fu">desc</span><span class="op">(</span><span class="va">created</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 138 x 21</span>
@@ -166,7 +166,7 @@
 <span class="co">#&gt; # … with 128 more rows, and 13 more variables: lon &lt;dbl&gt;, city &lt;chr&gt;,</span>
 <span class="co">#&gt; #   state &lt;chr&gt;, country &lt;chr&gt;, timezone &lt;chr&gt;, join_mode &lt;chr&gt;,</span>
 <span class="co">#&gt; #   visibility &lt;chr&gt;, who &lt;chr&gt;, organizer_id &lt;int&gt;, organizer_name &lt;chr&gt;,</span>
-<span class="co">#&gt; #   category_id &lt;int&gt;, category_name &lt;chr&gt;, resource &lt;list&gt;</span></pre></div>
+<span class="co">#&gt; #   category_id &lt;int&gt;, category_name &lt;chr&gt;, resource &lt;list&gt;</span></code></pre></div>
 </div>
 </div>
 <div id="how-can-you-contribute" class="section level2">
@@ -191,7 +191,6 @@
 <h2>Community</h2>
 <ul class="list-unstyled">
 <li><a href="CONTRIBUTING.html">Contributing guide</a></li>
-<li><a href="CODE_OF_CONDUCT.html">Code of conduct</a></li>
 </ul>
 </div>
 <div class="developers">
