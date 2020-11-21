@@ -133,6 +133,15 @@ meetup_auth <- function(token = meetup_token_path(),
       access    = 'https://secure.meetup.com/oauth2/access'
     )
 
+    if (!cache && !is.null(token_path)) {
+      stop(
+        paste(
+        "You chose `cache` FALSE (no saving to disk) but input a `token_path`.",
+        "Should you set `cache` to TRUE?"
+        )
+      )
+    }
+
 
     if (cache) {
       if (set_renv) {
@@ -158,9 +167,12 @@ meetup_auth <- function(token = meetup_token_path(),
     stopifnot(is_legit_token(meetup_token, verbose = TRUE))
 
     if (set_renv && cache) {
+      # save path to token as variable in .Renviron
       set_renv("MEETUPR_PAT" = token_path)
     }
 
+    # save token to .state$token after refreshing if need be
+    # here we've just created it so probably no need to refresh it
     save_and_refresh_token(meetup_token, token_path)
     return(invisible(.state$token))
 
