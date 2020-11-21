@@ -71,6 +71,7 @@ saved to a file in your home directory whose path is saved in \code{.Renviron}
 as \code{MEETUPR_PAT}.
 If you set \code{set_env} to \code{FALSE} but \code{cache} to \code{TRUE},
 they are cached in a file named \code{.httr-oauth} in the current working directory.
+To control where the file is saved, use \code{token_path}.
 
 If token is not already available, call \code{\link{meetup_auth}} to either
 load from cache or initiate OAuth2.0 flow. Return the token -- not "bare"
