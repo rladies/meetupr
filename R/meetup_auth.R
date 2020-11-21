@@ -142,6 +142,7 @@ meetup_auth <- function(token = meetup_token_path(),
 
       }
 
+      # In all cases if cache is TRUE we want to set it to the filepath
       if (!is.null(token_path)) {
         cache <- token_path
       }
@@ -150,7 +151,8 @@ meetup_auth <- function(token = meetup_token_path(),
     meetup_token <- httr::oauth2.0_token(
       meetup_endpoints,
       meetup_app,
-      cache = cache
+      cache = cache # if FALSE won't be saved, if character will be saved
+      # to character (filepath)
       )
 
     stopifnot(is_legit_token(meetup_token, verbose = TRUE))
