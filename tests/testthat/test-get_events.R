@@ -1,23 +1,49 @@
-test_that("get_events() success case", {
-  withr::local_options(list(meetupr.use_oauth = FALSE))
-  set_api_key("yay")
+expected_names <- c("id", "name", "created", "status", "time", "local_date", "local_time",
+                    "waitlist_count", "yes_rsvp_count", "venue_id", "venue_name",
+                    "venue_lat", "venue_lon", "venue_address_1", "venue_city", "venue_state",
+                    "venue_zip", "venue_country", "description", "link", "resource"
+)
 
-  meetup_events <- with_mock(
-    `httr::GET` = function(url, query, ...) {
-      load(test_path("testdata/httr_get_get_events.rda"))
-      return(req)
-    },
-    meetup_events <- get_events(api_key="yay",
-                                urlname = "<3",
-                                event_status = "upcoming")
-  )
+test_that("get_events() works with one status", {
+  urlname <- "rladies-nashville"
+  vcr::use_cassette("get_events", {
+    past_events <- get_events(urlname = urlname,
+                              event_status = "past")
+  })
 
-  expect_equal(nrow(meetup_events), 1, label="check get_events() returns one result")
-  expect_equal(meetup_events$status, "upcoming", label="check get_events() content (status)")
+  expect_s3_class(past_events, "data.frame")
+  expect_true(
+    all(
+      names(past_events) == expected_names
+    ))
+
 })
 
-# TODO: multiple statuses
+test_that("get_events() works with multiple statuses", {
+  urlname <- "rladies-johannesburg"
+  vcr::use_cassette("get_events-2-status", {
+    past_events <- get_events(urlname = urlname,
+                              event_status = c("past", "upcoming"))
+  })
 
+  expect_s3_class(past_events, "data.frame")
+  expect_true(
+    all(
+      names(past_events) == expected_names
+    ))
+
+})
+
+test_that("get_events() has informative error messages", {
+  urlname <- "rladies-johannesburg"
+  expect_error(
+    get_events(urlname = urlname, event_status = "pasttt"),
+    "not allowed"
+    )
+  expect_error(
+    get_events(event_status = "past")
+  )
+})
 # TODO: event type is not allowed
 
 # TODO: "urlname is missing"

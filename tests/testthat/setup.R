@@ -18,7 +18,14 @@ meetupr::meetup_auth(
   cache = FALSE
 ) -> token
 
-library("meetupr")
-urlname <- "rladies-nashville"
-past_events <- get_events(urlname = urlname,
-                          event_status = "past")
+Sys.setenv(MEETUPR_PAT = temptoken)
+
+library("vcr")
+invisible(vcr::vcr_configure(
+  filter_sensitive_data = list(
+    "<<<my_access_token>>>" = token$credentials$access_token,
+    "<<<my_refresh_token>>>" = token$credentials$refresh_token
+    ),
+  dir = "../fixtures"
+))
+vcr::check_cassette_names()

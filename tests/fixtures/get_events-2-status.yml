@@ -1,0 +1,957 @@
+http_interactions:
+- request:
+    method: get
+    uri: https://api.meetup.com/rladies-johannesburg/events?status=past%2Cupcoming&offset=0
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      Accept: application/json, text/xml, application/xml, */*
+      Authorization: Bearer <<<my_access_token>>>
+  response:
+    status:
+      status_code: 200
+      category: Success
+      reason: OK
+      message: 'Success: (200) OK'
+    headers:
+      content-type: application/json; charset=utf-8
+      server: Apache/2.4.39 (Unix) OpenSSL/1.1.1c
+      x-meetup-server: ip-10-192-22-68
+      x-meetup-request-id: 51d4d611-035a-4404-b214-44840385925d
+      x-oauth-scopes: basic
+      x-accepted-oauth-scopes: basic
+      x-ratelimit-limit: '30'
+      x-ratelimit-remaining: '27'
+      x-ratelimit-reset: '8'
+      x-total-count: '27'
+      etag: '"502f7bec996c0c1c453f58da336fa9e5-gzip"'
+      content-encoding: gzip
+      accept-ranges: bytes
+      date: Sat, 21 Nov 2020 12:14:35 GMT
+      via: 1.1 varnish
+      x-served-by: cache-cdg20726-CDG
+      x-cache: MISS
+      x-cache-hits: '0'
+      x-timer: S1605960875.329598,VS0,VE528
+      vary: Accept-Encoding,User-Agent,Accept-Language
+      content-length: '11093'
+    body:
+      encoding: UTF-8
+      file: no
+      string: '[{"created":1530343894000,"duration":7200000,"id":"252299890","name":"July
+        Meetup","date_in_series_pattern":false,"status":"past","time":1532014200000,"local_date":"2018-07-19","local_time":"17:30","updated":1532028641000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":12,"venue":{"id":24221850,"name":"EMPIRE
+        Road, JOHANNESBURG ","lat":-26.180028915405273,"lon":28.04374885559082,"repinned":false,"address_1":"Wits
+        University ","city":"Johannesburg ","country":"ZA","localized_country_name":"South
+        Africa"},"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/252299890/","description":"<p>Please
+        bring a laptop with, as we will have an interactive session.</p> <p>Our speaker
+        Shalain Gopal will deliver a two-part talk:<br/>Part 1: Women in Data Science
+        &amp; the importance of women in the field<br/>Part 2: House Prices example
+        in R (Exploratory Data Analysis (EDA) &amp; prediction)</p> ","how_to_find_us":"Room
+        MSL 110, first floor, Lab Building next to TW Kambule Mathematical Sciences
+        Building","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1532512142000,"duration":7200000,"id":"253124736","name":"August
+        Meetup","date_in_series_pattern":false,"status":"past","time":1535470200000,"local_date":"2018-08-28","local_time":"17:30","updated":1535499822000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":20,"venue":{"id":24221850,"name":"EMPIRE
+        Road, JOHANNESBURG ","lat":-26.180028915405273,"lon":28.04374885559082,"repinned":false,"address_1":"Wits
+        University ","city":"Johannesburg ","country":"ZA","localized_country_name":"South
+        Africa"},"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/253124736/","description":"<p>Please
+        bring a laptop with and try your hand at the problem before the session. We
+        will have an interactive session.</p> <p>Our speaker Shalain Gopal will take
+        us through:<br/>A House Prices example in R (Exploratory Data Analysis (EDA)
+        &amp; prediction).<br/>Data, and slides providing guidance on how to tackle
+        the problem is at: <a href=\"https://github.com/rladies/meetup-presentations_jozi/tree/master/july-2018\"
+        class=\"linkified\">https://github.com/rladies/meetup-presentations_jozi/tree/master/july-2018</a></p>
+        ","how_to_find_us":" TW Kambule Mathematical Sciences Building, Wits University","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1536564259000,"duration":7200000,"id":"254547977","name":"September
+        Meetup","date_in_series_pattern":false,"status":"past","time":1537889400000,"local_date":"2018-09-25","local_time":"17:30","updated":1537902071000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":19,"venue":{"id":25935156,"name":"The
+        Campus, Wembley Building","lat":-26.04197120666504,"lon":28.0234317779541,"repinned":true,"address_1":"57
+        Sloane Street","address_2":"Bryanston","city":"Johannesburg","country":"za","localized_country_name":"South
+        Africa"},"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/254547977/","description":"<p>Please
+        bring a laptop with you as we will have an interactive session.<br/>Download
+        and install the ffg packages please:<br/>tidyverse<br/>plotly<br/>knitr<br/>We
+        will advise what dataset to download at a later stage, or bring it on a usb.</p>
+        <p>Our speaker Gabriella Camara will take us through a live coding, \u201cLearn
+        to code in R\u201d Session.</p> ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1538775886000,"duration":7200000,"id":"255306475","name":"October
+        Meetup","date_in_series_pattern":false,"status":"past","time":1540308600000,"local_date":"2018-10-23","local_time":"17:30","updated":1540321561000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":27,"venue":{"id":24221850,"name":"EMPIRE
+        Road, JOHANNESBURG ","lat":-26.180028915405273,"lon":28.04374885559082,"repinned":true,"address_1":"Wits
+        University ","city":"Johannesburg ","country":"ZA","localized_country_name":"South
+        Africa"},"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/255306475/","description":"<p>Our
+        very own Gemma Dawson will take us through: \u201cIntroduction to Machine
+        Learning in R\u201d.</p> ","how_to_find_us":" TW Kambule Mathematical Sciences
+        Building, Wits University, First Floor Seminar Room","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1541849697000,"duration":7200000,"id":"256296674","name":"November
+        Meetup","date_in_series_pattern":false,"status":"past","time":1543332600000,"local_date":"2018-11-27","local_time":"17:30","updated":1543342552000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":20,"venue":{"id":24107457,"name":"Wits
+        University","lat":-26.19080352783203,"lon":28.025449752807617,"repinned":true,"address_1":"CoE-MaSS
+        Videoconferencing Facility 1st Floor, Mathematical Sciences Building West
+        Campus, Braamfontein","city":"Johannesburg","country":"za","localized_country_name":"South
+        Africa"},"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/256296674/","description":"<p>Retha
+        Langa will take us through an Introduction to Text Mining in R.<br/>It will
+        be an interactive session so please bring a laptop.<br/>*Please install the
+        following packages: readtext, stringr, quanteda, tidytext, tidyr, dplyr and
+        ggplot2</p> ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1543919752000,"duration":7200000,"id":"256936416","name":"Year-end
+        meetup","date_in_series_pattern":false,"status":"past","time":1544542200000,"local_date":"2018-12-11","local_time":"17:30","rsvp_close_offset":"PT5H30M","updated":1544554193000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":11,"venue":{"id":26008433,"name":"Braamfontein
+        Gate","lat":-26.194345474243164,"lon":28.03998374938965,"repinned":true,"address_1":"209
+        Smit Street","address_2":"Braamfontein","city":"Johannesburg","country":"za","localized_country_name":"South
+        Africa"},"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/256936416/","description":"<p>R-Ladies
+        &amp; R User Group Year-end Meetup</p> <p>To celebrate a wonderful year of
+        #rstats learning and community, R-Ladies and the R User Group are coming together
+        for a year-end social event.</p> <p>We\u2019re going to be watching The Computers
+        documentary which tells the inspirational story of the women behind the ENIAC.</p>
+        <p>In 1946 six brilliant young women programmed the first all-electronic,
+        programmable computer, the ENIAC, a project run by the U.S. Army as part of
+        a secret World War II project. They learned to program without programming
+        languages or tools (for none existed) ̶ only logical diagrams. By the time
+        they were finished, ENIAC ran a ballistics trajectory perfectly! Yet when
+        the ENIAC was unveiled to the press and the public in 1946, the women were
+        never introduced\u2026 and their story was lost for decades.</p> <p>*There
+        will be secure parking available.</p> <p>DIRECTIONS<br/>Driving<br/>We have
+        safe and secure underground parking at the building. The entrance can be found
+        on the slip from Harrison st to Smit st. It is near impossible to access this
+        entrance from Smit st in the evenings, so try to come down Harrison street.
+        The entrance is labeled \"209 Smit Street Parking\". Drive down the ramp and
+        you will be met by security who will direct you to the visitors parking. Take
+        the lift to the ground floor and from there follow the signs to the Meetup.</p>
+        <p>Gautrain &amp; Walking<br/>Braamfontein Gate is a 5-minute walk from Park
+        Station. Ask Gautrain security for directions. Braamfontein Gate is the Uber
+        pick up point for Park Station, so they should be able to point you in the
+        right direction. Walk through the front doors and turn right. You''ll find
+        us at the bottom of the stairs.</p> ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1548141694000,"duration":7200000,"id":"258288077","name":"February
+        Meetup","date_in_series_pattern":false,"status":"past","time":1550763000000,"local_date":"2019-02-21","local_time":"17:30","updated":1550772470000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":33,"venue":{"id":24107457,"name":"Wits
+        University","lat":-26.19080352783203,"lon":28.025449752807617,"repinned":true,"address_1":"CoE-MaSS
+        Videoconferencing Facility 1st Floor, Mathematical Sciences Building West
+        Campus, Braamfontein","city":"Johannesburg","country":"za","localized_country_name":"South
+        Africa"},"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/258288077/","description":"<p>Please
+        join us as our speaker, Alta de Waal, takes us through \"Topic Modelling and
+        Natural Language Processing\".</p> ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1551071823000,"duration":5400000,"id":"259257945","name":"March
+        meetup: Ethics in Data Science","date_in_series_pattern":false,"status":"past","time":1552404600000,"local_date":"2019-03-12","local_time":"17:30","updated":1552414974000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":16,"venue":{"id":24107457,"name":"Wits
+        University","lat":-26.19007682800293,"lon":28.026485443115234,"repinned":true,"address_1":"CoE-MaSS
+        Videoconferencing Facility 1st Floor, Mathematical Sciences Building West
+        Campus, Braamfontein","city":"Johannesburg","country":"za","localized_country_name":"South
+        Africa"},"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/259257945/","description":"<p>Helen
+        Robertson will be giving a talk about the increasingly important topic of
+        ethics in data science.</p> ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1553615367000,"duration":3600000,"id":"260084890","name":"satRday
+        lunch meetup","date_in_series_pattern":false,"status":"past","time":1554545700000,"local_date":"2019-04-06","local_time":"12:15","updated":1554550769000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":23,"venue":{"id":26278677,"name":"Discovery
+        Place","lat":-26.113054275512695,"lon":28.05303192138672,"repinned":true,"address_1":"Discovery
+        Place","city":"Sandton","country":"za","localized_country_name":"South Africa"},"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/260084890/","description":"<p>An
+        informal meetup to have lunch together during the satRday conference. The
+        two keynote speakers, Danielle Navarro and Omayma Said, will also be joining
+        us.</p> <p>*Please note this meetup is only open to those attending satRday.</p>
+        ","how_to_find_us":"Look out for the R-Ladies signage","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1557125606000,"duration":7200000,"id":"261222248","name":"May
+        meetup: Intro to Spatial Statistics","date_in_series_pattern":false,"status":"past","time":1559057400000,"local_date":"2019-05-28","local_time":"17:30","updated":1559071541000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":23,"venue":{"id":26371434,"name":"The
+        Main Straight - Campari","lat":-26.050479888916016,"lon":28.024932861328125,"repinned":true,"address_1":"392
+        Main Rd","city":"Sandton","country":"za","localized_country_name":"South Africa"},"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/261222248/","description":"<p>Please
+        join us as Dr Inger Fabris-Rotelli takes us through an introduction to spatial
+        statistics and analysis.</p> <p>If you''d like to follow along during the
+        session, please bring along your laptop, with RStudio and the following packages
+        installed:<br/>- knitr<br/>- spatstat<br/>- raster<br/>- gstat<br/>- sp</p>
+        ","how_to_find_us":" rain, Block D, The Main Straight, 392 Main Road, Bryanston,
+        2191","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1559304290000,"duration":7200000,"id":"261925448","name":"June
+        Meetup: How to talk to business as a data scientist","date_in_series_pattern":false,"status":"past","time":1561476600000,"local_date":"2019-06-25","local_time":"17:30","updated":1561485642000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":35,"venue":{"id":26426094,"name":"Rain","lat":-26.051633834838867,"lon":28.02443504333496,"repinned":true,"city":"Sandton","country":"za","localized_country_name":"South
+        Africa"},"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/261925448/","description":"<p>Data
+        science projects can go wrong in a million ways. To get it done well, you
+        need to manage the expectations from day 0. How do you do this?</p> <p>This
+        talk by Merelda Wu distills the art form of \"talking to business\" to a list
+        of non-scientific formulas that can be applied in your everyday life.<br/>If
+        any of the following resonates with you, join us:</p> <p>1. The magic wand
+        problem? Data doesn\u2019t just give you \u201cactionable insight\u201d, you
+        need to ask the right question.<br/>2. Misaligned expectations? The classic
+        case of what you say you want, is not what you really, really want.<br/>3.
+        The scope creep problem? Sure, of course I can re-write everything and give
+        it to you five minutes ago.<br/>4. The big data problem? No darling, you don\u2019t
+        have big data if it fits in Excel.<br/>5. The confidence challenge? No, there\u2019s
+        no such thing as 100% accurate, also we use this thing called the F1 score.<br/>6.
+        The cloud challenge? Yes cloud would be great, but your data''s gotta be there
+        first though.</p> <p>This talk shares some common problems faced in most data
+        science projects. Some heart-aching stories will be shared, as well as some
+        great tools and tips that will help you speak to your business logically,
+        with tons of visual aid and zero mathematical equations.</p> ","how_to_find_us":"rain,
+        Block D, The Main Straight, 392 Main Road, Bryanston, 2191","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1562749868000,"duration":7200000,"id":"263024863","name":"July
+        meetup: Intro to Shiny","date_in_series_pattern":false,"status":"past","time":1564500600000,"local_date":"2019-07-30","local_time":"17:30","updated":1564510105000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":18,"venue":{"id":24107457,"name":"Wits
+        University","lat":-26.19007682800293,"lon":28.026485443115234,"repinned":true,"address_1":"CoE-MaSS
+        Videoconferencing Facility 1st Floor, Mathematical Sciences Building West
+        Campus, Braamfontein","city":"Johannesburg","country":"za","localized_country_name":"South
+        Africa"},"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/263024863/","description":"<p>It''s
+        been a wonderful year of #rstats for RLadies Jozi :).<br/>Please join us for
+        a session on Shiny. Raeesa Manjoo-Docrat will be showing us how to make a
+        simple web app using Shiny (<a href=\"https://shiny.rstudio.com/\" class=\"linkified\">https://shiny.rstudio.com/</a>)!<br/>It''ll
+        be an interactive session so please bring along your laptop.</p> <p>Please
+        download the shiny package for the session. See y\u2019all soon!</p> ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1565536444000,"duration":7200000,"id":"263914363","name":"August
+        Meetup: Dysfunctional Bot - Generating Humorous Texts using spaCy","date_in_series_pattern":false,"status":"past","time":1566919800000,"local_date":"2019-08-27","local_time":"17:30","updated":1566937282000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":13,"venue":{"id":26426094,"name":"Rain","lat":-26.051633834838867,"lon":28.02443504333496,"repinned":true,"city":"Sandton","country":"za","localized_country_name":"South
+        Africa"},"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/263914363/","description":"<p>Please
+        join us as Dr Tetyana Loskutova takes us through some NLP in Python using
+        spaCy. There is an R wrapper for spaCy (<a href=\"https://github.com/quanteda/spacyr\"
+        class=\"linkified\">https://github.com/quanteda/spacyr</a>) so the knowledge
+        gained can be used in either Python or R :).</p> <p>Want to prep? Ines Montani,
+        one of the developers of spaCy has a free online course using spaCy in Python
+        here: <a href=\"https://course.spacy.io/\" class=\"linkified\">https://course.spacy.io/</a></p>
+        ","how_to_find_us":"rain, Block D, The Main Straight, 392 Main Road, Bryanston,
+        2191","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1568620744000,"duration":7200000,"id":"264886971","name":"September
+        Meetup - Intro to writing your own Package in R","date_in_series_pattern":false,"status":"past","time":1569943800000,"local_date":"2019-10-01","local_time":"17:30","updated":1569955926000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":14,"venue":{"id":26371434,"name":"The
+        Main Straight - Campari","lat":-26.050479888916016,"lon":28.024932861328125,"repinned":true,"address_1":"392
+        Main Rd","city":"Sandton","country":"za","localized_country_name":"South Africa"},"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/264886971/","description":"<p>Hi
+        everyone,</p> <p>Given the long weekend this month, our September meetup will
+        be on the 1st October :), since we''re set to have the normal October meetup
+        later in October.</p> <p>The session will be interactive so please bring along
+        your laptop, and please install the ffg. packages to follow along:<br/>1.
+        roxygen2<br/>2. usethis<br/>3. devtools<br/>4. testthat</p> <p>Please also
+        bring along a small piece of code with one or two functions in it - we will
+        use this as the base for the package.</p> <p>If you don''t yet have a GitHub
+        account please consider signing up for one, as we''ll integrate the package
+        build with Git, to understand the workflow.</p> <p>Hope to see you there!</p>
+        ","how_to_find_us":"rain, Block D, at the Main Straight Campari office block.","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1570872580000,"duration":7200000,"id":"265612365","name":"Oct
+        meetup: Survival analysis in R","date_in_series_pattern":false,"status":"past","time":1572363000000,"local_date":"2019-10-29","local_time":"17:30","updated":1572377177000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":13,"venue":{"id":24107457,"name":"Wits
+        University","lat":-26.190073013305664,"lon":28.026498794555664,"repinned":true,"address_1":"CoE-MaSS
+        Videoconferencing Facility 1st Floor, Mathematical Sciences Building West
+        Campus, Braamfontein","city":"Johannesburg","country":"za","localized_country_name":"South
+        Africa"},"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/265612365/","description":"<p>Please
+        join us for an insightful session on Survival Analysis in R.</p> <p>Dr Justine
+        Nasejje from Wits will give us an overview of some basic concepts and will
+        also share how she''s used R in her research journey.</p> <p>Look forward
+        to seeing everyone there!</p> <p>It will be an interactive session so please
+        bring your laptop and install the following packages:</p> <p>MASS<br/>survival<br/>survminer<br/>ggplot2<br/>randomForestSRC<br/>devtools</p>
+        ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1572286193000,"duration":7200000,"id":"266025261","name":"Nov
+        meetup: Text Mining Using Tidy Data Principles","date_in_series_pattern":false,"status":"past","time":1573745400000,"local_date":"2019-11-14","local_time":"17:30","updated":1573758125000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":15,"venue":{"id":26371434,"name":"The
+        Main Straight - Campari","lat":-26.050479888916016,"lon":28.024932861328125,"repinned":true,"address_1":"392
+        Main Rd","city":"Sandton","country":"za","localized_country_name":"South Africa"},"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/266025261/","description":"<p>Text
+        data is increasingly important in many domains, and tidy data principles and
+        tidy tools can make text mining easier and more effective.</p> <p>In this
+        talk by Julia Silge, who will be joining us remotely, learn how to manipulate,
+        summarize, and visualize the characteristics of text using these methods and
+        R packages from the tidy tool ecosystem. These tools are highly effective
+        for many analytical questions and allow analysts to integrate natural language
+        processing into effective workflows already in wide use. Explore how to implement
+        approaches such as measuring tf-idf, topic modeling, and building classification
+        models.</p> ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1578577904000,"duration":10800000,"id":"267776758","name":"rstudio::conf(2020)
+        Watch Party","date_in_series_pattern":false,"status":"past","time":1580310000000,"local_date":"2020-01-29","local_time":"17:00","updated":1580391405000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":18,"venue":{"id":26191511,"name":"Discovery
+        Group (Sandton Head Office)","lat":-26.113039016723633,"lon":28.053024291992188,"repinned":true,"address_1":"1
+        Discovery Place","city":"Sandton","country":"za","localized_country_name":"South
+        Africa"},"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/267776758/","description":"<p>Hi
+        all,<br/>We are going to have a live stream of RStudio conference. Details
+        at this link since we''re co-hosting the event:<br/><a href=\"https://www.meetup.com/Joburg-R-Users-Group/events/267773145/\"
+        class=\"linkified\">https://www.meetup.com/Joburg-R-Users-Group/events/267773145/</a></p>
+        ","how_to_find_us":"We will in meeting room PM111 on the first floor and you
+        can ask for directions at reception. If you are driving, there is free, secure
+        parking at Discovery Head Office. You can find the marked entrance off Discovery
+        Place.","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1580907069000,"duration":7200000,"id":"268476293","name":"Feb
+        meetup: ggWhat to ggplot - a guide to creating powerful visualisations","date_in_series_pattern":false,"status":"past","time":1582644600000,"local_date":"2020-02-25","local_time":"17:30","updated":1582656036000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":25,"venue":{"id":26371434,"name":"The
+        Main Straight - Campari","lat":-26.050479888916016,"lon":28.024932861328125,"repinned":true,"address_1":"392
+        Main Rd","city":"Sandton","country":"za","localized_country_name":"South Africa"},"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/268476293/","description":"<p>Data
+        visualisation is one of the most important tools for any person working with
+        data, but often finds itself as an afterthought in both theory and practice
+        of data science. A well designed visual reveals the hidden story behind the
+        data and has the potential to bring about change.</p> <p>This talk will not
+        only take you through the fundamentals of using the ggplot package to generate
+        visualisations, but also the core principals and best practices needed to
+        make it powerful.</p> <p>The session is hands-on, so if you want to follow
+        along please install the tidyverse.</p> <p>Please join us, and the lovely
+        Gemma Dawson as she takes us through this important topic!</p> <p>Packages:<br/>install.packages(\"tidyverse\")</p>
+        <p>Please also install the packages below:</p> <p>library(ggplot2movies) #
+        install.packages(\"ggplot2movies\")<br/>library(cowplot) # install.packages(\"cowplot\")<br/>library(ggrepel)
+        # install.packages(\"ggrepel\")<br/>library(gghighlight) # install.packages(\"gghighlight\")<br/>library(ggedit)
+        # install.packages(\"ggedit\")</p> ","how_to_find_us":"rain is at Block D
+        in the campus","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1582513831000,"duration":7200000,"id":"268942020","name":"March
+        meetup: Hanging out with SatRday Keynote Speakers","rsvp_limit":40,"date_in_series_pattern":false,"status":"past","time":1583422200000,"local_date":"2020-03-05","local_time":"17:30","updated":1583434121000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":14,"venue":{"id":26371434,"name":"The
+        Main Straight - Campari","lat":-26.050479888916016,"lon":28.024932861328125,"repinned":true,"address_1":"392
+        Main Rd","city":"Sandton","country":"za","localized_country_name":"South Africa"},"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/268942020/","description":"<p>Please
+        join us, and the keynote speakers who have kindly agreed to talk, at a pre-SatRday
+        event.</p> <p>Heather Turner will be taking us through: Publishing and Promoting
+        your R Package, and Colin Fay will be talking to us about contributing to
+        the R ecosystem.</p> <p>SatRday Details here: <a href=\"https://joburg2020.satrdays.org/\"
+        class=\"linkified\">https://joburg2020.satrdays.org/</a>. If you haven''t
+        purchased your ticket yet, what are you waiting for!? A day of delicious R
+        goodness is not to be missed!</p> ","how_to_find_us":"rain is at Block D in
+        the campus","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1586447917000,"duration":5400000,"id":"269952337","name":"April
+        meetup: Cluster Analysis - Understanding data behaviour","date_in_series_pattern":false,"status":"past","time":1587484800000,"local_date":"2020-04-21","local_time":"18:00","updated":1587494425000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":28,"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/269952337/","description":"<p>In
+        this talk, we will have the pleasure of learning about clustering. Thato Molawa
+        will be telling us about understanding data behaviour. Please join us for
+        our first online meetup!</p> <p>Housekeeping:<br/>Our code of conduct remains
+        in place despite the online nature, and any contravention will be dealt with
+        accordingly (<a href=\"https://rladies.org/code-of-conduct/\" class=\"linkified\">https://rladies.org/code-of-conduct/</a>).</p>
+        <p>I will send details to the online event nearer to the date.</p> ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1588831014000,"duration":5400000,"id":"270500084","name":"May
+        meetup: Databases in R","date_in_series_pattern":false,"status":"past","time":1590508800000,"local_date":"2020-05-26","local_time":"18:00","updated":1590516340000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":41,"venue":{"id":26906060,"name":"Online
+        event","repinned":false,"country":"","localized_country_name":""},"is_online_event":true,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/270500084/","description":"<p>Need
+        to work with databases, but prefer R to SQL. Priyanka''s got us covered. She''ll
+        be helping us use R to query data, instead of SQL ;). Please join Priyanka
+        Nagar, and us, for another online meetup!</p> <p>Materials:<br/>You may follow
+        along if you''d like. Please find the script and datasets at our Github link:
+        <a href=\"https://bit.ly/3gluZmw\" class=\"linkified\">https://bit.ly/3gluZmw</a>.</p>
+        <p>Please download the following packages:<br/>- sqldf<br/>- dplyr<br/>- #
+        install.packages(\"devtools\")<br/>devtools::install_github(\"sciencificity/reclues\")</p>
+        <p>The `reclues` package above is my package, so really keen to talk with
+        you about how you find it! Criticism welcomed.</p> <p>Housekeeping:<br/>Our
+        code of conduct remains in place despite the online nature, and any contravention
+        will be dealt with accordingly (<a href=\"https://rladies.org/code-of-conduct/\"
+        class=\"linkified\">https://rladies.org/code-of-conduct/</a>).</p> <p>Link
+        updated. See you all this evening!</p> ","how_to_find_us":"https://rainnetwork.zoom.us/j/94751157329?pwd=UHJUaTdhdVBKemo0ajdGdGhOczRPZz09;
+        ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1591790117000,"duration":7200000,"id":"271202460","name":"June
+        meetup: Web Scraping using R","date_in_series_pattern":false,"status":"past","time":1593100800000,"local_date":"2020-06-25","local_time":"18:00","updated":1593110254000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":40,"venue":{"id":26906060,"name":"Online
+        event","repinned":false,"country":"","localized_country_name":""},"is_online_event":true,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/271202460/","description":"<p>We''re
+        in for a treat! Riva Quiroga, who is the organiser from RLadies Santiago &amp;
+        RLadies Valparaíso, has kindly agreed to join us for a session. She will be
+        helping us understand how to do webscraping using R. I hope you will join
+        us!</p> <p>It''s going to be an interactive session so please install the
+        `tidyverse` and `janitor`. Please also try to setup an RStudio Cloud account,
+        as Riva will share her code that way (<a href=\"https://rstudio.cloud/\" class=\"linkified\">https://rstudio.cloud/</a>).</p>
+        <p>** Additional: Please also install the following packages - robotstxt and
+        polite.<br/>install.packages(c(\"robotstxt\", \"polite\")).</p> <p>It will
+        be an online meetup, and I will post the link closer to the time.</p> <p>Housekeeping:<br/>Our
+        code of conduct remains in place despite the online nature, and any contravention
+        will be dealt with accordingly (<a href=\"https://rladies.org/code-of-conduct/\"
+        class=\"linkified\">https://rladies.org/code-of-conduct/</a>).</p> ","how_to_find_us":"https://us02web.zoom.us/j/82240973082","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1594792603000,"duration":7200000,"id":"271934922","name":"useR!
+        2020: Create and share reproducible code with R Markdown and workflowr","rsvp_limit":15,"date_in_series_pattern":false,"status":"past","time":1595518200000,"local_date":"2020-07-23","local_time":"17:30","rsvp_close_offset":"PT48H","updated":1595527144000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":14,"venue":{"id":26906060,"name":"Online
+        event","repinned":false,"country":"","localized_country_name":""},"is_online_event":true,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/271934922/","description":"<p>We
+        are proud to host the tutorial as a part of useR!2020. We have limited slots
+        for the tutorial (only 8 for our group), so please only register if you are
+        going to attend. Further to this, we are giving preference to women and minority
+        genders for our slots, so if you are a male member of our group please head
+        over to eSwatini RUG meetup page (<a href=\"https://www.meetup.com/EswatiniUseR/\"
+        class=\"linkified\">https://www.meetup.com/EswatiniUseR/</a>) (<a href=\"https://www.meetup.com/EswatiniUseR/events/271981460/\"
+        class=\"linkified\">https://www.meetup.com/EswatiniUseR/events/271981460/</a>),
+        or Botswana RUG meetup page (<a href=\"https://www.meetup.com/Botswana-R-Users/\"
+        class=\"linkified\">https://www.meetup.com/Botswana-R-Users/</a>) (<a href=\"https://www.meetup.com/Botswana-R-Users/events/271985777/\"
+        class=\"linkified\">https://www.meetup.com/Botswana-R-Users/events/271985777/</a>)
+        as they will also be hosting with us.</p> <p>Please note: We are opening up
+        *15* spots and we will be choosing **8** from them who will attend the workshop.
+        The others will be wait-listed in the event someone drops off the attendees
+        list.</p> <p>Description:<br/>Have you ever struggled to re-run your own code
+        or scripts you received from a collaborator? You\u2019re not alone! Fortunately,
+        there are simple practices that you can use to help you develop more reproducible
+        R code. In this tutorial, you will 1) explore some of the common causes of
+        non-reproducible code, 2) gain practical experience fixing reproducibility
+        issues, and 3) use the R package workflowr (<a href=\"https://jdblischak.github.io/workflowr/\"
+        class=\"linkified\">https://jdblischak.github.io/workflowr/</a>) to facilitate
+        creation of more reproducible and shareable code. The tutorial will be hands-on
+        and interactive, with small-group exercises.</p> <p>Prerequisites:<br/>Participants
+        should have some experience using R (e.g. importing data from a file, loading
+        a package). The tutorial will involve running R code in R Markdown files from
+        the RStudio IDE. If you are unfamiliar with R Markdown, we recommend reviewing
+        these short guides before participating in the tutorial: [Introduction](<a
+        href=\"https://rmarkdown.rstudio.com/lesson-1.html\" class=\"linkified\">https://rmarkdown.rstudio.com/lesson-1.html</a>),
+        [How It Works](<a href=\"https://rmarkdown.rstudio.com/lesson-2.html\" class=\"linkified\">https://rmarkdown.rstudio.com/lesson-2.html</a>),
+        [Code Chunks](<a href=\"https://rmarkdown.rstudio.com/lesson-3.html\" class=\"linkified\">https://rmarkdown.rstudio.com/lesson-3.html</a>].</p>
+        <p>Requirements:<br/>A web browser, an account on GitHub (<a href=\"https://github.com/\"
+        class=\"linkified\">https://github.com/</a>), and an account on RStudio Cloud
+        (<a href=\"https://rstudio.cloud/\" class=\"linkified\">https://rstudio.cloud/</a>).
+        We will email you the tutorial materials.</p> <p>Instructors:<br/>Dr. John
+        Blischak received his PhD in Genetics from the University of Chicago. He is
+        the author of the CRAN package workflowr, and has years of experience performing
+        reproducible data analysis with R, R Markdown, and Git. He is a certified
+        Software Carpentry Instructor, and has taught over 10 workshops for researchers
+        covering topics such as Bash, Python, R, and Git.</p> <p>Dr. Peter Carbonetto,
+        a co-author of the workflowr R package, is a research staff scientist in the
+        Human Genetics Department and the cross-disciplinary Research Computing Center
+        at the University of Chicago. He has a background in computer science and
+        machine learning, and currently does research at the interface of genetics,
+        statistics, and computer science. He frequently gives R and bioinformatics
+        skills workshops at the University of Chicago.</p> <p>It will be an online
+        meetup, and the link will be sent to successful attendees via email.</p> <p>All
+        Information: <a href=\"https://bit.ly/2WqAfNy\" class=\"linkified\">https://bit.ly/2WqAfNy</a></p>
+        ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1596917894000,"duration":7200000,"id":"272452165","name":"Create
+        and share reproducible code with R Markdown and workflowr (Repeat)","date_in_series_pattern":false,"status":"past","time":1598371200000,"local_date":"2020-08-25","local_time":"18:00","updated":1598381434000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":36,"venue":{"id":26906060,"name":"Online
+        event","repinned":false,"country":"","localized_country_name":""},"is_online_event":true,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/272452165/","description":"<p>Last
+        month we hosted a tutorial as a part of useR!2020. We are running it again
+        this month, for those who were unable to attend / did not get a ticket. The
+        tutorial is valuable for everyone, but especially so for Masters and PhD students
+        - if you know anyone who is busy with either of these, please encourage them
+        to sign up on our group and RSVP :).</p> <p>Description:<br/>Have you ever
+        struggled to re-run your own code or scripts you received from a collaborator?
+        You\u2019re not alone! Fortunately, there are simple practices that you can
+        use to help you develop more reproducible R code. In this tutorial, you will
+        1) explore some of the common causes of non-reproducible code, 2) gain practical
+        experience fixing reproducibility issues, and 3) use the R package workflowr
+        (<a href=\"https://jdblischak.github.io/workflowr/\" class=\"linkified\">https://jdblischak.github.io/workflowr/</a>)
+        to facilitate creation of more reproducible and shareable code. The tutorial
+        will be hands-on and interactive, with small-group exercises.</p> <p>Prerequisites:<br/>Participants
+        should have some experience using R (e.g. importing data from a file, loading
+        a package). The tutorial will involve running R code in R Markdown files from
+        the RStudio IDE. If you are unfamiliar with R Markdown, we recommend reviewing
+        these short guides before participating in the tutorial: [Introduction](<a
+        href=\"https://rmarkdown.rstudio.com/lesson-1.html\" class=\"linkified\">https://rmarkdown.rstudio.com/lesson-1.html</a>),
+        [How It Works](<a href=\"https://rmarkdown.rstudio.com/lesson-2.html\" class=\"linkified\">https://rmarkdown.rstudio.com/lesson-2.html</a>),
+        [Code Chunks](<a href=\"https://rmarkdown.rstudio.com/lesson-3.html\" class=\"linkified\">https://rmarkdown.rstudio.com/lesson-3.html</a>].</p>
+        <p>Requirements:<br/>A web browser, an account on GitHub (<a href=\"https://github.com/\"
+        class=\"linkified\">https://github.com/</a>), and an account on RStudio Cloud
+        (<a href=\"https://rstudio.cloud/\" class=\"linkified\">https://rstudio.cloud/</a>).
+        We will email you the tutorial materials, please also check your Spam / Junk
+        Folder as materials often end up there when sent via Meetup.</p> <p>Instructors:<br/>Dr.
+        Inger Fabris-Rotelli (and Vebash Naidoo) on behalf of Dr. John Blischak &amp;
+        Dr. Peter Carbonetto.</p> <p>It will be an online meetup, and the link will
+        be posted closer to the date.</p> ","how_to_find_us":"https://rainnetwork.zoom.us/j/95330483810?pwd=bFU3UVY0NjJzQUpnWjhENU0zMjhCdz09","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1598377516000,"duration":7200000,"id":"272804680","name":"First
+        steps in spatial data handling and visualisation","date_in_series_pattern":false,"status":"past","time":1599494400000,"local_date":"2020-09-07","local_time":"18:00","updated":1599503276000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":46,"venue":{"id":26906060,"name":"Online
+        event","repinned":false,"country":"","localized_country_name":""},"is_online_event":true,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/272804680/","description":"<p>We''re
+        really lucky to be joined by Dr. Dorris Scott who will be taking us through
+        initial steps towards #rspatial.</p> <p>It''s going to be an interactive session
+        and we''ll help everyone along the way. Please make sure you have an RStudio
+        Cloud account.</p> <p>It is sometimes hard to do the exercises, and follow
+        along on the slides. If you have a second screen that''s great, if not, displaying
+        the slides on your phone sometimes helps, or printing them out, if possible.</p>
+        <p>Requirements:<br/>A web browser, and an account on RStudio Cloud (<a href=\"https://rstudio.cloud/\"
+        class=\"linkified\">https://rstudio.cloud/</a>).</p> <p>Link to slides: <a
+        href=\"http://bit.ly/dorris-rspatial-slides\" class=\"linkified\">http://bit.ly/dorris-rspatial-slides</a></p>
+        <p>Link to project on RStudio Cloud: <a href=\"http://bit.ly/dorris-rspatial-cloud-project\"
+        class=\"linkified\">http://bit.ly/dorris-rspatial-cloud-project</a></p> <p>Instructor:<br/>Dr.
+        Dorris Scott</p> <p>It will be an online meetup, and the link will be posted
+        closer to the date.</p> ","how_to_find_us":"https://us02web.zoom.us/j/84096284177","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1603142750000,"duration":5400000,"id":"274045562","name":"Sensitivity
+        Analysis of Parameters in Disease Modelling","date_in_series_pattern":false,"status":"past","time":1603728000000,"local_date":"2020-10-26","local_time":"18:00","updated":1603734589000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":26,"venue":{"id":26906060,"name":"Online
+        event","repinned":false,"country":"","localized_country_name":""},"is_online_event":true,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/274045562/","description":"<p>Raeesa
+        Docrat will be talking to us about conducting sensitivity analysis on deterministic
+        compartmental models with specific applications to COVID-19.</p> <p>She''ll
+        have a little exercise at the end, so if you''re interested in following along
+        with that part of the session, please install the deSolve package.</p> <p>It
+        will be an online meetup, and the link will be posted closer to the date.</p>
+        <p>Zoom requires a passcode, which I sent via email. Please check your spam
+        folder as `Meetup.com` messages often end up there.</p> ","how_to_find_us":"https://us02web.zoom.us/j/85407046916","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1605176494000,"duration":9000000,"id":"274549377","name":"Blogging
+        with RMarkdown","date_in_series_pattern":false,"status":"upcoming","time":1606748400000,"local_date":"2020-11-30","local_time":"17:00","updated":1605176718000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":21,"venue":{"id":26906060,"name":"Online
+        event","repinned":false,"country":"","localized_country_name":""},"is_online_event":true,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/274549377/","description":"<p>Are
+        you an R user who would like to share more online? How about starting a new
+        blog, with R Markdown (Rmd)?</p> <p>Maëlle Salmon (<a href=\"https://masalmon.eu/\"
+        class=\"linkified\">https://masalmon.eu/</a>), R(esearch) Software Engineer
+        and a proud R-Lady, will be helping us get started!</p> <p>In this 2-hour
+        course with live coding, we''ll go on two short adventures:</p> <p>- setting
+        up a scientific Rmd blog with the Distill framework, and the distill package</p>
+        <p>- setting up a scientific Rmd blog with the Hugo website generator and
+        the hugodown package (also quickly presenting blogdown)</p> <p>We''ll prepare
+        for the adventures by defining what we expect of an Rmd blog. We''ll end the
+        course by reflecting on each adventure as well as mentioning important future
+        paths such as how to promote your blog. You should leave the course ready
+        to start an R Markdown blog with your tool of choice, and knowing where to
+        find more resources and help.</p> <p>About the speaker:</p> <p>Maëlle works
+        remotely from Nancy, France, where she lives with her family.<br/>She is a
+        research software engineer with rOpenSci, besides other projects. In particular,
+        currently, she works on the \"HTTP testing in R\" book thanks to funding from
+        the R Consortium. She created the R-hub blog that features more or less niche
+        topics about R package development, also thanks to funding by the R Consortium.<br/>She
+        also volunteers as an associate editor for rOpenSci''s Software Peer Review
+        (peer-review system of R packages), the main manager of R-Ladies Global Twitter
+        account, and a member of the R Weekly team.</p> ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false}]'
+  recorded_at: 2020-11-21 12:14:36 GMT
+  recorded_with: vcr/0.5.4, webmockr/0.7.0
+- request:
+    method: get
+    uri: https://api.meetup.com/rladies-johannesburg/events?status=past%2Cupcoming&offset=0
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      Accept: application/json, text/xml, application/xml, */*
+      Authorization: Bearer <<<my_access_token>>>
+  response:
+    status:
+      status_code: 200
+      category: Success
+      reason: OK
+      message: 'Success: (200) OK'
+    headers:
+      content-type: application/json; charset=utf-8
+      server: Apache/2.4.39 (Unix) OpenSSL/1.1.1c
+      x-meetup-server: ip-10-192-2-161
+      x-meetup-request-id: e108bc1a-9e24-4d45-9e1b-692ec6afb682
+      x-oauth-scopes: basic
+      x-accepted-oauth-scopes: basic
+      x-ratelimit-limit: '30'
+      x-ratelimit-remaining: '26'
+      x-ratelimit-reset: '8'
+      x-total-count: '27'
+      etag: '"502f7bec996c0c1c453f58da336fa9e5-gzip"'
+      content-encoding: gzip
+      accept-ranges: bytes
+      date: Sat, 21 Nov 2020 12:14:36 GMT
+      via: 1.1 varnish
+      x-served-by: cache-cdg20726-CDG
+      x-cache: MISS
+      x-cache-hits: '0'
+      x-timer: S1605960876.083532,VS0,VE488
+      vary: Accept-Encoding,User-Agent,Accept-Language
+      content-length: '11093'
+    body:
+      encoding: UTF-8
+      file: no
+      string: '[{"created":1530343894000,"duration":7200000,"id":"252299890","name":"July
+        Meetup","date_in_series_pattern":false,"status":"past","time":1532014200000,"local_date":"2018-07-19","local_time":"17:30","updated":1532028641000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":12,"venue":{"id":24221850,"name":"EMPIRE
+        Road, JOHANNESBURG ","lat":-26.180028915405273,"lon":28.04374885559082,"repinned":false,"address_1":"Wits
+        University ","city":"Johannesburg ","country":"ZA","localized_country_name":"South
+        Africa"},"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/252299890/","description":"<p>Please
+        bring a laptop with, as we will have an interactive session.</p> <p>Our speaker
+        Shalain Gopal will deliver a two-part talk:<br/>Part 1: Women in Data Science
+        &amp; the importance of women in the field<br/>Part 2: House Prices example
+        in R (Exploratory Data Analysis (EDA) &amp; prediction)</p> ","how_to_find_us":"Room
+        MSL 110, first floor, Lab Building next to TW Kambule Mathematical Sciences
+        Building","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1532512142000,"duration":7200000,"id":"253124736","name":"August
+        Meetup","date_in_series_pattern":false,"status":"past","time":1535470200000,"local_date":"2018-08-28","local_time":"17:30","updated":1535499822000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":20,"venue":{"id":24221850,"name":"EMPIRE
+        Road, JOHANNESBURG ","lat":-26.180028915405273,"lon":28.04374885559082,"repinned":false,"address_1":"Wits
+        University ","city":"Johannesburg ","country":"ZA","localized_country_name":"South
+        Africa"},"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/253124736/","description":"<p>Please
+        bring a laptop with and try your hand at the problem before the session. We
+        will have an interactive session.</p> <p>Our speaker Shalain Gopal will take
+        us through:<br/>A House Prices example in R (Exploratory Data Analysis (EDA)
+        &amp; prediction).<br/>Data, and slides providing guidance on how to tackle
+        the problem is at: <a href=\"https://github.com/rladies/meetup-presentations_jozi/tree/master/july-2018\"
+        class=\"linkified\">https://github.com/rladies/meetup-presentations_jozi/tree/master/july-2018</a></p>
+        ","how_to_find_us":" TW Kambule Mathematical Sciences Building, Wits University","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1536564259000,"duration":7200000,"id":"254547977","name":"September
+        Meetup","date_in_series_pattern":false,"status":"past","time":1537889400000,"local_date":"2018-09-25","local_time":"17:30","updated":1537902071000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":19,"venue":{"id":25935156,"name":"The
+        Campus, Wembley Building","lat":-26.04197120666504,"lon":28.0234317779541,"repinned":true,"address_1":"57
+        Sloane Street","address_2":"Bryanston","city":"Johannesburg","country":"za","localized_country_name":"South
+        Africa"},"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/254547977/","description":"<p>Please
+        bring a laptop with you as we will have an interactive session.<br/>Download
+        and install the ffg packages please:<br/>tidyverse<br/>plotly<br/>knitr<br/>We
+        will advise what dataset to download at a later stage, or bring it on a usb.</p>
+        <p>Our speaker Gabriella Camara will take us through a live coding, \u201cLearn
+        to code in R\u201d Session.</p> ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1538775886000,"duration":7200000,"id":"255306475","name":"October
+        Meetup","date_in_series_pattern":false,"status":"past","time":1540308600000,"local_date":"2018-10-23","local_time":"17:30","updated":1540321561000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":27,"venue":{"id":24221850,"name":"EMPIRE
+        Road, JOHANNESBURG ","lat":-26.180028915405273,"lon":28.04374885559082,"repinned":true,"address_1":"Wits
+        University ","city":"Johannesburg ","country":"ZA","localized_country_name":"South
+        Africa"},"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/255306475/","description":"<p>Our
+        very own Gemma Dawson will take us through: \u201cIntroduction to Machine
+        Learning in R\u201d.</p> ","how_to_find_us":" TW Kambule Mathematical Sciences
+        Building, Wits University, First Floor Seminar Room","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1541849697000,"duration":7200000,"id":"256296674","name":"November
+        Meetup","date_in_series_pattern":false,"status":"past","time":1543332600000,"local_date":"2018-11-27","local_time":"17:30","updated":1543342552000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":20,"venue":{"id":24107457,"name":"Wits
+        University","lat":-26.19080352783203,"lon":28.025449752807617,"repinned":true,"address_1":"CoE-MaSS
+        Videoconferencing Facility 1st Floor, Mathematical Sciences Building West
+        Campus, Braamfontein","city":"Johannesburg","country":"za","localized_country_name":"South
+        Africa"},"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/256296674/","description":"<p>Retha
+        Langa will take us through an Introduction to Text Mining in R.<br/>It will
+        be an interactive session so please bring a laptop.<br/>*Please install the
+        following packages: readtext, stringr, quanteda, tidytext, tidyr, dplyr and
+        ggplot2</p> ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1543919752000,"duration":7200000,"id":"256936416","name":"Year-end
+        meetup","date_in_series_pattern":false,"status":"past","time":1544542200000,"local_date":"2018-12-11","local_time":"17:30","rsvp_close_offset":"PT5H30M","updated":1544554193000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":11,"venue":{"id":26008433,"name":"Braamfontein
+        Gate","lat":-26.194345474243164,"lon":28.03998374938965,"repinned":true,"address_1":"209
+        Smit Street","address_2":"Braamfontein","city":"Johannesburg","country":"za","localized_country_name":"South
+        Africa"},"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/256936416/","description":"<p>R-Ladies
+        &amp; R User Group Year-end Meetup</p> <p>To celebrate a wonderful year of
+        #rstats learning and community, R-Ladies and the R User Group are coming together
+        for a year-end social event.</p> <p>We\u2019re going to be watching The Computers
+        documentary which tells the inspirational story of the women behind the ENIAC.</p>
+        <p>In 1946 six brilliant young women programmed the first all-electronic,
+        programmable computer, the ENIAC, a project run by the U.S. Army as part of
+        a secret World War II project. They learned to program without programming
+        languages or tools (for none existed) ̶ only logical diagrams. By the time
+        they were finished, ENIAC ran a ballistics trajectory perfectly! Yet when
+        the ENIAC was unveiled to the press and the public in 1946, the women were
+        never introduced\u2026 and their story was lost for decades.</p> <p>*There
+        will be secure parking available.</p> <p>DIRECTIONS<br/>Driving<br/>We have
+        safe and secure underground parking at the building. The entrance can be found
+        on the slip from Harrison st to Smit st. It is near impossible to access this
+        entrance from Smit st in the evenings, so try to come down Harrison street.
+        The entrance is labeled \"209 Smit Street Parking\". Drive down the ramp and
+        you will be met by security who will direct you to the visitors parking. Take
+        the lift to the ground floor and from there follow the signs to the Meetup.</p>
+        <p>Gautrain &amp; Walking<br/>Braamfontein Gate is a 5-minute walk from Park
+        Station. Ask Gautrain security for directions. Braamfontein Gate is the Uber
+        pick up point for Park Station, so they should be able to point you in the
+        right direction. Walk through the front doors and turn right. You''ll find
+        us at the bottom of the stairs.</p> ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1548141694000,"duration":7200000,"id":"258288077","name":"February
+        Meetup","date_in_series_pattern":false,"status":"past","time":1550763000000,"local_date":"2019-02-21","local_time":"17:30","updated":1550772470000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":33,"venue":{"id":24107457,"name":"Wits
+        University","lat":-26.19080352783203,"lon":28.025449752807617,"repinned":true,"address_1":"CoE-MaSS
+        Videoconferencing Facility 1st Floor, Mathematical Sciences Building West
+        Campus, Braamfontein","city":"Johannesburg","country":"za","localized_country_name":"South
+        Africa"},"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/258288077/","description":"<p>Please
+        join us as our speaker, Alta de Waal, takes us through \"Topic Modelling and
+        Natural Language Processing\".</p> ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1551071823000,"duration":5400000,"id":"259257945","name":"March
+        meetup: Ethics in Data Science","date_in_series_pattern":false,"status":"past","time":1552404600000,"local_date":"2019-03-12","local_time":"17:30","updated":1552414974000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":16,"venue":{"id":24107457,"name":"Wits
+        University","lat":-26.19007682800293,"lon":28.026485443115234,"repinned":true,"address_1":"CoE-MaSS
+        Videoconferencing Facility 1st Floor, Mathematical Sciences Building West
+        Campus, Braamfontein","city":"Johannesburg","country":"za","localized_country_name":"South
+        Africa"},"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/259257945/","description":"<p>Helen
+        Robertson will be giving a talk about the increasingly important topic of
+        ethics in data science.</p> ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1553615367000,"duration":3600000,"id":"260084890","name":"satRday
+        lunch meetup","date_in_series_pattern":false,"status":"past","time":1554545700000,"local_date":"2019-04-06","local_time":"12:15","updated":1554550769000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":23,"venue":{"id":26278677,"name":"Discovery
+        Place","lat":-26.113054275512695,"lon":28.05303192138672,"repinned":true,"address_1":"Discovery
+        Place","city":"Sandton","country":"za","localized_country_name":"South Africa"},"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/260084890/","description":"<p>An
+        informal meetup to have lunch together during the satRday conference. The
+        two keynote speakers, Danielle Navarro and Omayma Said, will also be joining
+        us.</p> <p>*Please note this meetup is only open to those attending satRday.</p>
+        ","how_to_find_us":"Look out for the R-Ladies signage","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1557125606000,"duration":7200000,"id":"261222248","name":"May
+        meetup: Intro to Spatial Statistics","date_in_series_pattern":false,"status":"past","time":1559057400000,"local_date":"2019-05-28","local_time":"17:30","updated":1559071541000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":23,"venue":{"id":26371434,"name":"The
+        Main Straight - Campari","lat":-26.050479888916016,"lon":28.024932861328125,"repinned":true,"address_1":"392
+        Main Rd","city":"Sandton","country":"za","localized_country_name":"South Africa"},"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/261222248/","description":"<p>Please
+        join us as Dr Inger Fabris-Rotelli takes us through an introduction to spatial
+        statistics and analysis.</p> <p>If you''d like to follow along during the
+        session, please bring along your laptop, with RStudio and the following packages
+        installed:<br/>- knitr<br/>- spatstat<br/>- raster<br/>- gstat<br/>- sp</p>
+        ","how_to_find_us":" rain, Block D, The Main Straight, 392 Main Road, Bryanston,
+        2191","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1559304290000,"duration":7200000,"id":"261925448","name":"June
+        Meetup: How to talk to business as a data scientist","date_in_series_pattern":false,"status":"past","time":1561476600000,"local_date":"2019-06-25","local_time":"17:30","updated":1561485642000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":35,"venue":{"id":26426094,"name":"Rain","lat":-26.051633834838867,"lon":28.02443504333496,"repinned":true,"city":"Sandton","country":"za","localized_country_name":"South
+        Africa"},"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/261925448/","description":"<p>Data
+        science projects can go wrong in a million ways. To get it done well, you
+        need to manage the expectations from day 0. How do you do this?</p> <p>This
+        talk by Merelda Wu distills the art form of \"talking to business\" to a list
+        of non-scientific formulas that can be applied in your everyday life.<br/>If
+        any of the following resonates with you, join us:</p> <p>1. The magic wand
+        problem? Data doesn\u2019t just give you \u201cactionable insight\u201d, you
+        need to ask the right question.<br/>2. Misaligned expectations? The classic
+        case of what you say you want, is not what you really, really want.<br/>3.
+        The scope creep problem? Sure, of course I can re-write everything and give
+        it to you five minutes ago.<br/>4. The big data problem? No darling, you don\u2019t
+        have big data if it fits in Excel.<br/>5. The confidence challenge? No, there\u2019s
+        no such thing as 100% accurate, also we use this thing called the F1 score.<br/>6.
+        The cloud challenge? Yes cloud would be great, but your data''s gotta be there
+        first though.</p> <p>This talk shares some common problems faced in most data
+        science projects. Some heart-aching stories will be shared, as well as some
+        great tools and tips that will help you speak to your business logically,
+        with tons of visual aid and zero mathematical equations.</p> ","how_to_find_us":"rain,
+        Block D, The Main Straight, 392 Main Road, Bryanston, 2191","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1562749868000,"duration":7200000,"id":"263024863","name":"July
+        meetup: Intro to Shiny","date_in_series_pattern":false,"status":"past","time":1564500600000,"local_date":"2019-07-30","local_time":"17:30","updated":1564510105000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":18,"venue":{"id":24107457,"name":"Wits
+        University","lat":-26.19007682800293,"lon":28.026485443115234,"repinned":true,"address_1":"CoE-MaSS
+        Videoconferencing Facility 1st Floor, Mathematical Sciences Building West
+        Campus, Braamfontein","city":"Johannesburg","country":"za","localized_country_name":"South
+        Africa"},"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/263024863/","description":"<p>It''s
+        been a wonderful year of #rstats for RLadies Jozi :).<br/>Please join us for
+        a session on Shiny. Raeesa Manjoo-Docrat will be showing us how to make a
+        simple web app using Shiny (<a href=\"https://shiny.rstudio.com/\" class=\"linkified\">https://shiny.rstudio.com/</a>)!<br/>It''ll
+        be an interactive session so please bring along your laptop.</p> <p>Please
+        download the shiny package for the session. See y\u2019all soon!</p> ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1565536444000,"duration":7200000,"id":"263914363","name":"August
+        Meetup: Dysfunctional Bot - Generating Humorous Texts using spaCy","date_in_series_pattern":false,"status":"past","time":1566919800000,"local_date":"2019-08-27","local_time":"17:30","updated":1566937282000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":13,"venue":{"id":26426094,"name":"Rain","lat":-26.051633834838867,"lon":28.02443504333496,"repinned":true,"city":"Sandton","country":"za","localized_country_name":"South
+        Africa"},"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/263914363/","description":"<p>Please
+        join us as Dr Tetyana Loskutova takes us through some NLP in Python using
+        spaCy. There is an R wrapper for spaCy (<a href=\"https://github.com/quanteda/spacyr\"
+        class=\"linkified\">https://github.com/quanteda/spacyr</a>) so the knowledge
+        gained can be used in either Python or R :).</p> <p>Want to prep? Ines Montani,
+        one of the developers of spaCy has a free online course using spaCy in Python
+        here: <a href=\"https://course.spacy.io/\" class=\"linkified\">https://course.spacy.io/</a></p>
+        ","how_to_find_us":"rain, Block D, The Main Straight, 392 Main Road, Bryanston,
+        2191","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1568620744000,"duration":7200000,"id":"264886971","name":"September
+        Meetup - Intro to writing your own Package in R","date_in_series_pattern":false,"status":"past","time":1569943800000,"local_date":"2019-10-01","local_time":"17:30","updated":1569955926000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":14,"venue":{"id":26371434,"name":"The
+        Main Straight - Campari","lat":-26.050479888916016,"lon":28.024932861328125,"repinned":true,"address_1":"392
+        Main Rd","city":"Sandton","country":"za","localized_country_name":"South Africa"},"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/264886971/","description":"<p>Hi
+        everyone,</p> <p>Given the long weekend this month, our September meetup will
+        be on the 1st October :), since we''re set to have the normal October meetup
+        later in October.</p> <p>The session will be interactive so please bring along
+        your laptop, and please install the ffg. packages to follow along:<br/>1.
+        roxygen2<br/>2. usethis<br/>3. devtools<br/>4. testthat</p> <p>Please also
+        bring along a small piece of code with one or two functions in it - we will
+        use this as the base for the package.</p> <p>If you don''t yet have a GitHub
+        account please consider signing up for one, as we''ll integrate the package
+        build with Git, to understand the workflow.</p> <p>Hope to see you there!</p>
+        ","how_to_find_us":"rain, Block D, at the Main Straight Campari office block.","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1570872580000,"duration":7200000,"id":"265612365","name":"Oct
+        meetup: Survival analysis in R","date_in_series_pattern":false,"status":"past","time":1572363000000,"local_date":"2019-10-29","local_time":"17:30","updated":1572377177000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":13,"venue":{"id":24107457,"name":"Wits
+        University","lat":-26.190073013305664,"lon":28.026498794555664,"repinned":true,"address_1":"CoE-MaSS
+        Videoconferencing Facility 1st Floor, Mathematical Sciences Building West
+        Campus, Braamfontein","city":"Johannesburg","country":"za","localized_country_name":"South
+        Africa"},"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/265612365/","description":"<p>Please
+        join us for an insightful session on Survival Analysis in R.</p> <p>Dr Justine
+        Nasejje from Wits will give us an overview of some basic concepts and will
+        also share how she''s used R in her research journey.</p> <p>Look forward
+        to seeing everyone there!</p> <p>It will be an interactive session so please
+        bring your laptop and install the following packages:</p> <p>MASS<br/>survival<br/>survminer<br/>ggplot2<br/>randomForestSRC<br/>devtools</p>
+        ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1572286193000,"duration":7200000,"id":"266025261","name":"Nov
+        meetup: Text Mining Using Tidy Data Principles","date_in_series_pattern":false,"status":"past","time":1573745400000,"local_date":"2019-11-14","local_time":"17:30","updated":1573758125000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":15,"venue":{"id":26371434,"name":"The
+        Main Straight - Campari","lat":-26.050479888916016,"lon":28.024932861328125,"repinned":true,"address_1":"392
+        Main Rd","city":"Sandton","country":"za","localized_country_name":"South Africa"},"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/266025261/","description":"<p>Text
+        data is increasingly important in many domains, and tidy data principles and
+        tidy tools can make text mining easier and more effective.</p> <p>In this
+        talk by Julia Silge, who will be joining us remotely, learn how to manipulate,
+        summarize, and visualize the characteristics of text using these methods and
+        R packages from the tidy tool ecosystem. These tools are highly effective
+        for many analytical questions and allow analysts to integrate natural language
+        processing into effective workflows already in wide use. Explore how to implement
+        approaches such as measuring tf-idf, topic modeling, and building classification
+        models.</p> ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1578577904000,"duration":10800000,"id":"267776758","name":"rstudio::conf(2020)
+        Watch Party","date_in_series_pattern":false,"status":"past","time":1580310000000,"local_date":"2020-01-29","local_time":"17:00","updated":1580391405000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":18,"venue":{"id":26191511,"name":"Discovery
+        Group (Sandton Head Office)","lat":-26.113039016723633,"lon":28.053024291992188,"repinned":true,"address_1":"1
+        Discovery Place","city":"Sandton","country":"za","localized_country_name":"South
+        Africa"},"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/267776758/","description":"<p>Hi
+        all,<br/>We are going to have a live stream of RStudio conference. Details
+        at this link since we''re co-hosting the event:<br/><a href=\"https://www.meetup.com/Joburg-R-Users-Group/events/267773145/\"
+        class=\"linkified\">https://www.meetup.com/Joburg-R-Users-Group/events/267773145/</a></p>
+        ","how_to_find_us":"We will in meeting room PM111 on the first floor and you
+        can ask for directions at reception. If you are driving, there is free, secure
+        parking at Discovery Head Office. You can find the marked entrance off Discovery
+        Place.","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1580907069000,"duration":7200000,"id":"268476293","name":"Feb
+        meetup: ggWhat to ggplot - a guide to creating powerful visualisations","date_in_series_pattern":false,"status":"past","time":1582644600000,"local_date":"2020-02-25","local_time":"17:30","updated":1582656036000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":25,"venue":{"id":26371434,"name":"The
+        Main Straight - Campari","lat":-26.050479888916016,"lon":28.024932861328125,"repinned":true,"address_1":"392
+        Main Rd","city":"Sandton","country":"za","localized_country_name":"South Africa"},"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/268476293/","description":"<p>Data
+        visualisation is one of the most important tools for any person working with
+        data, but often finds itself as an afterthought in both theory and practice
+        of data science. A well designed visual reveals the hidden story behind the
+        data and has the potential to bring about change.</p> <p>This talk will not
+        only take you through the fundamentals of using the ggplot package to generate
+        visualisations, but also the core principals and best practices needed to
+        make it powerful.</p> <p>The session is hands-on, so if you want to follow
+        along please install the tidyverse.</p> <p>Please join us, and the lovely
+        Gemma Dawson as she takes us through this important topic!</p> <p>Packages:<br/>install.packages(\"tidyverse\")</p>
+        <p>Please also install the packages below:</p> <p>library(ggplot2movies) #
+        install.packages(\"ggplot2movies\")<br/>library(cowplot) # install.packages(\"cowplot\")<br/>library(ggrepel)
+        # install.packages(\"ggrepel\")<br/>library(gghighlight) # install.packages(\"gghighlight\")<br/>library(ggedit)
+        # install.packages(\"ggedit\")</p> ","how_to_find_us":"rain is at Block D
+        in the campus","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1582513831000,"duration":7200000,"id":"268942020","name":"March
+        meetup: Hanging out with SatRday Keynote Speakers","rsvp_limit":40,"date_in_series_pattern":false,"status":"past","time":1583422200000,"local_date":"2020-03-05","local_time":"17:30","updated":1583434121000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":14,"venue":{"id":26371434,"name":"The
+        Main Straight - Campari","lat":-26.050479888916016,"lon":28.024932861328125,"repinned":true,"address_1":"392
+        Main Rd","city":"Sandton","country":"za","localized_country_name":"South Africa"},"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/268942020/","description":"<p>Please
+        join us, and the keynote speakers who have kindly agreed to talk, at a pre-SatRday
+        event.</p> <p>Heather Turner will be taking us through: Publishing and Promoting
+        your R Package, and Colin Fay will be talking to us about contributing to
+        the R ecosystem.</p> <p>SatRday Details here: <a href=\"https://joburg2020.satrdays.org/\"
+        class=\"linkified\">https://joburg2020.satrdays.org/</a>. If you haven''t
+        purchased your ticket yet, what are you waiting for!? A day of delicious R
+        goodness is not to be missed!</p> ","how_to_find_us":"rain is at Block D in
+        the campus","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1586447917000,"duration":5400000,"id":"269952337","name":"April
+        meetup: Cluster Analysis - Understanding data behaviour","date_in_series_pattern":false,"status":"past","time":1587484800000,"local_date":"2020-04-21","local_time":"18:00","updated":1587494425000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":28,"is_online_event":false,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/269952337/","description":"<p>In
+        this talk, we will have the pleasure of learning about clustering. Thato Molawa
+        will be telling us about understanding data behaviour. Please join us for
+        our first online meetup!</p> <p>Housekeeping:<br/>Our code of conduct remains
+        in place despite the online nature, and any contravention will be dealt with
+        accordingly (<a href=\"https://rladies.org/code-of-conduct/\" class=\"linkified\">https://rladies.org/code-of-conduct/</a>).</p>
+        <p>I will send details to the online event nearer to the date.</p> ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1588831014000,"duration":5400000,"id":"270500084","name":"May
+        meetup: Databases in R","date_in_series_pattern":false,"status":"past","time":1590508800000,"local_date":"2020-05-26","local_time":"18:00","updated":1590516340000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":41,"venue":{"id":26906060,"name":"Online
+        event","repinned":false,"country":"","localized_country_name":""},"is_online_event":true,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/270500084/","description":"<p>Need
+        to work with databases, but prefer R to SQL. Priyanka''s got us covered. She''ll
+        be helping us use R to query data, instead of SQL ;). Please join Priyanka
+        Nagar, and us, for another online meetup!</p> <p>Materials:<br/>You may follow
+        along if you''d like. Please find the script and datasets at our Github link:
+        <a href=\"https://bit.ly/3gluZmw\" class=\"linkified\">https://bit.ly/3gluZmw</a>.</p>
+        <p>Please download the following packages:<br/>- sqldf<br/>- dplyr<br/>- #
+        install.packages(\"devtools\")<br/>devtools::install_github(\"sciencificity/reclues\")</p>
+        <p>The `reclues` package above is my package, so really keen to talk with
+        you about how you find it! Criticism welcomed.</p> <p>Housekeeping:<br/>Our
+        code of conduct remains in place despite the online nature, and any contravention
+        will be dealt with accordingly (<a href=\"https://rladies.org/code-of-conduct/\"
+        class=\"linkified\">https://rladies.org/code-of-conduct/</a>).</p> <p>Link
+        updated. See you all this evening!</p> ","how_to_find_us":"https://rainnetwork.zoom.us/j/94751157329?pwd=UHJUaTdhdVBKemo0ajdGdGhOczRPZz09;
+        ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1591790117000,"duration":7200000,"id":"271202460","name":"June
+        meetup: Web Scraping using R","date_in_series_pattern":false,"status":"past","time":1593100800000,"local_date":"2020-06-25","local_time":"18:00","updated":1593110254000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":40,"venue":{"id":26906060,"name":"Online
+        event","repinned":false,"country":"","localized_country_name":""},"is_online_event":true,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/271202460/","description":"<p>We''re
+        in for a treat! Riva Quiroga, who is the organiser from RLadies Santiago &amp;
+        RLadies Valparaíso, has kindly agreed to join us for a session. She will be
+        helping us understand how to do webscraping using R. I hope you will join
+        us!</p> <p>It''s going to be an interactive session so please install the
+        `tidyverse` and `janitor`. Please also try to setup an RStudio Cloud account,
+        as Riva will share her code that way (<a href=\"https://rstudio.cloud/\" class=\"linkified\">https://rstudio.cloud/</a>).</p>
+        <p>** Additional: Please also install the following packages - robotstxt and
+        polite.<br/>install.packages(c(\"robotstxt\", \"polite\")).</p> <p>It will
+        be an online meetup, and I will post the link closer to the time.</p> <p>Housekeeping:<br/>Our
+        code of conduct remains in place despite the online nature, and any contravention
+        will be dealt with accordingly (<a href=\"https://rladies.org/code-of-conduct/\"
+        class=\"linkified\">https://rladies.org/code-of-conduct/</a>).</p> ","how_to_find_us":"https://us02web.zoom.us/j/82240973082","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1594792603000,"duration":7200000,"id":"271934922","name":"useR!
+        2020: Create and share reproducible code with R Markdown and workflowr","rsvp_limit":15,"date_in_series_pattern":false,"status":"past","time":1595518200000,"local_date":"2020-07-23","local_time":"17:30","rsvp_close_offset":"PT48H","updated":1595527144000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":14,"venue":{"id":26906060,"name":"Online
+        event","repinned":false,"country":"","localized_country_name":""},"is_online_event":true,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/271934922/","description":"<p>We
+        are proud to host the tutorial as a part of useR!2020. We have limited slots
+        for the tutorial (only 8 for our group), so please only register if you are
+        going to attend. Further to this, we are giving preference to women and minority
+        genders for our slots, so if you are a male member of our group please head
+        over to eSwatini RUG meetup page (<a href=\"https://www.meetup.com/EswatiniUseR/\"
+        class=\"linkified\">https://www.meetup.com/EswatiniUseR/</a>) (<a href=\"https://www.meetup.com/EswatiniUseR/events/271981460/\"
+        class=\"linkified\">https://www.meetup.com/EswatiniUseR/events/271981460/</a>),
+        or Botswana RUG meetup page (<a href=\"https://www.meetup.com/Botswana-R-Users/\"
+        class=\"linkified\">https://www.meetup.com/Botswana-R-Users/</a>) (<a href=\"https://www.meetup.com/Botswana-R-Users/events/271985777/\"
+        class=\"linkified\">https://www.meetup.com/Botswana-R-Users/events/271985777/</a>)
+        as they will also be hosting with us.</p> <p>Please note: We are opening up
+        *15* spots and we will be choosing **8** from them who will attend the workshop.
+        The others will be wait-listed in the event someone drops off the attendees
+        list.</p> <p>Description:<br/>Have you ever struggled to re-run your own code
+        or scripts you received from a collaborator? You\u2019re not alone! Fortunately,
+        there are simple practices that you can use to help you develop more reproducible
+        R code. In this tutorial, you will 1) explore some of the common causes of
+        non-reproducible code, 2) gain practical experience fixing reproducibility
+        issues, and 3) use the R package workflowr (<a href=\"https://jdblischak.github.io/workflowr/\"
+        class=\"linkified\">https://jdblischak.github.io/workflowr/</a>) to facilitate
+        creation of more reproducible and shareable code. The tutorial will be hands-on
+        and interactive, with small-group exercises.</p> <p>Prerequisites:<br/>Participants
+        should have some experience using R (e.g. importing data from a file, loading
+        a package). The tutorial will involve running R code in R Markdown files from
+        the RStudio IDE. If you are unfamiliar with R Markdown, we recommend reviewing
+        these short guides before participating in the tutorial: [Introduction](<a
+        href=\"https://rmarkdown.rstudio.com/lesson-1.html\" class=\"linkified\">https://rmarkdown.rstudio.com/lesson-1.html</a>),
+        [How It Works](<a href=\"https://rmarkdown.rstudio.com/lesson-2.html\" class=\"linkified\">https://rmarkdown.rstudio.com/lesson-2.html</a>),
+        [Code Chunks](<a href=\"https://rmarkdown.rstudio.com/lesson-3.html\" class=\"linkified\">https://rmarkdown.rstudio.com/lesson-3.html</a>].</p>
+        <p>Requirements:<br/>A web browser, an account on GitHub (<a href=\"https://github.com/\"
+        class=\"linkified\">https://github.com/</a>), and an account on RStudio Cloud
+        (<a href=\"https://rstudio.cloud/\" class=\"linkified\">https://rstudio.cloud/</a>).
+        We will email you the tutorial materials.</p> <p>Instructors:<br/>Dr. John
+        Blischak received his PhD in Genetics from the University of Chicago. He is
+        the author of the CRAN package workflowr, and has years of experience performing
+        reproducible data analysis with R, R Markdown, and Git. He is a certified
+        Software Carpentry Instructor, and has taught over 10 workshops for researchers
+        covering topics such as Bash, Python, R, and Git.</p> <p>Dr. Peter Carbonetto,
+        a co-author of the workflowr R package, is a research staff scientist in the
+        Human Genetics Department and the cross-disciplinary Research Computing Center
+        at the University of Chicago. He has a background in computer science and
+        machine learning, and currently does research at the interface of genetics,
+        statistics, and computer science. He frequently gives R and bioinformatics
+        skills workshops at the University of Chicago.</p> <p>It will be an online
+        meetup, and the link will be sent to successful attendees via email.</p> <p>All
+        Information: <a href=\"https://bit.ly/2WqAfNy\" class=\"linkified\">https://bit.ly/2WqAfNy</a></p>
+        ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1596917894000,"duration":7200000,"id":"272452165","name":"Create
+        and share reproducible code with R Markdown and workflowr (Repeat)","date_in_series_pattern":false,"status":"past","time":1598371200000,"local_date":"2020-08-25","local_time":"18:00","updated":1598381434000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":36,"venue":{"id":26906060,"name":"Online
+        event","repinned":false,"country":"","localized_country_name":""},"is_online_event":true,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/272452165/","description":"<p>Last
+        month we hosted a tutorial as a part of useR!2020. We are running it again
+        this month, for those who were unable to attend / did not get a ticket. The
+        tutorial is valuable for everyone, but especially so for Masters and PhD students
+        - if you know anyone who is busy with either of these, please encourage them
+        to sign up on our group and RSVP :).</p> <p>Description:<br/>Have you ever
+        struggled to re-run your own code or scripts you received from a collaborator?
+        You\u2019re not alone! Fortunately, there are simple practices that you can
+        use to help you develop more reproducible R code. In this tutorial, you will
+        1) explore some of the common causes of non-reproducible code, 2) gain practical
+        experience fixing reproducibility issues, and 3) use the R package workflowr
+        (<a href=\"https://jdblischak.github.io/workflowr/\" class=\"linkified\">https://jdblischak.github.io/workflowr/</a>)
+        to facilitate creation of more reproducible and shareable code. The tutorial
+        will be hands-on and interactive, with small-group exercises.</p> <p>Prerequisites:<br/>Participants
+        should have some experience using R (e.g. importing data from a file, loading
+        a package). The tutorial will involve running R code in R Markdown files from
+        the RStudio IDE. If you are unfamiliar with R Markdown, we recommend reviewing
+        these short guides before participating in the tutorial: [Introduction](<a
+        href=\"https://rmarkdown.rstudio.com/lesson-1.html\" class=\"linkified\">https://rmarkdown.rstudio.com/lesson-1.html</a>),
+        [How It Works](<a href=\"https://rmarkdown.rstudio.com/lesson-2.html\" class=\"linkified\">https://rmarkdown.rstudio.com/lesson-2.html</a>),
+        [Code Chunks](<a href=\"https://rmarkdown.rstudio.com/lesson-3.html\" class=\"linkified\">https://rmarkdown.rstudio.com/lesson-3.html</a>].</p>
+        <p>Requirements:<br/>A web browser, an account on GitHub (<a href=\"https://github.com/\"
+        class=\"linkified\">https://github.com/</a>), and an account on RStudio Cloud
+        (<a href=\"https://rstudio.cloud/\" class=\"linkified\">https://rstudio.cloud/</a>).
+        We will email you the tutorial materials, please also check your Spam / Junk
+        Folder as materials often end up there when sent via Meetup.</p> <p>Instructors:<br/>Dr.
+        Inger Fabris-Rotelli (and Vebash Naidoo) on behalf of Dr. John Blischak &amp;
+        Dr. Peter Carbonetto.</p> <p>It will be an online meetup, and the link will
+        be posted closer to the date.</p> ","how_to_find_us":"https://rainnetwork.zoom.us/j/95330483810?pwd=bFU3UVY0NjJzQUpnWjhENU0zMjhCdz09","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1598377516000,"duration":7200000,"id":"272804680","name":"First
+        steps in spatial data handling and visualisation","date_in_series_pattern":false,"status":"past","time":1599494400000,"local_date":"2020-09-07","local_time":"18:00","updated":1599503276000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":46,"venue":{"id":26906060,"name":"Online
+        event","repinned":false,"country":"","localized_country_name":""},"is_online_event":true,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/272804680/","description":"<p>We''re
+        really lucky to be joined by Dr. Dorris Scott who will be taking us through
+        initial steps towards #rspatial.</p> <p>It''s going to be an interactive session
+        and we''ll help everyone along the way. Please make sure you have an RStudio
+        Cloud account.</p> <p>It is sometimes hard to do the exercises, and follow
+        along on the slides. If you have a second screen that''s great, if not, displaying
+        the slides on your phone sometimes helps, or printing them out, if possible.</p>
+        <p>Requirements:<br/>A web browser, and an account on RStudio Cloud (<a href=\"https://rstudio.cloud/\"
+        class=\"linkified\">https://rstudio.cloud/</a>).</p> <p>Link to slides: <a
+        href=\"http://bit.ly/dorris-rspatial-slides\" class=\"linkified\">http://bit.ly/dorris-rspatial-slides</a></p>
+        <p>Link to project on RStudio Cloud: <a href=\"http://bit.ly/dorris-rspatial-cloud-project\"
+        class=\"linkified\">http://bit.ly/dorris-rspatial-cloud-project</a></p> <p>Instructor:<br/>Dr.
+        Dorris Scott</p> <p>It will be an online meetup, and the link will be posted
+        closer to the date.</p> ","how_to_find_us":"https://us02web.zoom.us/j/84096284177","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1603142750000,"duration":5400000,"id":"274045562","name":"Sensitivity
+        Analysis of Parameters in Disease Modelling","date_in_series_pattern":false,"status":"past","time":1603728000000,"local_date":"2020-10-26","local_time":"18:00","updated":1603734589000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":26,"venue":{"id":26906060,"name":"Online
+        event","repinned":false,"country":"","localized_country_name":""},"is_online_event":true,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/274045562/","description":"<p>Raeesa
+        Docrat will be talking to us about conducting sensitivity analysis on deterministic
+        compartmental models with specific applications to COVID-19.</p> <p>She''ll
+        have a little exercise at the end, so if you''re interested in following along
+        with that part of the session, please install the deSolve package.</p> <p>It
+        will be an online meetup, and the link will be posted closer to the date.</p>
+        <p>Zoom requires a passcode, which I sent via email. Please check your spam
+        folder as `Meetup.com` messages often end up there.</p> ","how_to_find_us":"https://us02web.zoom.us/j/85407046916","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1605176494000,"duration":9000000,"id":"274549377","name":"Blogging
+        with RMarkdown","date_in_series_pattern":false,"status":"upcoming","time":1606748400000,"local_date":"2020-11-30","local_time":"17:00","updated":1605176718000,"utc_offset":7200000,"waitlist_count":0,"yes_rsvp_count":21,"venue":{"id":26906060,"name":"Online
+        event","repinned":false,"country":"","localized_country_name":""},"is_online_event":true,"group":{"created":1519624420000,"name":"R-Ladies
+        Johannesburg","id":27651490,"join_mode":"open","lat":-26.190000534057617,"lon":28.040000915527344,"urlname":"rladies-johannesburg","who":"R-Ladies","localized_location":"Johannesburg,
+        South Africa","state":"","country":"za","region":"en_US","timezone":"Africa/Johannesburg"},"link":"https://www.meetup.com/rladies-johannesburg/events/274549377/","description":"<p>Are
+        you an R user who would like to share more online? How about starting a new
+        blog, with R Markdown (Rmd)?</p> <p>Maëlle Salmon (<a href=\"https://masalmon.eu/\"
+        class=\"linkified\">https://masalmon.eu/</a>), R(esearch) Software Engineer
+        and a proud R-Lady, will be helping us get started!</p> <p>In this 2-hour
+        course with live coding, we''ll go on two short adventures:</p> <p>- setting
+        up a scientific Rmd blog with the Distill framework, and the distill package</p>
+        <p>- setting up a scientific Rmd blog with the Hugo website generator and
+        the hugodown package (also quickly presenting blogdown)</p> <p>We''ll prepare
+        for the adventures by defining what we expect of an Rmd blog. We''ll end the
+        course by reflecting on each adventure as well as mentioning important future
+        paths such as how to promote your blog. You should leave the course ready
+        to start an R Markdown blog with your tool of choice, and knowing where to
+        find more resources and help.</p> <p>About the speaker:</p> <p>Maëlle works
+        remotely from Nancy, France, where she lives with her family.<br/>She is a
+        research software engineer with rOpenSci, besides other projects. In particular,
+        currently, she works on the \"HTTP testing in R\" book thanks to funding from
+        the R Consortium. She created the R-hub blog that features more or less niche
+        topics about R package development, also thanks to funding by the R Consortium.<br/>She
+        also volunteers as an associate editor for rOpenSci''s Software Peer Review
+        (peer-review system of R packages), the main manager of R-Ladies Global Twitter
+        account, and a member of the R Weekly team.</p> ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false}]'
+  recorded_at: 2020-11-21 12:14:36 GMT
+  recorded_with: vcr/0.5.4, webmockr/0.7.0

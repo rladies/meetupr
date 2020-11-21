@@ -14,6 +14,7 @@
 #' as `MEETUPR_PAT`.
 #' If you set `set_env` to `FALSE` but `cache` to `TRUE`,
 #' they are cached in a file named \code{.httr-oauth} in the current working directory.
+#' To control where the file is saved, use `token_path`.
 #'
 #' @section How to force meetupr to use a given token?
 #'
