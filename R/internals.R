@@ -64,7 +64,7 @@ meetup_api_prefix <- function() {
 
   # Build the API endpoint URL
   meetup_api_prefix <- meetup_api_prefix()
-  api_url <- paste0(meetup_api_prefix, api_method)
+  api_url <- httr::modify_url(meetup_api_prefix, path = api_method)
 
   # Fetch first set of results (limited to 200 records each call)
 

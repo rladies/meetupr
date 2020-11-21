@@ -1,18 +1,13 @@
 test_that(".quick_fetch() success case", {
-  withr::local_options(list(meetupr.use_oauth = FALSE))
-  set_api_key("yay")
-
-  res <- with_mock(
-    `httr::GET` = function(url, query, ...) {
-      load(test_path("testdata/httr_get_find_groups.rda"))
-      return(req)
-    },
-    # intentionally invalid as there is currently no validation
-    res <- .quick_fetch(api_url = "fake url")
-    )
-
-  expect_equal(names(res), c("result", "headers"), info="check .quick_fetch() return value")
-  expect_equal(res$headers$`content-type`, "application/json;charset=utf-8", info="check .quick_fetch() header content-type")
+  api_url <- httr::modify_url(meetup_api_prefix(), path = "rladies-nashville/events")
+  vcr::use_cassette("quick_fetch", {
+    res <- .quick_fetch(
+      api_url = api_url,
+      event_status = "past"
+      )
+  })
+  expect_equal(names(res), c("result", "headers"))
+  expect_equal(res$headers$`content-type`, "application/json; charset=utf-8")
 })
 
 # TODO .fetch_results()
