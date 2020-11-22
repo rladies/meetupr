@@ -9,6 +9,3 @@ vignettes/*.html
 .httr-oauth
 docs
 tests/testthat/.meetup_token.rds
-/home/maelle/.meetup_token.rds
-/home/maelle/.meetup_token1.rds
-/home/maelle/.meetup_token2.rds
