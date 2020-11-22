@@ -1,4 +1,4 @@
-if (!nzchar(Sys.getenv("MEETUPR_PWD"))) {
+if (nzchar(Sys.getenv("MEETUPR_PWD"))) {
   key <- cyphr::key_sodium(sodium::hex2bin(Sys.getenv("MEETUPR_PWD")))
 
   temptoken <- tempfile(fileext = ".rds")
