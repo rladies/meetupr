@@ -20,7 +20,7 @@ test_that("get_events() works with one status", {
 })
 
 test_that("get_events() works with multiple statuses", {
-  skip("Not working for now (the test, not the function)")
+#  skip("Not working for now (the test, not the function)")
   urlname <- "rladies-johannesburg"
   vcr::use_cassette("get_events-2-status", {
     past_events <- get_events(urlname = urlname,

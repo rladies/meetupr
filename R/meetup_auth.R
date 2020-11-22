@@ -224,6 +224,9 @@ meetup_auth <- function(token = meetup_token_path(),
 #' meetup_token()
 #' }
 meetup_token <- function(verbose = FALSE) {
+  if (nzchar(Sys.getenv("MEETUPR_TESTING"))) {
+    return(httr::config())
+  }
   if (getOption("meetupr.use_oauth")) {
     if (!token_available(verbose = verbose)) meetup_auth(verbose = verbose)
     httr::config(token = .state$token)

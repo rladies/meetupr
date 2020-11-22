@@ -15,3 +15,7 @@
   invisible()
 
 }
+
+# https://github.com/r-hub/rhub/blob/5c339d7b95d75172beec85603ee197c2502903b1/R/utils.R#L21
+
+`%||%` <- function(l, r) if (is.null(l)) r else l

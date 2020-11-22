@@ -11,9 +11,9 @@ meetupr::meetup_auth(
   token_path = token_path
 )
 
-key <- cyphr::key_sodium(
-  sodium::keygen(seed = charToRaw(Sys.getenv("MEETUPR_PWD")))
-)
+# sodium_key <- sodium::keygen()
+# set_renv("MEETUPR_PWD" = sodium::bin2hex(sodium_key))
+key <- cyphr::key_sodium(sodium::hex2bin(Sys.getenv("MEETUPR_PWD")))
 
 cyphr::encrypt_file(
   token_path,
