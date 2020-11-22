@@ -36,11 +36,15 @@ A released version will be on CRAN [soon](https://github.com/rladies/meetupr/iss
 
 ### Authentication
 
-In order to use this package, you can use our built-in [OAuth](https://www.meetup.com/meetup_api/auth/) credentials (recommended), or if you prefer, you can supply your own by setting the `meetupr.consumer_key` and `meetupr.consumer_secret` variables. 
+#### API key? No
 
-Each time you use the package, you will be prompted to log in to your meetup.com account.  The first time you run any of the **meetupr** functions in your session, R will open a browser window, prompting you to "Log In and Grant Access" (to the **meetupr** "application").
+```{r child='man/rmdhunks/api-key.Rmd'} 
+```
 
-_Note: As of August 15, 2019, Meetup.com switched from an API key based authentication system to OAuth 2.0, so we [added support](https://github.com/rladies/meetupr/issues/51) for OAuth.  For backwards compatibility, the functions all still have an `api_key` argument which is no longer used and will eventually be [deprecated](https://github.com/rladies/meetupr/issues/59)._ 
+#### OAuth? Yes
+
+```{r child='man/rmdhunks/oauth.Rmd'} 
+```
 
 ### Functions
 
@@ -66,7 +70,7 @@ dplyr::arrange(events, desc(created))
 
 Next we can look up all R-Ladies groups by "topic id".  You can find topic ids for associated tags by querying [here](https://secure.meetup.com/meetup_api/console/?path=/find/topics).  The `topic_id` for topic, "R-Ladies", is `1513883`.
 
-```{r}
+```{r, eval = FALSE}
 groups <- find_groups(topic_id = 1513883)
 dplyr::arrange(groups, desc(created))
 ```

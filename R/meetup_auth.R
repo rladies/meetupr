@@ -114,7 +114,7 @@ meetup_auth <- function(token = meetup_token_path(),
                         secret = getOption("meetupr.consumer_secret"),
                         cache = getOption("meetupr.httr_oauth_cache"),
                         verbose = TRUE,
-                        set_renv = TRUE,
+                        set_renv = getOption("meetupr.set_renv"),
                         token_path = NULL) {
 
   if (new_user) {
@@ -153,6 +153,7 @@ meetup_auth <- function(token = meetup_token_path(),
 
       # In all cases if cache is TRUE we want to set it to the filepath
       if (!is.null(token_path)) {
+        to_be_cached <- cache
         cache <- token_path
       }
     }
@@ -166,7 +167,7 @@ meetup_auth <- function(token = meetup_token_path(),
 
     stopifnot(is_legit_token(meetup_token, verbose = TRUE))
 
-    if (set_renv && cache) {
+    if (set_renv && to_be_cached) {
       # save path to token as variable in .Renviron
       set_renv("MEETUPR_PAT" = token_path)
     }
@@ -191,7 +192,7 @@ meetup_auth <- function(token = meetup_token_path(),
   if (inherits(token, "character")) {
 
     token_path <- token
-    meetup_token <- try(suppressWarnings(readRDS(token)), silent = TRUE)
+    meetup_token <- try(suppressWarnings(readRDS(token)[[1]]), silent = TRUE)
     if (inherits(meetup_token, "try-error")) {
       spf("Cannot read token from alleged .rds file:\n%s", token)
     } else if (!is_legit_token(meetup_token, verbose = TRUE)) {
@@ -399,7 +400,7 @@ meetup_token_path <- function() {
 save_and_refresh_token <- function(token, path) {
 
   if (token$credentials$expires_in < 60) {
-    token$refresh
+    token$refresh()
 
     if(!is.null(path)) {
       saveRDS(token, path)

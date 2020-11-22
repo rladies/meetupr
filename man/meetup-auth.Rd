@@ -14,7 +14,7 @@ meetup_auth(
   secret = getOption("meetupr.consumer_secret"),
   cache = getOption("meetupr.httr_oauth_cache"),
   verbose = TRUE,
-  set_renv = TRUE,
+  set_renv = getOption("meetupr.set_renv"),
   token_path = NULL
 )
 

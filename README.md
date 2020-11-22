@@ -26,22 +26,64 @@ A released version will be on CRAN
 
 ### Authentication
 
-In order to use this package, you can use our built-in
-[OAuth](https://www.meetup.com/meetup_api/auth/) credentials
-(recommended), or if you prefer, you can supply your own by setting the
-`meetupr.consumer_key` and `meetupr.consumer_secret` variables.
+#### API key? No
 
-Each time you use the package, you will be prompted to log in to your
-meetup.com account. The first time you run any of the **meetupr**
-functions in your session, R will open a browser window, prompting you
-to “Log In and Grant Access” (to the **meetupr** “application”).
-
-*Note: As of August 15, 2019, Meetup.com switched from an API key based
+As of August 15, 2019, Meetup.com switched from an API key based
 authentication system to OAuth 2.0, so we [added
 support](https://github.com/rladies/meetupr/issues/51) for OAuth. For
 backwards compatibility, the functions all still have an `api_key`
 argument which is no longer used and will eventually be
-[deprecated](https://github.com/rladies/meetupr/issues/59).*
+[deprecated](https://github.com/rladies/meetupr/issues/59).
+
+#### OAuth? Yes
+
+Meetup API and this package recommend using OAuth for authentication.
+We’ve abstracted part of the difficulty but it’s still a bit more
+complex than storing a simple API key as secret.
+
+With OAuth you need
+
+  - an OAuth app. There’s one shipped in with the package\! If you
+    prefer you can bring your own app by setting the
+    `meetupr.consumer_key` and `meetupr.consumer_secret` options.
+
+  - an access token. It’s an httr object and it can be saved to disk. It
+    expires but can be refreshed. It contains secrets so it’s a
+    sensitive file\! For creating one you will be prompted to log into
+    your meetup.com account in the browser. But then if you cache the
+    token to disk, you won’t need to do that again. This means you can
+    create a token on your computer locally and use it on a server (if
+    the server is public, encrypting the token).
+
+Let’s go through workflows and ways to control how your token is created
+and cached.
+
+If you don’t tweak anything, the first time you run a meetupr function,
+you’ll be prompted to go into your browser and a token will be created.
+
+  - it will be saved to disk in your home directory e.g. under
+    `/home/user/.meetup_token.rds`
+  - the path to the token will be added in .Renviron
+    i.e. `MEETUPR_PAT=/home/maelle/.meetup_token.rds`
+
+And all the times you use meetupr again, this token will be used, and
+refreshed and re-saved as needed.
+
+This is, we hope, a sensible default.
+
+Now if you want to have a different behavior you either tweak options
+(in your .Rprofile so for all sessions in the future, or just in the
+current session), or call the `meetup_auth()` function directly.
+
+  - Don’t want to cache the token to disk? Use the
+    “meetupr.httr\_oauth\_cache” option or the `cache` argument, to be
+    set to `FALSE`.
+  - Don’t want to set a variable in .Renviron with the path to the
+    token? Use the “meetupr.set\_renv” option or the `set_renv`
+    argument, to be set to `FALSE`. If it is false, the token will be
+    cached to `.httr-oauth` (unless `cache` is FALSE too, of course)
+  - Want to save the token to somewhere you choose? No way to use an
+    option. Use the `token_path` argument of `meetup_auth()`.
 
 ### Functions
 
@@ -66,7 +108,6 @@ library(meetupr)
 
 urlname <- "rladies-san-francisco"
 events <- get_events(urlname, "past")
-#> Auto-refreshing stale OAuth token.
 #> Downloading 60 record(s)...
 dplyr::arrange(events, desc(created))
 #> # A tibble: 60 x 21
@@ -96,25 +137,7 @@ The `topic_id` for topic, “R-Ladies”, is `1513883`.
 
 ``` r
 groups <- find_groups(topic_id = 1513883)
-#> Downloading 138 record(s)...
 dplyr::arrange(groups, desc(created))
-#> # A tibble: 138 x 21
-#>        id name  urlname created             members status organizer   lat
-#>     <int> <chr> <chr>   <dttm>                <int> <chr>  <chr>     <dbl>
-#>  1 3.38e7 R-La… rladie… 2020-06-13 07:50:37     348 active R-Ladies… -1.29
-#>  2 3.34e7 R-La… rladie… 2020-02-22 18:51:34      75 active R-Ladies… 52.4 
-#>  3 3.34e7 R-La… rladie… 2020-02-22 18:39:39       9 active R-Ladies… 43.3 
-#>  4 3.32e7 R-La… rladie… 2020-01-12 18:47:12     288 active R-Ladies… 25.7 
-#>  5 3.32e7 R-La… rladie… 2020-01-12 18:39:04      26 active R-Ladies… 51.8 
-#>  6 3.31e7 R-La… rladie… 2019-12-15 20:50:22      73 active R-Ladies… 38.9 
-#>  7 3.31e7 R-La… rladie… 2019-12-15 14:30:12      40 active R-Ladies…  6.93
-#>  8 3.31e7 R-La… rladie… 2019-11-30 17:55:10      37 active R-Ladies… 30.0 
-#>  9 3.31e7 R-La… rladie… 2019-11-30 17:09:20       7 active R-Ladies… 43.0 
-#> 10 3.30e7 R-La… rladie… 2019-11-23 20:14:43      77 active R-Ladies… 19.0 
-#> # … with 128 more rows, and 13 more variables: lon <dbl>, city <chr>,
-#> #   state <chr>, country <chr>, timezone <chr>, join_mode <chr>,
-#> #   visibility <chr>, who <chr>, organizer_id <int>, organizer_name <chr>,
-#> #   category_id <int>, category_name <chr>, resource <list>
 ```
 
 ## How can you contribute?

@@ -1,0 +1,29 @@
+---
+title: "Setup for using meetupr"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{setup}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(meetupr)
+```
+
+## API key? No
+
+```{r child='../man/rmdhunks/api-key.Rmd'} 
+```
+
+## OAuth? Yes
+
+```{r child='../man/rmdhunks/oauth.Rmd'} 
+```
