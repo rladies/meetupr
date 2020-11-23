@@ -63,8 +63,8 @@
 #'   Google account. This disables the \code{.httr-oauth} file in current
 #'   working directory.
 #' @param key,secret the "Client ID" and "Client secret" for the application;
-#'   defaults to the ID and secret built into the \code{googlesheets} package
-#' @param cache logical indicating if \code{googlesheets} should cache
+#'   defaults to the ID and secret built into the \code{meetupr} package
+#' @param cache logical indicating if \code{meetupr} should cache
 #'   credentials in the default cache file \code{.httr-oauth}
 #' @param verbose logical; do you want informative messages?
 #'
