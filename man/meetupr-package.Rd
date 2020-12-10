@@ -27,6 +27,7 @@ Other contributors:
   \item Greg Sutcliffe \email{github@emeraldverie.org} [contributor]
   \item Rick Pack \email{rickeyhp@gmail.com} [contributor]
   \item Ben Ubah \email{ubah.ben22@gmail.com} [contributor]
+  \item Maëlle Salmon \email{maelle.salmon@yahoo.se} (\href{https://orcid.org/0000-0002-2815-0399}{ORCID}) [contributor]
 }
 
 }

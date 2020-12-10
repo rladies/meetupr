@@ -20,12 +20,12 @@ library(meetupr)
 
 ## API key? No
 
-```{r child='../man/rmdhunks/api-key.Rmd'} 
+```{r child='../man/rmd-fragments/api-key.Rmd'} 
 ```
 
 ## OAuth? Yes
 
-```{r child='../man/rmdhunks/oauth.Rmd'} 
+```{r child='../man/rmd-fragments/oauth.Rmd'} 
 ```
 
 ## What about running my code on a server
@@ -94,11 +94,11 @@ cyphr::decrypt_file(
 
 token <- readRDS(temptoken)[[1]]
 
-meetupr::meetup_auth(
+token <- meetupr::meetup_auth(
   token = token,
   set_renv = FALSE,
   cache = FALSE
-) -> token
+)
 
 Sys.setenv(MEETUPR_PAT = temptoken)
 

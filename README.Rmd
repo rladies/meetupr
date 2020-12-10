@@ -38,12 +38,12 @@ A released version will be on CRAN [soon](https://github.com/rladies/meetupr/iss
 
 #### API key? No
 
-```{r child='man/rmdhunks/api-key.Rmd'} 
+```{r child='man/rmd-fragments/api-key.Rmd'} 
 ```
 
 #### OAuth? Yes
 
-```{r child='man/rmdhunks/oauth.Rmd'} 
+```{r child='man/rmd-fragments/oauth.Rmd'} 
 ```
 
 ### Functions
