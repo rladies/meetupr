@@ -27,8 +27,8 @@ if (nzchar(Sys.getenv("MEETUPR_PWD"))) {
 
 library("vcr")
 invisible(vcr::vcr_configure(
+  filter_request_headers = list(Authorization = "not my bearer token"),
   filter_sensitive_data = list(
-    "<<<my_access_token>>>" = token$credentials$access_token %||% "lala",
     "<<<my_refresh_token>>>" = token$credentials$refresh_token %||% "lala"
   ),
   dir = "../fixtures"

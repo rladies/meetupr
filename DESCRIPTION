@@ -63,8 +63,6 @@ Suggests:
     rmarkdown,
     testthat,
     vcr
-Remotes:
-    ropensci/vcr@encoding
 VignetteBuilder: 
     knitr
 Encoding: UTF-8

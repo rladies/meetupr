@@ -7,7 +7,7 @@ http_interactions:
       string: ''
     headers:
       Accept: application/json, text/xml, application/xml, */*
-      Authorization: Bearer <<<my_access_token>>>
+      Authorization: not my bearer token
   response:
     status:
       status_code: 200
@@ -17,23 +17,23 @@ http_interactions:
     headers:
       content-type: application/json; charset=utf-8
       server: Apache/2.4.39 (Unix) OpenSSL/1.1.1c
-      x-meetup-server: ip-10-192-3-20
-      x-meetup-request-id: 9e71afb0-e4c4-4e4f-9314-647ddd51aabc
+      x-meetup-server: ip-10-192-23-7
+      x-meetup-request-id: b3453c3a-5ae1-41e4-86ef-b6370fb6f4c1
       x-oauth-scopes: basic
       x-accepted-oauth-scopes: basic
       x-ratelimit-limit: '30'
-      x-ratelimit-remaining: '29'
-      x-ratelimit-reset: '10'
+      x-ratelimit-remaining: '27'
+      x-ratelimit-reset: '9'
       x-total-count: '18'
       etag: '"49de7e98e7607b34ae9a55b55409701b-gzip"'
       content-encoding: gzip
       accept-ranges: bytes
-      date: Sat, 21 Nov 2020 12:14:34 GMT
+      date: Mon, 14 Dec 2020 12:36:20 GMT
       via: 1.1 varnish
-      x-served-by: cache-cdg20726-CDG
+      x-served-by: cache-cdg20750-CDG
       x-cache: MISS
       x-cache-hits: '0'
-      x-timer: S1605960873.465263,VS0,VE659
+      x-timer: S1607949380.337517,VS0,VE398
       vary: Accept-Encoding,User-Agent,Accept-Language
       content-length: '7969'
     body:
@@ -309,8 +309,8 @@ http_interactions:
         in this meetup, how we can grow that value, and where we want to head with
         R-Ladies Nashville this year and beyond.</p> ","how_to_find_us":"Dell Learning
         Center","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false}]'
-  recorded_at: 2020-11-21 12:14:35 GMT
-  recorded_with: vcr/0.5.4, webmockr/0.7.0
+  recorded_at: 2020-12-14 12:36:21 GMT
+  recorded_with: vcr/0.6.0, webmockr/0.7.4
 - request:
     method: get
     uri: https://api.meetup.com/rladies-nashville/events?status=past&offset=0
@@ -319,7 +319,7 @@ http_interactions:
       string: ''
     headers:
       Accept: application/json, text/xml, application/xml, */*
-      Authorization: Bearer <<<my_access_token>>>
+      Authorization: not my bearer token
   response:
     status:
       status_code: 200
@@ -329,23 +329,23 @@ http_interactions:
     headers:
       content-type: application/json; charset=utf-8
       server: Apache/2.4.39 (Unix) OpenSSL/1.1.1c
-      x-meetup-server: ip-10-192-22-253
-      x-meetup-request-id: 1b75de5c-7eed-4884-b0be-a90f9859fed9
+      x-meetup-server: ip-10-192-3-53
+      x-meetup-request-id: 1a8ec317-70ff-4898-9454-be75b6876cc3
       x-oauth-scopes: basic
       x-accepted-oauth-scopes: basic
       x-ratelimit-limit: '30'
-      x-ratelimit-remaining: '28'
-      x-ratelimit-reset: '9'
+      x-ratelimit-remaining: '26'
+      x-ratelimit-reset: '8'
       x-total-count: '18'
       etag: '"49de7e98e7607b34ae9a55b55409701b-gzip"'
       content-encoding: gzip
       accept-ranges: bytes
-      date: Sat, 21 Nov 2020 12:14:34 GMT
+      date: Mon, 14 Dec 2020 12:36:21 GMT
       via: 1.1 varnish
-      x-served-by: cache-cdg20726-CDG
+      x-served-by: cache-cdg20750-CDG
       x-cache: MISS
       x-cache-hits: '0'
-      x-timer: S1605960874.320205,VS0,VE621
+      x-timer: S1607949381.880427,VS0,VE400
       vary: Accept-Encoding,User-Agent,Accept-Language
       content-length: '7969'
     body:
@@ -621,5 +621,5 @@ http_interactions:
         in this meetup, how we can grow that value, and where we want to head with
         R-Ladies Nashville this year and beyond.</p> ","how_to_find_us":"Dell Learning
         Center","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false}]'
-  recorded_at: 2020-11-21 12:14:35 GMT
-  recorded_with: vcr/0.5.4, webmockr/0.7.0
+  recorded_at: 2020-12-14 12:36:21 GMT
+  recorded_with: vcr/0.6.0, webmockr/0.7.4
