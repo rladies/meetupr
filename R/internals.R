@@ -94,6 +94,7 @@ meetup_api_prefix <- function() {
                           ...)
 
       next_url <- strsplit(strsplit(res$headers$link, split = "<")[[1]][2], split = ">")[[1]][1]
+      next_url <- gsub(meetup_api_prefix(), "", next_url)
       res <- .quick_fetch(next_url, event_status)
 
       all_records[[i + 1]] <- res$result
