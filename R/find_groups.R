@@ -6,6 +6,7 @@
 #' range 0-100.
 #' @param fields Character. Optional fields that are not returned by default.
 #' @template api_key
+#' @template verbose
 #'
 #' @return A tibble with the following columns:
 #'    * id

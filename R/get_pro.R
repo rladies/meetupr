@@ -2,6 +2,7 @@
 #'
 #' @template urlname
 #' @template api_key
+#' @template verbose
 #'
 #' @return A tibble with the following columns:
 #'    * id
@@ -57,6 +58,7 @@ get_pro_groups <- function(urlname, api_key = NULL){
 #'  * upcoming
 #'
 #' @template api_key
+#' @template verbose
 #'
 #' @return A tibble with the following columns:
 #'    * id
@@ -94,14 +96,15 @@ get_pro_groups <- function(urlname, api_key = NULL){
 #' @export
 get_pro_events <- function(urlname,
                            event_status = "upcoming",
-                           api_key = NULL){
+                           api_key = NULL,
+                           verbose = TRUE){
 
   event_status <- .check_event_status(event_status)
 
   event_cols <- paste0(event_status, "_events")
 
   all_groups <- suppressMessages(
-    get_pro_groups(urlname = urlname, api_key = api_key)
+    get_pro_groups(urlname = urlname, api_key = api_key, verbose = verbose)
   )
 
   # Get groups that have events matching the wanted status, skips those without entries

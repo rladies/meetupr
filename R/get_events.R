@@ -11,6 +11,7 @@
 #'  * upcoming
 #' @param fields Character, character vector or characters separated by comma (e.g "event_hosts" or c("event_hosts","attendance_count") or "event_hosts, group_past_event_count").
 #' @template api_key
+#' @template verbose
 #'
 #' @return A tibble with the following columns:
 #'    * id
@@ -56,19 +57,18 @@
 
 #'}
 #' @export
-get_events <- function(urlname, event_status = "upcoming", fields = NULL, api_key = NULL) {
+get_events <- function(urlname, event_status = "upcoming", fields = NULL,
+                       api_key = NULL, verbose = TRUE) {
 
   event_status <- .check_event_status(event_status)
 
-  # If event_status contains multiple statuses, we can pass along a comma sep list
-  event_status <- paste(event_status, collapse = ",")
-
-  # If fields is a vector, change it to single string of comma separated values
-  fields <- paste(fields, collapse = ",")
-
-  api_method <- paste0(urlname, "/events")
-
-  res <- .fetch_results(api_method, api_key, event_status, fields = fields)
+  res <- .fetch_results(
+    sprintf("%s/events", urlname),
+    api_key,
+    .collapse(event_status),
+    fields = .collapse(fields),
+    verbose = verbose
+  )
 
   tibble::tibble(
     id = purrr::map_chr(res, "id"),  #this is returned as chr (not int)

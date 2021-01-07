@@ -4,6 +4,7 @@
 #' @param event_id Character. The id of the event. Event ids can be obtained
 #'   using [get_events()] or by looking at the event page URL.
 #' @template api_key
+#' @template verbose
 #'
 #' @return A tibble with the following columns:
 #'    * id
@@ -25,9 +26,10 @@
 #' comments <- get_event_comments(urlname, event_id)
 #'}
 #' @export
-get_event_comments <- function(urlname, event_id, api_key = NULL) {
-  api_method <- paste0(urlname, "/events/", event_id, "/comments")
-  res <- .fetch_results(api_method, api_key)
+get_event_comments <- function(urlname, event_id, api_key = NULL, verbose = TRUE) {
+  api_method <- sprintf("%s/events/%s/comments",
+                        urlname, event_id)
+  res <- .fetch_results(api_method, api_key, verbose = verbose)
   tibble::tibble(
     id = purrr::map_int(res, "id"),
     comment = purrr::map_chr(res, "comment"),

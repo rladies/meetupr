@@ -62,7 +62,7 @@ meetup_api_prefix <- function() {
 # Fetch all the results of a query given an API Method
 # Will make multiple calls to the API if needed
 # API Methods listed here: https://www.meetup.com/meetup_api/docs/
-.fetch_results <- function(api_method, api_key = NULL, event_status = NULL, ...) {
+.fetch_results <- function(api_method, api_key = NULL, event_status = NULL, verbose = TRUE, ...) {
 
   # Fetch first set of results (limited to 200 records each call)
   res <- .quick_fetch(api_method = api_method,
@@ -78,7 +78,7 @@ meetup_api_prefix <- function() {
   total_records <- as.integer(res$headers$`x-total-count`)
   if (length(total_records) == 0) total_records <- 1L
   records <- res$result
-  cat("Downloading", total_records, "record(s)...\n", sep = " ")
+  if(verbose) cat("Downloading", total_records, "record(s)...\n", sep = " ")
 
   if((length(records) < total_records) & !is.null(res$headers$link)){
 

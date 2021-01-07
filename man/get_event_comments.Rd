@@ -4,7 +4,7 @@
 \alias{get_event_comments}
 \title{Get the comments for a specified event}
 \usage{
-get_event_comments(urlname, event_id, api_key = NULL)
+get_event_comments(urlname, event_id, api_key = NULL, verbose = TRUE)
 }
 \arguments{
 \item{urlname}{Character. The name of the group as indicated in the
@@ -17,6 +17,8 @@ using \code{\link[=get_events]{get_events()}} or by looking at the event page UR
 for a parameter called "MEETUP_KEY" via \code{Sys.getenv("MEETUP_KEY")}. This key can be
 obtained from \url{https://secure.meetup.com/meetup_api/key/}. To set the environment variable
 run \code{Sys.setenv(MEETUP_KEY = "PASTE YOUR MEETUP KEY HERE")}.}
+
+\item{verbose}{logical; do you want informative messages?}
 }
 \value{
 A tibble with the following columns:

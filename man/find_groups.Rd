@@ -9,7 +9,8 @@ find_groups(
   topic_id = NULL,
   radius = "global",
   fields = NULL,
-  api_key = NULL
+  api_key = NULL,
+  verbose = TRUE
 )
 }
 \arguments{
@@ -26,6 +27,8 @@ range 0-100.}
 for a parameter called "MEETUP_KEY" via \code{Sys.getenv("MEETUP_KEY")}. This key can be
 obtained from \url{https://secure.meetup.com/meetup_api/key/}. To set the environment variable
 run \code{Sys.setenv(MEETUP_KEY = "PASTE YOUR MEETUP KEY HERE")}.}
+
+\item{verbose}{logical; do you want informative messages?}
 }
 \value{
 A tibble with the following columns:
