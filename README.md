@@ -84,6 +84,9 @@ current session), or call the `meetup_auth()` function directly.
     cached to `.httr-oauth` (unless `cache` is FALSE too, of course)
   - Want to save the token to somewhere you choose? No way to use an
     option. Use the `token_path` argument of `meetup_auth()`.
+  - Want to use a token that was created elsewhere? Save it to disk,
+    keep it secret, and refer to it via the `token` argument of
+    `meetup_auth()` that can be either a token or the path to a token.
 
 ### Functions
 
@@ -153,5 +156,6 @@ applications of the **meetupr** package, so we can compile a list of
 demos\!
 
 Please note that the this project is released with a [Contributor Code
-of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you
-agree to abide by its terms.
+of
+Conduct](https://github.com/rladies/.github/blob/master/CODE_OF_CONDUCT.md).
+By contributing to this project, you agree to abide by its terms.

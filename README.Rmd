@@ -80,4 +80,4 @@ dplyr::arrange(groups, desc(created))
 
 We are looking for new people to join the list of contributors!  Please take a look at the open [issues](https://github.com/rladies/meetupr/issues), file a new issue, contribute tests, or improve the documentation.  We are also looking to expand the set of functions to include more endpoints from the [Meetup API](https://www.meetup.com/meetup_api/).  Lastly, we'd also love to [hear about](https://github.com/rladies/meetupr/issues/74) any applications of the **meetupr** package, so we can compile a list of demos!
 
-Please note that the this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
+Please note that the this project is released with a [Contributor Code of Conduct](https://github.com/rladies/.github/blob/master/CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
