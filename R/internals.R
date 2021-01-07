@@ -42,6 +42,7 @@ spf <- function(...) stop(sprintf(...), call. = FALSE)
   if (length(reslist) == 0) {
     warning("Zero records match your filter. Nothing to return.\n",
          call. = FALSE)
+    return(NULL)
   }
 
   return(list(result = reslist, headers = req$headers))
