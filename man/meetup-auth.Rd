@@ -80,6 +80,62 @@ but, rather, prepared for inclusion in downstream requests.
 Suspend \code{\link{meetupr}}'s authorization to place requests to the Meetup
 APIs on behalf of the authenticated user.
 }
+\section{How to force meetupr to use a given token?}{
+
+
+Save this token somewhere on disk (\code{token_path} argument of \code{meetup_auth}).
+Set the environment variable \code{MEETUPR_PAT} to the path to that file.
+Call \code{meetup_token_path()} and check it returns the right path.
+}
+
+\section{Advanced usage}{
+
+
+Most users, most of the time, do not need to call this function explicitly --
+it will be triggered by the first action that requires authorization. Even
+when called, the default arguments will often suffice. However, when
+necessary, this function allows the user to
+
+\itemize{
+\item force the creation of a new token
+\item retrieve current token as an object, for possible storage to an
+\code{.rds} file
+\item read the token from an object or from an \code{.rds} file
+\item provide your own app key and secret -- this requires setting up
+a new OAuth consumer on \href{https://secure.meetup.com/meetup_api/oauth_consumers/}{Meetup}
+\item prevent caching of credentials
+}
+
+In a direct call to \code{meetup_auth}, the user can provide the token, app
+key and secret explicitly and can dictate whether interactively-obtained
+credentials will be cached. If unspecified, these
+arguments are controlled via options, which, if undefined at the time
+\code{meetupr} is loaded, are defined like so:
+
+\describe{
+\item{key}{Set to option \code{meetupr.consumer_key}, which defaults to a
+consumer key that ships with the package}
+\item{secret}{Set to option \code{meetupr.consumer_secret}, which defaults to
+a consumer secret that ships with the package}
+\item{cache}{Set to option \code{meetupr.httr_oauth_cache}, which defaults
+to \code{TRUE}}
+}
+
+To override these defaults in persistent way, predefine one or more of them
+with lines like this in a \code{.Rprofile} file:
+\preformatted{
+options(meetupr.consumer_key = "FOO",
+        meetupr.consumer_secret = "BAR",
+        meetupr.httr_oauth_cache = FALSE)
+}
+See \code{\link[base]{Startup}} for possible locations for this file and the
+implications thereof.
+
+More detail is available from
+\href{https://www.meetup.com/meetup_api/auth/#oauth2-resources}{Authenticating
+with the Meetup API}.
+}
+
 \examples{
 \dontrun{
 ## load/refresh existing credentials, if available

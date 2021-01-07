@@ -8,7 +8,6 @@ spf <- function(...) stop(sprintf(...), call. = FALSE)
                          event_status = NULL,
                          offset = 0,
                          ...) {
-
   # list of parameters
   parameters <- list(status = event_status, # you need to add the status
                      # otherwise it will get only the upcoming event
