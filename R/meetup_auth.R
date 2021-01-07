@@ -135,11 +135,10 @@ meetup_auth <- function(token = meetup_token_path(),
 
     if (!cache && !is.null(token_path)) {
       stop(
-        paste(
         "You chose `cache` FALSE (no saving to disk) but input a `token_path`.",
-        "Should you set `cache` to TRUE?"
+        "Should you set `cache` to TRUE?",
+        call. = FALSE
         )
-      )
     }
 
 
