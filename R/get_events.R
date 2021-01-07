@@ -57,20 +57,21 @@
 #'}
 #' @export
 get_events <- function(urlname, event_status = "upcoming", fields = NULL, api_key = NULL) {
-  if (!is.null(event_status) &&
-     !event_status %in% c("cancelled", "draft", "past", "proposed", "suggested", "upcoming")) {
-    stop(sprintf("Event status %s not allowed", event_status))
-  }
+
+  event_status <- match.arg(event_status,
+                            c("cancelled", "draft", "past", "proposed", "suggested", "upcoming"),
+                            several.ok = TRUE)
+
   # If event_status contains multiple statuses, we can pass along a comma sep list
-  if (length(event_status) > 1) {
-    event_status <- paste(event_status, collapse = ",")
-  }
+  event_status <- paste(event_status, collapse = ",")
+
   # If fields is a vector, change it to single string of comma separated values
-  if(length(fields) > 1){
-    fields <- paste(fields, collapse = ",")
-  }
+  fields <- paste(fields, collapse = ",")
+
   api_method <- paste0(urlname, "/events")
+
   res <- .fetch_results(api_method, api_key, event_status, fields = fields)
+
   tibble::tibble(
     id = purrr::map_chr(res, "id"),  #this is returned as chr (not int)
     name = purrr::map_chr(res, "name"),

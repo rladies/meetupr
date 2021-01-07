@@ -1,0 +1,105 @@
+---
+title: "Setup for using meetupr"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{setup}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(meetupr)
+```
+
+## API key? No
+
+```{r child='../man/rmd-fragments/api-key.Rmd'} 
+```
+
+## OAuth? Yes
+
+```{r child='../man/rmd-fragments/oauth.Rmd'} 
+```
+
+## What about running my code on a server
+
+Please read [httr vignette about secrets](https://httr.r-lib.org/articles/secrets.html) and [gargle vignette about managing tokens securely](https://gargle.r-lib.org/articles/articles/managing-tokens-securely.html).
+
+Here is how we handle our secret token for testing the package, it might inspire you.
+
+### Create and encrypt the token
+
+First we create a token. 
+We build and git ignore it, even safer would be to put it elsewhere on the computer, 
+maybe a temporary file!
+
+```r
+token_path <- testthat::test_path(".meetup_token.rds")
+use_build_ignore(token_path)
+use_git_ignore(token_path)
+
+meetupr::meetup_auth(
+  token = NULL,
+  cache = TRUE,
+  set_renv = FALSE,
+  token_path = token_path
+)
+```
+
+We create a key and save it as an environment variable.
+We used an internal function for saving it, you could copy-paste it to .Renviron by hand (see also `usethis::edit_r_environ()`).
+
+```r
+# sodium_key <- sodium::keygen()
+# set_renv("MEETUPR_PWD" = sodium::bin2hex(sodium_key))
+```
+
+Using the key we encrypt the file.
+secret.rds will be committed to our repo!
+
+```r
+key <- cyphr::key_sodium(sodium::hex2bin(Sys.getenv("MEETUPR_PWD")))
+
+cyphr::encrypt_file(
+  token_path,
+  key = key,
+  dest = testthat::test_path("secret.rds")
+)
+```
+
+### Use the token on CI
+
+* Save the `MEETUPR_PWD` environment variable as secret on CI (actually called repo secret for e.g. GitHub Actions)
+
+* Use the code below to decrypt the secret before using meetupr.
+We save the temporary token to disk but to a temporary folder so it won't end up in a package check artefact.
+
+```r
+key <- cyphr::key_sodium(sodium::hex2bin(Sys.getenv("MEETUPR_PWD")))
+
+temptoken <- tempfile(fileext = ".rds")
+
+cyphr::decrypt_file(
+  testthat::test_path("secret.rds"),
+  key = key,
+  dest = temptoken
+)
+
+token <- readRDS(temptoken)[[1]]
+
+token <- meetupr::meetup_auth(
+  token = token,
+  set_renv = FALSE,
+  cache = FALSE
+)
+
+Sys.setenv(MEETUPR_PAT = temptoken)
+
+```

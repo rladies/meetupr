@@ -3,7 +3,7 @@ spf <- function(...) stop(sprintf(...), call. = FALSE)
 
 # This helper function makes a single call, given the full API endpoint URL
 # Used as the workhorse function inside .fetch_results() below
-.quick_fetch <- function(api_url,
+.quick_fetch <- function(api_method,
                          api_key = NULL, # deprecated, unused, can't swallow this in `...`
                          event_status = NULL,
                          offset = 0,
@@ -21,14 +21,15 @@ spf <- function(...) stop(sprintf(...), call. = FALSE)
     parameters <- append(parameters, list(key = get_api_key()))
   }
 
-  req <- httr::GET(url = api_url,          # the endpoint
+  req <- httr::GET(url = meetup_api_prefix(),          # the endpoint
+                   path = api_method,
                    query = parameters,
                    config = meetup_token()
   )
 
   if (req$status_code == 400) {
     stop(paste0("HTTP 400 Bad Request error encountered for: ",
-                api_url,".\n As of June 30, 2020, this may be ",
+                api_method,".\n As of June 30, 2020, this may be ",
                 "because a presumed bug with the Meetup API ",
                 "causes this error for a future event. Please ",
                 "confirm the event has ended."),
@@ -39,11 +40,23 @@ spf <- function(...) stop(sprintf(...), call. = FALSE)
   reslist <- httr::content(req, "parsed")
 
   if (length(reslist) == 0) {
-    stop("Zero records match your filter. Nothing to return.\n",
+    warning("Zero records match your filter. Nothing to return.\n",
          call. = FALSE)
+    invisible(NULL)
   }
 
   return(list(result = reslist, headers = req$headers))
+}
+
+meetup_api_prefix <- function() {
+
+  env_url <- Sys.getenv("MEETUP_API_URL")
+
+  if(nzchar(env_url)) {
+    return(env_url)
+  }
+
+  "https://api.meetup.com/"
 }
 
 # Fetch all the results of a query given an API Method
@@ -51,19 +64,14 @@ spf <- function(...) stop(sprintf(...), call. = FALSE)
 # API Methods listed here: https://www.meetup.com/meetup_api/docs/
 .fetch_results <- function(api_method, api_key = NULL, event_status = NULL, ...) {
 
-  # Build the API endpoint URL
-  meetup_api_prefix <- "https://api.meetup.com/"
-  api_url <- paste0(meetup_api_prefix, api_method)
-
-  # Fetch first set of results (limited to 200 records each call)
-  
-  res <- .quick_fetch(api_url = api_url,
+    # Fetch first set of results (limited to 200 records each call)
+  res <- .quick_fetch(api_method = api_method,
                       api_key = api_key,
                       event_status = event_status,
                       offset = 0,
                       ...)
 
-  res <-  .quick_fetch(api_url, event_status = event_status, ...)
+  res <-  .quick_fetch(api_method, event_status = event_status, ...)
 
 
   # Total number of records matching the query
@@ -79,12 +87,12 @@ spf <- function(...) stop(sprintf(...), call. = FALSE)
     all_records <- list(records)
 
     for(i in 1:(offsetn - 1)) {
-      res <- .quick_fetch(api_url = api_url,
+      res <- .quick_fetch(api_method = api_method,
                           api_key = api_key,
                           event_status = event_status,
                           offset = i,
                           ...)
-      
+
       next_url <- strsplit(strsplit(res$headers$link, split = "<")[[1]][2], split = ">")[[1]][1]
       res <- .quick_fetch(next_url, event_status)
 

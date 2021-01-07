@@ -21,7 +21,7 @@ Authors@R:
       person(given = "Gabriela",
              family = "De Queiroz",
              role = "ctb",
-             email = "gabriela@rladies.org"),       
+             email = "gabriela@rladies.org"),
       person(given = "Michael",
              family = "Beigelmacher",
              role = "ctb"),
@@ -40,23 +40,36 @@ Authors@R:
       person(given = "Ben",
              family = "Ubah",
              role = "ctb",
-             email = "ubah.ben22@gmail.com"))
+             email = "ubah.ben22@gmail.com"),
+      person(given = "Maëlle",
+             family = "Salmon",
+             role = "ctb",
+             email = "maelle.salmon@yahoo.se",
+             comment = c(ORCID = "0000-0002-2815-0399")),
+      person("Athanasia Mo", "Mowinckel", 
+                    email = "a.m.mowinckel@psykologi.uio.no", 
+                    role = c("ctb"),
+                    comment = c(ORCID = "0000-0002-5756-0223")))
 Description: Provides access to data from 'meetup.com' (see
     https://www.meetup.com/meetup_api/ for more information).
 License: MIT + file LICENSE
 Depends:
-    R (>= 3.3)
+    R (>= 3.5)
 Imports:
     httr,
     purrr,
     tibble,
     withr
 Suggests:
+    sodium,
+    cyphr,
     knitr,
     rmarkdown,
-    testthat
+    testthat,
+    vcr
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.1.9000
+Config/testthat/edition: 3

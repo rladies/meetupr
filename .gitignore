@@ -8,3 +8,4 @@ vignettes/*.html
 .DS_Store
 .httr-oauth
 docs
+tests/testthat/.meetup_token.rds

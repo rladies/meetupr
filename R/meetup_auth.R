@@ -1,5 +1,6 @@
 # Credit to Jenny Bryan and the Googlesheets3 package for this pattern of
 # OAuth handling, see https://github.com/jennybc/googlesheets/blob/master/R/gs_auth.R
+# And credit to Michael Kearney and the rtweet package.
 #
 # environment to store credentials
 .state <- new.env(parent = emptyenv())
@@ -9,8 +10,19 @@
 #' Authorize \code{meetupr} via the OAuth API. You will be directed to a web
 #' browser, asked to sign in to your Meetup account, and to grant \code{meetupr}
 #' permission to operate on your behalf. By default, these user credentials are
-#' cached in a file named \code{.httr-oauth} in the current working directory,
-#' from where they can be automatically refreshed, as necessary.
+#' saved to a file in your home directory whose path is saved in `.Renviron`
+#' as `MEETUPR_PAT`.
+#' If you set `set_env` to `FALSE` but `cache` to `TRUE`,
+#' they are cached in a file named \code{.httr-oauth} in the current working directory.
+#' To control where the file is saved, use `token_path`.
+#'
+#' @section How to force meetupr to use a given token?
+#'
+#' Save this token somewhere on disk (`token_path` argument of `meetup_auth`).
+#' Set the environment variable `MEETUPR_PAT` to the path to that file.
+#' Call `meetup_token_path()` and check it returns the right path.
+#'
+#' @section Advanced usage
 #'
 #' Most users, most of the time, do not need to call this function explicitly --
 #' it will be triggered by the first action that requires authorization. Even
@@ -18,18 +30,18 @@
 #' necessary, this function allows the user to
 #'
 #' \itemize{
-#'   \item TODO: force the creation of a new token
-#'   \item TODO: retrieve current token as an object, for possible storage to an
+#'   \item force the creation of a new token
+#'   \item retrieve current token as an object, for possible storage to an
 #'   \code{.rds} file
-#'   \item TODO: read the token from an object or from an \code{.rds} file
-#'   \item TODO: provide your own app key and secret -- this requires setting up
+#'   \item read the token from an object or from an \code{.rds} file
+#'   \item provide your own app key and secret -- this requires setting up
 #'   a new OAuth consumer on \href{https://secure.meetup.com/meetup_api/oauth_consumers/}{Meetup}
-#'   \item TODO: prevent caching of credentials in \code{.httr-oauth}
+#'   \item prevent caching of credentials
 #' }
 #'
 #' In a direct call to \code{meetup_auth}, the user can provide the token, app
 #' key and secret explicitly and can dictate whether interactively-obtained
-#' credentials will be cached in \code{.httr_oauth}. If unspecified, these
+#' credentials will be cached. If unspecified, these
 #' arguments are controlled via options, which, if undefined at the time
 #' \code{meetupr} is loaded, are defined like so:
 #'
@@ -60,14 +72,26 @@
 #'   stored as an \code{.rds} file
 #' @param new_user logical, defaults to \code{FALSE}. Set to \code{TRUE} if you
 #'   want to wipe the slate clean and re-authenticate with the same or different
-#'   Google account. This disables the \code{.httr-oauth} file in current
+#'   Meetup account. This disables the \code{.httr-oauth} file in current
 #'   working directory.
 #' @param key,secret the "Client ID" and "Client secret" for the application;
-#'   defaults to the ID and secret built into the \code{googlesheets} package
-#' @param cache logical indicating if \code{googlesheets} should cache
-#'   credentials in the default cache file \code{.httr-oauth}
-#' @param verbose logical; do you want informative messages?
+#'   defaults to the ID and secret built into the \code{meetupr} package
+#' @param cache logical indicating if \code{meetupr} should cache
+#'   credentials in the default cache file \code{.httr-oauth} or `token_path`.
+#' @param set_renv Logical indicating whether to save the created token
+#'   as the default environment meetup token variable. Defaults to TRUE,
+#'   meaning the token is saved to user's home directory as either the user
+#'   provided path, or
+#'   ".meetup_token.rds" (or, if that already exists, then
+#'   .meetup_token1.rds or .meetup_token2.rds, etc.) and the path to the
+#'   token to said token is then set in the user's .Renviron file and re-
+#'   read to start being used in current active session.
+#'   If \code{cache} is `FALSE` this is ignored.
+#' @param token_path Path where to save the token. If `set_renv` is `FALSE`,
+#'  this is ignored.
+#' @template verbose
 #'
+#' @rdname meetup-auth
 #' @export
 #' @family auth functions
 #' @examples
@@ -84,12 +108,14 @@
 #' meetup_auth(token = ttt)       # from an object
 #' meetup_auth(token = "ttt.rds") # from .rds file
 #' }
-meetup_auth <- function(token = NULL,
+meetup_auth <- function(token = meetup_token_path(),
                         new_user = FALSE,
                         key = getOption("meetupr.consumer_key"),
                         secret = getOption("meetupr.consumer_secret"),
                         cache = getOption("meetupr.httr_oauth_cache"),
-                        verbose = TRUE) {
+                        verbose = TRUE,
+                        set_renv = getOption("meetupr.set_renv"),
+                        token_path = NULL) {
 
   if (new_user) {
     meetup_deauth(clear_cache = TRUE, verbose = verbose)
@@ -106,33 +132,79 @@ meetup_auth <- function(token = NULL,
       authorize = 'https://secure.meetup.com/oauth2/authorize',
       access    = 'https://secure.meetup.com/oauth2/access'
     )
-    meetup_token <- httr::oauth2.0_token(meetup_endpoints, meetup_app,
-                                         cache = cache)
+
+    if (!cache && !is.null(token_path)) {
+      stop(
+        paste(
+        "You chose `cache` FALSE (no saving to disk) but input a `token_path`.",
+        "Should you set `cache` to TRUE?"
+        )
+      )
+    }
+
+
+    if (cache) {
+      if (set_renv) {
+        if (is.null(token_path)) {
+          token_path <- uq_filename(file.path(home(), ".meetup_token.rds"))
+        }
+
+      }
+
+      # In all cases if cache is TRUE we want to set it to the filepath
+      if (!is.null(token_path)) {
+        to_be_cached <- cache
+        cache <- token_path
+      }
+    }
+
+    meetup_token <- httr::oauth2.0_token(
+      meetup_endpoints,
+      meetup_app,
+      cache = cache # if FALSE won't be saved, if character will be saved
+      # to character (filepath)
+      )
 
     stopifnot(is_legit_token(meetup_token, verbose = TRUE))
-    .state$token <- meetup_token
 
-  } else if (inherits(token, "Token2.0")) {
+    if (set_renv && to_be_cached) {
+      # save path to token as variable in .Renviron
+      set_renv("MEETUPR_PAT" = token_path)
+    }
+
+    # save token to .state$token after refreshing if need be
+    # here we've just created it so probably no need to refresh it
+    save_and_refresh_token(meetup_token, token_path)
+    return(invisible(.state$token))
+
+  }
+
+  if (inherits(token, "Token2.0")) {
 
     stopifnot(is_legit_token(token, verbose = TRUE))
     .state$token <- token
 
-  } else if (inherits(token, "character")) {
+    save_and_refresh_token(token, token_path)
+    return(invisible(.state$token))
 
-    meetup_token <- try(suppressWarnings(readRDS(token)), silent = TRUE)
+  }
+
+  if (inherits(token, "character")) {
+
+    token_path <- token
+    meetup_token <- try(suppressWarnings(readRDS(token)[[1]]), silent = TRUE)
     if (inherits(meetup_token, "try-error")) {
       spf("Cannot read token from alleged .rds file:\n%s", token)
     } else if (!is_legit_token(meetup_token, verbose = TRUE)) {
       spf("File does not contain a proper token:\n%s", token)
     }
-    .state$token <- meetup_token
 
-  } else {
-    spf(paste0("Input provided via 'token' is neither a token,\n",
-               "nor a path to an .rds file containing a token."))
+    save_and_refresh_token(meetup_token, token_path)
+    return(invisible(.state$token))
   }
 
-  invisible(.state$token)
+  spf(paste0("Input provided via 'token' is neither a token,\n",
+               "nor a path to an .rds file containing a token."))
 
 }
 
@@ -146,12 +218,16 @@ meetup_auth <- function(token = NULL,
 #'
 #' @keywords internal
 #' @export
+#' @rdname meetup-auth
 #' @family auth functions
 #' @examples
 #' \dontrun{
 #' meetup_token()
 #' }
 meetup_token <- function(verbose = FALSE) {
+  if (nzchar(Sys.getenv("MEETUPR_TESTING"))) {
+    return(httr::config())
+  }
   if (getOption("meetupr.use_oauth")) {
     if (!token_available(verbose = verbose)) meetup_auth(verbose = verbose)
     httr::config(token = .state$token)
@@ -172,7 +248,7 @@ token_available <- function(verbose = TRUE) {
 
   if (is.null(.state$token)) {
     if (verbose) {
-      if (file.exists(".httr-oauth")) {
+      if (!is.null(meetup_token_path()) && file.exists(meetup_token_path())) {
         message("A .httr-oauth file exists in current working ",
                 "directory.\nWhen/if needed, the credentials cached in ",
                 ".httr-oauth will be used for this session.\nOr run ",
@@ -199,8 +275,9 @@ token_available <- function(verbose = TRUE) {
 #' @param clear_cache logical indicating whether to disable the
 #'   \code{.httr-oauth} file in working directory, if such exists, by renaming
 #'   to \code{.httr-oauth-SUSPENDED}
-#' @param verbose logical; do you want informative messages?
+#' @template verbose
 #' @export
+#' @rdname meetup-auth
 #' @family auth functions
 #' @examples
 #' \dontrun{
@@ -208,11 +285,17 @@ token_available <- function(verbose = TRUE) {
 #' }
 meetup_deauth <- function(clear_cache = TRUE, verbose = TRUE) {
 
-  if (clear_cache && file.exists(".httr-oauth")) {
+  if (clear_cache && file.exists(meetup_token_path())) {
     if (verbose) {
-      message("Disabling .httr-oauth by renaming to .httr-oauth-SUSPENDED")
+      message(
+        sprintf(
+        "Disabling %s by renaming to %s-SUSPENDED",
+        meetup_token_path(),
+        meetup_token_path()
+        )
+        )
     }
-    file.rename(".httr-oauth", ".httr-oauth-SUSPENDED")
+    file.rename(meetup_token_path(), paste0(meetup_token_path(), "-SUSPENDED"))
   }
 
   if (token_available(verbose = FALSE)) {
@@ -291,4 +374,38 @@ get_api_key <- function() {
 
   .state$legacy_api_key
 
+}
+
+#' @return Either NULL or the path in which the token is saved.
+#' @export
+#' @rdname meetup-auth
+#' @family auth functions
+#'
+#' @examples
+#' meetup_token_path()
+meetup_token_path <- function() {
+  token_path <- Sys.getenv("MEETUPR_PAT")
+
+  if (token_path != "") {
+    return(token_path)
+  }
+
+  if (file.exists(".httr-oauth")) {
+    return(".httr-oauth")
+  }
+
+  return(NULL)
+}
+
+save_and_refresh_token <- function(token, path) {
+
+  if (token$credentials$expires_in < 60) {
+    token$refresh()
+
+    if(!is.null(path)) {
+      saveRDS(token, path)
+    }
+  }
+
+  .state$token <- token
 }
