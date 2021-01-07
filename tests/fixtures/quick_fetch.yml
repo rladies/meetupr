@@ -17,8 +17,8 @@ http_interactions:
     headers:
       content-type: application/json; charset=utf-8
       server: Apache/2.4.39 (Unix) OpenSSL/1.1.1c
-      x-meetup-server: ip-10-192-2-166
-      x-meetup-request-id: 96719ac0-0f5b-4dbb-8a0b-bec487024d77
+      x-meetup-server: ip-10-192-2-126
+      x-meetup-request-id: 572ebc5d-3fc7-4d16-82fc-56ed4997800b
       x-oauth-scopes: basic
       x-accepted-oauth-scopes: basic
       x-ratelimit-limit: '30'
@@ -28,12 +28,12 @@ http_interactions:
       etag: '"49de7e98e7607b34ae9a55b55409701b-gzip"'
       content-encoding: gzip
       accept-ranges: bytes
-      date: Mon, 14 Dec 2020 12:36:21 GMT
+      date: Thu, 07 Jan 2021 09:00:05 GMT
       via: 1.1 varnish
-      x-served-by: cache-cdg20750-CDG
+      x-served-by: cache-cdg20748-CDG
       x-cache: MISS
       x-cache-hits: '0'
-      x-timer: S1607949381.472490,VS0,VE481
+      x-timer: S1610010005.307291,VS0,VE677
       vary: Accept-Encoding,User-Agent,Accept-Language
       content-length: '7969'
     body:
@@ -309,5 +309,5 @@ http_interactions:
         in this meetup, how we can grow that value, and where we want to head with
         R-Ladies Nashville this year and beyond.</p> ","how_to_find_us":"Dell Learning
         Center","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false}]'
-  recorded_at: 2020-12-14 12:36:22 GMT
+  recorded_at: 2021-01-07 09:00:06 GMT
   recorded_with: vcr/0.6.0, webmockr/0.7.4

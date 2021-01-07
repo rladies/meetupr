@@ -17,8 +17,8 @@ http_interactions:
     headers:
       content-type: application/json; charset=utf-8
       server: Apache/2.4.39 (Unix) OpenSSL/1.1.1c
-      x-meetup-server: ip-10-192-12-228
-      x-meetup-request-id: 6efe7569-bea7-43f7-9655-0c3d1ddbd286
+      x-meetup-server: ip-10-192-12-88
+      x-meetup-request-id: 43556f9c-0288-4a9a-96dd-4a16570ddc29
       x-oauth-scopes: basic
       x-accepted-oauth-scopes: basic
       x-ratelimit-limit: '30'
@@ -28,12 +28,12 @@ http_interactions:
       etag: '"d9aed5c81013c2072127f281ad301ba4-gzip"'
       content-encoding: gzip
       accept-ranges: bytes
-      date: Mon, 14 Dec 2020 12:36:19 GMT
+      date: Thu, 07 Jan 2021 09:00:03 GMT
       via: 1.1 varnish
-      x-served-by: cache-cdg20750-CDG
+      x-served-by: cache-cdg20748-CDG
       x-cache: MISS
       x-cache-hits: '0'
-      x-timer: S1607949379.031586,VS0,VE460
+      x-timer: S1610010003.926326,VS0,VE190
       vary: Accept-Encoding,User-Agent,Accept-Language
       content-length: '5839'
     body:
@@ -207,7 +207,7 @@ http_interactions:
         the Creative Commons Zero license.</p>\n<br>\n<br>","created":1477133796000,"city":"Barcelona","untranslated_city":"Barcelona","country":"ES","localized_country_name":"Spain","localized_location":"Barcelona,
         Spain","region2":"","state":"","join_mode":"open","visibility":"public","lat":41.4,"lon":2.17,"members":592,"member_pay_fee":false,"wepay_fee_deprecated":true,"organizer":{"id":251470805,"name":"R-Ladies
         Global","bio":"R-Ladies Global.  https://rladies.org","photo":{"id":276031161,"highres_link":"https://secure.meetupstatic.com/photos/member/7/9/b/9/highres_276031161.jpeg","photo_link":"https://secure.meetupstatic.com/photos/member/7/9/b/9/member_276031161.jpeg","thumb_link":"https://secure.meetupstatic.com/photos/member/7/9/b/9/thumb_276031161.jpeg","type":"member","base_url":"https://secure.meetupstatic.com"}},"who":"R-Ladies","group_photo":{"id":456616405,"highres_link":"https://secure.meetupstatic.com/photos/event/4/0/1/5/highres_456616405.jpeg","photo_link":"https://secure.meetupstatic.com/photos/event/4/0/1/5/600_456616405.jpeg","thumb_link":"https://secure.meetupstatic.com/photos/event/4/0/1/5/thumb_456616405.jpeg","type":"event","base_url":"https://secure.meetupstatic.com"},"key_photo":{"id":484970697,"highres_link":"https://secure.meetupstatic.com/photos/event/c/6/0/9/highres_484970697.jpeg","photo_link":"https://secure.meetupstatic.com/photos/event/c/6/0/9/600_484970697.jpeg","thumb_link":"https://secure.meetupstatic.com/photos/event/c/6/0/9/thumb_484970697.jpeg","type":"event","base_url":"https://secure.meetupstatic.com"},"timezone":"Europe/Madrid","category":{"id":34,"name":"Tech","shortname":"tech","sort_name":"Tech"},"meta_category":{"id":292,"shortname":"tech","name":"Tech","sort_name":"Tech","photo":{"id":450131949,"highres_link":"https://secure.meetupstatic.com/photos/event/2/e/a/d/highres_450131949.jpeg","photo_link":"https://secure.meetupstatic.com/photos/event/2/e/a/d/600_450131949.jpeg","thumb_link":"https://secure.meetupstatic.com/photos/event/2/e/a/d/thumb_450131949.jpeg","type":"event","base_url":"https://secure.meetupstatic.com"},"category_ids":[34]},"pro_network":{"name":"R-Ladies","urlname":"rladies","number_of_groups":191,"network_url":"https://www.meetup.com/pro/rladies/"}}]'
-  recorded_at: 2020-12-14 12:36:20 GMT
+  recorded_at: 2021-01-07 09:00:03 GMT
   recorded_with: vcr/0.6.0, webmockr/0.7.4
 - request:
     method: get
@@ -227,23 +227,23 @@ http_interactions:
     headers:
       content-type: application/json; charset=utf-8
       server: Apache/2.4.39 (Unix) OpenSSL/1.1.1c
-      x-meetup-server: ip-10-192-2-125
-      x-meetup-request-id: 227eaea2-1b7e-4e9b-ad29-a50d9499aa36
+      x-meetup-server: ip-10-192-12-88
+      x-meetup-request-id: 18a03ea6-0976-4898-866d-b94b5cc91080
       x-oauth-scopes: basic
       x-accepted-oauth-scopes: basic
       x-ratelimit-limit: '30'
       x-ratelimit-remaining: '28'
-      x-ratelimit-reset: '9'
+      x-ratelimit-reset: '10'
       x-total-count: '1'
       etag: '"d9aed5c81013c2072127f281ad301ba4-gzip"'
       content-encoding: gzip
       accept-ranges: bytes
-      date: Mon, 14 Dec 2020 12:36:20 GMT
+      date: Thu, 07 Jan 2021 09:00:03 GMT
       via: 1.1 varnish
-      x-served-by: cache-cdg20750-CDG
+      x-served-by: cache-cdg20748-CDG
       x-cache: MISS
       x-cache-hits: '0'
-      x-timer: S1607949380.656918,VS0,VE404
+      x-timer: S1610010003.312345,VS0,VE151
       vary: Accept-Encoding,User-Agent,Accept-Language
       content-length: '5839'
     body:
@@ -417,5 +417,5 @@ http_interactions:
         the Creative Commons Zero license.</p>\n<br>\n<br>","created":1477133796000,"city":"Barcelona","untranslated_city":"Barcelona","country":"ES","localized_country_name":"Spain","localized_location":"Barcelona,
         Spain","region2":"","state":"","join_mode":"open","visibility":"public","lat":41.4,"lon":2.17,"members":592,"member_pay_fee":false,"wepay_fee_deprecated":true,"organizer":{"id":251470805,"name":"R-Ladies
         Global","bio":"R-Ladies Global.  https://rladies.org","photo":{"id":276031161,"highres_link":"https://secure.meetupstatic.com/photos/member/7/9/b/9/highres_276031161.jpeg","photo_link":"https://secure.meetupstatic.com/photos/member/7/9/b/9/member_276031161.jpeg","thumb_link":"https://secure.meetupstatic.com/photos/member/7/9/b/9/thumb_276031161.jpeg","type":"member","base_url":"https://secure.meetupstatic.com"}},"who":"R-Ladies","group_photo":{"id":456616405,"highres_link":"https://secure.meetupstatic.com/photos/event/4/0/1/5/highres_456616405.jpeg","photo_link":"https://secure.meetupstatic.com/photos/event/4/0/1/5/600_456616405.jpeg","thumb_link":"https://secure.meetupstatic.com/photos/event/4/0/1/5/thumb_456616405.jpeg","type":"event","base_url":"https://secure.meetupstatic.com"},"key_photo":{"id":484970697,"highres_link":"https://secure.meetupstatic.com/photos/event/c/6/0/9/highres_484970697.jpeg","photo_link":"https://secure.meetupstatic.com/photos/event/c/6/0/9/600_484970697.jpeg","thumb_link":"https://secure.meetupstatic.com/photos/event/c/6/0/9/thumb_484970697.jpeg","type":"event","base_url":"https://secure.meetupstatic.com"},"timezone":"Europe/Madrid","category":{"id":34,"name":"Tech","shortname":"tech","sort_name":"Tech"},"meta_category":{"id":292,"shortname":"tech","name":"Tech","sort_name":"Tech","photo":{"id":450131949,"highres_link":"https://secure.meetupstatic.com/photos/event/2/e/a/d/highres_450131949.jpeg","photo_link":"https://secure.meetupstatic.com/photos/event/2/e/a/d/600_450131949.jpeg","thumb_link":"https://secure.meetupstatic.com/photos/event/2/e/a/d/thumb_450131949.jpeg","type":"event","base_url":"https://secure.meetupstatic.com"},"category_ids":[34]},"pro_network":{"name":"R-Ladies","urlname":"rladies","number_of_groups":191,"network_url":"https://www.meetup.com/pro/rladies/"}}]'
-  recorded_at: 2020-12-14 12:36:20 GMT
+  recorded_at: 2021-01-07 09:00:03 GMT
   recorded_with: vcr/0.6.0, webmockr/0.7.4
