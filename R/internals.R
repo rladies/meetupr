@@ -40,7 +40,7 @@ spf <- function(...) stop(sprintf(...), call. = FALSE)
   reslist <- httr::content(req, "parsed")
 
   if (length(reslist) == 0) {
-    stop("Zero records match your filter. Nothing to return.\n",
+    warning("Zero records match your filter. Nothing to return.\n",
          call. = FALSE)
   }
 
