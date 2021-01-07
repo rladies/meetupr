@@ -64,7 +64,7 @@ meetup_api_prefix <- function() {
 # API Methods listed here: https://www.meetup.com/meetup_api/docs/
 .fetch_results <- function(api_method, api_key = NULL, event_status = NULL, ...) {
 
-    # Fetch first set of results (limited to 200 records each call)
+  # Fetch first set of results (limited to 200 records each call)
   res <- .quick_fetch(api_method = api_method,
                       api_key = api_key,
                       event_status = event_status,
