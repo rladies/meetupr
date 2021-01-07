@@ -26,9 +26,9 @@
 #' members <- get_pro_groups(urlname)
 #'}
 #' @export
-get_pro_groups <- function(urlname, api_key = NULL){
+get_pro_groups <- function(urlname, api_key = NULL, verbose = TRUE){
 
-  api_method <- sprintf("pro/%s/groups", urlname)
+  api_method <- sprintf("pro/%s/groups", urlname, verbose = verbose)
   res <- .fetch_results(api_method, api_key)
 
   tibble::tibble(
