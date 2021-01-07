@@ -77,6 +77,7 @@ get_events <- function(urlname, event_status = "upcoming", fields = NULL,
     status = purrr::map_chr(res, "status", .default = NA),
     time = .date_helper(purrr::map_dbl(res, "time", .default = NA)),
     local_date = as.Date(purrr::map_chr(res, "local_date", .default = NA)),
+    duration = purrr::map_int(res, "duration", .default = NA),
     local_time = purrr::map_chr(res, "local_time", .default = NA),
     # TO DO: Add a local_datetime combining the two above?
     waitlist_count = purrr::map_int(res, "waitlist_count"),
