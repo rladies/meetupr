@@ -16,7 +16,6 @@ test_that("get_events() works with one status", {
     all(
       names(past_events) == expected_names
     ))
-
 })
 
 test_that("get_events() works with multiple statuses", {
