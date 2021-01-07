@@ -21,18 +21,18 @@ spf <- function(...) stop(sprintf(...), call. = FALSE)
     parameters <- append(parameters, list(key = get_api_key()))
   }
 
-  req <- httr::GET(url = meetup_api_prefix(),          # the endpoint
-                   path = api_method,
+  req <- httr::GET(url = meetup_api_prefix(),          # the host
+                   path = api_method,                  # path to append
                    query = parameters,
                    config = meetup_token()
   )
 
   if (req$status_code == 400) {
-    stop(paste0("HTTP 400 Bad Request error encountered for: ",
+    stop("HTTP 400 Bad Request error encountered for: ",
                 api_method,".\n As of June 30, 2020, this may be ",
                 "because a presumed bug with the Meetup API ",
                 "causes this error for a future event. Please ",
-                "confirm the event has ended."),
+                "confirm the event has ended.",
          call. = FALSE)
   }
 
@@ -78,7 +78,7 @@ meetup_api_prefix <- function() {
   total_records <- as.integer(res$headers$`x-total-count`)
   if (length(total_records) == 0) total_records <- 1L
   records <- res$result
-  cat(paste("Downloading", total_records, "record(s)..."))
+  cat("Downloading", total_records, "record(s)...\n", sep = " ")
 
   if((length(records) < total_records) & !is.null(res$headers$link)){
 
