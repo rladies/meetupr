@@ -140,3 +140,7 @@ slowly_get_events <- purrr::slowly(
   rate = purrr::rate_delay(pause = .3,
                            max_times = Inf)
 )
+
+.collapse = function(x){
+  paste(x, collapse = ",")
+}
