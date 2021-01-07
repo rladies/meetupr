@@ -3,5 +3,6 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   meetupr_vignette: meetupr_vignette.html
-last_built: 2020-11-21T08:41Z
+  setup: setup.html
+last_built: 2021-01-07T09:21Z
 

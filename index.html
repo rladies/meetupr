@@ -40,7 +40,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -78,6 +78,7 @@
 <div id="meetupr" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#meetupr" class="anchor"></a>meetupr</h1></div>
+<!-- badges: start -->
 
 <p>R interface to the <a href="https://www.meetup.com/meetup_api/">Meetup API</a> (v3)</p>
 <div id="installation" class="section level2">
@@ -95,9 +96,37 @@
 <div id="authentication" class="section level3">
 <h3 class="hasAnchor">
 <a href="#authentication" class="anchor"></a>Authentication</h3>
-<p>In order to use this package, you can use our built-in <a href="https://www.meetup.com/meetup_api/auth/">OAuth</a> credentials (recommended), or if you prefer, you can supply your own by setting the <code>meetupr.consumer_key</code> and <code>meetupr.consumer_secret</code> variables.</p>
-<p>Each time you use the package, you will be prompted to log in to your meetup.com account. The first time you run any of the <strong>meetupr</strong> functions in your session, R will open a browser window, prompting you to “Log In and Grant Access” (to the <strong>meetupr</strong> “application”).</p>
-<p><em>Note: As of August 15, 2019, Meetup.com switched from an API key based authentication system to OAuth 2.0, so we <a href="https://github.com/rladies/meetupr/issues/51">added support</a> for OAuth. For backwards compatibility, the functions all still have an <code>api_key</code> argument which is no longer used and will eventually be <a href="https://github.com/rladies/meetupr/issues/59">deprecated</a>.</em></p>
+<div id="api-key-no" class="section level4">
+<h4 class="hasAnchor">
+<a href="#api-key-no" class="anchor"></a>API key? No</h4>
+<p>As of August 15, 2019, Meetup.com switched from an API key based authentication system to OAuth 2.0, so we <a href="https://github.com/rladies/meetupr/issues/51">added support</a> for OAuth. For backwards compatibility, the functions all still have an <code>api_key</code> argument which is no longer used and will eventually be <a href="https://github.com/rladies/meetupr/issues/59">deprecated</a>.</p>
+</div>
+<div id="oauth-yes" class="section level4">
+<h4 class="hasAnchor">
+<a href="#oauth-yes" class="anchor"></a>OAuth? Yes</h4>
+<p>Meetup API and this package recommend using OAuth for authentication. We’ve abstracted part of the difficulty but it’s still a bit more complex than storing a simple API key as secret.</p>
+<p>With OAuth you need</p>
+<ul>
+<li><p>an OAuth app. There’s one shipped in with the package! If you prefer you can bring your own app by setting the <code>meetupr.consumer_key</code> and <code>meetupr.consumer_secret</code> options.</p></li>
+<li><p>an access token. It’s an httr object and it can be saved to disk. It expires but can be refreshed. It contains secrets so it’s a sensitive file! For creating one you will be prompted to log into your meetup.com account in the browser. But then if you cache the token to disk, you won’t need to do that again. This means you can create a token on your computer locally and use it on a server (if the server is public, encrypting the token).</p></li>
+</ul>
+<p>Let’s go through workflows and ways to control how your token is created and cached.</p>
+<p>If you don’t tweak anything, the first time you run a meetupr function, you’ll be prompted to go into your browser and a token will be created.</p>
+<ul>
+<li>it will be saved to disk in your home directory e.g. under <code>/home/user/.meetup_token.rds</code>
+</li>
+<li>the path to the token will be added in .Renviron i.e. <code>MEETUPR_PAT=/home/maelle/.meetup_token.rds</code>
+</li>
+</ul>
+<p>And all the times you use meetupr again, this token will be used, and refreshed and re-saved as needed.</p>
+<p>This is, we hope, a sensible default.</p>
+<p>Now if you want to have a different behavior you either tweak options (in your .Rprofile so for all sessions in the future, or just in the current session), or call the <code><a href="reference/meetup_auth.html">meetup_auth()</a></code> function directly.</p>
+<ul>
+<li>Don’t want to cache the token to disk? Use the “meetupr.httr_oauth_cache” option or the <code>cache</code> argument, to be set to <code>FALSE</code>.</li>
+<li>Don’t want to set a variable in .Renviron with the path to the token? Use the “meetupr.set_renv” option or the <code>set_renv</code> argument, to be set to <code>FALSE</code>. If it is false, the token will be cached to <code>.httr-oauth</code> (unless <code>cache</code> is FALSE too, of course)</li>
+<li>Want to save the token to somewhere you choose? No way to use an option. Use the <code>token_path</code> argument of <code><a href="reference/meetup_auth.html">meetup_auth()</a></code>.</li>
+</ul>
+</div>
 </div>
 <div id="functions" class="section level3">
 <h3 class="hasAnchor">
@@ -122,24 +151,21 @@
 
 <span class="va">urlname</span> <span class="op">&lt;-</span> <span class="st">"rladies-san-francisco"</span>
 <span class="va">events</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_events.html">get_events</a></span><span class="op">(</span><span class="va">urlname</span>, <span class="st">"past"</span><span class="op">)</span>
-<span class="co">#&gt; Meetup is moving to OAuth *only* as of 2019-08-15. Set</span>
-<span class="co">#&gt; `meetupr.use_oauth = FALSE` in your .Rprofile, to use</span>
-<span class="co">#&gt; the legacy `api_key` authorization.</span>
 <span class="co">#&gt; Downloading 60 record(s)...</span>
 <span class="fu">dplyr</span><span class="fu">::</span><span class="fu">arrange</span><span class="op">(</span><span class="va">events</span>, <span class="fu">desc</span><span class="op">(</span><span class="va">created</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 60 x 21</span>
 <span class="co">#&gt;    id    name  created             status time                local_date</span>
 <span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt; &lt;dttm&gt;              &lt;chr&gt;  &lt;dttm&gt;              &lt;date&gt;    </span>
-<span class="co">#&gt;  1 2730… A co… 2020-09-04 11:04:50 past   2020-09-10 15:30:00 2020-09-10</span>
-<span class="co">#&gt;  2 2724… Tang… 2020-08-06 12:24:51 past   2020-08-27 17:30:00 2020-08-27</span>
-<span class="co">#&gt;  3 2679… R-La… 2020-01-16 10:08:03 past   2020-01-30 17:00:00 2020-01-30</span>
-<span class="co">#&gt;  4 2663… Dece… 2019-11-11 14:10:10 past   2019-12-10 18:00:00 2019-12-10</span>
-<span class="co">#&gt;  5 2651… Work… 2019-09-23 12:28:24 past   2019-10-16 18:00:00 2019-10-16</span>
-<span class="co">#&gt;  6 2632… Augu… 2019-07-17 10:29:10 past   2019-08-07 18:00:00 2019-08-07</span>
-<span class="co">#&gt;  7 2627… R-La… 2019-06-28 15:24:12 past   2019-07-21 11:00:00 2019-07-21</span>
-<span class="co">#&gt;  8 2626… Baye… 2019-06-26 20:11:16 past   2019-07-17 18:00:00 2019-07-17</span>
-<span class="co">#&gt;  9 2610… Mini… 2019-04-30 17:49:52 past   2019-05-18 13:30:00 2019-05-18</span>
-<span class="co">#&gt; 10 2590… NLP … 2019-02-15 14:36:58 past   2019-03-12 18:00:00 2019-03-12</span>
+<span class="co">#&gt;  1 2730… A co… 2020-09-04 20:04:50 past   2020-09-11 00:30:00 2020-09-10</span>
+<span class="co">#&gt;  2 2724… Tang… 2020-08-06 21:24:51 past   2020-08-28 02:30:00 2020-08-27</span>
+<span class="co">#&gt;  3 2679… R-La… 2020-01-16 19:08:03 past   2020-01-31 02:00:00 2020-01-30</span>
+<span class="co">#&gt;  4 2663… Dece… 2019-11-11 23:10:10 past   2019-12-11 03:00:00 2019-12-10</span>
+<span class="co">#&gt;  5 2651… Work… 2019-09-23 21:28:24 past   2019-10-17 03:00:00 2019-10-16</span>
+<span class="co">#&gt;  6 2632… Augu… 2019-07-17 19:29:10 past   2019-08-08 03:00:00 2019-08-07</span>
+<span class="co">#&gt;  7 2627… R-La… 2019-06-29 00:24:12 past   2019-07-21 20:00:00 2019-07-21</span>
+<span class="co">#&gt;  8 2626… Baye… 2019-06-27 05:11:16 past   2019-07-18 03:00:00 2019-07-17</span>
+<span class="co">#&gt;  9 2610… Mini… 2019-05-01 02:49:52 past   2019-05-18 22:30:00 2019-05-18</span>
+<span class="co">#&gt; 10 2590… NLP … 2019-02-15 23:36:58 past   2019-03-13 02:00:00 2019-03-12</span>
 <span class="co">#&gt; # … with 50 more rows, and 15 more variables: local_time &lt;chr&gt;,</span>
 <span class="co">#&gt; #   waitlist_count &lt;int&gt;, yes_rsvp_count &lt;int&gt;, venue_id &lt;int&gt;,</span>
 <span class="co">#&gt; #   venue_name &lt;chr&gt;, venue_lat &lt;dbl&gt;, venue_lon &lt;dbl&gt;, venue_address_1 &lt;chr&gt;,</span>
@@ -148,25 +174,7 @@
 <p>Next we can look up all R-Ladies groups by “topic id”. You can find topic ids for associated tags by querying <a href="https://secure.meetup.com/meetup_api/console/?path=/find/topics">here</a>. The <code>topic_id</code> for topic, “R-Ladies”, is <code>1513883</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">groups</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/find_groups.html">find_groups</a></span><span class="op">(</span>topic_id <span class="op">=</span> <span class="fl">1513883</span><span class="op">)</span>
-<span class="co">#&gt; Downloading 138 record(s)...</span>
-<span class="fu">dplyr</span><span class="fu">::</span><span class="fu">arrange</span><span class="op">(</span><span class="va">groups</span>, <span class="fu">desc</span><span class="op">(</span><span class="va">created</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 138 x 21</span>
-<span class="co">#&gt;        id name  urlname created             members status organizer   lat</span>
-<span class="co">#&gt;     &lt;int&gt; &lt;chr&gt; &lt;chr&gt;   &lt;dttm&gt;                &lt;int&gt; &lt;chr&gt;  &lt;chr&gt;     &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 3.38e7 R-La… rladie… 2020-06-12 22:50:37     259 active R-Ladies… -1.29</span>
-<span class="co">#&gt;  2 3.34e7 R-La… rladie… 2020-02-22 09:51:34      37 active R-Ladies… 52.4 </span>
-<span class="co">#&gt;  3 3.34e7 R-La… rladie… 2020-02-22 09:39:39       9 active R-Ladies… 43.3 </span>
-<span class="co">#&gt;  4 3.32e7 R-La… rladie… 2020-01-12 09:47:12     281 active R-Ladies… 25.7 </span>
-<span class="co">#&gt;  5 3.32e7 R-La… rladie… 2020-01-12 09:39:04      24 active R-Ladies… 51.8 </span>
-<span class="co">#&gt;  6 3.31e7 R-La… rladie… 2019-12-15 11:50:22      68 active R-Ladies… 38.9 </span>
-<span class="co">#&gt;  7 3.31e7 R-La… rladie… 2019-12-15 05:30:12      38 active R-Ladies…  6.93</span>
-<span class="co">#&gt;  8 3.31e7 R-La… rladie… 2019-11-30 08:55:10      36 active R-Ladies… 30.0 </span>
-<span class="co">#&gt;  9 3.31e7 R-La… rladie… 2019-11-30 08:09:20       7 active R-Ladies… 43.0 </span>
-<span class="co">#&gt; 10 3.30e7 R-La… rladie… 2019-11-23 11:14:43      78 active R-Ladies… 19.0 </span>
-<span class="co">#&gt; # … with 128 more rows, and 13 more variables: lon &lt;dbl&gt;, city &lt;chr&gt;,</span>
-<span class="co">#&gt; #   state &lt;chr&gt;, country &lt;chr&gt;, timezone &lt;chr&gt;, join_mode &lt;chr&gt;,</span>
-<span class="co">#&gt; #   visibility &lt;chr&gt;, who &lt;chr&gt;, organizer_id &lt;int&gt;, organizer_name &lt;chr&gt;,</span>
-<span class="co">#&gt; #   category_id &lt;int&gt;, category_name &lt;chr&gt;, resource &lt;list&gt;</span></code></pre></div>
+<span class="fu">dplyr</span><span class="fu">::</span><span class="fu">arrange</span><span class="op">(</span><span class="va">groups</span>, <span class="fu">desc</span><span class="op">(</span><span class="va">created</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
 <div id="how-can-you-contribute" class="section level2">
@@ -207,7 +215,7 @@
   <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://travis-ci.org/rladies/meetupr"><img src="https://travis-ci.org/rladies/meetupr.svg?branch=master" alt="Build Status"></a></li>
+<li><a href="https://github.com/rladies/meetupr/actions"><img src="https://github.com/rladies/meetupr/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
 </ul>
 </div>
 </div>
