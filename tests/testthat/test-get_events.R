@@ -38,7 +38,7 @@ test_that("get_events() has informative error messages", {
   urlname <- "rladies-johannesburg"
   expect_error(
     get_events(urlname = urlname, event_status = "pasttt"),
-    "not allowed"
+    "should be one of"
     )
   expect_error(
     get_events(event_status = "past")
