@@ -124,3 +124,19 @@ meetup_api_prefix <- function() {
   }
   return(out)
 }
+
+# Helper to check event status
+.check_event_status <- function(event_status){
+  match.arg(event_status,
+            c("cancelled", "draft", "past", "proposed", "suggested", "upcoming"),
+            several.ok = TRUE)
+}
+
+#' to avoid making too many
+#' requests too rapidly when
+#' getting pro events
+slowly_get_events <- purrr::slowly(
+  get_events,
+  rate = purrr::rate_delay(pause = .3,
+                           max_times = Inf)
+)

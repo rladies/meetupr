@@ -58,9 +58,7 @@
 #' @export
 get_events <- function(urlname, event_status = "upcoming", fields = NULL, api_key = NULL) {
 
-  event_status <- match.arg(event_status,
-                            c("cancelled", "draft", "past", "proposed", "suggested", "upcoming"),
-                            several.ok = TRUE)
+  event_status <- .check_event_status(event_status)
 
   # If event_status contains multiple statuses, we can pass along a comma sep list
   event_status <- paste(event_status, collapse = ",")
