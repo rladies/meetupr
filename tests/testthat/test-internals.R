@@ -1,8 +1,8 @@
 test_that(".quick_fetch() success case", {
-  api_url <- httr::modify_url(meetup_api_prefix(), path = "rladies-nashville/events")
+  api_method <- "rladies-nashville/events"
   vcr::use_cassette("quick_fetch", {
     res <- .quick_fetch(
-      api_url = api_url,
+      api_method = api_method,
       event_status = "past"
       )
   })
