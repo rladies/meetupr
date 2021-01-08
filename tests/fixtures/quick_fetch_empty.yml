@@ -1,0 +1,43 @@
+http_interactions:
+- request:
+    method: get
+    uri: https://api.meetup.com/rladies-nashville/events?status=upcoming&offset=0
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      Accept: application/json, text/xml, application/xml, */*
+      Authorization: not my bearer token
+  response:
+    status:
+      status_code: 200
+      category: Success
+      reason: OK
+      message: 'Success: (200) OK'
+    headers:
+      content-type: application/json; charset=utf-8
+      server: Apache/2.4.39 (Unix) OpenSSL/1.1.1c
+      x-meetup-server: ip-10-192-12-88
+      x-meetup-request-id: b966be7d-9741-42a9-a1c0-414b11f28b62
+      x-oauth-scopes: basic
+      x-accepted-oauth-scopes: basic
+      x-ratelimit-limit: '30'
+      x-ratelimit-remaining: '29'
+      x-ratelimit-reset: '10'
+      x-total-count: '0'
+      etag: '"d751713988987e9331980363e24189ce"'
+      accept-ranges: bytes
+      date: Fri, 08 Jan 2021 14:28:19 GMT
+      via: 1.1 varnish
+      x-served-by: cache-cdg20772-CDG
+      x-cache: MISS
+      x-cache-hits: '0'
+      x-timer: S1610116099.976531,VS0,VE118
+      vary: User-Agent,Accept-Language
+      content-length: '2'
+    body:
+      encoding: UTF-8
+      file: no
+      string: '[]'
+  recorded_at: 2021-01-08 14:28:19 GMT
+  recorded_with: vcr/0.6.0, webmockr/0.7.4
