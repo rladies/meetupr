@@ -41,4 +41,6 @@ navbar:
       menu:
       - text: R-Ladies chapters on meetup.com
         href: articles/meetupr_vignette.html
+      - text: Set up non-interactive use
+        href: articles/setup.html
 
