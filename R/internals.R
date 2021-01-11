@@ -44,7 +44,7 @@ spf <- function(...) stop(sprintf(...), call. = FALSE)
   assign(
     "meetupr_rate",
     c(headers$`x-ratelimit-limit`, headers$`x-ratelimit-reset`),
-    envir=.meetupr_env
+    envir = .meetupr_env
     )
 
   reslist <- httr::content(req, "parsed")
