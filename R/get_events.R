@@ -11,6 +11,7 @@
 #'  * upcoming
 #' @param fields Character, character vector or characters separated by comma (e.g "event_hosts" or c("event_hosts","attendance_count") or "event_hosts, group_past_event_count").
 #' @template api_key
+#' @template verbose
 #'
 #' @return A tibble with the following columns:
 #'    * id
@@ -56,44 +57,19 @@
 
 #'}
 #' @export
-get_events <- function(urlname, event_status = "upcoming", fields = NULL, api_key = NULL) {
+get_events <- function(urlname, event_status = "upcoming", fields = NULL,
+                       api_key = NULL,
+                       verbose = getOption("meetupr.verbose", rlang::is_interactive())) {
 
-  event_status <- match.arg(event_status,
-                            c("cancelled", "draft", "past", "proposed", "suggested", "upcoming"),
-                            several.ok = TRUE)
+  event_status <- .check_event_status(event_status)
 
-  # If event_status contains multiple statuses, we can pass along a comma sep list
-  event_status <- paste(event_status, collapse = ",")
-
-  # If fields is a vector, change it to single string of comma separated values
-  fields <- paste(fields, collapse = ",")
-
-  api_method <- paste0(urlname, "/events")
-
-  res <- .fetch_results(api_method, api_key, event_status, fields = fields)
-
-  tibble::tibble(
-    id = purrr::map_chr(res, "id"),  #this is returned as chr (not int)
-    name = purrr::map_chr(res, "name"),
-    created = .date_helper(purrr::map_dbl(res, "created", .default = NA)),
-    status = purrr::map_chr(res, "status", .default = NA),
-    time = .date_helper(purrr::map_dbl(res, "time", .default = NA)),
-    local_date = as.Date(purrr::map_chr(res, "local_date", .default = NA)),
-    local_time = purrr::map_chr(res, "local_time", .default = NA),
-    # TO DO: Add a local_datetime combining the two above?
-    waitlist_count = purrr::map_int(res, "waitlist_count"),
-    yes_rsvp_count = purrr::map_int(res, "yes_rsvp_count"),
-    venue_id = purrr::map_int(res, c("venue", "id"), .default = NA),
-    venue_name = purrr::map_chr(res, c("venue", "name"), .default = NA),
-    venue_lat = purrr::map_dbl(res, c("venue", "lat"), .default = NA),
-    venue_lon = purrr::map_dbl(res, c("venue", "lon"), .default = NA),
-    venue_address_1 = purrr::map_chr(res, c("venue", "address_1"), .default = NA),
-    venue_city = purrr::map_chr(res, c("venue", "city"), .default = NA),
-    venue_state = purrr::map_chr(res, c("venue", "state"), .default = NA),
-    venue_zip = purrr::map_chr(res, c("venue", "zip"), .default = NA),
-    venue_country = purrr::map_chr(res, c("venue", "country"), .default = NA),
-    description = purrr::map_chr(res, c("description"), .default = NA),
-    link = purrr::map_chr(res, c("link")),
-    resource = res
+  res <- .fetch_results(
+    sprintf("%s/events", urlname),
+    api_key,
+    .collapse(event_status),
+    fields = .collapse(fields),
+    verbose = verbose
   )
+
+  event_sorter(res)
 }

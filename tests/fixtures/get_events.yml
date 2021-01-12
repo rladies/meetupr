@@ -17,25 +17,25 @@ http_interactions:
     headers:
       content-type: application/json; charset=utf-8
       server: Apache/2.4.39 (Unix) OpenSSL/1.1.1c
-      x-meetup-server: ip-10-192-13-189
-      x-meetup-request-id: 790fbf54-3698-4899-8f52-d23c71a38d51
+      x-meetup-server: ip-10-192-12-237
+      x-meetup-request-id: 7ceb3a34-29f6-4072-92ba-c69e302a1654
       x-oauth-scopes: basic
       x-accepted-oauth-scopes: basic
       x-ratelimit-limit: '30'
-      x-ratelimit-remaining: '27'
-      x-ratelimit-reset: '9'
+      x-ratelimit-remaining: '28'
+      x-ratelimit-reset: '1'
       x-total-count: '18'
-      etag: '"49de7e98e7607b34ae9a55b55409701b-gzip"'
+      etag: '"d9e5f203dfe7accde4c335afc8476eb8-gzip"'
       content-encoding: gzip
       accept-ranges: bytes
-      date: Thu, 07 Jan 2021 09:00:04 GMT
+      date: Tue, 12 Jan 2021 09:32:36 GMT
       via: 1.1 varnish
-      x-served-by: cache-cdg20748-CDG
+      x-served-by: cache-cdg20769-CDG
       x-cache: MISS
       x-cache-hits: '0'
-      x-timer: S1610010004.687354,VS0,VE769
+      x-timer: S1610443956.991910,VS0,VE449
       vary: Accept-Encoding,User-Agent,Accept-Language
-      content-length: '7969'
+      content-length: '7975'
     body:
       encoding: UTF-8
       file: no
@@ -58,8 +58,8 @@ http_interactions:
         dinner/socializing<br/>6:00-6:30: Intro to R-Ladies + short demo of R Notebooks<br/>6:30-end:
         discussion and planning for R-Ladies Nashville future</p> <p>We are so looking
         forward to seeing you all! If you have any questions, feel free to contact
-        us via Meetup or [masked].</p> ","how_to_find_us":"2525 West End Avenue, Suite
-        1100, Large Conference Room","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1479409918000,"duration":3600000,"id":"235652800","name":"December
+        us via Meetup or nashville@rladies.org.</p> ","how_to_find_us":"2525 West
+        End Avenue, Suite 1100, Large Conference Room","visibility":"public","pro_is_email_shared":true,"member_pay_fee":false},{"created":1479409918000,"duration":3600000,"id":"235652800","name":"December
         Meetup: data.table package","date_in_series_pattern":false,"status":"past","time":1481048100000,"local_date":"2016-12-06","local_time":"12:15","updated":1481053951000,"utc_offset":-21600000,"waitlist_count":0,"yes_rsvp_count":17,"venue":{"id":24854918,"name":"VUMC
         Biostatistics Conference Room","lat":36.14601135253906,"lon":-86.80931854248047,"repinned":false,"address_1":"2525
         West End Avenue, Suite 1100","city":"Nashville","country":"us","localized_country_name":"USA","zip":"","state":"TN"},"is_online_event":false,"group":{"created":1475090435000,"name":"R-Ladies
@@ -73,7 +73,7 @@ http_interactions:
         is an easy to use R package for querying and manipulating data. Dataset updates
         run much faster than with the base R paradigm, and specifying complicated
         calculations is more intuitive. This talk will show some of the package''s
-        features as well as point out a couple of gotchas.</i></p> ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1479832078000,"id":"235757913","name":"January
+        features as well as point out a couple of gotchas.</i></p> ","visibility":"public","pro_is_email_shared":true,"member_pay_fee":false},{"created":1479832078000,"id":"235757913","name":"January
         Meetup: R Resources & Help","date_in_series_pattern":false,"status":"past","time":1484092800000,"local_date":"2017-01-10","local_time":"18:00","updated":1484104760000,"utc_offset":-21600000,"waitlist_count":0,"yes_rsvp_count":14,"venue":{"id":23989995,"name":"Emma
         Bistro","lat":36.15641403198242,"lon":-86.76876068115234,"repinned":false,"address_1":"11
         Lea Ave","city":"Nashville","country":"us","localized_country_name":"USA","zip":"","state":"TN"},"is_online_event":false,"group":{"created":1475090435000,"name":"R-Ladies
@@ -86,7 +86,7 @@ http_interactions:
         on searching for topics and asking questions.</p> ","how_to_find_us":"Emma
         is in the Rolling Mill Hill area south of downtown (near Pinewood Social).
         If you Google Map \"Emma Bistro\" it''ll point you to the right building.
-        Free parking lot behind the building (hallelujah)!","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1484864942000,"duration":3600000,"id":"237055230","name":"February
+        Free parking lot behind the building (hallelujah)!","visibility":"public","pro_is_email_shared":true,"member_pay_fee":false},{"created":1484864942000,"duration":3600000,"id":"237055230","name":"February
         Meetup: RStudio Conference Highlights!","date_in_series_pattern":false,"status":"past","time":1486750500000,"local_date":"2017-02-10","local_time":"12:15","updated":1486756661000,"utc_offset":-21600000,"waitlist_count":0,"yes_rsvp_count":9,"venue":{"id":24854918,"name":"VUMC
         Biostatistics Conference Room","lat":36.14601135253906,"lon":-86.80931854248047,"repinned":false,"address_1":"2525
         West End Avenue, Suite 1100","city":"Nashville","country":"us","localized_country_name":"USA","zip":"","state":"TN"},"is_online_event":false,"group":{"created":1475090435000,"name":"R-Ladies
@@ -106,7 +106,7 @@ http_interactions:
         sure to tell us about it!</p> <p>Parking tip: If you pick up lunch or a beverage
         from the shops downstairs, most will validate parking in the building''s garage.
         There''s Moe''s, Bread &amp; Co, PF Chang''s and Starbucks to choose from.</p>
-        ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1484865391000,"id":"237055481","name":"March
+        ","visibility":"public","pro_is_email_shared":true,"member_pay_fee":false},{"created":1484865391000,"id":"237055481","name":"March
         Meetup: Intro to Shiny","date_in_series_pattern":false,"status":"past","time":1490137200000,"local_date":"2017-03-21","local_time":"18:00","updated":1490149991000,"utc_offset":-18000000,"waitlist_count":0,"yes_rsvp_count":16,"venue":{"id":24854918,"name":"VUMC
         Biostatistics Conference Room","lat":36.14601135253906,"lon":-86.80931854248047,"repinned":false,"address_1":"2525
         West End Avenue, Suite 1100","city":"Nashville","country":"us","localized_country_name":"USA","zip":"","state":"TN"},"is_online_event":false,"group":{"created":1475090435000,"name":"R-Ladies
@@ -122,7 +122,7 @@ http_interactions:
         The conference room is on the 11th floor; elevators at 2525 are keycard access
         only after 6pm. Please let us know if you''ll be arriving late, and we can
         give you contact information so someone can come downstairs to meet you.</p>
-        ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1494606103000,"duration":4500000,"id":"239935025","name":"An
+        ","visibility":"public","pro_is_email_shared":true,"member_pay_fee":false},{"created":1494606103000,"duration":4500000,"id":"239935025","name":"An
         R + Github Journey","date_in_series_pattern":false,"status":"past","time":1496163600000,"local_date":"2017-05-30","local_time":"12:00","updated":1496170182000,"utc_offset":-18000000,"waitlist_count":0,"yes_rsvp_count":13,"venue":{"id":25237648,"name":"The
         Wond''ry","lat":36.14297103881836,"lon":-86.80572509765625,"repinned":false,"address_1":"2414
         Highland Avenue","city":"Nashville","country":"US","localized_country_name":"USA"},"is_online_event":false,"group":{"created":1475090435000,"name":"R-Ladies
@@ -139,7 +139,7 @@ http_interactions:
         part of Vanderbilt''s new engineering facility! Parking is available in the
         25th Avenue garage directly across Highland Avenue; see the Wond''ry page
         for more information. The building is also a &lt;10-minute walk from both
-        the 2525 West End and VUMC areas.</p> ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1501270181000,"id":"242098493","name":"Working
+        the 2525 West End and VUMC areas.</p> ","visibility":"public","pro_is_email_shared":true,"member_pay_fee":false},{"created":1501270181000,"id":"242098493","name":"Working
         with Pipes %>% + GIS Tutorial","date_in_series_pattern":false,"status":"past","time":1505257200000,"local_date":"2017-09-12","local_time":"18:00","updated":1505306112000,"utc_offset":-18000000,"waitlist_count":0,"yes_rsvp_count":21,"venue":{"id":24854918,"name":"VUMC
         Biostatistics Conference Room","lat":36.14601135253906,"lon":-86.80931854248047,"repinned":false,"address_1":"2525
         West End Avenue, Suite 1100","city":"Nashville","country":"us","localized_country_name":"USA","zip":"","state":"TN"},"is_online_event":false,"group":{"created":1475090435000,"name":"R-Ladies
@@ -157,7 +157,7 @@ http_interactions:
         is available in the garage behind the building (2525 WEA garage). Some of
         the businesses on the bottom floor will validate for customers.</p> ","how_to_find_us":"We''re
         on the 11th floor. Elevator is keycard only after 6pm, so arrive early or
-        let Jennifer or Lucy know you''ll be late!","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1505313721000,"id":"243331077","name":"Introduction
+        let Jennifer or Lucy know you''ll be late!","visibility":"public","pro_is_email_shared":true,"member_pay_fee":false},{"created":1505313721000,"id":"243331077","name":"Introduction
         to purrr","date_in_series_pattern":false,"status":"past","time":1510617600000,"local_date":"2017-11-13","local_time":"18:00","updated":1510632337000,"utc_offset":-21600000,"waitlist_count":0,"yes_rsvp_count":29,"venue":{"id":24854918,"name":"VUMC
         Biostatistics Conference Room","lat":36.14601135253906,"lon":-86.80931854248047,"repinned":false,"address_1":"2525
         West End Avenue, Suite 1100","city":"Nashville","country":"us","localized_country_name":"USA","zip":"","state":"TN"},"is_online_event":false,"group":{"created":1475090435000,"name":"R-Ladies
@@ -172,7 +172,7 @@ http_interactions:
         our friends at the R Consortium, and a party vibe! RSVP by Friday to be counted
         for dinner.</p> ","how_to_find_us":"Building is across from Centennial Park.
         Paid parking available in the garage behind the building (some businesses
-        downstairs may validate for customers).","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1505313771000,"duration":4500000,"id":"243331084","name":"Play
+        downstairs may validate for customers).","visibility":"public","pro_is_email_shared":true,"member_pay_fee":false},{"created":1505313771000,"duration":4500000,"id":"243331084","name":"Play
         in the snow, then clean up your mess!","rsvp_limit":20,"date_in_series_pattern":false,"status":"past","time":1512151200000,"local_date":"2017-12-01","local_time":"12:00","updated":1512160552000,"utc_offset":-21600000,"waitlist_count":0,"yes_rsvp_count":20,"venue":{"id":25237648,"name":"The
         Wond''ry","lat":36.14297103881836,"lon":-86.80572509765625,"repinned":false,"address_1":"2414
         Highland Avenue","city":"Nashville","country":"US","localized_country_name":"USA"},"is_online_event":false,"group":{"created":1475090435000,"name":"R-Ladies
@@ -184,7 +184,7 @@ http_interactions:
         ","how_to_find_us":"The Wond''ry is in the new engineering building on Highland
         Avenue. When you enter the building, go up the main spiral staircase; we''ll
         be in the conference room at the back of the glassed-in space. There''s a
-        parking garage across the street.","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1520295639000,"duration":7200000,"id":"248452181","name":"Introduction
+        parking garage across the street.","visibility":"public","pro_is_email_shared":true,"member_pay_fee":false},{"created":1520295639000,"duration":7200000,"id":"248452181","name":"Introduction
         to Data Cleaning with dataMaid","date_in_series_pattern":false,"status":"past","time":1521500400000,"local_date":"2018-03-19","local_time":"18:00","updated":1521513871000,"utc_offset":-18000000,"waitlist_count":0,"yes_rsvp_count":21,"venue":{"id":24854918,"name":"VUMC
         Biostatistics Conference Room","lat":36.14601135253906,"lon":-86.80931854248047,"repinned":false,"address_1":"2525
         West End Avenue, Suite 1100","city":"Nashville","country":"us","localized_country_name":"USA","zip":"","state":"TN"},"is_online_event":false,"group":{"created":1475090435000,"name":"R-Ladies
@@ -202,7 +202,7 @@ http_interactions:
         just as structured and well-documented as the rest of the data analysis.\u201d
         In this tutorial, Molly will provide an overview of the dataMaid package and
         demonstrate how to use the dataMaid package to improve efficiency and accuracy
-        in the statistician\u2019s every day data cleaning.</p> ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1524496938000,"duration":7200000,"id":"250068352","name":"Dynamically
+        in the statistician\u2019s every day data cleaning.</p> ","visibility":"public","pro_is_email_shared":true,"member_pay_fee":false},{"created":1524496938000,"duration":7200000,"id":"250068352","name":"Dynamically
         Generated Tables in Shiny with Judy Lewis","date_in_series_pattern":false,"status":"past","time":1526338800000,"local_date":"2018-05-14","local_time":"18:00","updated":1526357597000,"utc_offset":-18000000,"waitlist_count":0,"yes_rsvp_count":16,"venue":{"id":24854918,"name":"VUMC
         Biostatistics Conference Room","lat":36.14601135253906,"lon":-86.80931854248047,"repinned":false,"address_1":"2525
         West End Avenue, Suite 1100","city":"Nashville","country":"us","localized_country_name":"USA","zip":"","state":"TN"},"is_online_event":false,"group":{"created":1475090435000,"name":"R-Ladies
@@ -225,7 +225,7 @@ http_interactions:
         own.</p> ","how_to_find_us":"Elevators to the 11th floor require keycard access
         after 6pm. If you''ll be late, let us know and we''ll have someone come let
         you up! Paid parking is available in the garage behind the building; some
-        businesses downstairs will validate for customers.","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1528538488000,"duration":6300000,"id":"251583548","name":"Networking
+        businesses downstairs will validate for customers.","visibility":"public","pro_is_email_shared":true,"member_pay_fee":false},{"created":1528538488000,"duration":6300000,"id":"251583548","name":"Networking
         lunch with RStudio!","rsvp_limit":25,"date_in_series_pattern":false,"status":"past","time":1528821900000,"local_date":"2018-06-12","local_time":"11:45","rsvp_close_offset":"PT24H","updated":1528831470000,"utc_offset":-18000000,"waitlist_count":0,"yes_rsvp_count":15,"venue":{"id":25855250,"name":"Parthenon
         Conference Room","lat":36.14601135253906,"lon":-86.80931854248047,"repinned":false,"address_1":"2525
         West End Avenue","address_2":"Suite 1400","city":"Nashville","country":"us","localized_country_name":"USA","zip":"37203","state":"TN"},"is_online_event":false,"group":{"created":1475090435000,"name":"R-Ladies
@@ -233,7 +233,7 @@ http_interactions:
         TN","state":"TN","country":"us","region":"en_US","timezone":"US/Central"},"link":"https://www.meetup.com/rladies-nashville/events/251583548/","description":"<p>RStudio
         is in town this week, and we\u2019re taking the opportunity to get to know
         their R-Ladies! If you RSVPed before 12:30 Monday, we will have Taziki''s
-        for you. Later RSVPs are welcome to bring your own lunch!</p> ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1537126663000,"duration":7200000,"id":"254740614","name":"Benchmarking
+        for you. Later RSVPs are welcome to bring your own lunch!</p> ","visibility":"public","pro_is_email_shared":true,"member_pay_fee":false},{"created":1537126663000,"duration":7200000,"id":"254740614","name":"Benchmarking
         using Tidyverse Data Management & Medicare Public Use Files","date_in_series_pattern":false,"status":"past","time":1540508400000,"local_date":"2018-10-25","local_time":"18:00","updated":1540518731000,"utc_offset":-18000000,"waitlist_count":0,"yes_rsvp_count":15,"venue":{"id":24854918,"name":"VUMC
         Biostatistics Conference Room","lat":36.14601135253906,"lon":-86.80931854248047,"repinned":true,"address_1":"2525
         West End Avenue, Suite 1100","city":"Nashville","country":"us","localized_country_name":"USA","zip":"","state":"TN"},"is_online_event":false,"group":{"created":1475090435000,"name":"R-Ladies
@@ -246,7 +246,7 @@ http_interactions:
         to do it.<br/>* How to reshape data using gather and spread.<br/>* How we
         calculate marginal effect scores to communicate results to end users with
         no research or statistical background. It\u2019s not ideal, but without it,
-        they lack confidence in the results.</p> ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1543261134000,"duration":7200000,"id":"256725942","name":"Data
+        they lack confidence in the results.</p> ","visibility":"public","pro_is_email_shared":true,"member_pay_fee":false},{"created":1543261134000,"duration":7200000,"id":"256725942","name":"Data
         Science Workflows in R","date_in_series_pattern":false,"status":"past","time":1544487300000,"local_date":"2018-12-10","local_time":"18:15","updated":1544500372000,"utc_offset":-21600000,"waitlist_count":0,"yes_rsvp_count":28,"is_online_event":false,"group":{"created":1475090435000,"name":"R-Ladies
         Nashville","id":20493986,"join_mode":"open","lat":36.16999816894531,"lon":-86.77999877929688,"urlname":"rladies-nashville","who":"Members","localized_location":"Nashville,
         TN","state":"TN","country":"us","region":"en_US","timezone":"US/Central"},"link":"https://www.meetup.com/rladies-nashville/events/256725942/","description":"<p>Interested
@@ -255,12 +255,12 @@ http_interactions:
         and data science workflow, including tidyverse tools, connecting to Google
         and Amazon databases, and using RStudio professional tools for analysis storage
         and dissemination.</p> <p>Many thanks to Axial Healthcare for providing space
-        for this event! Street address:[masked]th Ave S, Nashville, TN 37203. The
-        meetup is in suite 422.</p> <p>Parking options:<br/>1) Lot across the street;
-        validation available<br/>2) Metered street parking on 10th Ave S (immediately
-        in front of the building) should be free beginning at 6 pm</p> <p>Enter using
-        the main entrance next to M Restaurant, then take the elevator or stairs up
-        to the 4th floor.</p> ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1548959846000,"duration":7200000,"id":"258565812","name":"Getting
+        for this event! Street address: 209 10th Ave S, Nashville, TN 37203. The meetup
+        is in suite 422.</p> <p>Parking options:<br/>1) Lot across the street; validation
+        available<br/>2) Metered street parking on 10th Ave S (immediately in front
+        of the building) should be free beginning at 6 pm</p> <p>Enter using the main
+        entrance next to M Restaurant, then take the elevator or stairs up to the
+        4th floor.</p> ","visibility":"public","pro_is_email_shared":true,"member_pay_fee":false},{"created":1548959846000,"duration":7200000,"id":"258565812","name":"Getting
         Started with Shiny!","date_in_series_pattern":false,"status":"past","time":1549929600000,"local_date":"2019-02-11","local_time":"18:00","updated":1549940873000,"utc_offset":-21600000,"waitlist_count":0,"yes_rsvp_count":22,"venue":{"id":26061952,"name":"Greater
         Nashville Technology Council","lat":36.13279724121094,"lon":-86.7565689086914,"repinned":false,"address_1":"500
         Interstate Blvd S #200","city":"Nashville","country":"us","localized_country_name":"USA","zip":"37210","state":"TN"},"is_online_event":false,"group":{"created":1475090435000,"name":"R-Ladies
@@ -274,7 +274,7 @@ http_interactions:
         with Shiny. And they''re sure to have tips and lessons learned while working
         on their projects to share!</p> ","how_to_find_us":"Nashville Technology Council
         - Dell Learning Center\n500 Interstate Blvd South\n(first room on the right
-        as you enter the front of the building)","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1558720170000,"duration":7200000,"id":"261740631","name":"Using
+        as you enter the front of the building)","visibility":"public","pro_is_email_shared":true,"member_pay_fee":false},{"created":1558720170000,"duration":7200000,"id":"261740631","name":"Using
         R in Supply Chain Analytics","date_in_series_pattern":false,"status":"past","time":1559773800000,"local_date":"2019-06-05","local_time":"17:30","updated":1559785935000,"utc_offset":-18000000,"waitlist_count":0,"yes_rsvp_count":14,"venue":{"id":26061952,"name":"Greater
         Nashville Technology Council","lat":36.13279724121094,"lon":-86.7565689086914,"repinned":true,"address_1":"500
         Interstate Blvd S #200","city":"Nashville","country":"us","localized_country_name":"USA","zip":"37210","state":"TN"},"is_online_event":false,"group":{"created":1475090435000,"name":"R-Ladies
@@ -284,7 +284,7 @@ http_interactions:
         how she has used R over the last 10 years, some lessons learned along the
         way, how her team uses R today, and why R Programming is her \"jam\".</p>
         <p>5:30 pm - networking<br/>6:00 pm - program</p> <p>Thanks to the NTC for
-        providing space!</p> ","how_to_find_us":"Cyber Range Event Center ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1564436671000,"duration":7200000,"id":"263567051","name":"Package
+        providing space!</p> ","how_to_find_us":"Cyber Range Event Center ","visibility":"public","pro_is_email_shared":true,"member_pay_fee":false},{"created":1564436671000,"duration":7200000,"id":"263567051","name":"Package
         Development in R","date_in_series_pattern":false,"status":"past","time":1568673000000,"local_date":"2019-09-16","local_time":"17:30","updated":1568686712000,"utc_offset":-18000000,"waitlist_count":0,"yes_rsvp_count":26,"venue":{"id":26061952,"name":"Greater
         Nashville Technology Council","lat":36.13279724121094,"lon":-86.7565689086914,"repinned":true,"address_1":"500
         Interstate Blvd S #200","city":"Nashville","country":"us","localized_country_name":"USA","zip":"37210","state":"TN"},"is_online_event":false,"group":{"created":1475090435000,"name":"R-Ladies
@@ -299,7 +299,7 @@ http_interactions:
         and a data analyst for Virtual Inc. and Jennifer Morse, a biostatistician
         at Vanderbilt University Medical Center.</p> <p>Social time starts at 5:30
         pm and the talk begins at 6:00 pm.</p> <p>Thanks to the Nashville Technology
-        Council for meeting space!</p> ","how_to_find_us":"PWC Learning Lab","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1582297065000,"duration":5400000,"id":"268882903","name":"The
+        Council for meeting space!</p> ","how_to_find_us":"PWC Learning Lab","visibility":"public","pro_is_email_shared":true,"member_pay_fee":false},{"created":1582297065000,"duration":5400000,"id":"268882903","name":"The
         Future of R-Ladies Nashville","date_in_series_pattern":false,"status":"past","time":1583794800000,"local_date":"2020-03-09","local_time":"18:00","updated":1583803332000,"utc_offset":-18000000,"waitlist_count":0,"yes_rsvp_count":5,"venue":{"id":26061952,"name":"Greater
         Nashville Technology Council","lat":36.13279724121094,"lon":-86.7565689086914,"repinned":false,"address_1":"500
         Interstate Blvd S #200","city":"Nashville","country":"us","localized_country_name":"USA","zip":"37210","state":"TN"},"is_online_event":false,"group":{"created":1475090435000,"name":"R-Ladies
@@ -308,318 +308,6 @@ http_interactions:
         Nashville R-Ladies! Please join us for a conversation about what we value
         in this meetup, how we can grow that value, and where we want to head with
         R-Ladies Nashville this year and beyond.</p> ","how_to_find_us":"Dell Learning
-        Center","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false}]'
-  recorded_at: 2021-01-07 09:00:05 GMT
-  recorded_with: vcr/0.6.0, webmockr/0.7.4
-- request:
-    method: get
-    uri: https://api.meetup.com/rladies-nashville/events?status=past&offset=0&fields=
-    body:
-      encoding: ''
-      string: ''
-    headers:
-      Accept: application/json, text/xml, application/xml, */*
-      Authorization: not my bearer token
-  response:
-    status:
-      status_code: 200
-      category: Success
-      reason: OK
-      message: 'Success: (200) OK'
-    headers:
-      content-type: application/json; charset=utf-8
-      server: Apache/2.4.39 (Unix) OpenSSL/1.1.1c
-      x-meetup-server: ip-10-192-3-158
-      x-meetup-request-id: ad20552b-14f7-461f-bf94-a879cd68fb83
-      x-oauth-scopes: basic
-      x-accepted-oauth-scopes: basic
-      x-ratelimit-limit: '30'
-      x-ratelimit-remaining: '26'
-      x-ratelimit-reset: '8'
-      x-total-count: '18'
-      etag: '"49de7e98e7607b34ae9a55b55409701b-gzip"'
-      content-encoding: gzip
-      accept-ranges: bytes
-      date: Thu, 07 Jan 2021 09:00:05 GMT
-      via: 1.1 varnish
-      x-served-by: cache-cdg20748-CDG
-      x-cache: MISS
-      x-cache-hits: '0'
-      x-timer: S1610010005.627770,VS0,VE461
-      vary: Accept-Encoding,User-Agent,Accept-Language
-      content-length: '7969'
-    body:
-      encoding: UTF-8
-      file: no
-      string: '[{"created":1476892337000,"duration":7200000,"id":"234968855","name":"R-Ladies
-        Nashville Kickoff!","date_in_series_pattern":false,"status":"past","time":1478561400000,"local_date":"2016-11-07","local_time":"17:30","updated":1478610982000,"utc_offset":-21600000,"waitlist_count":0,"yes_rsvp_count":27,"venue":{"id":24854918,"name":"VUMC
-        Biostatistics Conference Room","lat":36.14601135253906,"lon":-86.80931854248047,"repinned":false,"address_1":"2525
-        West End Avenue, Suite 1100","city":"Nashville","country":"us","localized_country_name":"USA","zip":"","state":"TN"},"is_online_event":false,"group":{"created":1475090435000,"name":"R-Ladies
-        Nashville","id":20493986,"join_mode":"open","lat":36.16999816894531,"lon":-86.77999877929688,"urlname":"rladies-nashville","who":"Members","localized_location":"Nashville,
-        TN","state":"TN","country":"us","region":"en_US","timezone":"US/Central"},"link":"https://www.meetup.com/rladies-nashville/events/234968855/","description":"<p>Please
-        join us for the R-Ladies Nashville Kickoff!</p> <p>We''ll provide some light
-        snacks and beverages; if you''d like to bring dinner, feel free!</p> <p>We''ll
-        meet in the VUMC Biostatistics large conference room, located on the 11th
-        floor of the 2525 West End building (the building across from Centennial Park,
-        with Barnes &amp; Noble and PF Chang''s on the ground floor). Paid parking
-        is available in the garage behind the building, or some of the shops downstairs
-        will validate for paying customers, if you''d like to come early.</p> <p><b>Important:</b> Elevators
-        require keycard access after 6pm. If you need to arrive after 6:00, please
-        let us know; we''ll notify the security desk and give you a phone number to
-        contact so that someone can come escort you upstairs.</p> <p>Agenda:<br/>5:30-6:00:
-        dinner/socializing<br/>6:00-6:30: Intro to R-Ladies + short demo of R Notebooks<br/>6:30-end:
-        discussion and planning for R-Ladies Nashville future</p> <p>We are so looking
-        forward to seeing you all! If you have any questions, feel free to contact
-        us via Meetup or [masked].</p> ","how_to_find_us":"2525 West End Avenue, Suite
-        1100, Large Conference Room","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1479409918000,"duration":3600000,"id":"235652800","name":"December
-        Meetup: data.table package","date_in_series_pattern":false,"status":"past","time":1481048100000,"local_date":"2016-12-06","local_time":"12:15","updated":1481053951000,"utc_offset":-21600000,"waitlist_count":0,"yes_rsvp_count":17,"venue":{"id":24854918,"name":"VUMC
-        Biostatistics Conference Room","lat":36.14601135253906,"lon":-86.80931854248047,"repinned":false,"address_1":"2525
-        West End Avenue, Suite 1100","city":"Nashville","country":"us","localized_country_name":"USA","zip":"","state":"TN"},"is_online_event":false,"group":{"created":1475090435000,"name":"R-Ladies
-        Nashville","id":20493986,"join_mode":"open","lat":36.16999816894531,"lon":-86.77999877929688,"urlname":"rladies-nashville","who":"Members","localized_location":"Nashville,
-        TN","state":"TN","country":"us","region":"en_US","timezone":"US/Central"},"link":"https://www.meetup.com/rladies-nashville/events/235652800/","description":"<p>Bring
-        your lunch and join us for our first daytime meetup! JoAnn Rudd Alvarez will
-        be teaching us about the data.table package (see abstract below). We''ll again
-        be meeting in the VUMC Department of Biostatistics conference room; there
-        is paid parking available in the 2525 West End garage behind the building.</p>
-        <p><b>data.table: Where have you been all my life?</b></p> <p><i>data.table
-        is an easy to use R package for querying and manipulating data. Dataset updates
-        run much faster than with the base R paradigm, and specifying complicated
-        calculations is more intuitive. This talk will show some of the package''s
-        features as well as point out a couple of gotchas.</i></p> ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1479832078000,"id":"235757913","name":"January
-        Meetup: R Resources & Help","date_in_series_pattern":false,"status":"past","time":1484092800000,"local_date":"2017-01-10","local_time":"18:00","updated":1484104760000,"utc_offset":-21600000,"waitlist_count":0,"yes_rsvp_count":14,"venue":{"id":23989995,"name":"Emma
-        Bistro","lat":36.15641403198242,"lon":-86.76876068115234,"repinned":false,"address_1":"11
-        Lea Ave","city":"Nashville","country":"us","localized_country_name":"USA","zip":"","state":"TN"},"is_online_event":false,"group":{"created":1475090435000,"name":"R-Ladies
-        Nashville","id":20493986,"join_mode":"open","lat":36.16999816894531,"lon":-86.77999877929688,"urlname":"rladies-nashville","who":"Members","localized_location":"Nashville,
-        TN","state":"TN","country":"us","region":"en_US","timezone":"US/Central"},"link":"https://www.meetup.com/rladies-nashville/events/235757913/","description":"<p>Have
-        you had so-so luck Googling your R error messages? Want to learn Shiny but
-        don''t know where to start? Feel like you''re behind the curve but don''t
-        know where to keep up with R news? This is the meetup for you! We''ll talk
-        about good sources for R news and updates, courses and tutorials, and tips
-        on searching for topics and asking questions.</p> ","how_to_find_us":"Emma
-        is in the Rolling Mill Hill area south of downtown (near Pinewood Social).
-        If you Google Map \"Emma Bistro\" it''ll point you to the right building.
-        Free parking lot behind the building (hallelujah)!","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1484864942000,"duration":3600000,"id":"237055230","name":"February
-        Meetup: RStudio Conference Highlights!","date_in_series_pattern":false,"status":"past","time":1486750500000,"local_date":"2017-02-10","local_time":"12:15","updated":1486756661000,"utc_offset":-21600000,"waitlist_count":0,"yes_rsvp_count":9,"venue":{"id":24854918,"name":"VUMC
-        Biostatistics Conference Room","lat":36.14601135253906,"lon":-86.80931854248047,"repinned":false,"address_1":"2525
-        West End Avenue, Suite 1100","city":"Nashville","country":"us","localized_country_name":"USA","zip":"","state":"TN"},"is_online_event":false,"group":{"created":1475090435000,"name":"R-Ladies
-        Nashville","id":20493986,"join_mode":"open","lat":36.16999816894531,"lon":-86.77999877929688,"urlname":"rladies-nashville","who":"Members","localized_location":"Nashville,
-        TN","state":"TN","country":"us","region":"en_US","timezone":"US/Central"},"link":"https://www.meetup.com/rladies-nashville/events/237055230/","description":"<p>The
-        <a href=\"https://www.rstudio.com/conference/\">RStudio Conference</a> sounds
-        like it was excellent, and we''re all sad we missed out... but fortunately,
-        a few of us WERE able to make it, and are bringing us back the highlights!
-        We''ll hear from Lucy, Alli &amp; Jacquelyn about R-related news; developments
-        with RMarkdown and reproducible research, new packages, Shiny and interactive
-        graphics; and the most exciting ideas and tricks they picked up. Get excited
-        by checking out <a href=\"https://www.rstudio.com/conference/\">the schedule</a> and
-        <a href=\"https://twitter.com/hashtag/rstudioconf?src=hash\">the Twitter buzz</a>,
-        then bring your lunch and join us! We expect there will be enthusiasm, fun
-        photos, great ideas and possibly puns.</p> <p>And if you see a talk in the
-        schedule you''re especially interested in, let us know so the ladies can make
-        sure to tell us about it!</p> <p>Parking tip: If you pick up lunch or a beverage
-        from the shops downstairs, most will validate parking in the building''s garage.
-        There''s Moe''s, Bread &amp; Co, PF Chang''s and Starbucks to choose from.</p>
-        ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1484865391000,"id":"237055481","name":"March
-        Meetup: Intro to Shiny","date_in_series_pattern":false,"status":"past","time":1490137200000,"local_date":"2017-03-21","local_time":"18:00","updated":1490149991000,"utc_offset":-18000000,"waitlist_count":0,"yes_rsvp_count":16,"venue":{"id":24854918,"name":"VUMC
-        Biostatistics Conference Room","lat":36.14601135253906,"lon":-86.80931854248047,"repinned":false,"address_1":"2525
-        West End Avenue, Suite 1100","city":"Nashville","country":"us","localized_country_name":"USA","zip":"","state":"TN"},"is_online_event":false,"group":{"created":1475090435000,"name":"R-Ladies
-        Nashville","id":20493986,"join_mode":"open","lat":36.16999816894531,"lon":-86.77999877929688,"urlname":"rladies-nashville","who":"Members","localized_location":"Nashville,
-        TN","state":"TN","country":"us","region":"en_US","timezone":"US/Central"},"link":"https://www.meetup.com/rladies-nashville/events/237055481/","description":"<p>If
-        you\u2019ve ever wanted to make a web application for data visualization,
-        then <a href=\"https://shiny.rstudio.com/\">Shiny</a> is the thing for you!
-        Join us to learn about how you can make your own web app using just R code,
-        led by Hannah Weeks. We\u2019ll discuss the basics of Shiny and where to find
-        additional resources, and also walk through a demo app. Come learn about some
-        tips and tricks for getting started with Shiny!</p> <p>Paid parking is available
-        in the 2525 West End garage directly behind the building. <b>Important</b>:
-        The conference room is on the 11th floor; elevators at 2525 are keycard access
-        only after 6pm. Please let us know if you''ll be arriving late, and we can
-        give you contact information so someone can come downstairs to meet you.</p>
-        ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1494606103000,"duration":4500000,"id":"239935025","name":"An
-        R + Github Journey","date_in_series_pattern":false,"status":"past","time":1496163600000,"local_date":"2017-05-30","local_time":"12:00","updated":1496170182000,"utc_offset":-18000000,"waitlist_count":0,"yes_rsvp_count":13,"venue":{"id":25237648,"name":"The
-        Wond''ry","lat":36.14297103881836,"lon":-86.80572509765625,"repinned":false,"address_1":"2414
-        Highland Avenue","city":"Nashville","country":"US","localized_country_name":"USA"},"is_online_event":false,"group":{"created":1475090435000,"name":"R-Ladies
-        Nashville","id":20493986,"join_mode":"open","lat":36.16999816894531,"lon":-86.77999877929688,"urlname":"rladies-nashville","who":"Members","localized_location":"Nashville,
-        TN","state":"TN","country":"us","region":"en_US","timezone":"US/Central"},"link":"https://www.meetup.com/rladies-nashville/events/239935025/","description":"<p>Join
-        us for a GitHub journey, guided by Lucy D''Agostino McGowan! We\u2019ll answer
-        questions like:</p> <p>\u2022 <i>What is so great about GitHub?</i></p> <p>\u2022 <i>How
-        can I make it work for me and my workflow?</i></p> <p>\u2022 <i>How can I
-        show the world some of the cool things I\u2019m working on?</i></p> <p>This
-        will be a hands-on workshop that will give you all the tools to have a delightful
-        time incorporating version control &amp; R (and <a href=\"https://github.com/rstudio/blogdown\">blogdown</a>
-        if you are so inclined). All levels are welcome!</p> <p>Stay 15 minutes after
-        for a tour of the <a href=\"https://www.vanderbilt.edu/thewondry/\">Wond\u2019ry</a>,
-        part of Vanderbilt''s new engineering facility! Parking is available in the
-        25th Avenue garage directly across Highland Avenue; see the Wond''ry page
-        for more information. The building is also a &lt;10-minute walk from both
-        the 2525 West End and VUMC areas.</p> ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1501270181000,"id":"242098493","name":"Working
-        with Pipes %>% + GIS Tutorial","date_in_series_pattern":false,"status":"past","time":1505257200000,"local_date":"2017-09-12","local_time":"18:00","updated":1505306112000,"utc_offset":-18000000,"waitlist_count":0,"yes_rsvp_count":21,"venue":{"id":24854918,"name":"VUMC
-        Biostatistics Conference Room","lat":36.14601135253906,"lon":-86.80931854248047,"repinned":false,"address_1":"2525
-        West End Avenue, Suite 1100","city":"Nashville","country":"us","localized_country_name":"USA","zip":"","state":"TN"},"is_online_event":false,"group":{"created":1475090435000,"name":"R-Ladies
-        Nashville","id":20493986,"join_mode":"open","lat":36.16999816894531,"lon":-86.77999877929688,"urlname":"rladies-nashville","who":"Members","localized_location":"Nashville,
-        TN","state":"TN","country":"us","region":"en_US","timezone":"US/Central"},"link":"https://www.meetup.com/rladies-nashville/events/242098493/","description":"<p>We''re
-        kicking off our fall sessions with not one, but two topics! <b>Mary van Valkenburg</b> will
-        be showing us the magic of coding with the <a href=\"http://r4ds.had.co.nz/pipes.html\">pipe
-        operator</a>, and <b>Sarah Lotspeich</b> will be demoing some GIS mapping
-        she''s been working on recently. We can''t wait to see you there! We''ll have
-        some light snacks... and R-Ladies stickers!</p> <p>As always, if you have
-        ideas for future topics or speakers (including yourself!), let us know!</p>
-        <p><b>Important:</b> The elevators up to the 11th floor are keycard-access
-        only after 6pm. If you''ll be later than that, please send a message to Jennifer
-        or Lucy so we can make sure you get in!</p> <p><b>Parking:</b> Paid parking
-        is available in the garage behind the building (2525 WEA garage). Some of
-        the businesses on the bottom floor will validate for customers.</p> ","how_to_find_us":"We''re
-        on the 11th floor. Elevator is keycard only after 6pm, so arrive early or
-        let Jennifer or Lucy know you''ll be late!","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1505313721000,"id":"243331077","name":"Introduction
-        to purrr","date_in_series_pattern":false,"status":"past","time":1510617600000,"local_date":"2017-11-13","local_time":"18:00","updated":1510632337000,"utc_offset":-21600000,"waitlist_count":0,"yes_rsvp_count":29,"venue":{"id":24854918,"name":"VUMC
-        Biostatistics Conference Room","lat":36.14601135253906,"lon":-86.80931854248047,"repinned":false,"address_1":"2525
-        West End Avenue, Suite 1100","city":"Nashville","country":"us","localized_country_name":"USA","zip":"","state":"TN"},"is_online_event":false,"group":{"created":1475090435000,"name":"R-Ladies
-        Nashville","id":20493986,"join_mode":"open","lat":36.16999816894531,"lon":-86.77999877929688,"urlname":"rladies-nashville","who":"Members","localized_location":"Nashville,
-        TN","state":"TN","country":"us","region":"en_US","timezone":"US/Central"},"link":"https://www.meetup.com/rladies-nashville/events/243331077/","description":"<p>When
-        you think of purrr, do you think only of kittens? Not for long! Come hear
-        about R-related magic with the <a href=\"http://purrr.tidyverse.org/\">purrr</a>
-        package - Jennifer Thompson will show you how you can make repetitive tasks
-        and unwieldy data structures much less painful, and hopefully have some fun
-        along the way.</p> <p>SPEAKING OF FUN: IT''S OUR BIRTHDAY! In honor of our
-        one-year anniversary, we''ll have light dinner and beverages, provided by
-        our friends at the R Consortium, and a party vibe! RSVP by Friday to be counted
-        for dinner.</p> ","how_to_find_us":"Building is across from Centennial Park.
-        Paid parking available in the garage behind the building (some businesses
-        downstairs may validate for customers).","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1505313771000,"duration":4500000,"id":"243331084","name":"Play
-        in the snow, then clean up your mess!","rsvp_limit":20,"date_in_series_pattern":false,"status":"past","time":1512151200000,"local_date":"2017-12-01","local_time":"12:00","updated":1512160552000,"utc_offset":-21600000,"waitlist_count":0,"yes_rsvp_count":20,"venue":{"id":25237648,"name":"The
-        Wond''ry","lat":36.14297103881836,"lon":-86.80572509765625,"repinned":false,"address_1":"2414
-        Highland Avenue","city":"Nashville","country":"US","localized_country_name":"USA"},"is_online_event":false,"group":{"created":1475090435000,"name":"R-Ladies
-        Nashville","id":20493986,"join_mode":"open","lat":36.16999816894531,"lon":-86.77999877929688,"urlname":"rladies-nashville","who":"Members","localized_location":"Nashville,
-        TN","state":"TN","country":"us","region":"en_US","timezone":"US/Central"},"link":"https://www.meetup.com/rladies-nashville/events/243331084/","description":"<p>Join
-        us at the Wond''ry for a lunchtime meetup! Laurie Samuels will be demo-ing
-        some packages for data cleaning in R; Svetlana Eden will be demo-ing a package
-        that generates realistic snowflakes for some seasonal flair. See you there!</p>
-        ","how_to_find_us":"The Wond''ry is in the new engineering building on Highland
-        Avenue. When you enter the building, go up the main spiral staircase; we''ll
-        be in the conference room at the back of the glassed-in space. There''s a
-        parking garage across the street.","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1520295639000,"duration":7200000,"id":"248452181","name":"Introduction
-        to Data Cleaning with dataMaid","date_in_series_pattern":false,"status":"past","time":1521500400000,"local_date":"2018-03-19","local_time":"18:00","updated":1521513871000,"utc_offset":-18000000,"waitlist_count":0,"yes_rsvp_count":21,"venue":{"id":24854918,"name":"VUMC
-        Biostatistics Conference Room","lat":36.14601135253906,"lon":-86.80931854248047,"repinned":false,"address_1":"2525
-        West End Avenue, Suite 1100","city":"Nashville","country":"us","localized_country_name":"USA","zip":"","state":"TN"},"is_online_event":false,"group":{"created":1475090435000,"name":"R-Ladies
-        Nashville","id":20493986,"join_mode":"open","lat":36.16999816894531,"lon":-86.77999877929688,"urlname":"rladies-nashville","who":"Members","localized_location":"Nashville,
-        TN","state":"TN","country":"us","region":"en_US","timezone":"US/Central"},"link":"https://www.meetup.com/rladies-nashville/events/248452181/","description":"<p>Molly
-        Olson will be leading us on a data cleaning journey! Data cleaning can be
-        the most time consuming part of a statistician\u2019s workflow, and the validity
-        of the conclusions from a data analysis can depend on this simple data cleaning.
-        At the Conference of Statistical Practice 2018, Molly took a short course
-        titled \u201cCleaning up the Data Cleaning Process: Challenges and Solutions
-        in R,\u201d taught by Anne Helby Petersen and Claus Thorn Ekstrøm from the
-        section of Biostatistics, University of Copenhagen. The short course introduced
-        an R package called \u201cdataMaid\u201d that is a \u201csystematic, analytical
-        approach to data cleaning that will ensure the data cleaning process to be
-        just as structured and well-documented as the rest of the data analysis.\u201d
-        In this tutorial, Molly will provide an overview of the dataMaid package and
-        demonstrate how to use the dataMaid package to improve efficiency and accuracy
-        in the statistician\u2019s every day data cleaning.</p> ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1524496938000,"duration":7200000,"id":"250068352","name":"Dynamically
-        Generated Tables in Shiny with Judy Lewis","date_in_series_pattern":false,"status":"past","time":1526338800000,"local_date":"2018-05-14","local_time":"18:00","updated":1526357597000,"utc_offset":-18000000,"waitlist_count":0,"yes_rsvp_count":16,"venue":{"id":24854918,"name":"VUMC
-        Biostatistics Conference Room","lat":36.14601135253906,"lon":-86.80931854248047,"repinned":false,"address_1":"2525
-        West End Avenue, Suite 1100","city":"Nashville","country":"us","localized_country_name":"USA","zip":"","state":"TN"},"is_online_event":false,"group":{"created":1475090435000,"name":"R-Ladies
-        Nashville","id":20493986,"join_mode":"open","lat":36.16999816894531,"lon":-86.77999877929688,"urlname":"rladies-nashville","who":"Members","localized_location":"Nashville,
-        TN","state":"TN","country":"us","region":"en_US","timezone":"US/Central"},"link":"https://www.meetup.com/rladies-nashville/events/250068352/","description":"<p>Interested
-        in more sophisticated options with data display in Shiny?<br/>Do you sometimes
-        not know in advance how many tables you will need to generate in your Shiny
-        app - perhaps one summary table for each year/month/category in a user-provided
-        dataset? Join us to learn how to dynamically generate summary tables, present
-        them as tabs in one Shiny box, and include an option to click to see details
-        about each data table row.</p> <p>Judy Lewis will demonstrate the IeDEA Harmonist
-        Data Toolkit under development to facilitate data quality checking, visualization,
-        and sharing of international observational HIV/AIDS data. At rstudio::conf
-        2018, Judy learned from Barbara Borges Ribeiro about adding options for shinyDashboard
-        users to \"drill down\" for detail (<a href=\"https://github.com/bborgesr/rstudio-conf-2018\"
-        class=\"linkified\">https://github.com/bborgesr/rstudio-conf-2018</a>). Judy
-        combined that idea with code for generating dynamic, tabbed tables (developed
-        with Jeremy Stephens at VUMC Biostats) to create the desired function in Shiny.
-        Judy will share code and sample data for attendees to try it out on their
-        own.</p> ","how_to_find_us":"Elevators to the 11th floor require keycard access
-        after 6pm. If you''ll be late, let us know and we''ll have someone come let
-        you up! Paid parking is available in the garage behind the building; some
-        businesses downstairs will validate for customers.","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1528538488000,"duration":6300000,"id":"251583548","name":"Networking
-        lunch with RStudio!","rsvp_limit":25,"date_in_series_pattern":false,"status":"past","time":1528821900000,"local_date":"2018-06-12","local_time":"11:45","rsvp_close_offset":"PT24H","updated":1528831470000,"utc_offset":-18000000,"waitlist_count":0,"yes_rsvp_count":15,"venue":{"id":25855250,"name":"Parthenon
-        Conference Room","lat":36.14601135253906,"lon":-86.80931854248047,"repinned":false,"address_1":"2525
-        West End Avenue","address_2":"Suite 1400","city":"Nashville","country":"us","localized_country_name":"USA","zip":"37203","state":"TN"},"is_online_event":false,"group":{"created":1475090435000,"name":"R-Ladies
-        Nashville","id":20493986,"join_mode":"open","lat":36.16999816894531,"lon":-86.77999877929688,"urlname":"rladies-nashville","who":"Members","localized_location":"Nashville,
-        TN","state":"TN","country":"us","region":"en_US","timezone":"US/Central"},"link":"https://www.meetup.com/rladies-nashville/events/251583548/","description":"<p>RStudio
-        is in town this week, and we\u2019re taking the opportunity to get to know
-        their R-Ladies! If you RSVPed before 12:30 Monday, we will have Taziki''s
-        for you. Later RSVPs are welcome to bring your own lunch!</p> ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1537126663000,"duration":7200000,"id":"254740614","name":"Benchmarking
-        using Tidyverse Data Management & Medicare Public Use Files","date_in_series_pattern":false,"status":"past","time":1540508400000,"local_date":"2018-10-25","local_time":"18:00","updated":1540518731000,"utc_offset":-18000000,"waitlist_count":0,"yes_rsvp_count":15,"venue":{"id":24854918,"name":"VUMC
-        Biostatistics Conference Room","lat":36.14601135253906,"lon":-86.80931854248047,"repinned":true,"address_1":"2525
-        West End Avenue, Suite 1100","city":"Nashville","country":"us","localized_country_name":"USA","zip":"","state":"TN"},"is_online_event":false,"group":{"created":1475090435000,"name":"R-Ladies
-        Nashville","id":20493986,"join_mode":"open","lat":36.16999816894531,"lon":-86.77999877929688,"urlname":"rladies-nashville","who":"Members","localized_location":"Nashville,
-        TN","state":"TN","country":"us","region":"en_US","timezone":"US/Central"},"link":"https://www.meetup.com/rladies-nashville/events/254740614/","description":"<p>By
-        Rachel Hayes</p> <p>We will:<br/>* Download Medicare public use files for
-        part B providers, 2016.<br/>* Do some tidyverse data management.<br/>* Make
-        some scores for the providers \u2013 probably using regression.<br/>Benchmarking.<br/>*
-        How to stratify easily using group_by, nest, and mutate. More than one way
-        to do it.<br/>* How to reshape data using gather and spread.<br/>* How we
-        calculate marginal effect scores to communicate results to end users with
-        no research or statistical background. It\u2019s not ideal, but without it,
-        they lack confidence in the results.</p> ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1543261134000,"duration":7200000,"id":"256725942","name":"Data
-        Science Workflows in R","date_in_series_pattern":false,"status":"past","time":1544487300000,"local_date":"2018-12-10","local_time":"18:15","updated":1544500372000,"utc_offset":-21600000,"waitlist_count":0,"yes_rsvp_count":28,"is_online_event":false,"group":{"created":1475090435000,"name":"R-Ladies
-        Nashville","id":20493986,"join_mode":"open","lat":36.16999816894531,"lon":-86.77999877929688,"urlname":"rladies-nashville","who":"Members","localized_location":"Nashville,
-        TN","state":"TN","country":"us","region":"en_US","timezone":"US/Central"},"link":"https://www.meetup.com/rladies-nashville/events/256725942/","description":"<p>Interested
-        in how organizations put R into practice? Axial Healthcare''s Amy Graves,
-        Mathilde Granke, and Meridith Peratikos will demonstrate their R-based statistics
-        and data science workflow, including tidyverse tools, connecting to Google
-        and Amazon databases, and using RStudio professional tools for analysis storage
-        and dissemination.</p> <p>Many thanks to Axial Healthcare for providing space
-        for this event! Street address:[masked]th Ave S, Nashville, TN 37203. The
-        meetup is in suite 422.</p> <p>Parking options:<br/>1) Lot across the street;
-        validation available<br/>2) Metered street parking on 10th Ave S (immediately
-        in front of the building) should be free beginning at 6 pm</p> <p>Enter using
-        the main entrance next to M Restaurant, then take the elevator or stairs up
-        to the 4th floor.</p> ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1548959846000,"duration":7200000,"id":"258565812","name":"Getting
-        Started with Shiny!","date_in_series_pattern":false,"status":"past","time":1549929600000,"local_date":"2019-02-11","local_time":"18:00","updated":1549940873000,"utc_offset":-21600000,"waitlist_count":0,"yes_rsvp_count":22,"venue":{"id":26061952,"name":"Greater
-        Nashville Technology Council","lat":36.13279724121094,"lon":-86.7565689086914,"repinned":false,"address_1":"500
-        Interstate Blvd S #200","city":"Nashville","country":"us","localized_country_name":"USA","zip":"37210","state":"TN"},"is_online_event":false,"group":{"created":1475090435000,"name":"R-Ladies
-        Nashville","id":20493986,"join_mode":"open","lat":36.16999816894531,"lon":-86.77999877929688,"urlname":"rladies-nashville","who":"Members","localized_location":"Nashville,
-        TN","state":"TN","country":"us","region":"en_US","timezone":"US/Central"},"link":"https://www.meetup.com/rladies-nashville/events/258565812/","description":"<p>Have
-        you always wanted to build a Shiny App but didn\u2019t know how to get started?</p>
-        <p>The students in the 2nd Data Science Cohort at Nashville Software School
-        just completed their mid-course projects using R Shiny. Five of those students,
-        Binu Thomas, Davis Thrailkill, Glenna Dunn, Hari Tanjore, and Rachael Abram,
-        will show the apps they created and lead a conversation about getting started
-        with Shiny. And they''re sure to have tips and lessons learned while working
-        on their projects to share!</p> ","how_to_find_us":"Nashville Technology Council
-        - Dell Learning Center\n500 Interstate Blvd South\n(first room on the right
-        as you enter the front of the building)","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1558720170000,"duration":7200000,"id":"261740631","name":"Using
-        R in Supply Chain Analytics","date_in_series_pattern":false,"status":"past","time":1559773800000,"local_date":"2019-06-05","local_time":"17:30","updated":1559785935000,"utc_offset":-18000000,"waitlist_count":0,"yes_rsvp_count":14,"venue":{"id":26061952,"name":"Greater
-        Nashville Technology Council","lat":36.13279724121094,"lon":-86.7565689086914,"repinned":true,"address_1":"500
-        Interstate Blvd S #200","city":"Nashville","country":"us","localized_country_name":"USA","zip":"37210","state":"TN"},"is_online_event":false,"group":{"created":1475090435000,"name":"R-Ladies
-        Nashville","id":20493986,"join_mode":"open","lat":36.16999816894531,"lon":-86.77999877929688,"urlname":"rladies-nashville","who":"Members","localized_location":"Nashville,
-        TN","state":"TN","country":"us","region":"en_US","timezone":"US/Central"},"link":"https://www.meetup.com/rladies-nashville/events/261740631/","description":"<p>Allison
-        Baker, Director of Supply Chain Analytics at HealthTrust will be talking about
-        how she has used R over the last 10 years, some lessons learned along the
-        way, how her team uses R today, and why R Programming is her \"jam\".</p>
-        <p>5:30 pm - networking<br/>6:00 pm - program</p> <p>Thanks to the NTC for
-        providing space!</p> ","how_to_find_us":"Cyber Range Event Center ","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1564436671000,"duration":7200000,"id":"263567051","name":"Package
-        Development in R","date_in_series_pattern":false,"status":"past","time":1568673000000,"local_date":"2019-09-16","local_time":"17:30","updated":1568686712000,"utc_offset":-18000000,"waitlist_count":0,"yes_rsvp_count":26,"venue":{"id":26061952,"name":"Greater
-        Nashville Technology Council","lat":36.13279724121094,"lon":-86.7565689086914,"repinned":true,"address_1":"500
-        Interstate Blvd S #200","city":"Nashville","country":"us","localized_country_name":"USA","zip":"37210","state":"TN"},"is_online_event":false,"group":{"created":1475090435000,"name":"R-Ladies
-        Nashville","id":20493986,"join_mode":"open","lat":36.16999816894531,"lon":-86.77999877929688,"urlname":"rladies-nashville","who":"Members","localized_location":"Nashville,
-        TN","state":"TN","country":"us","region":"en_US","timezone":"US/Central"},"link":"https://www.meetup.com/rladies-nashville/events/263567051/","description":"<p>Curious
-        about package development, but not sure where to start? This talk is for you!
-        This talk will empower you to start contributing back to the R ecosystem with
-        package development. By the end of this talk, you should know:</p> <p>- why
-        you should make your code into a package,<br/>- how to make a package,<br/>-
-        test your package, and<br/>- write a description or vignette about your package</p>
-        <p>Come learn from Jacquelyn Neal, a PhD candidate in biostatistics at Vanderbilt
-        and a data analyst for Virtual Inc. and Jennifer Morse, a biostatistician
-        at Vanderbilt University Medical Center.</p> <p>Social time starts at 5:30
-        pm and the talk begins at 6:00 pm.</p> <p>Thanks to the Nashville Technology
-        Council for meeting space!</p> ","how_to_find_us":"PWC Learning Lab","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false},{"created":1582297065000,"duration":5400000,"id":"268882903","name":"The
-        Future of R-Ladies Nashville","date_in_series_pattern":false,"status":"past","time":1583794800000,"local_date":"2020-03-09","local_time":"18:00","updated":1583803332000,"utc_offset":-18000000,"waitlist_count":0,"yes_rsvp_count":5,"venue":{"id":26061952,"name":"Greater
-        Nashville Technology Council","lat":36.13279724121094,"lon":-86.7565689086914,"repinned":false,"address_1":"500
-        Interstate Blvd S #200","city":"Nashville","country":"us","localized_country_name":"USA","zip":"37210","state":"TN"},"is_online_event":false,"group":{"created":1475090435000,"name":"R-Ladies
-        Nashville","id":20493986,"join_mode":"open","lat":36.16999816894531,"lon":-86.77999877929688,"urlname":"rladies-nashville","who":"Members","localized_location":"Nashville,
-        TN","state":"TN","country":"us","region":"en_US","timezone":"US/Central"},"link":"https://www.meetup.com/rladies-nashville/events/268882903/","description":"<p>Hey
-        Nashville R-Ladies! Please join us for a conversation about what we value
-        in this meetup, how we can grow that value, and where we want to head with
-        R-Ladies Nashville this year and beyond.</p> ","how_to_find_us":"Dell Learning
-        Center","visibility":"public","pro_is_email_shared":false,"member_pay_fee":false}]'
-  recorded_at: 2021-01-07 09:00:05 GMT
+        Center","visibility":"public","pro_is_email_shared":true,"member_pay_fee":false}]'
+  recorded_at: 2021-01-12 09:32:36 GMT
   recorded_with: vcr/0.6.0, webmockr/0.7.4

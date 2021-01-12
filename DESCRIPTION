@@ -60,7 +60,8 @@ Imports:
     httr,
     purrr,
     tibble,
-    withr
+    withr,
+    rlang
 Suggests:
     sodium,
     cyphr,

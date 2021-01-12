@@ -8,8 +8,8 @@ spf <- function(...) stop(sprintf(...), call. = FALSE)
                          api_key = NULL, # deprecated, unused, can't swallow this in `...`
                          event_status = NULL,
                          offset = 0,
+                         verbose = NULL,
                          ...) {
-
   # list of parameters
   parameters <- list(status = event_status, # you need to add the status
                      # otherwise it will get only the upcoming event
@@ -22,18 +22,18 @@ spf <- function(...) stop(sprintf(...), call. = FALSE)
     parameters <- append(parameters, list(key = get_api_key()))
   }
 
-  req <- httr::GET(url = meetup_api_prefix(),          # the endpoint
-                   path = api_method,
+  req <- httr::GET(url = meetup_api_prefix(),          # the host
+                   path = api_method,                  # path to append
                    query = parameters,
                    config = meetup_token()
   )
 
   if (req$status_code == 400) {
-    stop(paste0("HTTP 400 Bad Request error encountered for: ",
+    stop("HTTP 400 Bad Request error encountered for: ",
                 api_method,".\n As of June 30, 2020, this may be ",
                 "because a presumed bug with the Meetup API ",
                 "causes this error for a future event. Please ",
-                "confirm the event has ended."),
+                "confirm the event has ended.",
          call. = FALSE)
   }
 
@@ -50,8 +50,9 @@ spf <- function(...) stop(sprintf(...), call. = FALSE)
   reslist <- httr::content(req, "parsed")
 
   if (length(reslist) == 0) {
-    warning("Zero records match your filter. Nothing to return.\n",
-         call. = FALSE)
+    if(verbose) {
+      cat("Zero records match your filter. Nothing to return.\n")
+    }
     invisible(NULL)
   }
 
@@ -84,23 +85,26 @@ meetup_api_prefix <- function() {
 # Fetch all the results of a query given an API Method
 # Will make multiple calls to the API if needed
 # API Methods listed here: https://www.meetup.com/meetup_api/docs/
-.fetch_results <- function(api_method, api_key = NULL, event_status = NULL, ...) {
+.fetch_results <- function(api_method, api_key = NULL, event_status = NULL, verbose = TRUE, ...) {
 
-    # Fetch first set of results (limited to 200 records each call)
+  # Fetch first set of results (limited to 200 records each call)
   res <- meetup_call(api_method = api_method,
                       api_key = api_key,
                       event_status = event_status,
                       offset = 0,
+                      verbose = verbose,
                       ...)
-
-  res <-  meetup_call(api_method, event_status = event_status, ...)
-
 
   # Total number of records matching the query
   total_records <- as.integer(res$headers$`x-total-count`)
   if (length(total_records) == 0) total_records <- 1L
   records <- res$result
-  cat(paste("Downloading", total_records, "record(s)..."))
+
+  if (total_records == 0) {
+    return(res$result)
+  }
+
+  if(verbose) cat("Downloading", total_records, "record(s)...\n", sep = " ")
 
   if((length(records) < total_records) & !is.null(res$headers$link)){
 
@@ -147,3 +151,15 @@ meetup_api_prefix <- function() {
   }
   return(out)
 }
+
+# Helper to check event status
+.check_event_status <- function(event_status){
+  match.arg(event_status,
+            c("cancelled", "draft", "past", "proposed", "suggested", "upcoming"),
+            several.ok = TRUE)
+}
+
+.collapse = function(x){
+  paste(x, collapse = ",")
+}
+

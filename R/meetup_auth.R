@@ -16,13 +16,13 @@
 #' they are cached in a file named \code{.httr-oauth} in the current working directory.
 #' To control where the file is saved, use `token_path`.
 #'
-#' @section How to force meetupr to use a given token?
+#' @section How to force meetupr to use a given token?:
 #'
 #' Save this token somewhere on disk (`token_path` argument of `meetup_auth`).
 #' Set the environment variable `MEETUPR_PAT` to the path to that file.
 #' Call `meetup_token_path()` and check it returns the right path.
 #'
-#' @section Advanced usage
+#' @section Advanced usage:
 #'
 #' Most users, most of the time, do not need to call this function explicitly --
 #' it will be triggered by the first action that requires authorization. Even
@@ -113,7 +113,7 @@ meetup_auth <- function(token = meetup_token_path(),
                         key = getOption("meetupr.consumer_key"),
                         secret = getOption("meetupr.consumer_secret"),
                         cache = getOption("meetupr.httr_oauth_cache"),
-                        verbose = TRUE,
+                        verbose = getOption("meetupr.verbose", rlang::is_interactive()),
                         set_renv = getOption("meetupr.set_renv"),
                         token_path = NULL) {
 
@@ -123,9 +123,9 @@ meetup_auth <- function(token = meetup_token_path(),
 
   if (is.null(token)) {
 
-    message(paste0('Meetup is moving to OAuth *only* as of 2019-08-15. Set\n',
+    message('Meetup is moving to OAuth *only* as of 2019-08-15. Set\n',
                   '`meetupr.use_oauth = FALSE` in your .Rprofile, to use\nthe ',
-                  'legacy `api_key` authorization.'))
+                  'legacy `api_key` authorization.')
 
     meetup_app       <- httr::oauth_app("meetup", key = key, secret = secret)
     meetup_endpoints <- httr::oauth_endpoint(
@@ -135,11 +135,10 @@ meetup_auth <- function(token = meetup_token_path(),
 
     if (!cache && !is.null(token_path)) {
       stop(
-        paste(
         "You chose `cache` FALSE (no saving to disk) but input a `token_path`.",
-        "Should you set `cache` to TRUE?"
+        "Should you set `cache` to TRUE?",
+        call. = FALSE
         )
-      )
     }
 
 
@@ -283,7 +282,8 @@ token_available <- function(verbose = TRUE) {
 #' \dontrun{
 #' meetup_deauth()
 #' }
-meetup_deauth <- function(clear_cache = TRUE, verbose = TRUE) {
+meetup_deauth <- function(clear_cache = TRUE,
+                          verbose = getOption("meetupr.verbose", rlang::is_interactive())) {
 
   if (clear_cache && file.exists(meetup_token_path())) {
     if (verbose) {
