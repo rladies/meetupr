@@ -1,7 +1,7 @@
-test_that(".quick_fetch() success case", {
+test_that("meetup_call() success case", {
   api_method <- "rladies-nashville/events"
   vcr::use_cassette("quick_fetch", {
-    res <- .quick_fetch(
+    res <- meetup_call(
       api_method = api_method,
       event_status = "past"
       )
