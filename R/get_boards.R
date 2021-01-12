@@ -1,7 +1,6 @@
 #' Get the discussion boards from a meetup group
 #'
 #' @template urlname
-#' @template api_key
 #' @template verbose
 #' @return A tibble with the following columns:
 #'    * id
@@ -20,14 +19,13 @@
 #'@examples
 #' \dontrun{
 #' urlname <- "rladies-nashville"
-#' meetup_boards <- get_boards(urlname = urlname,
-#'                       api_key = api_key)
+#' meetup_boards <- get_boards(urlname = urlname)
 #'}
 #' @export
-get_boards <- function(urlname, api_key = NULL,
+get_boards <- function(urlname,
                        verbose = getOption("meetupr.verbose", rlang::is_interactive())) {
-  api_method <- paste0(urlname, "/boards")
-  res <- .fetch_results(api_method, api_key, verbose = verbose)
+  api_path <- paste0(urlname, "/boards")
+  res <- .fetch_results(api_path = api_path, verbose = verbose)
   tibble::tibble(
     id = purrr::map_int(res, "id"),
     name = purrr::map_chr(res, "name"),

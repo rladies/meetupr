@@ -1,7 +1,6 @@
 #' Get the current meetup members from a meetup group
 #'
 #' @template urlname
-#' @template api_key
 #' @template verbose
 #'
 #' @return A tibble with the following columns:
@@ -25,10 +24,10 @@
 #' members <- get_members(urlname)
 #'}
 #' @export
-get_members <- function(urlname, api_key = NULL,
+get_members <- function(urlname,
                         verbose = getOption("meetupr.verbose", rlang::is_interactive())){
-  api_method <- paste0(urlname, "/members/")
-  res <- .fetch_results(api_method, api_key, verbose = verbose)
+  api_path <- paste0(urlname, "/members/")
+  res <- .fetch_results(api_path = api_path, verbose = verbose)
   tibble::tibble(
     id = purrr::map_int(res, "id"),
     name = purrr::map_chr(res, "name", .default = NA),

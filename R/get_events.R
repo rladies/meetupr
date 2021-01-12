@@ -10,7 +10,6 @@
 #'  * suggested
 #'  * upcoming
 #' @param fields Character, character vector or characters separated by comma (e.g "event_hosts" or c("event_hosts","attendance_count") or "event_hosts, group_past_event_count").
-#' @template api_key
 #' @template verbose
 #'
 #' @return A tibble with the following columns:
@@ -47,7 +46,7 @@
 #'                       event_status = "upcoming")
 #' past_meetings <- get_events(urlname = urlname,
 #'                  event_status = "past",
-#'                  fields = "event_hosts", api_key = api_key)
+#'                  fields = "event_hosts")
 #' # get events hosts (co-organizers) of single past meeting
 #' single_event <- past_meetings$resource[[1]]$event_hosts
 #'
@@ -58,14 +57,12 @@
 #'}
 #' @export
 get_events <- function(urlname, event_status = "upcoming", fields = NULL,
-                       api_key = NULL,
                        verbose = getOption("meetupr.verbose", rlang::is_interactive())) {
 
   event_status <- .check_event_status(event_status)
 
   res <- .fetch_results(
     sprintf("%s/events", urlname),
-    api_key,
     .collapse(event_status),
     fields = .collapse(fields),
     verbose = verbose

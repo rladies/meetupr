@@ -1,6 +1,10 @@
 # meetupr 0.1.1
 * Added `get_event_rsvps()` function.  Contribution by Michael Beigelmacher: https://github.com/rladies/meetupr/pull/19
-
+* Added automatic rate limiting based on the response headers.
+* Added support for non-interactive use.
+* Added functions for getting pro events and groups.
+* Renamed `api_method` to `^` in internal function, `.fetch_results()`, as it's less confusing.
+* Removed all mentions and use of API keys as it's no longer supported by the API.
 
 # meetupr 0.1.0
 

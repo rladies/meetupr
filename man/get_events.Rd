@@ -8,7 +8,6 @@ get_events(
   urlname,
   event_status = "upcoming",
   fields = NULL,
-  api_key = NULL,
   verbose = getOption("meetupr.verbose", rlang::is_interactive())
 )
 }
@@ -28,11 +27,6 @@ Valid inputs are:
 }}
 
 \item{fields}{Character, character vector or characters separated by comma (e.g "event_hosts" or c("event_hosts","attendance_count") or "event_hosts, group_past_event_count").}
-
-\item{api_key}{Character. Your api key. Defaults to checking your environment
-for a parameter called "MEETUP_KEY" via \code{Sys.getenv("MEETUP_KEY")}. This key can be
-obtained from \url{https://secure.meetup.com/meetup_api/key/}. To set the environment variable
-run \code{Sys.setenv(MEETUP_KEY = "PASTE YOUR MEETUP KEY HERE")}.}
 
 \item{verbose}{logical; do you want informative messages? \code{TRUE} by default in
 interactive sessions. Can be toggled by the \code{meetupr.verbose} option.}
@@ -75,7 +69,7 @@ upcoming_events <- get_events(urlname = urlname,
                       event_status = "upcoming")
 past_meetings <- get_events(urlname = urlname,
                  event_status = "past",
-                 fields = "event_hosts", api_key = api_key)
+                 fields = "event_hosts")
 # get events hosts (co-organizers) of single past meeting
 single_event <- past_meetings$resource[[1]]$event_hosts
 

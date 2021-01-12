@@ -123,10 +123,6 @@ meetup_auth <- function(token = meetup_token_path(),
 
   if (is.null(token)) {
 
-    message('Meetup is moving to OAuth *only* as of 2019-08-15. Set\n',
-                  '`meetupr.use_oauth = FALSE` in your .Rprofile, to use\nthe ',
-                  'legacy `api_key` authorization.')
-
     meetup_app       <- httr::oauth_app("meetup", key = key, secret = secret)
     meetup_endpoints <- httr::oauth_endpoint(
       authorize = 'https://secure.meetup.com/oauth2/authorize',
@@ -337,42 +333,6 @@ is_legit_token <- function(x, verbose = FALSE) {
   }
 
   TRUE
-
-}
-
-
-#' Store a legacy API key in the .state environment
-#'
-#' @keywords internal
-set_api_key <- function(x = NULL) {
-
-  if (is.null(x)) {
-    key <- Sys.getenv("MEETUP_KEY")
-    if (key == "") {
-      spf(paste0("You have not set a MEETUP_KEY environment variable.\nIf you ",
-                 "do not yet have a meetup.com API key, use OAuth2\ninstead, ",
-                 "as API keys are now deprecated - see here:\n",
-                 "* https://www.meetup.com/meetup_api/auth/"))
-    }
-    .state$legacy_api_key <- key
-  } else {
-    .state$legacy_api_key <- x
-  }
-
-  invisible(NULL)
-
-}
-
-#' Get the legacy API key from the .state environment
-#'
-#' @keywords internal
-get_api_key <- function() {
-
-  if (is.null(.state$legacy_api_key)) {
-    set_api_key()
-  }
-
-  .state$legacy_api_key
 
 }
 

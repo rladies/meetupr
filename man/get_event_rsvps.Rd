@@ -7,7 +7,6 @@
 get_event_rsvps(
   urlname,
   event_id,
-  api_key = NULL,
   verbose = getOption("meetupr.verbose", rlang::is_interactive())
 )
 }
@@ -17,11 +16,6 @@ get_event_rsvps(
 
 \item{event_id}{Character. The id of the event. Event ids can be obtained
 using \code{\link[=get_events]{get_events()}} or by looking at the event page URL.}
-
-\item{api_key}{Character. Your api key. Defaults to checking your environment
-for a parameter called "MEETUP_KEY" via \code{Sys.getenv("MEETUP_KEY")}. This key can be
-obtained from \url{https://secure.meetup.com/meetup_api/key/}. To set the environment variable
-run \code{Sys.setenv(MEETUP_KEY = "PASTE YOUR MEETUP KEY HERE")}.}
 
 \item{verbose}{logical; do you want informative messages? \code{TRUE} by default in
 interactive sessions. Can be toggled by the \code{meetupr.verbose} option.}

@@ -4,8 +4,7 @@ spf <- function(...) stop(sprintf(...), call. = FALSE)
 # This helper function makes a single call, given the full API endpoint URL
 # Used as the workhorse function inside .fetch_results() below
 
-.meetup_call <- function(api_method,
-                         api_key = NULL, # deprecated, unused, can't swallow this in `...`
+.meetup_call <- function(api_path,
                          event_status = NULL,
                          offset = 0,
                          verbose = NULL,
@@ -17,20 +16,15 @@ spf <- function(...) stop(sprintf(...), call. = FALSE)
                      ...                    # other parameters
   )
 
-  # Only need API keys if OAuth is disabled...
-  if (!getOption("meetupr.use_oauth")) {
-    parameters <- append(parameters, list(key = get_api_key()))
-  }
-
   req <- httr::GET(url = meetup_api_prefix(),          # the host
-                   path = api_method,                  # path to append
+                   path = api_path,                  # path to append
                    query = parameters,
                    config = meetup_token()
   )
 
   if (req$status_code == 400) {
     stop("HTTP 400 Bad Request error encountered for: ",
-                api_method,".\n As of June 30, 2020, this may be ",
+         api_path,".\n As of June 30, 2020, this may be ",
                 "because a presumed bug with the Meetup API ",
                 "causes this error for a future event. Please ",
                 "confirm the event has ended.",
@@ -85,11 +79,10 @@ meetup_api_prefix <- function() {
 # Fetch all the results of a query given an API Method
 # Will make multiple calls to the API if needed
 # API Methods listed here: https://www.meetup.com/meetup_api/docs/
-.fetch_results <- function(api_method, api_key = NULL, event_status = NULL, verbose = TRUE, ...) {
+.fetch_results <- function(api_path, event_status = NULL, verbose = TRUE, ...) {
 
   # Fetch first set of results (limited to 200 records each call)
-  res <- meetup_call(api_method = api_method,
-                      api_key = api_key,
+  res <- meetup_call(api_path = api_path,
                       event_status = event_status,
                       offset = 0,
                       verbose = verbose,
@@ -113,8 +106,7 @@ meetup_api_prefix <- function() {
     all_records <- list(records)
 
     for(i in 1:(offsetn - 1)) {
-      res <- meetup_call(api_method = api_method,
-                          api_key = api_key,
+      res <- meetup_call(api_path = api_path,
                           event_status = event_status,
                           offset = i,
                           ...)

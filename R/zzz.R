@@ -7,7 +7,6 @@
     meetupr.httr_oauth_cache = TRUE,
     meetupr.consumer_key     = "2vagj0ut3btomqbb32tca763m1",
     meetupr.consumer_secret  = "k73s3jrah57hp9ej21e8dslnl5",
-    meetupr.use_oauth        = TRUE,
     meetupr.set_renv         = TRUE
   )
   toset <- !(names(op.meetupr) %in% names(op))
