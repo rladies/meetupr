@@ -4,16 +4,11 @@
 \alias{get_pro_events}
 \title{Get the events from a PRO meetup group}
 \usage{
-get_pro_events(urlname, api_key = NULL, verbose = TRUE)
+get_pro_events(urlname, verbose = TRUE)
 }
 \arguments{
 \item{urlname}{Character. The name of the group as indicated in the
 \url{https://meetup.com} url.}
-
-\item{api_key}{Character. Your api key. Defaults to checking your environment
-for a parameter called "MEETUP_KEY" via \code{Sys.getenv("MEETUP_KEY")}. This key can be
-obtained from \url{https://secure.meetup.com/meetup_api/key/}. To set the environment variable
-run \code{Sys.setenv(MEETUP_KEY = "PASTE YOUR MEETUP KEY HERE")}.}
 
 \item{verbose}{logical; do you want informative messages? \code{TRUE} by default in
 interactive sessions. Can be toggled by the \code{meetupr.verbose} option.}

@@ -1,4 +1,4 @@
-expected_names <- c("id", "name", "created", "status", "time", "local_date", "local_time",
+expected_names <- c("id", "name", "created", "status", "time", "local_date", "duration", "local_time",
                     "waitlist_count", "yes_rsvp_count", "venue_id", "venue_name",
                     "venue_lat", "venue_lon", "venue_address_1", "venue_city", "venue_state",
                     "venue_zip", "venue_country", "description", "link", "resource"

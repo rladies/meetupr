@@ -1,7 +1,6 @@
 #' Get the current meetup members from a pro meetup group
 #'
 #' @template urlname
-#' @template api_key
 #' @template verbose
 #'
 #' @return A tibble with the following columns:
@@ -28,11 +27,11 @@
 #' @export
 #' @importFrom purrr map_int map_chr map_dbl
 #' @importFrom tibble tibble
-get_pro_groups <- function(urlname, api_key = NULL,
+get_pro_groups <- function(urlname,
                            verbose = getOption("meetupr.verbose", rlang::is_interactive())){
 
   api_method <- sprintf("pro/%s/groups", urlname)
-  res <- .fetch_results(api_method, api_key, verbose = verbose)
+  res <- .fetch_results(api_method, api_key = NULL, verbose = verbose)
 
   tibble(
     group_sorter(res),
@@ -51,7 +50,6 @@ get_pro_groups <- function(urlname, api_key = NULL,
 #' next 30 days.
 #'
 #' @template urlname
-#' @template api_key
 #' @template verbose
 #'
 #' @return A tibble with the following columns:
@@ -89,11 +87,10 @@ get_pro_groups <- function(urlname, api_key = NULL,
 #'}
 #' @export
 get_pro_events <- function(urlname,
-                           api_key = NULL,
                            verbose = TRUE){
 
   api_method <- sprintf("pro/%s/events", urlname)
-  res <- .fetch_results(api_method, api_key, verbose = verbose)
+  res <- .fetch_results(api_method, api_key = NULL, verbose = verbose)
 
   group <- lapply(res, function(x) x[[3]])
   group <- tibble(group_sorter(group), res = group)
