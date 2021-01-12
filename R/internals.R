@@ -99,6 +99,11 @@ meetup_api_prefix <- function() {
   total_records <- as.integer(res$headers$`x-total-count`)
   if (length(total_records) == 0) total_records <- 1L
   records <- res$result
+
+  if (total_records == 0) {
+    return(res$result)
+  }
+
   if(verbose) cat("Downloading", total_records, "record(s)...\n", sep = " ")
 
   if((length(records) < total_records) & !is.null(res$headers$link)){
