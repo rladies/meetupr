@@ -2,25 +2,13 @@
 % Please edit documentation in R/get_pro.R
 \name{get_pro_events}
 \alias{get_pro_events}
-\title{Get the events from a meetup group}
+\title{Get the events from a PRO meetup group}
 \usage{
-get_pro_events(
-  urlname,
-  event_status = "upcoming",
-  api_key = NULL,
-  verbose = TRUE
-)
+get_pro_events(urlname, api_key = NULL, verbose = TRUE)
 }
 \arguments{
 \item{urlname}{Character. The name of the group as indicated in the
 \url{https://meetup.com} url.}
-
-\item{event_status}{Character (e.g. "upcoming" or "past"). Event type - defaults to "upcoming".
-Valid inputs are:
-\itemize{
-\item past
-\item upcoming
-}}
 
 \item{api_key}{Character. Your api key. Defaults to checking your environment
 for a parameter called "MEETUP_KEY" via \code{Sys.getenv("MEETUP_KEY")}. This key can be
@@ -56,7 +44,8 @@ A tibble with the following columns:
 }
 }
 \description{
-Get the events from a meetup group
+This can only fetch future events, as
+set up in the meetup API.
 }
 \examples{
 \dontrun{

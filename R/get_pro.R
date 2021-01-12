@@ -9,9 +9,9 @@
 #'    * name
 #'    * status
 #'    * founded
-#'    * member_count
-#'    * member_count
+#'    * members
 #'    * upcoming_events
+#'    * past events
 #'    * city
 #'    * country
 #'    * state

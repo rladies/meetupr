@@ -24,9 +24,9 @@ A tibble with the following columns:
 \item name
 \item status
 \item founded
-\item member_count
-\item member_count
+\item members
 \item upcoming_events
+\item past events
 \item city
 \item country
 \item state
