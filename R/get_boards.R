@@ -24,7 +24,8 @@
 #'                       api_key = api_key)
 #'}
 #' @export
-get_boards <- function(urlname, api_key = NULL, verbose = TRUE) {
+get_boards <- function(urlname, api_key = NULL,
+                       verbose = getOption("meetupr.verbose", rlang::is_interactive())) {
   api_method <- paste0(urlname, "/boards")
   res <- .fetch_results(api_method, api_key, verbose = verbose)
   tibble::tibble(

@@ -58,7 +58,8 @@
 #'}
 #' @export
 get_events <- function(urlname, event_status = "upcoming", fields = NULL,
-                       api_key = NULL, verbose = TRUE) {
+                       api_key = NULL,
+                       verbose = getOption("meetupr.verbose", rlang::is_interactive())) {
 
   event_status <- .check_event_status(event_status)
 

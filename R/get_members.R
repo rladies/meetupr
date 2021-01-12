@@ -25,7 +25,8 @@
 #' members <- get_members(urlname)
 #'}
 #' @export
-get_members <- function(urlname, api_key = NULL, verbose = TRUE){
+get_members <- function(urlname, api_key = NULL,
+                        verbose = getOption("meetupr.verbose", rlang::is_interactive())){
   api_method <- paste0(urlname, "/members/")
   res <- .fetch_results(api_method, api_key, verbose = verbose)
   tibble::tibble(

@@ -41,16 +41,17 @@
 #' groups <- find_groups(topic_id = 1513883, api_key = api_key)
 #' groups <- find_groups(text = "r-ladies", fields = "past_event_count,
 #'  upcoming_event_count", api_key = api_key)
-#' past_event_counts <- map_dbl(groups$resource, "past_event_count",
+#' past_event_counts <- purrr::map_dbl(groups$resource, "past_event_count",
 #'  .default = 0)
-#' upcoming_event_counts <- map_dbl(groups$resource, "upcoming_event_count",
+#' upcoming_event_counts <- purrr::map_dbl(groups$resource, "upcoming_event_count",
 #'  .default = 0)
 #'}
 #' @export
 #' @importFrom purrr map_dbl map_int map_chr
 #' @importFrom tibble tibble
 find_groups <- function(text = NULL, topic_id = NULL, radius = "global",
-                        fields = NULL, api_key = NULL, verbose = TRUE) {
+                        fields = NULL, api_key = NULL,
+                        verbose = getOption("meetupr.verbose", rlang::is_interactive())) {
 
   res <- .fetch_results(api_method = "find/groups",
                         api_key = api_key,

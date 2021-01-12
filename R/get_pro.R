@@ -28,7 +28,8 @@
 #' @export
 #' @importFrom purrr map_int map_chr map_dbl
 #' @importFrom tibble tibble
-get_pro_groups <- function(urlname, api_key = NULL, verbose = TRUE){
+get_pro_groups <- function(urlname, api_key = NULL,
+                           verbose = getOption("meetupr.verbose", rlang::is_interactive())){
 
   api_method <- sprintf("pro/%s/groups", urlname)
   res <- .fetch_results(api_method, api_key, verbose = verbose)

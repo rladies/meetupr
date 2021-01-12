@@ -4,7 +4,12 @@
 \alias{get_event_attendees}
 \title{Get the attendees for a specified event}
 \usage{
-get_event_attendees(urlname, event_id, api_key = NULL, verbose = TRUE)
+get_event_attendees(
+  urlname,
+  event_id,
+  api_key = NULL,
+  verbose = getOption("meetupr.verbose", rlang::is_interactive())
+)
 }
 \arguments{
 \item{urlname}{Character. The name of the group as indicated in the
@@ -18,7 +23,8 @@ for a parameter called "MEETUP_KEY" via \code{Sys.getenv("MEETUP_KEY")}. This ke
 obtained from \url{https://secure.meetup.com/meetup_api/key/}. To set the environment variable
 run \code{Sys.setenv(MEETUP_KEY = "PASTE YOUR MEETUP KEY HERE")}.}
 
-\item{verbose}{logical; do you want informative messages?}
+\item{verbose}{logical; do you want informative messages? \code{TRUE} by default in
+interactive sessions. Can be toggled by the \code{meetupr.verbose} option.}
 }
 \value{
 A tibble with the following columns:

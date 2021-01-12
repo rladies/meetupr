@@ -8,6 +8,7 @@ spf <- function(...) stop(sprintf(...), call. = FALSE)
                          api_key = NULL, # deprecated, unused, can't swallow this in `...`
                          event_status = NULL,
                          offset = 0,
+                         verbose = NULL,
                          ...) {
   # list of parameters
   parameters <- list(status = event_status, # you need to add the status
@@ -49,8 +50,9 @@ spf <- function(...) stop(sprintf(...), call. = FALSE)
   reslist <- httr::content(req, "parsed")
 
   if (length(reslist) == 0) {
-    warning("Zero records match your filter. Nothing to return.\n",
-         call. = FALSE)
+    if(verbose) {
+      cat("Zero records match your filter. Nothing to return.\n")
+    }
     invisible(NULL)
   }
 
@@ -90,10 +92,8 @@ meetup_api_prefix <- function() {
                       api_key = api_key,
                       event_status = event_status,
                       offset = 0,
+                      verbose = verbose,
                       ...)
-
-  res <-  meetup_call(api_method, event_status = event_status, ...)
-
 
   # Total number of records matching the query
   total_records <- as.integer(res$headers$`x-total-count`)

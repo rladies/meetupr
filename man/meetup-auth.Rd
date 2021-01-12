@@ -13,14 +13,17 @@ meetup_auth(
   key = getOption("meetupr.consumer_key"),
   secret = getOption("meetupr.consumer_secret"),
   cache = getOption("meetupr.httr_oauth_cache"),
-  verbose = TRUE,
+  verbose = getOption("meetupr.verbose", rlang::is_interactive()),
   set_renv = getOption("meetupr.set_renv"),
   token_path = NULL
 )
 
 meetup_token(verbose = FALSE)
 
-meetup_deauth(clear_cache = TRUE, verbose = TRUE)
+meetup_deauth(
+  clear_cache = TRUE,
+  verbose = getOption("meetupr.verbose", rlang::is_interactive())
+)
 
 meetup_token_path()
 }
@@ -39,7 +42,8 @@ defaults to the ID and secret built into the \code{meetupr} package}
 \item{cache}{logical indicating if \code{meetupr} should cache
 credentials in the default cache file \code{.httr-oauth} or \code{token_path}.}
 
-\item{verbose}{logical; do you want informative messages?}
+\item{verbose}{logical; do you want informative messages? \code{TRUE} by default in
+interactive sessions. Can be toggled by the \code{meetupr.verbose} option.}
 
 \item{set_renv}{Logical indicating whether to save the created token
 as the default environment meetup token variable. Defaults to TRUE,
