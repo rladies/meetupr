@@ -6,6 +6,7 @@ use_git_ignore(token_path)
 
 meetupr::meetup_auth(
   token = NULL,
+  new_user = TRUE,
   cache = TRUE,
   set_renv = FALSE,
   token_path = token_path
