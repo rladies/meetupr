@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Check that token appears to be legitimate — is_legit_token • meetupr</title>
+<title>Get the current meetup members from a pro meetup group — get_pro_groups • meetupr</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Check that token appears to be legitimate — is_legit_token" />
-<meta property="og:description" content="Check that token appears to be legitimate" />
+<meta property="og:title" content="Get the current meetup members from a pro meetup group — get_pro_groups" />
+<meta property="og:description" content="Get the current meetup members from a pro meetup group" />
 
 
 
@@ -121,19 +121,63 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Check that token appears to be legitimate</h1>
+    <h1>Get the current meetup members from a pro meetup group</h1>
     
-    <div class="hidden name"><code>is_legit_token.Rd</code></div>
+    <div class="hidden name"><code>get_pro_groups.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Check that token appears to be legitimate</p>
+    <p>Get the current meetup members from a pro meetup group</p>
     </div>
 
-    <pre class="usage"><span class='fu'>is_legit_token</span><span class='op'>(</span><span class='va'>x</span>, verbose <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>get_pro_groups</span><span class='op'>(</span>
+  <span class='va'>urlname</span>,
+  verbose <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span><span class='op'>(</span><span class='st'>"meetupr.verbose"</span>, <span class='fu'>rlang</span><span class='fu'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>urlname</th>
+      <td><p>Character. The name of the group as indicated in the
+<a href='https://meetup.com'>https://meetup.com</a> url.</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>logical; do you want informative messages? <code>TRUE</code> by default in
+interactive sessions. Can be toggled by the <code>meetupr.verbose</code> option.</p></td>
+    </tr>
+    </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>A tibble with the following columns:</p><ul>
+<li><p>id</p></li>
+<li><p>name</p></li>
+<li><p>status</p></li>
+<li><p>founded</p></li>
+<li><p>members</p></li>
+<li><p>upcoming_events</p></li>
+<li><p>past events</p></li>
+<li><p>city</p></li>
+<li><p>country</p></li>
+<li><p>state</p></li>
+<li><p>lat</p></li>
+<li><p>lon</p></li>
+<li><p>urlname</p></li>
+</ul>
+
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p><a href='https://www.meetup.com/meetup_api/docs/pro/:urlname/groups/'>https://www.meetup.com/meetup_api/docs/pro/:urlname/groups/</a></p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>urlname</span> <span class='op'>&lt;-</span> <span class='st'>"rladies"</span>
+<span class='va'>members</span> <span class='op'>&lt;-</span> <span class='fu'>get_pro_groups</span><span class='op'>(</span><span class='va'>urlname</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
