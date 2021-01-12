@@ -3,7 +3,8 @@ spf <- function(...) stop(sprintf(...), call. = FALSE)
 
 # This helper function makes a single call, given the full API endpoint URL
 # Used as the workhorse function inside .fetch_results() below
-.quick_fetch <- function(api_method,
+
+.meetup_call <- function(api_method,
                          api_key = NULL, # deprecated, unused, can't swallow this in `...`
                          event_status = NULL,
                          offset = 0,
@@ -36,6 +37,15 @@ spf <- function(...) stop(sprintf(...), call. = FALSE)
   }
 
   httr::stop_for_status(req)
+
+  headers <- httr::headers(req)
+
+  assign(
+    "meetupr_rate",
+    c(headers$`x-ratelimit-limit`, headers$`x-ratelimit-reset`),
+    envir = .meetupr_env
+    )
+
   reslist <- httr::content(req, "parsed")
 
   if (length(reslist) == 0) {
@@ -46,6 +56,18 @@ spf <- function(...) stop(sprintf(...), call. = FALSE)
 
   return(list(result = reslist, headers = req$headers))
 }
+# from https://stackoverflow.com/questions/34254716/how-to-define-hidden-global-variables-inside-r-packages
+.meetupr_env <- new.env(parent=emptyenv())
+assign("meetupr_rate", c(30, 10), envir=.meetupr_env)
+
+meetup_call <- ratelimitr::limit_rate(
+  .meetup_call,
+  rate = ratelimitr::rate(
+    .meetupr_env[["meetupr_rate"]][1],
+    .meetupr_env[["meetupr_rate"]][2]
+  )
+)
+
 
 meetup_api_prefix <- function() {
 
@@ -64,13 +86,13 @@ meetup_api_prefix <- function() {
 .fetch_results <- function(api_method, api_key = NULL, event_status = NULL, verbose = TRUE, ...) {
 
   # Fetch first set of results (limited to 200 records each call)
-  res <- .quick_fetch(api_method = api_method,
+  res <- meetup_call(api_method = api_method,
                       api_key = api_key,
                       event_status = event_status,
                       offset = 0,
                       ...)
 
-  res <-  .quick_fetch(api_method, event_status = event_status, ...)
+  res <-  meetup_call(api_method, event_status = event_status, ...)
 
 
   # Total number of records matching the query
@@ -86,7 +108,7 @@ meetup_api_prefix <- function() {
     all_records <- list(records)
 
     for(i in 1:(offsetn - 1)) {
-      res <- .quick_fetch(api_method = api_method,
+      res <- meetup_call(api_method = api_method,
                           api_key = api_key,
                           event_status = event_status,
                           offset = i,
@@ -94,7 +116,7 @@ meetup_api_prefix <- function() {
 
       next_url <- strsplit(strsplit(res$headers$link, split = "<")[[1]][2], split = ">")[[1]][1]
       next_url <- gsub(meetup_api_prefix(), "", next_url)
-      res <- .quick_fetch(next_url, event_status)
+      res <- meetup_call(next_url, event_status)
 
       all_records[[i + 1]] <- res$result
     }
