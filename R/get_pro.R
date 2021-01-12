@@ -1,4 +1,4 @@
-#' Get the current meetup members from a meetup group
+#' Get the current meetup members from a pro meetup group
 #'
 #' @template urlname
 #' @template api_key
@@ -106,4 +106,3 @@ get_pro_events <- function(urlname,
     group
   )
 }
-
