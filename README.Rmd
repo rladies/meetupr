@@ -48,17 +48,9 @@ A released version will be on CRAN [soon](https://github.com/rladies/meetupr/iss
 
 ### Functions
 
-We currently have the following functions:
+See the [pkgdown reference](https://rladies.github.io/meetupr/reference/index.html).
 
-* `get_members()`
-* `get_boards()`
-* `get_events()`  
-* `get_event_attendees()`  
-* `get_event_comments()`
-* `get_event_rsvps()`
-* `find_groups()`
-
-Each will output a tibble with information extracted into from the API as well as a `list-col` named `*_resource` with all API output. For example, the following code will get all upcoming events for the [R-Ladies San Francisco](https://meetup.com/rladies-san-francisco) meetup.
+For example, the following code will get all upcoming events for the [R-Ladies San Francisco](https://meetup.com/rladies-san-francisco) meetup.
 
 ```{r}
 library(meetupr)
@@ -70,7 +62,7 @@ dplyr::arrange(events, desc(created))
 
 Next we can look up all R-Ladies groups by "topic id".  You can find topic ids for associated tags by querying [here](https://secure.meetup.com/meetup_api/console/?path=/find/topics).  The `topic_id` for topic, "R-Ladies", is `1513883`.
 
-```{r, eval = FALSE}
+```{r}
 groups <- find_groups(topic_id = 1513883)
 dplyr::arrange(groups, desc(created))
 ```

@@ -90,19 +90,10 @@ current session), or call the `meetup_auth()` function directly.
 
 ### Functions
 
-We currently have the following functions:
+See the [pkgdown
+reference](https://rladies.github.io/meetupr/reference/index.html).
 
-  - `get_members()`
-  - `get_boards()`
-  - `get_events()`  
-  - `get_event_attendees()`  
-  - `get_event_comments()`
-  - `get_event_rsvps()`
-  - `find_groups()`
-
-Each will output a tibble with information extracted into from the API
-as well as a `list-col` named `*_resource` with all API output. For
-example, the following code will get all upcoming events for the
+For example, the following code will get all upcoming events for the
 [R-Ladies San Francisco](https://meetup.com/rladies-san-francisco)
 meetup.
 
@@ -111,9 +102,8 @@ library(meetupr)
 
 urlname <- "rladies-san-francisco"
 events <- get_events(urlname, "past")
-#> Downloading 60 record(s)...
 dplyr::arrange(events, desc(created))
-#> # A tibble: 60 x 21
+#> # A tibble: 60 x 22
 #>    id    name  created             status time                local_date
 #>    <chr> <chr> <dttm>              <chr>  <dttm>              <date>    
 #>  1 2730… A co… 2020-09-04 20:04:50 past   2020-09-11 00:30:00 2020-09-10
@@ -126,7 +116,7 @@ dplyr::arrange(events, desc(created))
 #>  8 2626… Baye… 2019-06-27 05:11:16 past   2019-07-18 03:00:00 2019-07-17
 #>  9 2610… Mini… 2019-05-01 02:49:52 past   2019-05-18 22:30:00 2019-05-18
 #> 10 2590… NLP … 2019-02-15 23:36:58 past   2019-03-13 02:00:00 2019-03-12
-#> # … with 50 more rows, and 15 more variables: local_time <chr>,
+#> # … with 50 more rows, and 16 more variables: duration <int>, local_time <chr>,
 #> #   waitlist_count <int>, yes_rsvp_count <int>, venue_id <int>,
 #> #   venue_name <chr>, venue_lat <dbl>, venue_lon <dbl>, venue_address_1 <chr>,
 #> #   venue_city <chr>, venue_state <chr>, venue_zip <chr>, venue_country <chr>,
@@ -141,6 +131,23 @@ The `topic_id` for topic, “R-Ladies”, is `1513883`.
 ``` r
 groups <- find_groups(topic_id = 1513883)
 dplyr::arrange(groups, desc(created))
+#> # A tibble: 137 x 20
+#>        id name  urlname status   lat     lon city  state country
+#>     <int> <chr> <chr>   <chr>  <dbl>   <dbl> <chr> <chr> <chr>  
+#>  1 3.38e7 R-La… rladie… active -1.29   36.8  Nair… ""    KE     
+#>  2 3.34e7 R-La… rladie… active 52.4    -1.5  Cove… "43"  GB     
+#>  3 3.34e7 R-La… rladie… active 43.3    21.9  Niš   ""    RS     
+#>  4 3.32e7 R-La… rladie… active 25.7  -100.   Mont… ""    MX     
+#>  5 3.32e7 R-La… rladie… active 51.8    -1.26 Oxfo… "K2"  GB     
+#>  6 3.31e7 R-La… rladie… active 38.9   -92.2  Colu… "MO"  US     
+#>  7 3.31e7 R-La… rladie… active  6.93   79.8  Colo… ""    LK     
+#>  8 3.31e7 R-La… rladie… active 30.0   -90.1  New … "LA"  US     
+#>  9 3.31e7 R-La… rladie… active 43.0   -76.2  Syra… "NY"  US     
+#> 10 3.30e7 R-La… rladie… active 19.0    72.8  Mumb… ""    IN     
+#> # … with 127 more rows, and 11 more variables: created <dttm>, members <int>,
+#> #   timezone <chr>, join_mode <chr>, visibility <chr>, who <chr>,
+#> #   organizer_id <int>, organizer_name <chr>, category_id <int>,
+#> #   category_name <chr>, resource <list>
 ```
 
 ## How can you contribute?
