@@ -44,8 +44,8 @@ A tibble with the following columns:
 }
 }
 \description{
-This can only fetch future events, as
-set up in the meetup API.
+This can only fetch events for the
+next 30 days.
 }
 \examples{
 \dontrun{
