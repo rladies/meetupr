@@ -159,15 +159,6 @@ meetup_api_prefix <- function() {
             several.ok = TRUE)
 }
 
-#' to avoid making too many
-#' requests too rapidly when
-#' getting pro events
-slowly_get_events <- purrr::slowly(
-  get_events,
-  rate = purrr::rate_delay(pause = .3,
-                           max_times = Inf)
-)
-
 .collapse = function(x){
   paste(x, collapse = ",")
 }
