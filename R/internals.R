@@ -144,3 +144,4 @@ slowly_get_events <- purrr::slowly(
 .collapse = function(x){
   paste(x, collapse = ",")
 }
+

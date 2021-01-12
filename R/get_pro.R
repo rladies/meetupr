@@ -26,37 +26,30 @@
 #' members <- get_pro_groups(urlname)
 #'}
 #' @export
+#' @importFrom purrr map_int map_chr map_dbl
+#' @importFrom tibble tibble
 get_pro_groups <- function(urlname, api_key = NULL, verbose = TRUE){
 
-  api_method <- sprintf("pro/%s/groups", urlname, verbose = verbose)
-  res <- .fetch_results(api_method, api_key)
+  api_method <- sprintf("pro/%s/groups", urlname)
+  res <- .fetch_results(api_method, api_key, verbose = verbose)
 
-  tibble::tibble(
-    id = purrr::map_int(res, "id"),
-    name = purrr::map_chr(res, "name", .default = NA),
-    status = purrr::map_chr(res, "status"),
-    founded = .date_helper(purrr::map_dbl(res, "founded_date")),
-    member_count = purrr::map_chr(res, "member_count"),
-    upcoming_events = purrr::map_int(res, "upcoming_events"),
-    past_events = purrr::map_int(res, "past_events"),
-    city = purrr::map_chr(res, "city", .default = NA),
-    country = purrr::map_chr(res, "country", .default = NA),
-    state = purrr::map_chr(res, "state", .default = NA),
-    lat = purrr::map_dbl(res, "lat", .default = NA),
-    lon = purrr::map_dbl(res, "lon", .default = NA),
-    urlname = purrr::map_chr(res, "urlname", .default = NA)
+  tibble(
+    group_sorter(res),
+    created = .date_helper(map_dbl(res, "founded_date")),
+    members = map_chr(res, "member_count"),
+    upcoming_events = map_int(res, "upcoming_events"),
+    past_events = map_int(res, "past_events"),
+    res = res
   )
 }
 
 
-#' Get the events from a meetup group
+#' Get the events from a PRO meetup group
+#'
+#' This can only fetch events for the
+#' next 30 days.
 #'
 #' @template urlname
-#' @param event_status Character (e.g. "upcoming" or "past"). Event type - defaults to "upcoming".
-#'  Valid inputs are:
-#'  * past
-#'  * upcoming
-#'
 #' @template api_key
 #' @template verbose
 #'
@@ -95,31 +88,21 @@ get_pro_groups <- function(urlname, api_key = NULL, verbose = TRUE){
 #'}
 #' @export
 get_pro_events <- function(urlname,
-                           event_status = "upcoming",
                            api_key = NULL,
                            verbose = TRUE){
 
-  event_status <- .check_event_status(event_status)
+  api_method <- sprintf("pro/%s/events", urlname)
+  res <- .fetch_results(api_method, api_key, verbose = verbose)
 
-  event_cols <- paste0(event_status, "_events")
+  group <- lapply(res, function(x) x[[3]])
+  group <- tibble(group_sorter(group), res = group)
+  names(group) <- paste0("group_", names(group))
 
-  all_groups <- suppressMessages(
-    get_pro_groups(urlname = urlname, api_key = api_key, verbose = verbose)
+  events <- lapply(res, function(x) x[[1]])
+
+  tibble(
+    event_sorter(events),
+    group
   )
-
-  # Get groups that have events matching the wanted status, skips those without entries
-  groups_event <- unlist(all_groups[all_groups[,event_cols] > 0, "urlname"])
-
-  events <- lapply(groups_event,
-                   slowly_get_events,
-                   event_status = event_status)
-
-  events <- purrr::map2(events, groups_event,
-                        function(.x, .y){
-                        x[,"chapter"] <- .y
-                        .x}
-                        )
-
-  nms <- names(events)[-length(events)]
-  events[, c("chapter", nms)]
 }
+
