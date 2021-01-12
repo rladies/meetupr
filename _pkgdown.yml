@@ -1,21 +1,4 @@
-reference:
-- title: All functions
-  contents:
-  - '`find_groups`'
-  - '`get_boards`'
-  - '`get_event_attendees`'
-  - '`get_event_comments`'
-  - '`get_event_rsvps`'
-  - '`get_events`'
-  - '`get_meetup_attendees`'
-  - '`get_meetup_comments`'
-  - '`get_members`'
-  - '`meetup_auth`'
-  - '`meetup_deauth`'
-articles:
-- title: All vignettes
-  desc: null
-  contents: '`meetupr_vignette`'
+
 navbar:
   structure:
     left:
