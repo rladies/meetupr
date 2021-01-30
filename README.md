@@ -31,7 +31,7 @@ A released version will be on CRAN
 As of August 15, 2019, Meetup.com switched from an API key based
 authentication system to OAuth 2.0, so we [added
 support](https://github.com/rladies/meetupr/issues/51) for OAuth. 
-Please update your scripts.
+Please update your scripts and remove any references to `api_key`.
 
 #### OAuth? Yes
 
