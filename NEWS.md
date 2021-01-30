@@ -4,13 +4,18 @@
 
 * All mentions of and arguments related to API keys have been removed as the Meetup API no longer supports authentication with an API key.
 
-# meetupr 0.1.1
-* Added `get_event_rsvps()` function.  Contribution by Michael Beigelmacher: https://github.com/rladies/meetupr/pull/19
+## New features
+
 * Added automatic rate limiting based on the response headers.
 * Added support for non-interactive use.
 * Added functions for getting pro events and groups.
-* Renamed `api_method` to `^` in internal function, `.fetch_results()`, as it's less confusing.
-* Removed all mentions and use of API keys as it's no longer supported by the API.
+
+## Internals
+
+* Renamed `api_method` to `api_path` in internal function, `.fetch_results()`, as it's less confusing.
+
+# meetupr 0.1.1
+* Added `get_event_rsvps()` function.  Contribution by Michael Beigelmacher: https://github.com/rladies/meetupr/pull/19
 
 # meetupr 0.1.0
 
