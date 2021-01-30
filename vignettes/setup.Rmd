@@ -48,7 +48,7 @@ use_git_ignore(token_path)
 meetupr::meetup_auth(
   token = NULL,
   cache = TRUE,
-  set_renv = FALSE,
+  use_appdir = FALSE,
   token_path = token_path
 )
 ```
@@ -58,7 +58,7 @@ We used an internal function for saving it, you could copy-paste it to .Renviron
 
 ```r
 # sodium_key <- sodium::keygen()
-# set_renv("MEETUPR_PWD" = sodium::bin2hex(sodium_key))
+# save an environment variable "MEETUPR_PWD" = sodium::bin2hex(sodium_key)
 ```
 
 Using the key we encrypt the file.
@@ -96,7 +96,7 @@ token <- readRDS(temptoken)[[1]]
 
 token <- meetupr::meetup_auth(
   token = token,
-  set_renv = FALSE,
+  use_appdir = FALSE,
   cache = FALSE
 )
 

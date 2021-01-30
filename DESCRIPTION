@@ -61,7 +61,8 @@ Imports:
     purrr,
     tibble,
     withr,
-    rlang
+    rlang,
+    rappdirs
 Suggests:
     sodium,
     cyphr,
