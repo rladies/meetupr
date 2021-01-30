@@ -130,6 +130,7 @@ meetup_auth <- function(token = meetup_token_path(),
       if (use_appdir) {
         if (is.null(token_path)) {
           token_path <- appdir_path()
+          # from https://github.com/r-hub/rhub/blob/5c339d7b95d75172beec85603ee197c2502903b1/R/email.R#L192
           parent <- dirname(token_path)
           if (!file.exists(parent)) dir.create(parent, recursive = TRUE)
         }
