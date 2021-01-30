@@ -1,8 +1,7 @@
 test_that("meetup_call() success case", {
-  api_method <- "rladies-nashville/events"
   vcr::use_cassette("quick_fetch", {
     res <- meetup_call(
-      api_method = api_method,
+      api_path = "rladies-nashville/events",
       event_status = "past"
       )
   })

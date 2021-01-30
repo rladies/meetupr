@@ -30,8 +30,8 @@
 get_pro_groups <- function(urlname,
                            verbose = getOption("meetupr.verbose", rlang::is_interactive())){
 
-  api_method <- sprintf("pro/%s/groups", urlname)
-  res <- .fetch_results(api_method, api_key = NULL, verbose = verbose)
+  api_path <- sprintf("pro/%s/groups", urlname)
+  res <- .fetch_results(api_path = api_path, verbose = verbose)
 
   tibble(
     group_sorter(res),
@@ -89,8 +89,8 @@ get_pro_groups <- function(urlname,
 get_pro_events <- function(urlname,
                            verbose = TRUE){
 
-  api_method <- sprintf("pro/%s/events", urlname)
-  res <- .fetch_results(api_method, api_key = NULL, verbose = verbose)
+  api_path <- sprintf("pro/%s/events", urlname)
+  res <- .fetch_results(api_path = api_path, verbose = verbose)
 
   group <- lapply(res, function(x) x[[3]])
   group <- tibble(group_sorter(group), res = group)
