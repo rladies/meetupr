@@ -29,9 +29,7 @@ A released version will be on CRAN
 #### API key? No
 
 As of August 15, 2019, Meetup.com switched from an API key based
-authentication system to OAuth 2.0, so we [added
-support](https://github.com/rladies/meetupr/issues/51) for OAuth. 
-Please update your scripts and remove any references to `api_key`.
+authentication system to OAuth 2.0, so we added support for OAuth.
 
 #### OAuth? Yes
 
@@ -41,13 +39,13 @@ complex than storing a simple API key as secret.
 
 With OAuth you need
 
-  - an OAuth app. There’s one shipped in with the package\! If you
-    prefer you can bring your own app by setting the
-    `meetupr.consumer_key` and `meetupr.consumer_secret` options.
+-   an OAuth app. There’s one shipped in with the package! If you prefer
+    you can bring your own app by setting the `meetupr.consumer_key` and
+    `meetupr.consumer_secret` options.
 
-  - an access token. It’s an httr object and it can be saved to disk. It
+-   an access token. It’s an httr object and it can be saved to disk. It
     expires but can be refreshed. It contains secrets so it’s a
-    sensitive file\! For creating one you will be prompted to log into
+    sensitive file! For creating one you will be prompted to log into
     your meetup.com account in the browser. But then if you cache the
     token to disk, you won’t need to do that again. This means you can
     create a token on your computer locally and use it on a server (if
@@ -58,11 +56,8 @@ and cached.
 
 If you don’t tweak anything, the first time you run a meetupr function,
 you’ll be prompted to go into your browser and a token will be created.
-
-  - it will be saved to disk in your home directory e.g. under
-    `/home/user/.meetup_token.rds`
-  - the path to the token will be added in .Renviron
-    i.e. `MEETUPR_PAT=/home/maelle/.meetup_token.rds`
+It will be saved to disk in an app directory as determined by
+`rappdirs::user_data_dir("meetupr", "meetupr")`
 
 And all the times you use meetupr again, this token will be used, and
 refreshed and re-saved as needed.
@@ -73,16 +68,14 @@ Now if you want to have a different behavior you either tweak options
 (in your .Rprofile so for all sessions in the future, or just in the
 current session), or call the `meetup_auth()` function directly.
 
-  - Don’t want to cache the token to disk? Use the
-    “meetupr.httr\_oauth\_cache” option or the `cache` argument, to be
-    set to `FALSE`.
-  - Don’t want to set a variable in .Renviron with the path to the
-    token? Use the “meetupr.set\_renv” option or the `set_renv`
-    argument, to be set to `FALSE`. If it is false, the token will be
-    cached to `.httr-oauth` (unless `cache` is FALSE too, of course)
-  - Want to save the token to somewhere you choose? No way to use an
+-   Don’t want to cache the token to disk? Use the `cache` argument, to
+    be set to `FALSE`.
+-   Don’t want to use an app dir? Use the `use_appdir` argument, to be
+    set to `FALSE`. If it is false, the token will be cached to
+    `.httr-oauth` (unless `cache` is FALSE too, of course)
+-   Want to save the token to somewhere you choose? No way to use an
     option. Use the `token_path` argument of `meetup_auth()`.
-  - Want to use a token that was created elsewhere? Save it to disk,
+-   Want to use a token that was created elsewhere? Save it to disk,
     keep it secret, and refer to it via the `token` argument of
     `meetup_auth()` that can be either a token or the path to a token.
 
@@ -150,7 +143,7 @@ dplyr::arrange(groups, desc(created))
 
 ## How can you contribute?
 
-We are looking for new people to join the list of contributors\! Please
+We are looking for new people to join the list of contributors! Please
 take a look at the open
 [issues](https://github.com/rladies/meetupr/issues), file a new issue,
 contribute tests, or improve the documentation. We are also looking to
@@ -158,7 +151,7 @@ expand the set of functions to include more endpoints from the [Meetup
 API](https://www.meetup.com/meetup_api/). Lastly, we’d also love to
 [hear about](https://github.com/rladies/meetupr/issues/74) any
 applications of the **meetupr** package, so we can compile a list of
-demos\!
+demos!
 
 Please note that the this project is released with a [Contributor Code
 of
