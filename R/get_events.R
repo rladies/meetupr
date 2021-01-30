@@ -56,11 +56,12 @@
 
 #'}
 #' @export
-get_events <- function(urlname, event_status = "upcoming", fields = NULL,
+get_events <- function(urlname,
+                       event_status = c("upcoming", "cancelled", "draft", "past", "proposed", "suggested"),
+                       fields = NULL,
                        verbose = getOption("meetupr.verbose", rlang::is_interactive())) {
 
-  event_status <- .check_event_status(event_status)
-
+  match.arg(event_status)
   res <- .fetch_results(
     sprintf("%s/events", urlname),
     .collapse(event_status),
