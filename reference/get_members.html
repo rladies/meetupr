@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">meetupr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.3.999</span>
       </span>
     </div>
 
@@ -132,7 +132,6 @@
 
     <pre class="usage"><span class='fu'>get_members</span><span class='op'>(</span>
   <span class='va'>urlname</span>,
-  api_key <span class='op'>=</span> <span class='cn'>NULL</span>,
   verbose <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span><span class='op'>(</span><span class='st'>"meetupr.verbose"</span>, <span class='fu'>rlang</span><span class='fu'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 <span class='op'>)</span></pre>
 
@@ -143,13 +142,6 @@
       <th>urlname</th>
       <td><p>Character. The name of the group as indicated in the
 <a href='https://meetup.com'>https://meetup.com</a> url.</p></td>
-    </tr>
-    <tr>
-      <th>api_key</th>
-      <td><p>Character. Your api key. Defaults to checking your environment
-for a parameter called "MEETUP_KEY" via <code><a href='https://rdrr.io/r/base/Sys.getenv.html'>Sys.getenv("MEETUP_KEY")</a></code>. This key can be
-obtained from <a href='https://secure.meetup.com/meetup_api/key/'>https://secure.meetup.com/meetup_api/key/</a>. To set the environment variable
-run <code><a href='https://rdrr.io/r/base/Sys.setenv.html'>Sys.setenv(MEETUP_KEY = "PASTE YOUR MEETUP KEY HERE")</a></code>.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
