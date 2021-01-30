@@ -17,7 +17,7 @@ if (nzchar(Sys.getenv("MEETUPR_PWD"))) {
     cache = FALSE
   ) -> token
 
-  Sys.setenv(MEETUPR_PAT = temptoken)
+  meetup_auth(token = temptoken)
 
 } else {
   Sys.setenv("MEETUPR_TESTING" = TRUE)
