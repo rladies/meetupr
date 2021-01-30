@@ -67,13 +67,7 @@ meetup_call <- ratelimitr::limit_rate(
 
 meetup_api_prefix <- function() {
 
-  env_url <- Sys.getenv("MEETUP_API_URL")
-
-  if(nzchar(env_url)) {
-    return(env_url)
-  }
-
-  "https://api.meetup.com/"
+  Sys.getenv("MEETUP_API_URL", "https://api.meetup.com/")
 }
 
 # Fetch all the results of a query given an API Method
