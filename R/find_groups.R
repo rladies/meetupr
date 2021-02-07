@@ -58,14 +58,19 @@ find_groups <- function(text = NULL, topic_id = NULL, radius = "global",
                         radius = radius,
                         verbose = verbose)
 
+  base <- group_sorter(res)
+  base$country = NULL
+
   tibble(
-    group_sorter(res),
+    base,
+    country = map_chr(res, "localized_country_name"),
     created = .date_helper(map_dbl(res, "created")),
     members = map_int(res, "members"),
     timezone = map_chr(res, "timezone", .default = NA),
     join_mode = map_chr(res, "join_mode", .default = NA),
     visibility = map_chr(res, "visibility", .default = NA),
     who = map_chr(res, "who", .default = NA),
+    location = map_chr(res, "localized_location"),
     organizer_id = map_int(res, c("organizer", "id")),
     organizer_name = map_chr(res, c("organizer", "name")),
     category_id = map_int(res, c("category", "id"), .default = NA),
