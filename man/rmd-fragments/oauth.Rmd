@@ -11,9 +11,7 @@ But then if you cache the token to disk, you won't need to do that again. This m
 Let's go through workflows and ways to control how your token is created and cached.
 
 If you don't tweak anything, the first time you run a meetupr function, you'll be prompted to go into your browser and a token will be created.
-
-* it will be saved to disk in your home directory e.g. under `/home/user/.meetup_token.rds`
-* the path to the token will be added in .Renviron i.e. `MEETUPR_PAT=/home/maelle/.meetup_token.rds`
+It will be saved to disk in an app directory as determined by `rappdirs::user_data_dir("meetupr", "meetupr")`
 
 And all the times you use meetupr again, this token will be used, and refreshed and re-saved as needed.
 
@@ -21,7 +19,7 @@ This is, we hope, a sensible default.
 
 Now if you want to have a different behavior you either tweak options (in your .Rprofile so for all sessions in the future, or just in the current session), or call the `meetup_auth()` function directly.
 
-* Don't want to cache the token to disk? Use the "meetupr.httr_oauth_cache" option or the `cache` argument, to be set to `FALSE`.
-* Don't want to set a variable in .Renviron with the path to the token? Use the "meetupr.set_renv" option or the `set_renv` argument, to be set to `FALSE`. If it is false, the token will be cached to `.httr-oauth` (unless `cache` is FALSE too, of course)
+* Don't want to cache the token to disk? Use the `cache` argument, to be set to `FALSE`.
+* Don't want to use an app dir? Use the `use_appdir` argument, to be set to `FALSE`. If it is false, the token will be cached to `.httr-oauth` (unless `cache` is FALSE too, of course)
 * Want to save the token to somewhere you choose? No way to use an option. Use the `token_path` argument of `meetup_auth()`.
 * Want to use a token that was created elsewhere? Save it to disk, keep it secret, and refer to it via the `token` argument of `meetup_auth()` that can be either a token or the path to a token.

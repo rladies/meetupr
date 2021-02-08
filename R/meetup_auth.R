@@ -1,6 +1,4 @@
-# Credit to Jenny Bryan and the Googlesheets3 package for this pattern of
-# OAuth handling, see https://github.com/jennybc/googlesheets/blob/master/R/gs_auth.R
-# And credit to Michael Kearney and the rtweet package.
+# Credit to Jenny Bryan for OAuth wisdom.
 #
 # environment to store credentials
 .state <- new.env(parent = emptyenv())
@@ -12,15 +10,14 @@
 #' permission to operate on your behalf. By default, these user credentials are
 #' saved to a file in your home directory whose path is saved in `.Renviron`
 #' as `MEETUPR_PAT`.
-#' If you set `set_env` to `FALSE` but `cache` to `TRUE`,
+#' If you set `use_appdir` to `FALSE` but `cache` to `TRUE`,
 #' they are cached in a file named \code{.httr-oauth} in the current working directory.
 #' To control where the file is saved, use `token_path`.
 #'
 #' @section How to force meetupr to use a given token?:
 #'
 #' Save this token somewhere on disk (`token_path` argument of `meetup_auth`).
-#' Set the environment variable `MEETUPR_PAT` to the path to that file.
-#' Call `meetup_token_path()` and check it returns the right path.
+#' Then in future sessions call `meetup_auth()` with `token` set to that path.
 #'
 #' @section Advanced usage:
 #'
@@ -50,16 +47,13 @@
 #'   consumer key that ships with the package}
 #'   \item{secret}{Set to option \code{meetupr.consumer_secret}, which defaults to
 #'   a consumer secret that ships with the package}
-#'   \item{cache}{Set to option \code{meetupr.httr_oauth_cache}, which defaults
-#'   to \code{TRUE}}
 #' }
 #'
 #' To override these defaults in persistent way, predefine one or more of them
 #' with lines like this in a \code{.Rprofile} file:
 #' \preformatted{
 #' options(meetupr.consumer_key = "FOO",
-#'         meetupr.consumer_secret = "BAR",
-#'         meetupr.httr_oauth_cache = FALSE)
+#'         meetupr.consumer_secret = "BAR")
 #' }
 #' See \code{\link[base]{Startup}} for possible locations for this file and the
 #' implications thereof.
@@ -69,7 +63,7 @@
 #' with the Meetup API}.
 #'
 #' @param token optional; an actual token object or the path to a valid token
-#'   stored as an \code{.rds} file
+#'   stored as an \code{.rds} file.
 #' @param new_user logical, defaults to \code{FALSE}. Set to \code{TRUE} if you
 #'   want to wipe the slate clean and re-authenticate with the same or different
 #'   Meetup account. This disables the \code{.httr-oauth} file in current
@@ -78,16 +72,10 @@
 #'   defaults to the ID and secret built into the \code{meetupr} package
 #' @param cache logical indicating if \code{meetupr} should cache
 #'   credentials in the default cache file \code{.httr-oauth} or `token_path`.
-#' @param set_renv Logical indicating whether to save the created token
-#'   as the default environment meetup token variable. Defaults to TRUE,
-#'   meaning the token is saved to user's home directory as either the user
-#'   provided path, or
-#'   ".meetup_token.rds" (or, if that already exists, then
-#'   .meetup_token1.rds or .meetup_token2.rds, etc.) and the path to the
-#'   token to said token is then set in the user's .Renviron file and re-
-#'   read to start being used in current active session.
+#' @param use_appdir Logical indicating whether to save the created token
+#'   in app dir as determined by `rappdirs::user_data_dir("meetupr", "meetupr")`.
 #'   If \code{cache} is `FALSE` this is ignored.
-#' @param token_path Path where to save the token. If `set_renv` is `FALSE`,
+#' @param token_path Path where to save the token. If `use_appdir` is `TRUE`,
 #'  this is ignored.
 #' @template verbose
 #'
@@ -114,7 +102,7 @@ meetup_auth <- function(token = meetup_token_path(),
                         secret = getOption("meetupr.consumer_secret"),
                         cache = getOption("meetupr.httr_oauth_cache"),
                         verbose = getOption("meetupr.verbose", rlang::is_interactive()),
-                        set_renv = getOption("meetupr.set_renv"),
+                        use_appdir = TRUE,
                         token_path = NULL) {
 
   if (new_user) {
@@ -139,16 +127,18 @@ meetup_auth <- function(token = meetup_token_path(),
 
 
     if (cache) {
-      if (set_renv) {
+      if (use_appdir) {
         if (is.null(token_path)) {
-          token_path <- uq_filename(file.path(home(), ".meetup_token.rds"))
+          token_path <- appdir_path()
+          # from https://github.com/r-hub/rhub/blob/5c339d7b95d75172beec85603ee197c2502903b1/R/email.R#L192
+          parent <- dirname(token_path)
+          if (!file.exists(parent)) dir.create(parent, recursive = TRUE)
         }
 
       }
 
       # In all cases if cache is TRUE we want to set it to the filepath
       if (!is.null(token_path)) {
-        to_be_cached <- cache
         cache <- token_path
       }
     }
@@ -162,10 +152,6 @@ meetup_auth <- function(token = meetup_token_path(),
 
     stopifnot(is_legit_token(meetup_token, verbose = TRUE))
 
-    if (set_renv && to_be_cached) {
-      # save path to token as variable in .Renviron
-      set_renv("MEETUPR_PAT" = token_path)
-    }
 
     # save token to .state$token after refreshing if need be
     # here we've just created it so probably no need to refresh it
@@ -341,9 +327,9 @@ is_legit_token <- function(x, verbose = FALSE) {
 #' @examples
 #' meetup_token_path()
 meetup_token_path <- function() {
-  token_path <- Sys.getenv("MEETUPR_PAT")
+  token_path <- appdir_path()
 
-  if (token_path != "") {
+  if (file.exists(appdir_path())) {
     return(token_path)
   }
 
@@ -365,4 +351,8 @@ save_and_refresh_token <- function(token, path) {
   }
 
   .state$token <- token
+}
+
+appdir_path <- function() {
+  file.path(rappdirs::user_data_dir("meetupr", "meetupr"), "meetupr-token.rds")
 }

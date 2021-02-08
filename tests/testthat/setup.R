@@ -13,11 +13,11 @@ if (nzchar(Sys.getenv("MEETUPR_PWD"))) {
 
   meetupr::meetup_auth(
     token = token,
-    set_renv = FALSE,
+    use_appdir = FALSE,
     cache = FALSE
   ) -> token
 
-  Sys.setenv(MEETUPR_PAT = temptoken)
+  meetup_auth(token = temptoken)
 
 } else {
   Sys.setenv("MEETUPR_TESTING" = TRUE)

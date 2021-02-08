@@ -6,7 +6,7 @@
 \usage{
 get_events(
   urlname,
-  event_status = "upcoming",
+  event_status = c("upcoming", "cancelled", "draft", "past", "proposed", "suggested"),
   fields = NULL,
   verbose = getOption("meetupr.verbose", rlang::is_interactive())
 )

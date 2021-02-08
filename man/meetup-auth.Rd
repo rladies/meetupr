@@ -14,7 +14,7 @@ meetup_auth(
   secret = getOption("meetupr.consumer_secret"),
   cache = getOption("meetupr.httr_oauth_cache"),
   verbose = getOption("meetupr.verbose", rlang::is_interactive()),
-  set_renv = getOption("meetupr.set_renv"),
+  use_appdir = TRUE,
   token_path = NULL
 )
 
@@ -29,7 +29,7 @@ meetup_token_path()
 }
 \arguments{
 \item{token}{optional; an actual token object or the path to a valid token
-stored as an \code{.rds} file}
+stored as an \code{.rds} file.}
 
 \item{new_user}{logical, defaults to \code{FALSE}. Set to \code{TRUE} if you
 want to wipe the slate clean and re-authenticate with the same or different
@@ -45,17 +45,11 @@ credentials in the default cache file \code{.httr-oauth} or \code{token_path}.}
 \item{verbose}{logical; do you want informative messages? \code{TRUE} by default in
 interactive sessions. Can be toggled by the \code{meetupr.verbose} option.}
 
-\item{set_renv}{Logical indicating whether to save the created token
-as the default environment meetup token variable. Defaults to TRUE,
-meaning the token is saved to user's home directory as either the user
-provided path, or
-".meetup_token.rds" (or, if that already exists, then
-.meetup_token1.rds or .meetup_token2.rds, etc.) and the path to the
-token to said token is then set in the user's .Renviron file and re-
-read to start being used in current active session.
+\item{use_appdir}{Logical indicating whether to save the created token
+in app dir as determined by \code{rappdirs::user_data_dir("meetupr", "meetupr")}.
 If \code{cache} is \code{FALSE} this is ignored.}
 
-\item{token_path}{Path where to save the token. If \code{set_renv} is \code{FALSE},
+\item{token_path}{Path where to save the token. If \code{use_appdir} is \code{TRUE},
 this is ignored.}
 
 \item{clear_cache}{logical indicating whether to disable the
@@ -73,7 +67,7 @@ browser, asked to sign in to your Meetup account, and to grant \code{meetupr}
 permission to operate on your behalf. By default, these user credentials are
 saved to a file in your home directory whose path is saved in \code{.Renviron}
 as \code{MEETUPR_PAT}.
-If you set \code{set_env} to \code{FALSE} but \code{cache} to \code{TRUE},
+If you set \code{use_appdir} to \code{FALSE} but \code{cache} to \code{TRUE},
 they are cached in a file named \code{.httr-oauth} in the current working directory.
 To control where the file is saved, use \code{token_path}.
 
@@ -88,8 +82,7 @@ APIs on behalf of the authenticated user.
 
 
 Save this token somewhere on disk (\code{token_path} argument of \code{meetup_auth}).
-Set the environment variable \code{MEETUPR_PAT} to the path to that file.
-Call \code{meetup_token_path()} and check it returns the right path.
+Then in future sessions call \code{meetup_auth()} with \code{token} set to that path.
 }
 
 \section{Advanced usage}{
@@ -121,16 +114,13 @@ arguments are controlled via options, which, if undefined at the time
 consumer key that ships with the package}
 \item{secret}{Set to option \code{meetupr.consumer_secret}, which defaults to
 a consumer secret that ships with the package}
-\item{cache}{Set to option \code{meetupr.httr_oauth_cache}, which defaults
-to \code{TRUE}}
 }
 
 To override these defaults in persistent way, predefine one or more of them
 with lines like this in a \code{.Rprofile} file:
 \preformatted{
 options(meetupr.consumer_key = "FOO",
-        meetupr.consumer_secret = "BAR",
-        meetupr.httr_oauth_cache = FALSE)
+        meetupr.consumer_secret = "BAR")
 }
 See \code{\link[base]{Startup}} for possible locations for this file and the
 implications thereof.

@@ -92,7 +92,7 @@ get_pro_events <- function(urlname,
   api_path <- sprintf("pro/%s/events", urlname)
   res <- .fetch_results(api_path = api_path, verbose = verbose)
 
-  group <- lapply(res, function(x) x[[3]])
+  group <- lapply(res, function(x) x[["chapter"]])
   group <- tibble(group_sorter(group), res = group)
   names(group) <- paste0("group_", names(group))
 
