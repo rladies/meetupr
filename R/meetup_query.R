@@ -16,7 +16,7 @@
 #'
 #' meetup_query("rladies-oslo")
 #'
-#' meetup_query("rladies-oslo", event_statue = "past")
+#' meetup_query("rladies-oslo/events", event_status = "past")
 #'
 #' }
 meetup_query <- function(api_path,

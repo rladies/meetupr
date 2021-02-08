@@ -1,29 +1,35 @@
-#' Get the current meetup members from a pro meetup group
+#' Meetup pro functions
+#'
+#' The pro functions only work if the querying users
+#' had a meetup pro account.
+#'
+#' \describe{
+#'   \item{get_pro_groups}{Get the current meetup members from a pro meetup group}
+#'   \item{get_pro_events}{Get pro group events for the enxt 30 days}
+#' }
 #'
 #' @template urlname
 #' @template verbose
 #'
-#' @return A tibble with the following columns:
-#'    * id
-#'    * name
-#'    * status
-#'    * founded
-#'    * members
-#'    * upcoming_events
-#'    * past events
-#'    * city
-#'    * country
-#'    * state
-#'    * lat
-#'    * lon
-#'    * urlname
 #' @references
 #' \url{https://www.meetup.com/meetup_api/docs/pro/:urlname/groups/}
+#' \url{https://www.meetup.com/meetup_api/docs/:urlname/events/#list}
+#'
 #' @examples
 #' \dontrun{
 #' urlname <- "rladies"
 #' members <- get_pro_groups(urlname)
+#'
+#' past_events <- get_events(urlname = urlname,
+#'                       event_status = "past")
+#' upcoming_events <- get_events(urlname = urlname,
+#'                       event_status = "upcoming")
 #'}
+#'
+#' @return A tibble with meetup information
+
+
+#' @rdname meetup_pro
 #' @export
 #' @importFrom purrr map_int map_chr map_dbl
 #' @importFrom tibble tibble
@@ -44,50 +50,12 @@ get_pro_groups <- function(urlname,
 }
 
 
-#' Get the events from a PRO meetup group
-#'
-#' This can only fetch events for the
-#' next 30 days.
-#'
-#' @template urlname
-#' @template verbose
-#'
-#' @return A tibble with the following columns:
-#'    * id
-#'    * name
-#'    * created
-#'    * status
-#'    * time
-#'    * local_date
-#'    * local_time
-#'    * waitlist_count
-#'    * yes_rsvp_count
-#'    * venue_id
-#'    * venue_name
-#'    * venue_lat
-#'    * venue_lon
-#'    * venue_address_1
-#'    * venue_city
-#'    * venue_state
-#'    * venue_zip
-#'    * venue_country
-#'    * description
-#'    * link
-#'    * resource
-#'
-#' @references
-#' \url{https://www.meetup.com/meetup_api/docs/:urlname/events/#list}
-#'@examples
-#' \dontrun{
-#' urlname <- "rladies"
-#' past_events <- get_events(urlname = urlname,
-#'                       event_status = "past")
-#' upcoming_events <- get_events(urlname = urlname,
-#'                       event_status = "upcoming")
-#'}
+#' @rdname meetup_pro
+#' @importFrom tibble tibble
 #' @export
 get_pro_events <- function(urlname,
-                           verbose = TRUE){
+                           verbose = getOption("meetupr.verbose", rlang::is_interactive())
+                           ){
 
   api_path <- sprintf("pro/%s/events", urlname)
   res <- .fetch_results(api_path = api_path, verbose = verbose)
