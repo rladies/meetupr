@@ -45,7 +45,7 @@ browser, asked to sign in to your Meetup account, and to grant meetupr
 permission to operate on your behalf. By default, these user credentials are
 saved to a file in your home directory whose path is saved in .Renviron
 as MEETUPR_PAT.
-If you set set_env to FALSE but cache to TRUE,
+If you set use_appdir to FALSE but cache to TRUE,
 they are cached in a file named .httr-oauth in the current working directory.
 To control where the file is saved, use token_path.
 If token is not already available, call meetup_auth to either
@@ -144,7 +144,7 @@ browser, asked to sign in to your Meetup account, and to grant <code>meetupr</co
 permission to operate on your behalf. By default, these user credentials are
 saved to a file in your home directory whose path is saved in <code>.Renviron</code>
 as <code>MEETUPR_PAT</code>.
-If you set <code>set_env</code> to <code>FALSE</code> but <code>cache</code> to <code>TRUE</code>,
+If you set <code>use_appdir</code> to <code>FALSE</code> but <code>cache</code> to <code>TRUE</code>,
 they are cached in a file named <code>.httr-oauth</code> in the current working directory.
 To control where the file is saved, use <code>token_path</code>.</p>
 <p>If token is not already available, call <code>meetup_auth</code> to either
@@ -161,7 +161,7 @@ APIs on behalf of the authenticated user.</p>
   secret <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span><span class='op'>(</span><span class='st'>"meetupr.consumer_secret"</span><span class='op'>)</span>,
   cache <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span><span class='op'>(</span><span class='st'>"meetupr.httr_oauth_cache"</span><span class='op'>)</span>,
   verbose <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span><span class='op'>(</span><span class='st'>"meetupr.verbose"</span>, <span class='fu'>rlang</span><span class='fu'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>,
-  set_renv <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span><span class='op'>(</span><span class='st'>"meetupr.set_renv"</span><span class='op'>)</span>,
+  use_appdir <span class='op'>=</span> <span class='cn'>TRUE</span>,
   token_path <span class='op'>=</span> <span class='cn'>NULL</span>
 <span class='op'>)</span>
 
@@ -180,7 +180,7 @@ APIs on behalf of the authenticated user.</p>
     <tr>
       <th>token</th>
       <td><p>optional; an actual token object or the path to a valid token
-stored as an <code>.rds</code> file</p></td>
+stored as an <code>.rds</code> file.</p></td>
     </tr>
     <tr>
       <th>new_user</th>
@@ -205,20 +205,14 @@ credentials in the default cache file <code>.httr-oauth</code> or <code>token_pa
 interactive sessions. Can be toggled by the <code>meetupr.verbose</code> option.</p></td>
     </tr>
     <tr>
-      <th>set_renv</th>
+      <th>use_appdir</th>
       <td><p>Logical indicating whether to save the created token
-as the default environment meetup token variable. Defaults to TRUE,
-meaning the token is saved to user's home directory as either the user
-provided path, or
-".meetup_token.rds" (or, if that already exists, then
-.meetup_token1.rds or .meetup_token2.rds, etc.) and the path to the
-token to said token is then set in the user's .Renviron file and re-
-read to start being used in current active session.
+in app dir as determined by <code><a href='https://rappdirs.r-lib.org/reference/user_data_dir.html'>rappdirs::user_data_dir("meetupr", "meetupr")</a></code>.
 If <code>cache</code> is <code>FALSE</code> this is ignored.</p></td>
     </tr>
     <tr>
       <th>token_path</th>
-      <td><p>Path where to save the token. If <code>set_renv</code> is <code>FALSE</code>,
+      <td><p>Path where to save the token. If <code>use_appdir</code> is <code>TRUE</code>,
 this is ignored.</p></td>
     </tr>
     <tr>
@@ -239,8 +233,7 @@ to <code>.httr-oauth-SUSPENDED</code></p></td>
 
 
 <p>Save this token somewhere on disk (<code>token_path</code> argument of <code>meetup_auth</code>).
-Set the environment variable <code>MEETUPR_PAT</code> to the path to that file.
-Call <code>meetup_token_path()</code> and check it returns the right path.</p>
+Then in future sessions call <code>meetup_auth()</code> with <code>token</code> set to that path.</p>
     <h2 class="hasAnchor" id="advanced-usage"><a class="anchor" href="#advanced-usage"></a>Advanced usage</h2>
 
     
@@ -270,16 +263,13 @@ arguments are controlled via options, which, if undefined at the time
 consumer key that ships with the package</p></dd>
 <dt>secret</dt><dd><p>Set to option <code>meetupr.consumer_secret</code>, which defaults to
 a consumer secret that ships with the package</p></dd>
-<dt>cache</dt><dd><p>Set to option <code>meetupr.httr_oauth_cache</code>, which defaults
-to <code>TRUE</code></p></dd>
 
 </dl>
 
 <p>To override these defaults in persistent way, predefine one or more of them
 with lines like this in a <code>.Rprofile</code> file:</p><pre>
 <span class='fu'><a href='https://rdrr.io/r/base/options.html'>options</a></span><span class='op'>(</span>meetupr.consumer_key <span class='op'>=</span> <span class='st'>"FOO"</span>,
-        meetupr.consumer_secret <span class='op'>=</span> <span class='st'>"BAR"</span>,
-        meetupr.httr_oauth_cache <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+        meetupr.consumer_secret <span class='op'>=</span> <span class='st'>"BAR"</span><span class='op'>)</span>
 </pre><p>See <code><a href='https://rdrr.io/r/base/Startup.html'>Startup</a></code> for possible locations for this file and the
 implications thereof.</p>
 <p>More detail is available from

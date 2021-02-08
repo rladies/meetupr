@@ -105,19 +105,13 @@
 <li><p>an access token. It’s an httr object and it can be saved to disk. It expires but can be refreshed. It contains secrets so it’s a sensitive file! For creating one you will be prompted to log into your meetup.com account in the browser. But then if you cache the token to disk, you won’t need to do that again. This means you can create a token on your computer locally and use it on a server (if the server is public, encrypting the token).</p></li>
 </ul>
 <p>Let’s go through workflows and ways to control how your token is created and cached.</p>
-<p>If you don’t tweak anything, the first time you run a meetupr function, you’ll be prompted to go into your browser and a token will be created.</p>
-<ul>
-<li>it will be saved to disk in your home directory e.g. under <code>/home/user/.meetup_token.rds</code>
-</li>
-<li>the path to the token will be added in .Renviron i.e. <code>MEETUPR_PAT=/home/maelle/.meetup_token.rds</code>
-</li>
-</ul>
+<p>If you don’t tweak anything, the first time you run a meetupr function, you’ll be prompted to go into your browser and a token will be created. It will be saved to disk in an app directory as determined by <code><a href="https://rappdirs.r-lib.org/reference/user_data_dir.html">rappdirs::user_data_dir("meetupr", "meetupr")</a></code></p>
 <p>And all the times you use meetupr again, this token will be used, and refreshed and re-saved as needed.</p>
 <p>This is, we hope, a sensible default.</p>
 <p>Now if you want to have a different behavior you either tweak options (in your .Rprofile so for all sessions in the future, or just in the current session), or call the <code><a href="../reference/meetup_auth.html">meetup_auth()</a></code> function directly.</p>
 <ul>
-<li>Don’t want to cache the token to disk? Use the “meetupr.httr_oauth_cache” option or the <code>cache</code> argument, to be set to <code>FALSE</code>.</li>
-<li>Don’t want to set a variable in .Renviron with the path to the token? Use the “meetupr.set_renv” option or the <code>set_renv</code> argument, to be set to <code>FALSE</code>. If it is false, the token will be cached to <code>.httr-oauth</code> (unless <code>cache</code> is FALSE too, of course)</li>
+<li>Don’t want to cache the token to disk? Use the <code>cache</code> argument, to be set to <code>FALSE</code>.</li>
+<li>Don’t want to use an app dir? Use the <code>use_appdir</code> argument, to be set to <code>FALSE</code>. If it is false, the token will be cached to <code>.httr-oauth</code> (unless <code>cache</code> is FALSE too, of course)</li>
 <li>Want to save the token to somewhere you choose? No way to use an option. Use the <code>token_path</code> argument of <code><a href="../reference/meetup_auth.html">meetup_auth()</a></code>.</li>
 <li>Want to use a token that was created elsewhere? Save it to disk, keep it secret, and refer to it via the <code>token</code> argument of <code><a href="../reference/meetup_auth.html">meetup_auth()</a></code> that can be either a token or the path to a token.</li>
 </ul>
@@ -139,13 +133,13 @@
 <span class="fu">meetupr</span><span class="fu">::</span><span class="fu"><a href="../reference/meetup_auth.html">meetup_auth</a></span><span class="op">(</span>
   token <span class="op">=</span> <span class="cn">NULL</span>,
   cache <span class="op">=</span> <span class="cn">TRUE</span>,
-  set_renv <span class="op">=</span> <span class="cn">FALSE</span>,
+  use_appdir <span class="op">=</span> <span class="cn">FALSE</span>,
   token_path <span class="op">=</span> <span class="va">token_path</span>
 <span class="op">)</span></code></pre></div>
 <p>We create a key and save it as an environment variable. We used an internal function for saving it, you could copy-paste it to .Renviron by hand (see also <code>usethis::edit_r_environ()</code>).</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># sodium_key &lt;- sodium::keygen()</span>
-<span class="co"># set_renv("MEETUPR_PWD" = sodium::bin2hex(sodium_key))</span></code></pre></div>
+<span class="co"># save an environment variable "MEETUPR_PWD" = sodium::bin2hex(sodium_key)</span></code></pre></div>
 <p>Using the key we encrypt the file. secret.rds will be committed to our repo!</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">key</span> <span class="op">&lt;-</span> <span class="fu">cyphr</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/cyphr/reference/key_sodium.html">key_sodium</a></span><span class="op">(</span><span class="fu">sodium</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sodium/man/helpers.html">hex2bin</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span><span class="op">(</span><span class="st">"MEETUPR_PWD"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
@@ -178,7 +172,7 @@
 
 <span class="va">token</span> <span class="op">&lt;-</span> <span class="fu">meetupr</span><span class="fu">::</span><span class="fu"><a href="../reference/meetup_auth.html">meetup_auth</a></span><span class="op">(</span>
   token <span class="op">=</span> <span class="va">token</span>,
-  set_renv <span class="op">=</span> <span class="cn">FALSE</span>,
+  use_appdir <span class="op">=</span> <span class="cn">FALSE</span>,
   cache <span class="op">=</span> <span class="cn">FALSE</span>
 <span class="op">)</span>
 
