@@ -2,9 +2,15 @@
 % Please edit documentation in R/get_pro.R
 \name{get_pro_groups}
 \alias{get_pro_groups}
-\title{Get the current meetup members from a pro meetup group}
+\alias{get_pro_events}
+\title{Meetup pro functions}
 \usage{
 get_pro_groups(
+  urlname,
+  verbose = getOption("meetupr.verbose", rlang::is_interactive())
+)
+
+get_pro_events(
   urlname,
   verbose = getOption("meetupr.verbose", rlang::is_interactive())
 )
@@ -17,32 +23,31 @@ get_pro_groups(
 interactive sessions. Can be toggled by the \code{meetupr.verbose} option.}
 }
 \value{
-A tibble with the following columns:
-\itemize{
-\item id
-\item name
-\item status
-\item founded
-\item members
-\item upcoming_events
-\item past events
-\item city
-\item country
-\item state
-\item lat
-\item lon
-\item urlname
-}
+A tibble with meetup information
 }
 \description{
-Get the current meetup members from a pro meetup group
+The pro functions only work if the querying users
+had a meetup pro account.
+}
+\details{
+\describe{
+\item{get_pro_groups}{Get the current meetup members from a pro meetup group}
+\item{get_pro_events}{Get pro group events for the enxt 30 days}
+}
 }
 \examples{
 \dontrun{
 urlname <- "rladies"
 members <- get_pro_groups(urlname)
+
+past_events <- get_events(urlname = urlname,
+                      event_status = "past")
+upcoming_events <- get_events(urlname = urlname,
+                      event_status = "upcoming")
 }
+
 }
 \references{
 \url{https://www.meetup.com/meetup_api/docs/pro/:urlname/groups/}
+\url{https://www.meetup.com/meetup_api/docs/:urlname/events/#list}
 }
