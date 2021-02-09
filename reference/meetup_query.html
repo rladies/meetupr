@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • meetupr</title>
+<title>General Meetup query — meetup_query • meetupr</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,15 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="General Meetup query — meetup_query" />
+<meta property="og:description" content="Create your own query to the Meetup API
+(https://www.meetup.com/meetup_api/docs/).
+This function is convenient if you want to create
+a query to other Meetup API endpoints that we
+have not created functions for. If you do create
+a function that queries a currently unsupported
+endpoint and a results tidier for this, we are happy
+to receive PR's with your suggestion." />
 
 
 
@@ -58,7 +66,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -118,90 +126,53 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>General Meetup query</h1>
+    
+    <div class="hidden name"><code>meetup_query.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Create your own query to the Meetup API
+(https://www.meetup.com/meetup_api/docs/).
+This function is convenient if you want to create
+a query to other Meetup API endpoints that we
+have not created functions for. If you do create
+a function that queries a currently unsupported
+endpoint and a results tidier for this, we are happy
+to receive PR's with your suggestion.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>meetup_query</span><span class='op'>(</span><span class='va'>api_path</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="find_groups.html">find_groups()</a></code> </p>
-        </td>
-        <td><p>Find meetup groups matching a search query</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_boards.html">get_boards()</a></code> </p>
-        </td>
-        <td><p>Get the discussion boards from a meetup group</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_event_attendees.html">get_event_attendees()</a></code> </p>
-        </td>
-        <td><p>Get the attendees for a specified event</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_event_comments.html">get_event_comments()</a></code> </p>
-        </td>
-        <td><p>Get the comments for a specified event</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_event_rsvps.html">get_event_rsvps()</a></code> </p>
-        </td>
-        <td><p>Get the RSVPs for a specified event</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_events.html">get_events()</a></code> </p>
-        </td>
-        <td><p>Get the events from a meetup group</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_members.html">get_members()</a></code> </p>
-        </td>
-        <td><p>Get the current meetup members from a meetup group</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="meetup_pro.html">get_pro_groups()</a></code> <code><a href="meetup_pro.html">get_pro_events()</a></code> </p>
-        </td>
-        <td><p>Meetup pro functions</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="meetup_query.html">meetup_query()</a></code> </p>
-        </td>
-        <td><p>General Meetup query</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>api_path</th>
+      <td><p>url path to send the meetup query after the 'https://api.meetup.com/'</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>additional parameters to the query</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>raw list results from the query, not tidied</p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+
+<span class='fu'>meetup_query</span><span class='op'>(</span><span class='st'>"rladies-oslo"</span><span class='op'>)</span>
+
+<span class='fu'>meetup_query</span><span class='op'>(</span><span class='st'>"rladies-oslo/events"</span>, event_status <span class='op'>=</span> <span class='st'>"past"</span><span class='op'>)</span>
+
+<span class='op'>}</span>
+</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • meetupr</title>
+<title>Meetup pro functions — get_pro_groups • meetupr</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,9 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Meetup pro functions — get_pro_groups" />
+<meta property="og:description" content="The pro functions only work if the querying users
+had a meetup pro account." />
 
 
 
@@ -58,7 +60,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -118,90 +120,73 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Meetup pro functions</h1>
+    
+    <div class="hidden name"><code>meetup_pro.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>The pro functions only work if the querying users
+had a meetup pro account.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>get_pro_groups</span><span class='op'>(</span>
+  <span class='va'>urlname</span>,
+  verbose <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span><span class='op'>(</span><span class='st'>"meetupr.verbose"</span>, <span class='fu'>rlang</span><span class='fu'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>)</span>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="find_groups.html">find_groups()</a></code> </p>
-        </td>
-        <td><p>Find meetup groups matching a search query</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_boards.html">get_boards()</a></code> </p>
-        </td>
-        <td><p>Get the discussion boards from a meetup group</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_event_attendees.html">get_event_attendees()</a></code> </p>
-        </td>
-        <td><p>Get the attendees for a specified event</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_event_comments.html">get_event_comments()</a></code> </p>
-        </td>
-        <td><p>Get the comments for a specified event</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_event_rsvps.html">get_event_rsvps()</a></code> </p>
-        </td>
-        <td><p>Get the RSVPs for a specified event</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_events.html">get_events()</a></code> </p>
-        </td>
-        <td><p>Get the events from a meetup group</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="get_members.html">get_members()</a></code> </p>
-        </td>
-        <td><p>Get the current meetup members from a meetup group</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="meetup_pro.html">get_pro_groups()</a></code> <code><a href="meetup_pro.html">get_pro_events()</a></code> </p>
-        </td>
-        <td><p>Meetup pro functions</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="meetup_query.html">meetup_query()</a></code> </p>
-        </td>
-        <td><p>General Meetup query</p></td>
-      </tr>
-    </tbody>
+<span class='fu'>get_pro_events</span><span class='op'>(</span>
+  <span class='va'>urlname</span>,
+  verbose <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span><span class='op'>(</span><span class='st'>"meetupr.verbose"</span>, <span class='fu'>rlang</span><span class='fu'>::</span><span class='fu'><a href='https://rlang.r-lib.org/reference/is_interactive.html'>is_interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>urlname</th>
+      <td><p>Character. The name of the group as indicated in the
+<a href='https://meetup.com'>https://meetup.com</a> url.</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>logical; do you want informative messages? <code>TRUE</code> by default in
+interactive sessions. Can be toggled by the <code>meetupr.verbose</code> option.</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A tibble with meetup information</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    
+<dl>
+<dt>get_pro_groups</dt><dd><p>Get the current meetup members from a pro meetup group</p></dd>
+<dt>get_pro_events</dt><dd><p>Get pro group events for the enxt 30 days</p></dd>
+
+</dl>
+
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p><a href='https://www.meetup.com/meetup_api/docs/pro/:urlname/groups/'>https://www.meetup.com/meetup_api/docs/pro/:urlname/groups/</a>
+<a href='https://www.meetup.com/meetup_api/docs/:urlname/events/#list'>https://www.meetup.com/meetup_api/docs/:urlname/events/#list</a></p>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>urlname</span> <span class='op'>&lt;-</span> <span class='st'>"rladies"</span>
+<span class='va'>members</span> <span class='op'>&lt;-</span> <span class='fu'>get_pro_groups</span><span class='op'>(</span><span class='va'>urlname</span><span class='op'>)</span>
+
+<span class='va'>past_events</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_events.html'>get_events</a></span><span class='op'>(</span>urlname <span class='op'>=</span> <span class='va'>urlname</span>,
+                      event_status <span class='op'>=</span> <span class='st'>"past"</span><span class='op'>)</span>
+<span class='va'>upcoming_events</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_events.html'>get_events</a></span><span class='op'>(</span>urlname <span class='op'>=</span> <span class='va'>urlname</span>,
+                      event_status <span class='op'>=</span> <span class='st'>"upcoming"</span><span class='op'>)</span>
+<span class='op'>}</span>
+
+</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
