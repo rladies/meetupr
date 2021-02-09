@@ -20,7 +20,7 @@ Create your own query to the Meetup API
 This function is convenient if you want to create
 a query to other Meetup API endpoints that we
 have not created functions for. If you do create
-a function that quieries a currently unsupported
+a function that queries a currently unsupported
 endpoint and a results tidier for this, we are happy
 to receive PR's with your suggestion.
 }
