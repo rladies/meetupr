@@ -4,8 +4,13 @@
 \alias{find_groups}
 \title{Find meetup groups matching a search query}
 \usage{
-find_groups(text = NULL, topic_id = NULL, radius = "global",
-  api_key = NULL)
+find_groups(
+  text = NULL,
+  topic_id = NULL,
+  radius = "global",
+  fields = NULL,
+  verbose = getOption("meetupr.verbose", rlang::is_interactive())
+)
 }
 \arguments{
 \item{text}{Character. Raw full text search query.}
@@ -15,10 +20,10 @@ find_groups(text = NULL, topic_id = NULL, radius = "global",
 \item{radius}{can be either "global" (default) or distance in miles in the
 range 0-100.}
 
-\item{api_key}{Character. Your api key. Defaults to checking your environment
-for a parameter called "MEETUP_KEY" via \code{Sys.getenv("MEETUP_KEY")}. This key can be
-obtained from \url{https://secure.meetup.com/meetup_api/key/}. To set the environment variable
-run \code{Sys.setenv(MEETUP_KEY = "PASTE YOUR MEETUP KEY HERE")}.}
+\item{fields}{Character. Optional fields that are not returned by default.}
+
+\item{verbose}{logical; do you want informative messages? \code{TRUE} by default in
+interactive sessions. Can be toggled by the \code{meetupr.verbose} option.}
 }
 \value{
 A tibble with the following columns:
@@ -51,9 +56,20 @@ Find meetup groups matching a search query
 }
 \examples{
 \dontrun{
+<<<<<<< HEAD
 api_key <- Sys.getenv("MEETUP_KEY")
 groups <- find_groups(text = "r-ladies", api_key = api_key)
 groups <- find_groups(topic_id = 1513883, api_key = api_key)
+=======
+groups <- find_groups(text = "r-ladies")
+groups <- find_groups(topic_id = 1513883)
+groups <- find_groups(text = "r-ladies", fields = "past_event_count,
+ upcoming_event_count")
+past_event_counts <- purrr::map_dbl(groups$resource, "past_event_count",
+ .default = 0)
+upcoming_event_counts <- purrr::map_dbl(groups$resource, "upcoming_event_count",
+ .default = 0)
+>>>>>>> master
 }
 }
 \references{

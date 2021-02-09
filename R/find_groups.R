@@ -4,7 +4,8 @@
 #' @param topic_id  Integer. Meetup.com topic ID.
 #' @param radius can be either "global" (default) or distance in miles in the
 #' range 0-100.
-#' @template api_key
+#' @param fields Character. Optional fields that are not returned by default.
+#' @template verbose
 #'
 #' @return A tibble with the following columns:
 #'    * id
@@ -34,39 +35,46 @@
 #' \url{https://www.meetup.com/meetup_api/docs/find/topics/}
 #'@examples
 #' \dontrun{
-#' api_key <- Sys.getenv("MEETUP_KEY")
-#' groups <- find_groups(text = "r-ladies", api_key = api_key)
-#' groups <- find_groups(topic_id = 1513883, api_key = api_key)
+#' groups <- find_groups(text = "r-ladies")
+#' groups <- find_groups(topic_id = 1513883)
+#' groups <- find_groups(text = "r-ladies", fields = "past_event_count,
+#'  upcoming_event_count")
+#' past_event_counts <- purrr::map_dbl(groups$resource, "past_event_count",
+#'  .default = 0)
+#' upcoming_event_counts <- purrr::map_dbl(groups$resource, "upcoming_event_count",
+#'  .default = 0)
 #'}
 #' @export
-find_groups <- function(text = NULL, topic_id = NULL, radius = "global", api_key = NULL) {
-  api_method <- "find/groups"
-  res <- .fetch_results(api_method = api_method,
-                        api_key = api_key,
+#' @importFrom purrr map_dbl map_int map_chr
+#' @importFrom tibble tibble
+find_groups <- function(text = NULL, topic_id = NULL, radius = "global",
+                        fields = NULL,
+                        verbose = getOption("meetupr.verbose", rlang::is_interactive())) {
+
+  res <- .fetch_results(api_path = "find/groups",
                         text = text,
-                        topic_id = topic_id,
-                        radius = radius)
-  tibble::tibble(
-    id = purrr::map_int(res, "id"),
-    name = purrr::map_chr(res, "name"),
-    urlname = purrr::map_chr(res, "urlname"),
-    created = .date_helper(purrr::map_dbl(res, "created")),
-    members = purrr::map_int(res, "members"),
-    status = purrr::map_chr(res, "status"),
-    organizer = purrr::map_chr(res, c("organizer", "name")),
-    lat = purrr::map_dbl(res, "lat"),
-    lon = purrr::map_dbl(res, "lon"),
-    city = purrr::map_chr(res, "city"),
-    state = purrr::map_chr(res, "state", .null = NA),
-    country = purrr::map_chr(res, "country"),
-    timezone = purrr::map_chr(res, "timezone", .null = NA),
-    join_mode = purrr::map_chr(res, "join_mode", .null = NA),
-    visibility = purrr::map_chr(res, "visibility", .null = NA),
-    who = purrr::map_chr(res, "who", .null = NA),
-    organizer_id = purrr::map_int(res, c("organizer", "id")),
-    organizer_name = purrr::map_chr(res, c("organizer", "name")),
-    category_id = purrr::map_int(res, c("category", "id"), .null = NA),
-    category_name = purrr::map_chr(res, c("category", "name"), .null = NA),
+                        topic_id = .collapse(topic_id),
+                        fields = .collapse(fields),
+                        radius = radius,
+                        verbose = verbose)
+
+  base <- group_sorter(res)
+  base$country = NULL
+
+  tibble(
+    base,
+    country = map_chr(res, "localized_country_name"),
+    created = .date_helper(map_dbl(res, "created")),
+    members = map_int(res, "members"),
+    timezone = map_chr(res, "timezone", .default = NA),
+    join_mode = map_chr(res, "join_mode", .default = NA),
+    visibility = map_chr(res, "visibility", .default = NA),
+    who = map_chr(res, "who", .default = NA),
+    location = map_chr(res, "localized_location"),
+    organizer_id = map_int(res, c("organizer", "id")),
+    organizer_name = map_chr(res, c("organizer", "name")),
+    category_id = map_int(res, c("category", "id"), .default = NA),
+    category_name = map_chr(res, c("category", "name"), .default = NA),
     resource = res
   )
 }

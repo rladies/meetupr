@@ -1,26 +1,78 @@
-Package: meetupr
 Type: Package
+Package: meetupr
 Title: Meetup R API
-Version: 0.1.1
-Authors@R: c(person("Michael", "Beigelmacher", role = c("ctb")),
-             person("Lucy", "D'Agostino McGowan", email = "lucy@rladies.org", role = c("aut")),
-             person("Gabriela", "De Queiroz", email = "gabriela@rladies.org", role = c("aut")),
-             person("Priyanka", "Gagneja", email = "priyankaigit@gmail.com", role = c("ctb")),
-             person("Erin", "LeDell", email = "oss@ledell.org", role = c("aut", "cre")),
-             person("Olga", "Mierzwa-Sulima", email = "olga@rladies.org", role = c("aut")),
-             person("Claudia", "Vitolo", role = c("aut")))
-Description: Provides access to data from 'meetup.com' (see https://www.meetup.com/meetup_api/ for more information).
+Version: 0.2.3.999
+Authors@R: 
+    c(person(given = "Erin",
+             family = "LeDell",
+             role = c("aut", "cre"),
+             email = "oss@ledell.org"),
+      person(given = "Olga",
+             family = "Mierzwa-Sulima",
+             role = "aut",
+             email = "olga@rladies.org"),
+      person(given = "Lucy",
+             family = "D'Agostino McGowan",
+             role = "aut",
+             email = "lucy@rladies.org"),
+      person(given = "Claudia",
+             family = "Vitolo",
+             role = "aut"),
+      person(given = "Gabriela",
+             family = "De Queiroz",
+             role = "ctb",
+             email = "gabriela@rladies.org"),
+      person(given = "Michael",
+             family = "Beigelmacher",
+             role = "ctb"),
+      person(given = "Augustina",
+             family = "Ragwitz",
+             role = "ctb",
+             email = "augustina.ragwitz@ibm.com"),
+      person(given = "Greg",
+             family = "Sutcliffe",
+             role = "ctb",
+             email = "github@emeraldverie.org"),
+      person(given = "Rick",
+             family = "Pack",
+             role = "ctb",
+             email = "rickeyhp@gmail.com"),
+      person(given = "Ben",
+             family = "Ubah",
+             role = "ctb",
+             email = "ubah.ben22@gmail.com"),
+      person(given = "Maëlle",
+             family = "Salmon",
+             role = "ctb",
+             email = "maelle.salmon@yahoo.se",
+             comment = c(ORCID = "0000-0002-2815-0399")),
+      person("Athanasia Mo", "Mowinckel", 
+                    email = "a.m.mowinckel@psykologi.uio.no", 
+                    role = c("ctb"),
+                    comment = c(ORCID = "0000-0002-5756-0223")))
+Description: Provides access to data from 'meetup.com' (see
+    https://www.meetup.com/meetup_api/ for more information).
 License: MIT + file LICENSE
 Depends:
-    R (>= 3.3)
+    R (>= 3.5)
 Imports:
+    ratelimitr,
     httr,
     purrr,
-    tibble
-RoxygenNote: 6.1.0
-Suggests: testthat,
-    here,
+    tibble,
+    withr,
+    rlang,
+    rappdirs
+Suggests:
+    sodium,
+    cyphr,
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat,
+    vcr
+VignetteBuilder: 
+    knitr
+Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-VignetteBuilder: knitr
+RoxygenNote: 7.1.1.9000
+Config/testthat/edition: 3

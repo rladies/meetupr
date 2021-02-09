@@ -11,57 +11,47 @@ knitr::opts_chunk$set(
   fig.path = "README-"
 )
 
+# If emo is not installed, install it.
 # devtools::install_github("hadley/emo")
 ```
 
 # meetupr
-[![Build Status](https://travis-ci.org/rladies/meetupr.svg?branch=master)](https://travis-ci.org/rladies/meetupr)
+<!-- badges: start -->
+  [![R-CMD-check](https://github.com/rladies/meetupr/workflows/R-CMD-check/badge.svg)](https://github.com/rladies/meetupr/actions)
+  <!-- badges: end -->
 
-R interface to the Meetup API (v3)
 
-**Authors:** [Lucy D'Agostino McGowan](http://www.lucymcgowan.com), [Gabriela de Queiroz](http://gdequeiroz.github.io/), [Erin LeDell](http://www.stat.berkeley.edu/~ledell/), [Olga Mierzwa-Sulima](https://github.com/olgamie), [Claudia Vitolo](https://github.com/cvitolo)<br/> [MIT](https://opensource.org/licenses/MIT)
-**License:** [MIT](https://opensource.org/licenses/MIT)
+R interface to the [Meetup API](https://www.meetup.com/meetup_api/) (v3)
 
 ## Installation
 
 To install the development version from GitHub:
 
 ```{r gh-installation, eval = FALSE}
-# install.packages("devtools")
-devtools::install_github("rladies/meetupr")
+# install.packages("remotes")
+remotes::install_github("rladies/meetupr")
 ```
-A released version will be on CRAN soon.
+A released version will be on CRAN [soon](https://github.com/rladies/meetupr/issues/24).
 
 ## Usage
 
-To use this package, you will first need to get your meetup API key. To do so, go to this link: [https://secure.meetup.com/meetup_api/key/](https://secure.meetup.com/meetup_api/key/)
+### Authentication
 
-Once you have your key, save it as an environment variable for the current session by running the following:
+#### API key? No
 
-```{r, eval = FALSE}
-Sys.setenv(MEETUP_KEY = "PASTE YOUR MEETUP KEY HERE")
+```{r child='man/rmd-fragments/api-key.Rmd'} 
 ```
 
-Alternatively, you can set it permanently with the help of `usethis::edit_r_environ()` by adding the line to your `.Renviron`: 
+#### OAuth? Yes
 
+```{r child='man/rmd-fragments/oauth.Rmd'} 
 ```
-MEETUP_KEY=PASTE YOUR MEETUP KEY HERE
-```
 
-If you don't want to save it here, you can input it in each function using the `api_key` parameter (just be sure not to send any documents with your key to GitHub `r emo::ji("speak_no_evil")`).
+### Functions
 
-We currently have the following functions:
+See the [pkgdown reference](https://rladies.github.io/meetupr/reference/index.html).
 
-* `get_members()`
-* `get_boards()`
-* `get_events()`  
-* `get_event_attendees()`  
-* `get_event_comments()`
-* `get_event_rsvps()`
-* `find_groups()`
-* `find_topics()`
-
-Each will output a tibble with information extracted into from the API as well as a `list-col` named `*_resource` with all API output. For example, the following code will get all upcoming events for the [R-Ladies San Francisco](https://meetup.com/rladies-san-francisco) meetup.
+For example, the following code will get all upcoming events for the [R-Ladies San Francisco](https://meetup.com/rladies-san-francisco) meetup.
 
 ```{r}
 library(meetupr)
@@ -71,24 +61,16 @@ events <- get_events(urlname, "past")
 dplyr::arrange(events, desc(created))
 ```
 
+Next we can look up all R-Ladies groups by "topic id".  You can find topic ids for associated tags by querying [here](https://secure.meetup.com/meetup_api/console/?path=/find/topics).  The `topic_id` for topic, "R-Ladies", is `1513883`.
+
+```{r}
+groups <- find_groups(topic_id = 1513883)
+dplyr::arrange(groups, desc(created))
+```
+
 
 ## How can you contribute?
 
-Take a look at some resources:
+We are looking for new people to join the list of contributors!  Please take a look at the open [issues](https://github.com/rladies/meetupr/issues), file a new issue, contribute tests, or improve the documentation.  We are also looking to expand the set of functions to include more endpoints from the [Meetup API](https://www.meetup.com/meetup_api/).  Lastly, we'd also love to [hear about](https://github.com/rladies/meetupr/issues/74) any applications of the **meetupr** package, so we can compile a list of demos!
 
-- [https://www.meetup.com/meetup_api/](https://www.meetup.com/meetup_api/)
-- [https://www.meetup.com/meetup_api/clients/](https://www.meetup.com/meetup_api/clients/)
-
-
-
-In order to run our tests, you will have to set the `urlname` for meetup you belong to as an environment variable using the following code:
-```{r, eval = FALSE}
-Sys.setenv(MEETUP_NAME = "YOUR MEETUP NAME")
-```
-
-### TODO:
-- add tests
-
---
-
-Please note that the 'meetupr' project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
+Please note that the this project is released with a [Contributor Code of Conduct](https://github.com/rladies/.github/blob/master/CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.

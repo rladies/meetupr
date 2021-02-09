@@ -3,7 +3,7 @@
 #' @template urlname
 #' @param event_id Character. The id of the event. Event ids can be obtained
 #'   using [get_events()] or by looking at the event page URL.
-#' @template api_key
+#' @template verbose
 #'
 #' @return A tibble with the following columns:
 #'    * id
@@ -21,22 +21,17 @@
 #' attendees <- get_event_attendees(urlname, event_id)
 #'}
 #' @export
-get_event_attendees <- function(urlname, event_id, api_key = NULL) {
-  api_method <- paste0(urlname,
-                    "/events/",
-                    event_id,
-                    "/attendance")
-  res <- .fetch_results(api_method, api_key)
+get_event_attendees <- function(urlname, event_id,
+                                verbose = getOption("meetupr.verbose", rlang::is_interactive())) {
+  api_path <- sprintf("%s/events/%s/attendance",
+                        urlname, event_id)
+
+  res <- .fetch_results(api_path = api_path, verbose = verbose)
   tibble::tibble(
     id = purrr::map_int(res, c("member", "id")),
     name = purrr::map_chr(res, c("member", "name")),
-    status = purrr::map_chr(res, "status"),  #currently always "attended" so this is not very useful
-    # rsvp_response = purrr::map_chr(res, c("rsvp", "response"))  #for future after fix status ^^
+    bio = purrr::map_chr(res, c("member", "bio"), .default = NA),
+    rsvp_response = purrr::map_chr(res, c("rsvp", "response")),
     resource = res
   )
 }
-
-
-
-
-

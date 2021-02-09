@@ -1,6 +1,3 @@
-#' meetupr
-#'
-#' @name meetupr
-#' @docType package
+#' @keywords internal
 #' @importFrom purrr %||%
-NULL
+"_PACKAGE"

@@ -1,10 +1,22 @@
-# meetupr 0.1.1
+# meetupr development version
 
+## Breaking changes
+
+* All mentions of and arguments related to API keys have been removed as the Meetup API no longer supports authentication with an API key.
+
+## New features
+
+* Added automatic rate limiting based on the response headers.
+* Added support for non-interactive use.
+* Added functions for getting pro events and groups.
 * Added `get_event_rsvps()` function.  Contribution by Michael Beigelmacher: https://github.com/rladies/meetupr/pull/19
 * Added `topic_id` argument to the `find_groups()` function so you can find all the groups related to precise topics (e.g. "R-Ladies") instead of a fuzzy text based search.
 * Added `find_topics()` function so you can find meetup.com topic IDs.  Contribution by Priyanka Gagneja: https://github.com/rladies/meetupr/pull/49
  for use in the `find_groups()` function.
- 
+## Internals
+
+* Renamed `api_method` to `api_path` in internal function, `.fetch_results()`, as it's less confusing.
+
 
 # meetupr 0.1.0
 

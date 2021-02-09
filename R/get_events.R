@@ -9,8 +9,8 @@
 #'  * proposed
 #'  * suggested
 #'  * upcoming
-#'
-#' @template api_key
+#' @param fields Character, character vector or characters separated by comma (e.g "event_hosts" or c("event_hosts","attendance_count") or "event_hosts, group_past_event_count").
+#' @template verbose
 #'
 #' @return A tibble with the following columns:
 #'    * id
@@ -44,41 +44,30 @@
 #'                       event_status = "past")
 #' upcoming_events <- get_events(urlname = urlname,
 #'                       event_status = "upcoming")
+#' past_meetings <- get_events(urlname = urlname,
+#'                  event_status = "past",
+#'                  fields = "event_hosts")
+#' # get events hosts (co-organizers) of single past meeting
+#' single_event <- past_meetings$resource[[1]]$event_hosts
+#'
+#' # get all event hosts names (2) and host_counts (6) for that single event
+#' # host_counts represents how events the person has co-organized or hosted.
+#' do.call("rbind", lapply(single_event, '[', c(2,6)))
+
 #'}
 #' @export
-get_events <- function(urlname, event_status = "upcoming", api_key = NULL) {
-  if (!is.null(event_status) &&
-     !event_status %in% c("cancelled", "draft", "past", "proposed", "suggested", "upcoming")) {
-    stop(sprintf("Event status %s not allowed", event_status))
-  }
-  # If event_status contains multiple statuses, we can pass along a comma sep list
-  if (length(event_status) > 1) {
-    event_status <- paste(event_status, collapse = ",")
-  }
-  api_method <- paste0(urlname, "/events")
-  res <- .fetch_results(api_method, api_key, event_status)
-  tibble::tibble(
-    id = purrr::map_chr(res, "id"),  #this is returned as chr (not int)
-    name = purrr::map_chr(res, "name"),
-    created = .date_helper(purrr::map_dbl(res, "created")),
-    status = purrr::map_chr(res, "status"),
-    time = .date_helper(purrr::map_dbl(res, "time")),
-    local_date = as.Date(purrr::map_chr(res, "local_date")),
-    local_time = purrr::map_chr(res, "local_time", .null = NA),
-    # TO DO: Add a local_datetime combining the two above?
-    waitlist_count = purrr::map_int(res, "waitlist_count"),
-    yes_rsvp_count = purrr::map_int(res, "yes_rsvp_count"),
-    venue_id = purrr::map_int(res, c("venue", "id"), .null = NA),
-    venue_name = purrr::map_chr(res, c("venue", "name"), .null = NA),
-    venue_lat = purrr::map_dbl(res, c("venue", "lat"), .null = NA),
-    venue_lon = purrr::map_dbl(res, c("venue", "lon"), .null = NA),
-    venue_address_1 = purrr::map_chr(res, c("venue", "address_1"), .null = NA),
-    venue_city = purrr::map_chr(res, c("venue", "city"), .null = NA),
-    venue_state = purrr::map_chr(res, c("venue", "state"), .null = NA),
-    venue_zip = purrr::map_chr(res, c("venue", "zip"), .null = NA),
-    venue_country = purrr::map_chr(res, c("venue", "country"), .null = NA),
-    description = purrr::map_chr(res, c("description"), .null = NA),
-    link = purrr::map_chr(res, c("link")),
-    resource = res
+get_events <- function(urlname,
+                       event_status = c("upcoming", "cancelled", "draft", "past", "proposed", "suggested"),
+                       fields = NULL,
+                       verbose = getOption("meetupr.verbose", rlang::is_interactive())) {
+
+  match.arg(event_status)
+  res <- .fetch_results(
+    sprintf("%s/events", urlname),
+    .collapse(event_status),
+    fields = .collapse(fields),
+    verbose = verbose
   )
+
+  event_sorter(res)
 }

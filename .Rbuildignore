@@ -6,5 +6,11 @@
 ^README-.*\.png$
 ^README\.Rmd$
 ^man-roxygen$
-
 ^\.github$
+^\.httr-oauth$
+^CODE_OF_CONDUCT\.md$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^tests/testthat/\.meetup_token\.rds$
+^~/\.local/share/meetupr/meetupr-token\.rds$

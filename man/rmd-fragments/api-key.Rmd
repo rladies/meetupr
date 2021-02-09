@@ -1,0 +1,1 @@
+As of August 15, 2019, Meetup.com switched from an API key based authentication system to OAuth 2.0, so we added support for OAuth.  

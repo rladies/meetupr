@@ -1,0 +1,90 @@
+http_interactions:
+- request:
+    method: get
+    uri: https://api.meetup.com/find/groups?offset=0&text=R-Ladies&topic_id=&fields=&radius=1
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      Accept: application/json, text/xml, application/xml, */*
+      Authorization: not my bearer token
+  response:
+    status:
+      status_code: 200
+      category: Success
+      reason: OK
+      message: 'Success: (200) OK'
+    headers:
+      content-type: application/json; charset=utf-8
+      server: Apache/2.4.39 (Unix) OpenSSL/1.1.1c
+      x-meetup-server: ip-10-192-13-41
+      x-meetup-request-id: 1298a8d3-9a0c-4a4d-b293-812ec9bfbbdb
+      x-oauth-scopes: basic
+      x-accepted-oauth-scopes: basic
+      x-ratelimit-limit: '30'
+      x-ratelimit-remaining: '29'
+      x-ratelimit-reset: '10'
+      x-total-count: '1'
+      etag: '"491e93d4674075e64a1d798d8863c4f5-gzip"'
+      content-encoding: gzip
+      accept-ranges: bytes
+      date: Tue, 12 Jan 2021 09:32:27 GMT
+      via: 1.1 varnish
+      x-served-by: cache-cdg20755-CDG
+      x-cache: MISS
+      x-cache-hits: '0'
+      x-timer: S1610443947.000649,VS0,VE448
+      vary: Accept-Encoding,User-Agent,Accept-Language
+      content-length: '2164'
+    body:
+      encoding: UTF-8
+      file: no
+      string: '[{"score":7540.0,"id":28887085,"name":"R-Ladies Remote","status":"active","link":"https://www.meetup.com/rladies-remote/","urlname":"rladies-remote","description":"<p>R-Ladies
+        Remote welcomes members of all R proficiency levels, whether you''re a new
+        or aspiring R user, or an experienced R programmer interested in mentoring,
+        networking & expert upskilling. Our community is designed to develop our members''
+        R skills & knowledge through social, collaborative learning & sharing. Supporting
+        minority identity access to STEM skills & careers, the Free Software Movement,
+        and contributing to the global R community! <br>A local chapter of R-Ladies
+        Global, R-Ladies Remote exists to promote gender diversity in the R community
+        worldwide. We are pro-actively inclusive of queer, trans, and all minority
+        identities, with additional sensitivity to intersectional identities. Our
+        priority is to provide a safe community space for anyone identifying as a
+        minority gender who is interested in and/or working with R. As a founding
+        principle, there is no cost or charge to participate in any of our R-Ladies
+        communities around the world. <br>We are part of Global R-Ladies group. You
+        can access our presentations, R scripts, and Projects on our Github account
+        and follow us on twitter to stay up to date about R-Ladies news! <br><br></p>\n<p>Website:
+        <a href=\"https://www.rladies.org\" class=\"linkified\">https://www.rladies.org</a>
+        <br><br></p>\n<p>Twitter: @RLadiesGlobal ( <a href=\"https://twitter.com/RLadiesGlobal\"
+        class=\"linkified\">https://twitter.com/RLadiesGlobal</a> ) <br><br></p>\n<p>Github:
+        <a href=\"https://github.com/rladies\" class=\"linkified\">https://github.com/rladies</a>
+        <br><br></p>\n<p><i>PS Community Policies & Code of Conduct: <br>The leadership,
+        mentoring & teaching roles within this Community are held exclusively by minority
+        genders (majority gender speakers may be allowed/invited as one-off guests
+        in exceptional circumstances at the leadership team''s discretion). Due to
+        unexpected demand, we have opened learning participation to all genders, dependent
+        on initial and on-going vetting by the leadership team. However, the stated
+        priority of the R-Ladies communities is the development & support specifically
+        of those identifying as a minority gender, and we, therefore, reserve the
+        right to guard this interest through whatever measures the leadership team
+        deems appropriate. Anyone involved with R-Ladies Remote is expected to fully
+        respect each other, the mandate of this community, and the goodwill on which
+        R-Ladies is founded, or face expulsion/a penalty of any form, at the discretion
+        of the leadership team. <br></i><br></p>\n<p>Full community guidelines are
+        found here: <a href=\"https://github.com/rladies/starter-kit/wiki\" class=\"linkified\">https://github.com/rladies/starter-kit/wiki</a>
+        <br><br></p>\n<p><i>PPS Photos, Films and all other media/recordings: <br>Photos,
+        Films, and all other media/recordings: photographs and/or video/other media
+        will be taken at events held by this community. By taking part in an R-Ladies
+        Remote event you grant the community organizers full rights to use the images
+        resulting from the photography/video filming/media, and any reproductions
+        or adaptations of the images for publicity, fundraising or other purposes
+        to help achieve the community\u2019s aims. This might include (but is not
+        limited to), the right to use them in their printed and online publicity,
+        social media, press releases and funding applications. If you do not wish
+        to be recorded in these media please inform a community organizer.</i></p>","created":1529440266000,"city":"San
+        Francisco","untranslated_city":"San Francisco","country":"US","localized_country_name":"USA","localized_location":"San
+        Francisco, CA","region2":"","state":"CA","join_mode":"open","visibility":"public","lat":37.78,"lon":-122.42,"members":345,"member_pay_fee":false,"wepay_fee_deprecated":true,"organizer":{"id":251470805,"name":"R-Ladies
+        Global","bio":"R-Ladies Global.  https://rladies.org","photo":{"id":276031161,"highres_link":"https://secure.meetupstatic.com/photos/member/7/9/b/9/highres_276031161.jpeg","photo_link":"https://secure.meetupstatic.com/photos/member/7/9/b/9/member_276031161.jpeg","thumb_link":"https://secure.meetupstatic.com/photos/member/7/9/b/9/thumb_276031161.jpeg","type":"member","base_url":"https://secure.meetupstatic.com"}},"who":"R-Ladies","group_photo":{"id":472189772,"highres_link":"https://secure.meetupstatic.com/photos/event/c/2/6/c/highres_472189772.jpeg","photo_link":"https://secure.meetupstatic.com/photos/event/c/2/6/c/600_472189772.jpeg","thumb_link":"https://secure.meetupstatic.com/photos/event/c/2/6/c/thumb_472189772.jpeg","type":"event","base_url":"https://secure.meetupstatic.com"},"key_photo":{"id":472189695,"highres_link":"https://secure.meetupstatic.com/photos/event/c/2/1/f/highres_472189695.jpeg","photo_link":"https://secure.meetupstatic.com/photos/event/c/2/1/f/600_472189695.jpeg","thumb_link":"https://secure.meetupstatic.com/photos/event/c/2/1/f/thumb_472189695.jpeg","type":"event","base_url":"https://secure.meetupstatic.com"},"timezone":"US/Pacific","category":{"id":34,"name":"Tech","shortname":"tech","sort_name":"Tech"},"meta_category":{"id":292,"shortname":"tech","name":"Tech","sort_name":"Tech","photo":{"id":450131949,"highres_link":"https://secure.meetupstatic.com/photos/event/2/e/a/d/highres_450131949.jpeg","photo_link":"https://secure.meetupstatic.com/photos/event/2/e/a/d/600_450131949.jpeg","thumb_link":"https://secure.meetupstatic.com/photos/event/2/e/a/d/thumb_450131949.jpeg","type":"event","base_url":"https://secure.meetupstatic.com"},"category_ids":[34]},"pro_network":{"name":"R-Ladies","urlname":"rladies","number_of_groups":191,"network_url":"https://www.meetup.com/pro/rladies/"}}]'
+  recorded_at: 2021-01-12 09:32:27 GMT
+  recorded_with: vcr/0.6.0, webmockr/0.7.4

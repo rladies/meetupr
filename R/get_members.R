@@ -1,7 +1,7 @@
 #' Get the current meetup members from a meetup group
 #'
 #' @template urlname
-#' @template api_key
+#' @template verbose
 #'
 #' @return A tibble with the following columns:
 #'    * id
@@ -24,21 +24,22 @@
 #' members <- get_members(urlname)
 #'}
 #' @export
-get_members <- function(urlname, api_key = NULL){
-  api_method <- paste0(urlname, "/members/")
-  res <- .fetch_results(api_method, api_key)
+get_members <- function(urlname,
+                        verbose = getOption("meetupr.verbose", rlang::is_interactive())){
+  api_path <- paste0(urlname, "/members/")
+  res <- .fetch_results(api_path = api_path, verbose = verbose)
   tibble::tibble(
     id = purrr::map_int(res, "id"),
-    name = purrr::map_chr(res, "name", .null = NA),
-    bio = purrr::map_chr(res, "bio", .null = NA),
+    name = purrr::map_chr(res, "name", .default = NA),
+    bio = purrr::map_chr(res, "bio", .default = NA),
     status = purrr::map_chr(res, "status"),
-    joined = .date_helper(purrr::map_dbl(res, "joined")),
-    city = purrr::map_chr(res, "city", .null = NA),
-    country = purrr::map_chr(res, "country", .null = NA),
-    state = purrr::map_chr(res, "state", .null = NA),
-    lat = purrr::map_dbl(res, "lat", .null = NA),
-    lon = purrr::map_dbl(res, "lon", .null = NA),
-    photo_link = purrr::map_chr(res, c("photo", "photo_link"), .null = NA),
+    created = .date_helper(purrr::map_dbl(res, c("group_profile", "created"))),
+    city = purrr::map_chr(res, "city", .default = NA),
+    country = purrr::map_chr(res, "country", .default = NA),
+    state = purrr::map_chr(res, "state", .default = NA),
+    lat = purrr::map_dbl(res, "lat", .default = NA),
+    lon = purrr::map_dbl(res, "lon", .default = NA),
+    photo_link = purrr::map_chr(res, c("photo", "photo_link"), .default = NA),
     resource = res
   )
 }

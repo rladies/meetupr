@@ -1,73 +1,118 @@
+# Wrapper for messages, spotted in googlesheets3
+spf <- function(...) stop(sprintf(...), call. = FALSE)
+
 # This helper function makes a single call, given the full API endpoint URL
 # Used as the workhorse function inside .fetch_results() below
-.quick_fetch <- function(api_url,
-                         api_key = NULL,
-                         event_status = NULL,
-                         ...) {
 
+.meetup_call <- function(api_path,
+                         event_status = NULL,
+                         offset = 0,
+                         verbose = NULL,
+                         ...) {
   # list of parameters
-  parameters <- list(key = api_key,         # your api_key
-                     status = event_status, # you need to add the status
+  parameters <- list(status = event_status, # you need to add the status
                      # otherwise it will get only the upcoming event
+                     offset = offset,
                      ...                    # other parameters
   )
 
-  req <- httr::GET(url = api_url,          # the endpoint
-                   query = parameters)
+  req <- httr::GET(url = meetup_api_prefix(),          # the host
+                   path = api_path,                  # path to append
+                   query = parameters,
+                   config = meetup_token()
+  )
+
+  if (req$status_code == 400) {
+    stop("HTTP 400 Bad Request error encountered for: ",
+         api_path,".\n As of June 30, 2020, this may be ",
+                "because a presumed bug with the Meetup API ",
+                "causes this error for a future event. Please ",
+                "confirm the event has ended.",
+         call. = FALSE)
+  }
 
   httr::stop_for_status(req)
+
+  headers <- httr::headers(req)
+
+  assign(
+    "meetupr_rate",
+    c(headers$`x-ratelimit-limit`, headers$`x-ratelimit-reset`),
+    envir = .meetupr_env
+    )
+
   reslist <- httr::content(req, "parsed")
 
   if (length(reslist) == 0) {
-    stop("Zero records match your filter. Nothing to return.\n",
-         call. = FALSE)
+    if(verbose) {
+      cat("Zero records match your filter. Nothing to return.\n")
+    }
+    return(NULL)
   }
 
   return(list(result = reslist, headers = req$headers))
 }
+# from https://stackoverflow.com/questions/34254716/how-to-define-hidden-global-variables-inside-r-packages
+.meetupr_env <- new.env(parent=emptyenv())
+assign("meetupr_rate", c(30, 10), envir=.meetupr_env)
 
+meetup_call <- ratelimitr::limit_rate(
+  .meetup_call,
+  rate = ratelimitr::rate(
+    .meetupr_env[["meetupr_rate"]][1],
+    .meetupr_env[["meetupr_rate"]][2]
+  )
+)
+
+
+meetup_api_prefix <- function() {
+
+  Sys.getenv("MEETUP_API_URL", "https://api.meetup.com/")
+}
 
 # Fetch all the results of a query given an API Method
 # Will make multiple calls to the API if needed
 # API Methods listed here: https://www.meetup.com/meetup_api/docs/
-.fetch_results <- function(api_method, api_key = NULL, event_status = NULL, ...) {
-
-  # Build the API endpoint URL
-  meetup_api_prefix <- "https://api.meetup.com/"
-  api_url <- paste0(meetup_api_prefix, api_method)
-
-  # Get the API key from MEETUP_KEY environment variable if NULL
-  if (is.null(api_key)) api_key <- .get_api_key()
-  if (!is.character(api_key)) stop("api_key must be a character string")
+.fetch_results <- function(api_path, event_status = NULL, verbose = TRUE, ...) {
 
   # Fetch first set of results (limited to 200 records each call)
-  res <- .quick_fetch(api_url = api_url,
-                      api_key = api_key,
+  res <- meetup_call(api_path = api_path,
                       event_status = event_status,
+                      offset = 0,
+                      verbose = verbose,
                       ...)
 
   # Total number of records matching the query
   total_records <- as.integer(res$headers$`x-total-count`)
   if (length(total_records) == 0) total_records <- 1L
   records <- res$result
-  cat(paste("Downloading", total_records, "record(s)..."))
 
-  # If you have not yet retrieved all records, calculate the # of remaining calls required
-  extra_calls <- ifelse(
-    (length(records) < total_records) & !is.null(res$headers$link),
-    floor(total_records/length(records)),
-    0)
-  if (extra_calls > 0) {
+  if (total_records == 0) {
+    return(res$result)
+  }
+
+  if(verbose) cat("Downloading", total_records, "record(s)...\n", sep = " ")
+
+  if((length(records) < total_records) & !is.null(res$headers$link)){
+
+    # calculate number of offsets for records above 200
+    offsetn <- ceiling(total_records/length(records))
     all_records <- list(records)
-    for (i in seq(extra_calls)) {
-      # Keep making API requests with an increasing offset value until you get all the records
-      # TO DO: clean this strsplit up or replace with regex
+
+    for(i in 1:(offsetn - 1)) {
+      res <- meetup_call(api_path = api_path,
+                          event_status = event_status,
+                          offset = i,
+                          ...)
 
       next_url <- strsplit(strsplit(res$headers$link, split = "<")[[1]][2], split = ">")[[1]][1]
-      res <- .quick_fetch(next_url, api_key, event_status)
+      next_url <- gsub(meetup_api_prefix(), "", next_url)
+      res <- meetup_call(next_url, event_status)
+
       all_records[[i + 1]] <- res$result
     }
     records <- unlist(all_records, recursive = FALSE)
+
   }
 
   return(records)
@@ -93,12 +138,14 @@
   return(out)
 }
 
-# function to return meetup.com API key stored in the MEETUP_KEY environment variable
-.get_api_key <- function() {
-  api_key <- Sys.getenv("MEETUP_KEY")
-  if (api_key == "") {
-    stop("You have not set a MEETUP_KEY environment variable.\nIf you do not yet have a meetup.com API key, you can retrieve one here:\n  * https://secure.meetup.com/meetup_api/key/",
-         call. = FALSE)
-  }
-  return(api_key)
+# Helper to check event status
+.check_event_status <- function(event_status){
+  match.arg(event_status,
+            c("cancelled", "draft", "past", "proposed", "suggested", "upcoming"),
+            several.ok = TRUE)
 }
+
+.collapse = function(x){
+  paste(x, collapse = ",")
+}
+
