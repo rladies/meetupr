@@ -257,8 +257,7 @@ token_available <- function(verbose = TRUE) {
 #' APIs on behalf of the authenticated user.
 #'
 #' @param clear_cache logical indicating whether to disable the
-#'   \code{.httr-oauth} file in working directory, if such exists, by renaming
-#'   to \code{.httr-oauth-SUSPENDED}
+#'   token file, if such exists, by apprending "-SUSPENDED" to its name
 #' @template verbose
 #' @export
 #' @rdname meetup-auth

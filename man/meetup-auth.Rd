@@ -53,8 +53,7 @@ If \code{cache} is \code{FALSE} this is ignored.}
 this is ignored.}
 
 \item{clear_cache}{logical indicating whether to disable the
-\code{.httr-oauth} file in working directory, if such exists, by renaming
-to \code{.httr-oauth-SUSPENDED}}
+token file, if such exists, by apprending "-SUSPENDED" to its name}
 }
 \value{
 a \code{request} object (an S3 class provided by \code{httr})
