@@ -60,7 +60,8 @@ get_events <- function(urlname,
                        fields = NULL,
                        verbose = getOption("meetupr.verbose", rlang::is_interactive())) {
 
-  match.arg(event_status, several.ok = TRUE)
+  .check_event_status(event_status)
+
   res <- .fetch_results(
     sprintf("%s/events", urlname),
     .collapse(event_status),
