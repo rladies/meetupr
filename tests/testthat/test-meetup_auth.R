@@ -39,5 +39,7 @@ token <- meetup_auth(
   use_appdir = FALSE)
 
   expect_s3_class(token, "Token2.0")
+  expect_true(file.exists(file.path(td, "token.rds")))
+  expect_s3_class(readRDS(file.path(td, "token.rds"))[[1]], "Token2.0")
 
 })
