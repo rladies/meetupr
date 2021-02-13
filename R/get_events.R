@@ -53,7 +53,6 @@
 #' # get all event hosts names (2) and host_counts (6) for that single event
 #' # host_counts represents how events the person has co-organized or hosted.
 #' do.call("rbind", lapply(single_event, '[', c(2,6)))
-
 #'}
 #' @export
 get_events <- function(urlname,
@@ -61,7 +60,7 @@ get_events <- function(urlname,
                        fields = NULL,
                        verbose = getOption("meetupr.verbose", rlang::is_interactive())) {
 
-  match.arg(event_status)
+  match.arg(event_status, several.ok = TRUE)
   res <- .fetch_results(
     sprintf("%s/events", urlname),
     .collapse(event_status),
