@@ -25,7 +25,13 @@ withr::local_options(
     "meetupr.consumer_secret" = regdata$client_secret[[1]]
     )
   )
-withr::local_envvar(list("MEETUP_AUTH_URL" = meetup_app$url()))
+withr::local_envvar(
+  list(
+    "MEETUP_AUTH_URL" = meetup_app$url(),
+    "MEETUP_TESTTHAT" = TRUE
+    )
+  )
+
 td <- withr::local_tempdir()
 token <- meetup_auth(
   new_user = TRUE,
