@@ -12,7 +12,7 @@ meetup_auth(
   new_user = FALSE,
   key = getOption("meetupr.consumer_key"),
   secret = getOption("meetupr.consumer_secret"),
-  cache = getOption("meetupr.httr_oauth_cache"),
+  cache = getOption("meetupr.httr_oauth_cache", TRUE),
   verbose = getOption("meetupr.verbose", rlang::is_interactive()),
   use_appdir = TRUE,
   token_path = NULL
