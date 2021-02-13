@@ -111,10 +111,16 @@ meetup_auth <- function(token = meetup_token_path(),
 
   if (is.null(token)) {
 
-    meetup_app       <- httr::oauth_app("meetup", key = key, secret = secret)
+    meetup_app       <- httr::oauth_app(
+      "meetup",
+      key = key,
+      secret = secret,
+      redirect_uri = httr::oauth_callback()
+      )
+
     meetup_endpoints <- httr::oauth_endpoint(
-      authorize = 'https://secure.meetup.com/oauth2/authorize',
-      access    = 'https://secure.meetup.com/oauth2/access'
+      authorize = paste0(meetup_auth_prefix(), 'oauth2/authorize'),
+      access    = paste0(meetup_auth_prefix(), 'oauth2/access')
     )
 
     if (!cache && !is.null(token_path)) {
@@ -263,7 +269,9 @@ token_available <- function(verbose = TRUE) {
 #' }
 meetup_deauth <- function(clear_cache = TRUE,
                           verbose = getOption("meetupr.verbose", rlang::is_interactive())) {
-
+  if (is.null(meetup_token_path())) {
+    return(NULL)
+  }
   if (clear_cache && file.exists(meetup_token_path())) {
     if (verbose) {
       message(
@@ -355,4 +363,9 @@ save_and_refresh_token <- function(token, path) {
 
 appdir_path <- function() {
   file.path(rappdirs::user_data_dir("meetupr", "meetupr"), "meetupr-token.rds")
+}
+
+meetup_auth_prefix <- function() {
+
+  Sys.getenv("MEETUP_AUTH_URL", "https://secure.meetup.com/")
 }
