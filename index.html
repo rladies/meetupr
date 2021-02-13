@@ -159,23 +159,23 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">groups</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/find_groups.html">find_groups</a></span><span class="op">(</span>topic_id <span class="op">=</span> <span class="fl">1513883</span><span class="op">)</span>
 <span class="fu">dplyr</span><span class="fu">::</span><span class="fu">arrange</span><span class="op">(</span><span class="va">groups</span>, <span class="fu">desc</span><span class="op">(</span><span class="va">created</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 137 x 20</span>
+<span class="co">#&gt; # A tibble: 137 x 21</span>
 <span class="co">#&gt;        id name  urlname status   lat     lon city  state country</span>
 <span class="co">#&gt;     &lt;int&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  </span>
-<span class="co">#&gt;  1 3.38e7 R-La… rladie… active -1.29   36.8  Nair… ""    KE     </span>
-<span class="co">#&gt;  2 3.34e7 R-La… rladie… active 52.4    -1.5  Cove… "43"  GB     </span>
-<span class="co">#&gt;  3 3.34e7 R-La… rladie… active 43.3    21.9  Niš   ""    RS     </span>
-<span class="co">#&gt;  4 3.32e7 R-La… rladie… active 25.7  -100.   Mont… ""    MX     </span>
-<span class="co">#&gt;  5 3.32e7 R-La… rladie… active 51.8    -1.26 Oxfo… "K2"  GB     </span>
-<span class="co">#&gt;  6 3.31e7 R-La… rladie… active 38.9   -92.2  Colu… "MO"  US     </span>
-<span class="co">#&gt;  7 3.31e7 R-La… rladie… active  6.93   79.8  Colo… ""    LK     </span>
-<span class="co">#&gt;  8 3.31e7 R-La… rladie… active 30.0   -90.1  New … "LA"  US     </span>
-<span class="co">#&gt;  9 3.31e7 R-La… rladie… active 43.0   -76.2  Syra… "NY"  US     </span>
-<span class="co">#&gt; 10 3.30e7 R-La… rladie… active 19.0    72.8  Mumb… ""    IN     </span>
-<span class="co">#&gt; # … with 127 more rows, and 11 more variables: created &lt;dttm&gt;, members &lt;int&gt;,</span>
+<span class="co">#&gt;  1 3.38e7 R-La… rladie… active -1.29   36.8  Nair… ""    Kenya  </span>
+<span class="co">#&gt;  2 3.34e7 R-La… rladie… active 52.4    -1.5  Cove… "43"  United…</span>
+<span class="co">#&gt;  3 3.34e7 R-La… rladie… active 43.3    21.9  Niš   ""    Serbia </span>
+<span class="co">#&gt;  4 3.32e7 R-La… rladie… active 25.7  -100.   Mont… ""    Mexico </span>
+<span class="co">#&gt;  5 3.32e7 R-La… rladie… active 51.8    -1.26 Oxfo… "K2"  United…</span>
+<span class="co">#&gt;  6 3.31e7 R-La… rladie… active 38.9   -92.2  Colu… "MO"  USA    </span>
+<span class="co">#&gt;  7 3.31e7 R-La… rladie… active  6.93   79.8  Colo… ""    Sri La…</span>
+<span class="co">#&gt;  8 3.31e7 R-La… rladie… active 30.0   -90.1  New … "LA"  USA    </span>
+<span class="co">#&gt;  9 3.31e7 R-La… rladie… active 43.0   -76.2  Syra… "NY"  USA    </span>
+<span class="co">#&gt; 10 3.30e7 R-La… rladie… active 19.0    72.8  Mumb… ""    India  </span>
+<span class="co">#&gt; # … with 127 more rows, and 12 more variables: created &lt;dttm&gt;, members &lt;int&gt;,</span>
 <span class="co">#&gt; #   timezone &lt;chr&gt;, join_mode &lt;chr&gt;, visibility &lt;chr&gt;, who &lt;chr&gt;,</span>
-<span class="co">#&gt; #   organizer_id &lt;int&gt;, organizer_name &lt;chr&gt;, category_id &lt;int&gt;,</span>
-<span class="co">#&gt; #   category_name &lt;chr&gt;, resource &lt;list&gt;</span></code></pre></div>
+<span class="co">#&gt; #   location &lt;chr&gt;, organizer_id &lt;int&gt;, organizer_name &lt;chr&gt;,</span>
+<span class="co">#&gt; #   category_id &lt;int&gt;, category_name &lt;chr&gt;, resource &lt;list&gt;</span></code></pre></div>
 </div>
 </div>
 <div id="how-can-you-contribute" class="section level2">
@@ -217,6 +217,7 @@
 <h2>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://github.com/rladies/meetupr/actions"><img src="https://github.com/rladies/meetupr/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://codecov.io/gh/rladies/meetupr?branch=master"><img src="https://codecov.io/gh/rladies/meetupr/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
 </ul>
 </div>
 </div>
