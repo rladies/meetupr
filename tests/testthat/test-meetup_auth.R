@@ -1,13 +1,13 @@
 test_that("meetup_auth() works", {
 
+  # New app imitating meetup dot com
 meetup_app <- webfakes::new_app_process(
   webfakes::oauth2_resource_app(
     refresh_duration = .Machine$integer.max,
     access_duration = 10L,
     authorize_endpoint = "/oauth2/authorize",
     token_endpoint = "/oauth2/access"
-  ),
-  opts = webfakes::server_opts(num_threads = 3)
+  )
 )
 meetup_app$start()
 
@@ -18,7 +18,6 @@ url <- paste0(
   "&redirect_uri=", httr::oauth_callback()
 )
 reg_resp <- httr::GET(url)
-reg_resp
 regdata <- httr::content(reg_resp)
 withr::local_options(
   list(
