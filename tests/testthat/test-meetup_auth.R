@@ -4,7 +4,7 @@ test_that("meetup_auth() works", {
 meetup_app <- webfakes::new_app_process(
   webfakes::oauth2_resource_app(
     refresh_duration = .Machine$integer.max,
-    access_duration = 10L,
+    access_duration = 100L,
     authorize_endpoint = "/authorize",
     token_endpoint = "/access"
   )
@@ -27,9 +27,11 @@ withr::local_options(
   )
 withr::local_envvar(list("MEETUP_AUTH_URL" = meetup_app$url()))
 td <- withr::local_tempdir()
-meetup_auth(
+token <- meetup_auth(
   new_user = TRUE,
   token_path = file.path(td, "token.rds"),
   use_appdir = FALSE)
+
+  expect_s3_class(token, "Token2.0")
 
 })
