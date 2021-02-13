@@ -65,8 +65,7 @@
 #'   stored as an \code{.rds} file.
 #' @param new_user logical, defaults to \code{FALSE}. Set to \code{TRUE} if you
 #'   want to wipe the slate clean and re-authenticate with the same or different
-#'   Meetup account. This disables the \code{.httr-oauth} file in current
-#'   working directory.
+#'   Meetup account. This disables the current token that's at `meetup_token_path()`.
 #' @param key,secret the "Client ID" and "Client secret" for the application;
 #'   defaults to the ID and secret built into the \code{meetupr} package
 #' @param cache logical indicating if \code{meetupr} should cache
