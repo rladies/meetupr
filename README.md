@@ -6,6 +6,8 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/rladies/meetupr/workflows/R-CMD-check/badge.svg)](https://github.com/rladies/meetupr/actions)
+[![Codecov test
+coverage](https://codecov.io/gh/rladies/meetupr/branch/master/graph/badge.svg)](https://codecov.io/gh/rladies/meetupr?branch=master)
 <!-- badges: end -->
 
 R interface to the [Meetup API](https://www.meetup.com/meetup_api/) (v3)
@@ -122,23 +124,23 @@ The `topic_id` for topic, “R-Ladies”, is `1513883`.
 ``` r
 groups <- find_groups(topic_id = 1513883)
 dplyr::arrange(groups, desc(created))
-#> # A tibble: 137 x 20
+#> # A tibble: 137 x 21
 #>        id name  urlname status   lat     lon city  state country
 #>     <int> <chr> <chr>   <chr>  <dbl>   <dbl> <chr> <chr> <chr>  
-#>  1 3.38e7 R-La… rladie… active -1.29   36.8  Nair… ""    KE     
-#>  2 3.34e7 R-La… rladie… active 52.4    -1.5  Cove… "43"  GB     
-#>  3 3.34e7 R-La… rladie… active 43.3    21.9  Niš   ""    RS     
-#>  4 3.32e7 R-La… rladie… active 25.7  -100.   Mont… ""    MX     
-#>  5 3.32e7 R-La… rladie… active 51.8    -1.26 Oxfo… "K2"  GB     
-#>  6 3.31e7 R-La… rladie… active 38.9   -92.2  Colu… "MO"  US     
-#>  7 3.31e7 R-La… rladie… active  6.93   79.8  Colo… ""    LK     
-#>  8 3.31e7 R-La… rladie… active 30.0   -90.1  New … "LA"  US     
-#>  9 3.31e7 R-La… rladie… active 43.0   -76.2  Syra… "NY"  US     
-#> 10 3.30e7 R-La… rladie… active 19.0    72.8  Mumb… ""    IN     
-#> # … with 127 more rows, and 11 more variables: created <dttm>, members <int>,
+#>  1 3.38e7 R-La… rladie… active -1.29   36.8  Nair… ""    Kenya  
+#>  2 3.34e7 R-La… rladie… active 52.4    -1.5  Cove… "43"  United…
+#>  3 3.34e7 R-La… rladie… active 43.3    21.9  Niš   ""    Serbia 
+#>  4 3.32e7 R-La… rladie… active 25.7  -100.   Mont… ""    Mexico 
+#>  5 3.32e7 R-La… rladie… active 51.8    -1.26 Oxfo… "K2"  United…
+#>  6 3.31e7 R-La… rladie… active 38.9   -92.2  Colu… "MO"  USA    
+#>  7 3.31e7 R-La… rladie… active  6.93   79.8  Colo… ""    Sri La…
+#>  8 3.31e7 R-La… rladie… active 30.0   -90.1  New … "LA"  USA    
+#>  9 3.31e7 R-La… rladie… active 43.0   -76.2  Syra… "NY"  USA    
+#> 10 3.30e7 R-La… rladie… active 19.0    72.8  Mumb… ""    India  
+#> # … with 127 more rows, and 12 more variables: created <dttm>, members <int>,
 #> #   timezone <chr>, join_mode <chr>, visibility <chr>, who <chr>,
-#> #   organizer_id <int>, organizer_name <chr>, category_id <int>,
-#> #   category_name <chr>, resource <list>
+#> #   location <chr>, organizer_id <int>, organizer_name <chr>,
+#> #   category_id <int>, category_name <chr>, resource <list>
 ```
 
 ## How can you contribute?

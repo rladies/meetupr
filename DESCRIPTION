@@ -69,7 +69,8 @@ Suggests:
     knitr,
     rmarkdown,
     testthat,
-    vcr
+    vcr,
+    covr
 VignetteBuilder: 
     knitr
 Encoding: UTF-8

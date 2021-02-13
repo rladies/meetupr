@@ -14,3 +14,4 @@
 ^pkgdown$
 ^tests/testthat/\.meetup_token\.rds$
 ^~/\.local/share/meetupr/meetupr-token\.rds$
+^codecov\.yml$
