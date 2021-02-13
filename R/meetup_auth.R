@@ -8,8 +8,7 @@
 #' Authorize \code{meetupr} via the OAuth API. You will be directed to a web
 #' browser, asked to sign in to your Meetup account, and to grant \code{meetupr}
 #' permission to operate on your behalf. By default, these user credentials are
-#' saved to a file in your home directory whose path is saved in `.Renviron`
-#' as `MEETUPR_PAT`.
+#' saved to an app dir as determined by `rappdirs::user_data_dir("meetupr", "meetupr")`.
 #' If you set `use_appdir` to `FALSE` but `cache` to `TRUE`,
 #' they are cached in a file named \code{.httr-oauth} in the current working directory.
 #' To control where the file is saved, use `token_path`.
