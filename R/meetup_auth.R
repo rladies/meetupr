@@ -69,7 +69,7 @@
 #' @param key,secret the "Client ID" and "Client secret" for the application;
 #'   defaults to the ID and secret built into the \code{meetupr} package
 #' @param cache logical indicating if \code{meetupr} should cache
-#'   credentials in the default cache file \code{.httr-oauth} or `token_path`.
+#'   credentials a file.
 #' @param use_appdir Logical indicating whether to save the created token
 #'   in app dir as determined by `rappdirs::user_data_dir("meetupr", "meetupr")`.
 #'   If \code{cache} is `FALSE` this is ignored.

@@ -39,7 +39,7 @@ Meetup account. This disables the current token that's at \code{meetup_token_pat
 defaults to the ID and secret built into the \code{meetupr} package}
 
 \item{cache}{logical indicating if \code{meetupr} should cache
-credentials in the default cache file \code{.httr-oauth} or \code{token_path}.}
+credentials a file.}
 
 \item{verbose}{logical; do you want informative messages? \code{TRUE} by default in
 interactive sessions. Can be toggled by the \code{meetupr.verbose} option.}
