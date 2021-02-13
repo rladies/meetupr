@@ -119,8 +119,8 @@ meetup_auth <- function(token = meetup_token_path(),
       )
 
     meetup_endpoints <- httr::oauth_endpoint(
-      authorize = paste0(meetup_auth_prefix(), 'oauth2/authorize'),
-      access    = paste0(meetup_auth_prefix(), 'oauth2/access')
+      authorize = paste0(meetup_auth_prefix(), 'authorize'),
+      access    = paste0(meetup_auth_prefix(), 'access')
     )
 
     if (!cache && !is.null(token_path)) {
@@ -350,7 +350,7 @@ meetup_token_path <- function() {
 
 save_and_refresh_token <- function(token, path) {
 
-  if (token$credentials$expires_in < 60) {
+  if (token$credentials$expires_in < 60 || token$credentials$expiry < 60) {
     token$refresh()
 
     if(!is.null(path)) {
@@ -367,5 +367,5 @@ appdir_path <- function() {
 
 meetup_auth_prefix <- function() {
 
-  Sys.getenv("MEETUP_AUTH_URL", "https://secure.meetup.com/")
+  Sys.getenv("MEETUP_AUTH_URL", "https://secure.meetup.com/oauth2/")
 }
