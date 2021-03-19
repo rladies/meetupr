@@ -96,20 +96,17 @@ meetup_api_prefix <- function() {
   if((length(records) < total_records) & !is.null(res$headers$link)){
 
     # calculate number of offsets for records above 200
-    offsetn <- ceiling(total_records/length(records))
+    max_pages <- ceiling(total_records/length(records))
     all_records <- list(records)
 
-    for(i in 1:(offsetn - 1)) {
-      res <- meetup_call(api_path = api_path,
-                          event_status = event_status,
-                          offset = i,
-                          ...)
-
+    # Paginate over res. First page already exists in res and all_records, so we can
+    # start from page 2 using the next_page api data returned from Meetup.
+    for(i in 2:max_pages) {
       next_url <- strsplit(strsplit(res$headers$link, split = "<")[[1]][2], split = ">")[[1]][1]
       next_url <- gsub(meetup_api_prefix(), "", next_url)
-      res <- meetup_call(next_url, event_status)
+      res <- meetup_call(next_url, event_status, offset = NULL) # offset is already in the next_url
 
-      all_records[[i + 1]] <- res$result
+      all_records[[i]] <- res$result
     }
     records <- unlist(all_records, recursive = FALSE)
 
