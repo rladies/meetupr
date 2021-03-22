@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - master
+      - maelle-patch-1
   pull_request:
     branches:
       - master
