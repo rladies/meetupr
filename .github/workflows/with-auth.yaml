@@ -71,5 +71,5 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@main
         with:
-          name: ${{ runner.os }}-r${{ matrix.config.r }}-results
+          name: macOS-latest-r${{ steps.install-r.outputs.installed-r-version }}-results
           path: check
