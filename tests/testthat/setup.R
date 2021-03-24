@@ -20,7 +20,6 @@ if (nzchar(Sys.getenv("MEETUPR_PWD"))) {
   meetup_auth(token = temptoken)
 
 } else {
-  Sys.setenv("MEETUPR_TESTING" = TRUE)
   token <- meetup_token()
 }
 

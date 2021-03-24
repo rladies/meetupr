@@ -33,6 +33,7 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       VCR_TURN_OFF: ${{ matrix.config.vcrturnoff }}
       MEETUPR_PWD: ${{ secrets[matrix.config.auth] }}
+      MEETUP_TESTING: true
 
     steps:
       - uses: actions/checkout@v2
