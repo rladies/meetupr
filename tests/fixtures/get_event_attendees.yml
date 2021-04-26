@@ -1,0 +1,73 @@
+http_interactions:
+- request:
+    method: get
+    uri: https://api.meetup.com/rladies-nashville/events/234968855/attendance?offset=0
+    body:
+      encoding: ''
+      string: ''
+    headers:
+      Accept: application/json, text/xml, application/xml, */*
+      Authorization: not my bearer token
+  response:
+    status:
+      status_code: 200
+      category: Success
+      reason: OK
+      message: 'Success: (200) OK'
+    headers:
+      content-type: application/json; charset=utf-8
+      server: Apache/2.4.39 (Unix) OpenSSL/1.1.1c
+      x-meetup-server: ip-10-192-22-92
+      x-meetup-request-id: d00efceb-9774-4492-a1e8-970631f89b1b
+      x-oauth-scopes: basic
+      x-accepted-oauth-scopes: basic
+      x-ratelimit-limit: '30'
+      x-ratelimit-remaining: '29'
+      x-ratelimit-reset: '10'
+      etag: '"39861915dba1ed0d2963f436185f7c29-gzip"'
+      content-encoding: gzip
+      accept-ranges: bytes
+      date: Wed, 24 Mar 2021 12:48:24 GMT
+      via: 1.1 varnish
+      x-served-by: cache-cdg20776-CDG
+      x-cache: MISS
+      x-cache-hits: '0'
+      x-timer: S1616590104.214714,VS0,VE391
+      vary: Accept-Encoding,User-Agent,Accept-Language
+      content-length: '2108'
+    body:
+      encoding: UTF-8
+      file: no
+      string: '[{"member":{"id":211530139,"name":"Allison Hainline","photo":{"id":259464460,"highres_link":"https://secure.meetupstatic.com/photos/member/5/f/8/c/highres_259464460.jpeg","photo_link":"https://secure.meetupstatic.com/photos/member/5/f/8/c/member_259464460.jpeg","thumb_link":"https://secure.meetupstatic.com/photos/member/5/f/8/c/thumb_259464460.jpeg","type":"member","base_url":"https://secure.meetupstatic.com"},"event_context":{"host":false}},"rsvp":{"id":1635422684,"response":"yes","guests":0,"updated":1476893025000}},{"member":{"id":214764454,"name":"Cathy
+        Jenkins","photo":{"id":265211035,"highres_link":"https://secure.meetupstatic.com/photos/member/2/b/1/b/highres_265211035.jpeg","photo_link":"https://secure.meetupstatic.com/photos/member/2/b/1/b/member_265211035.jpeg","thumb_link":"https://secure.meetupstatic.com/photos/member/2/b/1/b/thumb_265211035.jpeg","type":"member","base_url":"https://secure.meetupstatic.com"},"event_context":{"host":false}},"rsvp":{"id":1638357279,"response":"no","guests":0,"updated":1478527031000}},{"member":{"id":215531726,"name":"Chris
+        S","bio":"MS in Healthcare Informatics","event_context":{"host":false}},"rsvp":{"id":1636227211,"response":"yes","guests":0,"updated":1477343771000}},{"member":{"id":214589711,"name":"Dilman
+        Yasin","photo":{"id":260850326,"highres_link":"https://secure.meetupstatic.com/photos/member/7/6/7/6/highres_260850326.jpeg","photo_link":"https://secure.meetupstatic.com/photos/member/7/6/7/6/member_260850326.jpeg","thumb_link":"https://secure.meetupstatic.com/photos/member/7/6/7/6/thumb_260850326.jpeg","type":"member","base_url":"https://secure.meetupstatic.com"},"event_context":{"host":false}},"rsvp":{"id":1635804149,"response":"yes","guests":0,"updated":1477092057000}},{"member":{"id":215533912,"name":"Elizabeth
+        Sigworth","photo":{"id":261304402,"highres_link":"https://secure.meetupstatic.com/photos/member/1/1/3/2/highres_261304402.jpeg","photo_link":"https://secure.meetupstatic.com/photos/member/1/1/3/2/member_261304402.jpeg","thumb_link":"https://secure.meetupstatic.com/photos/member/1/1/3/2/thumb_261304402.jpeg","type":"member","base_url":"https://secure.meetupstatic.com"},"event_context":{"host":false}},"rsvp":{"id":1636234377,"response":"yes","guests":0,"updated":1477346320000}},{"member":{"id":215531478,"name":"Fatemeh
+        Dalilian ","event_context":{"host":false}},"rsvp":{"id":1636226421,"response":"yes","guests":0,"updated":1477343493000}},{"member":{"id":211111732,"name":"Hannah
+        Weeks","photo":{"id":260559301,"highres_link":"https://secure.meetupstatic.com/photos/member/9/9/8/5/highres_260559301.jpeg","photo_link":"https://secure.meetupstatic.com/photos/member/9/9/8/5/member_260559301.jpeg","thumb_link":"https://secure.meetupstatic.com/photos/member/9/9/8/5/thumb_260559301.jpeg","type":"member","base_url":"https://secure.meetupstatic.com"},"event_context":{"host":false}},"rsvp":{"id":1635450639,"response":"yes","guests":0,"updated":1476903480000}},{"member":{"id":214763447,"name":"Jackie
+        Pennings","photo":{"id":261683792,"highres_link":"https://secure.meetupstatic.com/photos/member/5/c/f/0/highres_261683792.jpeg","photo_link":"https://secure.meetupstatic.com/photos/member/5/c/f/0/member_261683792.jpeg","thumb_link":"https://secure.meetupstatic.com/photos/member/5/c/f/0/thumb_261683792.jpeg","type":"member","base_url":"https://secure.meetupstatic.com"},"event_context":{"host":false}},"rsvp":{"id":1635438715,"response":"yes","guests":0,"updated":1476899095000}},{"member":{"id":201661720,"name":"Jacquelyn
+        Elizabeth Neal","photo":{"id":254838143,"highres_link":"https://secure.meetupstatic.com/photos/member/4/6/d/f/highres_254838143.jpeg","photo_link":"https://secure.meetupstatic.com/photos/member/4/6/d/f/member_254838143.jpeg","thumb_link":"https://secure.meetupstatic.com/photos/member/4/6/d/f/thumb_254838143.jpeg","type":"member","base_url":"https://secure.meetupstatic.com"},"event_context":{"host":false}},"rsvp":{"id":1635453012,"response":"yes","guests":0,"updated":1476904364000}},{"member":{"id":214524161,"name":"Jenn
+        Lee Morse","photo":{"id":263716270,"highres_link":"https://secure.meetupstatic.com/photos/member/3/f/8/e/highres_263716270.jpeg","photo_link":"https://secure.meetupstatic.com/photos/member/3/f/8/e/member_263716270.jpeg","thumb_link":"https://secure.meetupstatic.com/photos/member/3/f/8/e/thumb_263716270.jpeg","type":"member","base_url":"https://secure.meetupstatic.com"},"event_context":{"host":false}},"rsvp":{"id":1638300925,"response":"yes","guests":0,"updated":1478489951000}},{"member":{"id":213434886,"name":"Jennifer
+        Thompson","photo":{"id":260350918,"highres_link":"https://secure.meetupstatic.com/photos/member/2/a/a/6/highres_260350918.jpeg","photo_link":"https://secure.meetupstatic.com/photos/member/2/a/a/6/member_260350918.jpeg","thumb_link":"https://secure.meetupstatic.com/photos/member/2/a/a/6/thumb_260350918.jpeg","type":"member","base_url":"https://secure.meetupstatic.com"},"role":"coorganizer","event_context":{"host":true}},"rsvp":{"id":1635421088,"response":"yes","guests":0,"updated":1476892337000}},{"member":{"id":213972775,"name":"Jo
+        Ellen Wilson","event_context":{"host":false}},"rsvp":{"id":1636200702,"response":"yes","guests":0,"updated":1477334364000}},{"member":{"id":215956984,"name":"Katie
+        McKinney Link","photo":{"id":261508914,"highres_link":"https://secure.meetupstatic.com/photos/member/7/0/f/2/highres_261508914.jpeg","photo_link":"https://secure.meetupstatic.com/photos/member/7/0/f/2/member_261508914.jpeg","thumb_link":"https://secure.meetupstatic.com/photos/member/7/0/f/2/thumb_261508914.jpeg","type":"member","base_url":"https://secure.meetupstatic.com"},"event_context":{"host":false}},"rsvp":{"id":1637505876,"response":"yes","guests":0,"updated":1478051611000}},{"member":{"id":215716137,"name":"Khanda
+        H","bio":"MS-HCI","event_context":{"host":false}},"rsvp":{"id":1636760782,"response":"yes","guests":0,"updated":1477621591000}},{"member":{"id":182028722,"name":"Lauren
+        Samuels","photo":{"id":277923670,"highres_link":"https://secure.meetupstatic.com/photos/member/e/5/6/highres_277923670.jpeg","photo_link":"https://secure.meetupstatic.com/photos/member/e/5/6/member_277923670.jpeg","thumb_link":"https://secure.meetupstatic.com/photos/member/e/5/6/thumb_277923670.jpeg","type":"member","base_url":"https://secure.meetupstatic.com"},"event_context":{"host":false}},"rsvp":{"id":1635557881,"response":"yes","guests":0,"updated":1476964372000}},{"member":{"id":213972281,"name":"Leanne
+        Boehm","photo":{"id":260585989,"highres_link":"https://secure.meetupstatic.com/photos/member/1/7/6/5/highres_260585989.jpeg","photo_link":"https://secure.meetupstatic.com/photos/member/1/7/6/5/member_260585989.jpeg","thumb_link":"https://secure.meetupstatic.com/photos/member/1/7/6/5/thumb_260585989.jpeg","type":"member","base_url":"https://secure.meetupstatic.com"},"event_context":{"host":false}},"rsvp":{"id":1635444142,"response":"yes","guests":0,"updated":1476901153000}},{"member":{"id":215188854,"name":"Lena
+        Walker","bio":"I am a Data Science Project Manager  which is interdisciplinary
+        involving systems bringing insight from data as well as planning, coordination,
+        tracking, and successful implementation to bring multiple data sets online
+        through product development.","photo":{"id":261953788,"highres_link":"https://secure.meetupstatic.com/photos/member/d/2/1/c/highres_261953788.jpeg","photo_link":"https://secure.meetupstatic.com/photos/member/d/2/1/c/member_261953788.jpeg","thumb_link":"https://secure.meetupstatic.com/photos/member/d/2/1/c/thumb_261953788.jpeg","type":"member","base_url":"https://secure.meetupstatic.com"},"event_context":{"host":false}},"rsvp":{"id":1637500046,"response":"yes","guests":0,"updated":1478049133000}},{"member":{"id":215686447,"name":"LESLYE
+        JACKSON","event_context":{"host":false}},"rsvp":{"id":1636670048,"response":"yes","guests":0,"updated":1477581494000}},{"member":{"id":213906703,"name":"Lisa
+        Lin","event_context":{"host":false}},"rsvp":{"id":1637500372,"response":"yes","guests":0,"updated":1478049290000}},{"member":{"id":202811487,"name":"Lucy","photo":{"id":265621544,"highres_link":"https://secure.meetupstatic.com/photos/member/6/0/8/highres_265621544.jpeg","photo_link":"https://secure.meetupstatic.com/photos/member/6/0/8/member_265621544.jpeg","thumb_link":"https://secure.meetupstatic.com/photos/member/6/0/8/thumb_265621544.jpeg","type":"member","base_url":"https://secure.meetupstatic.com"},"role":"coorganizer","event_context":{"host":true}},"rsvp":{"id":1635421087,"response":"yes","guests":0,"updated":1476892337000}},{"member":{"id":198614470,"name":"Maddie","photo":{"id":253248444,"highres_link":"https://secure.meetupstatic.com/photos/member/b/d/3/c/highres_253248444.jpeg","photo_link":"https://secure.meetupstatic.com/photos/member/b/d/3/c/member_253248444.jpeg","thumb_link":"https://secure.meetupstatic.com/photos/member/b/d/3/c/thumb_253248444.jpeg","type":"member","base_url":"https://secure.meetupstatic.com"},"event_context":{"host":false}},"rsvp":{"id":1635573247,"response":"no","guests":0,"updated":1478483344000}},{"member":{"id":132559112,"name":"MaryLvV","photo":{"id":249692559,"highres_link":"https://secure.meetupstatic.com/photos/member/7/f/2/f/highres_249692559.jpeg","photo_link":"https://secure.meetupstatic.com/photos/member/7/f/2/f/member_249692559.jpeg","thumb_link":"https://secure.meetupstatic.com/photos/member/7/f/2/f/thumb_249692559.jpeg","type":"member","base_url":"https://secure.meetupstatic.com"},"role":"coorganizer","event_context":{"host":false}},"rsvp":{"id":1635640843,"response":"yes","guests":0,"updated":1477000139000}},{"member":{"id":213906791,"name":"Molly
+        Olson","photo":{"id":260560540,"highres_link":"https://secure.meetupstatic.com/photos/member/9/e/5/c/highres_260560540.jpeg","photo_link":"https://secure.meetupstatic.com/photos/member/9/e/5/c/member_260560540.jpeg","thumb_link":"https://secure.meetupstatic.com/photos/member/9/e/5/c/thumb_260560540.jpeg","type":"member","base_url":"https://secure.meetupstatic.com"},"event_context":{"host":false}},"rsvp":{"id":1635453106,"response":"yes","guests":0,"updated":1476904398000}},{"member":{"id":214267795,"name":"Sarah
+        Lotspeich","photo":{"id":260705990,"highres_link":"https://secure.meetupstatic.com/photos/member/1/7/6/6/highres_260705990.jpeg","photo_link":"https://secure.meetupstatic.com/photos/member/1/7/6/6/member_260705990.jpeg","thumb_link":"https://secure.meetupstatic.com/photos/member/1/7/6/6/thumb_260705990.jpeg","type":"member","base_url":"https://secure.meetupstatic.com"},"event_context":{"host":false}},"rsvp":{"id":1637577518,"response":"yes","guests":0,"updated":1478097226000}},{"member":{"id":8539046,"name":"Shalini","photo":{"id":272818237,"highres_link":"https://secure.meetupstatic.com/photos/member/e/3/7/d/highres_272818237.jpeg","photo_link":"https://secure.meetupstatic.com/photos/member/e/3/7/d/member_272818237.jpeg","thumb_link":"https://secure.meetupstatic.com/photos/member/e/3/7/d/thumb_272818237.jpeg","type":"member","base_url":"https://secure.meetupstatic.com"},"event_context":{"host":false}},"rsvp":{"id":1636251650,"response":"yes","guests":0,"updated":1477353593000}},{"member":{"id":213964911,"name":"Tebeb
+        G.","event_context":{"host":false}},"rsvp":{"id":1638430116,"response":"yes","guests":0,"updated":1478552750000}},{"member":{"id":213957129,"name":"Theresa
+        Scott","photo":{"id":260580303,"highres_link":"https://secure.meetupstatic.com/photos/member/1/2/f/highres_260580303.jpeg","photo_link":"https://secure.meetupstatic.com/photos/member/1/2/f/member_260580303.jpeg","thumb_link":"https://secure.meetupstatic.com/photos/member/1/2/f/thumb_260580303.jpeg","type":"member","base_url":"https://secure.meetupstatic.com"},"event_context":{"host":false}},"rsvp":{"id":1636481852,"response":"no","guests":0,"updated":1477484074000}},{"member":{"id":215547100,"name":"Wei
+        Cheng","event_context":{"host":false}},"rsvp":{"id":1636274775,"response":"no","guests":0,"updated":1477364248000}},{"member":{"id":214758353,"name":"Yuwei
+        Zhu","photo":{"id":260932376,"highres_link":"https://secure.meetupstatic.com/photos/member/c/c/9/8/highres_260932376.jpeg","photo_link":"https://secure.meetupstatic.com/photos/member/c/c/9/8/member_260932376.jpeg","thumb_link":"https://secure.meetupstatic.com/photos/member/c/c/9/8/thumb_260932376.jpeg","type":"member","base_url":"https://secure.meetupstatic.com"},"event_context":{"host":false}},"rsvp":{"id":1638371084,"response":"no","guests":0,"updated":1478532312000}},{"member":{"id":0,"name":"Former
+        member"},"rsvp":{"id":1636903582,"response":"yes","guests":0,"updated":1477704492000}},{"member":{"id":0,"name":"Former
+        member"},"rsvp":{"id":1636716919,"response":"yes","guests":0,"updated":1477600845000}},{"member":{"id":0,"name":"Former
+        member"},"rsvp":{"id":1635424256,"response":"yes","guests":0,"updated":1476893628000}}]'
+  recorded_at: 2021-03-24 12:48:24 GMT
+  recorded_with: vcr/0.6.5.91, webmockr/0.8.0
