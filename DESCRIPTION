@@ -70,7 +70,8 @@ Suggests:
     rmarkdown,
     testthat,
     vcr,
-    covr
+    covr,
+    webfakes
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
