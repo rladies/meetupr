@@ -21,6 +21,7 @@ knitr::opts_chunk$set(
 [![Codecov test coverage](https://codecov.io/gh/rladies/meetupr/branch/master/graph/badge.svg)](https://codecov.io/gh/rladies/meetupr?branch=master)
 <!-- badges: end -->
 
+
 R interface to the [Meetup API](https://www.meetup.com/meetup_api/) (v3)
 
 ## Installation
