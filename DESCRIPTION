@@ -31,7 +31,8 @@ Imports:
     progress,
     tibble,
     rlang,
-    rappdirs
+    rappdirs,
+    glue
 Suggests:
     dplyr,
     sodium,

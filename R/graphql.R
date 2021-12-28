@@ -13,7 +13,7 @@
 
 capture_str <- function(x) {
   paste0(
-    capture.output(str(x)),
+    utils::capture.output(utils::str(x)),
     collapse = "\n"
   )
 }
