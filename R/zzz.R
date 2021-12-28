@@ -10,6 +10,7 @@
   toset <- !(names(op.meetupr) %in% names(op))
   if(any(toset)) options(op.meetupr[toset])
 
-  invisible()
+  meetup_call_onload()
 
+  invisible()
 }

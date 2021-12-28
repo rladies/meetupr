@@ -322,11 +322,10 @@ gql_call <- function(
 
   headers <- httr::headers(req)
 
-  assign(
-    "meetupr_rate",
-    c(headers$`x-ratelimit-limit`, headers$`x-ratelimit-reset`),
-    envir = .meetupr_env
-    )
+  set_meetupr_rate(
+    n = headers$`x-ratelimit-limit`,
+    period = headers$`x-ratelimit-reset`
+  )
 
   reslist <- httr::content(req, "parsed")
 
