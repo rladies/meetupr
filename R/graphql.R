@@ -19,10 +19,18 @@ capture_str <- function(x) {
 }
 
 
-graphql_query <- function(graphql_file, ...) {
+graphql_query <- function(graphql_file, ..., extra_graphql = NULL) {
   # inspiration: https://github.com/tidyverse/tidyversedashboard/blob/2c6cf9ebe8da938c35f6e9fc184c3b30265f1082/R/utils.R#L2
   file <- system.file(file.path("graphql", paste0(graphql_file, ".graphql")), package = "meetupr")
   query <- readChar(file, file.info(file)$size)
+  extra_graphql <- extra_graphql %||% ""
+  if (!is.null(extra_graphql)) {
+    if (length(extra_graphql) != 1 && is.character(extra_graphql)) {
+      stop("extra_graphql must be a single string")
+    }
+  }
+  query <- glue::glue_data(list(extra_graphql = extra_graphql), query, .open = "<<", .close = ">>", trim = FALSE)
+
   variables <- purrr::compact(rlang::list2(...))
   if (!rlang::is_named(variables)) {
     stop("Stop all GraphQL variables must be named. Variables:\n", capture_str(variables), call. = FALSE)
@@ -90,8 +98,7 @@ graphql_query_generator <- function(
       if (is.null(pb)) {
         pb <- progress::progress_bar$new(
           total = total_fn(graphql_res),
-          format = paste0(graphql_file, " [:bar] :current/:total :eta"),
-          show_after = 0
+          format = paste0(graphql_file, " [:bar] :current/:total :eta")
         )
         on.exit({
           # Make sure the pb is closed when exiting
@@ -182,10 +189,16 @@ gql_single_event <- graphql_query_generator(
     upcomingEvents <- groupByUrlname$upcomingEvents$edges
     pastEvents <- groupByUrlname$pastEvents$edges
 
-    unifiedEvents <- lapply(unifiedEvents, `[[<-`, "type", "unified")
-    upcomingEvents <- lapply(upcomingEvents, `[[<-`, "type", "upcoming")
-    pastEvents <- lapply(pastEvents, `[[<-`, "type", "past")
-
+    get_nodes <- function(x, type) {
+      nodes <- lapply(x, `[[`, "node")
+      lapply(nodes, function(item) {
+        item$type <- type
+        item
+      })
+    }
+    unifiedEvents <- get_nodes(unifiedEvents, "unified")
+    upcomingEvents <- get_nodes(upcomingEvents, "upcoming")
+    pastEvents <- get_nodes(pastEvents, "past")
     # str(list(
     #   unifiedLength = length(unifiedEvents),
     #   upcomingLength = length(upcomingEvents),
@@ -210,6 +223,26 @@ gql_single_event <- graphql_query_generator(
   combiner_fn = append
 )
 
+# gql_single_event <- graphql_query_generator(
+#   "single_event",
+#   cursor_fn = function(response) {
+#     # str(response, max.level = 5)
+#     pageInfo <- response$data$groupByUrlname$pastEvents$pageInfo
+#     # str(pageInfo)
+#     if (pageInfo$hasNextPage) {
+#       list(cursor = pageInfo$endCursor)
+#     } else {
+#       NULL
+#     }
+#   },
+#   extract_fn = function(x) {
+#     x$data$groupByUrlname$pastEvents$edges
+#   },
+#   total_fn = function(x) {
+#     x$data$groupByUrlname$pastEvents$count
+#   },
+#   combiner_fn = append
+# )
 
 
 
@@ -218,7 +251,10 @@ if (FALSE) {
 
   x <- gql_single_event(urlname = "Data-Visualization-DC")
   x <- gql_single_event(urlname = "R-Users")
+
   x <- gql_single_event(urlname = "Data-Science-DC")
+
+  x <- gql_single_event(urlname = "Data-Science-DC", extra_graphql = "host { name }")
 
 
 }
