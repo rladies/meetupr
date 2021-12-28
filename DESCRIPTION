@@ -1,55 +1,23 @@
 Type: Package
 Package: meetupr
 Title: Meetup R API
-Authors@R: 
-    c(person(given = "Erin",
-             family = "LeDell",
-             role = c("aut", "cre"),
-             email = "oss@ledell.org"),
-      person(given = "Olga",
-             family = "Mierzwa-Sulima",
-             role = "aut",
-             email = "olga@rladies.org"),
-      person(given = "Lucy",
-             family = "D'Agostino McGowan",
-             role = "aut",
-             email = "lucy@rladies.org"),
-      person(given = "Claudia",
-             family = "Vitolo",
-             role = "aut"),
-      person(given = "Gabriela",
-             family = "De Queiroz",
-             role = "ctb",
-             email = "gabriela@rladies.org"),
-      person(given = "Michael",
-             family = "Beigelmacher",
-             role = "ctb"),
-      person(given = "Augustina",
-             family = "Ragwitz",
-             role = "ctb",
-             email = "augustina.ragwitz@ibm.com"),
-      person(given = "Greg",
-             family = "Sutcliffe",
-             role = "ctb",
-             email = "github@emeraldverie.org"),
-      person(given = "Rick",
-             family = "Pack",
-             role = "ctb",
-             email = "rickeyhp@gmail.com"),
-      person(given = "Ben",
-             family = "Ubah",
-             role = "ctb",
-             email = "ubah.ben22@gmail.com"),
-      person(given = "Maëlle",
-             family = "Salmon",
-             role = "ctb",
-             email = "maelle.salmon@yahoo.se",
-             comment = c(ORCID = "0000-0002-2815-0399")),
-      person("Athanasia Mo", "Mowinckel", 
-                    email = "a.m.mowinckel@psykologi.uio.no", 
-                    role = c("ctb"),
-                    comment = c(ORCID = "0000-0002-5756-0223")))
 Version: 0.2.99.9000
+Authors@R:
+    c(
+      person("Erin", "LeDell", role = c("aut", "cre"), email = "oss@ledell.org"),
+      person("Olga", "Mierzwa-Sulima", role = "aut", email = "olga@rladies.org"),
+      person("Lucy", "D'Agostino McGowan", role = "aut", email = "lucy@rladies.org"),
+      person("Claudia", "Vitolo", role = "aut"),
+      person("Gabriela", "De Queiroz", role = "ctb", email = "gabriela@rladies.org"),
+      person("Michael", "Beigelmacher", role = "ctb"),
+      person("Augustina", "Ragwitz", role = "ctb", email = "augustina.ragwitz@ibm.com"),
+      person("Greg", "Sutcliffe", role = "ctb", email = "github@emeraldverie.org"),
+      person("Rick", "Pack", role = "ctb", email = "rickeyhp@gmail.com"),
+      person("Ben", "Ubah", role = "ctb", email = "ubah.ben22@gmail.com"),
+      person("Maëlle", "Salmon", role = "ctb", email = "maelle.salmon@yahoo.se", comment = c(ORCID = "0000-0002-2815-0399")),
+      person("Athanasia Mo", "Mowinckel", email = "a.m.mowinckel@psykologi.uio.no", role = "ctb", comment = c(ORCID = "0000-0002-5756-0223")),
+      person("Barret", "Schloerke", role = "ctb", email = "barret@rstudio.com", comment = c(ORCID = "0000-0001-9986-114X"))
+    )
 Description: Provides access to data from 'meetup.com' (see
     https://www.meetup.com/meetup_api/ for more information).
 License: MIT + file LICENSE
