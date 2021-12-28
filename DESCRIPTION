@@ -27,9 +27,12 @@ Imports:
     ratelimitr,
     httr,
     purrr,
+    gh,
+    progress,
     tibble,
     rlang,
-    rappdirs
+    rappdirs,
+    glue
 Suggests:
     dplyr,
     sodium,
