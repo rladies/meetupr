@@ -5,7 +5,7 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/rladies/meetupr/workflows/R-CMD-check/badge.svg)](https://github.com/rladies/meetupr/actions)
+[![R-CMD-check](https://github.com/rladies/meetupr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rladies/meetupr/actions)
 [![Codecov test
 coverage](https://codecov.io/gh/rladies/meetupr/branch/master/graph/badge.svg)](https://codecov.io/gh/rladies/meetupr?branch=master)
 <!-- badges: end -->
@@ -98,7 +98,7 @@ events <- get_events(urlname, "past")
 dplyr::arrange(events, desc(created))
 #> # A tibble: 60 x 22
 #>    id    name  created             status time                local_date
-#>    <chr> <chr> <dttm>              <chr>  <dttm>              <date>    
+#>    <chr> <chr> <dttm>              <chr>  <dttm>              <date>
 #>  1 2730… A co… 2020-09-04 20:04:50 past   2020-09-11 00:30:00 2020-09-10
 #>  2 2724… Tang… 2020-08-06 21:24:51 past   2020-08-28 02:30:00 2020-08-27
 #>  3 2679… R-La… 2020-01-16 19:08:03 past   2020-01-31 02:00:00 2020-01-30
@@ -126,17 +126,17 @@ groups <- find_groups(topic_id = 1513883)
 dplyr::arrange(groups, desc(created))
 #> # A tibble: 137 x 21
 #>        id name  urlname status   lat     lon city  state country
-#>     <int> <chr> <chr>   <chr>  <dbl>   <dbl> <chr> <chr> <chr>  
-#>  1 3.38e7 R-La… rladie… active -1.29   36.8  Nair… ""    Kenya  
+#>     <int> <chr> <chr>   <chr>  <dbl>   <dbl> <chr> <chr> <chr>
+#>  1 3.38e7 R-La… rladie… active -1.29   36.8  Nair… ""    Kenya
 #>  2 3.34e7 R-La… rladie… active 52.4    -1.5  Cove… "43"  United…
-#>  3 3.34e7 R-La… rladie… active 43.3    21.9  Niš   ""    Serbia 
-#>  4 3.32e7 R-La… rladie… active 25.7  -100.   Mont… ""    Mexico 
+#>  3 3.34e7 R-La… rladie… active 43.3    21.9  Niš   ""    Serbia
+#>  4 3.32e7 R-La… rladie… active 25.7  -100.   Mont… ""    Mexico
 #>  5 3.32e7 R-La… rladie… active 51.8    -1.26 Oxfo… "K2"  United…
-#>  6 3.31e7 R-La… rladie… active 38.9   -92.2  Colu… "MO"  USA    
+#>  6 3.31e7 R-La… rladie… active 38.9   -92.2  Colu… "MO"  USA
 #>  7 3.31e7 R-La… rladie… active  6.93   79.8  Colo… ""    Sri La…
-#>  8 3.31e7 R-La… rladie… active 30.0   -90.1  New … "LA"  USA    
-#>  9 3.31e7 R-La… rladie… active 43.0   -76.2  Syra… "NY"  USA    
-#> 10 3.30e7 R-La… rladie… active 19.0    72.8  Mumb… ""    India  
+#>  8 3.31e7 R-La… rladie… active 30.0   -90.1  New … "LA"  USA
+#>  9 3.31e7 R-La… rladie… active 43.0   -76.2  Syra… "NY"  USA
+#> 10 3.30e7 R-La… rladie… active 19.0    72.8  Mumb… ""    India
 #> # … with 127 more rows, and 12 more variables: created <dttm>, members <int>,
 #> #   timezone <chr>, join_mode <chr>, visibility <chr>, who <chr>,
 #> #   location <chr>, organizer_id <int>, organizer_name <chr>,

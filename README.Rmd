@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 # meetupr
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/rladies/meetupr/workflows/R-CMD-check/badge.svg)](https://github.com/rladies/meetupr/actions)
+[![R-CMD-check](https://github.com/rladies/meetupr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rladies/meetupr/actions)
 [![Codecov test coverage](https://codecov.io/gh/rladies/meetupr/branch/master/graph/badge.svg)](https://codecov.io/gh/rladies/meetupr?branch=master)
 <!-- badges: end -->
 
@@ -39,12 +39,12 @@ A released version will be on CRAN [soon](https://github.com/rladies/meetupr/iss
 
 #### API key? No
 
-```{r child='man/rmd-fragments/api-key.Rmd'} 
+```{r child='man/rmd-fragments/api-key.Rmd'}
 ```
 
 #### OAuth? Yes
 
-```{r child='man/rmd-fragments/oauth.Rmd'} 
+```{r child='man/rmd-fragments/oauth.Rmd'}
 ```
 
 ### Functions
