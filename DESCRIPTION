@@ -27,6 +27,8 @@ Imports:
     ratelimitr,
     httr,
     purrr,
+    gh,
+    progress,
     tibble,
     rlang,
     rappdirs
