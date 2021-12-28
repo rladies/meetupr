@@ -3,6 +3,12 @@
 # If query size is 100, the total size is 119
 # The result size is consistent, but it is not an off-by-one error.
 # IDK. Punting for now, but it should be addressed
+# ```r
+# x <- gql_single_event(urlname = "Data-Visualization-DC", firstPast =  80, queryUnified = FALSE, queryUpcoming = FALSE)
+# y <- gql_single_event(urlname = "Data-Visualization-DC", firstPast = 100, queryUnified = FALSE, queryUpcoming = FALSE)
+# testthat::expect_equal(x %in% y, rep(TRUE, length(x))) # NOT TRUE!!!
+# testthat::expect_equal(y %in% x, rep(TRUE, length(y))) # TRUE
+# ```
 
 
 capture_str <- function(x) {
@@ -22,6 +28,21 @@ graphql_query <- function(graphql_file, ...) {
     stop("Stop all GraphQL variables must be named. Variables:\n", capture_str(variables), call. = FALSE)
   }
   # str(variables)
+
+  ## From meetup.com website example:
+  # query='query { self { id name } }'
+
+  # curl -X POST https://api.meetup.com/gql \
+  #   -H 'Authorization: Bearer {YOUR_TOKEN}' \
+  #   -H 'Content-Type: application/json' \
+  #   -d @- <<EOF
+  #     {
+  #       "query": "query { self { id name } }",
+  #       "variables": "{\"foo\": \"bar\"}"
+  #     }
+  # EOF
+
+
   suppressMessages({
     # Stop printing of message: `No encoding supplied: defaulting to UTF-8.`
     # Message comes deep within gh:::gh_process_response via `content(response, as = "text")` should have `encode = "UTF-8"` param
@@ -189,9 +210,15 @@ gql_single_event <- graphql_query_generator(
   combiner_fn = append
 )
 
+
+
+
 if (FALSE) {
-  x <- gql_single_event()
+  x <- gql_health_check()
+
   x <- gql_single_event(urlname = "Data-Visualization-DC")
   x <- gql_single_event(urlname = "R-Users")
   x <- gql_single_event(urlname = "Data-Science-DC")
+
+
 }
