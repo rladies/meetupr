@@ -22,13 +22,13 @@ if (FALSE) {
   # anything that returns a pageInfo object needs an `input` object to help with pagination.
   # To get around this, maybe we do a prep query to get the counts and then loop through the requests 20 items at a time
 
-  extra fields:
-  `fields = list(host = list("email", "name"))`
-  graphql code = "host { email, name }"
-  produces column names generated from nested names: host_email, host_name, top_level_sub_level_name_fieldValue
+  # extra fields:
+  # `fields = list(host = list("email", "name"))`
+  # graphql code = "host { email, name }"
+  # produces column names generated from nested names: host_email, host_name, top_level_sub_level_name_fieldValue
 
-  Things to implement:
-  * return a list of events; If pagination exists, find all events
+  # Things to implement:
+  # * return a list of events; If pagination exists, find all events
 
 
 
