@@ -23,7 +23,7 @@
 #'}
 #' @export
 get_boards <- function(urlname,
-                       verbose = getOption("meetupr.verbose", rlang::is_interactive())) {
+                       verbose = meetupr_verbose()) {
   api_path <- paste0(urlname, "/boards")
   res <- .fetch_results(api_path = api_path, verbose = verbose)
   tibble::tibble(

@@ -49,7 +49,7 @@
 #' @importFrom tibble tibble
 find_groups <- function(text = NULL, topic_id = NULL, radius = "global",
                         fields = NULL,
-                        verbose = getOption("meetupr.verbose", rlang::is_interactive())) {
+                        verbose = meetupr_verbose()) {
 
   res <- .fetch_results(api_path = "find/groups",
                         text = text,

@@ -22,7 +22,7 @@
 #'}
 #' @export
 get_event_attendees <- function(urlname, event_id,
-                                verbose = getOption("meetupr.verbose", rlang::is_interactive())) {
+                                verbose = meetupr_verbose()) {
   api_path <- sprintf("%s/events/%s/attendance",
                         urlname, event_id)
 
