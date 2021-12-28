@@ -59,7 +59,7 @@
 get_events <- function(urlname,
                        event_status = c("upcoming", "cancelled", "draft", "past", "proposed", "suggested"),
                        fields = NULL,
-                       verbose = getOption("meetupr.verbose", rlang::is_interactive())) {
+                       verbose = meetupr_verbose()) {
 
   match.arg(event_status)
   res <- .fetch_results(

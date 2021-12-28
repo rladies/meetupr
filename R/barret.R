@@ -306,8 +306,8 @@ gql_call <- function(
   )
 
   if (req$status_code == 400) {
-    str(req)
-    str(httr::content(req, "parsed"))
+    utils::str(req)
+    utils::str(httr::content(req, "parsed"))
     browser()
     stop("Status code is 400")
     # stop("HTTP 400 Bad Request error encountered for: ",
@@ -322,11 +322,10 @@ gql_call <- function(
 
   headers <- httr::headers(req)
 
-  assign(
-    "meetupr_rate",
-    c(headers$`x-ratelimit-limit`, headers$`x-ratelimit-reset`),
-    envir = .meetupr_env
-    )
+  set_meetupr_rate(
+    n = headers$`x-ratelimit-limit`,
+    period = headers$`x-ratelimit-reset`
+  )
 
   reslist <- httr::content(req, "parsed")
 

@@ -4,10 +4,7 @@
 \alias{get_boards}
 \title{Get the discussion boards from a meetup group}
 \usage{
-get_boards(
-  urlname,
-  verbose = getOption("meetupr.verbose", rlang::is_interactive())
-)
+get_boards(urlname, verbose = meetupr_verbose())
 }
 \arguments{
 \item{urlname}{Character. The name of the group as indicated in the

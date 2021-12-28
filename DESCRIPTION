@@ -28,10 +28,10 @@ Imports:
     httr,
     purrr,
     tibble,
-    withr,
     rlang,
     rappdirs
 Suggests:
+    dplyr,
     sodium,
     cyphr,
     knitr,
@@ -43,5 +43,5 @@ VignetteBuilder:
     knitr
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1.9000
+RoxygenNote: 7.1.2
 Config/testthat/edition: 3

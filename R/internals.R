@@ -3,8 +3,7 @@ spf <- function(...) stop(sprintf(...), call. = FALSE)
 
 # This helper function makes a single call, given the full API endpoint URL
 # Used as the workhorse function inside .fetch_results() below
-
-.meetup_call <- function(api_path,
+meetup_call_ <- function(api_path,
                          event_status = NULL,
                          offset = 0,
                          verbose = NULL,
@@ -35,11 +34,10 @@ spf <- function(...) stop(sprintf(...), call. = FALSE)
 
   headers <- httr::headers(req)
 
-  assign(
-    "meetupr_rate",
-    c(headers$`x-ratelimit-limit`, headers$`x-ratelimit-reset`),
-    envir = .meetupr_env
-    )
+  set_meetupr_rate(
+    n = headers$`x-ratelimit-limit`,
+    period = headers$`x-ratelimit-reset`
+  )
 
   reslist <- httr::content(req, "parsed")
 
@@ -53,16 +51,26 @@ spf <- function(...) stop(sprintf(...), call. = FALSE)
   return(list(result = reslist, headers = req$headers))
 }
 # from https://stackoverflow.com/questions/34254716/how-to-define-hidden-global-variables-inside-r-packages
-.meetupr_env <- new.env(parent=emptyenv())
-assign("meetupr_rate", c(30, 10), envir=.meetupr_env)
+global_env <- new.env(parent=emptyenv())
+set_meetupr_rate <- function(n, period) {
+  global_env$meetupr_rate_n <- n
+  global_env$meetupr_rate_period <- period
+}
+set_meetupr_rate(30, 10)
+get_meetupr_rate_n <- function() { global_env$meetupr_rate_n }
+get_meetupr_rate_period <- function() { global_env$meetupr_rate_period }
 
-meetup_call <- ratelimitr::limit_rate(
-  .meetup_call,
-  rate = ratelimitr::rate(
-    .meetupr_env[["meetupr_rate"]][1],
-    .meetupr_env[["meetupr_rate"]][2]
+meetup_call <- NULL
+meetup_call_onload <- function() {
+  meetup_call <<- ratelimitr::limit_rate(
+    meetup_call_,
+    rate = ratelimitr::rate(
+      get_meetupr_rate_n(),
+      get_meetupr_rate_period()
+    )
   )
-)
+}
+
 
 
 meetup_api_prefix <- function() {
@@ -148,4 +156,3 @@ meetup_api_prefix <- function() {
 .collapse = function(x){
   paste(x, collapse = ",")
 }
-

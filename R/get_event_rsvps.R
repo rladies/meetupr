@@ -26,7 +26,7 @@
 #'}
 #' @export
 get_event_rsvps <- function(urlname, event_id,
-                            verbose = getOption("meetupr.verbose", rlang::is_interactive())) {
+                            verbose = meetupr_verbose()) {
   api_path <- sprintf("%s/events/%s/rsvps",
                       urlname, event_id)
   res <- .fetch_results(api_path = api_path, verbose = verbose)

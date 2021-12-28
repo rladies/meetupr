@@ -4,11 +4,7 @@
 \alias{get_event_comments}
 \title{Get the comments for a specified event}
 \usage{
-get_event_comments(
-  urlname,
-  event_id,
-  verbose = getOption("meetupr.verbose", rlang::is_interactive())
-)
+get_event_comments(urlname, event_id, verbose = meetupr_verbose())
 }
 \arguments{
 \item{urlname}{Character. The name of the group as indicated in the

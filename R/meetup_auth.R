@@ -101,7 +101,7 @@ meetup_auth <- function(token = meetup_token_path(),
                         key = getOption("meetupr.consumer_key"),
                         secret = getOption("meetupr.consumer_secret"),
                         cache = getOption("meetupr.httr_oauth_cache", TRUE),
-                        verbose = getOption("meetupr.verbose", rlang::is_interactive()),
+                        verbose = meetupr_verbose(),
                         use_appdir = TRUE,
                         token_path = NULL) {
 
@@ -262,7 +262,7 @@ token_available <- function(verbose = TRUE) {
 #' meetup_deauth()
 #' }
 meetup_deauth <- function(clear_cache = TRUE,
-                          verbose = getOption("meetupr.verbose", rlang::is_interactive())) {
+                          verbose = meetupr_verbose()) {
 
   if (clear_cache && file.exists(meetup_token_path())) {
     if (verbose) {

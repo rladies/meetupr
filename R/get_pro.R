@@ -34,7 +34,7 @@
 #' @importFrom purrr map_int map_chr map_dbl
 #' @importFrom tibble tibble
 get_pro_groups <- function(urlname,
-                           verbose = getOption("meetupr.verbose", rlang::is_interactive())){
+                           verbose = meetupr_verbose()){
 
   api_path <- sprintf("pro/%s/groups", urlname)
   res <- .fetch_results(api_path = api_path, verbose = verbose)
@@ -54,7 +54,7 @@ get_pro_groups <- function(urlname,
 #' @importFrom tibble tibble
 #' @export
 get_pro_events <- function(urlname,
-                           verbose = getOption("meetupr.verbose", rlang::is_interactive())
+                           verbose = meetupr_verbose()
                            ){
 
   api_path <- sprintf("pro/%s/events", urlname)

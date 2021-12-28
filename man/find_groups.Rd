@@ -9,7 +9,7 @@ find_groups(
   topic_id = NULL,
   radius = "global",
   fields = NULL,
-  verbose = getOption("meetupr.verbose", rlang::is_interactive())
+  verbose = meetupr_verbose()
 )
 }
 \arguments{

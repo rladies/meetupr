@@ -26,7 +26,7 @@
 #'}
 #' @export
 get_event_comments <- function(urlname, event_id,
-                               verbose = getOption("meetupr.verbose", rlang::is_interactive())) {
+                               verbose = meetupr_verbose()) {
   api_path <- sprintf("%s/events/%s/comments",
                         urlname, event_id)
   res <- .fetch_results(api_path = api_path, verbose = verbose)
@@ -41,4 +41,3 @@ get_event_comments <- function(urlname, event_id,
     resource = res
   )
 }
-

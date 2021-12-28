@@ -4,10 +4,7 @@
 \alias{get_members}
 \title{Get the current meetup members from a meetup group}
 \usage{
-get_members(
-  urlname,
-  verbose = getOption("meetupr.verbose", rlang::is_interactive())
-)
+get_members(urlname, verbose = meetupr_verbose())
 }
 \arguments{
 \item{urlname}{Character. The name of the group as indicated in the
