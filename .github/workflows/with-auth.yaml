@@ -8,7 +8,7 @@ name: with-auth
 
 jobs:
   with-auth:
-    runs-on: macOS-latest
+    runs-on: macos-latest
 
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
