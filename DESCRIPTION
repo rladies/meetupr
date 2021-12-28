@@ -28,7 +28,6 @@ Imports:
     httr,
     purrr,
     tibble,
-    withr,
     rlang,
     rappdirs
 Suggests:
