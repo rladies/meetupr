@@ -4,6 +4,7 @@ on:
   push:
     paths:
     - 'README.Rmd'
+    - 'man/rmd-fragments/**'
     - '.github/workflows/render-readme.yaml'
 
 name: render-rmarkdown
@@ -25,13 +26,15 @@ jobs:
 
       - uses: r-lib/actions/setup-r-dependencies@v1
         with:
-          extra-packages: rmarkdown
-          needs: check
+          cache-version: readme-1
+          extra-packages: |
+            devtools
+            rmarkdown
 
       - name: Render Rmarkdown files
+        shell: Rscript {0}
         run: |
-          RMD_PATH=($(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '[.]Rmd$'))
-          Rscript -e 'for (f in commandArgs(TRUE)) if (file.exists(f)) rmarkdown::render(f)' ${RMD_PATH[*]}
+          devtools::build_readme()
 
       - name: Commit results
         run: |
