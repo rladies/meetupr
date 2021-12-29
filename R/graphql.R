@@ -227,26 +227,29 @@ gql_single_event <- graphql_query_generator(
   pb_format = "[:bar] :current/:total :eta"
 )
 
-# gql_single_event <- graphql_query_generator(
-#   "single_event",
-#   cursor_fn = function(response) {
-#     # str(response, max.level = 5)
-#     pageInfo <- response$data$groupByUrlname$pastEvents$pageInfo
-#     # str(pageInfo)
-#     if (pageInfo$hasNextPage) {
-#       list(cursor = pageInfo$endCursor)
-#     } else {
-#       NULL
-#     }
-#   },
-#   extract_fn = function(x) {
-#     x$data$groupByUrlname$pastEvents$edges
-#   },
-#   total_fn = function(x) {
-#     x$data$groupByUrlname$pastEvents$count
-#   },
-#   combiner_fn = append
-# )
+gql_find_groups <- graphql_query_generator(
+  "find_groups",
+  cursor_fn = function(x) {
+    pageInfo <- x$data$keywordSearch$pageInfo
+    str(pageInfo)
+    if (pageInfo$hasNextPage) {
+      list(cursor = pageInfo$endCursor)
+    } else {
+      NULL
+    }
+  },
+  combiner_fn = append,
+  extract_fn = function(x) {
+    lapply(x$data$keywordSearch$edges, function(item) {
+      item$node$result
+    })
+  },
+  total_fn = function(x) {
+    x$data$keywordSearch$count
+    Inf
+  },
+  pb_format = "- :current/?? :elapsed :spin"
+)
 
 
 
