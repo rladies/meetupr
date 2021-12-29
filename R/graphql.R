@@ -75,14 +75,16 @@ graphql_query_generator <- function(
   graphql_file,
   cursor_fn,
   extract_fn,
+  combiner_fn,
   total_fn,
-  combiner_fn
+  pb_format = "[:bar] :current/:total :eta"
 ) {
   force(graphql_file)
   force(cursor_fn)
   force(extract_fn)
   force(total_fn)
   force(combiner_fn)
+  force(pb_format)
 
   function(
     ...
@@ -98,7 +100,7 @@ graphql_query_generator <- function(
       if (is.null(pb)) {
         pb <- progress::progress_bar$new(
           total = total_fn(graphql_res),
-          format = paste0(graphql_file, " [:bar] :current/:total :eta")
+          format = paste0(graphql_file, " ", pb_format)
         )
         on.exit({
           # Make sure the pb is closed when exiting
@@ -126,10 +128,11 @@ gql_health_check <- graphql_query_generator(
   extract_fn = function(x) {
     x$data$healthCheck
   },
+  combiner_fn = append,
   total_fn = function(x) {
     1
   },
-  combiner_fn = append
+  pb_format = ":current/:total"
 )
 
 # gql_single_event <- graphql_query_generator(
@@ -155,8 +158,8 @@ gql_health_check <- graphql_query_generator(
 
 gql_single_event <- graphql_query_generator(
   "single_event",
-  cursor_fn = function(response) {
-    groupByUrlname <- response$data$groupByUrlname
+  cursor_fn = function(x) {
+    groupByUrlname <- x$data$groupByUrlname
     unifiedEventsInfo <- groupByUrlname$unifiedEvents$pageInfo
     upcomingEventsInfo <- groupByUrlname$upcomingEvents$pageInfo
     pastEventsInfo <- groupByUrlname$pastEvents$pageInfo
@@ -212,6 +215,7 @@ gql_single_event <- graphql_query_generator(
       )
     ret
   },
+  combiner_fn = append,
   total_fn = function(x) {
     groupByUrlname <- x$data$groupByUrlname
     sum(c(
@@ -220,7 +224,7 @@ gql_single_event <- graphql_query_generator(
       groupByUrlname$pastEvents$count
     ))
   },
-  combiner_fn = append
+  pb_format = "[:bar] :current/:total :eta"
 )
 
 # gql_single_event <- graphql_query_generator(
