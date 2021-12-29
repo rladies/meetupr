@@ -32,7 +32,7 @@ graphql_query <- function(graphql_file, ..., extra_graphql = NULL) {
   query <- glue::glue_data(list(extra_graphql = extra_graphql), query, .open = "<<", .close = ">>", trim = FALSE)
 
   variables <- purrr::compact(rlang::list2(...))
-  if (!rlang::is_named(variables)) {
+  if (length(variables) > 0 && !rlang::is_named(variables)) {
     stop("Stop all GraphQL variables must be named. Variables:\n", capture_str(variables), call. = FALSE)
   }
   # str(variables)
