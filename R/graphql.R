@@ -4,8 +4,8 @@
 # The result size is consistent, but it is not an off-by-one error.
 # IDK. Punting for now, but it should be addressed
 # ```r
-# x <- gql_single_event(urlname = "Data-Visualization-DC", firstPast =  80, queryUnified = FALSE, queryUpcoming = FALSE)
-# y <- gql_single_event(urlname = "Data-Visualization-DC", firstPast = 100, queryUnified = FALSE, queryUpcoming = FALSE)
+# x <- gql_events(urlname = "Data-Visualization-DC", firstPast =  80, queryUnified = FALSE, queryUpcoming = FALSE)
+# y <- gql_events(urlname = "Data-Visualization-DC", firstPast = 100, queryUnified = FALSE, queryUpcoming = FALSE)
 # testthat::expect_equal(x %in% y, rep(TRUE, length(x))) # NOT TRUE!!!
 # testthat::expect_equal(y %in% x, rep(TRUE, length(y))) # TRUE
 # ```
@@ -159,7 +159,7 @@ gql_health_check <- graphql_query_generator(
 # )
 
 gql_single_event <- graphql_query_generator(
-  "single_event",
+  "find_events",
   cursor_fn = function(x) {
     groupByUrlname <- x$data$groupByUrlname
     unifiedEventsInfo <- groupByUrlname$unifiedEvents$pageInfo
@@ -320,16 +320,14 @@ add_group_locations <- function(groups) {
 if (FALSE) {
   x <- gql_health_check()
 
-  x <- gql_single_event(urlname = "Data-Visualization-DC")
-  x <- gql_single_event(urlname = "R-Users")
+  x <- gql_events(urlname = "Data-Visualization-DC")
+  x <- gql_events(urlname = "R-Users")
 
-  x <- gql_single_event(urlname = "Data-Science-DC")
+  x <- gql_events(urlname = "Data-Science-DC")
 
-  x <- gql_single_event(urlname = "Data-Science-DC", extra_graphql = "host { name }")
+  x <- gql_events(urlname = "Data-Science-DC", extra_graphql = "host { name }")
 
   x <- graphql_file("location", lat = 10.54, lon = -66.93)
 
   x <- gql_find_groups(topicCategoryId = 546, query = "R-Ladies")
-
-
 }
