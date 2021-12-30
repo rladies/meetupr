@@ -18,8 +18,7 @@ capture_str <- function(x) {
   )
 }
 
-
-graphql_query <- function(graphql_file, ..., extra_graphql = NULL) {
+graphql_file <- function(graphql_file, ..., extra_graphql = NULL) {
   # inspiration: https://github.com/tidyverse/tidyversedashboard/blob/2c6cf9ebe8da938c35f6e9fc184c3b30265f1082/R/utils.R#L2
   file <- system.file(file.path("graphql", paste0(graphql_file, ".graphql")), package = "meetupr")
   query <- readChar(file, file.info(file)$size)
@@ -31,6 +30,9 @@ graphql_query <- function(graphql_file, ..., extra_graphql = NULL) {
   }
   query <- glue::glue_data(list(extra_graphql = extra_graphql), query, .open = "<<", .close = ">>", trim = FALSE)
 
+  graphql_query(query, ...)
+}
+graphql_query <- function(query, ...) {
   variables <- purrr::compact(rlang::list2(...))
   if (length(variables) > 0 && !rlang::is_named(variables)) {
     stop("Stop all GraphQL variables must be named. Variables:\n", capture_str(variables), call. = FALSE)
@@ -94,7 +96,7 @@ graphql_query_generator <- function(
     pb <- NULL
     while (TRUE) {
       # browser()
-      graphql_res <- graphql_query(graphql_file, ..., !!!cursors)
+      graphql_res <- graphql_file(graphql_file, ..., !!!cursors)
       cursors <- cursor_fn(graphql_res)
       graphql_content <- extract_fn(graphql_res)
       if (is.null(pb)) {
