@@ -137,26 +137,6 @@ gql_health_check <- graphql_query_generator(
   pb_format = ":current/:total"
 )
 
-# gql_single_event <- graphql_query_generator(
-#   "single_event",
-#   cursor_fn = function(response) {
-#     # str(response, max.level = 5)
-#     pageInfo <- response$data$groupByUrlname$pastEvents$pageInfo
-#     # str(pageInfo)
-#     if (pageInfo$hasNextPage) {
-#       list(cursor = pageInfo$endCursor)
-#     } else {
-#       NULL
-#     }
-#   },
-#   extract_fn = function(x) {
-#     x$data$groupByUrlname$pastEvents$edges
-#   },
-#   total_fn = function(x) {
-#     x$data$groupByUrlname$pastEvents$count
-#   }
-# )
-
 gql_events <- graphql_query_generator(
   "find_events",
   cursor_fn = function(x) {
