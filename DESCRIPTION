@@ -32,9 +32,10 @@ Imports:
     tibble,
     rlang,
     rappdirs,
-    glue
-Suggests:
+    glue,
     dplyr,
+    rlist
+Suggests:
     sodium,
     cyphr,
     knitr,

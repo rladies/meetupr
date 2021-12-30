@@ -4,8 +4,8 @@
 # The result size is consistent, but it is not an off-by-one error.
 # IDK. Punting for now, but it should be addressed
 # ```r
-# x <- gql_single_event(urlname = "Data-Visualization-DC", firstPast =  80, queryUnified = FALSE, queryUpcoming = FALSE)
-# y <- gql_single_event(urlname = "Data-Visualization-DC", firstPast = 100, queryUnified = FALSE, queryUpcoming = FALSE)
+# x <- gql_events(urlname = "Data-Visualization-DC", firstPast =  80, queryUnified = FALSE, queryUpcoming = FALSE)
+# y <- gql_events(urlname = "Data-Visualization-DC", firstPast = 100, queryUnified = FALSE, queryUpcoming = FALSE)
 # testthat::expect_equal(x %in% y, rep(TRUE, length(x))) # NOT TRUE!!!
 # testthat::expect_equal(y %in% x, rep(TRUE, length(y))) # TRUE
 # ```
@@ -18,26 +18,26 @@ capture_str <- function(x) {
   )
 }
 
-graphql_file <- function(graphql_file, ..., extra_graphql = NULL) {
+graphql_file <- function(.file, ..., .extra_graphql = NULL) {
   # inspiration: https://github.com/tidyverse/tidyversedashboard/blob/2c6cf9ebe8da938c35f6e9fc184c3b30265f1082/R/utils.R#L2
-  file <- system.file(file.path("graphql", paste0(graphql_file, ".graphql")), package = "meetupr")
+  file <- system.file(file.path("graphql", paste0(.file, ".graphql")), package = "meetupr")
   query <- readChar(file, file.info(file)$size)
-  extra_graphql <- extra_graphql %||% ""
-  if (!is.null(extra_graphql)) {
-    if (length(extra_graphql) != 1 && is.character(extra_graphql)) {
-      stop("extra_graphql must be a single string")
+  .extra_graphql <- .extra_graphql %||% ""
+  if (!is.null(.extra_graphql)) {
+    if (length(.extra_graphql) != 1 && is.character(.extra_graphql)) {
+      stop("`.extra_graphql` must be a single string")
     }
   }
-  query <- glue::glue_data(list(extra_graphql = extra_graphql), query, .open = "<<", .close = ">>", trim = FALSE)
+  glued_query <- glue::glue_data(list(extra_graphql = .extra_graphql), query, .open = "<<", .close = ">>", trim = FALSE)
 
-  graphql_query(query, ...)
+  graphql_query(.query = glued_query, ...)
 }
-graphql_query <- function(query, ...) {
+graphql_query <- function(.query, ...) {
   variables <- purrr::compact(rlang::list2(...))
+
   if (length(variables) > 0 && !rlang::is_named(variables)) {
     stop("Stop all GraphQL variables must be named. Variables:\n", capture_str(variables), call. = FALSE)
   }
-  # str(variables)
 
   ## From meetup.com website example:
   # query='query { self { id name } }'
@@ -58,7 +58,7 @@ graphql_query <- function(query, ...) {
     # Message comes deep within gh:::gh_process_response via `content(response, as = "text")` should have `encode = "UTF-8"` param
     response <- gh::gh(
       "POST https://api.meetup.com/gql",
-      query = query,
+      query = .query,
       variables = variables,
       .accept = "application/json",
       .send_headers = c(
@@ -68,20 +68,21 @@ graphql_query <- function(query, ...) {
   })
 
   if (!is.null(response$errors)) {
-    stop("Meetup GraphQL API returned errors.\n",capture_str(response$errors))
+    stop("Meetup GraphQL API returned errors.\n", capture_str(response$errors))
   }
   response
 }
 
 graphql_query_generator <- function(
-  graphql_file,
+  file,
   cursor_fn,
   extract_fn,
-  combiner_fn,
+  combiner_fn = append,
+  finalizer_fn = data_to_tbl,
   total_fn,
   pb_format = "[:bar] :current/:total :eta"
 ) {
-  force(graphql_file)
+  force(file)
   force(cursor_fn)
   force(extract_fn)
   force(total_fn)
@@ -96,13 +97,13 @@ graphql_query_generator <- function(
     pb <- NULL
     while (TRUE) {
       # browser()
-      graphql_res <- graphql_file(graphql_file, ..., !!!cursors)
+      graphql_res <- graphql_file(file, ..., !!!cursors)
       cursors <- cursor_fn(graphql_res)
       graphql_content <- extract_fn(graphql_res)
       if (is.null(pb)) {
         pb <- progress::progress_bar$new(
           total = total_fn(graphql_res),
-          format = paste0(graphql_file, " ", pb_format)
+          format = paste0(file, " ", pb_format)
         )
         on.exit({
           # Make sure the pb is closed when exiting
@@ -117,7 +118,7 @@ graphql_query_generator <- function(
       if (length(cursors) == 0) break
     }
 
-    ret
+    finalizer_fn(ret)
   }
 }
 
@@ -130,7 +131,7 @@ gql_health_check <- graphql_query_generator(
   extract_fn = function(x) {
     x$data$healthCheck
   },
-  combiner_fn = append,
+  finalizer_fn = unlist,
   total_fn = function(x) {
     1
   },
@@ -154,12 +155,11 @@ gql_health_check <- graphql_query_generator(
 #   },
 #   total_fn = function(x) {
 #     x$data$groupByUrlname$pastEvents$count
-#   },
-#   combiner_fn = append
+#   }
 # )
 
-gql_single_event <- graphql_query_generator(
-  "single_event",
+gql_events <- graphql_query_generator(
+  "find_events",
   cursor_fn = function(x) {
     groupByUrlname <- x$data$groupByUrlname
     unifiedEventsInfo <- groupByUrlname$unifiedEvents$pageInfo
@@ -194,10 +194,10 @@ gql_single_event <- graphql_query_generator(
     upcomingEvents <- groupByUrlname$upcomingEvents$edges
     pastEvents <- groupByUrlname$pastEvents$edges
 
-    get_nodes <- function(x, type) {
+    get_nodes <- function(x, event_type) {
       nodes <- lapply(x, `[[`, "node")
       lapply(nodes, function(item) {
-        item$type <- type
+        item$eventType <- event_type
         item
       })
     }
@@ -217,7 +217,6 @@ gql_single_event <- graphql_query_generator(
       )
     ret
   },
-  combiner_fn = append,
   total_fn = function(x) {
     groupByUrlname <- x$data$groupByUrlname
     sum(c(
@@ -233,14 +232,12 @@ gql_find_groups <- graphql_query_generator(
   "find_groups",
   cursor_fn = function(x) {
     pageInfo <- x$data$keywordSearch$pageInfo
-    str(pageInfo)
     if (pageInfo$hasNextPage) {
       list(cursor = pageInfo$endCursor)
     } else {
       NULL
     }
   },
-  combiner_fn = append,
   extract_fn = function(x) {
     groups <- lapply(x$data$keywordSearch$edges, function(item) {
       item$node$result
@@ -316,20 +313,27 @@ add_group_locations <- function(groups) {
 }
 
 
+data_to_tbl <- function(data) {
+  dplyr::bind_rows(
+    lapply(data, function(data_item) {
+      rlist::list.flatten(data_item)
+    })
+  )
+}
+
+
 
 if (FALSE) {
   x <- gql_health_check()
 
-  x <- gql_single_event(urlname = "Data-Visualization-DC")
-  x <- gql_single_event(urlname = "R-Users")
+  x <- gql_events(urlname = "Data-Visualization-DC")
+  x <- gql_events(urlname = "R-Users")
 
-  x <- gql_single_event(urlname = "Data-Science-DC")
+  x <- gql_events(urlname = "Data-Science-DC")
 
-  x <- gql_single_event(urlname = "Data-Science-DC", extra_graphql = "host { name }")
+  x <- gql_events(urlname = "Data-Science-DC", .extra_graphql = "host { name }")
 
   x <- graphql_file("location", lat = 10.54, lon = -66.93)
 
   x <- gql_find_groups(topicCategoryId = 546, query = "R-Ladies")
-
-
 }
