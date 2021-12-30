@@ -6,11 +6,14 @@
 # ```r
 # x <- gql_events(urlname = "Data-Visualization-DC", firstPast =  80, queryUnified = FALSE, queryUpcoming = FALSE)
 # y <- gql_events(urlname = "Data-Visualization-DC", firstPast = 100, queryUnified = FALSE, queryUpcoming = FALSE)
-# testthat::expect_equal(x %in% y, rep(TRUE, length(x))) # NOT TRUE!!!
-# testthat::expect_equal(y %in% x, rep(TRUE, length(y))) # TRUE
+# testthat::expect_equal(x$id %in% y$id, rep(TRUE, nrow(x))) # NOT TRUE!!!
+# testthat::expect_equal(y$id %in% x$id, rep(TRUE, nrow(y))) # TRUE
 # ```
 
 
+
+
+# Capture all output of `str()` and return it as a single string
 capture_str <- function(x) {
   paste0(
     utils::capture.output(utils::str(x)),
@@ -18,6 +21,27 @@ capture_str <- function(x) {
   )
 }
 
+# Turns a list of consistently shaped lists into a single tibble
+# This also turns nested lists like `ITEM$venue$address` into a single value of `venue.address`
+data_to_tbl <- function(data) {
+  dplyr::bind_rows(
+    lapply(data, function(data_item) {
+      rlist::list.flatten(data_item)
+    })
+  )
+}
+
+
+
+
+
+#' Query the Meetup GraphQL API given a file and variables
+#'
+#' Constructs a single text string and passes the string and `...` variables to [`graphql_query`]
+#' @noRd
+#' @param .file File name (without extension) in `./inst/graphql`
+#' @param ... Variables to pass to the query
+#' @param .extra_graphql Extra GraphQL code to insert into the query. The location is different within each GraphQL file.
 graphql_file <- function(.file, ..., .extra_graphql = NULL) {
   # inspiration: https://github.com/tidyverse/tidyversedashboard/blob/2c6cf9ebe8da938c35f6e9fc184c3b30265f1082/R/utils.R#L2
   file <- system.file(file.path("graphql", paste0(.file, ".graphql")), package = "meetupr")
@@ -32,6 +56,13 @@ graphql_file <- function(.file, ..., .extra_graphql = NULL) {
 
   graphql_query(.query = glued_query, ...)
 }
+
+#' Query the Meetup GraphQL API
+#' @noRd
+#' @param .query GraphQL query string
+#' @param ... Variables to pass to the query
+#' @return A list like structure directly from the API. Typically you'll want to use `$data`.
+#'   If any `$errors`` are found, an error will be thrown.
 graphql_query <- function(.query, ...) {
   variables <- purrr::compact(rlang::list2(...))
 
@@ -51,7 +82,6 @@ graphql_query <- function(.query, ...) {
   #       "variables": "{\"foo\": \"bar\"}"
   #     }
   # EOF
-
 
   suppressMessages({
     # Stop printing of message: `No encoding supplied: defaulting to UTF-8.`
@@ -73,30 +103,45 @@ graphql_query <- function(.query, ...) {
   response
 }
 
+#' Generic method to fetch, extract, and combine results.
+#'
+#' Will spawn a progress bar if many results are to be fetched. If there is only a single set of results, no progress bar will be displayed.
+#'
+#' @noRd
+#' @param file File to send to `graphql_file(.file=)`
+#' @param cursor_fn Function that takes the result of `graphql_file(.file=)`. This method should return a list of arguments (typically cursor related) to pass to the next API request. If the `cursor_fn` returns `NULL`, no more results will be fetched.
+#' @param total_fn Function that takes in a result and returns a total number of results. This number is used for the progress bar.
+#' @param pb_format Format to supply to a new [`progress::progress_bar`].
+#' @param extract_fn Function that takes the result of `graphql_file(.file=)` and returns a list of results to be combined via `combiner_fn`. Typically, the returned result is a list of information for each record.
+#' @param combiner_fn Function to merge two results of `extract_fn` together. The initial result is set to `NULL`.
+#' @param finalizer_fn Function that will run over the final result of `combiner_fn`. Typically, this is where the list of lists is turned into a tibble.
+#' @return A function that wraps around `graphql_file(.file = file, ..., .extra_graphql = .extra_graphql)` and passes through `...` and `.extra_graphql`
 graphql_query_generator <- function(
   file,
   cursor_fn,
+  total_fn,
   extract_fn,
   combiner_fn = append,
   finalizer_fn = data_to_tbl,
-  total_fn,
   pb_format = "[:bar] :current/:total :eta"
 ) {
   force(file)
   force(cursor_fn)
   force(extract_fn)
-  force(total_fn)
   force(combiner_fn)
+  force(finalizer_fn)
+  force(total_fn)
   force(pb_format)
 
   function(
-    ...
+    ...,
+    .extra_graphql = NULL
   ) {
     ret <- NULL
     cursors <- list()
     pb <- NULL
     while (TRUE) {
-      graphql_res <- graphql_file(file, ..., !!!cursors)
+      graphql_res <- graphql_file(.file = file, ..., !!!cursors, .extra_graphql = .extra_graphql)
       cursors <- cursor_fn(graphql_res)
       graphql_content <- extract_fn(graphql_res)
       if (is.null(pb)) {
@@ -127,13 +172,13 @@ gql_health_check <- graphql_query_generator(
   cursor_fn = function(response) {
     NULL
   },
+  total_fn = function(x) {
+    1
+  },
   extract_fn = function(x) {
     x$data$healthCheck
   },
   finalizer_fn = unlist,
-  total_fn = function(x) {
-    1
-  },
   pb_format = ":current/:total"
 )
 
@@ -164,6 +209,15 @@ gql_events <- graphql_query_generator(
       NULL
     }
   },
+  total_fn = function(x) {
+    groupByUrlname <- x$data$groupByUrlname
+    sum(c(
+      groupByUrlname$unifiedEvents$count,
+      groupByUrlname$upcomingEvents$count,
+      groupByUrlname$pastEvents$count,
+      groupByUrlname$draftEvents$count
+    ))
+  },
   extract_fn = function(x) {
     groupByUrlname <- x$data$groupByUrlname
     get_nodes <- function(edge_name, event_type) {
@@ -181,20 +235,8 @@ gql_events <- graphql_query_generator(
       recursive = FALSE
     )
 
-    events <- add_country_name(
-      events,
-      get_country = function(event) event$venue$country
-    )
+    events <- add_country_name(events, get_country = function(event) event$venue$country)
     events
-  },
-  total_fn = function(x) {
-    groupByUrlname <- x$data$groupByUrlname
-    sum(c(
-      groupByUrlname$unifiedEvents$count,
-      groupByUrlname$upcomingEvents$count,
-      groupByUrlname$pastEvents$count,
-      groupByUrlname$draftEvents$count
-    ))
   },
   pb_format = "[:bar] :current/:total :eta"
 )
@@ -209,41 +251,22 @@ gql_find_groups <- graphql_query_generator(
       NULL
     }
   },
-  extract_fn = function(x) {
-    groups <- lapply(x$data$keywordSearch$edges, function(item) {
-      item$node$result
-    })
-    groups <- add_country_name(groups)
-    groups
-  },
   total_fn = function(x) {
     x$data$keywordSearch$count
     Inf
   },
+  extract_fn = function(x) {
+    groups <- lapply(x$data$keywordSearch$edges, function(item) {
+      item$node$result
+    })
+    groups <- add_country_name(groups, get_country = function(group) group$country)
+    groups
+  },
   pb_format = "- :current/?? :elapsed :spin"
 )
 
-# If this function returns empty results, then it is being rate limited
-# I don't know how we should approach this.
-# A single query can _touch_ 500 points...
-# > The API currently allows you to have 500 points in your queries every 60 seconds.
 
-# Using a hash map of information. If the hash already exists, the query is removed
-known_locations_env <- new.env(parent = emptyenv())
-set_known_location <- function(hash, info) {
-  if (length(info) > 1) {
-    known_locations_env[[hash]] <- info
-  }
-}
-get_known_location <- function(hash) {
-  known_locations_env[[hash]]
-}
-has_known_location <- function(hash) {
-  exists(hash, envir = known_locations_env)
-}
-
-# Cache the country code to name conversion
-# as the conversion is consistent.
+# Cache the country code to name conversion as the conversion is consistent
 country_code_mem <- local({
   cache <- list()
   function(country) {
@@ -260,6 +283,8 @@ country_code_mem <- local({
     val
   }
 })
+
+# Adds the `country_name` field given the two letter country value found from `get_country`
 add_country_name <- function(
   groups,
   get_country = function(group) group$country
@@ -277,16 +302,9 @@ add_country_name <- function(
 }
 
 
-data_to_tbl <- function(data) {
-  dplyr::bind_rows(
-    lapply(data, function(data_item) {
-      rlist::list.flatten(data_item)
-    })
-  )
-}
 
 
-
+# Manual checking
 if (FALSE) {
   x <- gql_health_check(); utils::str(x)
 
