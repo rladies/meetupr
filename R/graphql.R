@@ -96,7 +96,6 @@ graphql_query_generator <- function(
     cursors <- list()
     pb <- NULL
     while (TRUE) {
-      # browser()
       graphql_res <- graphql_file(file, ..., !!!cursors)
       cursors <- cursor_fn(graphql_res)
       graphql_content <- extract_fn(graphql_res)
@@ -138,47 +137,26 @@ gql_health_check <- graphql_query_generator(
   pb_format = ":current/:total"
 )
 
-# gql_single_event <- graphql_query_generator(
-#   "single_event",
-#   cursor_fn = function(response) {
-#     # str(response, max.level = 5)
-#     pageInfo <- response$data$groupByUrlname$pastEvents$pageInfo
-#     # str(pageInfo)
-#     if (pageInfo$hasNextPage) {
-#       list(cursor = pageInfo$endCursor)
-#     } else {
-#       NULL
-#     }
-#   },
-#   extract_fn = function(x) {
-#     x$data$groupByUrlname$pastEvents$edges
-#   },
-#   total_fn = function(x) {
-#     x$data$groupByUrlname$pastEvents$count
-#   }
-# )
-
 gql_events <- graphql_query_generator(
   "find_events",
   cursor_fn = function(x) {
-    groupByUrlname <- x$data$groupByUrlname
-    unifiedEventsInfo <- groupByUrlname$unifiedEvents$pageInfo
-    upcomingEventsInfo <- groupByUrlname$upcomingEvents$pageInfo
-    pastEventsInfo <- groupByUrlname$pastEvents$pageInfo
-
     ret <- list()
     hasACursor <- FALSE
-    add_cursor_info <- function(info, name) {
+    groupByUrlname <- x$data$groupByUrlname
+    add_cursor_info <- function(page_name, arg_name) {
+      info <- groupByUrlname[[page_name]]$pageInfo
+
       if (!is.null(info) && info$hasNextPage) {
         hasACursor <<- TRUE
-        ret[[paste0("cursor", name)]] <<- info$endCursor
+        ret[[paste0("cursor", arg_name)]] <<- info$endCursor
       } else {
-        ret[[paste0("query", name)]] <<- FALSE
+        ret[[paste0("query", arg_name)]] <<- FALSE
       }
     }
-    add_cursor_info(unifiedEventsInfo, "Unified")
-    add_cursor_info(upcomingEventsInfo, "Upcoming")
-    add_cursor_info(pastEventsInfo, "Past")
+    add_cursor_info("unifiedEvents", "Unified")
+    add_cursor_info("upcomingEvents", "Upcoming")
+    add_cursor_info("pastEvents", "Past")
+    add_cursor_info("draftEvents", "Draft")
 
     if (hasACursor) {
       ret
@@ -187,42 +165,35 @@ gql_events <- graphql_query_generator(
     }
   },
   extract_fn = function(x) {
-    # browser()
     groupByUrlname <- x$data$groupByUrlname
-
-    unifiedEvents <- groupByUrlname$unifiedEvents$edges
-    upcomingEvents <- groupByUrlname$upcomingEvents$edges
-    pastEvents <- groupByUrlname$pastEvents$edges
-
-    get_nodes <- function(x, event_type) {
-      nodes <- lapply(x, `[[`, "node")
-      lapply(nodes, function(item) {
-        item$eventType <- event_type
-        item
-      })
+    get_nodes <- function(edge_name, event_type) {
+      edges <- groupByUrlname[[edge_name]]$edges
+      lapply(edges, `[[`, "node")
     }
-    unifiedEvents <- get_nodes(unifiedEvents, "unified")
-    upcomingEvents <- get_nodes(upcomingEvents, "upcoming")
-    pastEvents <- get_nodes(pastEvents, "past")
-    # str(list(
-    #   unifiedLength = length(unifiedEvents),
-    #   upcomingLength = length(upcomingEvents),
-    #   pastLength = length(pastEvents)
-    # ))
 
-    ret <-
-      append(
-        append(unifiedEvents, upcomingEvents),
-        pastEvents,
-      )
-    ret
+    events <- unlist(
+      list(
+        get_nodes("unifiedEvents", "unified"),
+        get_nodes("upcomingEvents", "upcoming"),
+        get_nodes("pastEvents", "past"),
+        get_nodes("draftEvents", "draft")
+      ),
+      recursive = FALSE
+    )
+
+    events <- add_country_name(
+      events,
+      get_country = function(event) event$venue$country
+    )
+    events
   },
   total_fn = function(x) {
     groupByUrlname <- x$data$groupByUrlname
     sum(c(
       groupByUrlname$unifiedEvents$count,
       groupByUrlname$upcomingEvents$count,
-      groupByUrlname$pastEvents$count
+      groupByUrlname$pastEvents$count,
+      groupByUrlname$draftEvents$count
     ))
   },
   pb_format = "[:bar] :current/:total :eta"
@@ -242,7 +213,7 @@ gql_find_groups <- graphql_query_generator(
     groups <- lapply(x$data$keywordSearch$edges, function(item) {
       item$node$result
     })
-    groups <- add_group_locations(groups)
+    groups <- add_country_name(groups)
     groups
   },
   total_fn = function(x) {
@@ -256,60 +227,53 @@ gql_find_groups <- graphql_query_generator(
 # I don't know how we should approach this.
 # A single query can _touch_ 500 points...
 # > The API currently allows you to have 500 points in your queries every 60 seconds.
-add_group_locations <- function(groups) {
 
-  location_txt <- lapply(groups, function(group) {
-    txt <- "
-    << name >>:findLocation(lat: << lat >>, lon: << lon >>) {
-      city
-      localized_country_name
-      name_string
-    }"
-    glue::glue_data(
-      list(
-        name = paste0("m", rlang::hash(group)),
-        lat = group$latitude,
-        lon = group$longitude
-      ),
-      txt,
-      .open = "<<", .close = ">>", .trim = FALSE
-    )
-  })
+# Using a hash map of information. If the hash already exists, the query is removed
+known_locations_env <- new.env(parent = emptyenv())
+set_known_location <- function(hash, info) {
+  if (length(info) > 1) {
+    known_locations_env[[hash]] <- info
+  }
+}
+get_known_location <- function(hash) {
+  known_locations_env[[hash]]
+}
+has_known_location <- function(hash) {
+  exists(hash, envir = known_locations_env)
+}
 
-  query <- paste0(
-    "query { ",
-    paste0(location_txt, collapse = "\n"), "\n",
-    "}"
-  )
-  # cat(query, "\n", sep = "")
+# Cache the country code to name conversion
+# as the conversion is consistent.
+country_code_mem <- local({
+  cache <- list()
+  function(country) {
+    val <- cache[[country]]
+    if (!is.null(val)) return(val)
 
-  result <- graphql_query(query)
-
-  # Add theh localized country name if the data exists
-  # Return the the updated groups
-  Map(
-    groups,
-    result$data,
-    f = function(group, locations) {
-      for (location in locations) {
-        if (group$city == location$city) {
-          group$localized_country_name <- location$localized_country_name
-          group$name_string <- location$name_string
-          return(group)
-        }
-      }
-      # No city match at this point
-      if (length(locations) == 0) {
-        group$localized_country_name <- NA
-        group$name_string <- NA
+    val <-
+      countrycode::countrycode(
+        country,
+        "iso2c",
+        "country.name"
+      )
+    cache[[country]] <<- val
+    val
+  }
+})
+add_country_name <- function(
+  groups,
+  get_country = function(group) group$country
+) {
+  lapply(groups, function(group) {
+    country <- get_country(group)
+    group$country_name <-
+      if (length(country) == 0 || nchar(country) == 0) {
+        ""
       } else {
-        first_location <- locations[[1]]
-        group$localized_country_name <- first_location$localized_country_name
-        group$name_string <- first_location$name_string
+        country_code_mem(country)
       }
-      return(group)
-    }
-  )
+    group
+  })
 }
 
 
@@ -324,16 +288,16 @@ data_to_tbl <- function(data) {
 
 
 if (FALSE) {
-  x <- gql_health_check()
+  x <- gql_health_check(); utils::str(x)
 
-  x <- gql_events(urlname = "Data-Visualization-DC")
-  x <- gql_events(urlname = "R-Users")
+  x <- get_events2(urlname = "Data-Visualization-DC"); utils::str(x)
+  x <- get_events2(urlname = "R-Users"); utils::str(x)
 
-  x <- gql_events(urlname = "Data-Science-DC")
+  x <- get_events2(urlname = "Data-Science-DC"); utils::str(x)
 
-  x <- gql_events(urlname = "Data-Science-DC", .extra_graphql = "host { name }")
+  x <- get_events2(urlname = "Data-Science-DC", .extra_graphql = "host { name }"); utils::str(x)
 
-  x <- graphql_file("location", lat = 10.54, lon = -66.93)
+  x <- graphql_file("location", lat = 10.54, lon = -66.93); utils::str(x)
 
-  x <- gql_find_groups(topicCategoryId = 546, query = "R-Ladies")
+  x <- find_groups2(topic_category_id = 546, query = "R-Ladies"); utils::str(x)
 }

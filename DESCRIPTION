@@ -34,7 +34,10 @@ Imports:
     rappdirs,
     glue,
     dplyr,
-    rlist
+    rlist,
+    anytime,
+    ellipsis,
+    countrycode
 Suggests:
     sodium,
     cyphr,
