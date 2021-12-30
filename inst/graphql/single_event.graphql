@@ -1,5 +1,6 @@
 query singleEvent(
-  $urlname: String! = "Data-Visualization-DC"
+  # $urlname: String! = "Data-Visualization-DC"
+  $urlname: String!
   $cursorUnified: String
   $cursorUpcoming: String
   $cursorPast: String
