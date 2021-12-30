@@ -96,7 +96,6 @@ graphql_query_generator <- function(
     cursors <- list()
     pb <- NULL
     while (TRUE) {
-      # browser()
       graphql_res <- graphql_file(file, ..., !!!cursors)
       cursors <- cursor_fn(graphql_res)
       graphql_content <- extract_fn(graphql_res)
@@ -161,24 +160,23 @@ gql_health_check <- graphql_query_generator(
 gql_events <- graphql_query_generator(
   "find_events",
   cursor_fn = function(x) {
-    groupByUrlname <- x$data$groupByUrlname
-    unifiedEventsInfo <- groupByUrlname$unifiedEvents$pageInfo
-    upcomingEventsInfo <- groupByUrlname$upcomingEvents$pageInfo
-    pastEventsInfo <- groupByUrlname$pastEvents$pageInfo
-
     ret <- list()
     hasACursor <- FALSE
-    add_cursor_info <- function(info, name) {
+    groupByUrlname <- x$data$groupByUrlname
+    add_cursor_info <- function(page_name, arg_name) {
+      info <- groupByUrlname[[page_name]]$pageInfo
+
       if (!is.null(info) && info$hasNextPage) {
         hasACursor <<- TRUE
-        ret[[paste0("cursor", name)]] <<- info$endCursor
+        ret[[paste0("cursor", arg_name)]] <<- info$endCursor
       } else {
-        ret[[paste0("query", name)]] <<- FALSE
+        ret[[paste0("query", arg_name)]] <<- FALSE
       }
     }
-    add_cursor_info(unifiedEventsInfo, "Unified")
-    add_cursor_info(upcomingEventsInfo, "Upcoming")
-    add_cursor_info(pastEventsInfo, "Past")
+    add_cursor_info("unifiedEvents", "Unified")
+    add_cursor_info("upcomingEvents", "Upcoming")
+    add_cursor_info("pastEvents", "Past")
+    add_cursor_info("draftEvents", "Draft")
 
     if (hasACursor) {
       ret
@@ -187,42 +185,37 @@ gql_events <- graphql_query_generator(
     }
   },
   extract_fn = function(x) {
-    # browser()
     groupByUrlname <- x$data$groupByUrlname
-
-    unifiedEvents <- groupByUrlname$unifiedEvents$edges
-    upcomingEvents <- groupByUrlname$upcomingEvents$edges
-    pastEvents <- groupByUrlname$pastEvents$edges
-
-    get_nodes <- function(x, event_type) {
-      nodes <- lapply(x, `[[`, "node")
-      lapply(nodes, function(item) {
-        item$eventType <- event_type
-        item
-      })
+    get_nodes <- function(edge_name, event_type) {
+      edges <- groupByUrlname[[edge_name]]$edges
+      lapply(edges, `[[`, "node")
     }
-    unifiedEvents <- get_nodes(unifiedEvents, "unified")
-    upcomingEvents <- get_nodes(upcomingEvents, "upcoming")
-    pastEvents <- get_nodes(pastEvents, "past")
-    # str(list(
-    #   unifiedLength = length(unifiedEvents),
-    #   upcomingLength = length(upcomingEvents),
-    #   pastLength = length(pastEvents)
-    # ))
 
-    ret <-
-      append(
-        append(unifiedEvents, upcomingEvents),
-        pastEvents,
-      )
-    ret
+    events <- unlist(
+      list(
+        get_nodes("unifiedEvents", "unified"),
+        get_nodes("upcomingEvents", "upcoming"),
+        get_nodes("pastEvents", "past"),
+        get_nodes("draftEvents", "draft")
+      ),
+      recursive = FALSE
+    )
+
+    events <- add_locations(
+      events,
+      get_city = function(event) event$venue$city,
+      get_lat = function(event) event$venue$lat,
+      get_lon = function(event) event$venue$lon
+    )
+    events
   },
   total_fn = function(x) {
     groupByUrlname <- x$data$groupByUrlname
     sum(c(
       groupByUrlname$unifiedEvents$count,
       groupByUrlname$upcomingEvents$count,
-      groupByUrlname$pastEvents$count
+      groupByUrlname$pastEvents$count,
+      groupByUrlname$draftEvents$count
     ))
   },
   pb_format = "[:bar] :current/:total :eta"
@@ -242,7 +235,7 @@ gql_find_groups <- graphql_query_generator(
     groups <- lapply(x$data$keywordSearch$edges, function(item) {
       item$node$result
     })
-    groups <- add_group_locations(groups)
+    groups <- add_locations(groups)
     groups
   },
   total_fn = function(x) {
@@ -256,43 +249,101 @@ gql_find_groups <- graphql_query_generator(
 # I don't know how we should approach this.
 # A single query can _touch_ 500 points...
 # > The API currently allows you to have 500 points in your queries every 60 seconds.
-add_group_locations <- function(groups) {
 
-  location_txt <- lapply(groups, function(group) {
+# Using a hash map of information. If the hash already exists, the query is removed
+known_locations_env <- new.env(parent = emptyenv())
+set_known_location <- function(hash, info) {
+  if (length(info) > 1) {
+    known_locations_env[[hash]] <- info
+  }
+}
+get_known_location <- function(hash) {
+  known_locations_env[[hash]]
+}
+has_known_location <- function(hash) {
+  exists(hash, envir = known_locations_env)
+}
+
+
+add_locations <- function(
+  groups,
+  get_city = function(group) group$city,
+  get_lat = function(group) group$latitude,
+  get_lon = function(group) group$longitude
+) {
+
+  # Add information to calculate once...
+  groups <- lapply(groups, function(group) {
+    city <- get_city(group)
+    lat <- get_lat(group)
+    lon <- get_lon(group)
+    name <- paste0(
+      # `aliases` can not start with a number. ...So start with `m`!
+      "m",
+      rlang::hash(list(
+        get_city(group),
+        get_lat(group),
+        get_lon(group)
+      ))
+    )
+    group[[".hash_info"]] <- list(
+      name = name,
+      city = city,
+      lat = lat,
+      lon = lon
+    )
+    group
+  })
+  # Find the unique set of location informations
+  location_txt <- unique(unlist(lapply(groups, function(group) {
+    group_info <- group[[".hash_info"]]
+    # Quit early if we already have this location
+    if (has_known_location(group_info$name)) return(NULL)
+    # Quit early if we cant look up the location
+    if (is.null(group_info$lat) || is.null(group_info$lon)) {
+      return(NULL)
+    }
     txt <- "
-    << name >>:findLocation(lat: << lat >>, lon: << lon >>) {
+    << name >>:findLocation(
+      << if (nchar(city) > 0) paste0('query: \"', city, '\"') else '' >>
+      lat: << lat >>
+      lon: << lon >>
+    ) {
       city
       localized_country_name
       name_string
     }"
     glue::glue_data(
-      list(
-        name = paste0("m", rlang::hash(group)),
-        lat = group$latitude,
-        lon = group$longitude
-      ),
+      group_info,
       txt,
       .open = "<<", .close = ">>", .trim = FALSE
     )
-  })
+  })))
 
   query <- paste0(
     "query { ",
     paste0(location_txt, collapse = "\n"), "\n",
     "}"
   )
-  # cat(query, "\n", sep = "")
+  cat(query, "\n", sep = "")
 
-  result <- graphql_query(query)
+  results <- graphql_query(query)$data
+  # Set location information for caching
+  Map(names(results), results, f = set_known_location)
 
-  # Add theh localized country name if the data exists
+  # Add the localized country name if the data exists
   # Return the the updated groups
-  Map(
+  lapply(
     groups,
-    result$data,
-    f = function(group, locations) {
+    function(group, locations) {
+      hash <- group[[".hash_info"]]$name
+      group_city <- group[[".hash_info"]]$city
+      locations <- get_known_location(hash)
+      # remove temp hash information
+      group[[".hash_info"]] <- NULL
+
       for (location in locations) {
-        if (group$city == location$city) {
+        if (group_city == location$city) {
           group$localized_country_name <- location$localized_country_name
           group$name_string <- location$name_string
           return(group)
@@ -303,6 +354,7 @@ add_group_locations <- function(groups) {
         group$localized_country_name <- NA
         group$name_string <- NA
       } else {
+        # Use first match
         first_location <- locations[[1]]
         group$localized_country_name <- first_location$localized_country_name
         group$name_string <- first_location$name_string
@@ -335,5 +387,5 @@ if (FALSE) {
 
   x <- graphql_file("location", lat = 10.54, lon = -66.93)
 
-  x <- gql_find_groups(topicCategoryId = 546, query = "R-Ladies")
+  x <- find_groups2(topic_category_id = 546, query = "R-Ladies")
 }

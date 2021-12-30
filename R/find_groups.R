@@ -78,3 +78,42 @@ find_groups <- function(text = NULL, topic_id = NULL, radius = "global",
     resource = res
   )
 }
+
+# @param query Required search text
+# @param ... Should be empty. Used for parameter expansion
+#' @importFrom dplyr %>%
+find_groups2 <- function(
+  query,
+  ...,
+  topic_category_id = NULL,
+  lat = 0,
+  lon = 0,
+  radius = 100000000,
+  extra_graphql = NULL
+) {
+  ellipsis::check_dots_empty()
+
+  dt <- gql_find_groups(
+    query = query,
+    topicCategoryId = topic_category_id,
+    lat = lat,
+    lon = lon,
+    radius = radius,
+    .extra_graphql = extra_graphql
+  )
+
+  dt %>%
+    dplyr::select(-country) %>%
+    dplyr::rename(
+      created = foundedDate,
+      members = memberships.count,
+      join_mode = joinMode,
+      category_id = category.id,
+      category_name = category.name,
+      country_name = localized_country_name,
+      location = name_string
+    ) %>%
+    dplyr::mutate(
+      created = anytime::anytime(created)
+    )
+}
