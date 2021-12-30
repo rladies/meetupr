@@ -18,26 +18,26 @@ capture_str <- function(x) {
   )
 }
 
-graphql_file <- function(graphql_file, ..., extra_graphql = NULL) {
+graphql_file <- function(.file, ..., .extra_graphql = NULL) {
   # inspiration: https://github.com/tidyverse/tidyversedashboard/blob/2c6cf9ebe8da938c35f6e9fc184c3b30265f1082/R/utils.R#L2
-  file <- system.file(file.path("graphql", paste0(graphql_file, ".graphql")), package = "meetupr")
+  file <- system.file(file.path("graphql", paste0(.file, ".graphql")), package = "meetupr")
   query <- readChar(file, file.info(file)$size)
-  extra_graphql <- extra_graphql %||% ""
-  if (!is.null(extra_graphql)) {
-    if (length(extra_graphql) != 1 && is.character(extra_graphql)) {
-      stop("extra_graphql must be a single string")
+  .extra_graphql <- .extra_graphql %||% ""
+  if (!is.null(.extra_graphql)) {
+    if (length(.extra_graphql) != 1 && is.character(.extra_graphql)) {
+      stop("`.extra_graphql` must be a single string")
     }
   }
-  query <- glue::glue_data(list(extra_graphql = extra_graphql), query, .open = "<<", .close = ">>", trim = FALSE)
+  glued_query <- glue::glue_data(list(extra_graphql = .extra_graphql), query, .open = "<<", .close = ">>", trim = FALSE)
 
-  graphql_query(query, ...)
+  graphql_query(.query = glued_query, ...)
 }
-graphql_query <- function(query, ...) {
+graphql_query <- function(.query, ...) {
   variables <- purrr::compact(rlang::list2(...))
+
   if (length(variables) > 0 && !rlang::is_named(variables)) {
     stop("Stop all GraphQL variables must be named. Variables:\n", capture_str(variables), call. = FALSE)
   }
-  # str(variables)
 
   ## From meetup.com website example:
   # query='query { self { id name } }'
@@ -58,7 +58,7 @@ graphql_query <- function(query, ...) {
     # Message comes deep within gh:::gh_process_response via `content(response, as = "text")` should have `encode = "UTF-8"` param
     response <- gh::gh(
       "POST https://api.meetup.com/gql",
-      query = query,
+      query = .query,
       variables = variables,
       .accept = "application/json",
       .send_headers = c(
@@ -68,13 +68,13 @@ graphql_query <- function(query, ...) {
   })
 
   if (!is.null(response$errors)) {
-    stop("Meetup GraphQL API returned errors.\n",capture_str(response$errors))
+    stop("Meetup GraphQL API returned errors.\n", capture_str(response$errors))
   }
   response
 }
 
 graphql_query_generator <- function(
-  graphql_file,
+  file,
   cursor_fn,
   extract_fn,
   combiner_fn = append,
@@ -82,7 +82,7 @@ graphql_query_generator <- function(
   total_fn,
   pb_format = "[:bar] :current/:total :eta"
 ) {
-  force(graphql_file)
+  force(file)
   force(cursor_fn)
   force(extract_fn)
   force(total_fn)
@@ -97,13 +97,13 @@ graphql_query_generator <- function(
     pb <- NULL
     while (TRUE) {
       # browser()
-      graphql_res <- graphql_file(graphql_file, ..., !!!cursors)
+      graphql_res <- graphql_file(file, ..., !!!cursors)
       cursors <- cursor_fn(graphql_res)
       graphql_content <- extract_fn(graphql_res)
       if (is.null(pb)) {
         pb <- progress::progress_bar$new(
           total = total_fn(graphql_res),
-          format = paste0(graphql_file, " ", pb_format)
+          format = paste0(file, " ", pb_format)
         )
         on.exit({
           # Make sure the pb is closed when exiting
@@ -232,7 +232,6 @@ gql_find_groups <- graphql_query_generator(
   "find_groups",
   cursor_fn = function(x) {
     pageInfo <- x$data$keywordSearch$pageInfo
-    str(pageInfo)
     if (pageInfo$hasNextPage) {
       list(cursor = pageInfo$endCursor)
     } else {
@@ -332,7 +331,7 @@ if (FALSE) {
 
   x <- gql_events(urlname = "Data-Science-DC")
 
-  x <- gql_events(urlname = "Data-Science-DC", extra_graphql = "host { name }")
+  x <- gql_events(urlname = "Data-Science-DC", .extra_graphql = "host { name }")
 
   x <- graphql_file("location", lat = 10.54, lon = -66.93)
 
