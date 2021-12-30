@@ -242,9 +242,11 @@ gql_find_groups <- graphql_query_generator(
   },
   combiner_fn = append,
   extract_fn = function(x) {
-    lapply(x$data$keywordSearch$edges, function(item) {
+    groups <- lapply(x$data$keywordSearch$edges, function(item) {
       item$node$result
     })
+    groups <- add_group_locations(groups)
+    groups
   },
   total_fn = function(x) {
     x$data$keywordSearch$count
@@ -252,6 +254,66 @@ gql_find_groups <- graphql_query_generator(
   },
   pb_format = "- :current/?? :elapsed :spin"
 )
+
+# If this function returns empty results, then it is being rate limited
+# I don't know how we should approach this.
+# A single query can _touch_ 500 points...
+# > The API currently allows you to have 500 points in your queries every 60 seconds.
+add_group_locations <- function(groups) {
+
+  location_txt <- lapply(groups, function(group) {
+    txt <- "
+    << name >>:findLocation(lat: << lat >>, lon: << lon >>) {
+      city
+      localized_country_name
+      name_string
+    }"
+    glue::glue_data(
+      list(
+        name = paste0("m", rlang::hash(group)),
+        lat = group$latitude,
+        lon = group$longitude
+      ),
+      txt,
+      .open = "<<", .close = ">>", .trim = FALSE
+    )
+  })
+
+  query <- paste0(
+    "query { ",
+    paste0(location_txt, collapse = "\n"), "\n",
+    "}"
+  )
+  # cat(query, "\n", sep = "")
+
+  result <- graphql_query(query)
+
+  # Add theh localized country name if the data exists
+  # Return the the updated groups
+  Map(
+    groups,
+    result$data,
+    f = function(group, locations) {
+      for (location in locations) {
+        if (group$city == location$city) {
+          group$localized_country_name <- location$localized_country_name
+          group$name_string <- location$name_string
+          return(group)
+        }
+      }
+      # No city match at this point
+      if (length(locations) == 0) {
+        group$localized_country_name <- NA
+        group$name_string <- NA
+      } else {
+        first_location <- locations[[1]]
+        group$localized_country_name <- first_location$localized_country_name
+        group$name_string <- first_location$name_string
+      }
+      return(group)
+    }
+  )
+}
 
 
 
