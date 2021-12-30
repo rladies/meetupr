@@ -181,11 +181,9 @@ gql_events <- graphql_query_generator(
       recursive = FALSE
     )
 
-    events <- add_locations(
+    events <- add_country_name(
       events,
-      get_city = function(event) event$venue$city,
-      get_lat = function(event) event$venue$lat,
-      get_lon = function(event) event$venue$lon
+      get_country = function(event) event$venue$country
     )
     events
   },
@@ -215,7 +213,7 @@ gql_find_groups <- graphql_query_generator(
     groups <- lapply(x$data$keywordSearch$edges, function(item) {
       item$node$result
     })
-    groups <- add_locations(groups)
+    groups <- add_country_name(groups)
     groups
   },
   total_fn = function(x) {
@@ -244,104 +242,38 @@ has_known_location <- function(hash) {
   exists(hash, envir = known_locations_env)
 }
 
+# Cache the country code to name conversion
+# as the conversion is consistent.
+country_code_mem <- local({
+  cache <- list()
+  function(country) {
+    val <- cache[[country]]
+    if (!is.null(val)) return(val)
 
-add_locations <- function(
+    val <-
+      countrycode::countrycode(
+        country,
+        "iso2c",
+        "country.name"
+      )
+    cache[[country]] <<- val
+    val
+  }
+})
+add_country_name <- function(
   groups,
-  get_city = function(group) group$city,
-  get_lat = function(group) group$latitude,
-  get_lon = function(group) group$longitude
+  get_country = function(group) group$country
 ) {
-
-  # Add information to calculate once...
-  groups <- lapply(groups, function(group) {
-    city <- get_city(group)
-    lat <- get_lat(group)
-    lon <- get_lon(group)
-    name <- paste0(
-      # `aliases` can not start with a number. ...So start with `m`!
-      "m",
-      rlang::hash(list(
-        get_city(group),
-        get_lat(group),
-        get_lon(group)
-      ))
-    )
-    group[[".hash_info"]] <- list(
-      name = name,
-      city = city,
-      lat = lat,
-      lon = lon
-    )
+  lapply(groups, function(group) {
+    country <- get_country(group)
+    group$country_name <-
+      if (length(country) == 0 || nchar(country) == 0) {
+        ""
+      } else {
+        country_code_mem(country)
+      }
     group
   })
-  # Find the unique set of location informations
-  location_txt <- unique(unlist(lapply(groups, function(group) {
-    group_info <- group[[".hash_info"]]
-    # Quit early if we already have this location
-    if (has_known_location(group_info$name)) return(NULL)
-    # Quit early if we cant look up the location
-    if (is.null(group_info$lat) || is.null(group_info$lon)) {
-      return(NULL)
-    }
-    txt <- "
-    << name >>:findLocation(
-      << if (nchar(city) > 0) paste0('query: \"', city, '\"') else '' >>
-      lat: << lat >>
-      lon: << lon >>
-    ) {
-      city
-      localized_country_name
-      name_string
-    }"
-    glue::glue_data(
-      group_info,
-      txt,
-      .open = "<<", .close = ">>", .trim = FALSE
-    )
-  })))
-
-  query <- paste0(
-    "query { ",
-    paste0(location_txt, collapse = "\n"), "\n",
-    "}"
-  )
-  cat(query, "\n", sep = "")
-
-  results <- graphql_query(query)$data
-  # Set location information for caching
-  Map(names(results), results, f = set_known_location)
-
-  # Add the localized country name if the data exists
-  # Return the the updated groups
-  lapply(
-    groups,
-    function(group, locations) {
-      hash <- group[[".hash_info"]]$name
-      group_city <- group[[".hash_info"]]$city
-      locations <- get_known_location(hash)
-      # remove temp hash information
-      group[[".hash_info"]] <- NULL
-
-      for (location in locations) {
-        if (group_city == location$city) {
-          group$localized_country_name <- location$localized_country_name
-          group$name_string <- location$name_string
-          return(group)
-        }
-      }
-      # No city match at this point
-      if (length(locations) == 0) {
-        group$localized_country_name <- NA
-        group$name_string <- NA
-      } else {
-        # Use first match
-        first_location <- locations[[1]]
-        group$localized_country_name <- first_location$localized_country_name
-        group$name_string <- first_location$name_string
-      }
-      return(group)
-    }
-  )
 }
 
 
@@ -356,16 +288,16 @@ data_to_tbl <- function(data) {
 
 
 if (FALSE) {
-  x <- gql_health_check()
+  x <- gql_health_check(); utils::str(x)
 
-  x <- get_events2(urlname = "Data-Visualization-DC")
-  x <- get_events2(urlname = "R-Users")
+  x <- get_events2(urlname = "Data-Visualization-DC"); utils::str(x)
+  x <- get_events2(urlname = "R-Users"); utils::str(x)
 
-  x <- get_events2(urlname = "Data-Science-DC")
+  x <- get_events2(urlname = "Data-Science-DC"); utils::str(x)
 
-  x <- get_events2(urlname = "Data-Science-DC", .extra_graphql = "host { name }")
+  x <- get_events2(urlname = "Data-Science-DC", .extra_graphql = "host { name }"); utils::str(x)
 
-  x <- graphql_file("location", lat = 10.54, lon = -66.93)
+  x <- graphql_file("location", lat = 10.54, lon = -66.93); utils::str(x)
 
-  x <- find_groups2(topic_category_id = 546, query = "R-Ladies")
+  x <- find_groups2(topic_category_id = 546, query = "R-Ladies"); utils::str(x)
 }
