@@ -327,5 +327,9 @@ if (FALSE) {
 
   x <- gql_single_event(urlname = "Data-Science-DC", extra_graphql = "host { name }")
 
+  x <- graphql_file("location", lat = 10.54, lon = -66.93)
+
+  x <- gql_find_groups(topicCategoryId = 546, query = "R-Ladies")
+
 
 }
