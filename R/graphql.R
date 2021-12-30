@@ -77,7 +77,8 @@ graphql_query_generator <- function(
   graphql_file,
   cursor_fn,
   extract_fn,
-  combiner_fn,
+  combiner_fn = append,
+  finalizer_fn = data_to_tbl,
   total_fn,
   pb_format = "[:bar] :current/:total :eta"
 ) {
@@ -117,7 +118,7 @@ graphql_query_generator <- function(
       if (length(cursors) == 0) break
     }
 
-    ret
+    finalizer_fn(ret)
   }
 }
 
@@ -130,7 +131,7 @@ gql_health_check <- graphql_query_generator(
   extract_fn = function(x) {
     x$data$healthCheck
   },
-  combiner_fn = append,
+  finalizer_fn = unlist,
   total_fn = function(x) {
     1
   },
@@ -154,11 +155,10 @@ gql_health_check <- graphql_query_generator(
 #   },
 #   total_fn = function(x) {
 #     x$data$groupByUrlname$pastEvents$count
-#   },
-#   combiner_fn = append
+#   }
 # )
 
-gql_single_event <- graphql_query_generator(
+gql_events <- graphql_query_generator(
   "find_events",
   cursor_fn = function(x) {
     groupByUrlname <- x$data$groupByUrlname
@@ -194,10 +194,10 @@ gql_single_event <- graphql_query_generator(
     upcomingEvents <- groupByUrlname$upcomingEvents$edges
     pastEvents <- groupByUrlname$pastEvents$edges
 
-    get_nodes <- function(x, type) {
+    get_nodes <- function(x, event_type) {
       nodes <- lapply(x, `[[`, "node")
       lapply(nodes, function(item) {
-        item$type <- type
+        item$eventType <- event_type
         item
       })
     }
@@ -217,7 +217,6 @@ gql_single_event <- graphql_query_generator(
       )
     ret
   },
-  combiner_fn = append,
   total_fn = function(x) {
     groupByUrlname <- x$data$groupByUrlname
     sum(c(
@@ -240,7 +239,6 @@ gql_find_groups <- graphql_query_generator(
       NULL
     }
   },
-  combiner_fn = append,
   extract_fn = function(x) {
     groups <- lapply(x$data$keywordSearch$edges, function(item) {
       item$node$result
@@ -312,6 +310,15 @@ add_group_locations <- function(groups) {
       }
       return(group)
     }
+  )
+}
+
+
+data_to_tbl <- function(data) {
+  dplyr::bind_rows(
+    lapply(data, function(data_item) {
+      rlist::list.flatten(data_item)
+    })
   )
 }
 
