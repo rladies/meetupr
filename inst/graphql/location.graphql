@@ -1,0 +1,10 @@
+# Currently not used directly, but useful for debugging
+query location($lat: Float = 0, $lon: Float = 0) {
+  findLocation(lat: $lat, lon: $lon) {
+    lat
+    lon
+    city
+    localized_country_name
+    name_string
+  }
+}
