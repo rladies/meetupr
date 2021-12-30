@@ -87,25 +87,23 @@ get_events2 <- function(
   )
 
   dt %>%
-    dplyr::select(-venue.country) %>%
     dplyr::rename(
-      venue_id = venue.id,
-      venue_name = venue.name,
-      venue_lat = venue.lat,
-      venue_lon = venue.lon,
-      venue_address = venue.address,
-      venue_city = venue.city,
-      venue_state = venue.state,
-      venue_zip = venue.postalCode,
-      # venue_country = venue.country,
-      venue_country = localized_country_name,
-      venue_location = name_string,
-      # created = createdAt,
-      time = dateTime,
-      link = eventUrl,
+      venue_id = .data$venue.id,
+      venue_name = .data$venue.name,
+      venue_lat = .data$venue.lat,
+      venue_lon = .data$venue.lon,
+      venue_address = .data$venue.address,
+      venue_city = .data$venue.city,
+      venue_state = .data$venue.state,
+      venue_zip = .data$venue.postalCode,
+      venue_country = .data$country_name,
+      # created =  .data$createdAt,
+      time = .data$dateTime,
+      link = .data$eventUrl,
     ) %>%
     dplyr::mutate(
-      time = anytime::anytime(time)
+      venue.country = NULL, # drop
+      time = anytime::anytime(.data$time)
     )
 
 }
