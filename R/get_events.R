@@ -71,3 +71,41 @@ get_events <- function(urlname,
 
   event_sorter(res)
 }
+
+
+# Contains all events. Look at `status` field to see type
+get_events2 <- function(
+  urlname,
+  ...,
+  extra_graphql = NULL
+) {
+  ellipsis::check_dots_empty()
+
+  dt <- gql_events(
+    urlname = urlname,
+    .extra_graphql = extra_graphql
+  )
+
+  dt %>%
+    dplyr::select(-venue.country) %>%
+    dplyr::rename(
+      venue_id = venue.id,
+      venue_name = venue.name,
+      venue_lat = venue.lat,
+      venue_lon = venue.lon,
+      venue_address = venue.address,
+      venue_city = venue.city,
+      venue_state = venue.state,
+      venue_zip = venue.postalCode,
+      # venue_country = venue.country,
+      venue_country = localized_country_name,
+      venue_location = name_string,
+      # created = createdAt,
+      time = dateTime,
+      link = eventUrl,
+    ) %>%
+    dplyr::mutate(
+      time = anytime::anytime(time)
+    )
+
+}

@@ -378,12 +378,12 @@ data_to_tbl <- function(data) {
 if (FALSE) {
   x <- gql_health_check()
 
-  x <- gql_events(urlname = "Data-Visualization-DC")
-  x <- gql_events(urlname = "R-Users")
+  x <- get_events2(urlname = "Data-Visualization-DC")
+  x <- get_events2(urlname = "R-Users")
 
-  x <- gql_events(urlname = "Data-Science-DC")
+  x <- get_events2(urlname = "Data-Science-DC")
 
-  x <- gql_events(urlname = "Data-Science-DC", .extra_graphql = "host { name }")
+  x <- get_events2(urlname = "Data-Science-DC", .extra_graphql = "host { name }")
 
   x <- graphql_file("location", lat = 10.54, lon = -66.93)
 
