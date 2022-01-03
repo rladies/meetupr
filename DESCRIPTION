@@ -1,7 +1,7 @@
 Type: Package
 Package: meetupr
 Title: Meetup R API
-Version: 0.2.3.999
+Version: 0.2.3.9991
 Authors@R: 
     c(person(given = "Erin",
              family = "LeDell",
@@ -46,12 +46,13 @@ Authors@R:
              role = "ctb",
              email = "maelle.salmon@yahoo.se",
              comment = c(ORCID = "0000-0002-2815-0399")),
-      person("Athanasia Mo", "Mowinckel", 
-                    email = "a.m.mowinckel@psykologi.uio.no", 
-                    role = c("ctb"),
-                    comment = c(ORCID = "0000-0002-5756-0223")))
-Description: Provides access to data from 'meetup.com' (see
-    https://www.meetup.com/meetup_api/ for more information).
+      person(given = "Athanasia Mo", 
+             family = "Mowinckel", 
+             email = "a.m.mowinckel@psykologi.uio.no", 
+             role = c("ctb"),
+             comment = c(ORCID = "0000-0002-5756-0223")))
+Description: Provides access to data from <https:www.meetup.com> (see
+    <https:www.meetup.com/meetup_api/> for more information).
 License: MIT + file LICENSE
 Depends:
     R (>= 3.5)
