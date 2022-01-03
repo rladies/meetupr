@@ -58,12 +58,14 @@ graphql_file <- function(.file, ..., .extra_graphql = NULL) {
 }
 
 #' Query the Meetup GraphQL API
-#' @noRd
+#'
 #' @param .query GraphQL query string
 #' @param ... Variables to pass to the query
+#' @param .token See [`meetup_token()`] for details.
 #' @return A list like structure directly from the API. Typically you'll want to use `$data`.
 #'   If any `$errors`` are found, an error will be thrown.
-graphql_query <- function(.query, ...) {
+#' @noRd
+graphql_query <- function(.query, ..., .token = meetup_token()) {
   variables <- purrr::compact(rlang::list2(...))
 
   if (length(variables) > 0 && !rlang::is_named(variables)) {
@@ -92,7 +94,12 @@ graphql_query <- function(.query, ...) {
       variables = variables,
       .accept = "application/json",
       .send_headers = c(
-        "Authorization" = paste0("Bearer ", meetup_token()$auth_token$credentials$access_token)
+        # 'Authorization: Bearer {YOUR_TOKEN}'
+        "Authorization" = paste0(
+          .token$auth_token$credentials$token_type,
+          " ",
+          .token$auth_token$credentials$access_token
+        )
       )
     )
   })
