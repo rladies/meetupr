@@ -1,4 +1,11 @@
-# There is funnyness in how many items are queried.
+# # TODO, once v3 api is no longer supported
+# * Remove most / all of `internals.R`
+# * Remove duplicated method names
+# * Make method names consistent: Ex `find_groups()` -> `get_groups()`
+# * Bump version to `0.3.0`
+# -----------------------------------
+# # Query size matters?!?
+# There is funniness in how many items are queried.
 # If single event has query size 80, Data Viz DC gets 121.
 # If query size is 100, the total size is 119
 # The result size is consistent, but it is not an off-by-one error.
