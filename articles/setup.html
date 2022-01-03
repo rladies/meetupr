@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">meetupr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.3.999</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.3.9991</span>
       </span>
     </div>
 
@@ -89,15 +91,15 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">meetupr</span><span class="op">)</span></code></pre></div>
-<div id="api-key-no" class="section level2">
-<h2 class="hasAnchor">
-<a href="#api-key-no" class="anchor"></a>API key? No</h2>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">meetupr</span><span class="op">)</span></code></pre></div>
+<div class="section level2">
+<h2 id="api-key-no">API key? No<a class="anchor" aria-label="anchor" href="#api-key-no"></a>
+</h2>
 <p>As of August 15, 2019, Meetup.com switched from an API key based authentication system to OAuth 2.0, so we added support for OAuth.</p>
 </div>
-<div id="oauth-yes" class="section level2">
-<h2 class="hasAnchor">
-<a href="#oauth-yes" class="anchor"></a>OAuth? Yes</h2>
+<div class="section level2">
+<h2 id="oauth-yes">OAuth? Yes<a class="anchor" aria-label="anchor" href="#oauth-yes"></a>
+</h2>
 <p>Meetup API and this package recommend using OAuth for authentication. We’ve abstracted part of the difficulty but it’s still a bit more complex than storing a simple API key as secret.</p>
 <p>With OAuth you need</p>
 <ul>
@@ -105,32 +107,32 @@
 <li><p>an access token. It’s an httr object and it can be saved to disk. It expires but can be refreshed. It contains secrets so it’s a sensitive file! For creating one you will be prompted to log into your meetup.com account in the browser. But then if you cache the token to disk, you won’t need to do that again. This means you can create a token on your computer locally and use it on a server (if the server is public, encrypting the token).</p></li>
 </ul>
 <p>Let’s go through workflows and ways to control how your token is created and cached.</p>
-<p>If you don’t tweak anything, the first time you run a meetupr function, you’ll be prompted to go into your browser and a token will be created. It will be saved to disk in an app directory as determined by <code><a href="https://rappdirs.r-lib.org/reference/user_data_dir.html">rappdirs::user_data_dir("meetupr", "meetupr")</a></code></p>
+<p>If you don’t tweak anything, the first time you run a meetupr function, you’ll be prompted to go into your browser and a token will be created. It will be saved to disk in an app directory as determined by <code>rappdirs::user_data_dir("meetupr", "meetupr")</code></p>
 <p>And all the times you use meetupr again, this token will be used, and refreshed and re-saved as needed.</p>
 <p>This is, we hope, a sensible default.</p>
-<p>Now if you want to have a different behavior you either tweak options (in your .Rprofile so for all sessions in the future, or just in the current session), or call the <code><a href="../reference/meetup_auth.html">meetup_auth()</a></code> function directly.</p>
+<p>Now if you want to have a different behavior you either tweak options (in your .Rprofile so for all sessions in the future, or just in the current session), or call the <code><a href="../reference/meetup-auth.html">meetup_auth()</a></code> function directly.</p>
 <ul>
 <li>Don’t want to cache the token to disk? Use the <code>cache</code> argument, to be set to <code>FALSE</code>.</li>
 <li>Don’t want to use an app dir? Use the <code>use_appdir</code> argument, to be set to <code>FALSE</code>. If it is false, the token will be cached to <code>.httr-oauth</code> (unless <code>cache</code> is FALSE too, of course)</li>
-<li>Want to save the token to somewhere you choose? No way to use an option. Use the <code>token_path</code> argument of <code><a href="../reference/meetup_auth.html">meetup_auth()</a></code>.</li>
-<li>Want to use a token that was created elsewhere? Save it to disk, keep it secret, and refer to it via the <code>token</code> argument of <code><a href="../reference/meetup_auth.html">meetup_auth()</a></code> that can be either a token or the path to a token.</li>
+<li>Want to save the token to somewhere you choose? No way to use an option. Use the <code>token_path</code> argument of <code><a href="../reference/meetup-auth.html">meetup_auth()</a></code>.</li>
+<li>Want to use a token that was created elsewhere? Save it to disk, keep it secret, and refer to it via the <code>token</code> argument of <code><a href="../reference/meetup-auth.html">meetup_auth()</a></code> that can be either a token or the path to a token.</li>
 </ul>
 </div>
-<div id="what-about-running-my-code-on-a-server" class="section level2">
-<h2 class="hasAnchor">
-<a href="#what-about-running-my-code-on-a-server" class="anchor"></a>What about running my code on a server</h2>
-<p>Please read <a href="https://httr.r-lib.org/articles/secrets.html">httr vignette about secrets</a> and <a href="https://gargle.r-lib.org/articles/articles/managing-tokens-securely.html">gargle vignette about managing tokens securely</a>.</p>
+<div class="section level2">
+<h2 id="what-about-running-my-code-on-a-server">What about running my code on a server<a class="anchor" aria-label="anchor" href="#what-about-running-my-code-on-a-server"></a>
+</h2>
+<p>Please read <a href="https://httr.r-lib.org/articles/secrets.html" class="external-link">httr vignette about secrets</a> and <a href="https://gargle.r-lib.org/articles/articles/managing-tokens-securely.html" class="external-link">gargle vignette about managing tokens securely</a>.</p>
 <p>Here is how we handle our secret token for testing the package, it might inspire you.</p>
-<div id="create-and-encrypt-the-token" class="section level3">
-<h3 class="hasAnchor">
-<a href="#create-and-encrypt-the-token" class="anchor"></a>Create and encrypt the token</h3>
+<div class="section level3">
+<h3 id="create-and-encrypt-the-token">Create and encrypt the token<a class="anchor" aria-label="anchor" href="#create-and-encrypt-the-token"></a>
+</h3>
 <p>First we create a token. We build and git ignore it, even safer would be to put it elsewhere on the computer, maybe a temporary file!</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">token_path</span> <span class="op">&lt;-</span> <span class="fu">testthat</span><span class="fu">::</span><span class="fu"><a href="https://testthat.r-lib.org/reference/test_path.html">test_path</a></span><span class="op">(</span><span class="st">".meetup_token.rds"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">token_path</span> <span class="op">&lt;-</span> <span class="fu">testthat</span><span class="fu">::</span><span class="fu"><a href="https://testthat.r-lib.org/reference/test_path.html" class="external-link">test_path</a></span><span class="op">(</span><span class="st">".meetup_token.rds"</span><span class="op">)</span>
 <span class="fu">use_build_ignore</span><span class="op">(</span><span class="va">token_path</span><span class="op">)</span>
 <span class="fu">use_git_ignore</span><span class="op">(</span><span class="va">token_path</span><span class="op">)</span>
 
-<span class="fu">meetupr</span><span class="fu">::</span><span class="fu"><a href="../reference/meetup_auth.html">meetup_auth</a></span><span class="op">(</span>
+<span class="fu">meetupr</span><span class="fu">::</span><span class="fu"><a href="../reference/meetup-auth.html">meetup_auth</a></span><span class="op">(</span>
   token <span class="op">=</span> <span class="cn">NULL</span>,
   cache <span class="op">=</span> <span class="cn">TRUE</span>,
   use_appdir <span class="op">=</span> <span class="cn">FALSE</span>,
@@ -142,41 +144,41 @@
 <span class="co"># save an environment variable "MEETUPR_PWD" = sodium::bin2hex(sodium_key)</span></code></pre></div>
 <p>Using the key we encrypt the file. secret.rds will be committed to our repo!</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">key</span> <span class="op">&lt;-</span> <span class="fu">cyphr</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/cyphr/reference/key_sodium.html">key_sodium</a></span><span class="op">(</span><span class="fu">sodium</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sodium/man/helpers.html">hex2bin</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span><span class="op">(</span><span class="st">"MEETUPR_PWD"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">key</span> <span class="op">&lt;-</span> <span class="fu">cyphr</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/cyphr/reference/key_sodium.html" class="external-link">key_sodium</a></span><span class="op">(</span><span class="fu">sodium</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sodium/man/helpers.html" class="external-link">hex2bin</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MEETUPR_PWD"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 
-<span class="fu">cyphr</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/cyphr/reference/encrypt_data.html">encrypt_file</a></span><span class="op">(</span>
+<span class="fu">cyphr</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/cyphr/reference/encrypt_data.html" class="external-link">encrypt_file</a></span><span class="op">(</span>
   <span class="va">token_path</span>,
   key <span class="op">=</span> <span class="va">key</span>,
-  dest <span class="op">=</span> <span class="fu">testthat</span><span class="fu">::</span><span class="fu"><a href="https://testthat.r-lib.org/reference/test_path.html">test_path</a></span><span class="op">(</span><span class="st">"secret.rds"</span><span class="op">)</span>
+  dest <span class="op">=</span> <span class="fu">testthat</span><span class="fu">::</span><span class="fu"><a href="https://testthat.r-lib.org/reference/test_path.html" class="external-link">test_path</a></span><span class="op">(</span><span class="st">"secret.rds"</span><span class="op">)</span>
 <span class="op">)</span></code></pre></div>
 </div>
-<div id="use-the-token-on-ci" class="section level3">
-<h3 class="hasAnchor">
-<a href="#use-the-token-on-ci" class="anchor"></a>Use the token on CI</h3>
+<div class="section level3">
+<h3 id="use-the-token-on-ci">Use the token on CI<a class="anchor" aria-label="anchor" href="#use-the-token-on-ci"></a>
+</h3>
 <ul>
 <li><p>Save the <code>MEETUPR_PWD</code> environment variable as secret on CI (actually called repo secret for e.g. GitHub Actions)</p></li>
 <li><p>Use the code below to decrypt the secret before using meetupr. We save the temporary token to disk but to a temporary folder so it won’t end up in a package check artefact.</p></li>
 </ul>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">key</span> <span class="op">&lt;-</span> <span class="fu">cyphr</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/cyphr/reference/key_sodium.html">key_sodium</a></span><span class="op">(</span><span class="fu">sodium</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sodium/man/helpers.html">hex2bin</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html">Sys.getenv</a></span><span class="op">(</span><span class="st">"MEETUPR_PWD"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">key</span> <span class="op">&lt;-</span> <span class="fu">cyphr</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/cyphr/reference/key_sodium.html" class="external-link">key_sodium</a></span><span class="op">(</span><span class="fu">sodium</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sodium/man/helpers.html" class="external-link">hex2bin</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MEETUPR_PWD"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 
-<span class="va">temptoken</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".rds"</span><span class="op">)</span>
+<span class="va">temptoken</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".rds"</span><span class="op">)</span>
 
-<span class="fu">cyphr</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/cyphr/reference/encrypt_data.html">decrypt_file</a></span><span class="op">(</span>
-  <span class="fu">testthat</span><span class="fu">::</span><span class="fu"><a href="https://testthat.r-lib.org/reference/test_path.html">test_path</a></span><span class="op">(</span><span class="st">"secret.rds"</span><span class="op">)</span>,
+<span class="fu">cyphr</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/cyphr/reference/encrypt_data.html" class="external-link">decrypt_file</a></span><span class="op">(</span>
+  <span class="fu">testthat</span><span class="fu">::</span><span class="fu"><a href="https://testthat.r-lib.org/reference/test_path.html" class="external-link">test_path</a></span><span class="op">(</span><span class="st">"secret.rds"</span><span class="op">)</span>,
   key <span class="op">=</span> <span class="va">key</span>,
   dest <span class="op">=</span> <span class="va">temptoken</span>
 <span class="op">)</span>
 
-<span class="va">token</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="va">temptoken</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
+<span class="va">token</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="va">temptoken</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
 
-<span class="va">token</span> <span class="op">&lt;-</span> <span class="fu">meetupr</span><span class="fu">::</span><span class="fu"><a href="../reference/meetup_auth.html">meetup_auth</a></span><span class="op">(</span>
+<span class="va">token</span> <span class="op">&lt;-</span> <span class="fu">meetupr</span><span class="fu">::</span><span class="fu"><a href="../reference/meetup-auth.html">meetup_auth</a></span><span class="op">(</span>
   token <span class="op">=</span> <span class="va">token</span>,
   use_appdir <span class="op">=</span> <span class="cn">FALSE</span>,
   cache <span class="op">=</span> <span class="cn">FALSE</span>
 <span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html">Sys.setenv</a></span><span class="op">(</span>MEETUPR_PAT <span class="op">=</span> <span class="va">temptoken</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv</a></span><span class="op">(</span>MEETUPR_PAT <span class="op">=</span> <span class="va">temptoken</span><span class="op">)</span></code></pre></div>
 </div>
 </div>
   </div>
@@ -192,11 +194,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Erin LeDell, Olga Mierzwa-Sulima, Lucy D'Agostino McGowan, Claudia Vitolo.</p>
+  <p></p>
+<p>Developed by Erin LeDell, Olga Mierzwa-Sulima, Lucy D’Agostino McGowan, Claudia Vitolo.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer>
@@ -204,6 +208,8 @@
 
   
 
+
+  
 
   </body>
 </html>
