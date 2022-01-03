@@ -209,9 +209,12 @@ meetup_token <- function(verbose = FALSE) {
   if (nzchar(Sys.getenv("MEETUPR_TESTING"))) {
     return(httr::config())
   }
-    if (!token_available(verbose = verbose)) meetup_auth(verbose = verbose)
-    httr::config(token = .state$token)
+    if (!token_available(verbose = verbose)) {
+      # Init `.state$token`
+      meetup_auth(verbose = verbose)
+    }
 
+    httr::config(token = .state$token)
 }
 
 #' Check token availability
