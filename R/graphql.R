@@ -42,7 +42,9 @@ data_to_tbl <- function(data) {
 #' @param .file File name (without extension) in `./inst/graphql`
 #' @param ... Variables to pass to the query
 #' @param .extra_graphql Extra GraphQL code to insert into the query. The location is different within each GraphQL file.
-graphql_file <- function(.file, ..., .extra_graphql = NULL) {
+#' @param .token See [`meetup_token()`] for details.
+#' @noRd
+graphql_file <- function(.file, ..., .extra_graphql = NULL, .token = meetup_token()) {
   # inspiration: https://github.com/tidyverse/tidyversedashboard/blob/2c6cf9ebe8da938c35f6e9fc184c3b30265f1082/R/utils.R#L2
   file <- system.file(file.path("graphql", paste0(.file, ".graphql")), package = "meetupr")
   query <- readChar(file, file.info(file)$size)
@@ -54,7 +56,7 @@ graphql_file <- function(.file, ..., .extra_graphql = NULL) {
   }
   glued_query <- glue::glue_data(list(extra_graphql = .extra_graphql), query, .open = "<<", .close = ">>", trim = FALSE)
 
-  graphql_query(.query = glued_query, ...)
+  graphql_query(.query = glued_query, ..., .token = .token)
 }
 
 #' Query the Meetup GraphQL API
@@ -114,7 +116,6 @@ graphql_query <- function(.query, ..., .token = meetup_token()) {
 #'
 #' Will spawn a progress bar if many results are to be fetched. If there is only a single set of results, no progress bar will be displayed.
 #'
-#' @noRd
 #' @param file File to send to `graphql_file(.file=)`
 #' @param cursor_fn Function that takes the result of `graphql_file(.file=)`. This method should return a list of arguments (typically cursor related) to pass to the next API request. If the `cursor_fn` returns `NULL`, no more results will be fetched.
 #' @param total_fn Function that takes in a result and returns a total number of results. This number is used for the progress bar.
@@ -122,7 +123,8 @@ graphql_query <- function(.query, ..., .token = meetup_token()) {
 #' @param extract_fn Function that takes the result of `graphql_file(.file=)` and returns a list of results to be combined via `combiner_fn`. Typically, the returned result is a list of information for each record.
 #' @param combiner_fn Function to merge two results of `extract_fn` together. The initial result is set to `NULL`.
 #' @param finalizer_fn Function that will run over the final result of `combiner_fn`. Typically, this is where the list of lists is turned into a tibble.
-#' @return A function that wraps around `graphql_file(.file = file, ..., .extra_graphql = .extra_graphql)` and passes through `...` and `.extra_graphql`
+#' @return A function that wraps around `graphql_file(.file = file, ..., .extra_graphql = .extra_graphql, .token = .token)` and passes through `...`, `.extra_graphql`, and `.token`.
+#' @noRd
 graphql_query_generator <- function(
   file,
   cursor_fn,
@@ -142,13 +144,14 @@ graphql_query_generator <- function(
 
   function(
     ...,
-    .extra_graphql = NULL
+    .extra_graphql = NULL,
+    .token = meetup_token()
   ) {
     ret <- NULL
     cursors <- list()
     pb <- NULL
     while (TRUE) {
-      graphql_res <- graphql_file(.file = file, ..., !!!cursors, .extra_graphql = .extra_graphql)
+      graphql_res <- graphql_file(.file = file, ..., !!!cursors, .extra_graphql = .extra_graphql, .token = .token)
       cursors <- cursor_fn(graphql_res)
       graphql_content <- extract_fn(graphql_res)
       if (is.null(pb)) {
