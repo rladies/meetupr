@@ -18,8 +18,8 @@ Authors@R:
       person("Athanasia Mo", "Mowinckel", email = "a.m.mowinckel@psykologi.uio.no", role = "ctb", comment = c(ORCID = "0000-0002-5756-0223")),
       person("Barret", "Schloerke", role = "ctb", email = "barret@rstudio.com", comment = c(ORCID = "0000-0001-9986-114X"))
     )
-Description: Provides access to data from 'meetup.com' (see
-    https://www.meetup.com/meetup_api/ for more information).
+Description: Provides access to data from <https:www.meetup.com> (see
+    <https:www.meetup.com/meetup_api/> for more information).
 License: MIT + file LICENSE
 Depends:
     R (>= 3.5)
