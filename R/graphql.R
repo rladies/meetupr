@@ -16,6 +16,27 @@
 # testthat::expect_equal(x$id %in% y$id, rep(TRUE, nrow(x))) # NOT TRUE!!!
 # testthat::expect_equal(y$id %in% x$id, rep(TRUE, nrow(y))) # TRUE
 # ```
+# -----------------------------------
+# # Adding a new graphql method
+# 0. Add a new `graphql` file to query the `meetup.com` graphql API
+#   * Links
+#     * Learn about graphql: https://graphql.org/learn/
+#     * `meetup.com`'s schema: https://www.meetup.com/api/schema
+#     * `meetup.com`'s playground: https://www.meetup.com/api/playground
+#   * Suggestions:
+#     * For any queries that involve a cursor, add a `cursor` and `first` argument
+#     * Just because the query shape is the same, does not mean you can use a fragment on two different types of objects
+#     * Only query what you need. Use `<< extra_graphql >>` where appropriate to allow extra fields to be queried
+# 1. Create a function using `graphql_query_generator()`
+#   * See `gql_find_groups()` for a concise example
+#   * See help docs for `graphql_query_generator()` below for more details
+#   * Keep the data in a simple "list of items" structure as much as possible
+# 2. Add a wrapper function to call your generated function. Ex: `find_groups2()`
+#   * Here, transform the data from a "list of items" to a data.frame (or appropriate structure)
+# -----------------------------------
+
+
+
 
 
 
@@ -45,7 +66,6 @@ data_to_tbl <- function(data) {
 #' Query the Meetup GraphQL API given a file and variables
 #'
 #' Constructs a single text string and passes the string and `...` variables to [`graphql_query`]
-#' @noRd
 #' @param .file File name (without extension) in `./inst/graphql`
 #' @param ... Variables to pass to the query
 #' @param .extra_graphql Extra GraphQL code to insert into the query. The location is different within each GraphQL file.
