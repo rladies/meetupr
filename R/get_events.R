@@ -77,13 +77,15 @@ get_events <- function(urlname,
 get_events2 <- function(
   urlname,
   ...,
-  extra_graphql = NULL
+  extra_graphql = NULL,
+  token = meetup_token()
 ) {
   ellipsis::check_dots_empty()
 
   dt <- gql_events(
     urlname = urlname,
-    .extra_graphql = extra_graphql
+    .extra_graphql = extra_graphql,
+    .token = token
   )
 
   dt %>%

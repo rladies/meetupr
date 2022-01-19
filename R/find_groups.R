@@ -89,7 +89,8 @@ find_groups2 <- function(
   lat = 0,
   lon = 0,
   radius = 100000000,
-  extra_graphql = NULL
+  extra_graphql = NULL,
+  token = meetup_token()
 ) {
   ellipsis::check_dots_empty()
 
@@ -99,7 +100,8 @@ find_groups2 <- function(
     lat = lat,
     lon = lon,
     radius = radius,
-    .extra_graphql = extra_graphql
+    .extra_graphql = extra_graphql,
+    .token = token
   )
 
   dt %>%
