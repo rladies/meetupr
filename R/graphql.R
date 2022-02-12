@@ -325,6 +325,31 @@ gql_get_event_attendees <- graphql_query_generator(
   },
   pb_format = "- :current/?? :elapsed :spin"
 )
+
+gql_get_event_rsvps <- graphql_query_generator(
+  "find_rsvps",
+  cursor_fn = function(x) {
+    pageInfo <- x$data$event$tickets$pageInfo
+    if (pageInfo$hasNextPage) {
+      list(cursor = pageInfo$endCursor)
+    } else {
+      NULL
+    }
+  },
+  total_fn = function(x) {
+    x$data$event$tickets$count
+    Inf
+  },
+  extract_fn = function(x) {
+    attendees <- lapply(x$data$event$tickets$edges, function(item) {
+      item$node
+    })
+    attendees
+  },
+  pb_format = "- :current/?? :elapsed :spin"
+)
+
+
 # Cache the country code to name conversion as the conversion is consistent
 country_code_mem <- local({
   cache <- list()
