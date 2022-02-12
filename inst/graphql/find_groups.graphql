@@ -1,6 +1,6 @@
 query keywordSearch(
   # $topicCategoryId: Int! = 546
-  $topicCategoryId: Int!
+  $topicCategoryId: Int = null
   $searchSources: [SearchSources!]! = [GROUPS]
   # $query: String! = "R-Ladies"
   $query: String!
