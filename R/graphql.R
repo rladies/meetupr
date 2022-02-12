@@ -303,6 +303,29 @@ gql_find_groups <- graphql_query_generator(
 )
 
 
+gql_get_members <- graphql_query_generator(
+  "find_members",
+  cursor_fn = function(x) {
+    pageInfo <- x$data$groupByUrlname$memberships$pageInfo
+    if (pageInfo$hasNextPage) {
+      list(cursor = pageInfo$endCursor)
+    } else {
+      NULL
+    }
+  },
+  total_fn = function(x) {
+    x$data$groupByUrlname$memberships$count
+    Inf
+  },
+  extract_fn = function(x) {
+    members <- lapply(x$data$groupByUrlname$memberships$edges, function(item) {
+      item
+    })
+    members
+  },
+  pb_format = "- :current/?? :elapsed :spin"
+)
+
 gql_get_event_attendees <- graphql_query_generator(
   "find_attendees",
   cursor_fn = function(x) {

@@ -43,3 +43,26 @@ get_members <- function(urlname,
     resource = res
   )
 }
+
+
+# @param query Required search text
+# @param ... Should be empty. Used for parameter expansion
+#' @importFrom dplyr %>%
+get_members2 <- function(
+  urlname,
+  ...,
+  extra_graphql = NULL,
+  token = meetup_token()
+) {
+  ellipsis::check_dots_empty()
+
+  dt <- gql_get_members(
+    urlname = urlname,
+    .extra_graphql = extra_graphql,
+    .token = token
+  )
+
+  dt
+
+}
+
