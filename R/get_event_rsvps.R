@@ -43,8 +43,11 @@ get_event_rsvps <- function(urlname, event_id,
 }
 
 
-# @param query Required search text
-# @param ... Should be empty. Used for parameter expansion
+#' @param id Required event ID
+#' @param ... Should be empty. Used for parameter expansion
+#' \dontrun{
+#' rsvps <- get_event_rsvps2(id = "103349942!chp")
+#' }
 #' @importFrom dplyr %>%
 get_event_rsvps2 <- function(
   id,

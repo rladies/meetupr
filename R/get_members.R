@@ -45,8 +45,11 @@ get_members <- function(urlname,
 }
 
 
-# @param query Required search text
-# @param ... Should be empty. Used for parameter expansion
+#' @param urlname Required urlname of the Meetup group
+#' @param ... Should be empty. Used for parameter expansion
+#' \dontrun{
+#' members <- get_members2("rladies-remote")
+#' }
 #' @importFrom dplyr %>%
 get_members2 <- function(
   urlname,

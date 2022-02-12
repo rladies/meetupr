@@ -37,8 +37,11 @@ get_event_attendees <- function(urlname, event_id,
 }
 
 
-# @param query Required search text
-# @param ... Should be empty. Used for parameter expansion
+#' @param id Required event ID
+#' @param ... Should be empty. Used for parameter expansion
+#' \dontrun{
+#' attendees <- get_event_attendees2(id = "103349942!chp")
+#' }
 #' @importFrom dplyr %>%
 get_event_attendees2 <- function(
   id,
