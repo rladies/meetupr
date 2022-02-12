@@ -28,3 +28,30 @@ meetup_query <- function(api_path,
   .fetch_results(api_path,
                ...)
 }
+
+#' @param query Required query text. Test queries at: https://www.meetup.com/api/playground
+#' @param ... Should be empty. Used for parameter expansion
+#' @examples
+#' \dontrun{
+#'  res <- meetup_query2('
+#'    query($eventId: ID = "103349942!chp") {
+#'     event(id: $eventId) {
+#'      title
+#'      description
+#'      dateTime
+#'     }
+#'    }
+#' ')
+#' }
+#'
+meetup_query2 <- function(
+  query,
+  ...,
+  token = meetup_token()
+) {
+  res <- graphql_query(
+    .query = query,
+    .token = token
+    )
+  res$data
+}
