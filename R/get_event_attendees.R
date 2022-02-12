@@ -35,3 +35,26 @@ get_event_attendees <- function(urlname, event_id,
     resource = res
   )
 }
+
+
+# @param query Required search text
+# @param ... Should be empty. Used for parameter expansion
+#' @importFrom dplyr %>%
+get_event_attendees2 <- function(
+  id,
+  ...,
+  extra_graphql = NULL,
+  token = meetup_token()
+) {
+  ellipsis::check_dots_empty()
+
+  dt <- gql_get_event_attendees(
+    id = id,
+    .extra_graphql = extra_graphql,
+    .token = token
+  )
+
+  dt
+
+}
+
