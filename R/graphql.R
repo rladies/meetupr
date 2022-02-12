@@ -372,6 +372,23 @@ gql_get_event_rsvps <- graphql_query_generator(
   pb_format = "- :current/?? :elapsed :spin"
 )
 
+gql_get_event_comments <- graphql_query_generator(
+  "find_event_comments",
+  cursor_fn = function(response) {
+    NULL
+  },
+  total_fn = function(x) {
+    x$data$event$comments$count
+    Inf
+  },
+  extract_fn = function(x) {
+    comments <- lapply(x$data$event$comments$edges, function(item) {
+      item$node
+    })
+    comments
+  },
+  pb_format = "- :current/?? :elapsed :spin"
+)
 
 # Cache the country code to name conversion as the conversion is consistent
 country_code_mem <- local({

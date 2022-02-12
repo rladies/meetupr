@@ -41,3 +41,30 @@ get_event_comments <- function(urlname, event_id,
     resource = res
   )
 }
+
+
+
+#' @param id Required event ID
+#' @param ... Should be empty. Used for parameter expansion
+#' @examples
+#' \dontrun{
+#' comments <- get_event_comments2(id = "103349942!chp")
+#' }
+#' @importFrom dplyr %>%
+get_event_comments2 <- function(
+  id,
+  ...,
+  extra_graphql = NULL,
+  token = meetup_token()
+) {
+  ellipsis::check_dots_empty()
+
+  dt <- gql_get_event_comments(
+    id = id,
+    .extra_graphql = extra_graphql,
+    .token = token
+  )
+
+  dt
+
+}
