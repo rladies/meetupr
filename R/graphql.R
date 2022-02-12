@@ -422,6 +422,12 @@ if (FALSE) {
 
   x <- get_events2(urlname = "Data-Science-DC", .extra_graphql = "host { name }"); utils::str(x)
 
+  x <- get_members2("rladies-remote"); utils::str(x)
+
+  x <- get_event_rsvps2(id = "103349942!chp"); utils::str(x)
+
+  x <- get_event_attendees2(id = "103349942!chp"); utils::str(x)
+
   x <- graphql_file("location", lat = 10.54, lon = -66.93); utils::str(x)
 
   x <- find_groups2(topic_category_id = 546, query = "R-Ladies"); utils::str(x)
