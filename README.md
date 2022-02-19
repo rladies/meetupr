@@ -3,6 +3,11 @@
 
 # meetupr
 
+## ⚠️ ALERT TO USERS:
+
+Meetup has deprecated the REST API that's used in this package.  We are working to [add support](https://github.com/rladies/meetupr/issues/118) for their new API but unfortnately that means that the package is not currently functional.  If you'd like to help with this transition in any way (we could use help with testing and documentation in particular), please comment on the this [issue](https://github.com/rladies/meetupr/issues/118).
+
+
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/rladies/meetupr/workflows/R-CMD-check/badge.svg)](https://github.com/rladies/meetupr/actions)
