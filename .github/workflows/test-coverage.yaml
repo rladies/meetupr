@@ -15,6 +15,7 @@ jobs:
     runs-on: macOS-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      MEETUPR_TESTING: true
     steps:
       - uses: actions/checkout@v2
 
