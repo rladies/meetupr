@@ -437,7 +437,7 @@ if (FALSE) {
 
   x <- get_events2(urlname = "Data-Science-DC"); utils::str(x)
 
-  x <- get_events2(urlname = "Data-Science-DC", .extra_graphql = "host { name }"); utils::str(x)
+  x <- get_events2(urlname = "Data-Science-DC", extra_graphql = "host { name }"); utils::str(x)
 
   x <- get_members2("rladies-remote"); utils::str(x)
 
