@@ -445,6 +445,18 @@ if (FALSE) {
 
   x <- get_event_attendees2(id = "103349942!chp"); utils::str(x)
 
+  x <- get_event_comments2(id = "103349942!chp"); utils::str(x)
+
+  x <- meetup_query2('
+                      query($eventId: ID = "276754274") {
+                        event(id: $eventId) {
+                          title
+                          description
+                          dateTime
+                        }
+                      }
+                   ')
+
   x <- graphql_file("location", lat = 10.54, lon = -66.93); utils::str(x)
 
   x <- find_groups2(topic_category_id = 546, query = "R-Ladies"); utils::str(x)
