@@ -8,8 +8,7 @@
 #' Authorize \code{meetupr} via the OAuth API. You will be directed to a web
 #' browser, asked to sign in to your Meetup account, and to grant \code{meetupr}
 #' permission to operate on your behalf. By default, these user credentials are
-#' saved to a file in your home directory whose path is saved in `.Renviron`
-#' as `MEETUPR_PAT`.
+#' saved to an app dir as determined by `rappdirs::user_data_dir("meetupr", "meetupr")`.
 #' If you set `use_appdir` to `FALSE` but `cache` to `TRUE`,
 #' they are cached in a file named \code{.httr-oauth} in the current working directory.
 #' To control where the file is saved, use `token_path`.
@@ -66,12 +65,11 @@
 #'   stored as an \code{.rds} file.
 #' @param new_user logical, defaults to \code{FALSE}. Set to \code{TRUE} if you
 #'   want to wipe the slate clean and re-authenticate with the same or different
-#'   Meetup account. This disables the \code{.httr-oauth} file in current
-#'   working directory.
+#'   Meetup account. This disables the current token that's at `meetup_token_path()`.
 #' @param key,secret the "Client ID" and "Client secret" for the application;
 #'   defaults to the ID and secret built into the \code{meetupr} package
 #' @param cache logical indicating if \code{meetupr} should cache
-#'   credentials in the default cache file \code{.httr-oauth} or `token_path`.
+#'   credentials a file.
 #' @param use_appdir Logical indicating whether to save the created token
 #'   in app dir as determined by `rappdirs::user_data_dir("meetupr", "meetupr")`.
 #'   If \code{cache} is `FALSE` this is ignored.
@@ -111,10 +109,16 @@ meetup_auth <- function(token = meetup_token_path(),
 
   if (is.null(token)) {
 
-    meetup_app       <- httr::oauth_app("meetup", key = key, secret = secret)
+    meetup_app <- httr::oauth_app(
+      "meetup",
+      key = key,
+      secret = secret,
+      redirect_uri = httr::oauth_callback()
+      )
+
     meetup_endpoints <- httr::oauth_endpoint(
-      authorize = 'https://secure.meetup.com/oauth2/authorize',
-      access    = 'https://secure.meetup.com/oauth2/access'
+      authorize = paste0(meetup_auth_prefix(), 'authorize'),
+      access    = paste0(meetup_auth_prefix(), 'access')
     )
 
     if (!cache && !is.null(token_path)) {
@@ -128,22 +132,20 @@ meetup_auth <- function(token = meetup_token_path(),
 
     if (cache) {
       if (use_appdir) {
-        if (is.null(token_path)) {
-          token_path <- appdir_path()
-          # from https://github.com/r-hub/rhub/blob/5c339d7b95d75172beec85603ee197c2502903b1/R/email.R#L192
-          parent <- dirname(token_path)
-          if (!file.exists(parent)) dir.create(parent, recursive = TRUE)
-        }
+        token_path <- appdir_path()
+        # from https://github.com/r-hub/rhub/blob/5c339d7b95d75172beec85603ee197c2502903b1/R/email.R#L192
+        parent <- dirname(token_path)
+        if (!file.exists(parent)) dir.create(parent, recursive = TRUE)
 
       }
 
       # In all cases if cache is TRUE we want to set it to the filepath
-      if (!is.null(token_path)) {
+      if (!is.null(token_path) && !use_appdir) {
         cache <- token_path
       }
     }
 
-    meetup_token <- httr::oauth2.0_token(
+    meetup_token <- TOKEN_FUNCTION(
       meetup_endpoints,
       meetup_app,
       cache = cache # if FALSE won't be saved, if character will be saved
@@ -251,8 +253,7 @@ token_available <- function(verbose = TRUE) {
 #' APIs on behalf of the authenticated user.
 #'
 #' @param clear_cache logical indicating whether to disable the
-#'   \code{.httr-oauth} file in working directory, if such exists, by renaming
-#'   to \code{.httr-oauth-SUSPENDED}
+#'   token file, if such exists, by apprending "-SUSPENDED" to its name
 #' @template verbose
 #' @export
 #' @rdname meetup-auth
@@ -263,7 +264,9 @@ token_available <- function(verbose = TRUE) {
 #' }
 meetup_deauth <- function(clear_cache = TRUE,
                           verbose = getOption("meetupr.verbose", rlang::is_interactive())) {
-
+  if (is.null(meetup_token_path())) {
+    return(NULL)
+  }
   if (clear_cache && file.exists(meetup_token_path())) {
     if (verbose) {
       message(
@@ -279,7 +282,7 @@ meetup_deauth <- function(clear_cache = TRUE,
 
   if (token_available(verbose = FALSE)) {
     if (verbose) {
-      message("Removing google token stashed internally in 'meetupr'.")
+      message("Removing Meetup token stashed internally in 'meetupr'.")
     }
     rm("token", envir = .state)
   } else {
@@ -342,7 +345,7 @@ meetup_token_path <- function() {
 
 save_and_refresh_token <- function(token, path) {
 
-  if (token$credentials$expires_in < 60) {
+  if (purrr::compact(c(token$credentials$expires_in, token$credentials$expiry)) < 60) {
     token$refresh()
 
     if(!is.null(path)) {
@@ -355,4 +358,17 @@ save_and_refresh_token <- function(token, path) {
 
 appdir_path <- function() {
   file.path(rappdirs::user_data_dir("meetupr", "meetupr"), "meetupr-token.rds")
+}
+
+meetup_auth_prefix <- function() {
+
+  Sys.getenv("MEETUP_AUTH_URL", "https://secure.meetup.com/oauth2/")
+}
+
+TOKEN_FUNCTION <- function(...) {
+  if (nzchar(Sys.getenv("MEETUP_TESTTHAT"))) {
+    return(webfakes::oauth2_httr_login(httr::oauth2.0_token(...)))
+  }
+
+    return(httr::oauth2.0_token(...))
 }
