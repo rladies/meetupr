@@ -39,6 +39,17 @@ get_event_attendees <- function(urlname, event_id,
 
 #' @param id Required event ID
 #' @param ... Should be empty. Used for parameter expansion
+#' @return A tibble with the following columns:
+#'    * id
+#'    * name
+#'    * url
+#'    * photo
+#'    * organizedGroupCount
+#' @references
+#' \url{https://www.meetup.com/api/schema/#Event}
+#' \url{https://www.meetup.com/api/schema/#Ticket}
+#' \url{https://www.meetup.com/api/schema/#User}
+#' @examples
 #' \dontrun{
 #' attendees <- get_event_attendees2(id = "103349942!chp")
 #' }
@@ -57,7 +68,11 @@ get_event_attendees2 <- function(
     .token = token
   )
 
-  dt
-
+  dt %>%
+  dplyr::rename(
+    url = .data$memberUrl,
+    photo = .data$memberPhoto.baseUrl,
+    organized_group_count = .data$organizedGroupCount
+  )
 }
 

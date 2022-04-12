@@ -18,7 +18,9 @@ query eventAttendee(
        # cursor
         node {
           user {
+            id
             name
+            bio
             memberUrl
             memberPhoto {
               baseUrl
