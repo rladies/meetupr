@@ -22,13 +22,14 @@ query eventRSVPs(
             name
             memberUrl
           }
+          isHost
+          status
+          guestsCount
           event {
             id
             title
             eventUrl
           }
-          status
-          guestsCount
           createdAt
           updatedAt
           << extra_graphql >>
