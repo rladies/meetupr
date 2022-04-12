@@ -44,7 +44,7 @@ get_event_attendees <- function(urlname, event_id,
 #'    * name
 #'    * url
 #'    * photo
-#'    * organizedGroupCount
+#'    * organized_group_count
 #' @references
 #' \url{https://www.meetup.com/api/schema/#Event}
 #' \url{https://www.meetup.com/api/schema/#Ticket}
