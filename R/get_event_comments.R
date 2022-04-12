@@ -46,6 +46,18 @@ get_event_comments <- function(urlname, event_id,
 
 #' @param id Required event ID
 #' @param ... Should be empty. Used for parameter expansion
+#' @return A tibble with the following columns:
+#'    * id
+#'    * comment
+#'    * created
+#'    * like_count
+#'    * member_id
+#'    * member_name
+#'    * link
+#' @references
+#' \url{https://www.meetup.com/api/schema/#Event}
+#' \url{https://www.meetup.com/api/schema/#EventCommentConnection}
+#' @examples
 #' @examples
 #' \dontrun{
 #' comments <- get_event_comments2(id = "103349942!chp")
@@ -65,6 +77,12 @@ get_event_comments2 <- function(
     .token = token
   )
 
-  dt
+  dt %>%
+    dplyr::rename(
+      comment = .data$text,
+      like_count = .data$likeCount,
+      member_id = .data$member.id,
+      member_name = .data$member.name
+    )
 
 }

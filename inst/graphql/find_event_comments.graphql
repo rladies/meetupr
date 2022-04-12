@@ -19,11 +19,11 @@ query eventComment(
       edges {
         node {
           id
-          eventId
           text
           created
           likeCount
           member {
+            id
             name
           }
           link
