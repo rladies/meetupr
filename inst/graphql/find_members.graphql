@@ -29,5 +29,6 @@ query members(
         }
       }
     }
+    << extra_graphql >>
   }
 }
