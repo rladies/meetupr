@@ -31,6 +31,10 @@ meetup_query <- function(api_path,
 
 #' @param query Required query text. Test queries at: https://www.meetup.com/api/playground
 #' @param ... Should be empty. Used for parameter expansion
+#'
+#' @return raw list results from the query, not tidied
+#' @export
+#'
 #' @examples
 #' \dontrun{
 #'  res <- meetup_query2('
