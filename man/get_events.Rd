@@ -10,6 +10,10 @@ get_events(urlname, ..., extra_graphql = NULL, token = meetup_token())
 \item{urlname}{Required urlname of the Meetup group}
 
 \item{...}{Should be empty. Used for parameter expansion}
+
+\item{extra_graphql}{A graphql object. Extra objects to return}
+
+\item{token}{Meetup token}
 }
 \description{
 Get the events from a meetup group

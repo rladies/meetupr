@@ -2,6 +2,8 @@
 #'
 #' @param urlname Required urlname of the Meetup group
 #' @param ... Should be empty. Used for parameter expansion
+#' @param extra_graphql A graphql object. Extra objects to return
+#' @param token Meetup token
 #' @importFrom dplyr %>%
 #' @export
 get_events <- function(

@@ -3,7 +3,7 @@
 #' Create your own query to the Meetup API
 #' @param query Required query text. Test queries at: https://www.meetup.com/api/playground
 #' @param ... Should be empty. Used for parameter expansion
-#'
+#' @param token Meetup token
 #' @return raw list results from the query, not tidied
 #' @export
 #'

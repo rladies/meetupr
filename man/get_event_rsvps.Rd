@@ -10,6 +10,10 @@ get_event_rsvps(id, ..., extra_graphql = NULL, token = meetup_token())
 \item{id}{Required event ID}
 
 \item{...}{Should be empty. Used for parameter expansion}
+
+\item{extra_graphql}{A graphql object. Extra objects to return}
+
+\item{token}{Meetup token}
 }
 \value{
 A tibble with the following columns:

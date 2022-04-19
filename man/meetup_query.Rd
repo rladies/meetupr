@@ -10,6 +10,8 @@ meetup_query(query, ..., token = meetup_token())
 \item{query}{Required query text. Test queries at: https://www.meetup.com/api/playground}
 
 \item{...}{Should be empty. Used for parameter expansion}
+
+\item{token}{Meetup token}
 }
 \value{
 raw list results from the query, not tidied

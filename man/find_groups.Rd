@@ -19,6 +19,18 @@ find_groups(
 \item{query}{Required search text}
 
 \item{...}{Should be empty. Used for parameter expansion}
+
+\item{topic_category_id}{Topic ID e.g 543 for technology topic}
+
+\item{lat}{Latitude. An integer}
+
+\item{lon}{Longitutde. An integer}
+
+\item{radius}{Radius. An integer}
+
+\item{extra_graphql}{A graphql object. Extra objects to return}
+
+\item{token}{Meetup token}
 }
 \description{
 Find meetup groups matching a search query

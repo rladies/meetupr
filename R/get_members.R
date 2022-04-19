@@ -2,6 +2,8 @@
 #'
 #' @param urlname Required urlname of the Meetup group
 #' @param ... Should be empty. Used for parameter expansion
+#' @param extra_graphql A graphql object. Extra objects to return
+#' @param token Meetup token
 #' @return A tibble with the following columns:
 #'    * id
 #'    * name
