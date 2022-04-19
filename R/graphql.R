@@ -432,22 +432,22 @@ add_country_name <- function(
 if (FALSE) {
   x <- gql_health_check(); utils::str(x)
 
-  x <- get_events2(urlname = "Data-Visualization-DC"); utils::str(x)
-  x <- get_events2(urlname = "R-Users"); utils::str(x)
+  x <- get_events(urlname = "Data-Visualization-DC"); utils::str(x)
+  x <- get_events(urlname = "R-Users"); utils::str(x)
 
-  x <- get_events2(urlname = "Data-Science-DC"); utils::str(x)
+  x <- get_events(urlname = "Data-Science-DC"); utils::str(x)
 
-  x <- get_events2(urlname = "Data-Science-DC", extra_graphql = "host { name }"); utils::str(x)
+  x <- get_events(urlname = "Data-Science-DC", extra_graphql = "host { name }"); utils::str(x)
 
-  x <- get_members2("rladies-remote"); utils::str(x)
+  x <- get_members("rladies-remote"); utils::str(x)
 
-  x <- get_event_rsvps2(id = "103349942!chp"); utils::str(x)
+  x <- get_event_rsvps(id = "103349942!chp"); utils::str(x)
 
-  x <- get_event_attendees2(id = "103349942!chp"); utils::str(x)
+  x <- get_event_attendees(id = "103349942!chp"); utils::str(x)
 
-  x <- get_event_comments2(id = "103349942!chp"); utils::str(x)
+  x <- get_event_comments(id = "103349942!chp"); utils::str(x)
 
-  x <- meetup_query2('
+  x <- meetup_query('
                       query($eventId: ID = "276754274") {
                         event(id: $eventId) {
                           title
@@ -459,5 +459,5 @@ if (FALSE) {
 
   x <- graphql_file("location", lat = 10.54, lon = -66.93); utils::str(x)
 
-  x <- find_groups2(topic_category_id = 546, query = "R-Ladies"); utils::str(x)
+  x <- find_groups(topic_category_id = 546, query = "R-Ladies"); utils::str(x)
 }
