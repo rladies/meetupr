@@ -4,80 +4,13 @@
 \alias{get_events}
 \title{Get the events from a meetup group}
 \usage{
-get_events(
-  urlname,
-  event_status = c("upcoming", "cancelled", "draft", "past", "proposed", "suggested"),
-  fields = NULL,
-  verbose = meetupr_verbose()
-)
+get_events(urlname, ..., extra_graphql = NULL, token = meetup_token())
 }
 \arguments{
-\item{urlname}{Character. The name of the group as indicated in the
-\url{https://meetup.com} url.}
+\item{urlname}{Required urlname of the Meetup group}
 
-\item{event_status}{Character or character vector (e.g. "upcoming" or c("past", "upcoming")). Event type - defaults to "upcoming".
-Valid inputs are:
-\itemize{
-\item cancelled
-\item draft
-\item past
-\item proposed
-\item suggested
-\item upcoming
-}}
-
-\item{fields}{Character, character vector or characters separated by comma (e.g "event_hosts" or c("event_hosts","attendance_count") or "event_hosts, group_past_event_count").}
-
-\item{verbose}{logical; do you want informative messages? \code{TRUE} by default in
-interactive sessions. Can be toggled by the \code{meetupr.verbose} option.}
-}
-\value{
-A tibble with the following columns:
-\itemize{
-\item id
-\item name
-\item created
-\item status
-\item time
-\item local_date
-\item local_time
-\item waitlist_count
-\item yes_rsvp_count
-\item venue_id
-\item venue_name
-\item venue_lat
-\item venue_lon
-\item venue_address_1
-\item venue_city
-\item venue_state
-\item venue_zip
-\item venue_country
-\item description
-\item link
-\item resource
-}
+\item{...}{Should be empty. Used for parameter expansion}
 }
 \description{
 Get the events from a meetup group
-}
-\examples{
-\dontrun{
-urlname <- "rladies-nashville"
-past_events <- get_events(urlname = urlname,
-                      event_status = "past")
-upcoming_events <- get_events(urlname = urlname,
-                      event_status = "upcoming")
-past_meetings <- get_events(urlname = urlname,
-                 event_status = "past",
-                 fields = "event_hosts")
-# get events hosts (co-organizers) of single past meeting
-single_event <- past_meetings$resource[[1]]$event_hosts
-
-# get all event hosts names (2) and host_counts (6) for that single event
-# host_counts represents how events the person has co-organized or hosted.
-do.call("rbind", lapply(single_event, '[', c(2,6)))
-}
-}
-\references{
-\url{https://www.meetup.com/meetup_api/docs/:urlname/events/#list}
 }

@@ -6,7 +6,8 @@
 \alias{meetupr-package}
 \title{meetupr: Meetup R API}
 \description{
-Provides access to data from 'meetup.com' (see https://www.meetup.com/meetup_api/ for more information).
+Provides access to data from <https:www.meetup.com> (see
+    <https:www.meetup.com/meetup_api/> for more information).
 }
 \author{
 \strong{Maintainer}: Erin LeDell \email{oss@ledell.org}

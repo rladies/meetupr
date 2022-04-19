@@ -4,30 +4,24 @@
 \alias{get_members}
 \title{Get the current meetup members from a meetup group}
 \usage{
-get_members(urlname, verbose = meetupr_verbose())
+get_members(urlname, ..., extra_graphql = NULL, token = meetup_token())
 }
 \arguments{
-\item{urlname}{Character. The name of the group as indicated in the
-\url{https://meetup.com} url.}
+\item{urlname}{Required urlname of the Meetup group}
 
-\item{verbose}{logical; do you want informative messages? \code{TRUE} by default in
-interactive sessions. Can be toggled by the \code{meetupr.verbose} option.}
+\item{...}{Should be empty. Used for parameter expansion}
 }
 \value{
 A tibble with the following columns:
 \itemize{
 \item id
 \item name
-\item bio
-\item status
-\item joined
-\item city
-\item country
-\item state
-\item lat
-\item lon
+\item member_url
 \item photo_link
-\item resource
+\item status
+\item role
+\item created
+\item most_recent_visit
 }
 }
 \description{
@@ -35,10 +29,10 @@ Get the current meetup members from a meetup group
 }
 \examples{
 \dontrun{
-urlname <- "rladies-nashville"
-members <- get_members(urlname)
+members <- get_members("rladies-remote")
 }
 }
 \references{
-\url{https://www.meetup.com/meetup_api/docs/:urlname/members/#list}
+\url{https://www.meetup.com/api/schema/#GroupMembership}
+\url{https://www.meetup.com/api/schema/#User}
 }

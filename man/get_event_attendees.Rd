@@ -4,25 +4,21 @@
 \alias{get_event_attendees}
 \title{Get the attendees for a specified event}
 \usage{
-get_event_attendees(urlname, event_id, verbose = meetupr_verbose())
+get_event_attendees(id, ..., extra_graphql = NULL, token = meetup_token())
 }
 \arguments{
-\item{urlname}{Character. The name of the group as indicated in the
-\url{https://meetup.com} url.}
+\item{id}{Required event ID}
 
-\item{event_id}{Character. The id of the event. Event ids can be obtained
-using \code{\link[=get_events]{get_events()}} or by looking at the event page URL.}
-
-\item{verbose}{logical; do you want informative messages? \code{TRUE} by default in
-interactive sessions. Can be toggled by the \code{meetupr.verbose} option.}
+\item{...}{Should be empty. Used for parameter expansion}
 }
 \value{
 A tibble with the following columns:
 \itemize{
 \item id
 \item name
-\item status
-\item resource
+\item url
+\item photo
+\item organized_group_count
 }
 }
 \description{
@@ -30,13 +26,11 @@ Get the attendees for a specified event
 }
 \examples{
 \dontrun{
-urlname <- "rladies-nashville"
-past_events <- get_events(urlname = urlname,
-                      event_status = "past")
-event_id <- past_events$id[1]  #first event for this group
-attendees <- get_event_attendees(urlname, event_id)
+attendees <- get_event_attendees(id = "103349942!chp")
 }
 }
 \references{
-\url{https://www.meetup.com/meetup_api/docs/:urlname/events/:id/attendance/#list}
+\url{https://www.meetup.com/api/schema/#Event}
+\url{https://www.meetup.com/api/schema/#Ticket}
+\url{https://www.meetup.com/api/schema/#User}
 }
