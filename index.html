@@ -34,7 +34,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">meetupr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.3.9991</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.99.9000</span>
       </span>
     </div>
 
@@ -50,7 +50,7 @@
   <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -88,7 +88,6 @@
 </h2>
 <p>Meetup has deprecated the REST API that’s used in this package. We are working to <a href="https://github.com/rladies/meetupr/issues/118" class="external-link">add support</a> for their new API but unfortnately that means that the package is not currently functional. If you’d like to help with this transition in any way (we could use help with testing and documentation in particular), please comment on the this <a href="https://github.com/rladies/meetupr/issues/118" class="external-link">issue</a>.</p>
 <!-- badges: start -->
-
 <p>R interface to the <a href="https://www.meetup.com/meetup_api/" class="external-link">Meetup API</a> (v3)</p>
 </div>
 <div class="section level2">
@@ -97,7 +96,7 @@
 <p>To install the development version from GitHub:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"rladies/meetupr"</span><span class="op">)</span></code></pre></div>
+<span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"rladies/meetupr"</span><span class="op">)</span></code></pre></div>
 <p>A released version will be on CRAN <a href="https://github.com/rladies/meetupr/issues/24" class="external-link">soon</a>.</p>
 </div>
 <div class="section level2">
@@ -143,10 +142,10 @@
 
 <span class="va">urlname</span> <span class="op">&lt;-</span> <span class="st">"rladies-san-francisco"</span>
 <span class="va">events</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_events.html">get_events</a></span><span class="op">(</span><span class="va">urlname</span>, <span class="st">"past"</span><span class="op">)</span>
-<span class="fu">dplyr</span><span class="fu">::</span><span class="fu">arrange</span><span class="op">(</span><span class="va">events</span>, <span class="fu">desc</span><span class="op">(</span><span class="va">created</span><span class="op">)</span><span class="op">)</span>
+<span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">events</span>, <span class="fu">desc</span><span class="op">(</span><span class="va">created</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 60 x 22</span>
 <span class="co">#&gt;    id    name  created             status time                local_date</span>
-<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt; &lt;dttm&gt;              &lt;chr&gt;  &lt;dttm&gt;              &lt;date&gt;    </span>
+<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt; &lt;dttm&gt;              &lt;chr&gt;  &lt;dttm&gt;              &lt;date&gt;</span>
 <span class="co">#&gt;  1 2730… A co… 2020-09-04 20:04:50 past   2020-09-11 00:30:00 2020-09-10</span>
 <span class="co">#&gt;  2 2724… Tang… 2020-08-06 21:24:51 past   2020-08-28 02:30:00 2020-08-27</span>
 <span class="co">#&gt;  3 2679… R-La… 2020-01-16 19:08:03 past   2020-01-31 02:00:00 2020-01-30</span>
@@ -165,20 +164,20 @@
 <p>Next we can look up all R-Ladies groups by “topic id”. You can find topic ids for associated tags by querying <a href="https://secure.meetup.com/meetup_api/console/?path=/find/topics" class="external-link">here</a>. The <code>topic_id</code> for topic, “R-Ladies”, is <code>1513883</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">groups</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/find_groups.html">find_groups</a></span><span class="op">(</span>topic_id <span class="op">=</span> <span class="fl">1513883</span><span class="op">)</span>
-<span class="fu">dplyr</span><span class="fu">::</span><span class="fu">arrange</span><span class="op">(</span><span class="va">groups</span>, <span class="fu">desc</span><span class="op">(</span><span class="va">created</span><span class="op">)</span><span class="op">)</span>
+<span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">groups</span>, <span class="fu">desc</span><span class="op">(</span><span class="va">created</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 137 x 21</span>
 <span class="co">#&gt;        id name  urlname status   lat     lon city  state country</span>
-<span class="co">#&gt;     &lt;int&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  </span>
-<span class="co">#&gt;  1 3.38e7 R-La… rladie… active -1.29   36.8  Nair… ""    Kenya  </span>
+<span class="co">#&gt;     &lt;int&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;</span>
+<span class="co">#&gt;  1 3.38e7 R-La… rladie… active -1.29   36.8  Nair… ""    Kenya</span>
 <span class="co">#&gt;  2 3.34e7 R-La… rladie… active 52.4    -1.5  Cove… "43"  United…</span>
-<span class="co">#&gt;  3 3.34e7 R-La… rladie… active 43.3    21.9  Niš   ""    Serbia </span>
-<span class="co">#&gt;  4 3.32e7 R-La… rladie… active 25.7  -100.   Mont… ""    Mexico </span>
+<span class="co">#&gt;  3 3.34e7 R-La… rladie… active 43.3    21.9  Niš   ""    Serbia</span>
+<span class="co">#&gt;  4 3.32e7 R-La… rladie… active 25.7  -100.   Mont… ""    Mexico</span>
 <span class="co">#&gt;  5 3.32e7 R-La… rladie… active 51.8    -1.26 Oxfo… "K2"  United…</span>
-<span class="co">#&gt;  6 3.31e7 R-La… rladie… active 38.9   -92.2  Colu… "MO"  USA    </span>
+<span class="co">#&gt;  6 3.31e7 R-La… rladie… active 38.9   -92.2  Colu… "MO"  USA</span>
 <span class="co">#&gt;  7 3.31e7 R-La… rladie… active  6.93   79.8  Colo… ""    Sri La…</span>
-<span class="co">#&gt;  8 3.31e7 R-La… rladie… active 30.0   -90.1  New … "LA"  USA    </span>
-<span class="co">#&gt;  9 3.31e7 R-La… rladie… active 43.0   -76.2  Syra… "NY"  USA    </span>
-<span class="co">#&gt; 10 3.30e7 R-La… rladie… active 19.0    72.8  Mumb… ""    India  </span>
+<span class="co">#&gt;  8 3.31e7 R-La… rladie… active 30.0   -90.1  New … "LA"  USA</span>
+<span class="co">#&gt;  9 3.31e7 R-La… rladie… active 43.0   -76.2  Syra… "NY"  USA</span>
+<span class="co">#&gt; 10 3.30e7 R-La… rladie… active 19.0    72.8  Mumb… ""    India</span>
 <span class="co">#&gt; # … with 127 more rows, and 12 more variables: created &lt;dttm&gt;, members &lt;int&gt;,</span>
 <span class="co">#&gt; #   timezone &lt;chr&gt;, join_mode &lt;chr&gt;, visibility &lt;chr&gt;, who &lt;chr&gt;,</span>
 <span class="co">#&gt; #   location &lt;chr&gt;, organizer_id &lt;int&gt;, organizer_name &lt;chr&gt;,</span>
@@ -231,7 +230,7 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/rladies/meetupr/actions" class="external-link"><img src="https://github.com/rladies/meetupr/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://github.com/rladies/meetupr/actions" class="external-link"><img src="https://github.com/rladies/meetupr/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://codecov.io/gh/rladies/meetupr?branch=master" class="external-link"><img src="https://codecov.io/gh/rladies/meetupr/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
 </ul>
 </div>
@@ -247,7 +246,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer>

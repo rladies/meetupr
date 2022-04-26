@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">meetupr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.3.9991</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.99.9000</span>
       </span>
     </div>
 
@@ -32,7 +32,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -66,49 +66,45 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_event_rsvps</span><span class="op">(</span>
-  <span class="va">urlname</span>,
-  <span class="va">event_id</span>,
-  verbose <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"meetupr.verbose"</span>, <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/is_interactive.html" class="external-link">is_interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_event_rsvps</span><span class="op">(</span><span class="va">id</span>, <span class="va">...</span>, extra_graphql <span class="op">=</span> <span class="cn">NULL</span>, token <span class="op">=</span> <span class="fu"><a href="meetup-auth.html">meetup_token</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>urlname</dt>
-<dd><p>Character. The name of the group as indicated in the
-<a href="https://meetup.com" class="external-link">https://meetup.com</a> url.</p></dd>
-<dt>event_id</dt>
-<dd><p>Character. The id of the event. Event ids can be obtained
-using <code><a href="get_events.html">get_events()</a></code> or by looking at the event page URL.</p></dd>
-<dt>verbose</dt>
-<dd><p>logical; do you want informative messages? <code>TRUE</code> by default in
-interactive sessions. Can be toggled by the <code>meetupr.verbose</code> option.</p></dd>
+    <dl><dt>id</dt>
+<dd><p>Required event ID</p></dd>
+<dt>...</dt>
+<dd><p>Should be empty. Used for parameter expansion</p></dd>
+<dt>extra_graphql</dt>
+<dd><p>A graphql object. Extra objects to return</p></dd>
+<dt>token</dt>
+<dd><p>Meetup token</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
     <p>A tibble with the following columns:</p><ul><li><p>member_id</p></li>
 <li><p>member_name</p></li>
+<li><p>member_url</p></li>
 <li><p>member_is_host</p></li>
-<li><p>response</p></li>
 <li><p>guests</p></li>
+<li><p>response</p></li>
+<li><p>event_id</p></li>
+<li><p>event_title</p></li>
+<li><p>event_url</p></li>
 <li><p>created</p></li>
 <li><p>updated</p></li>
-<li><p>resource</p></li>
 </ul></div>
     <div id="references">
     <h2>References</h2>
-    <p><a href="https://www.meetup.com/meetup_api/docs/:urlname/events/:event_id/rsvps/#list" class="external-link">https://www.meetup.com/meetup_api/docs/:urlname/events/:event_id/rsvps/#list</a></p>
+    <p><a href="https://www.meetup.com/api/schema/#Event" class="external-link">https://www.meetup.com/api/schema/#Event</a>
+<a href="https://www.meetup.com/api/schema/#Ticket" class="external-link">https://www.meetup.com/api/schema/#Ticket</a>
+<a href="https://www.meetup.com/api/schema/#User" class="external-link">https://www.meetup.com/api/schema/#User</a></p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="va">urlname</span> <span class="op">&lt;-</span> <span class="st">"rladies-nashville"</span></span>
-<span class="r-in"><span class="va">upcoming_events</span> <span class="op">&lt;-</span> <span class="fu"><a href="get_events.html">get_events</a></span><span class="op">(</span>urlname <span class="op">=</span> <span class="va">urlname</span>,</span>
-<span class="r-in">                      event_status <span class="op">=</span> <span class="st">"past"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">event_id</span> <span class="op">&lt;-</span> <span class="va">upcoming_events</span><span class="op">$</span><span class="va">id</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>  <span class="co">#first event for this group</span></span>
-<span class="r-in"><span class="va">rsvps</span> <span class="op">&lt;-</span> <span class="fu">get_event_rsvps</span><span class="op">(</span><span class="va">urlname</span>, <span class="va">event_id</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">rsvps</span> <span class="op">&lt;-</span> <span class="fu">get_event_rsvps</span><span class="op">(</span>id <span class="op">=</span> <span class="st">"103349942!chp"</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
 </code></pre></div>
     </div>
@@ -124,7 +120,7 @@ interactive sessions. Can be toggled by the <code>meetupr.verbose</code> option.
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>

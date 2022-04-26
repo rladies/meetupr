@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">meetupr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.3.9991</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.99.9000</span>
       </span>
     </div>
 
@@ -32,7 +32,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -66,83 +66,21 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_events</span><span class="op">(</span>
-  <span class="va">urlname</span>,
-  event_status <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"upcoming"</span>, <span class="st">"cancelled"</span>, <span class="st">"draft"</span>, <span class="st">"past"</span>, <span class="st">"proposed"</span>, <span class="st">"suggested"</span><span class="op">)</span>,
-  fields <span class="op">=</span> <span class="cn">NULL</span>,
-  verbose <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"meetupr.verbose"</span>, <span class="fu">rlang</span><span class="fu">::</span><span class="fu"><a href="https://rlang.r-lib.org/reference/is_interactive.html" class="external-link">is_interactive</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_events</span><span class="op">(</span><span class="va">urlname</span>, <span class="va">...</span>, extra_graphql <span class="op">=</span> <span class="cn">NULL</span>, token <span class="op">=</span> <span class="fu"><a href="meetup-auth.html">meetup_token</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>urlname</dt>
-<dd><p>Character. The name of the group as indicated in the
-<a href="https://meetup.com" class="external-link">https://meetup.com</a> url.</p></dd>
-<dt>event_status</dt>
-<dd><p>Character or character vector (e.g. "upcoming" or c("past", "upcoming")). Event type - defaults to "upcoming".
-Valid inputs are:</p><ul><li><p>cancelled</p></li>
-<li><p>draft</p></li>
-<li><p>past</p></li>
-<li><p>proposed</p></li>
-<li><p>suggested</p></li>
-<li><p>upcoming</p></li>
-</ul></dd>
-<dt>fields</dt>
-<dd><p>Character, character vector or characters separated by comma (e.g "event_hosts" or c("event_hosts","attendance_count") or "event_hosts, group_past_event_count").</p></dd>
-<dt>verbose</dt>
-<dd><p>logical; do you want informative messages? <code>TRUE</code> by default in
-interactive sessions. Can be toggled by the <code>meetupr.verbose</code> option.</p></dd>
+<dd><p>Required urlname of the Meetup group</p></dd>
+<dt>...</dt>
+<dd><p>Should be empty. Used for parameter expansion</p></dd>
+<dt>extra_graphql</dt>
+<dd><p>A graphql object. Extra objects to return</p></dd>
+<dt>token</dt>
+<dd><p>Meetup token</p></dd>
 </dl></div>
-    <div id="value">
-    <h2>Value</h2>
-    <p>A tibble with the following columns:</p><ul><li><p>id</p></li>
-<li><p>name</p></li>
-<li><p>created</p></li>
-<li><p>status</p></li>
-<li><p>time</p></li>
-<li><p>local_date</p></li>
-<li><p>local_time</p></li>
-<li><p>waitlist_count</p></li>
-<li><p>yes_rsvp_count</p></li>
-<li><p>venue_id</p></li>
-<li><p>venue_name</p></li>
-<li><p>venue_lat</p></li>
-<li><p>venue_lon</p></li>
-<li><p>venue_address_1</p></li>
-<li><p>venue_city</p></li>
-<li><p>venue_state</p></li>
-<li><p>venue_zip</p></li>
-<li><p>venue_country</p></li>
-<li><p>description</p></li>
-<li><p>link</p></li>
-<li><p>resource</p></li>
-</ul></div>
-    <div id="references">
-    <h2>References</h2>
-    <p><a href="https://www.meetup.com/meetup_api/docs/:urlname/events/#list" class="external-link">https://www.meetup.com/meetup_api/docs/:urlname/events/#list</a></p>
-    </div>
 
-    <div id="ref-examples">
-    <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="va">urlname</span> <span class="op">&lt;-</span> <span class="st">"rladies-nashville"</span></span>
-<span class="r-in"><span class="va">past_events</span> <span class="op">&lt;-</span> <span class="fu">get_events</span><span class="op">(</span>urlname <span class="op">=</span> <span class="va">urlname</span>,</span>
-<span class="r-in">                      event_status <span class="op">=</span> <span class="st">"past"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">upcoming_events</span> <span class="op">&lt;-</span> <span class="fu">get_events</span><span class="op">(</span>urlname <span class="op">=</span> <span class="va">urlname</span>,</span>
-<span class="r-in">                      event_status <span class="op">=</span> <span class="st">"upcoming"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">past_meetings</span> <span class="op">&lt;-</span> <span class="fu">get_events</span><span class="op">(</span>urlname <span class="op">=</span> <span class="va">urlname</span>,</span>
-<span class="r-in">                 event_status <span class="op">=</span> <span class="st">"past"</span>,</span>
-<span class="r-in">                 fields <span class="op">=</span> <span class="st">"event_hosts"</span><span class="op">)</span></span>
-<span class="r-in"><span class="co"># get events hosts (co-organizers) of single past meeting</span></span>
-<span class="r-in"><span class="va">single_event</span> <span class="op">&lt;-</span> <span class="va">past_meetings</span><span class="op">$</span><span class="va">resource</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">event_hosts</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># get all event hosts names (2) and host_counts (6) for that single event</span></span>
-<span class="r-in"><span class="co"># host_counts represents how events the person has co-organized or hosted.</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="st">"rbind"</span>, <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">single_event</span>, <span class="st">'['</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">6</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-</code></pre></div>
-    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>
@@ -155,7 +93,7 @@ interactive sessions. Can be toggled by the <code>meetupr.verbose</code> option.
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer></div>
