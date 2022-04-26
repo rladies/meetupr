@@ -1,0 +1,35 @@
+query eventComment(
+  $id: ID!,
+  #$first: Int = 1000,
+  #$cursor: String,
+  $offset: Int = 0,
+  $limit: Int = 1000
+  ) {
+  event(id: $id) {
+    # this is how comments would be paginated in the future. still in dev
+    #comments(input:{after: $cursor, first: $first}) {
+    #  pageInfo {
+    #    hasNextPage
+    #    endCursor
+    #  }
+
+    # offset and limit still used for pagination here from the REST API schema
+    comments(offset: $offset, limit: $limit) {
+      count
+      edges {
+        node {
+          id
+          text
+          created
+          likeCount
+          member {
+            id
+            name
+          }
+          link
+          << extra_graphql >>
+        }
+      }
+    }
+  }
+}

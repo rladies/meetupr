@@ -5,68 +5,33 @@
 \title{Find meetup groups matching a search query}
 \usage{
 find_groups(
-  text = NULL,
-  topic_id = NULL,
-  radius = "global",
-  fields = NULL,
-  verbose = getOption("meetupr.verbose", rlang::is_interactive())
+  query,
+  ...,
+  topic_category_id = NULL,
+  lat = 0,
+  lon = 0,
+  radius = 1e+08,
+  extra_graphql = NULL,
+  token = meetup_token()
 )
 }
 \arguments{
-\item{text}{Character. Raw full text search query.}
+\item{query}{Required search text}
 
-\item{topic_id}{Integer. Meetup.com topic ID.}
+\item{...}{Should be empty. Used for parameter expansion}
 
-\item{radius}{can be either "global" (default) or distance in miles in the
-range 0-100.}
+\item{topic_category_id}{Topic ID e.g 543 for technology topic}
 
-\item{fields}{Character. Optional fields that are not returned by default.}
+\item{lat}{Latitude. An integer}
 
-\item{verbose}{logical; do you want informative messages? \code{TRUE} by default in
-interactive sessions. Can be toggled by the \code{meetupr.verbose} option.}
-}
-\value{
-A tibble with the following columns:
-\itemize{
-\item id
-\item name
-\item urlname
-\item created
-\item members
-\item status
-\item organizer
-\item lat
-\item lon
-\item city
-\item state
-\item country
-\item timezone
-\item join_mode
-\item visibility
-\item who
-\item organizer_id
-\item organizer_name
-\item category_id
-\item category_name
-\item resource
-}
+\item{lon}{Longitutde. An integer}
+
+\item{radius}{Radius. An integer}
+
+\item{extra_graphql}{A graphql object. Extra objects to return}
+
+\item{token}{Meetup token}
 }
 \description{
 Find meetup groups matching a search query
-}
-\examples{
-\dontrun{
-groups <- find_groups(text = "r-ladies")
-groups <- find_groups(topic_id = 1513883)
-groups <- find_groups(text = "r-ladies", fields = "past_event_count,
- upcoming_event_count")
-past_event_counts <- purrr::map_dbl(groups$resource, "past_event_count",
- .default = 0)
-upcoming_event_counts <- purrr::map_dbl(groups$resource, "upcoming_event_count",
- .default = 0)
-}
-}
-\references{
-\url{https://www.meetup.com/meetup_api/docs/find/groups/}
-\url{https://www.meetup.com/meetup_api/docs/find/topics/}
 }

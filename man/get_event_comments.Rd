@@ -4,33 +4,27 @@
 \alias{get_event_comments}
 \title{Get the comments for a specified event}
 \usage{
-get_event_comments(
-  urlname,
-  event_id,
-  verbose = getOption("meetupr.verbose", rlang::is_interactive())
-)
+get_event_comments(id, ..., extra_graphql = NULL, token = meetup_token())
 }
 \arguments{
-\item{urlname}{Character. The name of the group as indicated in the
-\url{https://meetup.com} url.}
+\item{id}{Required event ID}
 
-\item{event_id}{Character. The id of the event. Event ids can be obtained
-using \code{\link[=get_events]{get_events()}} or by looking at the event page URL.}
+\item{...}{Should be empty. Used for parameter expansion}
 
-\item{verbose}{logical; do you want informative messages? \code{TRUE} by default in
-interactive sessions. Can be toggled by the \code{meetupr.verbose} option.}
+\item{extra_graphql}{A graphql object. Extra objects to return}
+
+\item{token}{Meetup token}
 }
 \value{
 A tibble with the following columns:
 \itemize{
 \item id
 \item comment
-\item link
-\item like_count
 \item created
+\item like_count
 \item member_id
 \item member_name
-\item resource
+\item link
 }
 }
 \description{
@@ -38,13 +32,10 @@ Get the comments for a specified event
 }
 \examples{
 \dontrun{
-urlname <- "rladies-nashville"
-past_events <- get_events(urlname = urlname,
-                      event_status = "past")
-event_id <- past_events$id[1]  #first event for this group
-comments <- get_event_comments(urlname, event_id)
+comments <- get_event_comments(id = "103349942!chp")
 }
 }
 \references{
-\url{https://www.meetup.com/meetup_api/docs/:urlname/events/:event_id/comments/#list}
+\url{https://www.meetup.com/api/schema/#Event}
+\url{https://www.meetup.com/api/schema/#EventCommentConnection}
 }

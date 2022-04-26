@@ -1,0 +1,64 @@
+query keywordSearch(
+  # $topicCategoryId: Int! = 546
+  $topicCategoryId: Int = null
+  $searchSources: [SearchSources!]! = [GROUPS]
+  # $query: String! = "R-Ladies"
+  $query: String!
+  $lat: Float = 0
+  $lon: Float = 0
+  $radius: Int = 100000000
+  $first: Int = 1000
+  $cursor: String
+) {
+  keywordSearch(
+    input: { first: $first, after: $cursor }
+    filter: {
+      query: $query
+      lat: $lat
+      lon: $lon
+      radius: $radius
+      topicCategoryId: $topicCategoryId
+      source: $searchSources
+    }
+  ) {
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+    count
+    edges {
+      # cursor
+      node {
+        # id
+        result {
+          ... on Group {
+            id
+            name
+            urlname
+            latitude
+            longitude
+            city
+            state
+            country
+            membershipMetadata {
+              status
+            }
+            memberships {
+              count
+            }
+            foundedDate
+            timezone
+            joinMode
+            who: customMemberLabel
+            isPrivate
+            category: topicCategory {
+              id
+              name
+            }
+            << extra_graphql >>
+          }
+        }
+      }
+    }
+  }
+}

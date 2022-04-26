@@ -1,0 +1,104 @@
+query singleEvent(
+  # $urlname: String! = "Data-Visualization-DC"
+  $urlname: String!
+  $cursorUnified: String
+  $cursorUpcoming: String
+  $cursorPast: String
+  $cursorDraft: String
+  $queryUnified: Boolean = true
+  $queryUpcoming: Boolean = true
+  $queryPast: Boolean = true
+  $queryDraft: Boolean = true
+  $firstUnified: Int = 10000
+  $firstUpcoming: Int = 10000
+  $firstPast: Int = 10000
+  $firstDraft: Int = 10000
+) {
+  groupByUrlname(urlname: $urlname) {
+    id
+    unifiedEvents(input: { first: $firstUnified, after: $cursorUnified })
+      @include(if: $queryUnified) {
+      pageInfo {
+        ...pageInfos
+      }
+      count
+      edges {
+        cursor
+        node {
+          ...eventFields
+        }
+      }
+    }
+    upcomingEvents(input: { first: $firstUpcoming, after: $cursorUpcoming })
+      @include(if: $queryUpcoming) {
+      pageInfo {
+        ...pageInfos
+      }
+      count
+      edges {
+        cursor
+        node {
+          ...eventFields
+        }
+      }
+    }
+    pastEvents(input: { first: $firstPast, after: $cursorPast })
+      @include(if: $queryPast) {
+      pageInfo {
+        ...pageInfos
+      }
+      count
+      edges {
+        cursor
+        node {
+          ...eventFields
+        }
+      }
+    }
+    draftEvents(input: { first: $firstDraft, after: $cursorDraft })
+      @include(if: $queryDraft) {
+      pageInfo {
+        ...pageInfos
+      }
+      count
+      edges {
+        cursor
+        node {
+          ...eventFields
+        }
+      }
+    }
+  }
+}
+
+fragment pageInfos on PageInfo {
+  hasNextPage
+  # hasPreviousPage
+  # startCursor
+  endCursor
+}
+fragment eventFields on Event {
+  id
+  title
+  eventUrl
+  createdAt
+  status
+  dateTime
+  duration
+  going
+  waiting
+  description
+  eventUrl
+  venue {
+    id
+    lat
+    lon: lng
+    name
+    address
+    city
+    state
+    postalCode
+    country
+  }
+  << extra_graphql >>
+}

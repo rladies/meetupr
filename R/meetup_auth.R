@@ -101,7 +101,7 @@ meetup_auth <- function(token = meetup_token_path(),
                         key = getOption("meetupr.consumer_key"),
                         secret = getOption("meetupr.consumer_secret"),
                         cache = getOption("meetupr.httr_oauth_cache", TRUE),
-                        verbose = getOption("meetupr.verbose", rlang::is_interactive()),
+                        verbose = meetupr_verbose(),
                         use_appdir = TRUE,
                         token_path = NULL) {
 
@@ -209,9 +209,12 @@ meetup_token <- function(verbose = FALSE) {
   if (nzchar(Sys.getenv("MEETUPR_TESTING"))) {
     return(httr::config())
   }
-    if (!token_available(verbose = verbose)) meetup_auth(verbose = verbose)
-    httr::config(token = .state$token)
+    if (!token_available(verbose = verbose)) {
+      # Init `.state$token`
+      meetup_auth(verbose = verbose)
+    }
 
+    httr::config(token = .state$token)
 }
 
 #' Check token availability
@@ -262,7 +265,7 @@ token_available <- function(verbose = TRUE) {
 #' meetup_deauth()
 #' }
 meetup_deauth <- function(clear_cache = TRUE,
-                          verbose = getOption("meetupr.verbose", rlang::is_interactive())) {
+                          verbose = meetupr_verbose()) {
 
   if (clear_cache && file.exists(meetup_token_path())) {
     if (verbose) {

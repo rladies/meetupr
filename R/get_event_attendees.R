@@ -1,37 +1,44 @@
 #' Get the attendees for a specified event
 #'
-#' @template urlname
-#' @param event_id Character. The id of the event. Event ids can be obtained
-#'   using [get_events()] or by looking at the event page URL.
-#' @template verbose
-#'
+#' @param id Required event ID
+#' @param ... Should be empty. Used for parameter expansion
+#' @param extra_graphql A graphql object. Extra objects to return
+#' @param token Meetup token
 #' @return A tibble with the following columns:
 #'    * id
 #'    * name
-#'    * status
-#'    * resource
+#'    * url
+#'    * photo
+#'    * organized_group_count
 #' @references
-#' \url{https://www.meetup.com/meetup_api/docs/:urlname/events/:id/attendance/#list}
+#' \url{https://www.meetup.com/api/schema/#Event}
+#' \url{https://www.meetup.com/api/schema/#Ticket}
+#' \url{https://www.meetup.com/api/schema/#User}
 #' @examples
 #' \dontrun{
-#' urlname <- "rladies-nashville"
-#' past_events <- get_events(urlname = urlname,
-#'                       event_status = "past")
-#' event_id <- past_events$id[1]  #first event for this group
-#' attendees <- get_event_attendees(urlname, event_id)
-#'}
+#' attendees <- get_event_attendees(id = "103349942!chp")
+#' }
+#' @importFrom dplyr %>%
 #' @export
-get_event_attendees <- function(urlname, event_id,
-                                verbose = getOption("meetupr.verbose", rlang::is_interactive())) {
-  api_path <- sprintf("%s/events/%s/attendance",
-                        urlname, event_id)
+get_event_attendees <- function(
+  id,
+  ...,
+  extra_graphql = NULL,
+  token = meetup_token()
+) {
+  ellipsis::check_dots_empty()
 
-  res <- .fetch_results(api_path = api_path, verbose = verbose)
-  tibble::tibble(
-    id = purrr::map_int(res, c("member", "id")),
-    name = purrr::map_chr(res, c("member", "name")),
-    bio = purrr::map_chr(res, c("member", "bio"), .default = NA),
-    rsvp_response = purrr::map_chr(res, c("rsvp", "response")),
-    resource = res
+  dt <- gql_get_event_attendees(
+    id = id,
+    .extra_graphql = extra_graphql,
+    .token = token
+  )
+
+  dt %>%
+  dplyr::rename(
+    url = .data$memberUrl,
+    photo = .data$memberPhoto.baseUrl,
+    organized_group_count = .data$organizedGroupCount
   )
 }
+

@@ -13,17 +13,14 @@ meetup_auth(
   key = getOption("meetupr.consumer_key"),
   secret = getOption("meetupr.consumer_secret"),
   cache = getOption("meetupr.httr_oauth_cache", TRUE),
-  verbose = getOption("meetupr.verbose", rlang::is_interactive()),
+  verbose = meetupr_verbose(),
   use_appdir = TRUE,
   token_path = NULL
 )
 
 meetup_token(verbose = FALSE)
 
-meetup_deauth(
-  clear_cache = TRUE,
-  verbose = getOption("meetupr.verbose", rlang::is_interactive())
-)
+meetup_deauth(clear_cache = TRUE, verbose = meetupr_verbose())
 
 meetup_token_path()
 }

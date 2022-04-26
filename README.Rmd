@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 Meetup has deprecated the REST API that's used in this package.  We are working to [add support](https://github.com/rladies/meetupr/issues/118) for their new API but unfortnately that means that the package is not currently functional.  If you'd like to help with this transition in any way (we could use help with testing and documentation in particular), please comment on the this [issue](https://github.com/rladies/meetupr/issues/118).
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/rladies/meetupr/workflows/R-CMD-check/badge.svg)](https://github.com/rladies/meetupr/actions)
+[![R-CMD-check](https://github.com/rladies/meetupr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rladies/meetupr/actions)
 [![Codecov test coverage](https://codecov.io/gh/rladies/meetupr/branch/master/graph/badge.svg)](https://codecov.io/gh/rladies/meetupr?branch=master)
 <!-- badges: end -->
 
@@ -44,12 +44,12 @@ A released version will be on CRAN [soon](https://github.com/rladies/meetupr/iss
 
 #### API key? No
 
-```{r child='man/rmd-fragments/api-key.Rmd'} 
+```{r child='man/rmd-fragments/api-key.Rmd'}
 ```
 
 #### OAuth? Yes
 
-```{r child='man/rmd-fragments/oauth.Rmd'} 
+```{r child='man/rmd-fragments/oauth.Rmd'}
 ```
 
 ### Functions

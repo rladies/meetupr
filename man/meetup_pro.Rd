@@ -5,15 +5,9 @@
 \alias{get_pro_events}
 \title{Meetup pro functions}
 \usage{
-get_pro_groups(
-  urlname,
-  verbose = getOption("meetupr.verbose", rlang::is_interactive())
-)
+get_pro_groups(urlname, verbose = meetupr_verbose())
 
-get_pro_events(
-  urlname,
-  verbose = getOption("meetupr.verbose", rlang::is_interactive())
-)
+get_pro_events(urlname, verbose = meetupr_verbose())
 }
 \arguments{
 \item{urlname}{Character. The name of the group as indicated in the

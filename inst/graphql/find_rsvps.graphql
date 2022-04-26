@@ -1,0 +1,40 @@
+query eventRSVPs(
+  $id: ID!,
+  $first: Int = 1000,
+  $cursor: String
+  ) {
+  event(id: $id) {
+    id
+    title
+    dateTime
+    going
+    tickets(input:{after: $cursor, first: $first}) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      count
+      edges {
+       # cursor
+        node {
+          user {
+            id
+            name
+            memberUrl
+          }
+          isHost
+          status
+          guestsCount
+          event {
+            id
+            title
+            eventUrl
+          }
+          createdAt
+          updatedAt
+          << extra_graphql >>
+        }
+      }
+    }
+  }
+}
