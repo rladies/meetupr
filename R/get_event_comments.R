@@ -19,7 +19,7 @@
 #' \dontrun{
 #' comments <- get_event_comments(id = "103349942!chp")
 #' }
-#' @importFrom dplyr %>%
+#' @importFrom dplyr rename
 #' @export
 get_event_comments <- function(
   id,
@@ -35,12 +35,12 @@ get_event_comments <- function(
     .token = token
   )
 
-  dt %>%
+  dt |>
     dplyr::rename(
-      comment = .data$text,
-      like_count = .data$likeCount,
-      member_id = .data$member.id,
-      member_name = .data$member.name
+      comment = text,
+      like_count = likeCount,
+      member_id = member.id,
+      member_name = member.name
     )
 
 }

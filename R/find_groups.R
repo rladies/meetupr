@@ -8,7 +8,8 @@
 #' @param radius Radius. An integer
 #' @param extra_graphql A graphql object. Extra objects to return
 #' @param token Meetup token
-#' @importFrom dplyr %>%
+#' @importFrom dplyr select rename mutate
+#' @import anytime anytime
 #' @export
 find_groups <- function(
   query,
@@ -32,17 +33,17 @@ find_groups <- function(
     .token = token
   )
 
-  dt %>%
-    dplyr::select(-.data$country) %>%
+  dt |>
+    dplyr::select(-country) |>
     dplyr::rename(
-      created = .data$foundedDate,
-      members = .data$memberships.count,
-      join_mode = .data$joinMode,
-      category_id = .data$category.id,
-      category_name = .data$category.name,
-      country = .data$country_name,
-    ) %>%
+      created = foundedDate,
+      members = memberships.count,
+      join_mode = joinMode,
+      category_id = category.id,
+      category_name = category.name,
+      country = country_name,
+    ) |>
     dplyr::mutate(
-      created = anytime::anytime(.data$created)
+      created = anytime::anytime(created)
     )
 }

@@ -33,11 +33,19 @@
 #' @export
 #' @importFrom purrr map_int map_chr map_dbl
 #' @importFrom tibble tibble
-get_pro_groups <- function(urlname,
-                           verbose = meetupr_verbose()){
+get_pro_groups <- function(
+    urlname,
+    ...,
+    extra_graphql = NULL,
+    token = meetup_token()
+  ) {
+    ellipsis::check_dots_empty()
 
-  api_path <- sprintf("pro/%s/groups", urlname)
-  res <- .fetch_results(api_path = api_path, verbose = verbose)
+    dt <- gql_events(
+      urlname = urlname,
+      .extra_graphql = extra_graphql,
+      .token = token
+    )
 
   tibble(
     group_sorter(res),

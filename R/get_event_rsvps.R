@@ -24,7 +24,7 @@
 #' \dontrun{
 #' rsvps <- get_event_rsvps(id = "103349942!chp")
 #' }
-#' @importFrom dplyr %>%
+#' @importFrom dplyr rename mutate
 #' @export
 get_event_rsvps <- function(
   id,
@@ -40,23 +40,23 @@ get_event_rsvps <- function(
     .token = token
   )
 
-  dt %>%
+  dt  |>
     dplyr::rename(
-      member_id = .data$user.id,
-      member_name = .data$user.name,
-      member_url = .data$user.memberUrl,
-      event_id = .data$event.id,
-      event_title = .data$event.title,
-      event_url = .data$event.eventUrl,
-      member_is_host = .data$isHost,
-      guests = .data$guestsCount,
-      response = .data$status,
-      created = .data$createdAt,
-      updated = .data$updatedAt
-    ) %>%
+      member_id = user.id,
+      member_name = user.name,
+      member_url = user.memberUrl,
+      event_id = event.id,
+      event_title = event.title,
+      event_url = event.eventUrl,
+      member_is_host = isHost,
+      guests = guestsCount,
+      response = status,
+      created = createdAt,
+      updated = updatedAt
+    )  |>
     dplyr::mutate(
-      created = anytime::anytime(.data$created),
-      updated = anytime::anytime(.data$updated)
+      created = anytime::anytime(created),
+      updated = anytime::anytime(updated)
     )
 
 }

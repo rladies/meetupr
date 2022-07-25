@@ -65,12 +65,12 @@ rladies <- meetup_groups[meetup_groups$organizer == "R-Ladies Global", 1:20]
 
 
 ```r
-df <- data.frame(Date = as.Date(rladies$created), count = 1) %>%
-  complete(Date = seq.Date(min(Date), max(Date), by="day")) %>%
-  # mutate(dategroup = lubridate::floor_date(Date, "6 months")) %>%
-  mutate(dategroup = format(Date, "%Y-%m")) %>%
-  group_by(dategroup) %>%
-  summarise(count_ymonth = sum(count, na.rm = TRUE)) %>%
+df <- data.frame(Date = as.Date(rladies$created), count = 1) |>
+  complete(Date = seq.Date(min(Date), max(Date), by="day")) |>
+  # mutate(dategroup = lubridate::floor_date(Date, "6 months")) |>
+  mutate(dategroup = format(Date, "%Y-%m")) |>
+  group_by(dategroup) |>
+  summarise(count_ymonth = sum(count, na.rm = TRUE)) |>
   mutate(cum_sum = cumsum(count_ymonth))
 
 ggplot(data = df, aes(x = dategroup, y = cum_sum)) +
@@ -85,10 +85,10 @@ ggplot(data = df, aes(x = dategroup, y = cum_sum)) +
 
 
 ```r
-df <- data.frame(country = rladies$country) %>%
+df <- data.frame(country = rladies$country) |>
   merge(raster::ccodes()[,c("ISO2", "continent")],
-        by.x = "country", by.y = "ISO2", all.x = T) %>%
-  group_by(continent) %>%
+        by.x = "country", by.y = "ISO2", all.x = T) |>
+  group_by(continent) |>
   summarise(count = n())
 
 # Blank theme
@@ -137,8 +137,8 @@ for (i in seq_along(x)){
   if (is.null(x[[i]]$error)){
     temp_table <- x[[i]]$result
     if ("past" %in% temp_table$status){
-      past <- temp_table %>%
-        group_by(status) %>%
+      past <- temp_table |>
+        group_by(status) |>
         summarise(count = n(),
                   mydates = format(max(local_date), '%Y-%m-%d'))
     meetup_groups$past_events[i] <- past$count[past$status == "past"]
@@ -148,8 +148,8 @@ for (i in seq_along(x)){
       meetup_groups$date_last_event[i] <- NA
     }
     if ("upcoming" %in% temp_table$status){
-      upcoming <- temp_table %>%
-        group_by(status) %>%
+      upcoming <- temp_table |>
+        group_by(status) |>
         summarise(count = n(),
                   mydates = format(min(local_date), '%Y-%m-%d'))
       meetup_groups$date_next_event[i] <- upcoming$mydates[upcoming$status == "upcoming"]
@@ -168,10 +168,10 @@ for (i in seq_along(x)){
 
 
 ```r
-no_events <- meetup_groups %>%
+no_events <- meetup_groups |>
   filter(past_events == 0,
          is.na(date_next_event),
-         created < Sys.Date() - 6*30) %>%
+         created < Sys.Date() - 6*30) |>
   arrange(created)
 ```
 
@@ -179,8 +179,8 @@ no_events <- meetup_groups %>%
 
 
 ```r
-no_recent_events <- meetup_groups %>%
+no_recent_events <- meetup_groups |>
   filter(date_last_event < as.POSIXct("2019-03-29"),
-         is.na(date_next_event)) %>%
+         is.na(date_next_event)) |>
   arrange(date_last_event)
 ```
