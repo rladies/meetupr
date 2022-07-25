@@ -19,6 +19,7 @@ get_events <- function(
     .extra_graphql = extra_graphql,
     .token = token
   )
+  if(nrow(dt) == 0) return(NULL)
 
   dt %>%
     dplyr::rename(
