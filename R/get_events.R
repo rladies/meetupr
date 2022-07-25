@@ -23,9 +23,15 @@ get_events <- function(
 
   # replace dot with underscore
   names(dt) <- gsub("\\.", "_", names(dt))
+
+  if("venue_postalCode" %in% names(dt)){
+    dt <- dt |>
+      dplyr::rename(
+        venue_zip = venue_postalCode
+      )
+  }
   dt |>
     dplyr::rename(
-      venue_zip = venue_postalCode,
       # created =  createdAt,
       link = eventUrl,
     ) |>
