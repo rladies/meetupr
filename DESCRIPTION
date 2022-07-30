@@ -1,10 +1,11 @@
 Type: Package
 Package: meetupr
 Title: Meetup R API
-Version: 0.2.99.9000
+Version: 0.2.99.9001
 Authors@R:
     c(
-      person("Erin", "LeDell", role = c("aut", "cre"), email = "oss@ledell.org"),
+      person("Athanasia Mo", "Mowinckel", email = "a.m.mowinckel@psykologi.uio.no", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-5756-0223")),
+      person("Erin", "LeDell", role = c("aut"), email = "oss@ledell.org"),
       person("Olga", "Mierzwa-Sulima", role = "aut", email = "olga@rladies.org"),
       person("Lucy", "D'Agostino McGowan", role = "aut", email = "lucy@rladies.org"),
       person("Claudia", "Vitolo", role = "aut"),
@@ -15,7 +16,6 @@ Authors@R:
       person("Rick", "Pack", role = "ctb", email = "rickeyhp@gmail.com"),
       person("Ben", "Ubah", role = "ctb", email = "ubah.ben22@gmail.com"),
       person("Maëlle", "Salmon", role = "ctb", email = "maelle.salmon@yahoo.se", comment = c(ORCID = "0000-0002-2815-0399")),
-      person("Athanasia Mo", "Mowinckel", email = "a.m.mowinckel@psykologi.uio.no", role = "ctb", comment = c(ORCID = "0000-0002-5756-0223")),
       person("Barret", "Schloerke", role = "ctb", email = "barret@rstudio.com", comment = c(ORCID = "0000-0001-9986-114X"))
     )
 Description: Provides access to data from <https:www.meetup.com> (see
@@ -50,5 +50,5 @@ VignetteBuilder:
     knitr
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.0
 Config/testthat/edition: 3
