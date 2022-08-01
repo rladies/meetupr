@@ -505,6 +505,12 @@ if (FALSE) {
                       }
                    ')
 
+  x <- get_pro_groups("rladies"); utils::str(x)
+
+  x <- get_pro_events("rladies"); utils::str(x)
+
+  x <- get_pro_events("rladies", status = "UPCOMING"); utils::str(x)
+
   x <- graphql_file("location", lat = 10.54, lon = -66.93); utils::str(x)
 
   x <- find_groups(topic_category_id = 546, query = "R-Ladies"); utils::str(x)
