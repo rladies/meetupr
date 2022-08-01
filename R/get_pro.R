@@ -62,21 +62,33 @@ get_pro_groups <- function(
 #' @rdname meetup_pro
 #' @importFrom tibble tibble
 #' @export
-get_pro_events <- function(urlname,
-                           verbose = meetupr_verbose()
-                           ){
+get_pro_events <- function(
+  urlname,
+  status = NULL,
+  ...,
+  extra_graphql = NULL,
+  token = meetup_token()
+) {
+  ellipsis::check_dots_empty()
 
-  api_path <- sprintf("pro/%s/events", urlname)
-  res <- .fetch_results(api_path = api_path, verbose = verbose)
-
-  group <- lapply(res, function(x) x[["chapter"]])
-  group <- tibble(group_sorter(group), res = group)
-  names(group) <- paste0("group_", names(group))
-
-  events <- lapply(res, function(x) x[[1]])
-
-  tibble(
-    event_sorter(events),
-    group
+  dt <- gql_get_pro_events(
+    urlname = urlname,
+    status = status,
+    .extra_graphql = extra_graphql,
+    .token = token
   )
+  dt
+  # api_path <- sprintf("pro/%s/events", urlname)
+  # res <- .fetch_results(api_path = api_path, verbose = verbose)
+  #
+  # group <- lapply(res, function(x) x[["chapter"]])
+  # group <- tibble(group_sorter(group), res = group)
+  # names(group) <- paste0("group_", names(group))
+  #
+  # events <- lapply(res, function(x) x[[1]])
+  #
+  # tibble(
+  #   event_sorter(events),
+  #   group
+  # )
 }
