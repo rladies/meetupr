@@ -9,10 +9,11 @@
 Provides access to data from <https:www.meetup.com> (see <https:www.meetup.com/meetup_api/> for more information).
 }
 \author{
-\strong{Maintainer}: Erin LeDell \email{oss@ledell.org}
+\strong{Maintainer}: Athanasia Mo Mowinckel \email{a.m.mowinckel@psykologi.uio.no} (\href{https://orcid.org/0000-0002-5756-0223}{ORCID})
 
 Authors:
 \itemize{
+  \item Erin LeDell \email{oss@ledell.org}
   \item Olga Mierzwa-Sulima \email{olga@rladies.org}
   \item Lucy D'Agostino McGowan \email{lucy@rladies.org}
   \item Claudia Vitolo
@@ -27,7 +28,6 @@ Other contributors:
   \item Rick Pack \email{rickeyhp@gmail.com} [contributor]
   \item Ben Ubah \email{ubah.ben22@gmail.com} [contributor]
   \item Maëlle Salmon \email{maelle.salmon@yahoo.se} (\href{https://orcid.org/0000-0002-2815-0399}{ORCID}) [contributor]
-  \item Athanasia Mo Mowinckel \email{a.m.mowinckel@psykologi.uio.no} (\href{https://orcid.org/0000-0002-5756-0223}{ORCID}) [contributor]
   \item Barret Schloerke \email{barret@rstudio.com} (\href{https://orcid.org/0000-0001-9986-114X}{ORCID}) [contributor]
 }
 
