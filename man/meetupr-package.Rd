@@ -6,6 +6,8 @@
 \alias{meetupr-package}
 \title{meetupr: Meetup R API}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 Provides access to data from <https:www.meetup.com> (see <https:www.meetup.com/meetup_api/> for more information).
 }
 \author{
