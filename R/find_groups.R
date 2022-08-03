@@ -8,18 +8,17 @@
 #' @param radius Radius. An integer
 #' @param extra_graphql A graphql object. Extra objects to return
 #' @param token Meetup token
-#' @importFrom dplyr select rename mutate
-#' @import anytime anytime
+#' @importFrom anytime anytime
 #' @export
 find_groups <- function(
-  query,
-  ...,
-  topic_category_id = NULL,
-  lat = 0,
-  lon = 0,
-  radius = 100000000,
-  extra_graphql = NULL,
-  token = meetup_token()
+    query,
+    ...,
+    topic_category_id = NULL,
+    lat = 0,
+    lon = 0,
+    radius = 100000000,
+    extra_graphql = NULL,
+    token = meetup_token()
 ) {
   ellipsis::check_dots_empty()
 
@@ -33,17 +32,17 @@ find_groups <- function(
     .token = token
   )
 
-  dt |>
-    dplyr::select(-country) |>
-    dplyr::rename(
-      created = foundedDate,
-      members = memberships.count,
-      join_mode = joinMode,
-      category_id = category.id,
-      category_name = category.name,
-      country = country_name,
-    ) |>
-    dplyr::mutate(
-      created = anytime::anytime(created)
-    )
+  dt <- rename(dt,
+    created = foundedDate,
+    members = memberships.count,
+    join_mode = joinMode,
+    category_id = category.id,
+    category_name = category.name,
+    country = country_name,
+  )
+
+  dt$country <- NULL
+  dt$created <- anytime::anytime(dt$created)
+  dt
 }
+

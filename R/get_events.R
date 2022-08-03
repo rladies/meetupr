@@ -4,7 +4,6 @@
 #' @param ... Should be empty. Used for parameter expansion
 #' @param extra_graphql A graphql object. Extra objects to return
 #' @param token Meetup token
-#' @importFrom dplyr rename select mutate
 #' @export
 get_events <- function(
   urlname,
@@ -24,21 +23,17 @@ get_events <- function(
   # replace dot with underscore
   names(dt) <- gsub("\\.", "_", names(dt))
 
-  if("venue_postalCode" %in% names(dt)){
-    dt <- dt |>
-      dplyr::rename(
-        venue_zip = venue_postalCode
-      )
-  }
-  dt |>
-    dplyr::rename(
+  dt <- rename(dt,
       # created =  createdAt,
       link = eventUrl,
-    ) |>
-    dplyr::mutate(
-      time = anytime::anytime(dateTime),
-      venue_country = country_name,
-    ) |>
-    dplyr::select(-country_name, -dateTime)
+      venue_zip = venue_postalCode
+    )
+
+  dt$time <- anytime::anytime(dt$dateTime)
+  dt$venue_country <- dt$country_name
+
+  remove(dt,
+         country_name,
+         dateTime)
 
 }

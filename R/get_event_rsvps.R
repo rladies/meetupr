@@ -24,13 +24,13 @@
 #' \dontrun{
 #' rsvps <- get_event_rsvps(id = "103349942!chp")
 #' }
-#' @importFrom dplyr rename mutate
 #' @export
+#' @importFrom anytime anytime
 get_event_rsvps <- function(
-  id,
-  ...,
-  extra_graphql = NULL,
-  token = meetup_token()
+    id,
+    ...,
+    extra_graphql = NULL,
+    token = meetup_token()
 ) {
   ellipsis::check_dots_empty()
 
@@ -40,24 +40,22 @@ get_event_rsvps <- function(
     .token = token
   )
 
-  dt  |>
-    dplyr::rename(
-      member_id = user.id,
-      member_name = user.name,
-      member_url = user.memberUrl,
-      event_id = event.id,
-      event_title = event.title,
-      event_url = event.eventUrl,
-      member_is_host = isHost,
-      guests = guestsCount,
-      response = status,
-      created = createdAt,
-      updated = updatedAt
-    )  |>
-    dplyr::mutate(
-      created = anytime::anytime(created),
-      updated = anytime::anytime(updated)
-    )
+  dt <- rename(dt,
+               member_id = user.id,
+               member_name = user.name,
+               member_url = user.memberUrl,
+               event_id = event.id,
+               event_title = event.title,
+               event_url = event.eventUrl,
+               member_is_host = isHost,
+               guests = guestsCount,
+               response = status,
+               created = createdAt,
+               updated = updatedAt
+  )
+  dt$created = anytime(dt$created)
+  dt$updated = anytime(dt$updated)
+  dt
 
 }
 
