@@ -15,7 +15,9 @@ knitr::opts_chunk$set(
 # devtools::install_github("hadley/emo")
 ```
 
-# meetupr
+# meetupr <img src="man/figures/logo.png" align="right" alt="Zane Dax @StarTrek_Lt" width="138.5" />  
+
+<small>Logo by Zane Dax [@StarTrek_Lt](https://mobile.twitter.com/startrek_lt)</small>
 
 ## ⚠️ ALERT TO USERS:
 
@@ -62,14 +64,14 @@ For example, the following code will get all upcoming events for the [R-Ladies S
 library(meetupr)
 
 urlname <- "rladies-san-francisco"
-events <- get_events(urlname, "past")
-dplyr::arrange(events, desc(created))
+events <- get_events(urlname)
+dplyr::arrange(events, desc(time))
 ```
 
-Next we can look up all R-Ladies groups by "topic id".  You can find topic ids for associated tags by querying [here](https://secure.meetup.com/meetup_api/console/?path=/find/topics).  The `topic_id` for topic, "R-Ladies", is `1513883`.
+We can also search for groups with free text.
 
 ```{r}
-groups <- find_groups(topic_id = 1513883)
+groups <- find_groups("R-Ladies")
 dplyr::arrange(groups, desc(created))
 ```
 
