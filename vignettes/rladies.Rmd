@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
   warning = FALSE,
   message = FALSE,
   cache = FALSE,
-  eval = FALSE
+  eval = interactive()
 )
 ```
 
@@ -27,19 +27,19 @@ devtools::install_github("rladies/meetupr")
 ```
 
 ```{r load}
-library("purrr")
-library("dplyr")
-library("lubridate")
-library("tidyr")
-library("ggplot2")
-library("meetupr")
-library("raster")
+library(purrr)
+library(dplyr)
+library(lubridate)
+library(tidyr)
+library(ggplot2)
+library(meetupr)
+library(raster)
 ```
 
 ## How many R-Ladies chapter are out there?
 
 ```{r groups}
-meetup_groups <- find_groups(text = "r-ladies")
+meetup_groups <- find_groups("r-ladies")
 
 # Keep only groups whose name contains the string "r-ladies"
 meetup_groups <- meetup_groups[which(grepl("r-ladies",
