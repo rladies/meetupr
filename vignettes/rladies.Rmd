@@ -1,7 +1,7 @@
 ---
 title: "R-Ladies chapters on meetup.com"
 author: "Claudia Vitolo"
-date: "2020-10-16"
+date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{R-Ladies chapters on meetup.com}
@@ -9,17 +9,24 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-
+```{r init, echo=FALSE}
+knitr::opts_chunk$set(
+  comment = "#>",
+  collapse = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  cache = FALSE,
+  eval = FALSE
+)
+```
 
 ## Install and load packages
 
-
-```r
+```{r install, eval = FALSE}
 devtools::install_github("rladies/meetupr")
 ```
 
-
-```r
+```{r load}
 library("purrr")
 library("dplyr")
 library("lubridate")
@@ -31,8 +38,7 @@ library("raster")
 
 ## How many R-Ladies chapter are out there?
 
-
-```r
+```{r groups}
 meetup_groups <- find_groups(text = "r-ladies")
 
 # Keep only groups whose name contains the string "r-ladies"
@@ -44,8 +50,7 @@ meetup_groups <- meetup_groups[which(grepl("r-ladies",
 
 *Which chapters do not belong to R-Ladies Global?* Needed for to migrate to meetup pro
 
-
-```r
+```{r migration}
 chapters2migrate <- meetup_groups[meetup_groups$organizer != "R-Ladies Global",]
 chapters2migrate$name
 ```
@@ -54,8 +59,7 @@ chapters2migrate$name
 
 *Which chapters have been fully onboarded by R-Ladies Global?*
 
-
-```r
+```{r full_list}
 # Keep only groups whose organiser is "R-Ladies Global"
 # and remove the 'resources' column
 rladies <- meetup_groups[meetup_groups$organizer == "R-Ladies Global", 1:20]
@@ -63,14 +67,13 @@ rladies <- meetup_groups[meetup_groups$organizer == "R-Ladies Global", 1:20]
 
 ## Growth
 
-
-```r
-df <- data.frame(Date = as.Date(rladies$created), count = 1) |>
-  complete(Date = seq.Date(min(Date), max(Date), by="day")) |>
-  # mutate(dategroup = lubridate::floor_date(Date, "6 months")) |>
-  mutate(dategroup = format(Date, "%Y-%m")) |>
-  group_by(dategroup) |>
-  summarise(count_ymonth = sum(count, na.rm = TRUE)) |>
+```{r growth}
+df <- data.frame(Date = as.Date(rladies$created), count = 1) %>%
+  complete(Date = seq.Date(min(Date), max(Date), by="day")) %>%
+  # mutate(dategroup = lubridate::floor_date(Date, "6 months")) %>%
+  mutate(dategroup = format(Date, "%Y-%m")) %>%
+  group_by(dategroup) %>%
+  summarise(count_ymonth = sum(count, na.rm = TRUE)) %>%
   mutate(cum_sum = cumsum(count_ymonth))
 
 ggplot(data = df, aes(x = dategroup, y = cum_sum)) +
@@ -83,12 +86,11 @@ ggplot(data = df, aes(x = dategroup, y = cum_sum)) +
 
 ## Pie chart
 
-
-```r
-df <- data.frame(country = rladies$country) |>
+```{r pie}
+df <- data.frame(country = rladies$country) %>%
   merge(raster::ccodes()[,c("ISO2", "continent")],
-        by.x = "country", by.y = "ISO2", all.x = T) |>
-  group_by(continent) |>
+        by.x = "country", by.y = "ISO2", all.x = T) %>%
+  group_by(continent) %>%
   summarise(count = n())
 
 # Blank theme
@@ -114,8 +116,7 @@ ggplot(df, aes(x = "", y = count, fill = continent)) +
 
 Let us now extract the number of past events and the dates of last and next events, for each chapter.
 
-
-```r
+```{r activity}
 meetup_groups$past_events <- 0
 meetup_groups$date_last_event <- NA
 meetup_groups$date_next_event <- NA
@@ -137,8 +138,8 @@ for (i in seq_along(x)){
   if (is.null(x[[i]]$error)){
     temp_table <- x[[i]]$result
     if ("past" %in% temp_table$status){
-      past <- temp_table |>
-        group_by(status) |>
+      past <- temp_table %>%
+        group_by(status) %>%
         summarise(count = n(),
                   mydates = format(max(local_date), '%Y-%m-%d'))
     meetup_groups$past_events[i] <- past$count[past$status == "past"]
@@ -148,8 +149,8 @@ for (i in seq_along(x)){
       meetup_groups$date_last_event[i] <- NA
     }
     if ("upcoming" %in% temp_table$status){
-      upcoming <- temp_table |>
-        group_by(status) |>
+      upcoming <- temp_table %>%
+        group_by(status) %>%
         summarise(count = n(),
                   mydates = format(min(local_date), '%Y-%m-%d'))
       meetup_groups$date_next_event[i] <- upcoming$mydates[upcoming$status == "upcoming"]
@@ -166,21 +167,19 @@ for (i in seq_along(x)){
 
 *Which chapters have never had events and have not even planned one (and have been created more than 6 months ago)?*
 
-
-```r
-no_events <- meetup_groups |>
+```{r noevents}
+no_events <- meetup_groups %>%
   filter(past_events == 0,
          is.na(date_next_event),
-         created < Sys.Date() - 6*30) |>
+         created < Sys.Date() - 6*30) %>%
   arrange(created)
 ```
 
 *Which chapters had no events in the past 6 months and have not even planned one?*
 
-
-```r
-no_recent_events <- meetup_groups |>
+```{r no_recent_events}
+no_recent_events <- meetup_groups %>%
   filter(date_last_event < as.POSIXct("2019-03-29"),
-         is.na(date_next_event)) |>
+         is.na(date_next_event)) %>%
   arrange(date_last_event)
 ```
