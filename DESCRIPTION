@@ -1,7 +1,7 @@
 Type: Package
 Package: meetupr
 Title: Meetup R API
-Version: 0.2.99.9001
+Version: 0.2.99.9002
 Authors@R:
     c(
       person("Athanasia Mo", "Mowinckel", email = "a.m.mowinckel@psykologi.uio.no", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-5756-0223")),
