@@ -1,8 +1,8 @@
 pandoc: 2.7.3
-pkgdown: 2.0.3
+pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
-  meetupr_vignette: meetupr_vignette.html
+  rladies: rladies.html
   setup: setup.html
-last_built: 2022-04-26T07:18Z
+last_built: 2022-08-05T19:01Z
 

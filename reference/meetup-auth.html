@@ -29,7 +29,7 @@ APIs on behalf of the authenticated user."><!-- mathjax --><script src="https://
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">meetupr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.99.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.99.9002</span>
       </span>
     </div>
 
@@ -90,22 +90,22 @@ APIs on behalf of the authenticated user.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">meetup_auth</span><span class="op">(</span>
-  token <span class="op">=</span> <span class="fu">meetup_token_path</span><span class="op">(</span><span class="op">)</span>,
-  new_user <span class="op">=</span> <span class="cn">FALSE</span>,
-  key <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"meetupr.consumer_key"</span><span class="op">)</span>,
-  secret <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"meetupr.consumer_secret"</span><span class="op">)</span>,
-  cache <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"meetupr.httr_oauth_cache"</span>, <span class="cn">TRUE</span><span class="op">)</span>,
-  verbose <span class="op">=</span> <span class="fu"><a href="meetupr_verbose.html">meetupr_verbose</a></span><span class="op">(</span><span class="op">)</span>,
-  use_appdir <span class="op">=</span> <span class="cn">TRUE</span>,
-  token_path <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span>
-
-<span class="fu">meetup_token</span><span class="op">(</span>verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="fu">meetup_deauth</span><span class="op">(</span>clear_cache <span class="op">=</span> <span class="cn">TRUE</span>, verbose <span class="op">=</span> <span class="fu"><a href="meetupr_verbose.html">meetupr_verbose</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu">meetup_token_path</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">meetup_auth</span><span class="op">(</span></span>
+<span>  token <span class="op">=</span> <span class="fu">meetup_token_path</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  new_user <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  key <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"meetupr.consumer_key"</span><span class="op">)</span>,</span>
+<span>  secret <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"meetupr.consumer_secret"</span><span class="op">)</span>,</span>
+<span>  cache <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"meetupr.httr_oauth_cache"</span>, <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="fu"><a href="meetupr_verbose.html">meetupr_verbose</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  use_appdir <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  token_path <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">meetup_token</span><span class="op">(</span>verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">meetup_deauth</span><span class="op">(</span>clear_cache <span class="op">=</span> <span class="cn">TRUE</span>, verbose <span class="op">=</span> <span class="fu"><a href="meetupr_verbose.html">meetupr_verbose</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">meetup_token_path</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -113,36 +113,55 @@ APIs on behalf of the authenticated user.</p>
     <dl><dt>token</dt>
 <dd><p>optional; an actual token object or the path to a valid token
 stored as an <code>.rds</code> file.</p></dd>
+
+
 <dt>new_user</dt>
 <dd><p>logical, defaults to <code>FALSE</code>. Set to <code>TRUE</code> if you
 want to wipe the slate clean and re-authenticate with the same or different
 Meetup account. This disables the <code>.httr-oauth</code> file in current
 working directory.</p></dd>
+
+
 <dt>key, secret</dt>
 <dd><p>the "Client ID" and "Client secret" for the application;
 defaults to the ID and secret built into the <code>meetupr</code> package</p></dd>
+
+
 <dt>cache</dt>
 <dd><p>logical indicating if <code>meetupr</code> should cache
 credentials in the default cache file <code>.httr-oauth</code> or <code>token_path</code>.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>logical; do you want informative messages? <code>TRUE</code> by default in
 interactive sessions. Can be toggled by the <code>meetupr.verbose</code> option.</p></dd>
+
+
 <dt>use_appdir</dt>
 <dd><p>Logical indicating whether to save the created token
 in app dir as determined by <code>rappdirs::user_data_dir("meetupr", "meetupr")</code>.
 If <code>cache</code> is <code>FALSE</code> this is ignored.</p></dd>
+
+
 <dt>token_path</dt>
 <dd><p>Path where to save the token. If <code>use_appdir</code> is <code>TRUE</code>,
 this is ignored.</p></dd>
+
+
 <dt>clear_cache</dt>
 <dd><p>logical indicating whether to disable the
 <code>.httr-oauth</code> file in working directory, if such exists, by renaming
 to <code>.httr-oauth-SUSPENDED</code></p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a <code>request</code> object (an S3 class provided by <code>httr</code>)
-Either NULL or the path in which the token is saved.</p>
+    
+
+<p>a <code>request</code> object (an S3 class provided by <code>httr</code>)</p>
+
+
+<p>Either NULL or the path in which the token is saved.</p>
     </div>
     <div id="how-to-force-meetupr-to-use-a-given-token-">
     <h2>How to force meetupr to use a given token?</h2>
@@ -183,8 +202,9 @@ a consumer secret that ships with the package</p></dd>
 
 
 </dl><p>To override these defaults in persistent way, predefine one or more of them
-with lines like this in a <code>.Rprofile</code> file:</p><div class="sourceCode"><pre><code><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>meetupr.consumer_key <span class="op">=</span> <span class="st">"FOO"</span>,
-        meetupr.consumer_secret <span class="op">=</span> <span class="st">"BAR"</span><span class="op">)</span></code></pre></div><p>See <code><a href="https://rdrr.io/r/base/Startup.html" class="external-link">Startup</a></code> for possible locations for this file and the
+with lines like this in a <code>.Rprofile</code> file:</p><div class="sourceCode"><pre><code><span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>meetupr.consumer_key <span class="op">=</span> <span class="st">"FOO"</span>,</span>
+<span>        meetupr.consumer_secret <span class="op">=</span> <span class="st">"BAR"</span><span class="op">)</span></span></code></pre></div><p>See <code><a href="https://rdrr.io/r/base/Startup.html" class="external-link">Startup</a></code> for possible locations for this file and the
 implications thereof.</p>
 <p>More detail is available from
 <a href="https://www.meetup.com/meetup_api/auth/#oauth2-resources" class="external-link">Authenticating
@@ -193,26 +213,26 @@ with the Meetup API</a>.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co">## load/refresh existing credentials, if available</span></span>
-<span class="r-in"><span class="co">## otherwise, go to browser for authentication and authorization</span></span>
-<span class="r-in"><span class="fu">meetup_auth</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## store token in an object and then to file</span></span>
-<span class="r-in"><span class="va">ttt</span> <span class="op">&lt;-</span> <span class="fu">meetup_auth</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">saveRDS</a></span><span class="op">(</span><span class="va">ttt</span>, <span class="st">"ttt.rds"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">## load a pre-existing token</span></span>
-<span class="r-in"><span class="fu">meetup_auth</span><span class="op">(</span>token <span class="op">=</span> <span class="va">ttt</span><span class="op">)</span>       <span class="co"># from an object</span></span>
-<span class="r-in"><span class="fu">meetup_auth</span><span class="op">(</span>token <span class="op">=</span> <span class="st">"ttt.rds"</span><span class="op">)</span> <span class="co"># from .rds file</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu">meetup_token</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu">meetup_deauth</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"><span class="fu">meetup_token_path</span><span class="op">(</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co">## load/refresh existing credentials, if available</span></span></span>
+<span class="r-in"><span><span class="co">## otherwise, go to browser for authentication and authorization</span></span></span>
+<span class="r-in"><span><span class="fu">meetup_auth</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## store token in an object and then to file</span></span></span>
+<span class="r-in"><span><span class="va">ttt</span> <span class="op">&lt;-</span> <span class="fu">meetup_auth</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">saveRDS</a></span><span class="op">(</span><span class="va">ttt</span>, <span class="st">"ttt.rds"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## load a pre-existing token</span></span></span>
+<span class="r-in"><span><span class="fu">meetup_auth</span><span class="op">(</span>token <span class="op">=</span> <span class="va">ttt</span><span class="op">)</span>       <span class="co"># from an object</span></span></span>
+<span class="r-in"><span><span class="fu">meetup_auth</span><span class="op">(</span>token <span class="op">=</span> <span class="st">"ttt.rds"</span><span class="op">)</span> <span class="co"># from .rds file</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu">meetup_token</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu">meetup_deauth</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="fu">meetup_token_path</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 </code></pre></div>
     </div>
@@ -224,11 +244,11 @@ with the Meetup API</a>.</p>
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Erin LeDell, Olga Mierzwa-Sulima, Lucy D’Agostino McGowan, Claudia Vitolo.</p>
+  <p></p><p>Developed by Athanasia Mo Mowinckel, Erin LeDell, Olga Mierzwa-Sulima, Lucy D’Agostino McGowan, Claudia Vitolo.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

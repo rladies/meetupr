@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">meetupr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.99.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.99.9002</span>
       </span>
     </div>
 
@@ -66,36 +66,51 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">find_groups</span><span class="op">(</span>
-  <span class="va">query</span>,
-  <span class="va">...</span>,
-  topic_category_id <span class="op">=</span> <span class="cn">NULL</span>,
-  lat <span class="op">=</span> <span class="fl">0</span>,
-  lon <span class="op">=</span> <span class="fl">0</span>,
-  radius <span class="op">=</span> <span class="fl">1e+08</span>,
-  extra_graphql <span class="op">=</span> <span class="cn">NULL</span>,
-  token <span class="op">=</span> <span class="fu"><a href="meetup-auth.html">meetup_token</a></span><span class="op">(</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">find_groups</span><span class="op">(</span></span>
+<span>  <span class="va">query</span>,</span>
+<span>  <span class="va">...</span>,</span>
+<span>  topic_category_id <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  lat <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  lon <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  radius <span class="op">=</span> <span class="fl">1e+08</span>,</span>
+<span>  extra_graphql <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  token <span class="op">=</span> <span class="fu"><a href="meetup-auth.html">meetup_token</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>query</dt>
 <dd><p>Required search text</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Should be empty. Used for parameter expansion</p></dd>
+
+
 <dt>topic_category_id</dt>
 <dd><p>Topic ID e.g 543 for technology topic</p></dd>
+
+
 <dt>lat</dt>
 <dd><p>Latitude. An integer</p></dd>
+
+
 <dt>lon</dt>
 <dd><p>Longitutde. An integer</p></dd>
+
+
 <dt>radius</dt>
 <dd><p>Radius. An integer</p></dd>
+
+
 <dt>extra_graphql</dt>
 <dd><p>A graphql object. Extra objects to return</p></dd>
+
+
 <dt>token</dt>
 <dd><p>Meetup token</p></dd>
+
 </dl></div>
 
   </div>
@@ -106,11 +121,11 @@
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Erin LeDell, Olga Mierzwa-Sulima, Lucy D’Agostino McGowan, Claudia Vitolo.</p>
+  <p></p><p>Developed by Athanasia Mo Mowinckel, Erin LeDell, Olga Mierzwa-Sulima, Lucy D’Agostino McGowan, Claudia Vitolo.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

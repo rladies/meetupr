@@ -19,7 +19,7 @@
     <loc>/articles/index.html</loc>
   </url>
   <url>
-    <loc>/articles/meetupr_vignette.html</loc>
+    <loc>/articles/rladies.html</loc>
   </url>
   <url>
     <loc>/articles/setup.html</loc>
@@ -62,9 +62,6 @@
   </url>
   <url>
     <loc>/reference/meetup-auth.html</loc>
-  </url>
-  <url>
-    <loc>/reference/meetup_pro.html</loc>
   </url>
   <url>
     <loc>/reference/meetup_query.html</loc>

@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">meetupr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.99.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.99.9002</span>
       </span>
     </div>
 
@@ -91,7 +91,7 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">meetupr</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">meetupr</span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="api-key-no">API key? No<a class="anchor" aria-label="anchor" href="#api-key-no"></a>
 </h2>
@@ -128,29 +128,29 @@
 </h3>
 <p>First we create a token. We build and git ignore it, even safer would be to put it elsewhere on the computer, maybe a temporary file!</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">token_path</span> <span class="op">&lt;-</span> <span class="fu">testthat</span><span class="fu">::</span><span class="fu"><a href="https://testthat.r-lib.org/reference/test_path.html" class="external-link">test_path</a></span><span class="op">(</span><span class="st">".meetup_token.rds"</span><span class="op">)</span>
-<span class="fu">use_build_ignore</span><span class="op">(</span><span class="va">token_path</span><span class="op">)</span>
-<span class="fu">use_git_ignore</span><span class="op">(</span><span class="va">token_path</span><span class="op">)</span>
-
-<span class="fu">meetupr</span><span class="fu">::</span><span class="fu"><a href="../reference/meetup-auth.html">meetup_auth</a></span><span class="op">(</span>
-  token <span class="op">=</span> <span class="cn">NULL</span>,
-  cache <span class="op">=</span> <span class="cn">TRUE</span>,
-  use_appdir <span class="op">=</span> <span class="cn">FALSE</span>,
-  token_path <span class="op">=</span> <span class="va">token_path</span>
-<span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">token_path</span> <span class="op">&lt;-</span> <span class="fu">testthat</span><span class="fu">::</span><span class="fu"><a href="https://testthat.r-lib.org/reference/test_path.html" class="external-link">test_path</a></span><span class="op">(</span><span class="st">".meetup_token.rds"</span><span class="op">)</span></span>
+<span><span class="fu">use_build_ignore</span><span class="op">(</span><span class="va">token_path</span><span class="op">)</span></span>
+<span><span class="fu">use_git_ignore</span><span class="op">(</span><span class="va">token_path</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">meetupr</span><span class="fu">::</span><span class="fu"><a href="../reference/meetup-auth.html">meetup_auth</a></span><span class="op">(</span></span>
+<span>  token <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  cache <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  use_appdir <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  token_path <span class="op">=</span> <span class="va">token_path</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p>We create a key and save it as an environment variable. We used an internal function for saving it, you could copy-paste it to .Renviron by hand (see also <code>usethis::edit_r_environ()</code>).</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># sodium_key &lt;- sodium::keygen()</span>
-<span class="co"># save an environment variable "MEETUPR_PWD" = sodium::bin2hex(sodium_key)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># sodium_key &lt;- sodium::keygen()</span></span>
+<span><span class="co"># save an environment variable "MEETUPR_PWD" = sodium::bin2hex(sodium_key)</span></span></code></pre></div>
 <p>Using the key we encrypt the file. secret.rds will be committed to our repo!</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">key</span> <span class="op">&lt;-</span> <span class="fu">cyphr</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/cyphr/reference/key_sodium.html" class="external-link">key_sodium</a></span><span class="op">(</span><span class="fu">sodium</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sodium/man/helpers.html" class="external-link">hex2bin</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MEETUPR_PWD"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-
-<span class="fu">cyphr</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/cyphr/reference/encrypt_data.html" class="external-link">encrypt_file</a></span><span class="op">(</span>
-  <span class="va">token_path</span>,
-  key <span class="op">=</span> <span class="va">key</span>,
-  dest <span class="op">=</span> <span class="fu">testthat</span><span class="fu">::</span><span class="fu"><a href="https://testthat.r-lib.org/reference/test_path.html" class="external-link">test_path</a></span><span class="op">(</span><span class="st">"secret.rds"</span><span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">key</span> <span class="op">&lt;-</span> <span class="fu">cyphr</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/cyphr/reference/key_sodium.html" class="external-link">key_sodium</a></span><span class="op">(</span><span class="fu">sodium</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/sodium/reference/helpers.html" class="external-link">hex2bin</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MEETUPR_PWD"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">cyphr</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/cyphr/reference/encrypt_data.html" class="external-link">encrypt_file</a></span><span class="op">(</span></span>
+<span>  <span class="va">token_path</span>,</span>
+<span>  key <span class="op">=</span> <span class="va">key</span>,</span>
+<span>  dest <span class="op">=</span> <span class="fu">testthat</span><span class="fu">::</span><span class="fu"><a href="https://testthat.r-lib.org/reference/test_path.html" class="external-link">test_path</a></span><span class="op">(</span><span class="st">"secret.rds"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="use-the-token-on-ci">Use the token on CI<a class="anchor" aria-label="anchor" href="#use-the-token-on-ci"></a>
@@ -160,25 +160,25 @@
 <li><p>Use the code below to decrypt the secret before using meetupr. We save the temporary token to disk but to a temporary folder so it won’t end up in a package check artefact.</p></li>
 </ul>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">key</span> <span class="op">&lt;-</span> <span class="fu">cyphr</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/cyphr/reference/key_sodium.html" class="external-link">key_sodium</a></span><span class="op">(</span><span class="fu">sodium</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sodium/man/helpers.html" class="external-link">hex2bin</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MEETUPR_PWD"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-
-<span class="va">temptoken</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".rds"</span><span class="op">)</span>
-
-<span class="fu">cyphr</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/cyphr/reference/encrypt_data.html" class="external-link">decrypt_file</a></span><span class="op">(</span>
-  <span class="fu">testthat</span><span class="fu">::</span><span class="fu"><a href="https://testthat.r-lib.org/reference/test_path.html" class="external-link">test_path</a></span><span class="op">(</span><span class="st">"secret.rds"</span><span class="op">)</span>,
-  key <span class="op">=</span> <span class="va">key</span>,
-  dest <span class="op">=</span> <span class="va">temptoken</span>
-<span class="op">)</span>
-
-<span class="va">token</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="va">temptoken</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>
-
-<span class="va">token</span> <span class="op">&lt;-</span> <span class="fu">meetupr</span><span class="fu">::</span><span class="fu"><a href="../reference/meetup-auth.html">meetup_auth</a></span><span class="op">(</span>
-  token <span class="op">=</span> <span class="va">token</span>,
-  use_appdir <span class="op">=</span> <span class="cn">FALSE</span>,
-  cache <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span>
-
-<span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv</a></span><span class="op">(</span>MEETUPR_PAT <span class="op">=</span> <span class="va">temptoken</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">key</span> <span class="op">&lt;-</span> <span class="fu">cyphr</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/cyphr/reference/key_sodium.html" class="external-link">key_sodium</a></span><span class="op">(</span><span class="fu">sodium</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/sodium/reference/helpers.html" class="external-link">hex2bin</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"MEETUPR_PWD"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">temptoken</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span>fileext <span class="op">=</span> <span class="st">".rds"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">cyphr</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/cyphr/reference/encrypt_data.html" class="external-link">decrypt_file</a></span><span class="op">(</span></span>
+<span>  <span class="fu">testthat</span><span class="fu">::</span><span class="fu"><a href="https://testthat.r-lib.org/reference/test_path.html" class="external-link">test_path</a></span><span class="op">(</span><span class="st">"secret.rds"</span><span class="op">)</span>,</span>
+<span>  key <span class="op">=</span> <span class="va">key</span>,</span>
+<span>  dest <span class="op">=</span> <span class="va">temptoken</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">token</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="va">temptoken</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
+<span></span>
+<span><span class="va">token</span> <span class="op">&lt;-</span> <span class="fu">meetupr</span><span class="fu">::</span><span class="fu"><a href="../reference/meetup-auth.html">meetup_auth</a></span><span class="op">(</span></span>
+<span>  token <span class="op">=</span> <span class="va">token</span>,</span>
+<span>  use_appdir <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  cache <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv</a></span><span class="op">(</span>MEETUPR_PAT <span class="op">=</span> <span class="va">temptoken</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
   </div>
@@ -195,12 +195,12 @@
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by Erin LeDell, Olga Mierzwa-Sulima, Lucy D’Agostino McGowan, Claudia Vitolo.</p>
+<p>Developed by Athanasia Mo Mowinckel, Erin LeDell, Olga Mierzwa-Sulima, Lucy D’Agostino McGowan, Claudia Vitolo.</p>
 </div>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

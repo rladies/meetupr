@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">meetupr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.99.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.99.9002</span>
       </span>
     </div>
 
@@ -66,23 +66,32 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">get_event_attendees</span><span class="op">(</span><span class="va">id</span>, <span class="va">...</span>, extra_graphql <span class="op">=</span> <span class="cn">NULL</span>, token <span class="op">=</span> <span class="fu"><a href="meetup-auth.html">meetup_token</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">get_event_attendees</span><span class="op">(</span><span class="va">id</span>, <span class="va">...</span>, extra_graphql <span class="op">=</span> <span class="cn">NULL</span>, token <span class="op">=</span> <span class="fu"><a href="meetup-auth.html">meetup_token</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>id</dt>
 <dd><p>Required event ID</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Should be empty. Used for parameter expansion</p></dd>
+
+
 <dt>extra_graphql</dt>
 <dd><p>A graphql object. Extra objects to return</p></dd>
+
+
 <dt>token</dt>
 <dd><p>Meetup token</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A tibble with the following columns:</p><ul><li><p>id</p></li>
+    
+
+<p>A tibble with the following columns:</p><ul><li><p>id</p></li>
 <li><p>name</p></li>
 <li><p>url</p></li>
 <li><p>photo</p></li>
@@ -97,9 +106,9 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="va">attendees</span> <span class="op">&lt;-</span> <span class="fu">get_event_attendees</span><span class="op">(</span>id <span class="op">=</span> <span class="st">"103349942!chp"</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="va">attendees</span> <span class="op">&lt;-</span> <span class="fu">get_event_attendees</span><span class="op">(</span>id <span class="op">=</span> <span class="st">"103349942!chp"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -110,11 +119,11 @@
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Erin LeDell, Olga Mierzwa-Sulima, Lucy D’Agostino McGowan, Claudia Vitolo.</p>
+  <p></p><p>Developed by Athanasia Mo Mowinckel, Erin LeDell, Olga Mierzwa-Sulima, Lucy D’Agostino McGowan, Claudia Vitolo.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

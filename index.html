@@ -34,7 +34,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">meetupr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.99.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.99.9002</span>
       </span>
     </div>
 
@@ -95,8 +95,8 @@
 </h2>
 <p>To install the development version from GitHub:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
-<span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"rladies/meetupr"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"rladies/meetupr"</span><span class="op">)</span></span></code></pre></div>
 <p>A released version will be on CRAN <a href="https://github.com/rladies/meetupr/issues/24" class="external-link">soon</a>.</p>
 </div>
 <div class="section level2">
@@ -138,50 +138,50 @@
 <p>See the <a href="https://rladies.github.io/meetupr/reference/index.html" class="external-link">pkgdown reference</a>.</p>
 <p>For example, the following code will get all upcoming events for the <a href="https://meetup.com/rladies-san-francisco" class="external-link">R-Ladies San Francisco</a> meetup.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">meetupr</span><span class="op">)</span>
-
-<span class="va">urlname</span> <span class="op">&lt;-</span> <span class="st">"rladies-san-francisco"</span>
-<span class="va">events</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_events.html">get_events</a></span><span class="op">(</span><span class="va">urlname</span>, <span class="st">"past"</span><span class="op">)</span>
-<span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">events</span>, <span class="fu">desc</span><span class="op">(</span><span class="va">created</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 60 x 22</span>
-<span class="co">#&gt;    id    name  created             status time                local_date</span>
-<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt; &lt;dttm&gt;              &lt;chr&gt;  &lt;dttm&gt;              &lt;date&gt;</span>
-<span class="co">#&gt;  1 2730… A co… 2020-09-04 20:04:50 past   2020-09-11 00:30:00 2020-09-10</span>
-<span class="co">#&gt;  2 2724… Tang… 2020-08-06 21:24:51 past   2020-08-28 02:30:00 2020-08-27</span>
-<span class="co">#&gt;  3 2679… R-La… 2020-01-16 19:08:03 past   2020-01-31 02:00:00 2020-01-30</span>
-<span class="co">#&gt;  4 2663… Dece… 2019-11-11 23:10:10 past   2019-12-11 03:00:00 2019-12-10</span>
-<span class="co">#&gt;  5 2651… Work… 2019-09-23 21:28:24 past   2019-10-17 03:00:00 2019-10-16</span>
-<span class="co">#&gt;  6 2632… Augu… 2019-07-17 19:29:10 past   2019-08-08 03:00:00 2019-08-07</span>
-<span class="co">#&gt;  7 2627… R-La… 2019-06-29 00:24:12 past   2019-07-21 20:00:00 2019-07-21</span>
-<span class="co">#&gt;  8 2626… Baye… 2019-06-27 05:11:16 past   2019-07-18 03:00:00 2019-07-17</span>
-<span class="co">#&gt;  9 2610… Mini… 2019-05-01 02:49:52 past   2019-05-18 22:30:00 2019-05-18</span>
-<span class="co">#&gt; 10 2590… NLP … 2019-02-15 23:36:58 past   2019-03-13 02:00:00 2019-03-12</span>
-<span class="co">#&gt; # … with 50 more rows, and 16 more variables: duration &lt;int&gt;, local_time &lt;chr&gt;,</span>
-<span class="co">#&gt; #   waitlist_count &lt;int&gt;, yes_rsvp_count &lt;int&gt;, venue_id &lt;int&gt;,</span>
-<span class="co">#&gt; #   venue_name &lt;chr&gt;, venue_lat &lt;dbl&gt;, venue_lon &lt;dbl&gt;, venue_address_1 &lt;chr&gt;,</span>
-<span class="co">#&gt; #   venue_city &lt;chr&gt;, venue_state &lt;chr&gt;, venue_zip &lt;chr&gt;, venue_country &lt;chr&gt;,</span>
-<span class="co">#&gt; #   description &lt;chr&gt;, link &lt;chr&gt;, resource &lt;list&gt;</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">meetupr</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">urlname</span> <span class="op">&lt;-</span> <span class="st">"rladies-san-francisco"</span></span>
+<span><span class="va">events</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_events.html">get_events</a></span><span class="op">(</span><span class="va">urlname</span>, <span class="st">"past"</span><span class="op">)</span></span>
+<span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">events</span>, <span class="fu">desc</span><span class="op">(</span><span class="va">created</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 60 x 22</span></span>
+<span><span class="co">#&gt;    id    name  created             status time                local_date</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt; &lt;dttm&gt;              &lt;chr&gt;  &lt;dttm&gt;              &lt;date&gt;</span></span>
+<span><span class="co">#&gt;  1 2730… A co… 2020-09-04 20:04:50 past   2020-09-11 00:30:00 2020-09-10</span></span>
+<span><span class="co">#&gt;  2 2724… Tang… 2020-08-06 21:24:51 past   2020-08-28 02:30:00 2020-08-27</span></span>
+<span><span class="co">#&gt;  3 2679… R-La… 2020-01-16 19:08:03 past   2020-01-31 02:00:00 2020-01-30</span></span>
+<span><span class="co">#&gt;  4 2663… Dece… 2019-11-11 23:10:10 past   2019-12-11 03:00:00 2019-12-10</span></span>
+<span><span class="co">#&gt;  5 2651… Work… 2019-09-23 21:28:24 past   2019-10-17 03:00:00 2019-10-16</span></span>
+<span><span class="co">#&gt;  6 2632… Augu… 2019-07-17 19:29:10 past   2019-08-08 03:00:00 2019-08-07</span></span>
+<span><span class="co">#&gt;  7 2627… R-La… 2019-06-29 00:24:12 past   2019-07-21 20:00:00 2019-07-21</span></span>
+<span><span class="co">#&gt;  8 2626… Baye… 2019-06-27 05:11:16 past   2019-07-18 03:00:00 2019-07-17</span></span>
+<span><span class="co">#&gt;  9 2610… Mini… 2019-05-01 02:49:52 past   2019-05-18 22:30:00 2019-05-18</span></span>
+<span><span class="co">#&gt; 10 2590… NLP … 2019-02-15 23:36:58 past   2019-03-13 02:00:00 2019-03-12</span></span>
+<span><span class="co">#&gt; # … with 50 more rows, and 16 more variables: duration &lt;int&gt;, local_time &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   waitlist_count &lt;int&gt;, yes_rsvp_count &lt;int&gt;, venue_id &lt;int&gt;,</span></span>
+<span><span class="co">#&gt; #   venue_name &lt;chr&gt;, venue_lat &lt;dbl&gt;, venue_lon &lt;dbl&gt;, venue_address_1 &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   venue_city &lt;chr&gt;, venue_state &lt;chr&gt;, venue_zip &lt;chr&gt;, venue_country &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   description &lt;chr&gt;, link &lt;chr&gt;, resource &lt;list&gt;</span></span></code></pre></div>
 <p>Next we can look up all R-Ladies groups by “topic id”. You can find topic ids for associated tags by querying <a href="https://secure.meetup.com/meetup_api/console/?path=/find/topics" class="external-link">here</a>. The <code>topic_id</code> for topic, “R-Ladies”, is <code>1513883</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">groups</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/find_groups.html">find_groups</a></span><span class="op">(</span>topic_id <span class="op">=</span> <span class="fl">1513883</span><span class="op">)</span>
-<span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">groups</span>, <span class="fu">desc</span><span class="op">(</span><span class="va">created</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; # A tibble: 137 x 21</span>
-<span class="co">#&gt;        id name  urlname status   lat     lon city  state country</span>
-<span class="co">#&gt;     &lt;int&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;</span>
-<span class="co">#&gt;  1 3.38e7 R-La… rladie… active -1.29   36.8  Nair… ""    Kenya</span>
-<span class="co">#&gt;  2 3.34e7 R-La… rladie… active 52.4    -1.5  Cove… "43"  United…</span>
-<span class="co">#&gt;  3 3.34e7 R-La… rladie… active 43.3    21.9  Niš   ""    Serbia</span>
-<span class="co">#&gt;  4 3.32e7 R-La… rladie… active 25.7  -100.   Mont… ""    Mexico</span>
-<span class="co">#&gt;  5 3.32e7 R-La… rladie… active 51.8    -1.26 Oxfo… "K2"  United…</span>
-<span class="co">#&gt;  6 3.31e7 R-La… rladie… active 38.9   -92.2  Colu… "MO"  USA</span>
-<span class="co">#&gt;  7 3.31e7 R-La… rladie… active  6.93   79.8  Colo… ""    Sri La…</span>
-<span class="co">#&gt;  8 3.31e7 R-La… rladie… active 30.0   -90.1  New … "LA"  USA</span>
-<span class="co">#&gt;  9 3.31e7 R-La… rladie… active 43.0   -76.2  Syra… "NY"  USA</span>
-<span class="co">#&gt; 10 3.30e7 R-La… rladie… active 19.0    72.8  Mumb… ""    India</span>
-<span class="co">#&gt; # … with 127 more rows, and 12 more variables: created &lt;dttm&gt;, members &lt;int&gt;,</span>
-<span class="co">#&gt; #   timezone &lt;chr&gt;, join_mode &lt;chr&gt;, visibility &lt;chr&gt;, who &lt;chr&gt;,</span>
-<span class="co">#&gt; #   location &lt;chr&gt;, organizer_id &lt;int&gt;, organizer_name &lt;chr&gt;,</span>
-<span class="co">#&gt; #   category_id &lt;int&gt;, category_name &lt;chr&gt;, resource &lt;list&gt;</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">groups</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/find_groups.html">find_groups</a></span><span class="op">(</span>topic_id <span class="op">=</span> <span class="fl">1513883</span><span class="op">)</span></span>
+<span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">groups</span>, <span class="fu">desc</span><span class="op">(</span><span class="va">created</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 137 x 21</span></span>
+<span><span class="co">#&gt;        id name  urlname status   lat     lon city  state country</span></span>
+<span><span class="co">#&gt;     &lt;int&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;</span></span>
+<span><span class="co">#&gt;  1 3.38e7 R-La… rladie… active -1.29   36.8  Nair… ""    Kenya</span></span>
+<span><span class="co">#&gt;  2 3.34e7 R-La… rladie… active 52.4    -1.5  Cove… "43"  United…</span></span>
+<span><span class="co">#&gt;  3 3.34e7 R-La… rladie… active 43.3    21.9  Niš   ""    Serbia</span></span>
+<span><span class="co">#&gt;  4 3.32e7 R-La… rladie… active 25.7  -100.   Mont… ""    Mexico</span></span>
+<span><span class="co">#&gt;  5 3.32e7 R-La… rladie… active 51.8    -1.26 Oxfo… "K2"  United…</span></span>
+<span><span class="co">#&gt;  6 3.31e7 R-La… rladie… active 38.9   -92.2  Colu… "MO"  USA</span></span>
+<span><span class="co">#&gt;  7 3.31e7 R-La… rladie… active  6.93   79.8  Colo… ""    Sri La…</span></span>
+<span><span class="co">#&gt;  8 3.31e7 R-La… rladie… active 30.0   -90.1  New … "LA"  USA</span></span>
+<span><span class="co">#&gt;  9 3.31e7 R-La… rladie… active 43.0   -76.2  Syra… "NY"  USA</span></span>
+<span><span class="co">#&gt; 10 3.30e7 R-La… rladie… active 19.0    72.8  Mumb… ""    India</span></span>
+<span><span class="co">#&gt; # … with 127 more rows, and 12 more variables: created &lt;dttm&gt;, members &lt;int&gt;,</span></span>
+<span><span class="co">#&gt; #   timezone &lt;chr&gt;, join_mode &lt;chr&gt;, visibility &lt;chr&gt;, who &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   location &lt;chr&gt;, organizer_id &lt;int&gt;, organizer_name &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   category_id &lt;int&gt;, category_name &lt;chr&gt;, resource &lt;list&gt;</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -219,7 +219,8 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Erin LeDell <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Athanasia Mo Mowinckel <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-5756-0223" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Erin LeDell <br><small class="roles"> Author </small>  </li>
 <li>Olga Mierzwa-Sulima <br><small class="roles"> Author </small>  </li>
 <li>Lucy D'Agostino McGowan <br><small class="roles"> Author </small>  </li>
 <li>Claudia Vitolo <br><small class="roles"> Author </small>  </li>
@@ -241,12 +242,12 @@
 
       <footer><div class="copyright">
   <p></p>
-<p>Developed by Erin LeDell, Olga Mierzwa-Sulima, Lucy D’Agostino McGowan, Claudia Vitolo.</p>
+<p>Developed by Athanasia Mo Mowinckel, Erin LeDell, Olga Mierzwa-Sulima, Lucy D’Agostino McGowan, Claudia Vitolo.</p>
 </div>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">meetupr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.99.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.99.9002</span>
       </span>
     </div>
 
@@ -66,37 +66,44 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">meetup_query</span><span class="op">(</span><span class="va">query</span>, <span class="va">...</span>, token <span class="op">=</span> <span class="fu"><a href="meetup-auth.html">meetup_token</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">meetup_query</span><span class="op">(</span><span class="va">query</span>, <span class="va">...</span>, token <span class="op">=</span> <span class="fu"><a href="meetup-auth.html">meetup_token</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>query</dt>
 <dd><p>Required query text. Test queries at: https://www.meetup.com/api/playground</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Should be empty. Used for parameter expansion</p></dd>
+
+
 <dt>token</dt>
 <dd><p>Meetup token</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>raw list results from the query, not tidied</p>
+    
+
+<p>raw list results from the query, not tidied</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"> <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">meetup_query</span><span class="op">(</span><span class="st">'</span>
-<span class="r-in">   query($eventId: ID = "103349942!chp") {</span>
-<span class="r-in">    event(id: $eventId) {</span>
-<span class="r-in">     title</span>
-<span class="r-in">     description</span>
-<span class="r-in">     dateTime</span>
-<span class="r-in">    }</span>
-<span class="r-in">   }</span>
-<span class="r-in">'</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span> <span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">meetup_query</span><span class="op">(</span><span class="st">'</span></span></span>
+<span class="r-in"><span><span class="st">   query($eventId: ID = "103349942!chp") {</span></span></span>
+<span class="r-in"><span><span class="st">    event(id: $eventId) {</span></span></span>
+<span class="r-in"><span><span class="st">     title</span></span></span>
+<span class="r-in"><span><span class="st">     description</span></span></span>
+<span class="r-in"><span><span class="st">     dateTime</span></span></span>
+<span class="r-in"><span><span class="st">    }</span></span></span>
+<span class="r-in"><span><span class="st">   }</span></span></span>
+<span class="r-in"><span><span class="st">'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -107,11 +114,11 @@
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Erin LeDell, Olga Mierzwa-Sulima, Lucy D’Agostino McGowan, Claudia Vitolo.</p>
+  <p></p><p>Developed by Athanasia Mo Mowinckel, Erin LeDell, Olga Mierzwa-Sulima, Lucy D’Agostino McGowan, Claudia Vitolo.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
