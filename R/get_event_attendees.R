@@ -18,7 +18,6 @@
 #' \dontrun{
 #' attendees <- get_event_attendees(id = "103349942!chp")
 #' }
-#' @importFrom dplyr %>%
 #' @export
 get_event_attendees <- function(
   id,
@@ -34,11 +33,10 @@ get_event_attendees <- function(
     .token = token
   )
 
-  dt %>%
-  dplyr::rename(
-    url = .data$memberUrl,
-    photo = .data$memberPhoto.baseUrl,
-    organized_group_count = .data$organizedGroupCount
+  rename(dt,
+    url = memberUrl,
+    photo = memberPhoto.baseUrl,
+    organized_group_count = organizedGroupCount
   )
 }
 

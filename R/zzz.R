@@ -14,3 +14,46 @@
 
   invisible()
 }
+
+
+## quiets concerns of R CMD checks
+utils::globalVariables(
+  c("foundedDate", "memberships.count",
+    "joinMode",
+    "category.id",
+    "category.name",
+    "country_name",
+    "memberUrl",
+    "memberPhoto.baseUrl",
+    "organizedGroupCount",
+    "text",
+    "likeCount",
+    "member.id",
+    "member.name",
+    "user.id",
+    "user.name",
+    "user.memberUrl",
+    "event.id",
+    "event.title",
+    "event.eventUrl",
+    "isHost",
+    "guestsCount",
+    "status",
+    "createdAt",
+    "updatedAt",
+    "eventUrl",
+    "venue_postalCode",
+    "dateTime",
+    "node.id",
+    "node.name",
+    "node.memberUrl",
+    "node.memberPhoto.baseUrl",
+    "metadata.status",
+    "metadata.role",
+    "metadata.joinedDate",
+    "metadata.mostRecentVisitDate",
+    "group_sorter",
+    "event_sorter",
+    "res"
+    )
+  )

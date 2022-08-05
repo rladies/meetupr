@@ -10,7 +10,9 @@ meetupr_verbose()
 Result of \code{"meetupr.verbose"} option. If no \code{"meetupr.verbose"} option is set, \code{rlang::is_interactive()} is returned.
 }
 \description{
-Wrapper around\if{html}{\out{<div class="sourceCode r">}}\preformatted{getOption("meetupr.verbose", rlang::is_interactive())
+Wrapper around
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{getOption("meetupr.verbose", rlang::is_interactive())
 }\if{html}{\out{</div>}}
 }
 \keyword{internal}

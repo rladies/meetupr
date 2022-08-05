@@ -20,13 +20,13 @@
 #' \dontrun{
 #' members <- get_members("rladies-remote")
 #' }
-#' @importFrom dplyr %>%
+#' @importFrom anytime anytime
 #' @export
 get_members <- function(
-  urlname,
-  ...,
-  extra_graphql = NULL,
-  token = meetup_token()
+    urlname,
+    ...,
+    extra_graphql = NULL,
+    token = meetup_token()
 ) {
   ellipsis::check_dots_empty()
 
@@ -36,20 +36,19 @@ get_members <- function(
     .token = token
   )
 
-  dt %>%
-    dplyr::rename(
-      id = .data$node.id,
-      name = .data$node.name,
-      member_url = .data$node.memberUrl,
-      photo_link = .data$node.memberPhoto.baseUrl,
-      status = .data$metadata.status,
-      role = .data$metadata.role,
-      created = .data$metadata.joinedDate,
-      most_recent_visit = .data$metadata.mostRecentVisitDate
-    ) %>%
-    dplyr::mutate(
-      created = anytime::anytime(.data$created),
-      most_recent_visit = anytime::anytime(.data$most_recent_visit)
-    )
+  dt <- rename(dt,
+               id = node.id,
+               name = node.name,
+               member_url = node.memberUrl,
+               photo_link = node.memberPhoto.baseUrl,
+               status = metadata.status,
+               role = metadata.role,
+               created = metadata.joinedDate,
+               most_recent_visit = metadata.mostRecentVisitDate
+  )
+
+  dt$created = anytime::anytime(dt$created)
+  dt$most_recent_visit = anytime::anytime(dt$most_recent_visit)
+  dt
 }
 

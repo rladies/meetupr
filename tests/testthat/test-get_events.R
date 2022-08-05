@@ -13,6 +13,6 @@ test_that("get_events() works with one status", {
   expect_s3_class(past_events, "data.frame")
   expect_true(
     all(
-      names(past_events) == expected_names
+      names(past_events) %in% expected_names
     ))
 })
