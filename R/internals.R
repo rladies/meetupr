@@ -156,3 +156,29 @@ meetup_api_prefix <- function() {
 .collapse = function(x){
   paste(x, collapse = ",")
 }
+
+# utility helpers, so we dont crash on missing fields from the API
+rename <- function(.data, ...){
+  args <- rlang::enexprs(...)
+  for(arg in 1:length(args)){
+    idx <- match(rlang::as_label(args[[arg]]),
+                 names(.data))
+    if(length(idx) == 1){
+      names(.data)[idx] <- names(args)[arg]
+    }
+  }
+  .data
+}
+
+
+remove <- function(.data, ...){
+  args <- rlang::enexprs(...)
+  for(arg in 1:length(args)){
+    col<- rlang::as_label(args[[arg]])
+    idx <- match(col, names(.data))
+    if(length(idx) == 1){
+      .data[,col] <- NULL
+    }
+  }
+  .data
+}
