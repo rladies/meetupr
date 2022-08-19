@@ -1,12 +1,20 @@
 
 <!-- README.md is generated from README.Rmd. Please edit the Rmd file -->
 
-# meetupr
+# meetupr <img src="man/figures/logo.png" align="right" alt="Zane Dax @StarTrek_Lt" width="138.5" />
+
+<small>Logo by Zane Dax
+[@StarTrek_Lt](https://mobile.twitter.com/startrek_lt)</small>
 
 ## ⚠️ ALERT TO USERS:
 
-Meetup has deprecated the REST API that's used in this package.  We are working to [add support](https://github.com/rladies/meetupr/issues/118) for their new API but unfortnately that means that the package is not currently functional.  If you'd like to help with this transition in any way (we could use help with testing and documentation in particular), please comment on the this [issue](https://github.com/rladies/meetupr/issues/118).
-
+Meetup has deprecated the REST API that’s used in this package. We are
+working to [add support](https://github.com/rladies/meetupr/issues/118)
+for their new API but unfortnately that means that the package is not
+currently functional. If you’d like to help with this transition in any
+way (we could use help with testing and documentation in particular),
+please comment on the this
+[issue](https://github.com/rladies/meetupr/issues/118).
 
 <!-- badges: start -->
 
@@ -99,53 +107,51 @@ meetup.
 library(meetupr)
 
 urlname <- "rladies-san-francisco"
-events <- get_events(urlname, "past")
-dplyr::arrange(events, desc(created))
-#> # A tibble: 60 x 22
-#>    id    name  created             status time                local_date
-#>    <chr> <chr> <dttm>              <chr>  <dttm>              <date>
-#>  1 2730… A co… 2020-09-04 20:04:50 past   2020-09-11 00:30:00 2020-09-10
-#>  2 2724… Tang… 2020-08-06 21:24:51 past   2020-08-28 02:30:00 2020-08-27
-#>  3 2679… R-La… 2020-01-16 19:08:03 past   2020-01-31 02:00:00 2020-01-30
-#>  4 2663… Dece… 2019-11-11 23:10:10 past   2019-12-11 03:00:00 2019-12-10
-#>  5 2651… Work… 2019-09-23 21:28:24 past   2019-10-17 03:00:00 2019-10-16
-#>  6 2632… Augu… 2019-07-17 19:29:10 past   2019-08-08 03:00:00 2019-08-07
-#>  7 2627… R-La… 2019-06-29 00:24:12 past   2019-07-21 20:00:00 2019-07-21
-#>  8 2626… Baye… 2019-06-27 05:11:16 past   2019-07-18 03:00:00 2019-07-17
-#>  9 2610… Mini… 2019-05-01 02:49:52 past   2019-05-18 22:30:00 2019-05-18
-#> 10 2590… NLP … 2019-02-15 23:36:58 past   2019-03-13 02:00:00 2019-03-12
-#> # … with 50 more rows, and 16 more variables: duration <int>, local_time <chr>,
-#> #   waitlist_count <int>, yes_rsvp_count <int>, venue_id <int>,
-#> #   venue_name <chr>, venue_lat <dbl>, venue_lon <dbl>, venue_address_1 <chr>,
-#> #   venue_city <chr>, venue_state <chr>, venue_zip <chr>, venue_country <chr>,
-#> #   description <chr>, link <chr>, resource <list>
+events <- get_events(urlname)
+dplyr::arrange(events, desc(time))
+#> # A tibble: 63 × 18
+#>    id        title    link  status durat…¹ going waiting descr…² venue…³ venue…⁴
+#>    <chr>     <chr>    <chr> <chr>  <chr>   <int>   <int> <chr>   <chr>     <dbl>
+#>  1 280404371 Data St… http… PAST   PT1H30M    61       0 "=====… 269060…   -8.52
+#>  2 277757076 Buildin… http… PAST   PT2H       70       0 "Build… 269060…   -8.52
+#>  3 273036282 A conve… http… PAST   PT2H       30       0 "Fires… 269060…   -8.52
+#>  4 272407729 Tangibl… http… PAST   PT1H30M    45       0 "Tangi… 269060…   -8.52
+#>  5 267967077 R-Ladie… http… PAST   PT2H       95       0 "Just … 260586…   37.8 
+#>  6 266395328 Decembe… http… PAST   PT2H30M    98       0 "Join … 261907…   37.8 
+#>  7 265100301 Worksho… http… PAST   PT2H       40       0 "\"Tra… 266458…   37.8 
+#>  8 263230714 August … http… PAST   PT2H       58       0 "1. Bu… 265200…   37.6 
+#>  9 262717409 R-Ladie… http… PAST   PT3H       18       0 "Come … 260979…   37.8 
+#> 10 262662040 Bayesia… http… PAST   PT2H       57       0 "MAIN … 260597…   37.8 
+#> # … with 53 more rows, 8 more variables: venue_lon <dbl>, venue_name <chr>,
+#> #   venue_address <chr>, venue_city <chr>, venue_state <chr>, venue_zip <chr>,
+#> #   venue_country <chr>, time <dttm>, and abbreviated variable names ¹​duration,
+#> #   ²​description, ³​venue_id, ⁴​venue_lat
+#> # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
-Next we can look up all R-Ladies groups by “topic id”. You can find
-topic ids for associated tags by querying
-[here](https://secure.meetup.com/meetup_api/console/?path=/find/topics).
-The `topic_id` for topic, “R-Ladies”, is `1513883`.
+We can also search for groups with free text.
 
 ``` r
-groups <- find_groups(topic_id = 1513883)
+groups <- find_groups("R-Ladies")
 dplyr::arrange(groups, desc(created))
-#> # A tibble: 137 x 21
-#>        id name  urlname status   lat     lon city  state country
-#>     <int> <chr> <chr>   <chr>  <dbl>   <dbl> <chr> <chr> <chr>
-#>  1 3.38e7 R-La… rladie… active -1.29   36.8  Nair… ""    Kenya
-#>  2 3.34e7 R-La… rladie… active 52.4    -1.5  Cove… "43"  United…
-#>  3 3.34e7 R-La… rladie… active 43.3    21.9  Niš   ""    Serbia
-#>  4 3.32e7 R-La… rladie… active 25.7  -100.   Mont… ""    Mexico
-#>  5 3.32e7 R-La… rladie… active 51.8    -1.26 Oxfo… "K2"  United…
-#>  6 3.31e7 R-La… rladie… active 38.9   -92.2  Colu… "MO"  USA
-#>  7 3.31e7 R-La… rladie… active  6.93   79.8  Colo… ""    Sri La…
-#>  8 3.31e7 R-La… rladie… active 30.0   -90.1  New … "LA"  USA
-#>  9 3.31e7 R-La… rladie… active 43.0   -76.2  Syra… "NY"  USA
-#> 10 3.30e7 R-La… rladie… active 19.0    72.8  Mumb… ""    India
-#> # … with 127 more rows, and 12 more variables: created <dttm>, members <int>,
-#> #   timezone <chr>, join_mode <chr>, visibility <chr>, who <chr>,
-#> #   location <chr>, organizer_id <int>, organizer_name <chr>,
-#> #   category_id <int>, category_name <chr>, resource <list>
+#> # A tibble: 189 × 17
+#>    id       name             urlname latit…¹ longi…² city  state membe…³ members
+#>    <chr>    <chr>            <chr>     <dbl>   <dbl> <chr> <chr> <chr>     <int>
+#>  1 36221103 R-Ladies Honolu… rladie…    21.3 -158.   Hono… "HI"  LEADER       11
+#>  2 36221061 R-Ladies Rabat   rladie…    34.0   -6.83 Rabat ""    LEADER      145
+#>  3 36155475 R-Ladies Morelia rladie…    19.7 -101.   More… ""    LEADER       97
+#>  4 36155463 R-Ladies Ciudad… rladie…    27.5 -110.   Ciud… ""    LEADER        2
+#>  5 36128420 R-Ladies Rome    rladie…    41.9   12.5  Roma  "RM"  LEADER       25
+#>  6 36128390 R-Ladies Oxford… rladie…    34.4  -89.5  Oxfo… "MS"  LEADER        3
+#>  7 35897820 R-Ladies Gaboro… rladie…   -24.6   25.9  Gabo… ""    LEADER      490
+#>  8 35897809 R-Ladies Cologne rladie…    50.9    6.96 Colo… ""    LEADER      178
+#>  9 35897790 R-Ladies West L… rladie…    40.5  -87.0  West… "IN"  LEADER        9
+#> 10 35897779 R-Ladies Villah… rladie…    18.0  -92.9  Vill… ""    LEADER      116
+#> # … with 179 more rows, 8 more variables: created <dttm>, timezone <chr>,
+#> #   join_mode <chr>, who <chr>, isPrivate <lgl>, category_id <chr>,
+#> #   category_name <chr>, country <chr>, and abbreviated variable names
+#> #   ¹​latitude, ²​longitude, ³​membershipMetadata.status
+#> # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
 ```
 
 ## How can you contribute?
