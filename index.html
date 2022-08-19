@@ -6,6 +6,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Meetup R API • meetupr</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
@@ -14,6 +20,7 @@
 <script src="pkgdown.js"></script><meta property="og:title" content="Meetup R API">
 <meta property="og:description" content="Provides access to data from &lt;https:www.meetup.com&gt; (see
     &lt;https:www.meetup.com/meetup_api/&gt; for more information).">
+<meta property="og:image" content="/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -81,8 +88,9 @@
       </header><div class="row">
   <div class="contents col-md-9">
 <div class="section level1">
-<div class="page-header"><h1 id="meetupr">meetupr<a class="anchor" aria-label="anchor" href="#meetupr"></a>
+<div class="page-header"><h1 id="meetupr-">meetupr <img src="reference/figures/logo.png" align="right" alt="Zane Dax @StarTrek_Lt" width="138.5"><a class="anchor" aria-label="anchor" href="#meetupr-"></a>
 </h1></div>
+<p><small>Logo by Zane Dax <a href="https://mobile.twitter.com/startrek_lt" class="external-link">@StarTrek_Lt</a></small></p>
 <div class="section level2">
 <h2 id="️-alert-to-users">⚠️ ALERT TO USERS:<a class="anchor" aria-label="anchor" href="#%EF%B8%8F-alert-to-users"></a>
 </h2>
@@ -141,47 +149,48 @@
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">meetupr</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">urlname</span> <span class="op">&lt;-</span> <span class="st">"rladies-san-francisco"</span></span>
-<span><span class="va">events</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_events.html">get_events</a></span><span class="op">(</span><span class="va">urlname</span>, <span class="st">"past"</span><span class="op">)</span></span>
-<span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">events</span>, <span class="fu">desc</span><span class="op">(</span><span class="va">created</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 60 x 22</span></span>
-<span><span class="co">#&gt;    id    name  created             status time                local_date</span></span>
-<span><span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt; &lt;dttm&gt;              &lt;chr&gt;  &lt;dttm&gt;              &lt;date&gt;</span></span>
-<span><span class="co">#&gt;  1 2730… A co… 2020-09-04 20:04:50 past   2020-09-11 00:30:00 2020-09-10</span></span>
-<span><span class="co">#&gt;  2 2724… Tang… 2020-08-06 21:24:51 past   2020-08-28 02:30:00 2020-08-27</span></span>
-<span><span class="co">#&gt;  3 2679… R-La… 2020-01-16 19:08:03 past   2020-01-31 02:00:00 2020-01-30</span></span>
-<span><span class="co">#&gt;  4 2663… Dece… 2019-11-11 23:10:10 past   2019-12-11 03:00:00 2019-12-10</span></span>
-<span><span class="co">#&gt;  5 2651… Work… 2019-09-23 21:28:24 past   2019-10-17 03:00:00 2019-10-16</span></span>
-<span><span class="co">#&gt;  6 2632… Augu… 2019-07-17 19:29:10 past   2019-08-08 03:00:00 2019-08-07</span></span>
-<span><span class="co">#&gt;  7 2627… R-La… 2019-06-29 00:24:12 past   2019-07-21 20:00:00 2019-07-21</span></span>
-<span><span class="co">#&gt;  8 2626… Baye… 2019-06-27 05:11:16 past   2019-07-18 03:00:00 2019-07-17</span></span>
-<span><span class="co">#&gt;  9 2610… Mini… 2019-05-01 02:49:52 past   2019-05-18 22:30:00 2019-05-18</span></span>
-<span><span class="co">#&gt; 10 2590… NLP … 2019-02-15 23:36:58 past   2019-03-13 02:00:00 2019-03-12</span></span>
-<span><span class="co">#&gt; # … with 50 more rows, and 16 more variables: duration &lt;int&gt;, local_time &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   waitlist_count &lt;int&gt;, yes_rsvp_count &lt;int&gt;, venue_id &lt;int&gt;,</span></span>
-<span><span class="co">#&gt; #   venue_name &lt;chr&gt;, venue_lat &lt;dbl&gt;, venue_lon &lt;dbl&gt;, venue_address_1 &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   venue_city &lt;chr&gt;, venue_state &lt;chr&gt;, venue_zip &lt;chr&gt;, venue_country &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   description &lt;chr&gt;, link &lt;chr&gt;, resource &lt;list&gt;</span></span></code></pre></div>
-<p>Next we can look up all R-Ladies groups by “topic id”. You can find topic ids for associated tags by querying <a href="https://secure.meetup.com/meetup_api/console/?path=/find/topics" class="external-link">here</a>. The <code>topic_id</code> for topic, “R-Ladies”, is <code>1513883</code>.</p>
+<span><span class="va">events</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_events.html">get_events</a></span><span class="op">(</span><span class="va">urlname</span><span class="op">)</span></span>
+<span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">events</span>, <span class="fu">desc</span><span class="op">(</span><span class="va">time</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 63 × 18</span></span>
+<span><span class="co">#&gt;    id        title    link  status durat…¹ going waiting descr…² venue…³ venue…⁴</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;   &lt;int&gt;   &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;     &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1 280404371 Data St… http… PAST   PT1H30M    61       0 "=====… 269060…   -8.52</span></span>
+<span><span class="co">#&gt;  2 277757076 Buildin… http… PAST   PT2H       70       0 "Build… 269060…   -8.52</span></span>
+<span><span class="co">#&gt;  3 273036282 A conve… http… PAST   PT2H       30       0 "Fires… 269060…   -8.52</span></span>
+<span><span class="co">#&gt;  4 272407729 Tangibl… http… PAST   PT1H30M    45       0 "Tangi… 269060…   -8.52</span></span>
+<span><span class="co">#&gt;  5 267967077 R-Ladie… http… PAST   PT2H       95       0 "Just … 260586…   37.8 </span></span>
+<span><span class="co">#&gt;  6 266395328 Decembe… http… PAST   PT2H30M    98       0 "Join … 261907…   37.8 </span></span>
+<span><span class="co">#&gt;  7 265100301 Worksho… http… PAST   PT2H       40       0 "\"Tra… 266458…   37.8 </span></span>
+<span><span class="co">#&gt;  8 263230714 August … http… PAST   PT2H       58       0 "1. Bu… 265200…   37.6 </span></span>
+<span><span class="co">#&gt;  9 262717409 R-Ladie… http… PAST   PT3H       18       0 "Come … 260979…   37.8 </span></span>
+<span><span class="co">#&gt; 10 262662040 Bayesia… http… PAST   PT2H       57       0 "MAIN … 260597…   37.8 </span></span>
+<span><span class="co">#&gt; # … with 53 more rows, 8 more variables: venue_lon &lt;dbl&gt;, venue_name &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   venue_address &lt;chr&gt;, venue_city &lt;chr&gt;, venue_state &lt;chr&gt;, venue_zip &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   venue_country &lt;chr&gt;, time &lt;dttm&gt;, and abbreviated variable names ¹​duration,</span></span>
+<span><span class="co">#&gt; #   ²​description, ³​venue_id, ⁴​venue_lat</span></span>
+<span><span class="co">#&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</span></span></code></pre></div>
+<p>We can also search for groups with free text.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">groups</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/find_groups.html">find_groups</a></span><span class="op">(</span>topic_id <span class="op">=</span> <span class="fl">1513883</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">groups</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/find_groups.html">find_groups</a></span><span class="op">(</span><span class="st">"R-Ladies"</span><span class="op">)</span></span>
 <span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">groups</span>, <span class="fu">desc</span><span class="op">(</span><span class="va">created</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; # A tibble: 137 x 21</span></span>
-<span><span class="co">#&gt;        id name  urlname status   lat     lon city  state country</span></span>
-<span><span class="co">#&gt;     &lt;int&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;</span></span>
-<span><span class="co">#&gt;  1 3.38e7 R-La… rladie… active -1.29   36.8  Nair… ""    Kenya</span></span>
-<span><span class="co">#&gt;  2 3.34e7 R-La… rladie… active 52.4    -1.5  Cove… "43"  United…</span></span>
-<span><span class="co">#&gt;  3 3.34e7 R-La… rladie… active 43.3    21.9  Niš   ""    Serbia</span></span>
-<span><span class="co">#&gt;  4 3.32e7 R-La… rladie… active 25.7  -100.   Mont… ""    Mexico</span></span>
-<span><span class="co">#&gt;  5 3.32e7 R-La… rladie… active 51.8    -1.26 Oxfo… "K2"  United…</span></span>
-<span><span class="co">#&gt;  6 3.31e7 R-La… rladie… active 38.9   -92.2  Colu… "MO"  USA</span></span>
-<span><span class="co">#&gt;  7 3.31e7 R-La… rladie… active  6.93   79.8  Colo… ""    Sri La…</span></span>
-<span><span class="co">#&gt;  8 3.31e7 R-La… rladie… active 30.0   -90.1  New … "LA"  USA</span></span>
-<span><span class="co">#&gt;  9 3.31e7 R-La… rladie… active 43.0   -76.2  Syra… "NY"  USA</span></span>
-<span><span class="co">#&gt; 10 3.30e7 R-La… rladie… active 19.0    72.8  Mumb… ""    India</span></span>
-<span><span class="co">#&gt; # … with 127 more rows, and 12 more variables: created &lt;dttm&gt;, members &lt;int&gt;,</span></span>
-<span><span class="co">#&gt; #   timezone &lt;chr&gt;, join_mode &lt;chr&gt;, visibility &lt;chr&gt;, who &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   location &lt;chr&gt;, organizer_id &lt;int&gt;, organizer_name &lt;chr&gt;,</span></span>
-<span><span class="co">#&gt; #   category_id &lt;int&gt;, category_name &lt;chr&gt;, resource &lt;list&gt;</span></span></code></pre></div>
+<span><span class="co">#&gt; # A tibble: 189 × 17</span></span>
+<span><span class="co">#&gt;    id       name             urlname latit…¹ longi…² city  state membe…³ members</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;    &lt;chr&gt;            &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;     &lt;int&gt;</span></span>
+<span><span class="co">#&gt;  1 36221103 R-Ladies Honolu… rladie…    21.3 -158.   Hono… "HI"  LEADER       11</span></span>
+<span><span class="co">#&gt;  2 36221061 R-Ladies Rabat   rladie…    34.0   -6.83 Rabat ""    LEADER      145</span></span>
+<span><span class="co">#&gt;  3 36155475 R-Ladies Morelia rladie…    19.7 -101.   More… ""    LEADER       97</span></span>
+<span><span class="co">#&gt;  4 36155463 R-Ladies Ciudad… rladie…    27.5 -110.   Ciud… ""    LEADER        2</span></span>
+<span><span class="co">#&gt;  5 36128420 R-Ladies Rome    rladie…    41.9   12.5  Roma  "RM"  LEADER       25</span></span>
+<span><span class="co">#&gt;  6 36128390 R-Ladies Oxford… rladie…    34.4  -89.5  Oxfo… "MS"  LEADER        3</span></span>
+<span><span class="co">#&gt;  7 35897820 R-Ladies Gaboro… rladie…   -24.6   25.9  Gabo… ""    LEADER      490</span></span>
+<span><span class="co">#&gt;  8 35897809 R-Ladies Cologne rladie…    50.9    6.96 Colo… ""    LEADER      178</span></span>
+<span><span class="co">#&gt;  9 35897790 R-Ladies West L… rladie…    40.5  -87.0  West… "IN"  LEADER        9</span></span>
+<span><span class="co">#&gt; 10 35897779 R-Ladies Villah… rladie…    18.0  -92.9  Vill… ""    LEADER      116</span></span>
+<span><span class="co">#&gt; # … with 179 more rows, 8 more variables: created &lt;dttm&gt;, timezone &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   join_mode &lt;chr&gt;, who &lt;chr&gt;, isPrivate &lt;lgl&gt;, category_id &lt;chr&gt;,</span></span>
+<span><span class="co">#&gt; #   category_name &lt;chr&gt;, country &lt;chr&gt;, and abbreviated variable names</span></span>
+<span><span class="co">#&gt; #   ¹​latitude, ²​longitude, ³​membershipMetadata.status</span></span>
+<span><span class="co">#&gt; # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
