@@ -14,16 +14,16 @@
 #' #' \url{https://www.meetup.com/api/schema/#ProNetwork}
 #' #'
 #' #' @examples
-#' #' \dontrun{
+#' #' try(
 #' #' urlname <- "rladies"
 #' #' members <- get_pro_groups(urlname)
 #' #'
-#' #' past_events <- get_events(urlname = urlname,
+#' #' past_events <- get_pro_events(urlname = urlname,
 #' #'                       status = "PAST")
-#' #' upcoming_events <- get_events(urlname = urlname,
+#' #' upcoming_events <- get_pro_events(urlname = urlname,
 #' #'                       status = "UPCOMING")
-#' #' all_events <- get_events(urlname = urlname)
-#' #'}
+#' #' all_events <- get_pro_events(urlname = urlname)
+#' #' )
 #' #'
 #' #' @return A tibble with meetup information
 #'
