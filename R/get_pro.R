@@ -54,6 +54,11 @@ get_pro_groups <- function(
                category_id = category.id,
                category_name = category.name,
                country = country_name,
+               past_events_count = pastEvents.count,
+               upcoming_events_count = upcomingEvents.count,
+               membership_status = membershipMetadata.status,
+               is_private = isPrivate
+
   )
 
   dt$created <- anytime::anytime(dt$created)
