@@ -92,6 +92,16 @@ get_pro_groups <- function(
     .extra_graphql = extra_graphql,
     .token = token
   )
+  dt <- rename(dt,
+               created = foundedDate,
+               members = memberships.count,
+               join_mode = joinMode,
+               category_id = category.id,
+               category_name = category.name,
+               country = country_name,
+  )
+
+  dt$created <- anytime::anytime(dt$created)
   dt
   #
   # tibble(
