@@ -2,8 +2,8 @@
 #'
 #' @param id Required event ID
 #' @param ... Should be empty. Used for parameter expansion
-#' @param extra_graphql A graphql object. Extra objects to return
-#' @param token Meetup token
+#' @template extra_graphql
+#' @template token
 #' @return A tibble with the following columns:
 #'    * id
 #'    * name

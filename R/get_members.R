@@ -1,9 +1,9 @@
 #' Get the current meetup members from a meetup group
 #'
-#' @param urlname Required urlname of the Meetup group
+#' @template urlname
 #' @param ... Should be empty. Used for parameter expansion
-#' @param extra_graphql A graphql object. Extra objects to return
-#' @param token Meetup token
+#' @template extra_graphql
+#' @template token
 #' @return A tibble with the following columns:
 #'    * id
 #'    * name

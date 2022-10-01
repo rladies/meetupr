@@ -1,39 +1,35 @@
-#' #' Meetup pro functions
-#' #'
-#' #' The pro functions only work if the querying users
-#' #' had a meetup pro account.
-#' #'
-#' #' \describe{
-#' #'   \item{get_pro_groups}{Get the current meetup members from a pro meetup group}
-#' #'   \item{get_pro_events}{Get pro group events}
-#' #' }
-#' #'
-#' #' @template urlname
-#' #'
-#' #' @references
-#' #' \url{https://www.meetup.com/api/schema/#ProNetwork}
-#' #'
-#' #' @examples
-#' #' try(
-#' #' urlname <- "rladies"
-#' #' members <- get_pro_groups(urlname)
-#' #'
-#' #' past_events <- get_pro_events(urlname = urlname,
-#' #'                       status = "PAST")
-#' #' upcoming_events <- get_pro_events(urlname = urlname,
-#' #'                       status = "UPCOMING")
-#' #' all_events <- get_pro_events(urlname = urlname)
-#' #' )
-#' #'
-#' #' @return A tibble with meetup information
+#' Meetup pro functions
 #'
+#' The pro functions only work if the querying users
+#' had a meetup pro account.
 #'
+#' @template urlname
+#' @param ... Should be empty. Used for parameter expansion
+#' @template extra_graphql
+#' @template token
+#' @param status Which status the events should have.
+#'
+#' @references
+#' \url{https://www.meetup.com/api/schema/#ProNetwork}
+#'
+#' @examples
+#' \dontrun{
+#' urlname <- "rladies"
+#' members <- get_pro_groups(urlname)
+#'
+#' past_events <- get_pro_events(urlname = urlname,
+#'                       status = "PAST")
+#' upcoming_events <- get_pro_events(urlname = urlname,
+#'                       status = "UPCOMING")
+#' all_events <- get_pro_events(urlname = urlname)
+#' }
+#' @name meetup_pro
+#' @return A tibble with meetup pro information
+NULL
 
-
-
-#' @rdname meetup_pro
+#' Get pro groups information
 #' @export
-#' @return A tibble with the meetup pro group information
+#' @describeIn meetup_pro retrieve groups in a pro network
 get_pro_groups <- function(
   urlname,
   ...,
@@ -65,9 +61,9 @@ get_pro_groups <- function(
   dt
 }
 
-
-#' @rdname meetup_pro
+#' Get pro events information
 #' @export
+#' @describeIn meetup_pro retrieve events from a pro network
 get_pro_events <- function(
   urlname,
   status = NULL,
