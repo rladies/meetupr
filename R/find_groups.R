@@ -6,8 +6,9 @@
 #' @param lat Latitude. An integer
 #' @param lon Longitutde. An integer
 #' @param radius Radius. An integer
-#' @param extra_graphql A graphql object. Extra objects to return
-#' @param token Meetup token
+#' @param ... Should be empty. Used for parameter expansion
+#' @template extra_graphql
+#' @template token
 #' @importFrom anytime anytime
 #' @export
 find_groups <- function(

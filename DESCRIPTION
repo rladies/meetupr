@@ -29,7 +29,6 @@ Imports:
     purrr,
     gh,
     progress,
-    tibble,
     rlang,
     rappdirs,
     glue,

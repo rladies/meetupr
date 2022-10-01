@@ -1,81 +1,96 @@
-#' #' Meetup pro functions
-#' #'
-#' #' The pro functions only work if the querying users
-#' #' had a meetup pro account.
-#' #'
-#' #' \describe{
-#' #'   \item{get_pro_groups}{Get the current meetup members from a pro meetup group}
-#' #'   \item{get_pro_events}{Get pro group events for the enxt 30 days}
-#' #' }
-#' #'
-#' #' @template urlname
-#' #' @template verbose
-#' #'
-#' #' @references
-#' #' \url{https://www.meetup.com/meetup_api/docs/pro/:urlname/groups/}
-#' #' \url{https://www.meetup.com/meetup_api/docs/:urlname/events/#list}
-#' #'
-#' #' @examples
-#' #' \dontrun{
-#' #' urlname <- "rladies"
-#' #' members <- get_pro_groups(urlname)
-#' #'
-#' #' past_events <- get_events(urlname = urlname,
-#' #'                       event_status = "past")
-#' #' upcoming_events <- get_events(urlname = urlname,
-#' #'                       event_status = "upcoming")
-#' #'}
-#' #'
-#' #' @return A tibble with meetup information
+#' Meetup pro functions
 #'
+#' The pro functions only work if the querying users
+#' had a meetup pro account.
 #'
-#' #' @rdname meetup_pro
-#' #' @export
-#' #' @importFrom purrr map_int map_chr map_dbl
-#' #' @importFrom tibble tibble
-#' get_pro_groups <- function(
-#'     urlname,
-#'     ...,
-#'     extra_graphql = NULL,
-#'     token = meetup_token()
-#'   ) {
-#'     ellipsis::check_dots_empty()
+#' @template urlname
+#' @param ... Should be empty. Used for parameter expansion
+#' @template extra_graphql
+#' @template token
+#' @param status Which status the events should have.
 #'
-#'     dt <- gql_events(
-#'       urlname = urlname,
-#'       .extra_graphql = extra_graphql,
-#'       .token = token
-#'     )
+#' @references
+#' \url{https://www.meetup.com/api/schema/#ProNetwork}
 #'
-#'   tibble(
-#'     group_sorter(res),
-#'     created = .date_helper(map_dbl(res, "founded_date")),
-#'     members = map_chr(res, "member_count"),
-#'     upcoming_events = map_int(res, "upcoming_events"),
-#'     past_events = map_int(res, "past_events"),
-#'     res = res
-#'   )
+#' @examples
+#' \dontrun{
+#' urlname <- "rladies"
+#' members <- get_pro_groups(urlname)
+#'
+#' past_events <- get_pro_events(urlname = urlname,
+#'                       status = "PAST")
+#' upcoming_events <- get_pro_events(urlname = urlname,
+#'                       status = "UPCOMING")
+#' all_events <- get_pro_events(urlname = urlname)
 #' }
-#'
-#'
-#' #' @rdname meetup_pro
-#' #' @importFrom tibble tibble
-#' #' @export
-#' get_pro_events <- function(urlname,
-#'                            verbose = meetupr_verbose()
-#'                            ){
-#'
-#'   api_path <- sprintf("pro/%s/events", urlname)
-#'   res <- .fetch_results(api_path = api_path, verbose = verbose)
-#'
-#'   group <- lapply(res, function(x) x[["chapter"]])
-#'   group <- tibble(group_sorter(group), res = group)
-#'   names(group) <- paste0("group_", names(group))
-#'
-#'   events <- lapply(res, function(x) x[[1]])
-#'
-#'   tibble(
-#'     event_sorter(events),
-#'     group
-#'   )
-#' }
+#' @name meetup_pro
+#' @return A tibble with meetup pro information
+NULL
+
+#' Get pro groups information
+#' @export
+#' @describeIn meetup_pro retrieve groups in a pro network
+get_pro_groups <- function(
+  urlname,
+  ...,
+  extra_graphql = NULL,
+  token = meetup_token()
+) {
+  ellipsis::check_dots_empty()
+
+  dt <- gql_get_pro_groups(
+    urlname = urlname,
+    .extra_graphql = extra_graphql,
+    .token = token
+  )
+  dt <- rename(dt,
+               created = foundedDate,
+               members = memberships.count,
+               join_mode = joinMode,
+               category_id = category.id,
+               category_name = category.name,
+               country = country_name,
+               past_events_count = pastEvents.count,
+               upcoming_events_count = upcomingEvents.count,
+               membership_status = membershipMetadata.status,
+               is_private = isPrivate
+
+  )
+
+  dt$created <- anytime::anytime(dt$created)
+  dt
+}
+
+#' Get pro events information
+#' @export
+#' @describeIn meetup_pro retrieve events from a pro network
+get_pro_events <- function(
+  urlname,
+  status = NULL,
+  ...,
+  extra_graphql = NULL,
+  token = meetup_token()
+) {
+  ellipsis::check_dots_empty()
+
+  dt <- gql_get_pro_events(
+    urlname = urlname,
+    status = status,
+    .extra_graphql = extra_graphql,
+    .token = token
+  )
+  if(nrow(dt) == 0) return(NULL)
+
+  # replace dot with underscore
+  names(dt) <- gsub("\\.", "_", names(dt))
+
+  dt <- rename(dt,
+               link = eventUrl,
+               event_type = eventType,
+               venue_zip = venue_postalCode
+  )
+  dt$time <- anytime::anytime(dt$dateTime)
+
+  remove(dt,
+         dateTime)
+}

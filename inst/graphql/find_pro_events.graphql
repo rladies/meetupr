@@ -1,0 +1,46 @@
+query proEvents(
+  $urlname: String!,
+  $status: ProNetworkEventStatus,
+  $first: Int = 1000,
+  $cursor: String
+  ) {
+  proNetworkByUrlname(urlname: $urlname) {
+    eventsSearch(filter: { status: $status }, input: {after: $cursor, first: $first}) {
+      count
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      edges {
+        node {
+          id
+          title
+          eventUrl
+          createdAt
+          status
+          dateTime
+          duration
+          going
+          waiting
+          description
+          eventType
+          venue {
+            lat
+            lon: lng
+            name
+            address
+            city
+            state
+            postalCode
+            country
+          }
+          group {
+            name
+            urlname
+          }
+          << extra_graphql >>
+        }
+      }
+    }
+  }
+}

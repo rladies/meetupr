@@ -16,3 +16,4 @@
 ^~/\.local/share/meetupr/meetupr-token\.rds$
 ^codecov\.yml$
 ^LICENSE\.md$
+^~/Library/Application Support/meetupr/meetupr-token\.rds$

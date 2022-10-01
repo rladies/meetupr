@@ -54,6 +54,11 @@ utils::globalVariables(
     "metadata.mostRecentVisitDate",
     "group_sorter",
     "event_sorter",
-    "res"
+    "res",
+    "eventType",
+    "pastEvents.count",
+    "upcomingEvents.count",
+    "membershipMetadata.status",
+    "isPrivate"
     )
   )

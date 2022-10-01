@@ -7,7 +7,8 @@
 get_members(urlname, ..., extra_graphql = NULL, token = meetup_token())
 }
 \arguments{
-\item{urlname}{Required urlname of the Meetup group}
+\item{urlname}{Character. The name of the group as indicated in the
+\url{https://meetup.com} url.}
 
 \item{...}{Should be empty. Used for parameter expansion}
 
