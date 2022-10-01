@@ -37,9 +37,6 @@
     <loc>/reference/find_groups.html</loc>
   </url>
   <url>
-    <loc>/reference/get_boards.html</loc>
-  </url>
-  <url>
     <loc>/reference/get_event_attendees.html</loc>
   </url>
   <url>
@@ -62,6 +59,9 @@
   </url>
   <url>
     <loc>/reference/meetup-auth.html</loc>
+  </url>
+  <url>
+    <loc>/reference/meetup_pro.html</loc>
   </url>
   <url>
     <loc>/reference/meetup_query.html</loc>
