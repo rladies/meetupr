@@ -282,7 +282,7 @@ meetup_deauth <- function(clear_cache = TRUE,
 
   if (token_available(verbose = FALSE)) {
     if (verbose) {
-      message("Removing google token stashed internally in 'meetupr'.")
+      message("Removing meetup token stashed internally in 'meetupr'.")
     }
     rm("token", envir = .state)
   } else {
