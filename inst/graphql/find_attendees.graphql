@@ -26,7 +26,6 @@ query eventAttendee(
               baseUrl
             }
             joinTime
-            timezone
             organizedGroupCount
             << extra_graphql >>
           }
