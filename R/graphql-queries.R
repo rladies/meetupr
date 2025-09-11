@@ -93,7 +93,7 @@ build_template_request <- function(query, variables = list()) {
     )
   }
 
-  meetupr_req() |>
+  meetup_req() |>
     httr2::req_body_json(
       list(
         query = query,

@@ -27,10 +27,10 @@ meetup_api_prefix <- function() {
 #' @examples
 #' \dontrun{
 #' # Example 1: Basic request with caching enabled
-#' req <- meetupr_req(cache = TRUE)
+#' req <- meetup_req(cache = TRUE)
 #'
 #' # Example 2: Request with custom client ID and secret
-#' req <- meetupr_req(
+#' req <- meetup_req(
 #'   cache = FALSE,
 #'   client_id = "your_client_id",
 #'   client_secret = "your_client_secret"
@@ -45,7 +45,7 @@ meetup_api_prefix <- function() {
 #' commented out and would require activation for functionality.
 #'
 #' @export
-meetupr_req <- function(cache = TRUE, ...) {
+meetup_req <- function(cache = TRUE, ...) {
   req <- httr2::request(meetup_api_prefix()) |>
     httr2::req_headers("Content-Type" = "application/json") |>
     httr2::req_error(body = function(resp) {
