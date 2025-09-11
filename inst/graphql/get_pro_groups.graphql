@@ -1,0 +1,41 @@
+query proGroups(
+  $urlname: ID!,
+  $first: Int = 1000,
+  $cursor: String
+  ) {
+  proNetwork(urlname: $urlname) {
+    groupsSearch(input: {after: $cursor, first: $first}) {
+      totalCount
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      edges {
+        node {
+          id
+          name
+          urlname
+          description
+          lat
+          lon
+          city
+          state
+          country
+          membershipMetadata {
+            status
+          }
+          memberships {
+            totalCount
+          }
+          foundedDate
+          proJoinDate
+          timezone
+          joinMode
+          who: customMemberLabel
+          isPrivate
+        }
+      }
+    }
+    << extra_graphql >>
+  }
+}

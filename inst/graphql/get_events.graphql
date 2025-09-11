@@ -1,0 +1,86 @@
+query findEvents(
+  $urlname: String!
+  $cursor: String
+  $first: Int = 1000
+  $status: [EventStatus]
+  $afterDateTime: DateTime
+  $beforeDateTime: DateTime
+) {
+  groupByUrlname(urlname: $urlname) {
+    id
+    name
+    events(
+      after: $cursor
+      first: $first
+      filter: {
+        status: $status
+        afterDateTime: $afterDateTime
+        beforeDateTime: $beforeDateTime
+      }
+    ) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      totalCount
+      edges {
+        cursor
+        node {
+          ...eventFields
+        }
+      }
+    }
+    << extra_graphql >>
+  }
+}
+
+fragment eventFields on Event {
+  id
+  title
+  eventUrl
+  createdTime
+  status
+  dateTime
+  duration
+  description
+  
+  group {
+    id
+    name
+    urlname
+  }
+  
+  venues {
+    id
+    name
+    address
+    city
+    state
+    postalCode
+    country
+    lat
+    lon
+    venueType
+  }
+  
+  rsvps(first: 1) {
+    totalCount
+  }
+  
+  featuredEventPhoto {
+    baseUrl
+  }
+  
+  feeSettings {
+    required
+    amount
+    currency
+    accepts
+    refundPolicy {
+      notes
+      days
+    }
+  }
+  
+  << extra_graphql >>
+}

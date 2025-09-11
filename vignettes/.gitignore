@@ -1,3 +1,5 @@
 .httr-oauth
 *.html
 *.R
+
+/.quarto/

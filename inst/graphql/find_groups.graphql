@@ -1,62 +1,45 @@
-query keywordSearch(
-  # $topicCategoryId: Int! = 546
-  $topicCategoryId: Int = null
-  $searchSources: [SearchSources!]! = [GROUPS]
-  # $query: String! = "R-Ladies"
+query groupSearch(
   $query: String!
-  $lat: Float = 0
-  $lon: Float = 0
-  $radius: Int = 100000000
-  $first: Int = 1000
   $cursor: String
+  $first: Int = 1000
+  $lat: Float! = 0.0
+  $lon: Float! = 0.0
+  $radius: Float = 100000000.0
 ) {
-  keywordSearch(
-    input: { first: $first, after: $cursor }
+  groupSearch(
+    after: $cursor
+    first: $first
     filter: {
       query: $query
       lat: $lat
       lon: $lon
       radius: $radius
-      topicCategoryId: $topicCategoryId
-      source: $searchSources
     }
   ) {
     pageInfo {
       hasNextPage
       endCursor
     }
-    count
+    totalCount
     edges {
-      # cursor
       node {
-        # id
-        result {
-          ... on Group {
-            id
-            name
-            urlname
-            latitude
-            longitude
-            city
-            state
-            country
-            membershipMetadata {
-              status
-            }
-            memberships {
-              count
-            }
-            foundedDate
-            timezone
-            joinMode
-            who: customMemberLabel
-            isPrivate
-            category: topicCategory {
-              id
-              name
-            }
-            << extra_graphql >>
-          }
+        id
+        name
+        urlname
+        city
+        state
+        country
+        lat
+        lon
+        memberships {
+          totalCount
+        }
+        foundedDate
+        timezone
+        joinMode
+        isPrivate
+        membershipMetadata {
+          status
         }
       }
     }

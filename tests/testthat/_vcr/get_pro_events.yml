@@ -1,0 +1,22 @@
+http_interactions:
+- request:
+    method: POST
+    uri: https://api.meetup.com/gql-ext
+    body:
+      string: '{"query":"query proEvents(\n  $urlname: ID!,\n  $status: [String!],\n  $first:
+        Int = 1000,\n  $cursor: String\n  ) {\n  proNetwork(urlname: $urlname) {\n    eventsSearch(input:
+        {after: $cursor, first: $first, filter: {status: $status}}) {\n      totalCount\n      pageInfo
+        {\n        hasNextPage\n        endCursor\n      }\n      edges {\n        node
+        {\n          id\n          title\n          description\n          status\n          dateTime\n          duration\n          group
+        {\n            name\n            urlname\n          }\n          \n        }\n      }\n    }\n  }\n}","variables":{"urlname":"rladies","status":"ACTIVE"}}'
+  response:
+    status: 200
+    headers:
+      content-type: application/json;charset=utf-8
+      accept-ranges: bytes
+      date: Thu, 11 Sep 2025 11:44:15 GMT
+      content-length: '118'
+    body:
+      string: '{"data":{"proNetwork":{"eventsSearch":{"totalCount":0,"pageInfo":{"hasNextPage":false,"endCursor":null},"edges":[]}}}}'
+  recorded_at: 2025-09-11 11:44:15
+recorded_with: VCR-vcr/2.0.0

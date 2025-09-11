@@ -1,0 +1,34 @@
+query members(
+  $urlname: String!
+  $cursor: String
+  $first: Int = 1000
+) {
+  groupByUrlname(urlname: $urlname) {
+    id
+    name
+    memberships(after: $cursor, first: $first) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      totalCount
+      edges {
+        node {
+          id
+          name
+          memberUrl
+          memberPhoto {
+            baseUrl
+          }
+        }
+        metadata {
+          status
+          role
+          joinTime
+          lastAccessTime
+        }
+      }
+    }
+    << extra_graphql >>
+  }
+}

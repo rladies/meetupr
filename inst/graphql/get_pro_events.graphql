@@ -1,0 +1,31 @@
+query proEvents(
+  $urlname: ID!,
+  $status: [String!],
+  $first: Int = 1000,
+  $cursor: String
+  ) {
+  proNetwork(urlname: $urlname) {
+    eventsSearch(input: {after: $cursor, first: $first, filter: {status: $status}}) {
+      totalCount
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      edges {
+        node {
+          id
+          title
+          description
+          status
+          dateTime
+          duration
+          group {
+            name
+            urlname
+          }
+          << extra_graphql >>
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,213 @@
+http_interactions:
+- request:
+    method: POST
+    uri: https://api.meetup.com/gql-ext
+    body:
+      string: '{"query":"query findEvents(\n  $urlname: String!\n  $cursor: String\n  $first:
+        Int = 1000\n  $status: [EventStatus]\n  $afterDateTime: DateTime\n  $beforeDateTime:
+        DateTime\n) {\n  groupByUrlname(urlname: $urlname) {\n    id\n    name\n    events(\n      after:
+        $cursor\n      first: $first\n      filter: {\n        status: $status\n        afterDateTime:
+        $afterDateTime\n        beforeDateTime: $beforeDateTime\n      }\n    ) {\n      pageInfo
+        {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n      edges
+        {\n        cursor\n        node {\n          ...eventFields\n        }\n      }\n    }\n    \n  }\n}\n\nfragment
+        eventFields on Event {\n  id\n  title\n  eventUrl\n  createdTime\n  status\n  dateTime\n  duration\n  description\n  \n  group
+        {\n    id\n    name\n    urlname\n  }\n  \n  venues {\n    id\n    name\n    address\n    city\n    state\n    postalCode\n    country\n    lat\n    lon\n    venueType\n  }\n  \n  rsvps(first:
+        1) {\n    totalCount\n  }\n  \n  featuredEventPhoto {\n    baseUrl\n  }\n  \n  feeSettings
+        {\n    required\n    amount\n    currency\n    accepts\n    refundPolicy {\n      notes\n      days\n    }\n  }\n  \n  \n}","variables":{"urlname":"rladies-lagos","status":"PAST"}}'
+  response:
+    status: 200
+    headers:
+      content-type: application/json;charset=utf-8
+      accept-ranges: bytes
+      date: Thu, 11 Sep 2025 12:04:04 GMT
+      content-length: '20304'
+    body:
+      string: "{\"data\":{\"groupByUrlname\":{\"id\":\"32612004\",\"name\":\"R-Ladies
+        Lagos\",\"events\":{\"pageInfo\":{\"hasNextPage\":false,\"endCursor\":\"MzAwMDI3MDk0OjE3MTQyMzM2MDAwMDA=\"},\"totalCount\":13,\"edges\":[{\"cursor\":\"MjY0MTU2MDYxOjE1NjkwNTI4MDAwMDA=\",\"node\":{\"id\":\"264156061\",\"title\":\"satRday
+        Lagos +  The Launch of RLadies Lagos.\",\"eventUrl\":\"https://www.meetup.com/rladies-lagos/events/264156061/\",\"createdTime\":\"2019-08-20T07:54:50-04:00\",\"status\":\"PAST\",\"dateTime\":\"2019-09-21T09:00:00+01:00\",\"duration\":\"PT7H\",\"description\":\"satRday-Lagos
+        is an event aimed at getting you started with the R programing language.\\n\\nDo
+        you love data or you are thinking of kick-starting your career in Technology
+        by learning a programing language, then this is for you.\\n\\nDo you do statistics,digital
+        media listening and analysis, data visualization, data engineering, data management,data
+        sciences animation, economics and more. Let's show you how R would improve
+        your projects.\\n\\nThis event is strictly hands-on so bring your laptops
+        and devices along .\\n\\nSee you there .\",\"group\":{\"id\":\"32612004\",\"name\":\"R-Ladies
+        Lagos\",\"urlname\":\"rladies-lagos\"},\"venues\":[{\"id\":\"26632228\",\"name\":\"Civil
+        Engineering Building, \",\"address\":\"YABATECH,\",\"city\":\"Lagos\",\"state\":\"al\",\"postalCode\":\"meetup1\",\"country\":\"ng\",\"lat\":6.652131,\"lon\":3.271455,\"venueType\":\"\"}],\"rsvps\":{\"totalCount\":26},\"featuredEventPhoto\":null,\"feeSettings\":null}},{\"cursor\":\"MjY2NzU3MjY1OjE1NzU3MDU2MDAwMDA=\",\"node\":{\"id\":\"266757265\",\"title\":\"Data
+        Mining using  R\",\"eventUrl\":\"https://www.meetup.com/rladies-lagos/events/266757265/\",\"createdTime\":\"2019-11-26T12:00:29-05:00\",\"status\":\"PAST\",\"dateTime\":\"2019-12-07T09:00:00+01:00\",\"duration\":\"PT7H\",\"description\":\"Hi
+        there R Users, it is time again for our physical meetup. It promises to packed
+        but very interesting time.\\n\\nAgenda\\n\\n* Project presentation from the
+        last online meeting\\n*Hands-on projects for this month\\n* Preparation for
+        upcoming conferences\\n- Women in Analytics 2020 (Columbus)\\n- useR 2020
+        (St. Louis)\\n*R-Ladies Lagos 2020 Outlook\\n\\nCome with your computers,
+        extension boxes and data visualization ideas.\",\"group\":{\"id\":\"32612004\",\"name\":\"R-Ladies
+        Lagos\",\"urlname\":\"rladies-lagos\"},\"venues\":[{\"id\":\"26750374\",\"name\":\"Sweets
+        And Pastries Ltd\",\"address\":\"76 Ogudu Rd\",\"city\":\"Lagos\",\"state\":\"LA\",\"postalCode\":\"100242\",\"country\":\"ng\",\"lat\":6.57837,\"lon\":3.387718,\"venueType\":\"\"}],\"rsvps\":{\"totalCount\":14},\"featuredEventPhoto\":null,\"feeSettings\":null}},{\"cursor\":\"MjY3ODA0ODE0OjE1ODIzNTg0MDAwMDA=\",\"node\":{\"id\":\"267804814\",\"title\":\"Getting
+        started with animated data in R\",\"eventUrl\":\"https://www.meetup.com/rladies-lagos/events/267804814/\",\"createdTime\":\"2020-01-10T07:56:39-05:00\",\"status\":\"PAST\",\"dateTime\":\"2020-02-22T09:00:00+01:00\",\"duration\":\"PT7H\",\"description\":\"Hi
+        there R Users, it is time again for our first physical meetup of the year
+        2020.\\n\\nAgenda\\n\\n*2019 in Review\\n*Homework presentation\\n*Getting
+        started with data animation in R\\n*Summer training.\\n\\nCome with your computers,
+        extension boxes, and data - maker ideas.\",\"group\":{\"id\":\"32612004\",\"name\":\"R-Ladies
+        Lagos\",\"urlname\":\"rladies-lagos\"},\"venues\":[{\"id\":\"26750374\",\"name\":\"Sweets
+        And Pastries Ltd\",\"address\":\"76 Ogudu Rd\",\"city\":\"Lagos\",\"state\":\"LA\",\"postalCode\":\"100242\",\"country\":\"ng\",\"lat\":6.57837,\"lon\":3.387718,\"venueType\":\"\"}],\"rsvps\":{\"totalCount\":15},\"featuredEventPhoto\":{\"baseUrl\":\"https://secure-content.meetupstatic.com/images/classic-events/\"},\"feeSettings\":null}},{\"cursor\":\"Mjg0MzIyMjczOjE2NDgyOTk2MDAwMDA=\",\"node\":{\"id\":\"284322273\",\"title\":\"Data
+        Network Analysis : What to know.\",\"eventUrl\":\"https://www.meetup.com/rladies-lagos/events/284322273/\",\"createdTime\":\"2022-02-28T19:27:32-05:00\",\"status\":\"PAST\",\"dateTime\":\"2022-03-26T14:00:00+01:00\",\"duration\":\"PT2H\",\"description\":\"**About
+        the Speaker**\\n\\nEmeka is a Senior Knowledge Engineer with Cymantiks Limited,
+        a company that makes Government, Organizations and Cities smarter using Semantic
+        Technologies, for Data Modeling, Knowledge Representation, and Ontology Engineering,
+        en-route to exploiting the opportunities in their data assets for Artificial
+        Intelligence, Data Analytics to simulate human decision-making and high-level
+        cognitive tasks that can be used to solve complex problems and achieve their
+        desired Digital Transformation objectives.\\nIn the last 25 years, Emeka has
+        been at the forefront of technology and innovation in Nigeria from co-founding
+        the earliest startup (ngex.com) to building cognitive solutions (Knowledge
+        Graph on Disease Incidences, Legal Documents, African Films) to building Smart
+        Agents, Software Autonomous Systems and Rules as Codes (RaC) using Semantic
+        AI and Blockchain technology.\\nEmeka is able to understand and explain technologies
+        from deep-diving under the hood to the value proposition level. He believes
+        that Linked Data, Blockchain and AI will change and improve the way we live
+        and work, and he is passionate about designing and building systems that will
+        make this happen and teaching others to do this as well.\\nHe has been listed
+        among the top 20 most influential Technology people in Africa (2013) by South
+        Africa IT News to name a few\\nHe groks at the intersection of Digital Societies,
+        Economic Development, Urbanization and Semantic AI on Twitter (@EmekaOkoye).\",\"group\":{\"id\":\"32612004\",\"name\":\"R-Ladies
+        Lagos\",\"urlname\":\"rladies-lagos\"},\"venues\":[{\"id\":\"26906060\",\"name\":\"Online
+        event\",\"address\":\"\",\"city\":\"\",\"state\":\"\",\"postalCode\":\"\",\"country\":\"\",\"lat\":-8.521147,\"lon\":179.1962,\"venueType\":\"online\"}],\"rsvps\":{\"totalCount\":14},\"featuredEventPhoto\":{\"baseUrl\":\"https://secure-content.meetupstatic.com/images/classic-events/\"},\"feeSettings\":null}},{\"cursor\":\"Mjg0NjEyMzk0OjE2NTE5MzU2MDAwMDA=\",\"node\":{\"id\":\"284612394\",\"title\":\"R
+        Ladies Panel\",\"eventUrl\":\"https://www.meetup.com/rladies-lagos/events/284612394/\",\"createdTime\":\"2022-03-14T12:37:46-04:00\",\"status\":\"PAST\",\"dateTime\":\"2022-05-07T16:00:00+01:00\",\"duration\":\"PT1H\",\"description\":\"Join
+        us for the R Ladies Panel session to discuss ways to empower more women to
+        join the R community.\\n\\nThis event is open to all community members to
+        bring on their ideas. if you would like to sit on the panel as a discussant,
+        you're welcome to contact the event organizer to signify your interest.\",\"group\":{\"id\":\"32612004\",\"name\":\"R-Ladies
+        Lagos\",\"urlname\":\"rladies-lagos\"},\"venues\":[{\"id\":\"26906060\",\"name\":\"Online
+        event\",\"address\":\"\",\"city\":\"\",\"state\":\"\",\"postalCode\":\"\",\"country\":\"\",\"lat\":-8.521147,\"lon\":179.1962,\"venueType\":\"online\"}],\"rsvps\":{\"totalCount\":17},\"featuredEventPhoto\":{\"baseUrl\":\"https://secure-content.meetupstatic.com/images/classic-events/\"},\"feeSettings\":null}},{\"cursor\":\"MjkyMjYxNTM1OjE2Nzk2NDg0MDAwMDA=\",\"node\":{\"id\":\"292261535\",\"title\":\"Women
+        in Community International Women’s Day\",\"eventUrl\":\"https://www.meetup.com/rladies-lagos/events/292261535/\",\"createdTime\":\"2023-03-15T15:29:08-04:00\",\"status\":\"PAST\",\"dateTime\":\"2023-03-24T10:00:00+01:00\",\"duration\":\"PT2H\",\"description\":\"Join
+        us for a remarkable event, \\\"Women in Community International Women's Day\\\"
+        and celebrate the tremendous achievements of women around the world! On March
+        25, 2023, we are gathering an exceptional group of inspiring women, who have
+        made an outstanding contribution to their respective fields within the community.
+        This event is all about celebrating diversity, inclusion, and women's empowerment.\\nOur
+        panelists will share their stories of breaking down barriers and fighting
+        for equality and justice. Our audience can expect to hear stories of bravery,
+        resilience, and strength, and learn about the challenges women face in various
+        aspects of community building.\\nThis event is perfect for anyone who is passionate
+        about women's rights, gender equality, and making the world a better place
+        for all. Expect to leave feeling inspired, empowered, and equipped with the
+        tools and knowledge to drive change in your own community.\\nDon't miss this
+        fantastic opportunity to celebrate International Women's Day with some of
+        the most incredible women you'll ever meet.\\n\\nFor questions, send an email
+        to lagos@rladies.org\",\"group\":{\"id\":\"32612004\",\"name\":\"R-Ladies
+        Lagos\",\"urlname\":\"rladies-lagos\"},\"venues\":[{\"id\":\"26906060\",\"name\":\"Online
+        event\",\"address\":\"\",\"city\":\"\",\"state\":\"\",\"postalCode\":\"\",\"country\":\"\",\"lat\":-8.521147,\"lon\":179.1962,\"venueType\":\"online\"}],\"rsvps\":{\"totalCount\":7},\"featuredEventPhoto\":{\"baseUrl\":\"https://secure-content.meetupstatic.com/images/classic-events/\"},\"feeSettings\":null}},{\"cursor\":\"MjkzMTgxMjAxOjE2ODMzNjAwMDAwMDA=\",\"node\":{\"id\":\"293181201\",\"title\":\"R
+        Package Development Workflow\",\"eventUrl\":\"https://www.meetup.com/rladies-lagos/events/293181201/\",\"createdTime\":\"2023-04-27T19:25:21-04:00\",\"status\":\"PAST\",\"dateTime\":\"2023-05-06T09:00:00+01:00\",\"duration\":\"PT2H\",\"description\":\"Are
+        you interested in learning about R package development workflow? Join us for
+        an exciting event with Dr. Emi Tanaka, Senior Lecturer in Statistics at Monash
+        University, Australia, as she takes us through the process of developing an
+        R package.\\n\\nHosted by R-Ladies Lagos and R-Ladies Paris, this event promises
+        to be a fun-filled and informative session for everyone. Dr. Tanaka will guide
+        us through the workflow of creating and maintaining R packages, sharing her
+        vast experience in the field.\\nAt the end of the session, there will be a
+        question and answer session where you can interact with Dr. Tanaka and clarify
+        any doubts you may have. Plus, there will be a raffle draw where lucky winners
+        will get amazing prizes.\\n\\nDon't miss out on this incredible opportunity
+        to learn from one of the best in the field of statistics. Register now and
+        join us for an exciting session on R package development workflow with Dr.
+        Emi Tanaka.\",\"group\":{\"id\":\"32612004\",\"name\":\"R-Ladies Lagos\",\"urlname\":\"rladies-lagos\"},\"venues\":[{\"id\":\"26906060\",\"name\":\"Online
+        event\",\"address\":\"\",\"city\":\"\",\"state\":\"\",\"postalCode\":\"\",\"country\":\"\",\"lat\":-8.521147,\"lon\":179.1962,\"venueType\":\"online\"}],\"rsvps\":{\"totalCount\":11},\"featuredEventPhoto\":{\"baseUrl\":\"https://secure-content.meetupstatic.com/images/classic-events/\"},\"feeSettings\":null}},{\"cursor\":\"Mjk0NzUwNjU5OjE2OTAwMzk4MDAwMDA=\",\"node\":{\"id\":\"294750659\",\"title\":\"Unlocking
+        the power of community data\",\"eventUrl\":\"https://www.meetup.com/rladies-lagos/events/294750659/\",\"createdTime\":\"2023-07-11T19:50:20-04:00\",\"status\":\"PAST\",\"dateTime\":\"2023-07-22T16:30:00+01:00\",\"duration\":\"PT2H\",\"description\":\"In
+        today's interconnected world, communities generate an astonishing amount of
+        data through their interactions, activities, and shared experiences. This
+        data holds the key to unlocking insights, identifying patterns, and shaping
+        strategies that can revolutionize numerous sectors, including healthcare,
+        education, urban planning, and social services.\\n\\\"Unlocking the Power
+        of Community Data\\\" will illuminate the pathways towards utilizing this
+        vast resource effectively. Attendees will have the opportunity to learn from
+        experts who have successfully harnessed community data to drive innovation,
+        foster collaboration, and address critical challenges.\",\"group\":{\"id\":\"32612004\",\"name\":\"R-Ladies
+        Lagos\",\"urlname\":\"rladies-lagos\"},\"venues\":[{\"id\":\"26906060\",\"name\":\"Online
+        event\",\"address\":\"\",\"city\":\"\",\"state\":\"\",\"postalCode\":\"\",\"country\":\"\",\"lat\":-8.521147,\"lon\":179.1962,\"venueType\":\"online\"}],\"rsvps\":{\"totalCount\":4},\"featuredEventPhoto\":{\"baseUrl\":\"https://secure-content.meetupstatic.com/images/classic-events/\"},\"feeSettings\":null}},{\"cursor\":\"Mjk1MDExNTAyOjE2OTIwMjg4MDAwMDA=\",\"node\":{\"id\":\"295011502\",\"title\":\"Hacknosis:
+        Optimizing Patient Experiences\",\"eventUrl\":\"https://www.meetup.com/rladies-lagos/events/295011502/\",\"createdTime\":\"2023-07-24T14:24:33-04:00\",\"status\":\"PAST\",\"dateTime\":\"2023-08-14T17:00:00+01:00\",\"duration\":\"PT30H\",\"description\":\"#
+        The Challenge\\n\\nGaps in healthcare still exist and the need for better
+        solutions to bridge those gaps is critical. Today, more than half of the world’s
+        population lives one to two hours away from a doctor. The pandemic taught
+        us that telehealth can be a great option. It allows patients and doctors to
+        maintain routine contact and, therefore, good health—but only if the right
+        tools are available. The challenge faced by health providers is how to incorporate
+        new technologies that enable doctors and patients to have real conversations,
+        supported by a simple experience.\\n\\n### This is where you come in.\\n\\nDevelopers
+        are out-of-the-box thinkers, so we need your help to improve the flow of information
+        between patients and doctors and identify ways to provide better patient support,
+        regardless of their location.\\n\\n### Tech Stack\\n\\n* Teams may use any
+        tech stack of their preference\\n* The tech stack should include a combination
+        of cloud technologies, data & analytics, and artificial intelligence\\n* OpenText
+        cloud APIs MUST be a key component of your solution\\n\\n***\\n\\n**Thank
+        you for participating! We invite you to participate in one or all of the challenges
+        identified. If you would like to combine multiple challenges into a super
+        solution, submissions will be accepted and will be judged based on the use
+        cases.**\\n\\n### Task\\n\\n* Develop a solution using OpenText API's\\n*
+        Deployment of project on Github or Postman\\n\\n***\\n\\n### Submission format\\n\\n*
+        Project description (mandatory)\\n* Presentation (mandatory – can be either
+        a video or document)\\n* Link to the project\",\"group\":{\"id\":\"32612004\",\"name\":\"R-Ladies
+        Lagos\",\"urlname\":\"rladies-lagos\"},\"venues\":[{\"id\":\"26906060\",\"name\":\"Online
+        event\",\"address\":\"\",\"city\":\"\",\"state\":\"\",\"postalCode\":\"\",\"country\":\"\",\"lat\":-8.521147,\"lon\":179.1962,\"venueType\":\"online\"}],\"rsvps\":{\"totalCount\":5},\"featuredEventPhoto\":{\"baseUrl\":\"https://secure-content.meetupstatic.com/images/classic-events/\"},\"feeSettings\":null}},{\"cursor\":\"MjkzOTA5MTEzOjE2OTQyNjgwMDAwMDA=\",\"node\":{\"id\":\"293909113\",\"title\":\"Generative
+        AI for R Programmers\",\"eventUrl\":\"https://www.meetup.com/rladies-lagos/events/293909113/\",\"createdTime\":\"2023-06-01T10:20:57-04:00\",\"status\":\"PAST\",\"dateTime\":\"2023-09-09T15:00:00+01:00\",\"duration\":\"PT2H\",\"description\":\"Discover
+        the Fascinating World of Generative AI for R Programmers!\\nAre you ready
+        to embark on an extraordinary journey into the realm of Generative AI? Look
+        no further! R Ladies without Borders proudly presents \\\"Generative AI for
+        R Programmers,\\\" an exclusive event designed to empower and inspire R enthusiasts
+        like you to unlock the full potential of this groundbreaking technology.\\nPrepare
+        to be amazed as we bring Melissa, an expert in the field of Generative AI
+        who will delve deep into its applications, techniques, and best practices.
+        Our esteemed speaker will share her knowledge, real-world experiences, and
+        cutting-edge insights, ensuring you leave with a profound understanding of
+        how Generative AI can revolutionize your R programming journey.\",\"group\":{\"id\":\"32612004\",\"name\":\"R-Ladies
+        Lagos\",\"urlname\":\"rladies-lagos\"},\"venues\":[{\"id\":\"26906060\",\"name\":\"Online
+        event\",\"address\":\"\",\"city\":\"\",\"state\":\"\",\"postalCode\":\"\",\"country\":\"\",\"lat\":-8.521147,\"lon\":179.1962,\"venueType\":\"online\"}],\"rsvps\":{\"totalCount\":11},\"featuredEventPhoto\":{\"baseUrl\":\"https://secure-content.meetupstatic.com/images/classic-events/\"},\"feeSettings\":null}},{\"cursor\":\"MzAwMDI2NTk0OjE3MTI0MTkyMDAwMDA=\",\"node\":{\"id\":\"300026594\",\"title\":\"Build
+        With AI\",\"eventUrl\":\"https://www.meetup.com/rladies-lagos/events/300026594/\",\"createdTime\":\"2024-03-26T08:37:08-04:00\",\"status\":\"PAST\",\"dateTime\":\"2024-04-06T17:00:00+01:00\",\"duration\":\"PT3H\",\"description\":\"**\U0001F680
+        Build with AI Event: Unlocking the Future, Empowering Everyone \U0001F680**\\nAre
+        you ready to embark on an incredible journey into the world of Artificial
+        Intelligence? Welcome to \\\"Build with AI,\\\" a groundbreaking two-day event
+        designed for enthusiasts, beginners, and anyone curious about the transformative
+        power of AI. The best part? No coding experience is required!\\n**\U0001F31F
+        Who Should Attend:**\\nBeginners curious about AI and its applications\\nEnthusiasts
+        interested in understanding AI's real-world impact\\nProfessionals seeking
+        to explore AI's potential in various industries\\nAnyone passionate about
+        innovation and technology\\n**\U0001F914 Why You Should Attend:**\\n\\\"Build
+        with AI\\\" is your gateway to demystifying Artificial Intelligence without
+        the need for coding expertise. Whether you're an absolute beginner or someone
+        eager to deepen your understanding, this event is tailored just for you. Here's
+        what you'll gain:\\nHands-on Experience: Engage in interactive sessions and
+        workshops to experience AI applications firsthand.\\n\\nfundamentals without
+        needing to code.\\n**\U0001F393 What You Will Learn:**\\nIntroduction to AI:
+        Understand the basics of AI, its history, and its impact on various industries.\\nAI
+        in Everyday Life: Explore how AI is integrated into everyday technologies,
+        from virtual assistants to recommendation systems.\\nPractical Applications:
+        Dive into real-world AI applications, showcasing its transformative potential
+        in business, healthcare, and more.\\nInteractive Workshops: Participate in
+        hands-on workshops led by industry experts, breaking down complex concepts
+        into digestible insights.\\n\\nCome with no knowledge of AI and go home with
+        a project you can\\n\U0001F381 Exclusive Raffles and Prizes\",\"group\":{\"id\":\"32612004\",\"name\":\"R-Ladies
+        Lagos\",\"urlname\":\"rladies-lagos\"},\"venues\":[{\"id\":\"26906060\",\"name\":\"Online
+        event\",\"address\":\"\",\"city\":\"\",\"state\":\"\",\"postalCode\":\"\",\"country\":\"\",\"lat\":-8.521147,\"lon\":179.1962,\"venueType\":\"online\"}],\"rsvps\":{\"totalCount\":8},\"featuredEventPhoto\":null,\"feeSettings\":null}},{\"cursor\":\"MzAwMzU2MDAwOjE3MTQwMzkyMDAwMDA=\",\"node\":{\"id\":\"300356000\",\"title\":\"International
+        Day of Girls in ICT\",\"eventUrl\":\"https://www.meetup.com/rladies-lagos/events/300356000/\",\"createdTime\":\"2024-04-11T15:14:08-04:00\",\"status\":\"PAST\",\"dateTime\":\"2024-04-25T11:00:00+01:00\",\"duration\":\"PT5H\",\"description\":\"**Celebrating
+        International Girls in ICT Day by connecting young girls with Global ICT leaders
+        to assure them they can aspire to be Tech leaders anywhere in the world.**\\n\\n**#ImpactTheFuture
+        by #BreakingBarriers.**\\n**Let’s find out why young girls shy away from ICT
+        subjects, classes and careers.**\\n\\n**Attendance is strictly by Invitation.**\\n**For
+        more information, call Blessing on 08063843498**\",\"group\":{\"id\":\"32612004\",\"name\":\"R-Ladies
+        Lagos\",\"urlname\":\"rladies-lagos\"},\"venues\":[{\"id\":\"27790890\",\"name\":\"American
+        Corner Ikeja\",\"address\":\"\",\"city\":\"Lagos\",\"state\":\"\",\"postalCode\":\"102214\",\"country\":\"ng\",\"lat\":6.565846,\"lon\":3.329845,\"venueType\":\"\"},{\"id\":\"26906060\",\"name\":\"Online
+        event\",\"address\":\"\",\"city\":\"\",\"state\":\"\",\"postalCode\":\"\",\"country\":\"\",\"lat\":-8.521147,\"lon\":179.1962,\"venueType\":\"online\"}],\"rsvps\":{\"totalCount\":11},\"featuredEventPhoto\":{\"baseUrl\":\"https://secure-content.meetupstatic.com/images/classic-events/\"},\"feeSettings\":null}},{\"cursor\":\"MzAwMDI3MDk0OjE3MTQyMzM2MDAwMDA=\",\"node\":{\"id\":\"300027094\",\"title\":\"International
+        Women's Day 2024\",\"eventUrl\":\"https://www.meetup.com/rladies-lagos/events/300027094/\",\"createdTime\":\"2024-03-26T09:08:58-04:00\",\"status\":\"PAST\",\"dateTime\":\"2024-04-27T17:00:00+01:00\",\"duration\":\"PT3H\",\"description\":\"About
+        this event\\n**What to expect**\\nLeadership and career development for women\\nEntrepreneurship
+        and innovation\\nHealth and wellness for women\\nDiversity, equity, and inclusion\\nWork-life
+        balance for women\\nKaraoke Night\\nRaffle draw\\n**Target Audience:**\\nWomen
+        in business and professional careers\\nEntrepreneurs\\nStudents\\nNursing
+        mums\\nStay-at-home women\\nAnyone interested in supporting women's empowerment\\nAnyone
+        interested in meeting, learning from, and sharing with a healthy community.\\nThis
+        is a safe space and we welcome you all.\\n**Benefits of Attending:**\\nLearn
+        from successful women leaders\\nGain valuable insights and strategies for
+        career advancement\\nNetwork with other like-minded women\\nBe inspired and
+        motivated to achieve your goals\\nWin fantastic prices\",\"group\":{\"id\":\"32612004\",\"name\":\"R-Ladies
+        Lagos\",\"urlname\":\"rladies-lagos\"},\"venues\":[{\"id\":\"26906060\",\"name\":\"Online
+        event\",\"address\":\"\",\"city\":\"\",\"state\":\"\",\"postalCode\":\"\",\"country\":\"\",\"lat\":-8.521147,\"lon\":179.1962,\"venueType\":\"online\"}],\"rsvps\":{\"totalCount\":31},\"featuredEventPhoto\":{\"baseUrl\":\"https://secure-content.meetupstatic.com/images/classic-events/\"},\"feeSettings\":null}}]}}}}"
+  recorded_at: 2025-09-11 12:04:04
+recorded_with: VCR-vcr/2.0.0
