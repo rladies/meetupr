@@ -5,8 +5,6 @@
 \title{Get the members from a meetup group}
 \usage{
 get_members(urlname, max_results = 200, ..., extra_graphql = NULL)
-
-get_members(urlname, max_results = 200, ..., extra_graphql = NULL)
 }
 \arguments{
 \item{urlname}{Character. The name of the group as indicated in the
@@ -19,33 +17,9 @@ get_members(urlname, max_results = 200, ..., extra_graphql = NULL)
 \item{extra_graphql}{A graphql object. Extra objects to return}
 }
 \value{
-A tibble with the following columns:
-\itemize{
-\item id
-\item name
-\item member_url
-\item photo_link
-\item status
-\item role
-\item joined
-\item most_recent_visit
-}
-
-A tibble with the following columns:
-\itemize{
-\item id
-\item name
-\item member_url
-\item photo_link
-\item status
-\item role
-\item joined
-\item most_recent_visit
-}
+A tibble with group members
 }
 \description{
-Get the members from a meetup group
-
 Get the members from a meetup group
 }
 \examples{
