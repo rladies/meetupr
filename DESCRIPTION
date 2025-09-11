@@ -43,6 +43,7 @@ Suggests:
     ggplot2,
     knitr,
     lubridate,
+    rmarkdown,
     testthat,
     tidyr,
     vcr,
