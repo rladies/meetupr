@@ -14,9 +14,9 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Thu, 11 Sep 2025 12:03:45 GMT
+      date: Thu, 11 Sep 2025 21:04:02 GMT
       content-length: '178'
     body:
       string: '{"data":{"self":{"id":"251470805","name":"R-Ladies Global","email":"meetup@rladies.org","isOrganizer":true,"isLeader":true,"isMemberPlusSubscriber":false,"isProOrganizer":true}}}'
-  recorded_at: 2025-09-11 12:03:45
+  recorded_at: 2025-09-11 21:04:02
 recorded_with: VCR-vcr/2.0.0

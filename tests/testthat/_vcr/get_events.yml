@@ -19,7 +19,7 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Thu, 11 Sep 2025 12:04:04 GMT
+      date: Thu, 11 Sep 2025 21:03:57 GMT
       content-length: '20304'
     body:
       string: "{\"data\":{\"groupByUrlname\":{\"id\":\"32612004\",\"name\":\"R-Ladies
@@ -209,5 +209,5 @@ http_interactions:
         motivated to achieve your goals\\nWin fantastic prices\",\"group\":{\"id\":\"32612004\",\"name\":\"R-Ladies
         Lagos\",\"urlname\":\"rladies-lagos\"},\"venues\":[{\"id\":\"26906060\",\"name\":\"Online
         event\",\"address\":\"\",\"city\":\"\",\"state\":\"\",\"postalCode\":\"\",\"country\":\"\",\"lat\":-8.521147,\"lon\":179.1962,\"venueType\":\"online\"}],\"rsvps\":{\"totalCount\":31},\"featuredEventPhoto\":{\"baseUrl\":\"https://secure-content.meetupstatic.com/images/classic-events/\"},\"feeSettings\":null}}]}}}}"
-  recorded_at: 2025-09-11 12:04:04
+  recorded_at: 2025-09-11 21:03:57
 recorded_with: VCR-vcr/2.0.0
