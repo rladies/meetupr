@@ -25,12 +25,12 @@
 #' \dontshow{
 #' vcr::eject_cassette()
 #' }
-#' @name meetup_pro
+#' @name get_pro
 #' @return A tibble with meetup pro information
 NULL
 
 #' @export
-#' @describeIn meetup_pro retrieve groups in a pro network
+#' @describeIn get_pro retrieve groups in a pro network
 get_pro_groups <- function(
   urlname,
   max_results = NULL,
@@ -46,7 +46,7 @@ get_pro_groups <- function(
 }
 
 #' @export
-#' @describeIn meetup_pro retrieve events from a pro network
+#' @describeIn get_pro retrieve events from a pro network
 get_pro_events <- function(
   urlname,
   status = NULL,
