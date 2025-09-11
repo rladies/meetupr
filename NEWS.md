@@ -1,23 +1,40 @@
-# meetupr development version
+# meetupr 
 
-## Breaking changes
+## meetupr 0.3.0
+
+- Updated to use new Meetup schema from February 2025
+- Switched to using the `httr2` package for making API requests instead of `httr`.
+- Uses s7 classes for internal query objects instead of lists.
+- Added functions:
+  - `meetup_query()` - Run custom queries against the Meetup API.
+  - `meetup_sitrep()` - Get information about your API connection status.
+  - `meetup_introspect()` - Get information about the Meetup API query options.
+- added deprecation warnings for `get_meetup_comments()`.
+- Added new vignettes
+- Expanded test suite
+- Uses vcr in examples and vignettes in addition to tests
+
+
+## meetupr 0.2.0
+
+### Breaking changes
 
 * All mentions of and arguments related to API keys have been removed as the Meetup API no longer supports authentication with an API key.
 
-## New features
+### New features
 
 * Added automatic rate limiting based on the response headers.
 * Added support for non-interactive use.
 * Added functions for getting pro events and groups.
 
-## Internals
+### Internals
 
 * Renamed `api_method` to `api_path` in internal function, `.fetch_results()`, as it's less confusing.
 
-# meetupr 0.1.1
+## meetupr 0.1.1
 * Added `get_event_rsvps()` function.  Contribution by Michael Beigelmacher: https://github.com/rladies/meetupr/pull/19
 
-# meetupr 0.1.0
+## meetupr 0.1.0
 
 * Added `NEWS.md` file.
 * **BREAKING CHANGE**: Updated `get_events()`, `get_boards()`, and `get_members()` to output a tibble with summarised information. The raw content previously output by these functions can be found in the `resource` column of each output tibble.  
@@ -36,6 +53,6 @@
 * Added a References section in the R docs for each function which includes a link to the official Meetup API documentation for each endpoint.
 
 
-# meetupr 0.0.1
+## meetupr 0.0.1
 
 * Initial release.
