@@ -1,53 +1,55 @@
 Type: Package
 Package: meetupr
 Title: Meetup R API
-Version: 0.2.99.9002
-Authors@R:
-    c(
-      person("Athanasia Mo", "Mowinckel", email = "a.m.mowinckel@psykologi.uio.no", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-5756-0223")),
-      person("Erin", "LeDell", role = c("aut"), email = "oss@ledell.org"),
-      person("Olga", "Mierzwa-Sulima", role = "aut", email = "olga@rladies.org"),
-      person("Lucy", "D'Agostino McGowan", role = "aut", email = "lucy@rladies.org"),
-      person("Claudia", "Vitolo", role = "aut"),
-      person("Gabriela", "De Queiroz", role = "ctb", email = "gabriela@rladies.org"),
-      person("Michael", "Beigelmacher", role = "ctb"),
-      person("Augustina", "Ragwitz", role = "ctb", email = "augustina.ragwitz@ibm.com"),
-      person("Greg", "Sutcliffe", role = "ctb", email = "github@emeraldverie.org"),
-      person("Rick", "Pack", role = "ctb", email = "rickeyhp@gmail.com"),
-      person("Ben", "Ubah", role = "ctb", email = "ubah.ben22@gmail.com"),
-      person("Maëlle", "Salmon", role = "ctb", email = "maelle.salmon@yahoo.se", comment = c(ORCID = "0000-0002-2815-0399")),
-      person("Barret", "Schloerke", role = "ctb", email = "barret@rstudio.com", comment = c(ORCID = "0000-0001-9986-114X"))
-    )
+Version: 0.3.0
+Authors@R: c(
+    person("Athanasia Mo", "Mowinckel", , "a.m.mowinckel@psykologi.uio.no", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-5756-0223")),
+    person("Erin", "LeDell", , "oss@ledell.org", role = "aut"),
+    person("Olga", "Mierzwa-Sulima", , "olga@rladies.org", role = "aut"),
+    person("Lucy", "D'Agostino McGowan", , "lucy@rladies.org", role = "aut"),
+    person("Claudia", "Vitolo", role = "aut"),
+    person("Gabriela", "De Queiroz", , "gabriela@rladies.org", role = "ctb"),
+    person("Michael", "Beigelmacher", role = "ctb"),
+    person("Augustina", "Ragwitz", , "augustina.ragwitz@ibm.com", role = "ctb"),
+    person("Greg", "Sutcliffe", , "github@emeraldverie.org", role = "ctb"),
+    person("Rick", "Pack", , "rickeyhp@gmail.com", role = "ctb"),
+    person("Ben", "Ubah", , "ubah.ben22@gmail.com", role = "ctb"),
+    person("Maëlle", "Salmon", , "maelle.salmon@yahoo.se", role = "ctb",
+           comment = c(ORCID = "0000-0002-2815-0399")),
+    person("Barret", "Schloerke", , "barret@rstudio.com", role = "ctb",
+           comment = c(ORCID = "0000-0001-9986-114X"))
+  )
 Description: Provides access to data from <https:www.meetup.com> (see
     <https:www.meetup.com/meetup_api/> for more information).
 License: MIT + file LICENSE
 Depends:
-    R (>= 3.5)
+    R (>= 4.1)
 Imports:
-    ratelimitr,
-    httr,
-    purrr,
-    gh,
-    progress,
-    rlang,
-    rappdirs,
-    glue,
-    dplyr,
-    rlist,
     anytime,
+    countrycode,
+    cli,
+    dplyr,
     ellipsis,
-    countrycode
+    glue,
+    httr2,
+    jsonlite,
+    purrr,
+    rlang,
+    S7,
+    tools
 Suggests:
-    sodium,
-    cyphr,
+    covr,
+    ggplot2,
     knitr,
-    rmarkdown,
+    lubridate,
     testthat,
+    tidyr,
     vcr,
-    covr
+    withr
 VignetteBuilder:
     knitr
+Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.0
-Config/testthat/edition: 3
+RoxygenNote: 7.3.2

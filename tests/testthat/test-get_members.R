@@ -1,14 +1,11 @@
-expected_names <- c("id", "name", "member_url", "photo_link", "status",
-                    "role", "created", "most_recent_visit")
-
 test_that("get_members() works with one status", {
+  mock_if_no_auth()
   vcr::use_cassette("get_members", {
-    members <-  get_members("rladies-lagos")
+    members <- get_members("rladies-lagos")
   })
   expect_s3_class(members, "data.frame")
+})
 
-  expect_true(
-    all(
-      names(members) == expected_names
-    ))
+test_that("get_members validates ellipsis", {
+  expect_error(get_members("valid_url", extra_parameter = "unexpected"))
 })

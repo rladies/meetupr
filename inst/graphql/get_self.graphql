@@ -1,0 +1,25 @@
+query GetSelf($extended: Boolean = true) {
+  self {
+    id
+    name
+    email
+    isOrganizer
+    isLeader
+    isMemberPlusSubscriber  
+    isProOrganizer
+    adminProNetworks @include(if: $extended) {
+      id
+      name
+    }
+    bio @include(if: $extended)
+    city @include(if: $extended)
+    country @include(if: $extended)
+    state @include(if: $extended)
+    lat @include(if: $extended)
+    lon @include(if: $extended)
+    startDate @include(if: $extended)
+    preferredLocale @include(if: $extended)
+    memberUrl @include(if: $extended)
+    << extra_graphql >>
+  }
+}

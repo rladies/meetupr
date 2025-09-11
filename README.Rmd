@@ -8,76 +8,99 @@ output: github_document
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "README-"
+  fig.path = "README-",
+  eval = meetupr::has_jwt_credentials() || meetupr::has_oauth_credentials()
 )
 
-# If emo is not installed, install it.
-# devtools::install_github("hadley/emo")
 ```
 
-# meetupr <img src="man/figures/logo.png" align="right" alt="Zane Dax @StarTrek_Lt" width="138.5" />  
+# meetupr <img src="man/figures/logo.png" align="right" alt="Zane Dax @StarTrek_Lt" width="138.5" />
 
 <small>Logo by Zane Dax [@StarTrek_Lt](https://mobile.twitter.com/startrek_lt)</small>
-
-## ⚠️ ALERT TO USERS:
-
-Meetup has deprecated the REST API that's used in this package.  We are working to [add support](https://github.com/rladies/meetupr/issues/118) for their new API but unfortnately that means that the package is not currently functional.  If you'd like to help with this transition in any way (we could use help with testing and documentation in particular), please comment on the this [issue](https://github.com/rladies/meetupr/issues/118).
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/rladies/meetupr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rladies/meetupr/actions)
 [![Codecov test coverage](https://codecov.io/gh/rladies/meetupr/branch/master/graph/badge.svg)](https://codecov.io/gh/rladies/meetupr?branch=master)
 <!-- badges: end -->
 
-R interface to the [Meetup API](https://www.meetup.com/meetup_api/) (v3)
+R interface to the Meetup GraphQL API
 
 ## Installation
 
 To install the development version from GitHub:
 
-```{r gh-installation, eval = FALSE}
+```r
 # install.packages("remotes")
 remotes::install_github("rladies/meetupr")
 ```
-A released version will be on CRAN [soon](https://github.com/rladies/meetupr/issues/24).
+
+## Authentication
+
+meetupr uses OAuth 2.0 for authentication with the Meetup API. 
+The first time you run a meetupr function, you'll be prompted to authorize the application in your browser. 
+Your token will be cached for future sessions.
 
 ## Usage
 
-### Authentication
-
-#### API key? No
-
-```{r child='man/rmd-fragments/api-key.Rmd'}
-```
-
-#### OAuth? Yes
-
-```{r child='man/rmd-fragments/oauth.Rmd'}
-```
-
-### Functions
-
-See the [pkgdown reference](https://rladies.github.io/meetupr/reference/index.html).
-
-For example, the following code will get all upcoming events for the [R-Ladies San Francisco](https://meetup.com/rladies-san-francisco) meetup.
+### Get group events
 
 ```{r}
+#| label: events
+
 library(meetupr)
 
-urlname <- "rladies-san-francisco"
-events <- get_events(urlname)
-dplyr::arrange(events, desc(time))
+events <- get_events("rladies-san-francisco", "past")
 ```
 
-We can also search for groups with free text.
+### Get group members
 
 ```{r}
-groups <- find_groups("R-Ladies")
-dplyr::arrange(groups, desc(created))
+#| label: members
+
+members <- get_members("rladies-san-francisco")
+head(members)
 ```
 
+### Search for groups
 
-## How can you contribute?
+```{r}
+#| label: groups
 
-We are looking for new people to join the list of contributors!  Please take a look at the open [issues](https://github.com/rladies/meetupr/issues), file a new issue, contribute tests, or improve the documentation.  We are also looking to expand the set of functions to include more endpoints from the [Meetup API](https://www.meetup.com/meetup_api/).  Lastly, we'd also love to [hear about](https://github.com/rladies/meetupr/issues/74) any applications of the **meetupr** package, so we can compile a list of demos!
+groups <- find_groups("R-Ladies")
+dplyr::arrange(groups, desc(founded_date))
+```
 
-Please note that the this project is released with a [Contributor Code of Conduct](https://github.com/rladies/.github/blob/master/CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
+### Pro network access
+
+For Meetup Pro networks:
+
+```{r}
+#| label: pro
+
+# Get all groups in a pro network
+pro_groups <- get_pro_groups("rladies")
+
+# Get events from a pro network
+pro_events <- get_pro_events("rladies", status = "upcoming")
+```
+
+## Available Functions
+
+- `get_events()` - Get events for a group
+- `get_members()` - Get members of a group  
+- `get_event_attendees()` - Get attendees for an event
+- `get_event_rsvps()` - Get RSVPs for an event
+- `find_groups()` - Search for groups by text
+- `get_pro_groups()` - Get groups in a Pro network
+- `get_pro_events()` - Get events from a Pro network
+- `get_self()` - Get information about the authenticated user
+
+## Contributing
+
+We welcome contributions! 
+Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+## Code of Conduct
+
+Please note that this project is released with a [Contributor Code of Conduct](https://github.com/rladies/.github/blob/master/CODE_OF_CONDUCT.md).
+By contributing to this project, you agree to abide by its terms.
