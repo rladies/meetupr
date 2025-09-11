@@ -23,7 +23,7 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Thu, 11 Sep 2025 12:04:11 GMT
+      date: Thu, 11 Sep 2025 21:04:04 GMT
       content-length: '286304'
     body:
       string: '{"data":{"__schema":{"queryType":{"name":"Query"},"mutationType":{"name":"Mutation"},"subscriptionType":null,"types":[{"kind":"INPUT_OBJECT","name":"AddGroupToNetworkInput","description":null,"fields":null,"inputFields":[{"name":"groupId","description":null,"type":{"kind":"NON_NULL","name":null,"ofType":{"kind":"SCALAR","name":"ID","ofType":null}},"defaultValue":null},{"name":"networkId","description":null,"type":{"kind":"NON_NULL","name":null,"ofType":{"kind":"SCALAR","name":"ID","ofType":null}},"defaultValue":null}],"interfaces":null,"enumValues":null,"possibleTypes":null},{"kind":"OBJECT","name":"AddGroupToNetworkPayload","description":null,"fields":[{"name":"errors","description":null,"args":[],"type":{"kind":"LIST","name":null,"ofType":{"kind":"NON_NULL","name":null,"ofType":{"kind":"OBJECT","name":"PayloadError","ofType":null}}},"isDeprecated":false,"deprecationReason":null},{"name":"group","description":null,"args":[],"type":{"kind":"OBJECT","name":"Group","ofType":null},"isDeprecated":false,"deprecationReason":null},{"name":"network","description":null,"args":[],"type":{"kind":"OBJECT","name":"ProNetwork","ofType":null},"isDeprecated":false,"deprecationReason":null}],"inputFields":null,"interfaces":[],"enumValues":null,"possibleTypes":null},{"kind":"INPUT_OBJECT","name":"AnnounceEventInput","description":null,"fields":null,"inputFields":[{"name":"eventId","description":null,"type":{"kind":"NON_NULL","name":null,"ofType":{"kind":"SCALAR","name":"ID","ofType":null}},"defaultValue":null}],"interfaces":null,"enumValues":null,"possibleTypes":null},{"kind":"OBJECT","name":"AnnounceEventPayload","description":null,"fields":[{"name":"errors","description":"Null
@@ -967,5 +967,5 @@ http_interactions:
         this type is an input object. `inputFields` is a valid field.","isDeprecated":false,"deprecationReason":null},{"name":"LIST","description":"Indicates
         this type is a list. `ofType` is a valid field.","isDeprecated":false,"deprecationReason":null},{"name":"NON_NULL","description":"Indicates
         this type is a non-null. `ofType` is a valid field.","isDeprecated":false,"deprecationReason":null}],"possibleTypes":null}]}}}'
-  recorded_at: 2025-09-11 12:04:11
+  recorded_at: 2025-09-11 21:04:04
 recorded_with: VCR-vcr/2.0.0

@@ -14,9 +14,9 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Thu, 11 Sep 2025 11:44:15 GMT
+      date: Thu, 11 Sep 2025 21:04:02 GMT
       content-length: '118'
     body:
       string: '{"data":{"proNetwork":{"eventsSearch":{"totalCount":0,"pageInfo":{"hasNextPage":false,"endCursor":null},"edges":[]}}}}'
-  recorded_at: 2025-09-11 11:44:15
+  recorded_at: 2025-09-11 21:04:02
 recorded_with: VCR-vcr/2.0.0
