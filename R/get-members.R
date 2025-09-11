@@ -4,34 +4,6 @@
 #' @param max_results Maximum number of results to return. Default: 200
 #' @param ... Should be empty. Used for parameter expansion
 #' @template extra_graphql
-#' @return A tibble with the following columns:
-#'    * id
-#'    * name
-#'    * member_url
-#'    * photo_link
-#'    * status
-#'    * role
-#'    * joined
-#'    * most_recent_visit
-#' @export
-get_members <- function(urlname, max_results = 200, ..., extra_graphql = NULL) {
-  ellipsis::check_dots_empty()
-
-  query_obj <- members_query(max_results)
-  execute(
-    query_obj,
-    urlname = urlname,
-    first = min(max_results, 200),
-    .extra_graphql = extra_graphql
-  )
-}
-
-#' Get the members from a meetup group
-#'
-#' @template urlname
-#' @param max_results Maximum number of results to return. Default: 200
-#' @param ... Should be empty. Used for parameter expansion
-#' @template extra_graphql
 #' @return A tibble with group members
 #' @export
 #' @examples
