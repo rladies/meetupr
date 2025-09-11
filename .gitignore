@@ -11,3 +11,4 @@ docs
 tests/testthat/.meetup_token.rds
 ~/.local/share/meetupr/meetupr-token.rds
 ~/Library/Application Support/meetupr/meetupr-token.rds
+pkgdown/
