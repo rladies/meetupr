@@ -1,14 +1,20 @@
 #' Show meetupr authentication status
 #'
-#' This function checks the authentication status for the Meetup API by attempting
-#' to create an OAuth client using the `meetupr` package. It provides feedback on whether
+#' This function checks the authentication status for
+#' the Meetup API by attempting
+#' to create an OAuth client using the `meetupr` package.
+#' It provides feedback on whether
 #' the credentials are configured correctly or if there are any issues.
-#' If there are issues with the credentials, it provides setup instructions to help
+#' If there are issues with the credentials, it provides
+#' setup instructions to help
 #' the user configure their environment correctly.
 #'
-#' It also informs the user that authentication is handled automatically when making requests
-#' and checks if debug mode is enabled via the `MEETUPR_DEBUG` environment variable.
-#' @return Invisibly returns `NULL`. The primary purpose of this function is to display
+#' It also informs the user that authentication is handled
+#' automatically when making requests
+#' and checks if debug mode is enabled via the
+#' `MEETUPR_DEBUG` environment variable.
+#' @return Invisibly returns `NULL`. The primary purpose of
+#' this function is to display
 #' @examples
 #' meetup_sitrep()
 #'
@@ -88,7 +94,7 @@ validate_rsa_key <- function(key_content) {
   has_end <- grepl("-----END", key_content)
   has_rsa_markers <- grepl("(PRIVATE KEY|RSA PRIVATE KEY)", key_content)
 
-  return(has_begin && has_end && has_rsa_markers)
+  has_begin && has_end && has_rsa_markers
 }
 
 get_rsa_key_status <- function(rsa_path, rsa_key) {
@@ -102,32 +108,35 @@ get_rsa_key_status <- function(rsa_path, rsa_key) {
         key_content <- paste(readLines(rsa_path, warn = FALSE), collapse = "\n")
         if (validate_rsa_key(key_content)) {
           return(list(valid = TRUE, message = "Valid RSA key file"))
-        } else {
-          return(list(
-            valid = FALSE,
-            message = "File exists but doesn't contain valid RSA key"
-          ))
         }
+        list(
+          valid = FALSE,
+          message = "File exists but doesn't contain valid RSA key"
+        )
       },
       error = function(e) {
-        return(list(
+        list(
           valid = FALSE,
           message = paste("Cannot read file:", e$message)
-        ))
+        )
       }
     )
   } else if (nzchar(rsa_key)) {
     if (validate_rsa_key(rsa_key)) {
-      return(list(valid = TRUE, message = "Valid RSA key in environment"))
-    } else {
       return(list(
-        valid = FALSE,
-        message = "Environment variable set but doesn't contain valid RSA key"
+        valid = TRUE,
+        message = "Valid RSA key in environment"
       ))
     }
-  } else {
-    return(list(valid = FALSE, message = "Not set"))
+    return(list(
+      valid = FALSE,
+      message = "Environment variable set but doesn't contain valid RSA key"
+    ))
   }
+  list(
+    valid = FALSE,
+    message = "Not set"
+  )
 }
 
 validate_rsa_key <- function(key_content) {
@@ -140,7 +149,7 @@ validate_rsa_key <- function(key_content) {
   has_end <- grepl("-----END", key_content)
   has_rsa_markers <- grepl("(PRIVATE KEY|RSA PRIVATE KEY)", key_content)
 
-  return(has_begin && has_end && has_rsa_markers)
+  has_begin && has_end && has_rsa_markers
 }
 
 get_rsa_key_status <- function(rsa_path, rsa_key) {
@@ -154,32 +163,32 @@ get_rsa_key_status <- function(rsa_path, rsa_key) {
         key_content <- paste(readLines(rsa_path, warn = FALSE), collapse = "\n")
         if (validate_rsa_key(key_content)) {
           return(list(valid = TRUE, message = "Valid RSA key file"))
-        } else {
-          return(list(
-            valid = FALSE,
-            message = "File exists but doesn't contain valid RSA key"
-          ))
         }
+        list(
+          valid = FALSE,
+          message = "File exists but doesn't contain valid RSA key"
+        )
       },
       error = function(e) {
-        return(list(
+        list(
           valid = FALSE,
           message = paste("Cannot read file:", e$message)
-        ))
+        )
       }
     )
   } else if (nzchar(rsa_key)) {
     if (validate_rsa_key(rsa_key)) {
       return(list(valid = TRUE, message = "Valid RSA key in environment"))
-    } else {
-      return(list(
-        valid = FALSE,
-        message = "Environment variable set but doesn't contain valid RSA key"
-      ))
     }
-  } else {
-    return(list(valid = FALSE, message = "Not set"))
+    return(list(
+      valid = FALSE,
+      message = "Environment variable set but doesn't contain valid RSA key"
+    ))
   }
+  list(
+    valid = FALSE,
+    message = "Not set"
+  )
 }
 
 show_rsa_status <- function(rsa_path, rsa_key) {
@@ -337,7 +346,8 @@ display_auth_status <- function(auth_status) {
   cli_status(
     auth_status$debug$enabled,
     "Debug Mode: {cli::col_yellow('Enabled')}",
-    "Debug Mode: {cli::col_red('Disabled')} - Set {.envvar MEETUPR_DEBUG=1} to enable verbose logging",
+    "Debug Mode: {cli::col_red('Disabled')} - 
+      Set {.envvar MEETUPR_DEBUG=1} to enable verbose logging",
     "success",
     "info"
   )
@@ -358,17 +368,24 @@ test_api_connectivity <- function(auth_status) {
 
     cli::cli_h3("For automated workflows (recommended):")
     cli::cli_ol(c(
-      "See vignette: {.code vignette('jwt-authentication', package = 'meetupr')}",
-      "Create OAuth client at {.url https://secure.meetup.com/meetup_api/oauth_consumers/}",
+      "See vignette: 
+        {.code vignette('jwt-authentication', package = 'meetupr')}",
+      "Create OAuth client at 
+      {.url https://secure.meetup.com/meetup_api/oauth_consumers/}",
       "Generate RSA signing keys in your OAuth client settings",
-      "Set environment variables: {.envvar MEETUP_CLIENT_ID}, {.envvar MEETUP_MEMBER_ID}, {.envvar MEETUP_RSA_PATH}"
+      "Set environment variables: {.envvar MEETUP_CLIENT_ID},
+       {.envvar MEETUP_MEMBER_ID}, {.envvar MEETUP_RSA_PATH}"
     ))
 
     cli::cli_h3("For interactive development:")
     cli::cli_ol(c(
-      "Create OAuth client at {.url https://secure.meetup.com/meetup_api/oauth_consumers/}",
-      "Set redirect URI to: {.strong http://localhost:1410}",
-      "Set environment variables: {.envvar MEETUP_CLIENT_ID}, {.envvar MEETUP_CLIENT_SECRET}"
+      "Create OAuth client at 
+      {.url https://secure.meetup.com/meetup_api/oauth_consumers/}",
+      "Set redirect URI to: 
+        {.strong http://localhost:1410}",
+      "Set environment variables: 
+        {.envvar MEETUP_CLIENT_ID}",
+      " {.envvar MEETUP_CLIENT_SECRET}"
     ))
 
     return(invisible(NULL))

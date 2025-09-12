@@ -5,9 +5,7 @@
       "Use GraphQL functions instead."
     )
   )
-  cli::cli_abort(
-    "REST API functions are no longer supported. Please use GraphQL equivalents."
-  )
+  abort_dep()
 }
 
 meetup_call <- function(...) {
@@ -17,9 +15,7 @@ meetup_call <- function(...) {
       "Use GraphQL functions instead."
     )
   )
-  cli::cli_abort(
-    "REST API functions are no longer supported. Please use GraphQL equivalents."
-  )
+  abort_dep()
 }
 
 .quick_fetch <- function(...) {
@@ -29,12 +25,20 @@ meetup_call <- function(...) {
       "Use GraphQL functions instead."
     )
   )
-  cli::cli_abort(
-    "REST API functions are no longer supported. Please use GraphQL equivalents."
-  )
+  abort_dep()
 }
 
 get_meetup_comments <- function(...) {
   .Deprecated("get_event_comments")
   get_event_comments(...)
+}
+
+abort_dep <- function(.envir = parent.frame()) {
+  cli::cli_abort(
+    c(
+      "REST API functions are no longer supported.",
+      "Please use GraphQL equivalents."
+    ),
+    .envir = .envir
+  )
 }

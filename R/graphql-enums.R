@@ -28,9 +28,10 @@ validate_event_status <- function(status = NULL) {
   invalid_status <- event_status[!event_status %in% valid_event_status]
   if (length(invalid_status) > 0) {
     cli::cli_abort(c(
-      "Invalid event status: '{.val {tolower(invalid_status)}}'. Valid values are: ",
+      "Invalid event status: '{.val {tolower(invalid_status)}}'.",
+      "Valid values are: ",
       paste(tolower(valid_event_status), collapse = ", ")
     ))
   }
-  valid_event_status[valid_event_status %in% event_status]
+  chosen_status
 }

@@ -16,7 +16,7 @@
 #' }
 #' @export
 meetup_introspect <- function(asis = FALSE) {
-  introspection_query <- '
+  introspection_query <- "
     query IntrospectionQuery {
       __schema {
         queryType { name }
@@ -99,7 +99,7 @@ meetup_introspect <- function(asis = FALSE) {
           }
         }
       }
-    }'
+    }"
 
   result <- meetup_query(introspection_query)
   result <- result$data$`__schema`

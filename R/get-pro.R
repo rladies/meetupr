@@ -1,7 +1,10 @@
-#' Retrieve information about Meetup Pro networks, including groups and events.
+#' Retrieve information about Meetup Pro networks,
+#' including groups and events.
 #'
-#' Meetup Pro is a premium service for organizations managing multiple Meetup groups.
-#' This functionality allows you to access details about the groups within a Pro network
+#' Meetup Pro is a premium service for organizations
+#' managing multiple Meetup groups.
+#' This functionality allows you to access details about
+#' the groups within a Pro network
 #' and the events they host.
 #'
 #' @template urlname

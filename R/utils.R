@@ -22,9 +22,11 @@ validate_graphql_variables <- function(variables) {
 #' Paste a String Before the File Extension
 #' This function takes a file name and a string (or vector of strings)
 #' and inserts the string(s) before the file extension.
-#' If the file has no extension, the string is appended to the end of the file name.
+#' If the file has no extension, the string is appended
+#' to the end of the file name.
 #' @param x A character string representing the file name.
-#' @param p A character string or vector of strings to insert before the file extension.
+#' @param p A character string or vector of strings to insert
+#' before the file extension.
 #' @noRd
 #' @keywords internal
 paste_before_ext <- function(x, p) {
@@ -39,7 +41,8 @@ paste_before_ext <- function(x, p) {
 
 #' Generate a Unique Filename
 #' This function checks if a file with the given name already exists.
-#' If it does, it appends a numeric suffix before the file extension to create a unique filename.
+#' If it does, it appends a numeric suffix before the
+#' file extension to create a unique filename.
 #' @param file_name A character string representing the desired file name.
 #' @noRd
 #' @keywords internal
@@ -55,12 +58,18 @@ uq_filename <- function(file_name) {
 
 #' Add Country Names to Items Based on Country Codes
 #'
-#' This function takes a list of items and a function to extract country codes from each item.
-#' It adds a new element `country_name` to each item, which contains the full country name
-#' corresponding to the 2-letter country code. If the country code is missing or unrecognized,
+#' This function takes a list of items and a function to extract country
+#' codes from each item.
+#' It adds a new element `country_name` to each item, which
+#' contains the full country
+#' name
+#' corresponding to the 2-letter country
+#' code. If the country code is missing or unrecognized,
 #' `country_name` will be set to `NA`.
-#' @param items A list of items (e.g., groups, events) where each item is a list or named list.
-#' @param get_country A function that takes an item and returns its 2-letter country code.
+#' @param items A list of items (e.g., groups, events) where each item
+#' is a list or named list.
+#' @param get_country A function that takes an item and returns
+#' its 2-letter country code.
 #' @noRd
 #' @keywords internal
 add_country_name <- function(items, get_country) {

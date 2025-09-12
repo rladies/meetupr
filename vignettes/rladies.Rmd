@@ -76,12 +76,12 @@ Let us now visualize the growth of R-Ladies chapters over time.
 
 ```{r growth}
 df <- rladies_pro |>
-  count(Date = as.Date(founded_date)) |>
+  count(date = as.Date(founded_date)) |>
   complete(
-    Date = seq.Date(min(Date), max(Date), by = "day"),
+    date = seq.Date(min(date), max(date), by = "day"),
     fill = list(n = 0)
   ) |>
-  mutate(dategroup = format(Date, "%Y-%m")) |>
+  mutate(dategroup = format(date, "%Y-%m")) |>
   group_by(dategroup) |>
   summarise(count_ymonth = sum(n), cum_sum = cumsum(count_ymonth))
 
@@ -111,12 +111,12 @@ event_summary <- rladies_events |>
     n_past = ifelse("PAST" %in% status, length(status), 0),
     last_event = ifelse(
       "PAST" %in% status,
-      format(max(date_time[status == "PAST"]), '%Y-%m-%d'),
+      format(max(date_time[status == "PAST"]), "%Y-%m-%d"),
       NA
     ),
     next_event = ifelse(
       "ACTIVE" %in% status,
-      format(min(date_time[status == "ACTIVE"]), '%Y-%m-%d'),
+      format(min(date_time[status == "ACTIVE"]), "%Y-%m-%d"),
       NA
     )
   )
@@ -143,8 +143,13 @@ rladies |>
 
 *Which chapters had no events in the past 6 months and have not even planned one?*
 
-```{r no_recent_events}
+```{r}
+#| label: no_recent_events
+
 rladies |>
-  filter(last_event < as.POSIXct("2019-03-29"), is.na(next_event)) |>
+  filter(
+    last_event < as.POSIXct("2019-03-29"),
+    is.na(next_event)
+  ) |>
   arrange(last_event)
 ```

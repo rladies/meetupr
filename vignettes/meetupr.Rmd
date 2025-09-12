@@ -1,8 +1,8 @@
 ---
-title: "Getting Started with meetupr"
+title: "Setting up and Getting Started with meetupr"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Getting Started with meetupr}
+  %\VignetteIndexEntry{Setting up and Getting Started with meetupr}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
