@@ -18,7 +18,8 @@ A list containing user information
 }
 \description{
 Retrieves detailed information about the currently authenticated Meetup user,
-including basic profile data, account type, subscription status, and API access permissions.
+including basic profile data, account type,
+subscription status, and API access permissions.
 }
 \examples{
 \dontrun{

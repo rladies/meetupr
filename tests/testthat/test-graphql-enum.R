@@ -1,4 +1,4 @@
-test_that("validate_event_status returns all valid statuses when input is NULL", {
+test_that("validate_event_status when input is NULL", {
   expect_equal(validate_event_status(), valid_event_status)
 })
 

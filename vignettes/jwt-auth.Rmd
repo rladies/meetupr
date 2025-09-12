@@ -1,8 +1,8 @@
 ---
-title: "Setting up JWT Authentication for M2M Workflows"
+title: "Setting up JWT Authentication for Non-Interactive Use"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{JWT Authentication Setup}
+  %\VignetteIndexEntry{Setting up JWT Authentication for Non-Interactive Use}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

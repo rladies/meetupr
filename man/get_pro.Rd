@@ -4,7 +4,8 @@
 \alias{get_pro}
 \alias{get_pro_groups}
 \alias{get_pro_events}
-\title{Retrieve information about Meetup Pro networks, including groups and events.}
+\title{Retrieve information about Meetup Pro networks,
+including groups and events.}
 \usage{
 get_pro_groups(urlname, max_results = NULL, ..., extra_graphql = NULL)
 
@@ -32,8 +33,10 @@ get_pro_events(
 A tibble with meetup pro information
 }
 \description{
-Meetup Pro is a premium service for organizations managing multiple Meetup groups.
-This functionality allows you to access details about the groups within a Pro network
+Meetup Pro is a premium service for organizations
+managing multiple Meetup groups.
+This functionality allows you to access details about
+the groups within a Pro network
 and the events they host.
 }
 \section{Functions}{

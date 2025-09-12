@@ -1,7 +1,8 @@
 #' Get information about the authenticated user
 #'
 #' Retrieves detailed information about the currently authenticated Meetup user,
-#' including basic profile data, account type, subscription status, and API access permissions.
+#' including basic profile data, account type,
+#' subscription status, and API access permissions.
 #'
 #' @param extended Logical. Whether to include extended profile fields like bio,
 #'   location, and subscription info. Defaults to TRUE.

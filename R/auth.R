@@ -45,7 +45,8 @@ meetup_client <- function(
   if (!nzchar(client_id) || !nzchar(client_secret)) {
     cli::cli_abort(c(
       "Meetup client ID and secret are required.",
-      "i" = "Set {.envvar MEETUP_CLIENT_ID} and {.envvar MEETUP_CLIENT_SECRET} environment variables."
+      "i" = "Set {.envvar MEETUP_CLIENT_ID} and 
+      {.envvar MEETUP_CLIENT_SECRET} environment variables."
     ))
   }
 
@@ -85,14 +86,14 @@ meetup_client <- function(
 #' has_jwt_credentials() # Should return FALSE
 #' @export
 has_jwt_credentials <- function() {
-  RSA <- nzchar(Sys.getenv("MEETUP_RSA_KEY")) ||
+  rsa <- nzchar(Sys.getenv("MEETUP_RSA_KEY")) ||
     nzchar(Sys.getenv("MEETUP_RSA_PATH"))
   all(
     nzchar(c(
       Sys.getenv("MEETUP_CLIENT_ID"),
       Sys.getenv("MEETUP_MEMBER_ID")
     )),
-    RSA
+    rsa
   )
 }
 
@@ -145,7 +146,8 @@ get_rsa_key <- function(rsa_path = Sys.getenv("MEETUP_RSA_PATH")) {
   if (nzchar(rsa_key)) {
     return(rsa_key)
   }
-  cli::cli_abort(
-    "RSA private key not found. Set {.envvar MEETUP_RSA} or {.envvar MEETUP_RSA_PATH}"
-  )
+  cli::cli_abort(c(
+    "RSA private key not found.",
+    "Set {.envvar MEETUP_RSA} or {.envvar MEETUP_RSA_PATH}"
+  ))
 }

@@ -3,7 +3,7 @@ test_that("create_meetup_query builds valid MeetupQuery object", {
 
   query <- create_meetup_query(
     template = "test_template",
-    pageinfo_path = "data.test.pageInfo",
+    page_info_path = "data.test.pageInfo",
     edges_path = "data.test.edges",
     total_path = "data.test.totalCount",
     data_processor_fn = mock_processor
@@ -83,7 +83,10 @@ test_that("create_members_query handles special cursor format", {
     data = list(
       groupByUrlname = list(
         memberships = list(
-          pageInfo = list(hasNextPage = TRUE, endCursor = "test_cursor"),
+          pageInfo = list(
+            hasNextPage = TRUE,
+            endCursor = "test_cursor"
+          ),
           edges = list(list(node = list()))
         )
       )

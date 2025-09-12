@@ -93,8 +93,12 @@ meetup_req <- function(cache = TRUE, ...) {
   }
   cli::cli_abort(c(
     "x" = "Authentication required. Set either:",
-    "i" = "JWT: {.val MEETUP_CLIENT_ID}, {.val MEETUP_MEMBER_ID}, {.val MEETUP_RSA_PATH}",
-    "i" = "OAuth: {.val MEETUP_CLIENT_ID}, {.val MEETUP_CLIENT_SECRET}",
-    "i" = "Control method with {.envvar MEETUP_AUTH_METHOD=jwt} or {.envvar MEETUP_AUTH_METHOD=oauth}"
+    "i" = "JWT: {.val MEETUP_CLIENT_ID}, 
+    {.val MEETUP_MEMBER_ID}, {.val MEETUP_RSA_PATH}",
+    "i" = "OAuth: {.val MEETUP_CLIENT_ID}, 
+    {.val MEETUP_CLIENT_SECRET}",
+    "i" = "Control method with 
+    {.envvar MEETUP_AUTH_METHOD=jwt} or 
+    {.envvar MEETUP_AUTH_METHOD=oauth}"
   ))
 }

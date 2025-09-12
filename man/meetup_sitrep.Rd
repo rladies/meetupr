@@ -7,18 +7,24 @@
 meetup_sitrep()
 }
 \value{
-Invisibly returns \code{NULL}. The primary purpose of this function is to display
+Invisibly returns \code{NULL}. The primary purpose of
+this function is to display
 }
 \description{
-This function checks the authentication status for the Meetup API by attempting
-to create an OAuth client using the \code{meetupr} package. It provides feedback on whether
+This function checks the authentication status for
+the Meetup API by attempting
+to create an OAuth client using the \code{meetupr} package.
+It provides feedback on whether
 the credentials are configured correctly or if there are any issues.
-If there are issues with the credentials, it provides setup instructions to help
+If there are issues with the credentials, it provides
+setup instructions to help
 the user configure their environment correctly.
 }
 \details{
-It also informs the user that authentication is handled automatically when making requests
-and checks if debug mode is enabled via the \code{MEETUPR_DEBUG} environment variable.
+It also informs the user that authentication is handled
+automatically when making requests
+and checks if debug mode is enabled via the
+\code{MEETUPR_DEBUG} environment variable.
 }
 \examples{
 meetup_sitrep()

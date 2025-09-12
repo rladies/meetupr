@@ -21,10 +21,6 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/rladies/meetupr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rladies/meetupr/actions)
 [![Codecov test coverage](https://codecov.io/gh/rladies/meetupr/branch/master/graph/badge.svg)](https://codecov.io/gh/rladies/meetupr?branch=master)
-[![R-CMD-check](https://github.com/drmowinckels/meetupr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/drmowinckels/meetupr/actions/workflows/R-CMD-check.yaml)
-[![R-CMD-check](https://github.com/rladies/meetupr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rladies/meetupr/actions/workflows/R-CMD-check.yaml)
-[![Codecov test coverage](https://codecov.io/gh/drmowinckels/meetupr/graph/badge.svg)](https://app.codecov.io/gh/drmowinckels/meetupr)
-[![Codecov test coverage](https://codecov.io/gh/rladies/meetupr/graph/badge.svg)](https://app.codecov.io/gh/rladies/meetupr)
 <!-- badges: end -->
 
 R interface to the Meetup GraphQL API

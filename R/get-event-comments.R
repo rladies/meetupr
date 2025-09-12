@@ -27,10 +27,14 @@ get_event_comments <- function(
   ellipsis::check_dots_empty()
 
   cli::cli_warn(c(
-    "!" = "Event comments functionality has been removed from the current Meetup GraphQL API.",
-    "i" = "The 'comments' field is no longer available on the Event type.",
-    "i" = "This function returns an empty tibble for backwards compatibility.",
-    "i" = "Comment mutations may still work, but querying comments is not supported."
+    "!" = "Event comments functionality has been 
+    removed from the current Meetup GraphQL API.",
+    "i" = "The 'comments' field is no longer available 
+    on the Event type.",
+    "i" = "This function returns an empty tibble for
+     backwards compatibility.",
+    "i" = "Comment mutations may still work, but 
+    querying comments is not supported."
   ))
 
   create_empty_comments_tibble()

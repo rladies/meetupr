@@ -132,7 +132,7 @@ test_that("add_country_name works with custom extraction function", {
     if (!is.null(item$venue) && !is.null(item$venue$location)) {
       return(item$venue$location$country)
     }
-    return(NULL)
+    NULL
   }
 
   result <- add_country_name(mock_items, get_nested_country)

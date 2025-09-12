@@ -4,7 +4,8 @@
 #' optionally inserts additional GraphQL fragments or queries,
 #' and executes the query with provided variables.
 #'
-#' @param .file Name of the file containing the GraphQL query (without extension)
+#' @param .file Name of the file containing the GraphQL
+#' query (without extension)
 #' @param ... Variables to pass to query
 #' @param .extra_graphql Additional GraphQL fragments or queries to include
 #' @param .envir Environment for error handling
