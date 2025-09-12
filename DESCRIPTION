@@ -41,6 +41,7 @@ Imports:
 Suggests:
     covr,
     ggplot2,
+    jose,
     knitr,
     lubridate,
     rmarkdown,
