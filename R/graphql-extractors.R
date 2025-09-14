@@ -1,6 +1,7 @@
 #' Convert GraphQL response list to tibble using list_flatten + bind_rows
 #' @param dlist List of GraphQL response items
-#' @param handle_multiples How to handle duplicate fields: "first" (keep first value), "list" (combine into list columns)
+#' @param handle_multiples How to handle duplicate fields: "first" (keep first
+#' value), "list" (combine into list columns)
 #' @return tibble with flattened structure
 #' @keywords internal
 #' @noRd
@@ -55,7 +56,7 @@ combine_duplicate_columns <- function(df) {
     } else {
       suffix_pattern <- sprintf(
         "%s(%s)?$",
-        escapeRegex(base_name),
+        escape_regex(base_name),
         pattern
       )
       matching_cols <- matching_cols[grepl(suffix_pattern, matching_cols)]
@@ -122,7 +123,7 @@ keep_first_duplicate_columns <- function(df) {
 #' @return Escaped string
 #' @keywords internal
 #' @noRd
-escapeRegex <- function(string) {
+escape_regex <- function(string) {
   gsub("([.|()\\^{}+$*?]|\\[|\\])", "\\\\\\1", string)
 }
 
