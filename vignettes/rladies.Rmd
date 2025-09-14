@@ -29,7 +29,6 @@ meetupr:::mock_if_no_auth()
 library(dplyr)
 library(tidyr)
 library(ggplot2)
-library(lubridate)
 library(meetupr)
 ```
 
@@ -51,9 +50,9 @@ Since the search might return groups that are not actually R-Ladies chapters, we
 ```{r}
 #| label: filter_rladies
 
-rladies <- meetup_groups[
-  which(grepl("r-ladies", tolower(meetup_groups$name))),
-]
+rladies <- meetup_groups |>
+  filter(grepl("R-Ladies", name, ignore.case = TRUE))
+
 rladies
 ```
 
@@ -74,23 +73,37 @@ Let us now visualize the growth of R-Ladies chapters over time.
 
 ```{r growth}
 df <- rladies_pro |>
-  count(date = as.Date(founded_date)) |>
-  complete(
-    date = seq.Date(min(date), max(date), by = "day"),
-    fill = list(n = 0)
+  mutate(
+    dategroup = format(founded_date, "%Y-%m")
   ) |>
-  mutate(dategroup = format(date, "%Y-%m")) |>
   group_by(dategroup) |>
-  summarise(count_ymonth = sum(n), cum_sum = cumsum(count_ymonth))
+  tally() |>
+  mutate(
+    cum_sum = cumsum(n)
+  )
 
-ggplot(data = df, aes(x = dategroup, y = cum_sum)) +
-  geom_bar(stat = "identity", color = "#88398A", fill = "#88398A") +
+ggplot(
+  data = df,
+  aes(x = dategroup, y = cum_sum)
+) +
+  geom_bar(
+    stat = "identity",
+    color = "#88398A",
+    fill = "#88398A"
+  ) +
   theme_bw() +
-  xlab("") +
-  ylab("Number of chapters") +
-  ggtitle("R-Ladies Global chapter growth") +
-  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
-  scale_x_discrete(breaks = df$dategroup[seq(1, length(df$dategroup), by = 2)])
+  labs(
+    title = "Growth of R-Ladies chapters",
+    caption = "Data from meetup.com via the meetupR package",
+    x = "",
+    y = "Number of chapters"
+  ) +
+  theme(
+    axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)
+  ) +
+  scale_x_discrete(
+    breaks = df$dategroup[seq(1, length(df$dategroup), by = 2)]
+  )
 ```
 
 ## Chapter activity

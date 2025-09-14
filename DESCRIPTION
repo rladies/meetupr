@@ -45,7 +45,6 @@ Suggests:
     httpuv,
     jose,
     knitr,
-    lubridate,
     rmarkdown,
     testthat,
     tidyr,
