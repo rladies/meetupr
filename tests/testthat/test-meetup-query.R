@@ -5,7 +5,6 @@ test_that("create_meetup_query builds valid MeetupQuery object", {
     template = "test_template",
     page_info_path = "data.test.pageInfo",
     edges_path = "data.test.edges",
-    total_path = "data.test.totalCount",
     process_data = mock_processor
   )
 

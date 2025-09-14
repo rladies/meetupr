@@ -30,7 +30,6 @@ get_event_rsvps <- function(
       template = "get_event_rsvps",
       page_info_path = "data.event.rsvps.pageInfo",
       edges_path = "data.event.rsvps.edges",
-      total_path = "data.event.rsvps.count",
       process_data = process_rsvps_data
     ),
     id = id,

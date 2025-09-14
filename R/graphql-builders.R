@@ -166,7 +166,6 @@ create_meetup_query <- function(
   template,
   page_info_path,
   edges_path,
-  total_path,
   process_data,
   transform_fn = NULL
 ) {
