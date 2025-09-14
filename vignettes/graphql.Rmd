@@ -70,7 +70,7 @@ For complete control, build queries using `meetup_query()` directly:
 #| label: group-details
 #| cassette: true
 
-custom_query <- '
+custom_query <- "
   query GetGroupWithDetails($urlname: String!) {
     groupByUrlname(urlname: $urlname) {
       id
@@ -84,7 +84,7 @@ custom_query <- '
         totalCount
       }
     }
-  }'
+  }"
 
 result <- meetup_query(
   custom_query,
@@ -118,7 +118,7 @@ or you can query specific types:
 #| cassette: true
 
 # Get all available types
-schema_query <- '
+schema_query <- "
   query {
     __schema {
       types {
@@ -127,7 +127,7 @@ schema_query <- '
         description
       }
     }
-  }'
+  }"
 
 schema_result <- meetup_query(schema_query)
 types <- schema_result$data$`__schema`$types
@@ -170,14 +170,14 @@ Enable debug mode to see request/response details:
 # Enable debug mode
 Sys.setenv(MEETUPR_DEBUG = "1")
 
-debug_query <- '
+debug_query <- "
   query DebugExample($urlname: String!) {
     groupByUrlname(urlname: $urlname) {
       id
       name
       memberships { totalCount }
     }
-  }'
+  }"
 
 # This will show detailed request/response information
 result <- meetup_query(
@@ -237,5 +237,5 @@ query {
 
 ## Resources
 
-- **GraphQL documentation**: https://www.meetup.com/api/schema/
+- **GraphQL documentation**: https://www.meetup.com/api/general/
 - **Package issues**: https://github.com/rladies/meetupr/issues
