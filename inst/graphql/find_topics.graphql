@@ -1,0 +1,21 @@
+query findTopics($query: String!, $first: Int, $after: String) {
+  suggestTopics(
+    query: $query
+    first: $first
+    after: $after
+  ) {
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+    totalCount
+    edges {
+      node {
+        id
+        name
+        urlkey
+        description
+      }
+    }
+  }
+}

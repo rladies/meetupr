@@ -31,7 +31,6 @@ get_members <- function(
       template = "get_members",
       page_info_path = "data.groupByUrlname.memberships.pageInfo",
       edges_path = "data.groupByUrlname.memberships.edges",
-      total_path = "data.groupByUrlname.memberships.totalCount",
       process_data = process_members_data
     ),
     urlname = urlname,

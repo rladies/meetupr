@@ -135,11 +135,6 @@ create_pro_query <- function(
     template = template,
     page_info_path = glue::glue("data.proNetwork.{network_type}.pageInfo"),
     edges_path = glue::glue("data.proNetwork.{network_type}.edges"),
-    total_path = glue::glue(
-      "data.proNetwork.{network_type}.{
-      if (network_type == 'eventsSearch') 
-      'totalCount' else 'count'}"
-    ),
     process_data = process_data
   )
 }

@@ -40,7 +40,6 @@ get_events <- function(
       template = "get_events",
       page_info_path = "data.groupByUrlname.events.pageInfo",
       edges_path = "data.groupByUrlname.events.edges",
-      total_path = "data.groupByUrlname.events.totalCount",
       process_data = process_event_data,
       transform_fn = function(nodes) {
         add_country_name(nodes, get_country = function(event) {

@@ -29,7 +29,6 @@ find_groups <- function(
     template = "find_groups",
     page_info_path = "data.groupSearch.pageInfo",
     edges_path = "data.groupSearch.edges",
-    total_path = "data.groupSearch.count",
     process_data = process_groups_data,
     transform_fn = function(nodes) {
       add_country_name(nodes, get_country = function(group) group$country)
