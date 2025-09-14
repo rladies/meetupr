@@ -4,17 +4,29 @@
 \alias{get_members}
 \title{Get the members from a meetup group}
 \usage{
-get_members(urlname, max_results = 200, ..., extra_graphql = NULL)
+get_members(
+  urlname,
+  max_results = NULL,
+  handle_multiples = "list",
+  extra_graphql = NULL,
+  ...
+)
 }
 \arguments{
 \item{urlname}{Character. The name of the group as indicated in the
 \url{https://meetup.com} url.}
 
-\item{max_results}{Maximum number of results to return. Default: 200}
+\item{max_results}{Maximum number of results to return. If set to NULL,
+will return all available results (may take a long time).}
 
-\item{...}{Should be empty. Used for parameter expansion}
+\item{handle_multiples}{Character. How to handle multiple matches. One of
+"list" or "first", or "error".
+If "list", return a list-column with all matches.
+If "first", return only the first match.}
 
 \item{extra_graphql}{A graphql object. Extra objects to return}
+
+\item{...}{Should be empty. Used for parameter expansion}
 }
 \value{
 A tibble with group members

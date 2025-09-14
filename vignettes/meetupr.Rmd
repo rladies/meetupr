@@ -135,11 +135,13 @@ head(r_groups)
 
 ## Debug Mode
 
-Enable verbose logging for troubleshooting:
+Sometimes issues arise due to misconfiguration.
+Enabling debugging mode provides more information on what is sent to the API, i.e. the full graphql query.
+Enable debugging mode by setting system variable "MEETUPR_DEBUG" to 1 (0 or missing means no debugging):
 
 ```{r}
 #| label: sitrep-debug
-#| cassette: true
+
 Sys.setenv(MEETUPR_DEBUG = "1")
 meetup_sitrep()
 ```
@@ -175,5 +177,5 @@ Error: Rate limit exceeded
 - **For R-Ladies chapter management**: See [R-Ladies vignette](rladies.html)  
 - **For custom GraphQL queries**: See [GraphQL vignette](graphql.html)`
 - **For CI/CD workflows**: See [JWT Authentication vignette](jwt-auth.html)
-- **For testing and development**: See [Testing vignette](testing.html)
+
 

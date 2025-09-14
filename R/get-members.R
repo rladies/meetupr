@@ -3,6 +3,8 @@
 #' @template urlname
 #' @param max_results Maximum number of results to return. Default: 200
 #' @param ... Should be empty. Used for parameter expansion
+#' @template max_results
+#' @template handle_multiples
 #' @template extra_graphql
 #' @return A tibble with group members
 #' @export
@@ -15,60 +17,37 @@
 #' \dontshow{
 #' vcr::eject_cassette()
 #' }
-get_members <- function(urlname, max_results = 200, ..., extra_graphql = NULL) {
+get_members <- function(
+  urlname,
+  max_results = NULL,
+  handle_multiples = "list",
+  extra_graphql = NULL,
+  ...
+) {
   ellipsis::check_dots_empty()
 
-  query_obj <- members_query(max_results)
   execute(
-    query_obj,
+    create_meetup_query(
+      template = "get_members",
+      page_info_path = "data.groupByUrlname.memberships.pageInfo",
+      edges_path = "data.groupByUrlname.memberships.edges",
+      total_path = "data.groupByUrlname.memberships.totalCount",
+      process_data = process_members_data
+    ),
     urlname = urlname,
     first = max_results,
-    .extra_graphql = extra_graphql
+    extra_graphql = extra_graphql
   )
 }
 
-process_members_data <- function(dlist) {
-  dplyr::tibble(
-    id = purrr::map_chr(
-      dlist,
-      c("node", "id"),
-      .default = NA_character_
-    ),
-    name = purrr::map_chr(
-      dlist,
-      c("node", "name"),
-      .default = NA_character_
-    ),
-    member_url = purrr::map_chr(
-      dlist,
-      c("node", "memberUrl"),
-      .default = NA_character_
-    ),
-    photo_link = purrr::map_chr(
-      dlist,
-      c("node", "memberPhoto", "baseUrl"),
-      .default = NA_character_
-    ),
-    status = purrr::map_chr(
-      dlist,
-      c("metadata", "status"),
-      .default = NA_character_
-    ),
-    role = purrr::map_chr(
-      dlist,
-      c("metadata", "role"),
-      .default = NA_character_
-    ),
-    joined = purrr::map_chr(
-      dlist,
-      c("metadata", "joinTime"),
-      .default = NA_character_
-    ),
-    most_recent_visit = purrr::map_chr(
-      dlist,
-      c("metadata", "lastAccessTime"),
-      .default = NA_character_
-    )
-  ) |>
-    process_datetime_fields(c("joined", "most_recent_visit"))
+#' Process members data dynamically
+#' @param dlist List of member data from GraphQL
+#' @return tibble with member information
+#' @keywords internal
+#' @noRd
+process_members_data <- function(dlist, handle_multiples = "list") {
+  process_graphql_list(
+    dlist,
+    handle_multiples = handle_multiples
+  )
 }

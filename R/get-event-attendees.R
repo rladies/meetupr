@@ -2,13 +2,10 @@
 #'
 #' @param id Required event ID
 #' @param ... Should be empty. Used for parameter expansion
+#' @template max_results
+#' @template handle_multiples
 #' @template extra_graphql
-#' @return A tibble with the following columns:
-#'    * id
-#'    * name
-#'    * url
-#'    * photo
-#'    * organized_group_count
+#' @return A tibble with the attendees for the specified event
 #' @references
 #' \url{https://www.meetup.com/api/schema/#Event}
 #' \url{https://www.meetup.com/api/schema/#RSVP}
@@ -23,37 +20,44 @@
 #' vcr::eject_cassette()
 #' }
 #' @export
-get_event_attendees <- function(id, ..., extra_graphql = NULL) {
+get_event_attendees <- function(
+  id,
+  max_results = NULL,
+  handle_multiples = "list",
+  extra_graphql = NULL,
+  ...
+) {
   ellipsis::check_dots_empty()
   execute(
-    event_attendees_query,
+    create_meetup_query(
+      template = "get_event_attendees",
+      page_info_path = "data.event.rsvps.pageInfo",
+      edges_path = "data.event.rsvps.edges",
+      total_path = "data.event.rsvps.count",
+      process_data = process_attendees_data
+    ),
     id = id,
-    .extra_graphql = extra_graphql
+    max_results = max_results,
+    handle_multiples = handle_multiples,
+    extra_graphql = extra_graphql
   )
 }
 
-process_attendees_data <- function(dlist) {
-  dplyr::tibble(
-    rsvp_id = purrr::map_chr(dlist, "id", .default = NA_character_),
-    response = purrr::map_chr(dlist, "status", .default = NA_character_),
-    guests_count = purrr::map_int(dlist, "guestsCount", .default = NA_integer_),
-    id = purrr::map_chr(dlist, c("member", "id"), .default = NA_character_),
-    name = purrr::map_chr(dlist, c("member", "name"), .default = NA_character_),
-    bio = purrr::map_chr(dlist, c("member", "bio"), .default = NA_character_),
-    url = purrr::map_chr(
-      dlist,
-      c("member", "memberUrl"),
-      .default = NA_character_
-    ),
-    photo = purrr::map_chr(
-      dlist,
-      c("member", "memberPhoto", "baseUrl"),
-      .default = NA_character_
-    ),
-    organized_group_count = purrr::map_int(
-      dlist,
-      c("member", "organizedGroups", "totalCount"),
-      .default = NA_integer_
-    )
+#' Process attendees data dynamically
+#' @param dlist List of attendee data from GraphQL
+#' @return tibble with attendee information
+#' @keywords internal
+#' @noRd
+process_attendees_data <- function(dlist, handle_multiples = "list") {
+  result <- process_graphql_list(
+    dlist,
+    handle_multiples = handle_multiples
   )
+
+  # Ensure consistent column names for attendees
+  if ("status" %in% names(result)) {
+    names(result)[names(result) == "status"] <- "response"
+  }
+
+  result
 }

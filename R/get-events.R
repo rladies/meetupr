@@ -2,14 +2,24 @@
 #'
 #' @template urlname
 #' @param status Character vector of event statuses to retrieve.
+#' @template max_results
+#' @template handle_multiples
+#' @template date_before
+#' @template date_after
 #' @param ... Should be empty. Used for parameter expansion
 #' @template extra_graphql
+#' @return A tibble with the events for the specified group
 #' @examples
 #' \dontshow{
 #' vcr::insert_example_cassette("get_events", package = "meetupr")
 #' meetupr:::mock_if_no_auth()
 #' }
 #' get_events("rladies-lagos", "past")
+#' get_events(
+#'    "rladies-lagos",
+#'    status = "past",
+#'    date_before = "2023-01-01T12:00:00Z"
+#' )
 #' \dontshow{
 #' vcr::eject_cassette()
 #' }
@@ -17,100 +27,58 @@
 get_events <- function(
   urlname,
   status = NULL,
-  ...,
-  extra_graphql = NULL
+  date_before = NULL,
+  date_after = NULL,
+  max_results = NULL,
+  handle_multiples = "list",
+  extra_graphql = NULL,
+  ...
 ) {
   ellipsis::check_dots_empty()
-  status <- validate_event_status(status)
-
   execute(
-    events_query,
+    create_meetup_query(
+      template = "get_events",
+      page_info_path = "data.groupByUrlname.events.pageInfo",
+      edges_path = "data.groupByUrlname.events.edges",
+      total_path = "data.groupByUrlname.events.totalCount",
+      process_data = process_event_data,
+      transform_fn = function(nodes) {
+        add_country_name(nodes, get_country = function(event) {
+          if (length(event$venues) > 0) {
+            event$venues[[1]]$country
+          } else {
+            NULL
+          }
+        })
+      }
+    ),
     urlname = urlname,
-    status = status,
-    .extra_graphql = extra_graphql
+    status = validate_event_status(status),
+    date_before = date_before,
+    date_after = date_after,
+    max_results = max_results,
+    handle_multiples = handle_multiples,
+    extra_graphql = extra_graphql
   )
 }
 
+#' Process event data dynamically
+#' @param dlist List of event data from GraphQL
+#' @return tibble with event information
+#' @keywords internal
+#' @noRd
+process_event_data <- function(dlist, handle_multiples = "list") {
+  result <- process_graphql_list(
+    dlist,
+    handle_multiples = handle_multiples
+  )
 
-process_event_data <- function(dlist) {
-  dplyr::tibble(
-    id = purrr::map_chr(dlist, "id", .default = NA_character_),
-    title = purrr::map_chr(dlist, "title", .default = NA_character_),
-    link = purrr::map_chr(dlist, "eventUrl", .default = NA_character_),
-    created = purrr::map_chr(dlist, "createdTime", .default = NA_character_),
-    status = purrr::map_chr(dlist, "status", .default = NA_character_),
-    date_time = purrr::map_chr(dlist, "dateTime", .default = NA_character_),
-    duration = purrr::map_chr(dlist, "duration", .default = NA_character_),
-    description = purrr::map_chr(
-      dlist,
-      "description",
-      .default = NA_character_
-    ),
-    group_id = purrr::map_chr(
-      dlist,
-      c("group", "id"),
-      .default = NA_character_
-    ),
-    group_name = purrr::map_chr(
-      dlist,
-      c("group", "name"),
-      .default = NA_character_
-    ),
-    group_urlname = purrr::map_chr(
-      dlist,
-      c("group", "urlname"),
-      .default = NA_character_
-    ),
-    venues_id = purrr::map_chr(
-      dlist,
-      ~ purrr::pluck(.x, "venues", 1, "id", .default = NA_character_)
-    ),
-    venues_name = purrr::map_chr(
-      dlist,
-      ~ purrr::pluck(.x, "venues", 1, "name", .default = NA_character_)
-    ),
-    venues_address = purrr::map_chr(
-      dlist,
-      ~ purrr::pluck(.x, "venues", 1, "address", .default = NA_character_)
-    ),
-    venues_city = purrr::map_chr(
-      dlist,
-      ~ purrr::pluck(.x, "venues", 1, "city", .default = NA_character_)
-    ),
-    venues_state = purrr::map_chr(
-      dlist,
-      ~ purrr::pluck(.x, "venues", 1, "state", .default = NA_character_)
-    ),
-    venues_zip = purrr::map_chr(
-      dlist,
-      ~ purrr::pluck(.x, "venues", 1, "postalCode", .default = NA_character_)
-    ),
-    venues_country = purrr::map_chr(
-      dlist,
-      ~ purrr::pluck(.x, "venues", 1, "country", .default = NA_character_)
-    ),
-    venues_lat = purrr::map_dbl(
-      dlist,
-      ~ purrr::pluck(.x, "venues", 1, "lat", .default = NA_real_)
-    ),
-    venues_lon = purrr::map_dbl(
-      dlist,
-      ~ purrr::pluck(.x, "venues", 1, "lon", .default = NA_real_)
-    ),
-    venues_type = purrr::map_chr(
-      dlist,
-      ~ purrr::pluck(.x, "venues", 1, "venueType", .default = NA_character_)
-    ),
-    attendees = purrr::map_int(
-      dlist,
-      c("rsvps", "totalCount"),
-      .default = NA_integer_
-    ),
-    photo_url = purrr::map_chr(
-      dlist,
-      c("featuredEventPhoto", "baseUrl"),
-      .default = NA_character_
-    )
-  ) |>
-    process_datetime_fields(c("created", "date_time"))
+  if ("date_time" %in% names(result)) {
+    result <- process_datetime_fields(result, "date_time")
+  }
+  if ("created_time" %in% names(result)) {
+    result <- process_datetime_fields(result, "created_time")
+  }
+
+  result
 }

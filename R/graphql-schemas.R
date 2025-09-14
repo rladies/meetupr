@@ -1,14 +1,14 @@
-validate_extra_graphql <- function(.extra_graphql) {
-  .extra_graphql <- .extra_graphql %||% ""
+validate_extra_graphql <- function(extra_graphql) {
+  extra_graphql <- extra_graphql %||% ""
 
   if (
-    !is.null(.extra_graphql) &&
-      (length(.extra_graphql) != 1 || !is.character(.extra_graphql))
+    !is.null(extra_graphql) &&
+      (length(extra_graphql) != 1 || !is.character(extra_graphql))
   ) {
-    cli::cli_abort("{.code .extra_graphql} must be a single string")
+    cli::cli_abort("{.code extra_graphql} must be a single string")
   }
 
-  .extra_graphql
+  extra_graphql
 }
 
 get_execute_from_template_path <- function(.file) {
@@ -35,10 +35,10 @@ read_execute_from_template <- function(file_path) {
   )
 }
 
-insert_extra_graphql <- function(query, .extra_graphql) {
-  if (nzchar(.extra_graphql)) {
+insert_extra_graphql <- function(query, extra_graphql) {
+  if (nzchar(extra_graphql)) {
     glue::glue_data(
-      list(extra_graphql = .extra_graphql),
+      list(extra_graphql = extra_graphql),
       query,
       .open = "<<",
       .close = ">>",

@@ -1,49 +1,49 @@
 test_that("get_self returns basic user info", {
   use_cassette("get_self_basic", {
     user <- get_self(extended = FALSE, check_pro = FALSE)
-
-    expect_type(user, "list")
-    expect_s3_class(user, "meetup_user")
-    expect_named(
-      user,
-      c(
-        "id",
-        "name",
-        "email",
-        "is_organizer",
-        "is_leader",
-        "is_member_plus_subscriber",
-        "is_pro_organizer",
-        "has_pro_access",
-        "location",
-        "profile",
-        "raw"
-      )
-    )
   })
+
+  expect_type(user, "list")
+  expect_s3_class(user, "meetup_user")
+  expect_named(
+    user,
+    c(
+      "id",
+      "name",
+      "email",
+      "is_organizer",
+      "is_leader",
+      "is_member_plus_subscriber",
+      "is_pro_organizer",
+      "has_pro_access",
+      "location",
+      "profile",
+      "raw"
+    )
+  )
 })
 
 
 test_that("get_self returns extended user info", {
   use_cassette("get_self_extended", {
     user <- get_self(extended = TRUE, check_pro = FALSE)
-
-    expect_type(user, "list")
-    expect_named(
-      user$profile,
-      c("bio", "member_url", "join_time", "preferred_locale")
-    )
-    expect_named(user$location, c("city", "state", "country", "lat", "lon"))
   })
+
+  expect_type(user, "list")
+  expect_named(
+    user$profile,
+    c("bio", "member_url", "join_time", "preferred_locale")
+  )
+  expect_named(user$location, c("city", "state", "country", "lat", "lon"))
 })
 
 
 test_that("get_self checks pro access", {
   use_cassette("get_self_pro_check", {
     user <- get_self(extended = FALSE, check_pro = TRUE)
-
-    expect_true(is.logical(user$has_pro_access))
   })
+
+  expect_true(is.logical(user$has_pro_access))
 })
 
 test_that("determine_pro_status calculates correctly", {

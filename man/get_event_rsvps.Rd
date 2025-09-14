@@ -4,26 +4,31 @@
 \alias{get_event_rsvps}
 \title{Get the RSVPs for a specified event}
 \usage{
-get_event_rsvps(id, ..., extra_graphql = NULL)
+get_event_rsvps(
+  id,
+  max_results = NULL,
+  handle_multiples = "list",
+  extra_graphql = NULL,
+  ...
+)
 }
 \arguments{
 \item{id}{Required event ID}
 
-\item{...}{Should be empty. Used for parameter expansion}
+\item{max_results}{Maximum number of results to return. If set to NULL,
+will return all available results (may take a long time).}
+
+\item{handle_multiples}{Character. How to handle multiple matches. One of
+"list" or "first", or "error".
+If "list", return a list-column with all matches.
+If "first", return only the first match.}
 
 \item{extra_graphql}{A graphql object. Extra objects to return}
+
+\item{...}{Should be empty. Used for parameter expansion}
 }
 \value{
-A tibble with the following columns:
-\itemize{
-\item rsvp_id
-\item member_id
-\item member_name
-\item member_url
-\item member_photo
-\item guests_count
-\item response
-}
+A tibble with the RSVPs for the specified event
 }
 \description{
 Get the RSVPs for a specified event
@@ -37,9 +42,4 @@ rsvps <- get_event_rsvps(id = "103349942")
 \dontshow{
 vcr::eject_cassette()
 }
-}
-\references{
-\url{https://www.meetup.com/api/schema/#Event}
-\url{https://www.meetup.com/api/schema/#RSVP}
-\url{https://www.meetup.com/api/schema/#Member}
 }

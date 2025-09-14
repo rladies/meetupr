@@ -3,9 +3,21 @@ query proEvents(
   $status: [String!],
   $first: Int = 1000,
   $cursor: String
+  $date_after: DateTime
+  $date_before: DateTime
   ) {
   proNetwork(urlname: $urlname) {
-    eventsSearch(input: {after: $cursor, first: $first, filter: {status: $status}}) {
+    eventsSearch(
+      input: {
+        after: $cursor, 
+        first: $first, 
+        filter: {
+          status: $status
+          eventDateMax: $date_before
+          eventDateMin: $date_after
+          }
+        }
+      ) {
       totalCount
       pageInfo {
         hasNextPage

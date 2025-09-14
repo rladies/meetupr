@@ -4,7 +4,16 @@
 \alias{get_events}
 \title{Get the events from a meetup group}
 \usage{
-get_events(urlname, status = NULL, ..., extra_graphql = NULL)
+get_events(
+  urlname,
+  status = NULL,
+  date_before = NULL,
+  date_after = NULL,
+  max_results = NULL,
+  handle_multiples = "list",
+  extra_graphql = NULL,
+  ...
+)
 }
 \arguments{
 \item{urlname}{Character. The name of the group as indicated in the
@@ -12,9 +21,24 @@ get_events(urlname, status = NULL, ..., extra_graphql = NULL)
 
 \item{status}{Character vector of event statuses to retrieve.}
 
-\item{...}{Should be empty. Used for parameter expansion}
+\item{date_before}{Datetime string in "YYYY-MM-DDTHH:MM:SSZ" (ISO8601) format. Events occurring before this date/time will be returned.}
+
+\item{date_after}{Datetime string in "YYYY-MM-DDTHH:MM:SSZ" (ISO8601) format. Events occurring after this date/time will be returned.}
+
+\item{max_results}{Maximum number of results to return. If set to NULL,
+will return all available results (may take a long time).}
+
+\item{handle_multiples}{Character. How to handle multiple matches. One of
+"list" or "first", or "error".
+If "list", return a list-column with all matches.
+If "first", return only the first match.}
 
 \item{extra_graphql}{A graphql object. Extra objects to return}
+
+\item{...}{Should be empty. Used for parameter expansion}
+}
+\value{
+A tibble with the events for the specified group
 }
 \description{
 Get the events from a meetup group
@@ -25,6 +49,11 @@ vcr::insert_example_cassette("get_events", package = "meetupr")
 meetupr:::mock_if_no_auth()
 }
 get_events("rladies-lagos", "past")
+get_events(
+   "rladies-lagos",
+   status = "past",
+   date_before = "2023-01-01T12:00:00Z"
+)
 \dontshow{
 vcr::eject_cassette()
 }

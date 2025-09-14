@@ -1,0 +1,241 @@
+---
+title: "Custom GraphQL Queries and Schema Introspection"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Custom GraphQL Queries and Schema Introspection}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r}
+#| include: false
+#| label: setup
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = FALSE
+)
+
+vcr::setup_knitr(prefix = "graphql-")
+meetupr:::mock_if_no_auth()
+```
+
+```{r}
+#| label: load
+
+library(meetupr)
+library(dplyr)
+library(httr2)
+```
+
+
+## When to Use Custom Queries
+
+Use custom GraphQL queries when:
+- Wrapper functions don't provide needed fields
+- You need complex filtering or field selection
+- Working with new API features not yet wrapped
+
+## Using extra_graphql in Wrapper Functions
+
+The `get_events()` function accepts an `extra_graphql` parameter to add custom fields:
+
+```{r}
+#| label: event-highres
+#| cassette: true
+
+extra_fields <- "
+    featuredEventPhoto {
+      highResUrl
+      id
+    }
+  "
+
+events <- get_events(
+  "rladies-lagos",
+  extra_graphql = extra_fields
+)
+
+# Now events includes venue, hosts, and photo data
+head(select(events, title, venue_name, venue_city))
+
+```
+
+## Custom Queries from Scratch
+
+For complete control, build queries using `meetup_query()` directly:
+
+```{r}
+#| label: group-details
+#| cassette: true
+
+custom_query <- '
+  query GetGroupWithDetails($urlname: String!) {
+    groupByUrlname(urlname: $urlname) {
+      id
+      name
+      description
+      city
+      country
+      timezone
+      
+      memberships {
+        totalCount
+      }
+    }
+  }'
+
+result <- meetup_query(
+  custom_query,
+  urlname = "rladies-lagos"
+)
+
+group_data <- result$data$groupByUrlname
+str(group_data, max.level = 2)
+
+```
+
+GraphQL queries can include variables (like `$urlname` above) for flexibility.
+The meetup_query() function handles variable substitution by passing them as additional arguments (captured by `...`).
+
+## Schema Introspection
+
+Explore available fields using GraphQL introspection.
+The entire schema can be queried to discover types and fields.
+
+```{r}
+#| label: introspection
+#| cassette: true
+
+meetup_introspect()
+```
+
+or you can query specific types:
+
+```{r}
+#| label: introspection-types
+#| cassette: true
+
+# Get all available types
+schema_query <- '
+  query {
+    __schema {
+      types {
+        name
+        kind
+        description
+      }
+    }
+  }'
+
+schema_result <- meetup_query(schema_query)
+types <- schema_result$data$`__schema`$types
+types
+```
+
+### Exploring Type Fields
+
+```{r}
+#| label: type-fields
+#| cassette: true
+
+# Explore Event type fields
+event_fields_query <- '
+  query {
+    __type(name: "Event") {
+      fields {
+        name
+        type {
+          name
+          kind
+        }
+        description
+      }
+    }
+  }'
+
+event_schema <- meetup_query(event_fields_query)
+event_schema$data$`__type`$fields
+```
+
+## Debug Mode
+
+Enable debug mode to see request/response details:
+
+```{r}
+#| label: debug-mode
+#| cassette: true
+
+# Enable debug mode
+Sys.setenv(MEETUPR_DEBUG = "1")
+
+debug_query <- '
+  query DebugExample($urlname: String!) {
+    groupByUrlname(urlname: $urlname) {
+      id
+      name
+      memberships { totalCount }
+    }
+  }'
+
+# This will show detailed request/response information
+result <- meetup_query(
+  debug_query,
+  urlname = "rladies-san-francisco"
+)
+
+# Disable debug mode
+Sys.setenv(MEETUPR_DEBUG = "0")
+
+str(result$data$groupByUrlname)
+
+```
+
+
+## Best Practices
+
+### Field Selection
+Only request fields you need to minimize response size:
+
+```{r }
+#| label: field-selection
+
+# Don't fetch everything
+heavy_query <- '
+query {
+  groupByUrlname(urlname: "rladies-sf") {
+    pastEvents(input: {first: 100}) {
+      edges {
+        node {
+          # All fields including large nested objects
+        }
+      }
+    }
+  }
+}'
+
+# Be selective
+optimized_query <- '
+query {
+  groupByUrlname(urlname: "rladies-sf") {
+    pastEvents(input: {first: 100}) {
+      edges {
+        node {
+          id
+          title
+          dateTime
+          going
+          # Only what you need
+        }
+      }
+    }
+  }
+}'
+```
+
+
+## Resources
+
+- **GraphQL documentation**: https://www.meetup.com/api/schema/
+- **Package issues**: https://github.com/rladies/meetupr/issues

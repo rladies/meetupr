@@ -12,7 +12,10 @@
 #' @return A list containing user information
 #' @export
 #' @examples
-#' \dontrun{
+#' \dontshow{
+#' vcr::insert_example_cassette("get_self", package = "meetupr")
+#' meetupr:::mock_if_no_auth()
+#' }
 #' user <- get_self()
 #' cat("Hello", user$name, "!")
 #'
@@ -21,6 +24,8 @@
 #'
 #' # Skip pro access check for faster response
 #' user <- get_self(check_pro = FALSE)
+#' \dontshow{
+#' vcr::eject_cassette()
 #' }
 get_self <- function(extended = TRUE, check_pro = TRUE) {
   execute(
@@ -29,7 +34,7 @@ get_self <- function(extended = TRUE, check_pro = TRUE) {
       check_pro = check_pro
     ),
     extended = extended,
-    .extra_graphql = NULL
+    extra_graphql = NULL
   )
 }
 
@@ -102,4 +107,39 @@ print.meetup_user <- function(x, ...) {
   }
 
   invisible(x)
+}
+
+# Self query (special case - no pagination)
+self_query <- function(extended = TRUE, check_pro = TRUE) {
+  MeetupQuery(
+    template = "get_self",
+    pagination = function(x, ...) NULL,
+    extract = function(x) list(x$data$self),
+    process_data = function(data, ...) {
+      if (length(data) == 0 || is.null(data[[1]])) {
+        cli::cli_abort("No user data returned from self query")
+      }
+
+      user_data <- data[[1]]
+      pro_status <- determine_pro_status(user_data, check_pro)
+
+      structure(
+        list(
+          id = user_data$id,
+          name = user_data$name,
+          email = user_data$email,
+          is_organizer = user_data$isOrganizer %||% FALSE,
+          is_leader = user_data$isLeader %||% FALSE,
+          is_member_plus_subscriber = user_data$isMemberPlusSubscriber %||%
+            FALSE,
+          is_pro_organizer = user_data$isProOrganizer %||% FALSE,
+          has_pro_access = pro_status,
+          location = extract_location_info(user_data, extended),
+          profile = extract_profile_info(user_data, extended),
+          raw = user_data
+        ),
+        class = "meetup_user"
+      )
+    }
+  )
 }

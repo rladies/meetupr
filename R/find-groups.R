@@ -1,9 +1,10 @@
 #' Find groups using text-based search
 #'
 #' @param query Character string to search for groups
-#' @param max_results Maximum number of results to return. Default: 200
-#' @param ... Should be empty. Used for parameter expansion
+#' @template max_results
+#' @template handle_multiples
 #' @template extra_graphql
+#' @param ... Should be empty. Used for parameter expansion
 #' @return A tibble with group information
 #' @examples
 #' \dontshow{
@@ -18,58 +19,48 @@
 find_groups <- function(
   query,
   max_results = 200,
-  ...,
-  extra_graphql = NULL
+  handle_multiples = "list",
+  extra_graphql = NULL,
+  ...
 ) {
   ellipsis::check_dots_empty()
 
+  group_query <- create_meetup_query(
+    template = "find_groups",
+    page_info_path = "data.groupSearch.pageInfo",
+    edges_path = "data.groupSearch.edges",
+    total_path = "data.groupSearch.count",
+    process_data = process_groups_data,
+    transform_fn = function(nodes) {
+      add_country_name(nodes, get_country = function(group) group$country)
+    }
+  )
+
   execute(
-    find_groups_query(max_results),
+    group_query,
     query = query,
     first = max_results,
-    .extra_graphql = extra_graphql
+    max_results = max_results,
+    handle_multiples = handle_multiples,
+    extra_graphql = extra_graphql
   )
 }
 
-process_groups_data <- function(dlist) {
-  dplyr::tibble(
-    id = purrr::map_chr(dlist, "id", .default = NA_character_),
-    name = purrr::map_chr(dlist, "name", .default = NA_character_),
-    urlname = purrr::map_chr(dlist, "urlname", .default = NA_character_),
-    city = purrr::map_chr(dlist, "city", .default = NA_character_),
-    state = purrr::map_chr(dlist, "state", .default = NA_character_),
-    country = purrr::map_chr(dlist, "country", .default = NA_character_),
-    latitude = purrr::map_dbl(dlist, "lat", .default = NA_real_),
-    longitude = purrr::map_dbl(dlist, "lon", .default = NA_real_),
-    membership_count = purrr::map_int(
-      dlist,
-      c("memberships", "totalCount"),
-      .default = NA_integer_
-    ),
-    founded_date = purrr::map_chr(
-      dlist,
-      "foundedDate",
-      .default = NA_character_
-    ),
-    timezone = purrr::map_chr(dlist, "timezone", .default = NA_character_),
-    join_mode = purrr::map_chr(dlist, "joinMode", .default = NA_character_),
-    who = purrr::map_chr(dlist, "who", .default = NA_character_),
-    is_private = purrr::map_lgl(dlist, "isPrivate", .default = NA),
-    category_id = purrr::map_chr(
-      dlist,
-      c("category", "id"),
-      .default = NA_character_
-    ),
-    category_name = purrr::map_chr(
-      dlist,
-      c("category", "name"),
-      .default = NA_character_
-    ),
-    membership_status = purrr::map_chr(
-      dlist,
-      c("membershipMetadata", "status"),
-      .default = NA_character_
-    )
-  ) |>
-    process_datetime_fields("founded_date")
+#' Process group data dynamically
+#' @param dlist List of group data from GraphQL
+#' @return tibble with group information
+#' @keywords internal
+#' @noRd
+process_groups_data <- function(dlist, handle_multiples = "list") {
+  result <- process_graphql_list(
+    dlist,
+    handle_multiples = handle_multiples
+  )
+
+  # Post-process datetime fields
+  if ("founded_date" %in% names(result)) {
+    result <- process_datetime_fields(result, "founded_date")
+  }
+
+  result
 }

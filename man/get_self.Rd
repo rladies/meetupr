@@ -22,7 +22,10 @@ including basic profile data, account type,
 subscription status, and API access permissions.
 }
 \examples{
-\dontrun{
+\dontshow{
+vcr::insert_example_cassette("get_self", package = "meetupr")
+meetupr:::mock_if_no_auth()
+}
 user <- get_self()
 cat("Hello", user$name, "!")
 
@@ -31,5 +34,7 @@ user <- get_self(extended = TRUE)
 
 # Skip pro access check for faster response
 user <- get_self(check_pro = FALSE)
+\dontshow{
+vcr::eject_cassette()
 }
 }

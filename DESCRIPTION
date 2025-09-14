@@ -36,6 +36,7 @@ Imports:
     jsonlite,
     purrr,
     rlang,
+    rlist,
     S7,
     tools
 Suggests:
