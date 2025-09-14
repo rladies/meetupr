@@ -2,6 +2,7 @@
 
 S3method(print,meetup_user)
 export(find_groups)
+export(find_topics)
 export(get_event_attendees)
 export(get_event_comments)
 export(get_event_rsvps)
