@@ -2,19 +2,11 @@
 #'
 #' @param id Required event ID
 #' @param ... Should be empty. Used for parameter expansion
+#' @template max_results
+#' @template handle_multiples
 #' @template extra_graphql
-#' @return A tibble with the following columns:
-#'    * rsvp_id
-#'    * member_id
-#'    * member_name
-#'    * member_url
-#'    * member_photo
-#'    * guests_count
-#'    * response
-#' @references
-#' \url{https://www.meetup.com/api/schema/#Event}
-#' \url{https://www.meetup.com/api/schema/#RSVP}
-#' \url{https://www.meetup.com/api/schema/#Member}
+#' @return A tibble with the RSVPs for the specified event
+#'
 #' @examples
 #' \dontshow{
 #' vcr::insert_example_cassette("get_event_rsvps", package = "meetupr")
@@ -25,39 +17,44 @@
 #' vcr::eject_cassette()
 #' }
 #' @export
-get_event_rsvps <- function(id, ..., extra_graphql = NULL) {
+get_event_rsvps <- function(
+  id,
+  max_results = NULL,
+  handle_multiples = "list",
+  extra_graphql = NULL,
+  ...
+) {
   ellipsis::check_dots_empty()
   execute(
-    event_rsvps_query,
+    create_meetup_query(
+      template = "get_event_rsvps",
+      page_info_path = "data.event.rsvps.pageInfo",
+      edges_path = "data.event.rsvps.edges",
+      total_path = "data.event.rsvps.count",
+      process_data = process_rsvps_data
+    ),
     id = id,
-    .extra_graphql = extra_graphql
+    max_results = max_results,
+    handle_multiples = handle_multiples,
+    extra_graphql = extra_graphql
   )
 }
 
-process_rsvps_data <- function(dlist) {
-  dplyr::tibble(
-    rsvp_id = purrr::map_chr(dlist, "id", .default = NA_character_),
-    response = purrr::map_chr(dlist, "status", .default = NA_character_),
-    guests_count = purrr::map_int(dlist, "guestsCount", .default = NA_integer_),
-    member_id = purrr::map_chr(
-      dlist,
-      c("member", "id"),
-      .default = NA_character_
-    ),
-    member_name = purrr::map_chr(
-      dlist,
-      c("member", "name"),
-      .default = NA_character_
-    ),
-    member_url = purrr::map_chr(
-      dlist,
-      c("member", "memberUrl"),
-      .default = NA_character_
-    ),
-    member_photo = purrr::map_chr(
-      dlist,
-      c("member", "memberPhoto", "baseUrl"),
-      .default = NA_character_
-    )
+#' Process RSVP data dynamically
+#' @param dlist List of RSVP data from GraphQL
+#' @return tibble with RSVP information
+#' @keywords internal
+#' @noRd
+process_rsvps_data <- function(dlist, handle_multiples = "list") {
+  result <- process_graphql_list(
+    dlist,
+    handle_multiples = handle_multiples
   )
+
+  # Ensure consistent column names for RSVPs
+  if ("status" %in% names(result)) {
+    names(result)[names(result) == "status"] <- "response"
+  }
+
+  result
 }

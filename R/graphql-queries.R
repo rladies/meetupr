@@ -7,23 +7,32 @@
 #' @param .file Name of the file containing the GraphQL
 #' query (without extension)
 #' @param ... Variables to pass to query
-#' @param .extra_graphql Additional GraphQL fragments or queries to include
+#' @param extra_graphql Additional GraphQL fragments or queries to include
 #' @param .envir Environment for error handling
 #' @noRd
 #' @keywords internal
 execute_from_template <- function(
   .file,
   ...,
-  .extra_graphql = NULL,
+  extra_graphql = NULL,
   .envir = parent.frame()
 ) {
   file_path <- get_execute_from_template_path(.file)
   query <- read_execute_from_template(file_path)
 
-  .extra_graphql <- validate_extra_graphql(.extra_graphql)
+  extra_graphql <- validate_extra_graphql(
+    extra_graphql
+  )
 
-  glued_query <- insert_extra_graphql(query, .extra_graphql)
-  meetup_query(.query = glued_query, ..., .envir = .envir)
+  glued_query <- insert_extra_graphql(
+    query,
+    extra_graphql
+  )
+  meetup_query(
+    .query = glued_query,
+    ...,
+    .envir = .envir
+  )
 }
 
 #' Execute GraphQL query
@@ -43,7 +52,10 @@ meetup_query <- function(
 
   validate_graphql_variables(variables)
 
-  req <- build_template_request(.query, variables)
+  req <- build_template_request(
+    .query,
+    variables
+  )
   result <- httr2::req_perform(req)
   resp <- httr2::resp_body_json(result)
 
@@ -70,7 +82,10 @@ meetup_query <- function(
 #' @return A `httr2` request object ready to be sent.
 #' @noRd
 #' @keywords internal
-build_template_request <- function(query, variables = list()) {
+build_template_request <- function(
+  query,
+  variables = list()
+) {
   # Ensure variables is always a proper object, not an array
   if (length(variables) == 0 || is.null(variables)) {
     variables <- structure(list(), names = character(0))

@@ -4,12 +4,12 @@ http_interactions:
     uri: https://api.meetup.com/gql-ext
     body:
       string: '{"query":"query findEvents(\n  $urlname: String!\n  $cursor: String\n  $first:
-        Int = 1000\n  $status: [EventStatus]\n  $afterDateTime: DateTime\n  $beforeDateTime:
+        Int = 1000\n  $status: [EventStatus]\n  $date_after: DateTime\n  $date_before:
         DateTime\n) {\n  groupByUrlname(urlname: $urlname) {\n    id\n    name\n    events(\n      after:
         $cursor\n      first: $first\n      filter: {\n        status: $status\n        afterDateTime:
-        $afterDateTime\n        beforeDateTime: $beforeDateTime\n      }\n    ) {\n      pageInfo
+        $date_after\n        beforeDateTime: $date_before\n      }\n    ) {\n      pageInfo
         {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n      edges
-        {\n        cursor\n        node {\n          ...eventFields\n        }\n      }\n    }\n    \n  }\n}\n\nfragment
+        {\n        cursor\n        node {\n          ...eventFields\n        }\n      }\n    }\n  }\n}\n\nfragment
         eventFields on Event {\n  id\n  title\n  eventUrl\n  createdTime\n  status\n  dateTime\n  duration\n  description\n  \n  group
         {\n    id\n    name\n    urlname\n  }\n  \n  venues {\n    id\n    name\n    address\n    city\n    state\n    postalCode\n    country\n    lat\n    lon\n    venueType\n  }\n  \n  rsvps(first:
         1) {\n    totalCount\n  }\n  \n  featuredEventPhoto {\n    baseUrl\n  }\n  \n  feeSettings
@@ -19,7 +19,7 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Thu, 11 Sep 2025 19:40:22 GMT
+      date: Sun, 14 Sep 2025 15:58:31 GMT
       content-length: '20304'
     body:
       string: "{\"data\":{\"groupByUrlname\":{\"id\":\"32612004\",\"name\":\"R-Ladies
@@ -209,5 +209,162 @@ http_interactions:
         motivated to achieve your goals\\nWin fantastic prices\",\"group\":{\"id\":\"32612004\",\"name\":\"R-Ladies
         Lagos\",\"urlname\":\"rladies-lagos\"},\"venues\":[{\"id\":\"26906060\",\"name\":\"Online
         event\",\"address\":\"\",\"city\":\"\",\"state\":\"\",\"postalCode\":\"\",\"country\":\"\",\"lat\":-8.521147,\"lon\":179.1962,\"venueType\":\"online\"}],\"rsvps\":{\"totalCount\":31},\"featuredEventPhoto\":{\"baseUrl\":\"https://secure-content.meetupstatic.com/images/classic-events/\"},\"feeSettings\":null}}]}}}}"
-  recorded_at: 2025-09-11 19:40:22
+  recorded_at: 2025-09-14 15:58:31
+- request:
+    method: POST
+    uri: https://api.meetup.com/gql-ext
+    body:
+      string: '{"query":"query findEvents(\n  $urlname: String!\n  $cursor: String\n  $first:
+        Int = 1000\n  $status: [EventStatus]\n  $date_after: DateTime\n  $date_before:
+        DateTime\n) {\n  groupByUrlname(urlname: $urlname) {\n    id\n    name\n    events(\n      after:
+        $cursor\n      first: $first\n      filter: {\n        status: $status\n        afterDateTime:
+        $date_after\n        beforeDateTime: $date_before\n      }\n    ) {\n      pageInfo
+        {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n      edges
+        {\n        cursor\n        node {\n          ...eventFields\n        }\n      }\n    }\n  }\n}\n\nfragment
+        eventFields on Event {\n  id\n  title\n  eventUrl\n  createdTime\n  status\n  dateTime\n  duration\n  description\n  \n  group
+        {\n    id\n    name\n    urlname\n  }\n  \n  venues {\n    id\n    name\n    address\n    city\n    state\n    postalCode\n    country\n    lat\n    lon\n    venueType\n  }\n  \n  rsvps(first:
+        1) {\n    totalCount\n  }\n  \n  featuredEventPhoto {\n    baseUrl\n  }\n  \n  feeSettings
+        {\n    required\n    amount\n    currency\n    accepts\n    refundPolicy {\n      notes\n      days\n    }\n  }\n  \n  \n}","variables":{"urlname":"rladies-lagos","status":["AUTOSCHED","AUTOSCHED_CANCELLED","AUTOSCHED_DRAFT","AUTOSCHED_FINISHED","BLOCKED","CANCELLED","CANCELLED_PERM","DRAFT","PAST","PENDING","PROPOSED","TEMPLATE","UPCOMING"],"date_before":"2023-01-01"}}'
+  response:
+    status: 200
+    headers:
+      content-type: application/json;charset=utf-8
+      accept-ranges: bytes
+      date: Sun, 14 Sep 2025 15:58:57 GMT
+      content-length: '225'
+    body:
+      string: '{"errors":[{"message":"Variable ''status'' has an invalid value: Invalid
+        input for enum ''EventStatus''. No value found for name ''UPCOMING''","locations":[{"line":5,"column":3}],"extensions":{"classification":"ValidationError"}}]}'
+  recorded_at: 2025-09-14 15:58:57
+- request:
+    method: POST
+    uri: https://api.meetup.com/gql-ext
+    body:
+      string: '{"query":"query findEvents(\n  $urlname: String!\n  $cursor: String\n  $first:
+        Int = 1000\n  $status: [EventStatus]\n  $date_after: DateTime\n  $date_before:
+        DateTime\n) {\n  groupByUrlname(urlname: $urlname) {\n    id\n    name\n    events(\n      after:
+        $cursor\n      first: $first\n      filter: {\n        status: $status\n        afterDateTime:
+        $date_after\n        beforeDateTime: $date_before\n      }\n    ) {\n      pageInfo
+        {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n      edges
+        {\n        cursor\n        node {\n          ...eventFields\n        }\n      }\n    }\n  }\n}\n\nfragment
+        eventFields on Event {\n  id\n  title\n  eventUrl\n  createdTime\n  status\n  dateTime\n  duration\n  description\n  \n  group
+        {\n    id\n    name\n    urlname\n  }\n  \n  venues {\n    id\n    name\n    address\n    city\n    state\n    postalCode\n    country\n    lat\n    lon\n    venueType\n  }\n  \n  rsvps(first:
+        1) {\n    totalCount\n  }\n  \n  featuredEventPhoto {\n    baseUrl\n  }\n  \n  feeSettings
+        {\n    required\n    amount\n    currency\n    accepts\n    refundPolicy {\n      notes\n      days\n    }\n  }\n  \n  \n}","variables":{"urlname":"rladies-lagos","status":"PAST","date_before":"2023-01-01"}}'
+  response:
+    status: 200
+    headers:
+      content-type: application/json;charset=utf-8
+      accept-ranges: bytes
+      date: Sun, 14 Sep 2025 16:00:07 GMT
+      content-length: '213'
+    body:
+      string: '{"errors":[{"message":"Variable ''date_before'' has an invalid value:
+        Failed to parse input value 2023-01-01 as ZonedDateTime","locations":[{"line":7,"column":3}],"extensions":{"classification":"ValidationError"}}]}'
+  recorded_at: 2025-09-14 16:00:07
+- request:
+    method: POST
+    uri: https://api.meetup.com/gql-ext
+    body:
+      string: '{"query":"query findEvents(\n  $urlname: String!\n  $cursor: String\n  $first:
+        Int = 1000\n  $status: [EventStatus]\n  $date_after: DateTime\n  $date_before:
+        DateTime\n) {\n  groupByUrlname(urlname: $urlname) {\n    id\n    name\n    events(\n      after:
+        $cursor\n      first: $first\n      filter: {\n        status: $status\n        afterDateTime:
+        $date_after\n        beforeDateTime: $date_before\n      }\n    ) {\n      pageInfo
+        {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n      edges
+        {\n        cursor\n        node {\n          ...eventFields\n        }\n      }\n    }\n  }\n}\n\nfragment
+        eventFields on Event {\n  id\n  title\n  eventUrl\n  createdTime\n  status\n  dateTime\n  duration\n  description\n  \n  group
+        {\n    id\n    name\n    urlname\n  }\n  \n  venues {\n    id\n    name\n    address\n    city\n    state\n    postalCode\n    country\n    lat\n    lon\n    venueType\n  }\n  \n  rsvps(first:
+        1) {\n    totalCount\n  }\n  \n  featuredEventPhoto {\n    baseUrl\n  }\n  \n  feeSettings
+        {\n    required\n    amount\n    currency\n    accepts\n    refundPolicy {\n      notes\n      days\n    }\n  }\n  \n  \n}","variables":{"urlname":"rladies-lagos","status":"PAST","date_before":"2023-01-01T12:00:00"}}'
+  response:
+    status: 200
+    headers:
+      content-type: application/json;charset=utf-8
+      accept-ranges: bytes
+      date: Sun, 14 Sep 2025 16:02:07 GMT
+      content-length: '222'
+    body:
+      string: '{"errors":[{"message":"Variable ''date_before'' has an invalid value:
+        Failed to parse input value 2023-01-01T12:00:00 as ZonedDateTime","locations":[{"line":7,"column":3}],"extensions":{"classification":"ValidationError"}}]}'
+  recorded_at: 2025-09-14 16:02:07
+- request:
+    method: POST
+    uri: https://api.meetup.com/gql-ext
+    body:
+      string: '{"query":"query findEvents(\n  $urlname: String!\n  $cursor: String\n  $first:
+        Int = 1000\n  $status: [EventStatus]\n  $date_after: DateTime\n  $date_before:
+        DateTime\n) {\n  groupByUrlname(urlname: $urlname) {\n    id\n    name\n    events(\n      after:
+        $cursor\n      first: $first\n      filter: {\n        status: $status\n        afterDateTime:
+        $date_after\n        beforeDateTime: $date_before\n      }\n    ) {\n      pageInfo
+        {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n      edges
+        {\n        cursor\n        node {\n          ...eventFields\n        }\n      }\n    }\n  }\n}\n\nfragment
+        eventFields on Event {\n  id\n  title\n  eventUrl\n  createdTime\n  status\n  dateTime\n  duration\n  description\n  \n  group
+        {\n    id\n    name\n    urlname\n  }\n  \n  venues {\n    id\n    name\n    address\n    city\n    state\n    postalCode\n    country\n    lat\n    lon\n    venueType\n  }\n  \n  rsvps(first:
+        1) {\n    totalCount\n  }\n  \n  featuredEventPhoto {\n    baseUrl\n  }\n  \n  feeSettings
+        {\n    required\n    amount\n    currency\n    accepts\n    refundPolicy {\n      notes\n      days\n    }\n  }\n  \n  \n}","variables":{"urlname":"rladies-lagos","status":"PAST","date_before":"2023-01-01T12:00:00Z"}}'
+  response:
+    status: 200
+    headers:
+      content-type: application/json;charset=utf-8
+      accept-ranges: bytes
+      date: Sun, 14 Sep 2025 16:04:49 GMT
+      content-length: '6639'
+    body:
+      string: '{"data":{"groupByUrlname":{"id":"32612004","name":"R-Ladies Lagos","events":{"pageInfo":{"hasNextPage":false,"endCursor":"Mjg0NjEyMzk0OjE2NTE5MzU2MDAwMDA="},"totalCount":5,"edges":[{"cursor":"MjY0MTU2MDYxOjE1NjkwNTI4MDAwMDA=","node":{"id":"264156061","title":"satRday
+        Lagos +  The Launch of RLadies Lagos.","eventUrl":"https://www.meetup.com/rladies-lagos/events/264156061/","createdTime":"2019-08-20T07:54:50-04:00","status":"PAST","dateTime":"2019-09-21T09:00:00+01:00","duration":"PT7H","description":"satRday-Lagos
+        is an event aimed at getting you started with the R programing language.\n\nDo
+        you love data or you are thinking of kick-starting your career in Technology
+        by learning a programing language, then this is for you.\n\nDo you do statistics,digital
+        media listening and analysis, data visualization, data engineering, data management,data
+        sciences animation, economics and more. Let''s show you how R would improve
+        your projects.\n\nThis event is strictly hands-on so bring your laptops and
+        devices along .\n\nSee you there .","group":{"id":"32612004","name":"R-Ladies
+        Lagos","urlname":"rladies-lagos"},"venues":[{"id":"26632228","name":"Civil
+        Engineering Building, ","address":"YABATECH,","city":"Lagos","state":"al","postalCode":"meetup1","country":"ng","lat":6.652131,"lon":3.271455,"venueType":""}],"rsvps":{"totalCount":26},"featuredEventPhoto":null,"feeSettings":null}},{"cursor":"MjY2NzU3MjY1OjE1NzU3MDU2MDAwMDA=","node":{"id":"266757265","title":"Data
+        Mining using  R","eventUrl":"https://www.meetup.com/rladies-lagos/events/266757265/","createdTime":"2019-11-26T12:00:29-05:00","status":"PAST","dateTime":"2019-12-07T09:00:00+01:00","duration":"PT7H","description":"Hi
+        there R Users, it is time again for our physical meetup. It promises to packed
+        but very interesting time.\n\nAgenda\n\n* Project presentation from the last
+        online meeting\n*Hands-on projects for this month\n* Preparation for upcoming
+        conferences\n- Women in Analytics 2020 (Columbus)\n- useR 2020 (St. Louis)\n*R-Ladies
+        Lagos 2020 Outlook\n\nCome with your computers, extension boxes and data visualization
+        ideas.","group":{"id":"32612004","name":"R-Ladies Lagos","urlname":"rladies-lagos"},"venues":[{"id":"26750374","name":"Sweets
+        And Pastries Ltd","address":"76 Ogudu Rd","city":"Lagos","state":"LA","postalCode":"100242","country":"ng","lat":6.57837,"lon":3.387718,"venueType":""}],"rsvps":{"totalCount":14},"featuredEventPhoto":null,"feeSettings":null}},{"cursor":"MjY3ODA0ODE0OjE1ODIzNTg0MDAwMDA=","node":{"id":"267804814","title":"Getting
+        started with animated data in R","eventUrl":"https://www.meetup.com/rladies-lagos/events/267804814/","createdTime":"2020-01-10T07:56:39-05:00","status":"PAST","dateTime":"2020-02-22T09:00:00+01:00","duration":"PT7H","description":"Hi
+        there R Users, it is time again for our first physical meetup of the year
+        2020.\n\nAgenda\n\n*2019 in Review\n*Homework presentation\n*Getting started
+        with data animation in R\n*Summer training.\n\nCome with your computers, extension
+        boxes, and data - maker ideas.","group":{"id":"32612004","name":"R-Ladies
+        Lagos","urlname":"rladies-lagos"},"venues":[{"id":"26750374","name":"Sweets
+        And Pastries Ltd","address":"76 Ogudu Rd","city":"Lagos","state":"LA","postalCode":"100242","country":"ng","lat":6.57837,"lon":3.387718,"venueType":""}],"rsvps":{"totalCount":15},"featuredEventPhoto":{"baseUrl":"https://secure-content.meetupstatic.com/images/classic-events/"},"feeSettings":null}},{"cursor":"Mjg0MzIyMjczOjE2NDgyOTk2MDAwMDA=","node":{"id":"284322273","title":"Data
+        Network Analysis : What to know.","eventUrl":"https://www.meetup.com/rladies-lagos/events/284322273/","createdTime":"2022-02-28T19:27:32-05:00","status":"PAST","dateTime":"2022-03-26T14:00:00+01:00","duration":"PT2H","description":"**About
+        the Speaker**\n\nEmeka is a Senior Knowledge Engineer with Cymantiks Limited,
+        a company that makes Government, Organizations and Cities smarter using Semantic
+        Technologies, for Data Modeling, Knowledge Representation, and Ontology Engineering,
+        en-route to exploiting the opportunities in their data assets for Artificial
+        Intelligence, Data Analytics to simulate human decision-making and high-level
+        cognitive tasks that can be used to solve complex problems and achieve their
+        desired Digital Transformation objectives.\nIn the last 25 years, Emeka has
+        been at the forefront of technology and innovation in Nigeria from co-founding
+        the earliest startup (ngex.com) to building cognitive solutions (Knowledge
+        Graph on Disease Incidences, Legal Documents, African Films) to building Smart
+        Agents, Software Autonomous Systems and Rules as Codes (RaC) using Semantic
+        AI and Blockchain technology.\nEmeka is able to understand and explain technologies
+        from deep-diving under the hood to the value proposition level. He believes
+        that Linked Data, Blockchain and AI will change and improve the way we live
+        and work, and he is passionate about designing and building systems that will
+        make this happen and teaching others to do this as well.\nHe has been listed
+        among the top 20 most influential Technology people in Africa (2013) by South
+        Africa IT News to name a few\nHe groks at the intersection of Digital Societies,
+        Economic Development, Urbanization and Semantic AI on Twitter (@EmekaOkoye).","group":{"id":"32612004","name":"R-Ladies
+        Lagos","urlname":"rladies-lagos"},"venues":[{"id":"26906060","name":"Online
+        event","address":"","city":"","state":"","postalCode":"","country":"","lat":-8.521147,"lon":179.1962,"venueType":"online"}],"rsvps":{"totalCount":14},"featuredEventPhoto":{"baseUrl":"https://secure-content.meetupstatic.com/images/classic-events/"},"feeSettings":null}},{"cursor":"Mjg0NjEyMzk0OjE2NTE5MzU2MDAwMDA=","node":{"id":"284612394","title":"R
+        Ladies Panel","eventUrl":"https://www.meetup.com/rladies-lagos/events/284612394/","createdTime":"2022-03-14T12:37:46-04:00","status":"PAST","dateTime":"2022-05-07T16:00:00+01:00","duration":"PT1H","description":"Join
+        us for the R Ladies Panel session to discuss ways to empower more women to
+        join the R community.\n\nThis event is open to all community members to bring
+        on their ideas. if you would like to sit on the panel as a discussant, you''re
+        welcome to contact the event organizer to signify your interest.","group":{"id":"32612004","name":"R-Ladies
+        Lagos","urlname":"rladies-lagos"},"venues":[{"id":"26906060","name":"Online
+        event","address":"","city":"","state":"","postalCode":"","country":"","lat":-8.521147,"lon":179.1962,"venueType":"online"}],"rsvps":{"totalCount":17},"featuredEventPhoto":{"baseUrl":"https://secure-content.meetupstatic.com/images/classic-events/"},"feeSettings":null}}]}}}}'
+  recorded_at: 2025-09-14 16:04:49
 recorded_with: VCR-vcr/2.0.0

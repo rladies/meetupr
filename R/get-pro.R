@@ -9,12 +9,13 @@
 #'
 #' @template urlname
 #' @template max_results
+#' @template handle_multiples
+#' @template date_before
+#' @template date_after
 #' @param ... Should be empty. Used for parameter expansion
 #' @template extra_graphql
 #' @param status Which status the events should have.
-#'
-#' @references
-#' \url{https://www.meetup.com/api/schema/#ProNetwork}
+#' @return tibble with pro network information
 #'
 #' @examples
 #' \dontshow{
@@ -37,14 +38,19 @@ NULL
 get_pro_groups <- function(
   urlname,
   max_results = NULL,
-  ...,
-  extra_graphql = NULL
+  handle_multiples = "list",
+  extra_graphql = NULL,
+  ...
 ) {
   ellipsis::check_dots_empty()
   execute(
-    pro_groups_query(max_results),
+    create_pro_query(
+      "get_pro_groups",
+      "groupsSearch",
+      process_pro_group_data
+    ),
     urlname = urlname,
-    .extra_graphql = extra_graphql
+    extra_graphql = extra_graphql
   )
 }
 
@@ -53,115 +59,87 @@ get_pro_groups <- function(
 get_pro_events <- function(
   urlname,
   status = NULL,
+  date_before = date_before,
+  date_after = date_after,
   max_results = NULL,
-  ...,
-  extra_graphql = NULL
+  handle_multiples = "list",
+  extra_graphql = NULL,
+  ...
 ) {
   ellipsis::check_dots_empty()
   execute(
-    pro_events_query(max_results),
+    create_pro_query(
+      "get_pro_events",
+      "eventsSearch",
+      process_pro_event_data
+    ),
     urlname = urlname,
     status = validate_event_status(status),
-    .extra_graphql = extra_graphql
+    max_results = max_results,
+    handle_multiples = handle_multiples,
+    extra_graphql = extra_graphql
   )
 }
 
-process_pro_group_data <- function(dlist) {
-  dplyr::tibble(
-    id = purrr::map_chr(dlist, "id", .default = NA_character_),
-    name = purrr::map_chr(dlist, "name", .default = NA_character_),
-    urlname = purrr::map_chr(dlist, "urlname", .default = NA_character_),
-    city = purrr::map_chr(dlist, "city", .default = NA_character_),
-    state = purrr::map_chr(dlist, "state", .default = NA_character_),
-    country = purrr::map_chr(dlist, "country", .default = NA_character_),
-    latitude = purrr::map_dbl(dlist, "lat", .default = NA_real_),
-    longitude = purrr::map_dbl(dlist, "lon", .default = NA_real_),
-    membership_count = purrr::map_int(
-      dlist,
-      c("memberships", "totalCount"),
-      .default = NA_integer_
-    ),
-    founded_date = purrr::map_chr(
-      dlist,
-      "foundedDate",
-      .default = NA_character_
-    ),
-    timezone = purrr::map_chr(dlist, "timezone", .default = NA_character_),
-    join_mode = purrr::map_chr(dlist, "joinMode", .default = NA_character_),
-    who = purrr::map_chr(dlist, "who", .default = NA_character_),
-    is_private = purrr::map_lgl(dlist, "isPrivate", .default = NA)
+#' Process pro group data dynamically
+#' @param dlist List of pro group data from GraphQL
+#' @return tibble with pro group information
+#' @keywords internal
+#' @noRd
+process_pro_group_data <- function(dlist, handle_multiples) {
+  result <- process_graphql_list(
+    dlist,
+    handle_multiples
   )
+
+  # Post-process datetime fields
+  if ("founded_date" %in% names(result)) {
+    result <- process_datetime_fields(result, "founded_date")
+  }
+
+  result
 }
 
-process_pro_event_data <- function(dlist) {
-  dplyr::tibble(
-    id = purrr::map_chr(dlist, "id", .default = NA_character_),
-    title = purrr::map_chr(dlist, "title", .default = NA_character_),
-    link = purrr::map_chr(dlist, "eventUrl", .default = NA_character_),
-    status = purrr::map_chr(dlist, "status", .default = NA_character_),
-    date_time = purrr::map_chr(dlist, "dateTime", .default = NA_character_),
-    duration = purrr::map_chr(dlist, "duration", .default = NA_character_),
-    description = purrr::map_chr(
-      dlist,
-      "description",
-      .default = NA_character_
-    ),
-    group_id = purrr::map_chr(
-      dlist,
-      c("group", "id"),
-      .default = NA_character_
-    ),
-    group_name = purrr::map_chr(
-      dlist,
-      c("group", "name"),
-      .default = NA_character_
-    ),
-    group_urlname = purrr::map_chr(
-      dlist,
-      c("group", "urlname"),
-      .default = NA_character_
-    ),
-    venues_id = purrr::map_chr(
-      dlist,
-      ~ purrr::pluck(.x, "venues", 1, "id", .default = NA_character_)
-    ),
-    venues_name = purrr::map_chr(
-      dlist,
-      ~ purrr::pluck(.x, "venues", 1, "name", .default = NA_character_)
-    ),
-    venues_address = purrr::map_chr(
-      dlist,
-      ~ purrr::pluck(.x, "venues", 1, "address", .default = NA_character_)
-    ),
-    venues_city = purrr::map_chr(
-      dlist,
-      ~ purrr::pluck(.x, "venues", 1, "city", .default = NA_character_)
-    ),
-    venues_state = purrr::map_chr(
-      dlist,
-      ~ purrr::pluck(.x, "venues", 1, "state", .default = NA_character_)
-    ),
-    venues_zip = purrr::map_chr(
-      dlist,
-      ~ purrr::pluck(.x, "venues", 1, "postalCode", .default = NA_character_)
-    ),
-    venues_country = purrr::map_chr(
-      dlist,
-      ~ purrr::pluck(.x, "venues", 1, "country", .default = NA_character_)
-    ),
-    venues_lat = purrr::map_dbl(
-      dlist,
-      ~ purrr::pluck(.x, "venues", 1, "lat", .default = NA_real_)
-    ),
-    venues_lon = purrr::map_dbl(
-      dlist,
-      ~ purrr::pluck(.x, "venues", 1, "lon", .default = NA_real_)
-    ),
-    attendees = purrr::map_int(
-      dlist,
-      c("rsvps", "totalCount"),
-      .default = NA_integer_
-    )
+
+#' Process pro event data dynamically
+#' @param dlist List of pro event data from GraphQL
+#' @return tibble with pro event information
+#' @keywords internal
+#' @noRd
+process_pro_event_data <- function(dlist, handle_multiples) {
+  if (length(dlist) == 0) {
+    return(dplyr::tibble())
+  }
+
+  dlist <- add_country_name(
+    dlist,
+    function(x) x$group$country
+  )
+
+  process_graphql_list(
+    dlist,
+    handle_multiples
   ) |>
-    process_datetime_fields("date_time")
+    process_datetime_fields(c(
+      "created_time",
+      "date_time"
+    ))
+}
+
+create_pro_query <- function(
+  template,
+  network_type,
+  process_data
+) {
+  create_meetup_query(
+    template = template,
+    page_info_path = glue::glue("data.proNetwork.{network_type}.pageInfo"),
+    edges_path = glue::glue("data.proNetwork.{network_type}.edges"),
+    total_path = glue::glue(
+      "data.proNetwork.{network_type}.{
+      if (network_type == 'eventsSearch') 
+      'totalCount' else 'count'}"
+    ),
+    process_data = process_data
+  )
 }

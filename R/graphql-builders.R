@@ -7,10 +7,9 @@ MeetupQuery <- S7::new_class(
   "MeetupQuery",
   properties = list(
     template = S7::class_character,
-    cursor_fn = S7::class_function,
-    total_fn = S7::class_function,
-    extract_fn = S7::class_function,
-    finalizer_fn = S7::class_function
+    pagination = S7::class_function,
+    extract = S7::class_function,
+    process_data = S7::class_function
   )
 )
 
@@ -24,7 +23,9 @@ S7::method(execute, MeetupQuery) <- function(
   # nolint end: object_name_linter
   object,
   ...,
-  .extra_graphql = NULL,
+  max_results = NULL,
+  handle_multiples = "list",
+  extra_graphql = NULL,
   .progress = TRUE
 ) {
   all_data <- list()
@@ -38,10 +39,8 @@ S7::method(execute, MeetupQuery) <- function(
     object@template,
     ...,
     cursor = cursor,
-    .extra_graphql = .extra_graphql
+    extra_graphql = extra_graphql
   )
-
-  total <- object@total_fn(response)
 
   if (show_progress) {
     cli::cli_progress_bar(
@@ -49,13 +48,13 @@ S7::method(execute, MeetupQuery) <- function(
       Page {page_count}, {length(all_data)} items",
       format_done = "Fetched {length(all_data)}
        items in {page_count} page{?s}",
-      total = total
+      total = NA
     )
   }
 
   repeat {
     page_count <- page_count + 1
-    current_data <- object@extract_fn(response)
+    current_data <- object@extract(response)
 
     if (length(current_data) == 0) {
       break
@@ -67,7 +66,7 @@ S7::method(execute, MeetupQuery) <- function(
       cli::cli_progress_update()
     }
 
-    cursor_info <- object@cursor_fn(response)
+    cursor_info <- object@pagination(response, max_results)
     if (is.null(cursor_info)) {
       break
     }
@@ -76,7 +75,8 @@ S7::method(execute, MeetupQuery) <- function(
       object@template,
       ...,
       cursor = cursor_info$cursor,
-      .extra_graphql = .extra_graphql
+      max_results = max_results,
+      extra_graphql = extra_graphql
     )
   }
 
@@ -84,7 +84,10 @@ S7::method(execute, MeetupQuery) <- function(
     cli::cli_progress_done()
   }
 
-  object@finalizer_fn(all_data)
+  object@process_data(
+    all_data,
+    handle_multiples
+  )
 }
 
 #' Parse dot-separated path to pluck arguments
@@ -99,8 +102,7 @@ parse_path_to_pluck <- function(path) {
 #' @noRd
 build_standard_pagination <- function(
   path_to_page_info,
-  path_to_edges,
-  max_results = NULL
+  path_to_edges
 ) {
   results_fetched <- 0
 
@@ -108,7 +110,7 @@ build_standard_pagination <- function(
   edges_parts <- parse_path_to_pluck(path_to_edges)
 
   list(
-    cursor_fn = function(x) {
+    pagination = function(x, max_results = NULL) {
       page_info <- purrr::pluck(x, !!!page_info_parts)
       current_page_size <- length(purrr::pluck(x, !!!edges_parts))
 
@@ -157,18 +159,6 @@ build_edge_extractor <- function(
   }
 }
 
-#' Standard Total Count Function
-#' @keywords internal
-#' @noRd
-build_total_counter <- function(path_to_total, max_results = NULL) {
-  total_parts <- parse_path_to_pluck(path_to_total)
-
-  function(x) {
-    total <- purrr::pluck(x, !!!total_parts) %||% 0
-    if (is.null(max_results)) total else min(total, max_results)
-  }
-}
-
 #' Query Factory - creates MeetupQuery objects with standard patterns
 #' @keywords internal
 #' @noRd
@@ -177,117 +167,21 @@ create_meetup_query <- function(
   page_info_path,
   edges_path,
   total_path,
-  data_processor_fn,
-  max_results = NULL,
+  process_data,
   transform_fn = NULL
 ) {
   pagination <- build_standard_pagination(
     page_info_path,
-    edges_path,
-    max_results
+    edges_path
   )
 
   MeetupQuery(
     template = template,
-    cursor_fn = pagination$cursor_fn,
-    total_fn = build_total_counter(total_path, max_results),
-    extract_fn = build_edge_extractor(edges_path, transform_fn = transform_fn),
-    finalizer_fn = data_processor_fn
-  )
-}
-
-#' Specialized query builders for common patterns
-#' @keywords internal
-#' @noRd
-create_event_query <- function(template, max_results = NULL) {
-  create_meetup_query(
-    template = template,
-    page_info_path = "data.groupByUrlname.events.pageInfo",
-    edges_path = "data.groupByUrlname.events.edges",
-    total_path = "data.groupByUrlname.events.totalCount",
-    data_processor_fn = process_event_data,
-    max_results = max_results,
-    transform_fn = function(nodes) {
-      add_country_name(nodes, get_country = function(event) {
-        if (length(event$venues) > 0) {
-          event$venues[[1]]$country
-        } else {
-          NULL
-        }
-      })
-    }
-  )
-}
-
-create_rsvp_query <- function(template) {
-  create_meetup_query(
-    template = template,
-    page_info_path = "data.event.rsvps.pageInfo",
-    edges_path = "data.event.rsvps.edges",
-    total_path = "data.event.rsvps.count",
-    data_processor_fn = process_rsvps_data
-  )
-}
-
-create_members_query <- function(max_results = NULL) {
-  pagination <- build_standard_pagination(
-    "data.groupByUrlname.memberships.pageInfo",
-    "data.groupByUrlname.memberships.edges",
-    max_results
-  )
-
-  MeetupQuery(
-    template = "get_members",
-    cursor_fn = function(x) {
-      cursor_info <- pagination$cursor_fn(x)
-      if (!is.null(cursor_info)) {
-        list(after = cursor_info$cursor)
-      } else {
-        NULL
-      }
-    },
-    total_fn = build_total_counter(
-      "data.groupByUrlname.memberships.totalCount",
-      max_results
+    pagination = pagination$pagination,
+    extract = build_edge_extractor(
+      edges_path,
+      transform_fn = transform_fn
     ),
-    extract_fn = build_edge_extractor(
-      "data.groupByUrlname.memberships.edges",
-      node_only = FALSE
-    ),
-    finalizer_fn = process_members_data
-  )
-}
-
-create_groups_search_query <- function(max_results) {
-  create_meetup_query(
-    template = "find_groups",
-    page_info_path = "data.groupSearch.pageInfo",
-    edges_path = "data.groupSearch.edges",
-    total_path = "data.groupSearch.count",
-    data_processor_fn = process_groups_data,
-    max_results = max_results,
-    transform_fn = function(nodes) {
-      add_country_name(nodes, get_country = function(group) group$country)
-    }
-  )
-}
-
-create_pro_query <- function(
-  template,
-  network_type,
-  data_processor_fn,
-  max_results = NULL
-) {
-  create_meetup_query(
-    template = template,
-    page_info_path = glue::glue("data.proNetwork.{network_type}.pageInfo"),
-    edges_path = glue::glue("data.proNetwork.{network_type}.edges"),
-    total_path = glue::glue(
-      "data.proNetwork.{network_type}.{
-      if (network_type == 'eventsSearch') 
-      'totalCount' else 'count'}"
-    ),
-    data_processor_fn = data_processor_fn,
-    max_results = max_results
+    process_data = process_data
   )
 }

@@ -7,29 +7,50 @@
 \title{Retrieve information about Meetup Pro networks,
 including groups and events.}
 \usage{
-get_pro_groups(urlname, max_results = NULL, ..., extra_graphql = NULL)
+get_pro_groups(
+  urlname,
+  max_results = NULL,
+  handle_multiples = "list",
+  extra_graphql = NULL,
+  ...
+)
 
 get_pro_events(
   urlname,
   status = NULL,
+  date_before = date_before,
+  date_after = date_after,
   max_results = NULL,
-  ...,
-  extra_graphql = NULL
+  handle_multiples = "list",
+  extra_graphql = NULL,
+  ...
 )
 }
 \arguments{
 \item{urlname}{Character. The name of the group as indicated in the
 \url{https://meetup.com} url.}
 
-\item{max_results}{Maximum number of results to return. Default: 200}
+\item{max_results}{Maximum number of results to return. If set to NULL,
+will return all available results (may take a long time).}
 
-\item{...}{Should be empty. Used for parameter expansion}
+\item{handle_multiples}{Character. How to handle multiple matches. One of
+"list" or "first", or "error".
+If "list", return a list-column with all matches.
+If "first", return only the first match.}
 
 \item{extra_graphql}{A graphql object. Extra objects to return}
 
+\item{...}{Should be empty. Used for parameter expansion}
+
 \item{status}{Which status the events should have.}
+
+\item{date_before}{Datetime string in "YYYY-MM-DDTHH:MM:SSZ" (ISO8601) format. Events occurring before this date/time will be returned.}
+
+\item{date_after}{Datetime string in "YYYY-MM-DDTHH:MM:SSZ" (ISO8601) format. Events occurring after this date/time will be returned.}
 }
 \value{
+tibble with pro network information
+
 A tibble with meetup pro information
 }
 \description{
@@ -58,7 +79,4 @@ upcoming_events <- get_pro_events(urlname, "upcoming", max_results = 5)
 \dontshow{
 vcr::eject_cassette()
 }
-}
-\references{
-\url{https://www.meetup.com/api/schema/#ProNetwork}
 }

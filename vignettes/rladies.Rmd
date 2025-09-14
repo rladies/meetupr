@@ -1,7 +1,5 @@
 ---
 title: "R-Ladies chapters on meetup.com"
-author: "Claudia Vitolo"
-date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{R-Ladies chapters on meetup.com}
@@ -41,7 +39,7 @@ We can use the `find_groups()` function to search for groups with "r-ladies" in 
 Note that the function returns up to 200 results, so we will filter them afterwards.
 
 ```{r}
-#| label: find_rladies
+#| label: find
 #| cassette: true
 
 meetup_groups <- find_groups("r-ladies")

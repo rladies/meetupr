@@ -107,6 +107,64 @@ process_datetime_fields <- function(dt, fields) {
   dt
 }
 
+
+#' Convert snake_case to camelCase
+#' @param text Text in snake_case
+#' @return Text in camelCase
+#' @keywords internal
+#' @noRd
+snake_to_camel_case <- function(text) {
+  parts <- strsplit(text, "_")[[1]]
+  if (length(parts) == 1) {
+    return(text)
+  }
+
+  paste0(
+    parts[1],
+    paste0(toupper(substring(parts[-1], 1, 1)), substring(parts[-1], 2)),
+    collapse = ""
+  )
+}
+
+#' Convert camelCase to snake_case
+#' @param text Text in camelCase
+#' @return Text in snake_case
+#' @keywords internal
+#' @noRd
+camel_to_snake_case <- function(text) {
+  text <- gsub("([A-Z]+)([A-Z][a-z])", "\\1_\\2", text)
+  text <- gsub("([a-z])([A-Z])", "\\1_\\2", text)
+  tolower(text)
+}
+
+#' Utility function to unnest list columns if needed
+#' @param df tibble with potential list columns
+#' @param cols Column names to unnest (optional)
+#' @return tibble with unnested columns
+#' @keywords internal
+#' @noRd
+unnest_list_columns <- function(df, cols = NULL) {
+  if (is.null(cols)) {
+    list_cols <- names(df)[purrr::map_lgl(df, is.list)]
+  } else {
+    list_cols <- intersect(cols, names(df))
+  }
+
+  if (length(list_cols) == 0) {
+    return(df)
+  }
+
+  for (col in list_cols) {
+    df <- tidyr::unnest(
+      df,
+      dplyr::all_of(col),
+      keep_empty = TRUE
+    )
+  }
+
+  df
+}
+
 # nocov start
 mock_if_no_auth <- function() {
   if (has_jwt_credentials() && has_oauth_credentials()) {

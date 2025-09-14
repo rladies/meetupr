@@ -13,7 +13,7 @@ test_that("meetup_introspect handles raw response", {
 })
 
 test_that("explore_query_fields extracts query fields", {
-  vcr::use_cassette("query_fields", {
+  vcr::use_cassette("introspection_query_fields", {
     schema <- meetup_introspect()
     query_fields <- explore_query_fields(schema)
     expect_true(is.data.frame(query_fields))
@@ -29,7 +29,7 @@ test_that("explore_mutations handles schema without mutationType", {
 })
 
 test_that("explore_mutations extracts mutation fields", {
-  vcr::use_cassette("explore_mutations", {
+  vcr::use_cassette("introspection_explore_mutations", {
     schema <- meetup_introspect()
     mutations <- explore_mutations(schema)
     expect_true(is.data.frame(mutations))
@@ -37,7 +37,7 @@ test_that("explore_mutations extracts mutation fields", {
 })
 
 test_that("search_types identifies matching types", {
-  vcr::use_cassette("search_types", {
+  vcr::use_cassette("introspection_search_types", {
     schema <- meetup_introspect()
     types <- search_types(schema, "user")
     expect_true(is.data.frame(types))
@@ -54,7 +54,7 @@ test_that("get_type_fields handles missing types", {
 })
 
 test_that("get_type_fields returns fields for a valid type", {
-  vcr::use_cassette("get_type_fields", {
+  vcr::use_cassette("introspection_get_type_fields", {
     schema <- meetup_introspect()
     fields <- get_type_fields(schema, "User")
     expect_true(is.data.frame(fields))

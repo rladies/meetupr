@@ -3,8 +3,8 @@ query findEvents(
   $cursor: String
   $first: Int = 1000
   $status: [EventStatus]
-  $afterDateTime: DateTime
-  $beforeDateTime: DateTime
+  $date_after: DateTime
+  $date_before: DateTime
 ) {
   groupByUrlname(urlname: $urlname) {
     id
@@ -14,8 +14,8 @@ query findEvents(
       first: $first
       filter: {
         status: $status
-        afterDateTime: $afterDateTime
-        beforeDateTime: $beforeDateTime
+        afterDateTime: $date_after
+        beforeDateTime: $date_before
       }
     ) {
       pageInfo {
@@ -30,7 +30,6 @@ query findEvents(
         }
       }
     }
-    << extra_graphql >>
   }
 }
 
