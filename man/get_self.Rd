@@ -4,14 +4,7 @@
 \alias{get_self}
 \title{Get information about the authenticated user}
 \usage{
-get_self(extended = TRUE, check_pro = TRUE)
-}
-\arguments{
-\item{extended}{Logical. Whether to include extended profile fields like bio,
-location, and subscription info. Defaults to TRUE.}
-
-\item{check_pro}{Logical. Whether to test for Pro API access by attempting
-a Pro-only query. Defaults to TRUE.}
+get_self()
 }
 \value{
 A list containing user information
@@ -28,12 +21,6 @@ meetupr:::mock_if_no_auth()
 }
 user <- get_self()
 cat("Hello", user$name, "!")
-
-# Extended profile info
-user <- get_self(extended = TRUE)
-
-# Skip pro access check for faster response
-user <- get_self(check_pro = FALSE)
 \dontshow{
 vcr::eject_cassette()
 }

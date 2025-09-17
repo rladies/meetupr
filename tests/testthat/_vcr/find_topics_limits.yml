@@ -1,0 +1,100 @@
+http_interactions:
+- request:
+    method: POST
+    uri: https://api.meetup.com/gql-ext
+    body:
+      string: '{"query":"query findTopics(\n  $query: String!, \n  $first: Int = 1000,
+        \n  $after: String\n  ) {\n  suggestTopics(\n    query: $query\n    first:
+        $first\n    after: $after\n  ) {\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    totalCount\n    edges
+        {\n      node {\n        id\n        name\n        urlkey\n        description\n      }\n    }\n  }\n}","variables":{"query":"Machine
+        Learning","first":5}}'
+  response:
+    status: 200
+    headers:
+      content-type: application/json;charset=utf-8
+      accept-ranges: bytes
+      date: Tue, 16 Sep 2025 14:28:47 GMT
+      content-length: '550'
+    body:
+      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"MTUxNTA4Ng=="},"totalCount":591,"edges":[{"node":{"id":"584902","name":"Machine
+        Learning","urlkey":"machine-learning","description":null}},{"node":{"id":"488822","name":"Artificial
+        Intelligence","urlkey":"artificial-intelligence","description":null}},{"node":{"id":"1511040","name":"Machine
+        Learning In Cloud","urlkey":"machine-learning-in-cloud","description":null}},{"node":{"id":"1515086","name":"Machine
+        Learning Apps","urlkey":"machine-learning-apps","description":null}}]}}}'
+  recorded_at: 2025-09-16 14:28:47
+- request:
+    method: POST
+    uri: https://api.meetup.com/gql-ext
+    body:
+      string: '{"query":"query findTopics(\n  $query: String!, \n  $first: Int = 1000,
+        \n  $after: String\n  ) {\n  suggestTopics(\n    query: $query\n    first:
+        $first\n    after: $after\n  ) {\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    totalCount\n    edges
+        {\n      node {\n        id\n        name\n        urlkey\n        description\n      }\n    }\n  }\n}","variables":{"query":"Machine
+        Learning","first":5,"cursor":"MTUxNTA4Ng=="}}'
+  response:
+    status: 200
+    headers:
+      content-type: application/json;charset=utf-8
+      accept-ranges: bytes
+      date: Tue, 16 Sep 2025 14:28:48 GMT
+      content-length: '550'
+    body:
+      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"MTUxNTA4Ng=="},"totalCount":591,"edges":[{"node":{"id":"584902","name":"Machine
+        Learning","urlkey":"machine-learning","description":null}},{"node":{"id":"488822","name":"Artificial
+        Intelligence","urlkey":"artificial-intelligence","description":null}},{"node":{"id":"1511040","name":"Machine
+        Learning In Cloud","urlkey":"machine-learning-in-cloud","description":null}},{"node":{"id":"1515086","name":"Machine
+        Learning Apps","urlkey":"machine-learning-apps","description":null}}]}}}'
+  recorded_at: 2025-09-16 14:28:48
+- request:
+    method: POST
+    uri: https://api.meetup.com/gql-ext
+    body:
+      string: '{"query":"query findTopics(\n  $query: String!, \n  $first: Int = 1000,
+        \n  $after: String\n  ) {\n  suggestTopics(\n    query: $query\n    first:
+        $first\n    after: $after\n  ) {\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    totalCount\n    edges
+        {\n      node {\n        id\n        name\n        urlkey\n        description\n      }\n    }\n  }\n}","variables":{"query":"Machine
+        Learning","first":15}}'
+  response:
+    status: 200
+    headers:
+      content-type: application/json;charset=utf-8
+      accept-ranges: bytes
+      date: Tue, 16 Sep 2025 14:28:48 GMT
+      content-length: '1006'
+    body:
+      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"MjEyNzQ="},"totalCount":591,"edges":[{"node":{"id":"584902","name":"Machine
+        Learning","urlkey":"machine-learning","description":null}},{"node":{"id":"488822","name":"Artificial
+        Intelligence","urlkey":"artificial-intelligence","description":null}},{"node":{"id":"1517703","name":"Machine
+        Learning with Python","urlkey":"machine-learning-with-python","description":null}},{"node":{"id":"1511040","name":"Machine
+        Learning In Cloud","urlkey":"machine-learning-in-cloud","description":null}},{"node":{"id":"1515086","name":"Machine
+        Learning Apps","urlkey":"machine-learning-apps","description":null}},{"node":{"id":"1519801","name":"Machine
+        Learning Interpretability","urlkey":"machine-learning-interpretability","description":null}},{"node":{"id":"1518913","name":"Automated
+        Machine Learning","urlkey":"automated-machine-learning","description":null}},{"node":{"id":"21274","name":"E-Learning","urlkey":"e-learning","description":null}}]}}}'
+  recorded_at: 2025-09-16 14:28:48
+- request:
+    method: POST
+    uri: https://api.meetup.com/gql-ext
+    body:
+      string: '{"query":"query findTopics(\n  $query: String!, \n  $first: Int = 1000,
+        \n  $after: String\n  ) {\n  suggestTopics(\n    query: $query\n    first:
+        $first\n    after: $after\n  ) {\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    totalCount\n    edges
+        {\n      node {\n        id\n        name\n        urlkey\n        description\n      }\n    }\n  }\n}","variables":{"query":"Machine
+        Learning","first":15,"cursor":"MjEyNzQ="}}'
+  response:
+    status: 200
+    headers:
+      content-type: application/json;charset=utf-8
+      accept-ranges: bytes
+      date: Tue, 16 Sep 2025 14:28:48 GMT
+      content-length: '1006'
+    body:
+      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"MjEyNzQ="},"totalCount":591,"edges":[{"node":{"id":"584902","name":"Machine
+        Learning","urlkey":"machine-learning","description":null}},{"node":{"id":"488822","name":"Artificial
+        Intelligence","urlkey":"artificial-intelligence","description":null}},{"node":{"id":"1517703","name":"Machine
+        Learning with Python","urlkey":"machine-learning-with-python","description":null}},{"node":{"id":"1511040","name":"Machine
+        Learning In Cloud","urlkey":"machine-learning-in-cloud","description":null}},{"node":{"id":"1515086","name":"Machine
+        Learning Apps","urlkey":"machine-learning-apps","description":null}},{"node":{"id":"1519801","name":"Machine
+        Learning Interpretability","urlkey":"machine-learning-interpretability","description":null}},{"node":{"id":"1518913","name":"Automated
+        Machine Learning","urlkey":"automated-machine-learning","description":null}},{"node":{"id":"21274","name":"E-Learning","urlkey":"e-learning","description":null}}]}}}'
+  recorded_at: 2025-09-16 14:28:48
+recorded_with: VCR-vcr/2.0.0

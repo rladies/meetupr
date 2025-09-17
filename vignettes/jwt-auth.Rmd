@@ -11,8 +11,9 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  eval = FALSE
+  eval = TRUE
 )
+Sys.setenv(MEETUPR_DEBUG = "")
 ```
 
 ## Overview
@@ -62,7 +63,7 @@ You need the numeric member ID of the Meetup account that owns the OAuth client.
 ```r
 library(meetupr)
 query <- 'query { self { id } }'
-result <- meetup_query(query)
+result <- meetup_template_query(query)
 member_id <- result$data$self$id
 ```
 

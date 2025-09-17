@@ -9,49 +9,65 @@ test_that("get_events() works with one status", {
   expect_s3_class(events, "data.frame")
 })
 
-test_that("process_event_data handles complete event data", {
-  mock_events <- list(
-    list(
-      id = "event1",
-      title = "Test Event",
-      eventUrl = "https://example.com/event1",
-      createdTime = "2023-01-01T10:00:00Z",
-      status = "UPCOMING",
-      dateTime = "2023-06-01T18:00:00Z",
-      duration = "PT2H",
-      description = "A test event",
-      group = list(
-        id = "group1",
-        name = "Test Group",
-        urlname = "test-group"
-      ),
-      venues = list(
-        list(
-          id = "venue1",
-          name = "Test Venue",
-          address = "123 Test St",
-          city = "Test City",
-          state = "TS",
-          postalCode = "12345",
-          country = "us",
-          lat = 40.7128,
-          lon = -74.0060,
-          venueType = "venue"
-        )
-      ),
-      rsvps = list(totalCount = 25),
-      featuredEventPhoto = list(baseUrl = "https://example.com/photo.jpg")
+test_that("get_event_rsvps gets data correctly", {
+  mock_if_no_auth()
+  vcr::use_cassette("get_event_rsvps", {
+    result <- get_event_rsvps(id = event_id)
+  })
+  expect_s3_class(result, "tbl_df")
+  expect_true(nrow(result) > 0)
+})
+
+
+test_that("get_event_comments() works with one status", {
+  vcr::use_cassette("get_event_comments", {
+    expect_warning(
+      comments <- get_event_comments(id = event_id)
     )
+  })
+  expect_s3_class(comments, "data.frame")
+  expect_equal(ncol(comments), 7)
+  expect_equal(nrow(comments), 0)
+})
+
+test_that("get_event_comments returns warning and empty tibble", {
+  withr::local_tempdir()
+  expect_warning(
+    result <- get_event_comments(id = "103349942"),
+    "Event comments functionality has been removed"
   )
 
-  result <- process_event_data(mock_events)
+  expect_s3_class(result, "tbl_df")
+  expect_equal(nrow(result), 0)
+  expect_true(all(
+    names(result) %in%
+      c(
+        "id",
+        "comment",
+        "created",
+        "like_count",
+        "member_id",
+        "member_name",
+        "link"
+      )
+  ))
+})
+
+test_that("create_empty_comments_tibble returns empty tibble", {
+  result <- create_empty_comments_tibble()
 
   expect_s3_class(result, "tbl_df")
-  expect_equal(nrow(result), 1)
-  expect_equal(result$id, "event1")
-  expect_equal(result$title, "Test Event")
-  expect_equal(result$group_id, "group1")
-  expect_equal(result$venues_city, "Test City")
-  expect_equal(result$venues_lat, 40.7128)
-  expect_equal(result$rsvps_total_count, 25L)
+  expect_equal(nrow(result), 0)
+  expect_true(all(
+    names(result) %in%
+      c(
+        "id",
+        "comment",
+        "created",
+        "like_count",
+        "member_id",
+        "member_name",
+        "link"
+      )
+  ))
 })

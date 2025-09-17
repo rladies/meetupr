@@ -1,0 +1,37 @@
+query getGroup($urlname: String!) {
+    groupByUrlname(urlname: $urlname) {
+        id
+        name
+        description
+        urlname
+        link
+        city
+        country
+        timezone
+        foundedDate
+        stats {
+            memberCounts {
+            all
+            }
+        }
+        organizer {
+            id
+            name
+        }
+        keyGroupPhoto {
+            baseUrl
+        }
+        topicCategory {
+            id
+            name
+        }
+        events(
+            first: 1, 
+            filter: { 
+                status: [ACTIVE, PAST, CANCELLED, DRAFT] 
+                }
+            ) {
+            totalCount
+        }
+    }
+}

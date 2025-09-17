@@ -1,26 +1,39 @@
 #' S7 class for representing GraphQL query configurations
 #' @keywords internal
 #' @noRd
-# nolint start: object_name_linter
-MeetupQuery <- S7::new_class(
-  # nolint end: object_name_linter
-  "MeetupQuery",
+meetup_template <- S7::new_class(
+  "meetup_template",
   properties = list(
     template = S7::class_character,
-    pagination = S7::class_function,
-    extract = S7::class_function,
+    page_info_path = S7::class_character,
+    edges_path = S7::class_character,
     process_data = S7::class_function
   )
 )
 
-#' Execute a MeetupQuery
+#' Constructor for meetup_template
+#' @keywords internal
+#' @noRd
+meetup_template_query <- function(
+  template,
+  page_info_path,
+  edges_path,
+  process_data = process_graphql_list
+) {
+  meetup_template(
+    template = template,
+    page_info_path = page_info_path,
+    edges_path = edges_path,
+    process_data = process_data
+  )
+}
+
+#' Execute a meetup_template
 #' @keywords internal
 #' @noRd
 execute <- S7::new_generic("execute", "object")
 
-# nolint start: object_name_linter
-S7::method(execute, MeetupQuery) <- function(
-  # nolint end: object_name_linter
+S7::method(execute, meetup_template) <- function(
   object,
   ...,
   max_results = NULL,
@@ -30,64 +43,52 @@ S7::method(execute, MeetupQuery) <- function(
 ) {
   all_data <- list()
   cursor <- NULL
+  previous_cursor <- NULL
   page_count <- 0
-
-  debug_enabled <- nzchar(Sys.getenv("MEETUPR_DEBUG"))
-  show_progress <- .progress && !debug_enabled
-
-  response <- execute_from_template(
-    object@template,
-    ...,
-    cursor = cursor,
-    extra_graphql = extra_graphql
-  )
-
-  if (show_progress) {
-    cli::cli_progress_bar(
-      format = "Fetching data {cli::pb_spin} 
-      Page {page_count}, {length(all_data)} items",
-      format_done = "Fetched {length(all_data)}
-       items in {page_count} page{?s}",
-      total = NA
-    )
-  }
 
   repeat {
     page_count <- page_count + 1
-    current_data <- object@extract(response)
 
+    response <- execute_from_template(
+      object@template,
+      ...,
+      cursor = cursor,
+      extra_graphql = extra_graphql
+    )
+
+    current_data <- extract_at_path(object, response)
     if (length(current_data) == 0) {
       break
     }
 
     all_data <- c(all_data, current_data)
 
-    if (show_progress) {
-      cli::cli_progress_update()
+    # Check if we've hit max_results
+    if (!is.null(max_results) && length(all_data) >= max_results) {
+      break
     }
 
-    cursor_info <- object@pagination(response, max_results)
+    cursor_info <- get_cursor(object, response)
     if (is.null(cursor_info)) {
       break
     }
 
-    response <- execute_from_template(
-      object@template,
-      ...,
-      cursor = cursor_info$cursor,
-      max_results = max_results,
-      extra_graphql = extra_graphql
-    )
+    # Prevent infinite loops - if cursor hasn't changed, stop
+    new_cursor <- cursor_info$cursor
+    if (!is.null(previous_cursor) && new_cursor == previous_cursor) {
+      break
+    }
+
+    previous_cursor <- cursor
+    cursor <- new_cursor
   }
 
-  if (show_progress) {
-    cli::cli_progress_done()
+  # Trim to max_results if specified
+  if (!is.null(max_results) && length(all_data) > max_results) {
+    all_data <- all_data[1:max_results]
   }
 
-  object@process_data(
-    all_data,
-    handle_multiples
-  )
+  object@process_data(all_data, handle_multiples)
 }
 
 #' Parse dot-separated path to pluck arguments
@@ -97,90 +98,58 @@ parse_path_to_pluck <- function(path) {
   strsplit(path, "\\.")[[1]]
 }
 
-#' Abstract GraphQL Pagination Handler
-#' @keywords internal
-#' @noRd
-build_standard_pagination <- function(
-  path_to_page_info,
-  path_to_edges
+# Generic path extraction
+extract_at_path <- S7::new_generic("extract_at_path", c("object", "response"))
+
+S7::method(extract_at_path, list(meetup_template, S7::class_any)) <- function(
+  object,
+  response
 ) {
-  results_fetched <- 0
-
-  page_info_parts <- parse_path_to_pluck(path_to_page_info)
-  edges_parts <- parse_path_to_pluck(path_to_edges)
-
-  list(
-    pagination = function(x, max_results = NULL) {
-      page_info <- purrr::pluck(x, !!!page_info_parts)
-      current_page_size <- length(purrr::pluck(x, !!!edges_parts))
-
-      results_fetched <<- results_fetched + current_page_size
-
-      should_continue <- !is.null(page_info) &&
-        !is.null(page_info$hasNextPage) &&
-        page_info$hasNextPage &&
-        (is.null(max_results) || results_fetched < max_results)
-
-      if (should_continue) {
-        list(cursor = page_info$endCursor)
-      } else {
-        NULL
-      }
-    },
-    get_results_fetched = function() results_fetched
-  )
-}
-
-#' Standard Edge Extractor
-#' @keywords internal
-#' @noRd
-build_edge_extractor <- function(
-  path_to_edges,
-  node_only = TRUE,
-  transform_fn = NULL
-) {
-  edges_parts <- parse_path_to_pluck(path_to_edges)
-  function(x) {
-    edges <- purrr::pluck(x, !!!edges_parts)
-    if (!is.null(edges) && length(edges) > 0) {
-      result <- if (node_only) {
-        lapply(edges, `[[`, "node")
-      } else {
-        edges
-      }
-      if (!is.null(transform_fn)) {
-        transform_fn(result)
-      } else {
-        result
-      }
-    } else {
-      list()
+  edges_parts <- strsplit(object@edges_path, "\\.")[[1]]
+  edges <- purrr::pluck(response, !!!edges_parts)
+  if (!is.null(edges) && length(edges) > 0) {
+    if (!any(sapply(edges, function(x) "node" %in% names(x)))) {
+      return(edges)
     }
+    return(
+      lapply(edges, `[[`, "node")
+    )
   }
+  list()
 }
 
-#' Query Factory - creates MeetupQuery objects with standard patterns
-#' @keywords internal
-#' @noRd
-create_meetup_query <- function(
-  template,
-  page_info_path,
-  edges_path,
-  process_data,
-  transform_fn = NULL
-) {
-  pagination <- build_standard_pagination(
-    page_info_path,
-    edges_path
-  )
+# Pagination using stored path
+get_cursor <- S7::new_generic("get_cursor", c("object", "response"))
 
-  MeetupQuery(
+S7::method(get_cursor, list(meetup_template, S7::class_any)) <- function(
+  object,
+  response
+) {
+  page_info_parts <- strsplit(object@page_info_path, "\\.")[[1]]
+  if (length(page_info_parts) == 0) {
+    return(NULL)
+  }
+  page_info <- purrr::pluck(response, !!!page_info_parts)
+
+  if (!is.null(page_info) && page_info$hasNextPage) {
+    return(
+      list(cursor = page_info$endCursor)
+    )
+  }
+  NULL
+}
+
+# For common patterns
+standard_query <- function(template, base_path) {
+  meetup_template_query(
     template = template,
-    pagination = pagination$pagination,
-    extract = build_edge_extractor(
-      edges_path,
-      transform_fn = transform_fn
+    page_info_path = paste0(
+      base_path,
+      ".pageInfo"
     ),
-    process_data = process_data
+    edges_path = paste0(
+      base_path,
+      ".edges"
+    )
   )
 }

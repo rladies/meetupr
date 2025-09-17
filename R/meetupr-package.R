@@ -5,45 +5,9 @@
 utils::globalVariables(c(
   # attendee_mappings
   "id",
-  "member_member_url",
-  "member_member_photo_base_url",
-
-  # explore functions
-  "field_name",
-
-  # groups_mappings
-  "memberships_total_count",
-  "membership_metadata_status",
-
-  # members_mappings
-  "node_id",
-  "node_name",
-  "node_member_url",
-  "node_member_photo_base_url",
-  "metadata_status",
-  "metadata_role",
-
-  # process_pro_event_data
-  "eventUrl",
-  "eventType",
-  "venue_postalCode",
-  "dateTime",
-  "datetime",
-
-  # process_pro_group_data
-  "foundedDate",
-  "memberships.count",
-  "joinMode",
-  "category.id",
-  "category.name",
-  "country_name",
-  "pastEvents.count",
-  "upcomingEvents.count",
-  "membershipMetadata.status",
-  "isPrivate",
-
-  # rsvp_mappings
-  "status"
+  "country",
+  "venues_country",
+  "field_name"
 ))
 
 # nocov start

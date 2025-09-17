@@ -44,14 +44,20 @@ get_pro_groups <- function(
 ) {
   ellipsis::check_dots_empty()
   execute(
-    create_pro_query(
+    standard_query(
       "get_pro_groups",
-      "groupsSearch",
-      process_pro_group_data
+      "data.proNetwork.groupsSearch"
     ),
     urlname = urlname,
+    first = max_results,
+    max_results = max_results,
+    handle_multiples = handle_multiples,
     extra_graphql = extra_graphql
-  )
+  ) |>
+    process_datetime_fields(c("founded_date", "pro_join_date")) |>
+    dplyr::mutate(
+      country = get_country_code(country)
+    )
 }
 
 #' @export
@@ -67,74 +73,17 @@ get_pro_events <- function(
   ...
 ) {
   ellipsis::check_dots_empty()
+
   execute(
-    create_pro_query(
+    standard_query(
       "get_pro_events",
-      "eventsSearch",
-      process_pro_event_data
+      "data.proNetwork.eventsSearch"
     ),
     urlname = urlname,
-    status = validate_event_status(status),
+    first = max_results,
     max_results = max_results,
     handle_multiples = handle_multiples,
     extra_graphql = extra_graphql
-  )
-}
-
-#' Process pro group data dynamically
-#' @param dlist List of pro group data from GraphQL
-#' @return tibble with pro group information
-#' @keywords internal
-#' @noRd
-process_pro_group_data <- function(dlist, handle_multiples) {
-  result <- process_graphql_list(
-    dlist,
-    handle_multiples
-  )
-
-  # Post-process datetime fields
-  if ("founded_date" %in% names(result)) {
-    result <- process_datetime_fields(result, "founded_date")
-  }
-
-  result
-}
-
-
-#' Process pro event data dynamically
-#' @param dlist List of pro event data from GraphQL
-#' @return tibble with pro event information
-#' @keywords internal
-#' @noRd
-process_pro_event_data <- function(dlist, handle_multiples) {
-  if (length(dlist) == 0) {
-    return(dplyr::tibble())
-  }
-
-  dlist <- add_country_name(
-    dlist,
-    function(x) x$group$country
-  )
-
-  process_graphql_list(
-    dlist,
-    handle_multiples
   ) |>
-    process_datetime_fields(c(
-      "created_time",
-      "date_time"
-    ))
-}
-
-create_pro_query <- function(
-  template,
-  network_type,
-  process_data
-) {
-  create_meetup_query(
-    template = template,
-    page_info_path = glue::glue("data.proNetwork.{network_type}.pageInfo"),
-    edges_path = glue::glue("data.proNetwork.{network_type}.edges"),
-    process_data = process_data
-  )
+    process_datetime_fields(c("date_time", "pro_join_date"))
 }

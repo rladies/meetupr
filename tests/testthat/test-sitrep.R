@@ -142,3 +142,463 @@ test_that("test_api_connectivity succeeds or catches API errors", {
   local_mocked_bindings(get_self = function() stop("Error"))
   expect_invisible(test_api_connectivity(auth_status))
 })
+
+test_that("meetup_sitrep returns auth status invisibly", {
+  mock_auth_status <- list(
+    jwt = list(available = TRUE),
+    oauth = list(available = FALSE),
+    active_method = "JWT",
+    debug = list(enabled = FALSE)
+  )
+
+  local_mocked_bindings(
+    check_auth_methods = function() mock_auth_status,
+    display_auth_status = function(...) NULL,
+    test_api_connectivity = function(...) NULL
+  )
+
+  result <- meetup_sitrep()
+  expect_identical(result, mock_auth_status)
+})
+
+test_that("cli_status handles all message types correctly", {
+  expect_message(cli_status(
+    TRUE,
+    "success msg",
+    "fail msg",
+    "success",
+    "warning"
+  ))
+  expect_message(cli_status(
+    FALSE,
+    "success msg",
+    "fail msg",
+    "success",
+    "warning"
+  ))
+  expect_message(cli_status(TRUE, "info msg", "fail msg", "info", "danger"))
+  expect_message(cli_status(
+    FALSE,
+    "success msg",
+    "danger msg",
+    "success",
+    "danger"
+  ))
+
+  # Test default behavior
+  expect_message(cli_status(TRUE, "default msg", "fail msg"))
+  expect_message(cli_status(FALSE, "success msg", "default fail"))
+})
+
+test_that("show_config_item handles masking correctly", {
+  expect_message(
+    show_config_item("Test Key", "longvalue123", mask = TRUE),
+    "Test Key.*longva\\.\\.\\."
+  )
+  expect_message(show_config_item("Test Key", "short", mask = TRUE), "short")
+  expect_message(show_config_item("Test Key", "", mask = TRUE), "Not set")
+  expect_message(show_config_item("Test Key", "value", mask = FALSE), "value")
+})
+
+test_that("validate_rsa_key validates different key formats", {
+  # Valid keys
+  expect_true(validate_rsa_key(
+    "-----BEGIN PRIVATE KEY-----\nkey data\n-----END PRIVATE KEY-----"
+  ))
+  expect_true(validate_rsa_key(
+    "-----BEGIN RSA PRIVATE KEY-----\nkey data\n-----END RSA PRIVATE KEY-----"
+  ))
+
+  # Invalid keys
+  expect_false(validate_rsa_key(""))
+  expect_false(validate_rsa_key("some random text"))
+  expect_false(validate_rsa_key("-----BEGIN PRIVATE KEY-----"))
+  expect_false(validate_rsa_key("-----END PRIVATE KEY-----"))
+  expect_false(validate_rsa_key(
+    "-----BEGIN PUBLIC KEY-----\ndata\n-----END PUBLIC KEY-----"
+  ))
+})
+
+test_that("get_rsa_key_status handles file paths", {
+  # Test with existing valid file
+  temp_file <- withr::local_tempfile()
+  writeLines(
+    c(
+      "-----BEGIN PRIVATE KEY-----",
+      "key content",
+      "-----END PRIVATE KEY-----"
+    ),
+    temp_file
+  )
+
+  result <- get_rsa_key_status(temp_file, "")
+  expect_true(result$valid)
+  expect_equal(result$message, "Valid RSA key file")
+
+  # Test with existing invalid file
+  temp_file2 <- withr::local_tempfile()
+  writeLines("invalid content", temp_file2)
+
+  result <- get_rsa_key_status(temp_file2, "")
+  expect_false(result$valid)
+  expect_match(result$message, "Not set")
+
+  # Test with non-existent file
+  result <- get_rsa_key_status("/nonexistent/file", "")
+  expect_false(result$valid)
+  expect_equal(result$message, "File not found")
+})
+
+test_that("get_rsa_key_status handles environment variables", {
+  # Test with valid environment key
+  valid_key <- "-----BEGIN PRIVATE KEY-----\nkey content\n-----END PRIVATE KEY-----"
+  result <- get_rsa_key_status("", valid_key)
+  expect_true(result$valid)
+  expect_equal(result$message, "Valid RSA key in environment")
+
+  # Test with invalid environment key
+  result <- get_rsa_key_status("", "invalid key")
+  expect_false(result$valid)
+  expect_match(result$message, "doesn't contain valid RSA key")
+
+  # Test with empty values
+  result <- get_rsa_key_status("", "")
+  expect_false(result$valid)
+  expect_equal(result$message, "Not set")
+})
+
+test_that("get_rsa_key_status handles file read errors", {
+  # Create a directory instead of file to cause read error
+  temp_dir <- withr::local_tempdir()
+
+  result <- get_rsa_key_status(temp_dir, "")
+  expect_false(result$valid)
+  expect_match(result$message, "Path is a directory, not a file")
+
+  result <- get_rsa_key_status("/path/somewhere", "")
+  expect_false(result$valid)
+  expect_match(result$message, "File not found")
+})
+
+test_that("show_rsa_status displays correct messages", {
+  local_mocked_bindings(
+    get_rsa_key_status = function(...) list(valid = TRUE, message = "Valid")
+  )
+
+  expect_message(show_rsa_status("/path/to/key", ""), "RSA Key.*path/to/key")
+  expect_message(show_rsa_status("", "env_key"), "Set via environment")
+
+  local_mocked_bindings(
+    get_rsa_key_status = function(...) list(valid = FALSE, message = "Invalid")
+  )
+
+  expect_message(show_rsa_status("/bad/path", ""), "Invalid")
+  expect_message(show_rsa_status("", ""), "Invalid")
+})
+
+test_that("check_auth_methods determines active method correctly", {
+  local_mocked_bindings(
+    has_jwt_credentials = function() TRUE,
+    has_oauth_credentials = function() TRUE
+  )
+
+  withr::local_envvar(c(
+    MEETUP_CLIENT_ID = "test_client",
+    MEETUP_MEMBER_ID = "test_member",
+    MEETUP_CLIENT_SECRET = "test_secret",
+    MEETUP_RSA_PATH = "/test/path",
+    MEETUP_RSA_KEY = "test_key",
+    MEETUPR_DEBUG = "1"
+  ))
+
+  auth_status <- check_auth_methods()
+
+  expect_equal(auth_status$active_method, "JWT")
+  expect_true(auth_status$jwt$available)
+  expect_true(auth_status$oauth$available)
+  expect_equal(auth_status$jwt$client_id, "test_client")
+  expect_equal(auth_status$jwt$member_id, "test_member")
+  expect_equal(auth_status$oauth$client_secret, "test_secret")
+  expect_true(auth_status$debug$enabled)
+})
+
+test_that("check_auth_methods handles no authentication", {
+  local_mocked_bindings(
+    has_jwt_credentials = function() FALSE,
+    has_oauth_credentials = function() FALSE
+  )
+
+  withr::local_envvar(c(
+    MEETUP_CLIENT_ID = "",
+    MEETUP_MEMBER_ID = "",
+    MEETUP_CLIENT_SECRET = "",
+    MEETUPR_DEBUG = ""
+  ))
+
+  auth_status <- check_auth_methods()
+
+  expect_equal(auth_status$active_method, "None")
+  expect_false(auth_status$jwt$available)
+  expect_false(auth_status$oauth$available)
+  expect_false(auth_status$debug$enabled)
+})
+
+test_that("check_auth_methods prefers OAuth when JWT not available", {
+  local_mocked_bindings(
+    has_jwt_credentials = function() FALSE,
+    has_oauth_credentials = function() TRUE
+  )
+
+  auth_status <- check_auth_methods()
+  expect_equal(auth_status$active_method, "OAuth")
+})
+
+test_that("display_auth_status shows JWT configuration", {
+  auth_status <- list(
+    jwt = list(
+      available = TRUE,
+      client_id = "jwt_client_id",
+      member_id = "jwt_member_id",
+      rsa_path = "/path/to/key",
+      rsa_key = ""
+    ),
+    oauth = list(available = FALSE),
+    active_method = "JWT",
+    debug = list(enabled = TRUE, value = "1")
+  )
+
+  local_mocked_bindings(
+    show_rsa_status = function(...) NULL
+  )
+
+  expect_message(
+    display_auth_status(auth_status),
+    "JWT Authentication"
+  )
+  expect_message(
+    display_auth_status(auth_status),
+    "JWT Configuration"
+  )
+  expect_message(
+    display_auth_status(auth_status),
+    "Debug Mode.*Enabled"
+  )
+})
+
+test_that("display_auth_status shows OAuth configuration", {
+  auth_status <- list(
+    jwt = list(available = FALSE),
+    oauth = list(
+      available = TRUE,
+      client_id = "client_id",
+      client_secret = "oauth_secret"
+    ),
+    active_method = "OAuth",
+    debug = list(enabled = FALSE, value = "")
+  )
+
+  expect_message(
+    display_auth_status(auth_status),
+    "OAuth Authentication"
+  )
+  expect_message(
+    display_auth_status(auth_status),
+    "OAuth Configuration"
+  )
+  expect_message(
+    display_auth_status(auth_status),
+    "Debug Mode.*Disabled"
+  )
+})
+
+test_that("display_auth_status shows missing configuration", {
+  auth_status <- list(
+    jwt = list(
+      available = FALSE,
+      client_id = "",
+      member_id = "",
+      rsa_path = "",
+      rsa_key = ""
+    ),
+    oauth = list(
+      available = FALSE,
+      client_id = "",
+      client_secret = ""
+    ),
+    active_method = "None",
+    debug = list(enabled = FALSE, value = "")
+  )
+
+  expect_message(
+    display_auth_status(auth_status),
+    "No Authentication Configured"
+  )
+  expect_message(
+    display_auth_status(auth_status),
+    "JWT: Not configured"
+  )
+  expect_message(
+    display_auth_status(auth_status),
+    "OAuth: Not configured"
+  )
+  expect_message(
+    display_auth_status(auth_status),
+    "MEETUP_CLIENT_ID"
+  )
+  expect_message(
+    display_auth_status(auth_status),
+    "MEETUP_MEMBER_ID"
+  )
+  expect_message(
+    display_auth_status(auth_status),
+    "MEETUP_RSA_PATH"
+  )
+  expect_message(
+    display_auth_status(auth_status),
+    "MEETUP_CLIENT_SECRET"
+  )
+})
+
+test_that("display_auth_status shows custom API endpoint", {
+  auth_status <- list(
+    jwt = list(available = FALSE),
+    oauth = list(available = FALSE),
+    active_method = "None",
+    debug = list(enabled = FALSE, value = "")
+  )
+
+  withr::local_envvar(
+    MEETUP_API_URL = "https://custom.api.com"
+  )
+
+  expect_message(
+    display_auth_status(auth_status),
+    "custom.api.com"
+  )
+})
+
+test_that("test_api_connectivity shows setup instructions when no auth", {
+  auth_status <- list(active_method = "None")
+
+  expect_message(test_api_connectivity(auth_status), "Setup Instructions")
+  expect_message(test_api_connectivity(auth_status), "automated workflows")
+  expect_message(test_api_connectivity(auth_status), "interactive development")
+})
+
+test_that("test_api_connectivity tests connection successfully", {
+  auth_status <- list(active_method = "JWT")
+
+  local_mocked_bindings(
+    get_self = function() list(name = "Test User", id = "123")
+  )
+
+  expect_message(test_api_connectivity(auth_status), "API Connection: Working")
+  expect_message(
+    test_api_connectivity(auth_status),
+    "Authenticated as: Test User"
+  )
+})
+
+test_that("test_api_connectivity handles API errors", {
+  auth_status <- list(active_method = "JWT")
+
+  local_mocked_bindings(
+    get_self = function() stop("API Error occurred")
+  )
+
+  expect_message(
+    test_api_connectivity(auth_status),
+    "API Connection: Failed"
+  )
+  expect_message(
+    test_api_connectivity(auth_status),
+    "API Error occurred"
+  )
+})
+
+test_that("test_api_connectivity handles unexpected response", {
+  auth_status <- list(active_method = "OAuth")
+
+  local_mocked_bindings(
+    get_self = function() NULL
+  )
+
+  expect_message(test_api_connectivity(auth_status), "Unexpected response")
+})
+
+test_that("cli_status handles all condition combinations", {
+  # Test all true_type variations
+  expect_message(cli_status(TRUE, "msg", "fail", "info"), "msg")
+  expect_message(cli_status(TRUE, "msg", "fail", "success"), "msg")
+  expect_message(cli_status(TRUE, "msg", "fail", "warning"), "msg")
+  expect_message(cli_status(TRUE, "msg", "fail", "danger"), "msg")
+  expect_message(cli_status(TRUE, "msg", "fail", "other"), "msg")
+
+  # Test all false_type variations
+  expect_message(cli_status(FALSE, "msg", "fail", "success", "info"), "fail")
+  expect_message(cli_status(FALSE, "msg", "fail", "success", "success"), "fail")
+  expect_message(cli_status(FALSE, "msg", "fail", "success", "warning"), "fail")
+  expect_message(cli_status(FALSE, "msg", "fail", "success", "danger"), "fail")
+  expect_message(cli_status(FALSE, "msg", "fail", "success", "other"), "fail")
+})
+
+test_that("show_config_item handles edge cases", {
+  # Test very short values with masking
+  expect_message(
+    show_config_item("Short", "abc", mask = TRUE),
+    "abc"
+  )
+  expect_message(
+    show_config_item("Six", "123456", mask = TRUE),
+    "123456\\.\\.\\."
+  )
+
+  # Test whitespace handling
+  expect_message(
+    show_config_item("Spaces", "   ", mask = FALSE),
+    "   "
+  )
+  expect_message(
+    show_config_item("Tab", "\t", mask = FALSE),
+    "\t"
+  )
+})
+
+test_that("show_config_item handles value with mask TRUE", {
+  local_mocked_bindings(
+    cli_status = function(...) list(...)
+  )
+  result <- show_config_item(
+    "TestName",
+    "123456789",
+    mask = TRUE
+  )
+  expect_equal(
+    result[[2]],
+    "TestName: 123456..."
+  )
+})
+
+test_that("show_config_item handles value with mask FALSE", {
+  local_mocked_bindings(
+    cli_status = function(...) list(...)
+  )
+  result <- show_config_item("TestName", "123456789", mask = FALSE)
+  expect_equal(result[[2]], "TestName: 123456789")
+})
+
+test_that("show_config_item handles NULL value", {
+  local_mocked_bindings(
+    cli_status = function(...) list(...)
+  )
+  result <- show_config_item("TestName", NULL, mask = TRUE)
+  expect_equal(result[[3]], "TestName: Not set")
+})
+
+test_that("show_config_item handles empty string value", {
+  local_mocked_bindings(
+    cli_status = function(...) list(...)
+  )
+  result <- show_config_item("TestName", "", mask = TRUE)
+  expect_equal(result[[3]], "TestName: Not set")
+})

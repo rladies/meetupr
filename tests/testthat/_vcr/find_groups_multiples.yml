@@ -1,0 +1,66 @@
+http_interactions:
+- request:
+    method: POST
+    uri: https://api.meetup.com/gql-ext
+    body:
+      string: '{"query":"query groupSearch(\n  $query: String!\n  $cursor: String\n  $first:
+        Int = 1000\n  $lat: Float! = 0.0\n  $lon: Float! = 0.0\n  $radius: Float =
+        100000000.0\n) {\n  groupSearch(\n    after: $cursor\n    first: $first\n    filter:
+        {\n      query: $query\n      lat: $lat\n      lon: $lon\n      radius: $radius\n    }\n  )
+        {\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    totalCount\n    edges
+        {\n      node {\n        id\n        name\n        urlname\n        city\n        state\n        country\n        lat\n        lon\n        memberships
+        {\n          totalCount\n        }\n        foundedDate\n        timezone\n        joinMode\n        isPrivate\n        membershipMetadata
+        {\n          status\n        }\n      }\n    }\n  }\n}","variables":{"query":"React","first":10}}'
+  response:
+    status: 200
+    headers:
+      content-type: application/json;charset=utf-8
+      accept-ranges: bytes
+      date: Tue, 16 Sep 2025 14:28:45 GMT
+      content-length: '3295'
+    body:
+      string: '{"data":{"groupSearch":{"pageInfo":{"hasNextPage":true,"endCursor":"MTA="},"totalCount":10,"edges":[{"node":{"id":"38152238","name":"RAP
+        (React and Pass) IT Game","urlname":"rap-react-and-pass-it-game","city":"Kensington","state":"MD","country":"us","lat":39.03,"lon":-77.08,"memberships":{"totalCount":8},"foundedDate":"2025-08-18T21:26:26-04:00","timezone":"America/New_York","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"22799127","name":"React
+        CWB","urlname":"ReactJS-CWB","city":"Curitiba","state":"","country":"br","lat":-25.42,"lon":-49.29,"memberships":{"totalCount":2655},"foundedDate":"2017-03-06T15:45:01-03:00","timezone":"America/Sao_Paulo","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"20515340","name":"React
+        Karlsruhe","urlname":"react_ka","city":"Karlsruhe","state":"","country":"de","lat":49.0,"lon":8.4,"memberships":{"totalCount":474},"foundedDate":"2016-09-29T16:39:41+02:00","timezone":"Europe/Berlin","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"20299732","name":"React
+        HTX","urlname":"react-htx","city":"Houston","state":"TX","country":"us","lat":29.76,"lon":-95.36,"memberships":{"totalCount":2265},"foundedDate":"2016-08-10T00:06:52-05:00","timezone":"America/Chicago","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"23347751","name":"React
+        Osaka","urlname":"react-osaka","city":"Osaka","state":"","country":"jp","lat":34.68,"lon":135.5,"memberships":{"totalCount":211},"foundedDate":"2017-04-19T21:47:42+09:00","timezone":"Asia/Tokyo","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"33227626","name":"React
+        en Mendoza","urlname":"React-en-Mendoza","city":"Mendoza","state":"","country":"ar","lat":-32.89,"lon":-68.83,"memberships":{"totalCount":195},"foundedDate":"2020-01-21T10:05:52-03:00","timezone":"America/Argentina/Mendoza","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"36634797","name":"Toronto
+        React","urlname":"toronto-react","city":"Toronto","state":"ON","country":"ca","lat":43.65,"lon":-79.37,"memberships":{"totalCount":75},"foundedDate":"2022-10-06T13:06:42-04:00","timezone":"America/Toronto","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"18745767","name":"React
+        Vienna","urlname":"ReactVienna","city":"Vienna","state":"","country":"at","lat":48.22,"lon":16.37,"memberships":{"totalCount":3023},"foundedDate":"2015-07-16T09:52:02+02:00","timezone":"Europe/Vienna","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"5844892","name":"Uruguay
+        Javascript Meetup Group","urlname":"uruguayjs","city":"Montevideo","state":"","country":"uy","lat":-34.87,"lon":-56.17,"memberships":{"totalCount":2096},"foundedDate":"2012-11-14T10:55:56-02:00","timezone":"America/Montevideo","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"21672206","name":"CoderRange
+        - AI ,  Big data , Data Science !.","urlname":"coderrange-ai-bigdata-datascience","city":"Bangalore","state":"","country":"in","lat":12.97,"lon":77.56,"memberships":{"totalCount":15362},"foundedDate":"2016-12-24T05:43:34+05:30","timezone":"Asia/Kolkata","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}}]}}}'
+  recorded_at: 2025-09-16 14:28:45
+- request:
+    method: POST
+    uri: https://api.meetup.com/gql-ext
+    body:
+      string: '{"query":"query groupSearch(\n  $query: String!\n  $cursor: String\n  $first:
+        Int = 1000\n  $lat: Float! = 0.0\n  $lon: Float! = 0.0\n  $radius: Float =
+        100000000.0\n) {\n  groupSearch(\n    after: $cursor\n    first: $first\n    filter:
+        {\n      query: $query\n      lat: $lat\n      lon: $lon\n      radius: $radius\n    }\n  )
+        {\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    totalCount\n    edges
+        {\n      node {\n        id\n        name\n        urlname\n        city\n        state\n        country\n        lat\n        lon\n        memberships
+        {\n          totalCount\n        }\n        foundedDate\n        timezone\n        joinMode\n        isPrivate\n        membershipMetadata
+        {\n          status\n        }\n      }\n    }\n  }\n}","variables":{"query":"React","first":10}}'
+  response:
+    status: 200
+    headers:
+      content-type: application/json;charset=utf-8
+      accept-ranges: bytes
+      date: Tue, 16 Sep 2025 14:28:46 GMT
+      content-length: '3295'
+    body:
+      string: '{"data":{"groupSearch":{"pageInfo":{"hasNextPage":true,"endCursor":"MTA="},"totalCount":10,"edges":[{"node":{"id":"38152238","name":"RAP
+        (React and Pass) IT Game","urlname":"rap-react-and-pass-it-game","city":"Kensington","state":"MD","country":"us","lat":39.03,"lon":-77.08,"memberships":{"totalCount":8},"foundedDate":"2025-08-18T21:26:26-04:00","timezone":"America/New_York","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"22799127","name":"React
+        CWB","urlname":"ReactJS-CWB","city":"Curitiba","state":"","country":"br","lat":-25.42,"lon":-49.29,"memberships":{"totalCount":2655},"foundedDate":"2017-03-06T15:45:01-03:00","timezone":"America/Sao_Paulo","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"20515340","name":"React
+        Karlsruhe","urlname":"react_ka","city":"Karlsruhe","state":"","country":"de","lat":49.0,"lon":8.4,"memberships":{"totalCount":474},"foundedDate":"2016-09-29T16:39:41+02:00","timezone":"Europe/Berlin","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"20299732","name":"React
+        HTX","urlname":"react-htx","city":"Houston","state":"TX","country":"us","lat":29.76,"lon":-95.36,"memberships":{"totalCount":2265},"foundedDate":"2016-08-10T00:06:52-05:00","timezone":"America/Chicago","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"23347751","name":"React
+        Osaka","urlname":"react-osaka","city":"Osaka","state":"","country":"jp","lat":34.68,"lon":135.5,"memberships":{"totalCount":211},"foundedDate":"2017-04-19T21:47:42+09:00","timezone":"Asia/Tokyo","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"33227626","name":"React
+        en Mendoza","urlname":"React-en-Mendoza","city":"Mendoza","state":"","country":"ar","lat":-32.89,"lon":-68.83,"memberships":{"totalCount":195},"foundedDate":"2020-01-21T10:05:52-03:00","timezone":"America/Argentina/Mendoza","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"36634797","name":"Toronto
+        React","urlname":"toronto-react","city":"Toronto","state":"ON","country":"ca","lat":43.65,"lon":-79.37,"memberships":{"totalCount":75},"foundedDate":"2022-10-06T13:06:42-04:00","timezone":"America/Toronto","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"18745767","name":"React
+        Vienna","urlname":"ReactVienna","city":"Vienna","state":"","country":"at","lat":48.22,"lon":16.37,"memberships":{"totalCount":3023},"foundedDate":"2015-07-16T09:52:02+02:00","timezone":"Europe/Vienna","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"5844892","name":"Uruguay
+        Javascript Meetup Group","urlname":"uruguayjs","city":"Montevideo","state":"","country":"uy","lat":-34.87,"lon":-56.17,"memberships":{"totalCount":2096},"foundedDate":"2012-11-14T10:55:56-02:00","timezone":"America/Montevideo","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"21672206","name":"CoderRange
+        - AI ,  Big data , Data Science !.","urlname":"coderrange-ai-bigdata-datascience","city":"Bangalore","state":"","country":"in","lat":12.97,"lon":77.56,"memberships":{"totalCount":15362},"foundedDate":"2016-12-24T05:43:34+05:30","timezone":"Asia/Kolkata","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}}]}}}'
+  recorded_at: 2025-09-16 14:28:46
+recorded_with: VCR-vcr/2.0.0

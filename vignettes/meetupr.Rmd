@@ -14,11 +14,12 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  eval = FALSE
+  eval = TRUE
 )
 
-vcr::setup_knitr(prefix = "setup-")
+vcr::setup_knitr(prefix = "meetupr-")
 meetupr:::mock_if_no_auth()
+Sys.setenv(MEETUPR_DEBUG = "")
 ```
 
 ```{r}
@@ -32,6 +33,7 @@ Start by running `meetup_sitrep()` to check your authentication status:
 
 ```{r}
 #| label: sitrep
+#| cassette: true
 
 meetup_sitrep()
 ```
@@ -77,6 +79,8 @@ Best for:
 ### Using .Renviron (Recommended)
 
 ```{r}
+#| label: edit-renviron
+#| eval: FALSE
 usethis::edit_r_environ()
 ```
 
@@ -93,6 +97,8 @@ MEETUP_RSA_PATH="/path/to/your/private_key"
 **Never commit `.Renviron` to version control:**
 
 ```{r}
+#| label: git-ignore
+#| eval: FALSE
 usethis::use_git_ignore(".Renviron")
 ```
 
@@ -107,6 +113,8 @@ The `.Renviron` file contains sensitive credentials. If accidentally committed:
 After setting environment variables, restart R and check:
 
 ```{r}
+#| label: verify-sitrep
+#| cassette: true
 meetup_sitrep()
 ```
 
@@ -115,6 +123,8 @@ meetup_sitrep()
 ### Get Group Information
 
 ```{r}
+#| label: group-info
+#| cassette: true
 group_info <- get_group("rladies-lagos")
 str(group_info)
 ```
@@ -122,6 +132,8 @@ str(group_info)
 ### List Upcoming Events
 
 ```{r}
+#| label: upcoming-events
+#| cassette: true
 events <- get_events("rladies-lagos")
 head(events)
 ```
@@ -129,6 +141,8 @@ head(events)
 ### Search for Groups
 
 ```{r}
+#| label: search-groups
+#| cassette: true
 r_groups <- find_groups("R programming")
 head(r_groups)
 ```
@@ -140,10 +154,12 @@ Enabling debugging mode provides more information on what is sent to the API, i.
 Enable debugging mode by setting system variable "MEETUPR_DEBUG" to 1 (0 or missing means no debugging):
 
 ```{r}
-#| label: sitrep-debug
+#| label: debug
+#| cassette: true
 
 Sys.setenv(MEETUPR_DEBUG = "1")
 meetup_sitrep()
+r_groups <- find_groups("R programming")
 ```
 
 ## Common Issues

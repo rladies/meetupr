@@ -4,11 +4,6 @@
 #' including basic profile data, account type,
 #' subscription status, and API access permissions.
 #'
-#' @param extended Logical. Whether to include extended profile fields like bio,
-#'   location, and subscription info. Defaults to TRUE.
-#' @param check_pro Logical. Whether to test for Pro API access by attempting
-#'   a Pro-only query. Defaults to TRUE.
-#'
 #' @return A list containing user information
 #' @export
 #' @examples
@@ -18,31 +13,25 @@
 #' }
 #' user <- get_self()
 #' cat("Hello", user$name, "!")
-#'
-#' # Extended profile info
-#' user <- get_self(extended = TRUE)
-#'
-#' # Skip pro access check for faster response
-#' user <- get_self(check_pro = FALSE)
 #' \dontshow{
 #' vcr::eject_cassette()
 #' }
-get_self <- function(extended = TRUE, check_pro = TRUE) {
+get_self <- function() {
   execute(
-    self_query(
-      extended = extended,
-      check_pro = check_pro
+    meetup_template_query(
+      "get_self",
+      "",
+      "data.self",
+      process_data = process_self_data
     ),
-    extended = extended,
     extra_graphql = NULL
   )
 }
 
-extract_location_info <- function(user_data, extended) {
-  if (!extended) {
-    return(NULL)
-  }
-
+#' Extract Location Information
+#' @keywords internal
+#' @noRd
+extract_location_info <- function(user_data) {
   list(
     city = user_data$city,
     state = user_data$state,
@@ -52,11 +41,10 @@ extract_location_info <- function(user_data, extended) {
   )
 }
 
-extract_profile_info <- function(user_data, extended) {
-  if (!extended) {
-    return(NULL)
-  }
-
+#' Extract Profile Information
+#' @keywords internal
+#' @noRd
+extract_profile_info <- function(user_data) {
   list(
     bio = user_data$bio,
     member_url = user_data$memberUrl,
@@ -65,11 +53,10 @@ extract_profile_info <- function(user_data, extended) {
   )
 }
 
-determine_pro_status <- function(user_data, check_pro) {
-  if (!check_pro) {
-    return(NA)
-  }
-
+#' Determine Pro Status
+#' @keywords internal
+#' @noRd
+determine_pro_status <- function(user_data) {
   has_pro_organizer <- user_data$isProOrganizer %||% FALSE
   has_admin_networks <- !is.null(user_data$adminProNetworks) &&
     length(user_data$adminProNetworks) > 0
@@ -109,37 +96,31 @@ print.meetup_user <- function(x, ...) {
   invisible(x)
 }
 
-# Self query (special case - no pagination)
-self_query <- function(extended = TRUE, check_pro = TRUE) {
-  MeetupQuery(
-    template = "get_self",
-    pagination = function(x, ...) NULL,
-    extract = function(x) list(x$data$self),
-    process_data = function(data, ...) {
-      if (length(data) == 0 || is.null(data[[1]])) {
-        cli::cli_abort("No user data returned from self query")
-      }
 
-      user_data <- data[[1]]
-      pro_status <- determine_pro_status(user_data, check_pro)
+#' Self query template
+#' @keywords internal
+#' @noRd
+process_self_data <- function(data, ...) {
+  if (length(data) == 0 || is.null(data[[1]])) {
+    cli::cli_abort("No user data returned from self query")
+  }
+  pro_status <- determine_pro_status(data)
 
-      structure(
-        list(
-          id = user_data$id,
-          name = user_data$name,
-          email = user_data$email,
-          is_organizer = user_data$isOrganizer %||% FALSE,
-          is_leader = user_data$isLeader %||% FALSE,
-          is_member_plus_subscriber = user_data$isMemberPlusSubscriber %||%
-            FALSE,
-          is_pro_organizer = user_data$isProOrganizer %||% FALSE,
-          has_pro_access = pro_status,
-          location = extract_location_info(user_data, extended),
-          profile = extract_profile_info(user_data, extended),
-          raw = user_data
-        ),
-        class = "meetup_user"
-      )
-    }
+  structure(
+    list(
+      id = data$id,
+      name = data$name,
+      email = data$email,
+      is_organizer = data$isOrganizer %||% FALSE,
+      is_leader = data$isLeader %||% FALSE,
+      is_member_plus_subscriber = data$isMemberPlusSubscriber %||%
+        FALSE,
+      is_pro_organizer = data$isProOrganizer %||% FALSE,
+      has_pro_access = pro_status,
+      location = extract_location_info(data),
+      profile = extract_profile_info(data),
+      raw = data
+    ),
+    class = c("meetup_user", "list")
   )
 }

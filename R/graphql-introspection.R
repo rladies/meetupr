@@ -9,21 +9,42 @@
 #' query types, mutation types, and type definitions. If `asis` is TRUE, the raw
 #' response from the API.
 #' @examples
-#' \dontrun{
-#' # Get the schema details as a tidy tibble
-#' schema <- meetup_introspect()
-#' View(schema)
+#' \dontshow{
+#' vcr::insert_example_cassette("meetup_introspect", package = "meetupr")
+#' meetupr:::mock_if_no_auth()
+#' }
+#' meetup_introspect()
+#' \dontshow{
+#' vcr::eject_cassette()
 #' }
 #' @export
 meetup_introspect <- function(asis = FALSE) {
   result <- execute_from_template("introspection")
   result <- result$data$`__schema`
   if (asis) {
-    return(jsonlite::toJSON(result, auto_unbox = TRUE, pretty = TRUE))
+    return(jsonlite::toJSON(
+      result,
+      auto_unbox = TRUE,
+      pretty = TRUE
+    ))
   }
+
   result
 }
 
+#' Explore available query fields in the Meetup GraphQL API
+#'
+#' This function retrieves and displays the available query fields in the Meetup
+#' GraphQL API schema.
+#' @param schema The schema object obtained from `meetup_introspect()`. If NULL,
+#' the function will call `meetup_introspect()` to get the schema.
+#' @return A tibble with details about each query field, including field name,
+#' description, argument count, and return type.
+#' @examples
+#' \dontrun{
+#' explore_query_fields()
+#' }
+#' @export
 explore_query_fields <- function(schema = meetup_introspect()) {
   query_type_name <- schema$queryType$name
 
@@ -42,13 +63,20 @@ explore_query_fields <- function(schema = meetup_introspect()) {
     dplyr::arrange(field_name)
 }
 
-type_name <- function(type) {
-  if (type$kind == "NON_NULL" || type$kind == "LIST") {
-    return(type_name(type$ofType))
-  }
-  type$name
-}
-
+#' Explore available mutations in the Meetup GraphQL API
+#'
+#' This function retrieves and displays the available mutations in the Meetup
+#' GraphQL API schema.
+#' @param schema The schema object obtained from `meetup_introspect()`. If NULL,
+#' the function will call `meetup_introspect()` to get the schema.
+#' @return A tibble with details about each mutation, including mutation name,
+#' description, argument count, and return type. If no mutations are
+#' available,
+#' @examples
+#' \dontrun{
+#' explore_mutations()
+#' }
+#' @export
 explore_mutations <- function(schema = meetup_introspect()) {
   if (is.null(schema$mutationType)) {
     return(dplyr::tibble(message = "No mutations available"))
@@ -70,6 +98,21 @@ explore_mutations <- function(schema = meetup_introspect()) {
     dplyr::arrange(field_name)
 }
 
+#' Search for types in the Meetup GraphQL API schema
+#'
+#' This function allows you to search for types in the Meetup GraphQL API schema
+#' by name or description.
+#' @param schema The schema object obtained from `meetup_introspect()`. If NULL,
+#' the function will call `meetup_introspect()` to get the schema.
+#' @param pattern A string pattern to search for in type names and descriptions.
+#' The search is case-insensitive.
+#' @return A tibble with details about matching types, including type name, kind,
+#' description, and field count.
+#' @examples
+#' \dontrun{
+#' search_types(pattern = "event")
+#' }
+#' @export
 search_types <- function(schema = meetup_introspect(), pattern) {
   matching_types <- schema$types[
     sapply(schema$types, function(x) {
@@ -88,17 +131,31 @@ search_types <- function(schema = meetup_introspect(), pattern) {
   )
 }
 
+#' Get fields for a specific type in the Meetup GraphQL API schema
+#' This function retrieves the fields of a specified type from the Meetup GraphQL
+#' API schema.
+#' @param schema The schema object obtained from `meetup_introspect()`. If NULL,
+#' the function will call `meetup_introspect()` to get the schema.
+#' @param type_name The name of the type for which to retrieve fields.
+#' @return A tibble with details about the fields of the specified type, including
+#' field name, description, type, and deprecation status. If the type is not found
+#' or has no fields, an appropriate message is returned.
+#' @examples
+#' \dontrun{
+#' get_type_fields(type_name = "Event")
+#' }
+#' @export
 get_type_fields <- function(schema, type_name) {
   type_info <- schema$types[[type_name]]
-  if (is.null(type_info)) {
-    matching <- schema$types[
-      sapply(schema$types, function(x) {
-        grepl(type_name, x$name, ignore.case = TRUE)
-      })
-    ]
-    if (length(matching) == 0) {
-      cli::cli_abort("Type not found: {.val { type_name}}")
-    }
+
+  matching <- schema$types[
+    sapply(schema$types, function(x) {
+      grepl(type_name, x$name, ignore.case = TRUE)
+    })
+  ]
+
+  if (length(matching) == 0) {
+    cli::cli_abort("Type not found: {.val { type_name}}")
   }
 
   if (length(matching) > 1) {
@@ -126,4 +183,19 @@ get_type_fields <- function(schema, type_name) {
     type = sapply(matching$fields, function(x) type_name(x$type)),
     deprecated = sapply(matching$fields, function(x) x$isDeprecated %||% FALSE)
   )
+}
+
+#' Get the name of a GraphQL type, handling nested types
+#' @param type A GraphQL type object
+#' @return The name of the type as a string
+#' @keywords internal
+#' @noRd
+type_name <- function(type) {
+  if (is.null(type$kind)) {
+    return(type$name)
+  }
+  if (type$kind == "NON_NULL" || type$kind == "LIST") {
+    return(type_name(type$ofType))
+  }
+  type$name
 }

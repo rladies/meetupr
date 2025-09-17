@@ -1,4 +1,8 @@
-query findTopics($query: String!, $first: Int, $after: String) {
+query findTopics(
+  $query: String!, 
+  $first: Int = 1000, 
+  $after: String
+  ) {
   suggestTopics(
     query: $query
     first: $first

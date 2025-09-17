@@ -51,7 +51,7 @@ events <- get_events("rladies-san-francisco", "past")
 ### Get group members
 
 ``` r
-members <- get_members("rladies-san-francisco")
+members <- get_group_members("rladies-san-francisco")
 head(members)
 #> # A tibble: 6 × 8
 #>   id       name           member_url photo_link status role  joined             
@@ -105,7 +105,7 @@ pro_events <- get_pro_events("rladies", status = "upcoming")
 ## Available Functions
 
 - `get_events()` - Get events for a group
-- `get_members()` - Get members of a group  
+- `get_group_members()` - Get members of a group  
 - `get_event_attendees()` - Get attendees for an event
 - `get_event_rsvps()` - Get RSVPs for an event
 - `find_groups()` - Search for groups by text

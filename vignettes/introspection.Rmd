@@ -1,0 +1,131 @@
+---
+title: "Meetup API Schema Introspection"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Meetup API Schema Introspection}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r}
+#| include: false
+#| label: setup
+
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = TRUE
+)
+
+vcr::setup_knitr(prefix = "introsp-")
+meetupr:::mock_if_no_auth()
+Sys.setenv(MEETUPR_DEBUG = "")
+```
+
+
+The meetupr package provides powerful introspection functions to explore the Meetup GraphQL API schema. 
+This allows you to understand available data and build custom queries efficiently.
+
+## Basic Introspection
+
+Start by examining the full schema:
+
+```{r}
+#| label: schema
+#| cassette: true
+
+library(meetupr)
+
+schema <- meetup_introspect()
+```
+
+## Exploring Available Queries
+
+Get an overview of all query fields:
+
+```{r}
+#| label: query-fields
+
+query_fields <- explore_query_fields(schema)
+query_fields
+```
+
+This shows field names, descriptions, argument counts, and return types. For example, you might see fields like `event`, `group`, `self`, etc.
+
+## Finding Specific Types
+
+Search for types related to your interests:
+
+```{r}
+#| label: search-types
+
+event_types <- search_types(schema, pattern = "event")
+event_types
+
+user_types <- search_types(pattern = "user")
+user_types
+```
+
+## Examining Type Fields
+
+Once you find a relevant type, examine its available fields:
+
+```{r}
+#| label: type-fields
+
+event_fields <- get_type_fields(schema, "Event")
+event_fields
+
+group_fields <- get_type_fields(schema, "Group")
+group_fields
+```
+
+## Building Custom Queries
+
+Use the introspection data to construct targeted queries with `meetup_query()`:
+
+```{r}
+#| label: custom-query
+#| cassette: true
+
+custom_query <- "
+query($eventId: ID!) {
+  event(id: $eventId) {
+    title
+    description
+    dateTime
+    venues {
+      name
+      address
+    }
+    group {
+      name
+      urlname
+    }
+  }
+}"
+
+result <- meetup_query(custom_query, eventId = "103349942")
+result
+```
+
+## Finding Available Mutations
+
+Check what mutations are available:
+
+```{r}
+mutations <- explore_mutations(schema)
+mutations
+```
+
+Most query building will focus on queries rather than mutations for data retrieval.
+
+## Practical Workflow
+
+1. Use `explore_query_fields()` to see top-level fields
+2. Search for relevant types with `search_types()`
+3. Examine specific type fields with `get_type_fields()`
+4. Build and test queries at https://www.meetup.com/api/playground
+5. Execute with `meetup_template_query()`
+
+This approach lets you efficiently discover and utilize the full Meetup API schema for custom data extraction beyond the package's built-in functions.

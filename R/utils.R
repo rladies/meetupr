@@ -56,113 +56,63 @@ uq_filename <- function(file_name) {
   file_name
 }
 
-#' Add Country Names to Items Based on Country Codes
-#'
-#' This function takes a list of items and a function to extract country
-#' codes from each item.
-#' It adds a new element `country_name` to each item, which
-#' contains the full country
-#' name
-#' corresponding to the 2-letter country
-#' code. If the country code is missing or unrecognized,
-#' `country_name` will be set to `NA`.
-#' @param items A list of items (e.g., groups, events) where each item
-#' is a list or named list.
-#' @param get_country A function that takes an item and returns
-#' its 2-letter country code.
-#' @noRd
-#' @keywords internal
-add_country_name <- function(items, get_country) {
-  lapply(items, function(item) {
-    country_code <- get_country(item)
-
-    # Handle missing/empty country codes
-    if (
-      is.null(country_code) ||
-        length(country_code) == 0 ||
-        is.na(country_code) ||
-        country_code == ""
-    ) {
-      item$country_name <- NA_character_
-    } else {
-      # Convert 2-letter country code to country name
-      item$country_name <- countrycode::countrycode(
-        country_code,
-        origin = "iso2c",
-        destination = "country.name",
-        warn = FALSE
-      )
-    }
-
-    item
-  })
-}
-
 #' Process Date-Time Fields in a Data Table
 #' @keywords internal
 #' @noRd
 process_datetime_fields <- function(dt, fields) {
   existing_fields <- intersect(fields, names(dt))
-  dt[existing_fields] <- lapply(dt[existing_fields], anytime::anytime)
+  dt[existing_fields] <- lapply(
+    dt[existing_fields],
+    fix_datetime
+  )
   dt
 }
 
+fix_datetime <- function(x) {
+  gsub(
+    "([+-]\\d{2}):(\\d{2})$",
+    "\\1\\2",
+    x
+  ) |>
+    as.POSIXct(format = "%Y-%m-%dT%H:%M:%S%z")
+}
 
-#' Convert snake_case to camelCase
-#' @param text Text in snake_case
-#' @return Text in camelCase
+
+#' Get Country Name from ISO2 Country Code or List of Codes
+#' @param x ISO2 country code or list of codes
+#' @return Full country name(s) or NA if code is invalid
 #' @keywords internal
 #' @noRd
-snake_to_camel_case <- function(text) {
-  parts <- strsplit(text, "_")[[1]]
-  if (length(parts) == 1) {
-    return(text)
+get_country_code <- function(x) {
+  if (is.list(x)) {
+    return(
+      lapply(x, get_country_code)
+    )
   }
+  country_code(x)
+}
 
-  paste0(
-    parts[1],
-    paste0(toupper(substring(parts[-1], 1, 1)), substring(parts[-1], 2)),
-    collapse = ""
+#' Get Country Name from ISO2 Country Code
+#' @param x ISO2 country code
+#' @return Full country name or NA if code is invalid
+#' @keywords internal
+#' @noRd
+country_code <- function(x) {
+  countrycode::countrycode(
+    x,
+    origin = "iso2c",
+    destination = "country.name",
+    warn = FALSE
   )
 }
 
-#' Convert camelCase to snake_case
-#' @param text Text in camelCase
-#' @return Text in snake_case
+#' Check if a String is Non-Empty or NULL
+#' @param x A character string or NULL
+#' @return TRUE if x is NULL or a non-empty string, FALSE otherwise
 #' @keywords internal
 #' @noRd
-camel_to_snake_case <- function(text) {
-  text <- gsub("([A-Z]+)([A-Z][a-z])", "\\1_\\2", text)
-  text <- gsub("([a-z])([A-Z])", "\\1_\\2", text)
-  tolower(text)
-}
-
-#' Utility function to unnest list columns if needed
-#' @param df tibble with potential list columns
-#' @param cols Column names to unnest (optional)
-#' @return tibble with unnested columns
-#' @keywords internal
-#' @noRd
-unnest_list_columns <- function(df, cols = NULL) {
-  if (is.null(cols)) {
-    list_cols <- names(df)[purrr::map_lgl(df, is.list)]
-  } else {
-    list_cols <- intersect(cols, names(df))
-  }
-
-  if (length(list_cols) == 0) {
-    return(df)
-  }
-
-  for (col in list_cols) {
-    df <- tidyr::unnest(
-      df,
-      dplyr::all_of(col),
-      keep_empty = TRUE
-    )
-  }
-
-  df
+nzchar_null <- function(x) {
+  is.null(x) || nzchar(x)
 }
 
 # nocov start
@@ -176,5 +126,6 @@ mock_if_no_auth <- function() {
     MEETUP_MEMBER_ID = "1111111",
     MEETUP_RSA_KEY = "-----BEGIN PRIVATE KEY-----"
   )
+  invisible()
 }
 # nocov end

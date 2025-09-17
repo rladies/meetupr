@@ -102,3 +102,100 @@ meetup_req <- function(cache = TRUE, ...) {
     {.envvar MEETUP_AUTH_METHOD=oauth}"
   ))
 }
+
+#' Execute GraphQL query
+#'
+#' This function executes a GraphQL query with the provided variables.
+#' It validates the variables, constructs the request,
+#' and handles any errors returned by the GraphQL API.
+#' @param .query GraphQL query string
+#' @param ... Variables to pass to query
+#' @param .envir Environment for error handling
+#' @return The response from the GraphQL API as a list.
+#' @examples
+#' \dontrun{
+#' query <- "
+#' query GetUser($id: ID!) {
+#'  user(id: $id) {
+#'   id
+#'  name
+#' }
+#' }"
+#' meetup_query(.query = query, id = "12345")
+#' }
+#' @export
+meetup_query <- function(
+  .query,
+  ...,
+  .envir = parent.frame()
+) {
+  variables <- purrr::compact(rlang::list2(...))
+
+  validate_graphql_variables(variables)
+
+  resp <- build_request(
+    .query,
+    variables
+  ) |>
+    httr2::req_perform() |>
+    httr2::resp_body_json()
+
+  if (!is.null(resp$errors)) {
+    cli::cli_abort(
+      c(
+        "Failed to execute GraphQL query.",
+        sapply(resp$errors, function(e) {
+          gsub("\\{", "{{", gsub("\\}", "}}", e$message))
+        })
+      ),
+      .envir = .envir
+    )
+  }
+
+  resp
+}
+
+#' Build a GraphQL Request
+#' This function constructs an HTTP request for a GraphQL query,
+#' including the query and variables in the request body.
+#' @param query A character string containing the GraphQL query.
+#' @param variables A named list of variables to include with the query.
+#' @return A `httr2` request object ready to be sent.
+#' @noRd
+#' @keywords internal
+build_request <- function(
+  query,
+  variables = list()
+) {
+  # Ensure variables is always a proper object, not an array
+  if (length(variables) == 0 || is.null(variables)) {
+    variables <- structure(list(), names = character(0))
+  }
+
+  # Debug the request body if enabled
+  if (check_debug_mode()) {
+    body <- list(
+      query = query,
+      variables = variables
+    ) |>
+      jsonlite::toJSON(
+        auto_unbox = TRUE,
+        pretty = TRUE
+      ) |>
+      strsplit("\n|\\\\n") |>
+      unlist()
+    cli::cli_alert_info("DEBUG: JSON to be sent:")
+    cli::cli_code(
+      body
+    )
+  }
+
+  meetup_req() |>
+    httr2::req_body_json(
+      list(
+        query = query,
+        variables = variables
+      ),
+      auto_unbox = TRUE
+    )
+}
