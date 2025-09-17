@@ -250,8 +250,9 @@ test_that("get_rsa_key_status handles file paths", {
 })
 
 test_that("get_rsa_key_status handles environment variables", {
-  # Test with valid environment key
+  # nolint start
   valid_key <- "-----BEGIN PRIVATE KEY-----\nkey content\n-----END PRIVATE KEY-----"
+  # nolint end
   result <- get_rsa_key_status("", valid_key)
   expect_true(result$valid)
   expect_equal(result$message, "Valid RSA key in environment")

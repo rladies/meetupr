@@ -333,11 +333,13 @@ display_auth_status <- function(auth_status) {
     "info"
   )
 
+  # nolint start
   api_endpoint <- Sys.getenv(
     "MEETUP_API_URL",
     meetup_api_prefix()
   )
   cli::cli_alert_info("API endpoint in use: {.url {api_endpoint}}")
+  # nolint end
 }
 
 #' Test API connectivity

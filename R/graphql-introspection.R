@@ -106,7 +106,8 @@ explore_mutations <- function(schema = meetup_introspect()) {
 #' the function will call `meetup_introspect()` to get the schema.
 #' @param pattern A string pattern to search for in type names and descriptions.
 #' The search is case-insensitive.
-#' @return A tibble with details about matching types, including type name, kind,
+#' @return A tibble with details about matching types,
+#' including type name, kind,
 #' description, and field count.
 #' @examples
 #' \dontrun{
@@ -132,13 +133,16 @@ search_types <- function(schema = meetup_introspect(), pattern) {
 }
 
 #' Get fields for a specific type in the Meetup GraphQL API schema
-#' This function retrieves the fields of a specified type from the Meetup GraphQL
+#' This function retrieves the fields of a specified
+#' type from the Meetup GraphQL
 #' API schema.
 #' @param schema The schema object obtained from `meetup_introspect()`. If NULL,
 #' the function will call `meetup_introspect()` to get the schema.
 #' @param type_name The name of the type for which to retrieve fields.
-#' @return A tibble with details about the fields of the specified type, including
-#' field name, description, type, and deprecation status. If the type is not found
+#' @return A tibble with details about the fields of
+#' the specified type, including
+#' field name, description, type, and deprecation status.
+#' If the type is not found
 #' or has no fields, an appropriate message is returned.
 #' @examples
 #' \dontrun{
@@ -146,8 +150,6 @@ search_types <- function(schema = meetup_introspect(), pattern) {
 #' }
 #' @export
 get_type_fields <- function(schema, type_name) {
-  type_info <- schema$types[[type_name]]
-
   matching <- schema$types[
     sapply(schema$types, function(x) {
       grepl(type_name, x$name, ignore.case = TRUE)

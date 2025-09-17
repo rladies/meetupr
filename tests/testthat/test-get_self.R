@@ -258,30 +258,6 @@ test_that("determine_pro_status handles NULL pro organizer field", {
   expect_true(determine_pro_status(user_data))
 })
 
-test_that("print.meetup_user displays basic info", {
-  user <- structure(
-    list(
-      id = "123",
-      name = "Test User",
-      email = "test@example.com",
-      is_organizer = TRUE,
-      is_leader = FALSE,
-      is_pro_organizer = FALSE,
-      is_member_plus_subscriber = TRUE,
-      has_pro_access = FALSE,
-      location = list(city = "Austin", country = "US"),
-      profile = list(bio = "R user"),
-      raw = list()
-    ),
-    class = c("meetup_user", "list")
-  )
-
-  # expect_output(print(user), "Meetup User:")
-  # expect_output(print(user), "ID: 123")
-  # expect_output(print(user), "Name: Test User")
-  # expect_output(print(user), "Email: test@example.com")
-})
-
 test_that("print.meetup_user handles missing email", {
   user <- structure(
     list(

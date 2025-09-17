@@ -14,7 +14,8 @@ the function will call \code{meetup_introspect()} to get the schema.}
 The search is case-insensitive.}
 }
 \value{
-A tibble with details about matching types, including type name, kind,
+A tibble with details about matching types,
+including type name, kind,
 description, and field count.
 }
 \description{
