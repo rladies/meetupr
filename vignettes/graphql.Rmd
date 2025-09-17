@@ -1,8 +1,8 @@
 ---
-title: "Custom GraphQL Queries and Schema Introspection"
+title: "Custom Meetup Queries"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Custom GraphQL Queries and Schema Introspection}
+  %\VignetteIndexEntry{Custom Meetup Queries}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,11 +14,12 @@ vignette: >
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  eval = FALSE
+  eval = TRUE
 )
 
 vcr::setup_knitr(prefix = "graphql-")
 meetupr:::mock_if_no_auth()
+Sys.setenv(MEETUPR_DEBUG = "")
 ```
 
 ```{r}
@@ -57,14 +58,12 @@ events <- get_events(
   extra_graphql = extra_fields
 )
 
-# Now events includes venue, hosts, and photo data
-head(select(events, title, venue_name, venue_city))
-
+events
 ```
 
 ## Custom Queries from Scratch
 
-For complete control, build queries using `meetup_query()` directly:
+For complete control, build queries using `meetup_template_query()` directly:
 
 ```{r}
 #| label: group-details
@@ -91,73 +90,14 @@ result <- meetup_query(
   urlname = "rladies-lagos"
 )
 
-group_data <- result$data$groupByUrlname
-str(group_data, max.level = 2)
+result
 
 ```
 
 GraphQL queries can include variables (like `$urlname` above) for flexibility.
-The meetup_query() function handles variable substitution by passing them as additional arguments (captured by `...`).
+The `meetup_query()` function handles variable substitution by passing them as additional arguments (captured by `...`).
 
-## Schema Introspection
-
-Explore available fields using GraphQL introspection.
-The entire schema can be queried to discover types and fields.
-
-```{r}
-#| label: introspection
-#| cassette: true
-
-meetup_introspect()
-```
-
-or you can query specific types:
-
-```{r}
-#| label: introspection-types
-#| cassette: true
-
-# Get all available types
-schema_query <- "
-  query {
-    __schema {
-      types {
-        name
-        kind
-        description
-      }
-    }
-  }"
-
-schema_result <- meetup_query(schema_query)
-types <- schema_result$data$`__schema`$types
-types
-```
-
-### Exploring Type Fields
-
-```{r}
-#| label: type-fields
-#| cassette: true
-
-# Explore Event type fields
-event_fields_query <- '
-  query {
-    __type(name: "Event") {
-      fields {
-        name
-        type {
-          name
-          kind
-        }
-        description
-      }
-    }
-  }'
-
-event_schema <- meetup_query(event_fields_query)
-event_schema$data$`__type`$fields
-```
+To learn how to explore the schema and build queries, see the [API Introspection vignette](introspection.html).
 
 ## Debug Mode
 
@@ -238,4 +178,3 @@ query {
 ## Resources
 
 - **GraphQL documentation**: https://www.meetup.com/api/general/
-- **Package issues**: https://github.com/rladies/meetupr/issues

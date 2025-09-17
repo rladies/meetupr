@@ -3,109 +3,42 @@ http_interactions:
     method: POST
     uri: https://api.meetup.com/gql-ext
     body:
-      string: '{"query":"query findTopics($query: String!, $first: Int, $after: String)
-        {\n  suggestTopics(\n    query: $query\n    first: $first\n    after: $after\n  )
-        {\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    totalCount\n    edges
+      string: '{"query":"query findTopics(\n  $query: String!, \n  $first: Int = 1000,
+        \n  $after: String\n  ) {\n  suggestTopics(\n    query: $query\n    first:
+        $first\n    after: $after\n  ) {\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    totalCount\n    edges
         {\n      node {\n        id\n        name\n        urlkey\n        description\n      }\n    }\n  }\n}","variables":{"query":"R","first":10}}'
   response:
     status: 200
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 14 Sep 2025 18:14:12 GMT
-      content-length: '359'
+      date: Wed, 17 Sep 2025 15:05:26 GMT
+      content-length: '1756'
     body:
-      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"MTUwODE="},"totalCount":139,"edges":[{"node":{"id":"98380","name":"R
-        Project for Statistical Computing","urlkey":"r-project-for-statistical-computing","description":null}},{"node":{"id":"15081","name":"Hip
-        Hop","urlkey":"hip-hop","description":"people passionate about hip-hop music"}}]}}}'
-  recorded_at: 2025-09-14 18:14:12
+      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJEb3VibGUiLCJ2YWx1ZSI6Mi44MDIxODgyfSx7InR5cGUiOiJTdHJpbmciLCJ2YWx1ZSI6IjU4NDkwMi1lbl9VUyJ9XX0="},"totalCount":10000,"edges":[{"node":{"id":"109937","name":"Board
+        Games","urlkey":"board-games","description":null}},{"node":{"id":"24384","name":"Consciousness","urlkey":"consciousness","description":"Meet
+        other local people who are interested in the Science of Consciousness. Discuss
+        the recent steps that have been made in the science of consciousness and the
+        new paradigm that''s emerging as a result."}},{"node":{"id":"21137","name":"Recreational
+        Sports","urlkey":"recreational-sports","description":"Meet other people interested
+        in Recreational Sports!"}},{"node":{"id":"35073","name":"Business Referral
+        Networking","urlkey":"business-referral-networking","description":"Meet other
+        local people interested in Business Referral Networking: gather to network,
+        share advice, and exchange ideas!"}},{"node":{"id":"35170","name":"Hiking","urlkey":"hiking","description":"Meet
+        other local hiking enthusiasts! All those who are dedicated to hiking excursions
+        near and far, with a focus on leaving no trace of litter on our lands."}},{"node":{"id":"43699","name":"Reading","urlkey":"reading","description":null}},{"node":{"id":"19285","name":"Real
+        Estate Investors","urlkey":"real-estate-investors","description":null}},{"node":{"id":"73492","name":"Real
+        Estate Investing","urlkey":"real-estate-investing","description":null}},{"node":{"id":"16714","name":"Tabletop
+        Role Playing and Board Games","urlkey":"tabletop-role-playing-and-board-games","description":null}},{"node":{"id":"584902","name":"Machine
+        Learning","urlkey":"machine-learning","description":null}}]}}}'
+  recorded_at: 2025-09-17 15:05:26
 - request:
     method: POST
     uri: https://api.meetup.com/gql-ext
     body:
-      string: '{"query":"query findTopics($query: String!, $first: Int, $after: String)
-        {\n  suggestTopics(\n    query: $query\n    first: $first\n    after: $after\n  )
-        {\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    totalCount\n    edges
-        {\n      node {\n        id\n        name\n        urlkey\n        description\n      }\n    }\n  }\n}","variables":{"query":"R","first":10,"cursor":"MTUwODE=","max_results":10}}'
-  response:
-    status: 200
-    headers:
-      content-type: application/json;charset=utf-8
-      accept-ranges: bytes
-      date: Sun, 14 Sep 2025 18:14:13 GMT
-      content-length: '359'
-    body:
-      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"MTUwODE="},"totalCount":139,"edges":[{"node":{"id":"98380","name":"R
-        Project for Statistical Computing","urlkey":"r-project-for-statistical-computing","description":null}},{"node":{"id":"15081","name":"Hip
-        Hop","urlkey":"hip-hop","description":"people passionate about hip-hop music"}}]}}}'
-  recorded_at: 2025-09-14 18:14:13
-- request:
-    method: POST
-    uri: https://api.meetup.com/gql-ext
-    body:
-      string: '{"query":"query findTopics($query: String!, $first: Int, $after: String)
-        {\n  suggestTopics(\n    query: $query\n    first: $first\n    after: $after\n  )
-        {\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    totalCount\n    edges
-        {\n      node {\n        id\n        name\n        urlkey\n        description\n      }\n    }\n  }\n}","variables":{"query":"R","first":10,"cursor":"MTUwODE=","max_results":10}}'
-  response:
-    status: 200
-    headers:
-      content-type: application/json;charset=utf-8
-      accept-ranges: bytes
-      date: Sun, 14 Sep 2025 18:14:14 GMT
-      content-length: '359'
-    body:
-      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"MTUwODE="},"totalCount":139,"edges":[{"node":{"id":"98380","name":"R
-        Project for Statistical Computing","urlkey":"r-project-for-statistical-computing","description":null}},{"node":{"id":"15081","name":"Hip
-        Hop","urlkey":"hip-hop","description":"people passionate about hip-hop music"}}]}}}'
-  recorded_at: 2025-09-14 18:14:14
-- request:
-    method: POST
-    uri: https://api.meetup.com/gql-ext
-    body:
-      string: '{"query":"query findTopics($query: String!, $first: Int, $after: String)
-        {\n  suggestTopics(\n    query: $query\n    first: $first\n    after: $after\n  )
-        {\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    totalCount\n    edges
-        {\n      node {\n        id\n        name\n        urlkey\n        description\n      }\n    }\n  }\n}","variables":{"query":"R","first":10,"cursor":"MTUwODE=","max_results":10}}'
-  response:
-    status: 200
-    headers:
-      content-type: application/json;charset=utf-8
-      accept-ranges: bytes
-      date: Sun, 14 Sep 2025 18:14:15 GMT
-      content-length: '359'
-    body:
-      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"MTUwODE="},"totalCount":139,"edges":[{"node":{"id":"98380","name":"R
-        Project for Statistical Computing","urlkey":"r-project-for-statistical-computing","description":null}},{"node":{"id":"15081","name":"Hip
-        Hop","urlkey":"hip-hop","description":"people passionate about hip-hop music"}}]}}}'
-  recorded_at: 2025-09-14 18:14:15
-- request:
-    method: POST
-    uri: https://api.meetup.com/gql-ext
-    body:
-      string: '{"query":"query findTopics($query: String!, $first: Int, $after: String)
-        {\n  suggestTopics(\n    query: $query\n    first: $first\n    after: $after\n  )
-        {\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    totalCount\n    edges
-        {\n      node {\n        id\n        name\n        urlkey\n        description\n      }\n    }\n  }\n}","variables":{"query":"R","first":10,"cursor":"MTUwODE=","max_results":10}}'
-  response:
-    status: 200
-    headers:
-      content-type: application/json;charset=utf-8
-      accept-ranges: bytes
-      date: Sun, 14 Sep 2025 18:14:15 GMT
-      content-length: '359'
-    body:
-      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"MTUwODE="},"totalCount":139,"edges":[{"node":{"id":"98380","name":"R
-        Project for Statistical Computing","urlkey":"r-project-for-statistical-computing","description":null}},{"node":{"id":"15081","name":"Hip
-        Hop","urlkey":"hip-hop","description":"people passionate about hip-hop music"}}]}}}'
-  recorded_at: 2025-09-14 18:14:15
-- request:
-    method: POST
-    uri: https://api.meetup.com/gql-ext
-    body:
-      string: '{"query":"query findTopics($query: String!, $first: Int, $after: String)
-        {\n  suggestTopics(\n    query: $query\n    first: $first\n    after: $after\n  )
-        {\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    totalCount\n    edges
+      string: '{"query":"query findTopics(\n  $query: String!, \n  $first: Int = 1000,
+        \n  $after: String\n  ) {\n  suggestTopics(\n    query: $query\n    first:
+        $first\n    after: $after\n  ) {\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    totalCount\n    edges
         {\n      node {\n        id\n        name\n        urlkey\n        description\n      }\n    }\n  }\n}","variables":{"query":"Data
         Science","first":5}}'
   response:
@@ -113,14 +46,13 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 14 Sep 2025 18:14:16 GMT
-      content-length: '639'
+      date: Wed, 17 Sep 2025 15:05:27 GMT
+      content-length: '699'
     body:
-      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"MzU4MDEx"},"totalCount":369,"edges":[{"node":{"id":"102811","name":"Data
-        Science","urlkey":"data-science","description":null}},{"node":{"id":"126646","name":"Data
-        Science using Python","urlkey":"data-science-using-python","description":null}},{"node":{"id":"1512214","name":"Data
-        Science for Business","urlkey":"data-science-for-business","description":null}},{"node":{"id":"672792","name":"Data
-        Science using R","urlkey":"data-science-using-r","description":null}},{"node":{"id":"358011","name":"Data
-        Architecture","urlkey":"data-architecture","description":null}}]}}}'
-  recorded_at: 2025-09-14 18:14:16
+      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJEb3VibGUiLCJ2YWx1ZSI6MTQuODczNDMyfSx7InR5cGUiOiJTdHJpbmciLCJ2YWx1ZSI6IjE3MzMzMy1lbl9VUyJ9XX0="},"totalCount":558,"edges":[{"node":{"id":"1401412","name":"Data
+        Vault Database Modeling","urlkey":"data-vault-database-modeling","description":null}},{"node":{"id":"1413652","name":"Data
+        Warehouse","urlkey":"data-warehouse","description":null}},{"node":{"id":"95904","name":"Data
+        Privacy","urlkey":"data-privacy","description":null}},{"node":{"id":"480642","name":"Data","urlkey":"data","description":null}},{"node":{"id":"173333","name":"Data
+        Governance","urlkey":"data-governance","description":null}}]}}}'
+  recorded_at: 2025-09-17 15:05:27
 recorded_with: VCR-vcr/2.0.0

@@ -69,8 +69,15 @@ cli_status <- function(
   }
 }
 
-show_config_item <- function(name, value, mask = FALSE) {
-  has_value <- nzchar(value)
+#' Display configuration item with optional masking
+#' @keywords internal
+#' @noRd
+show_config_item <- function(
+  name,
+  value,
+  mask = FALSE
+) {
+  has_value <- nzchar_null(value)
   display_value <- if (mask && has_value) {
     paste0(substr(value, 1, 6), "...")
   } else {
@@ -84,23 +91,21 @@ show_config_item <- function(name, value, mask = FALSE) {
   )
 }
 
-validate_rsa_key <- function(key_content) {
-  if (!nzchar(key_content)) {
-    return(FALSE)
-  }
-
-  # Check for PEM format markers
-  has_begin <- grepl("-----BEGIN", key_content)
-  has_end <- grepl("-----END", key_content)
-  has_rsa_markers <- grepl("(PRIVATE KEY|RSA PRIVATE KEY)", key_content)
-
-  has_begin && has_end && has_rsa_markers
-}
-
+#' Check RSA Key Status
+#' @keywords internal
+#' @noRd
 get_rsa_key_status <- function(rsa_path, rsa_key) {
-  if (nzchar(rsa_path)) {
+  if (nzchar_null(rsa_path)) {
     if (!file.exists(rsa_path)) {
-      return(list(valid = FALSE, message = "File not found"))
+      return(list(
+        valid = FALSE,
+        message = "File not found"
+      ))
+    } else if (file.info(rsa_path)$isdir) {
+      return(list(
+        valid = FALSE,
+        message = "Path is a directory, not a file"
+      ))
     }
 
     tryCatch(
@@ -121,7 +126,7 @@ get_rsa_key_status <- function(rsa_path, rsa_key) {
         )
       }
     )
-  } else if (nzchar(rsa_key)) {
+  } else if (nzchar_null(rsa_key)) {
     if (validate_rsa_key(rsa_key)) {
       return(list(
         valid = TRUE,
@@ -139,8 +144,11 @@ get_rsa_key_status <- function(rsa_path, rsa_key) {
   )
 }
 
+#' Validate RSA Key
+#' @keywords internal
+#' @noRd
 validate_rsa_key <- function(key_content) {
-  if (!nzchar(key_content)) {
+  if (!nzchar_null(key_content)) {
     return(FALSE)
   }
 
@@ -152,50 +160,14 @@ validate_rsa_key <- function(key_content) {
   has_begin && has_end && has_rsa_markers
 }
 
-get_rsa_key_status <- function(rsa_path, rsa_key) {
-  if (nzchar(rsa_path)) {
-    if (!file.exists(rsa_path)) {
-      return(list(valid = FALSE, message = "File not found"))
-    }
-
-    tryCatch(
-      {
-        key_content <- paste(readLines(rsa_path, warn = FALSE), collapse = "\n")
-        if (validate_rsa_key(key_content)) {
-          return(list(valid = TRUE, message = "Valid RSA key file"))
-        }
-        list(
-          valid = FALSE,
-          message = "File exists but doesn't contain valid RSA key"
-        )
-      },
-      error = function(e) {
-        list(
-          valid = FALSE,
-          message = paste("Cannot read file:", e$message)
-        )
-      }
-    )
-  } else if (nzchar(rsa_key)) {
-    if (validate_rsa_key(rsa_key)) {
-      return(list(valid = TRUE, message = "Valid RSA key in environment"))
-    }
-    return(list(
-      valid = FALSE,
-      message = "Environment variable set but doesn't contain valid RSA key"
-    ))
-  }
-  list(
-    valid = FALSE,
-    message = "Not set"
-  )
-}
-
+#' Show RSA Key Status
+#' @keywords internal
+#' @noRd
 show_rsa_status <- function(rsa_path, rsa_key) {
   status <- get_rsa_key_status(rsa_path, rsa_key)
 
   if (status$valid) {
-    if (nzchar(rsa_path)) {
+    if (nzchar_null(rsa_path)) {
       cli::cli_alert_success(
         "RSA Key: {.path {rsa_path}}"
       )
@@ -205,7 +177,7 @@ show_rsa_status <- function(rsa_path, rsa_key) {
       )
     }
   } else {
-    if (nzchar(rsa_path)) {
+    if (nzchar_null(rsa_path)) {
       cli::cli_alert_danger(
         "RSA Key: {.path {rsa_path}} {status$message}"
       )
@@ -215,6 +187,9 @@ show_rsa_status <- function(rsa_path, rsa_key) {
   }
 }
 
+#' Check available authentication methods
+#' @keywords internal
+#' @noRd
 check_auth_methods <- function() {
   auth_status <- list()
 
@@ -248,13 +223,16 @@ check_auth_methods <- function() {
   }
 
   auth_status$debug <- list(
-    enabled = nzchar(Sys.getenv("MEETUPR_DEBUG")),
+    enabled = check_debug_mode(),
     value = Sys.getenv("MEETUPR_DEBUG")
   )
 
   auth_status
 }
 
+#' Display authentication status
+#' @keywords internal
+#' @noRd
 display_auth_status <- function(auth_status) {
   # Active authentication method
   cli::cli_h2("Active Authentication Method")
@@ -291,7 +269,7 @@ display_auth_status <- function(auth_status) {
     show_config_item("Client ID", auth_status$oauth$client_id, mask = TRUE)
     show_config_item(
       "Client Secret",
-      if (nzchar(auth_status$oauth$client_secret)) "Set" else ""
+      if (nzchar_null(auth_status$oauth$client_secret)) "Set" else ""
     )
   }
 
@@ -309,13 +287,16 @@ display_auth_status <- function(auth_status) {
   # Show missing JWT variables if not available
   if (!auth_status$jwt$available) {
     missing_jwt <- c()
-    if (!nzchar(auth_status$jwt$client_id)) {
+    if (!nzchar_null(auth_status$jwt$client_id)) {
       missing_jwt <- c(missing_jwt, "MEETUP_CLIENT_ID")
     }
-    if (!nzchar(auth_status$jwt$member_id)) {
+    if (!nzchar_null(auth_status$jwt$member_id)) {
       missing_jwt <- c(missing_jwt, "MEETUP_MEMBER_ID")
     }
-    if (!nzchar(auth_status$jwt$rsa_path) && !nzchar(auth_status$jwt$rsa_key)) {
+    if (
+      !nzchar_null(auth_status$jwt$rsa_path) &&
+        !nzchar_null(auth_status$jwt$rsa_key)
+    ) {
       missing_jwt <- c(missing_jwt, "MEETUP_RSA_PATH or MEETUP_RSA_KEY")
     }
     cli::cli_text("   Missing: {.envvar {missing_jwt}}")
@@ -332,10 +313,10 @@ display_auth_status <- function(auth_status) {
   # Show missing OAuth variables if not available
   if (!auth_status$oauth$available) {
     missing_oauth <- c()
-    if (!nzchar(auth_status$oauth$client_id)) {
+    if (!nzchar_null(auth_status$oauth$client_id)) {
       missing_oauth <- c(missing_oauth, "MEETUP_CLIENT_ID")
     }
-    if (!nzchar(auth_status$oauth$client_secret)) {
+    if (!nzchar_null(auth_status$oauth$client_secret)) {
       missing_oauth <- c(missing_oauth, "MEETUP_CLIENT_SECRET")
     }
     cli::cli_text("   Missing: {.envvar {missing_oauth}}")
@@ -352,16 +333,16 @@ display_auth_status <- function(auth_status) {
     "info"
   )
 
-  api_endpoint <- Sys.getenv("MEETUP_API_URL")
-  cli_status(
-    nzchar(api_endpoint),
-    "API Endpoint: {.url {api_endpoint}} (custom)",
-    "API Endpoint: {.url {meetup_api_prefix()}} (default)",
-    "success",
-    "info"
+  api_endpoint <- Sys.getenv(
+    "MEETUP_API_URL",
+    meetup_api_prefix()
   )
+  cli::cli_alert_info("API endpoint in use: {.url {api_endpoint}}")
 }
 
+#' Test API connectivity
+#' @keywords internal
+#' @noRd
 test_api_connectivity <- function(auth_status) {
   if (auth_status$active_method == "None") {
     cli::cli_h2("Setup Instructions")
@@ -423,4 +404,15 @@ test_api_connectivity <- function(auth_status) {
       )
     }
   )
+}
+
+#' Check if debug mode is enabled
+#' @keywords internal
+#' @noRd
+check_debug_mode <- function() {
+  debug <- Sys.getenv("MEETUPR_DEBUG")
+  if (debug == 1) {
+    return(TRUE)
+  }
+  nzchar_null(debug)
 }

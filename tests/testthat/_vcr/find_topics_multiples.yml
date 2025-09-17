@@ -1,0 +1,122 @@
+http_interactions:
+- request:
+    method: POST
+    uri: https://api.meetup.com/gql-ext
+    body:
+      string: '{"query":"query findTopics(\n  $query: String!, \n  $first: Int = 1000,
+        \n  $after: String\n  ) {\n  suggestTopics(\n    query: $query\n    first:
+        $first\n    after: $after\n  ) {\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    totalCount\n    edges
+        {\n      node {\n        id\n        name\n        urlkey\n        description\n      }\n    }\n  }\n}","variables":{"query":"AI","first":8}}'
+  response:
+    status: 200
+    headers:
+      content-type: application/json;charset=utf-8
+      accept-ranges: bytes
+      date: Tue, 16 Sep 2025 14:28:49 GMT
+      content-length: '295'
+    body:
+      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"NTAzMDMy"},"totalCount":455,"edges":[{"node":{"id":"90164","name":"AI
+        and Society","urlkey":"ai-and-society","description":null}},{"node":{"id":"503032","name":"AI
+        Algorithms","urlkey":"ai-algorithms","description":null}}]}}}'
+  recorded_at: 2025-09-16 14:28:49
+- request:
+    method: POST
+    uri: https://api.meetup.com/gql-ext
+    body:
+      string: '{"query":"query findTopics(\n  $query: String!, \n  $first: Int = 1000,
+        \n  $after: String\n  ) {\n  suggestTopics(\n    query: $query\n    first:
+        $first\n    after: $after\n  ) {\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    totalCount\n    edges
+        {\n      node {\n        id\n        name\n        urlkey\n        description\n      }\n    }\n  }\n}","variables":{"query":"AI","first":8,"cursor":"NTAzMDMy"}}'
+  response:
+    status: 200
+    headers:
+      content-type: application/json;charset=utf-8
+      accept-ranges: bytes
+      date: Tue, 16 Sep 2025 14:28:50 GMT
+      content-length: '295'
+    body:
+      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"NTAzMDMy"},"totalCount":455,"edges":[{"node":{"id":"90164","name":"AI
+        and Society","urlkey":"ai-and-society","description":null}},{"node":{"id":"503032","name":"AI
+        Algorithms","urlkey":"ai-algorithms","description":null}}]}}}'
+  recorded_at: 2025-09-16 14:28:50
+- request:
+    method: POST
+    uri: https://api.meetup.com/gql-ext
+    body:
+      string: '{"query":"query findTopics(\n  $query: String!, \n  $first: Int = 1000,
+        \n  $after: String\n  ) {\n  suggestTopics(\n    query: $query\n    first:
+        $first\n    after: $after\n  ) {\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    totalCount\n    edges
+        {\n      node {\n        id\n        name\n        urlkey\n        description\n      }\n    }\n  }\n}","variables":{"query":"AI","first":8,"cursor":"NTAzMDMy"}}'
+  response:
+    status: 200
+    headers:
+      content-type: application/json;charset=utf-8
+      accept-ranges: bytes
+      date: Tue, 16 Sep 2025 14:28:50 GMT
+      content-length: '295'
+    body:
+      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"NTAzMDMy"},"totalCount":455,"edges":[{"node":{"id":"90164","name":"AI
+        and Society","urlkey":"ai-and-society","description":null}},{"node":{"id":"503032","name":"AI
+        Algorithms","urlkey":"ai-algorithms","description":null}}]}}}'
+  recorded_at: 2025-09-16 14:28:50
+- request:
+    method: POST
+    uri: https://api.meetup.com/gql-ext
+    body:
+      string: '{"query":"query findTopics(\n  $query: String!, \n  $first: Int = 1000,
+        \n  $after: String\n  ) {\n  suggestTopics(\n    query: $query\n    first:
+        $first\n    after: $after\n  ) {\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    totalCount\n    edges
+        {\n      node {\n        id\n        name\n        urlkey\n        description\n      }\n    }\n  }\n}","variables":{"query":"AI","first":8}}'
+  response:
+    status: 200
+    headers:
+      content-type: application/json;charset=utf-8
+      accept-ranges: bytes
+      date: Tue, 16 Sep 2025 14:28:51 GMT
+      content-length: '295'
+    body:
+      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"NTAzMDMy"},"totalCount":455,"edges":[{"node":{"id":"90164","name":"AI
+        and Society","urlkey":"ai-and-society","description":null}},{"node":{"id":"503032","name":"AI
+        Algorithms","urlkey":"ai-algorithms","description":null}}]}}}'
+  recorded_at: 2025-09-16 14:28:51
+- request:
+    method: POST
+    uri: https://api.meetup.com/gql-ext
+    body:
+      string: '{"query":"query findTopics(\n  $query: String!, \n  $first: Int = 1000,
+        \n  $after: String\n  ) {\n  suggestTopics(\n    query: $query\n    first:
+        $first\n    after: $after\n  ) {\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    totalCount\n    edges
+        {\n      node {\n        id\n        name\n        urlkey\n        description\n      }\n    }\n  }\n}","variables":{"query":"AI","first":8,"cursor":"NTAzMDMy"}}'
+  response:
+    status: 200
+    headers:
+      content-type: application/json;charset=utf-8
+      accept-ranges: bytes
+      date: Tue, 16 Sep 2025 14:28:51 GMT
+      content-length: '295'
+    body:
+      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"NTAzMDMy"},"totalCount":455,"edges":[{"node":{"id":"90164","name":"AI
+        and Society","urlkey":"ai-and-society","description":null}},{"node":{"id":"503032","name":"AI
+        Algorithms","urlkey":"ai-algorithms","description":null}}]}}}'
+  recorded_at: 2025-09-16 14:28:51
+- request:
+    method: POST
+    uri: https://api.meetup.com/gql-ext
+    body:
+      string: '{"query":"query findTopics(\n  $query: String!, \n  $first: Int = 1000,
+        \n  $after: String\n  ) {\n  suggestTopics(\n    query: $query\n    first:
+        $first\n    after: $after\n  ) {\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    totalCount\n    edges
+        {\n      node {\n        id\n        name\n        urlkey\n        description\n      }\n    }\n  }\n}","variables":{"query":"AI","first":8,"cursor":"NTAzMDMy"}}'
+  response:
+    status: 200
+    headers:
+      content-type: application/json;charset=utf-8
+      accept-ranges: bytes
+      date: Tue, 16 Sep 2025 14:28:52 GMT
+      content-length: '295'
+    body:
+      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"NTAzMDMy"},"totalCount":455,"edges":[{"node":{"id":"90164","name":"AI
+        and Society","urlkey":"ai-and-society","description":null}},{"node":{"id":"503032","name":"AI
+        Algorithms","urlkey":"ai-algorithms","description":null}}]}}}'
+  recorded_at: 2025-09-16 14:28:52
+recorded_with: VCR-vcr/2.0.0

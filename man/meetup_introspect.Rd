@@ -21,9 +21,12 @@ retrieve the schema details, including available query types, mutation types,
 and type definitions.
 }
 \examples{
-\dontrun{
-# Get the schema details as a tidy tibble
-schema <- meetup_introspect()
-View(schema)
+\dontshow{
+vcr::insert_example_cassette("meetup_introspect", package = "meetupr")
+meetupr:::mock_if_no_auth()
+}
+meetup_introspect()
+\dontshow{
+vcr::eject_cassette()
 }
 }

@@ -1,0 +1,64 @@
+http_interactions:
+- request:
+    method: POST
+    uri: https://api.meetup.com/gql-ext
+    body:
+      string: '{"query":"query getGroup($urlname: String!) {\n    groupByUrlname(urlname:
+        $urlname) {\n        id\n        name\n        description\n        urlname\n        link\n        city\n        country\n        timezone\n        foundedDate\n        stats
+        {\n            memberCounts {\n            all\n            }\n        }\n        organizer
+        {\n            id\n            name\n        }\n        keyGroupPhoto {\n            baseUrl\n        }\n        topicCategory
+        {\n            id\n            name\n        }\n        events(\n            first:
+        1, \n            filter: { \n                status: [ACTIVE, PAST, CANCELLED,
+        DRAFT] \n                }\n            ) {\n            totalCount\n        }\n    }\n}","variables":{"urlname":"rladies-lagos"}}'
+  response:
+    status: 200
+    headers:
+      content-type: application/json;charset=utf-8
+      accept-ranges: bytes
+      date: Wed, 17 Sep 2025 10:57:54 GMT
+      content-length: '3754'
+    body:
+      string: '{"data":{"groupByUrlname":{"id":"32612004","name":"R-Ladies Lagos","description":"R-Ladies
+        is a world-wide organization to promote gender diversity in the R community.\nR-Ladies
+        welcomes members of all R proficiency levels, whether you''re a new or aspiring
+        R user, or an experienced R programmer interested in mentoring, networking
+        & expert upskilling. Our community is designed to develop our members'' R
+        skills & knowledge through social, collaborative learning & sharing. Supporting
+        minority identity access to STEM skills & careers, the Free Software Movement,
+        and contributing to the global R community!\nThis is a local chapter of R-Ladies
+        Global, an organisation that promotes gender diversity in the R community
+        worldwide. We are pro-actively inclusive of queer, trans, and all minority
+        identities, with additional sensitivity to intersectional identities. Our
+        priority is to provide a safe community space for anyone identifying as a
+        minority gender who is interested in and/or working with R. As a founding
+        principle, there is no cost or charge to participate in any of our R-Ladies
+        communities around the world.\nWe are part of Global R-Ladies group. You can
+        access our presentations, R scripts, and Projects on our Github account and
+        follow us on twitter to stay up to date about R-Ladies news!\nWebsite: [https://www.rladies.org](https://www.rladies.org)\nTwitter:
+        @RLadiesGlobal ( [https://twitter.com/RLadiesGlobal](https://twitter.com/RLadiesGlobal)
+        )\nGithub: [https://github.com/rladies](https://github.com/rladies)\nP.S.
+        Community Policies & Code of Conduct:\nThe leadership, mentoring & teaching
+        roles within this Community are held exclusively by minority genders (majority
+        gender speakers may be allowed/invited as one-off guests in exceptional circumstances
+        at the leadership team''s discretion). Due to unexpected demand, we have opened
+        learning participation to all genders, dependent on initial and on-going vetting
+        by the leadership team. However, the stated priority of the R-Ladies communities
+        is the development & support specifically of those identifying as a minority
+        gender, and we, therefore, reserve the right to guard this interest through
+        whatever measures the leadership team deems appropriate. Anyone involved with
+        R-Ladies is expected to fully respect each other, the mandate of this community,
+        and the goodwill on which R-Ladies is founded, or face expulsion/a penalty
+        of any form, at the discretion of the leadership team.\nFull community guidelines
+        are found here: [https://github.com/rladies/starter-kit/wiki](https://github.com/rladies/starter-kit/wiki)\nP.P.S.
+        Photos, Films and all other media/recordings:\nPhotos, Films, and all other
+        media/recordings: photographs and/or video/other media will be taken at events
+        held by this community. By taking part in an R-Ladies event you grant the
+        community organizers full rights to use the images resulting from the photography/video
+        filming/media, and any reproductions or adaptations of the images for publicity,
+        fundraising or other purposes to help achieve the community’s aims. This might
+        include (but is not limited to), the right to use them in their printed and
+        online publicity, social media, press releases and funding applications. If
+        you do not wish to be recorded in these media please inform a community organizer.","urlname":"rladies-lagos","link":"https://www.meetup.com/rladies-lagos","city":"Lagos","country":"ng","timezone":"Africa/Lagos","foundedDate":"2019-08-16T09:45:21+01:00","stats":{"memberCounts":{"all":866}},"organizer":{"id":"251470805","name":"R-Ladies
+        Global"},"keyGroupPhoto":{"baseUrl":"https://secure-content.meetupstatic.com/images/classic-events/"},"topicCategory":{"id":"546","name":"Technology"},"events":{"totalCount":13}}}}'
+  recorded_at: 2025-09-17 10:57:54
+recorded_with: VCR-vcr/2.0.0

@@ -1,0 +1,55 @@
+http_interactions:
+- request:
+    method: POST
+    uri: https://api.meetup.com/gql-ext
+    body:
+      string: '{"query":"\nquery($eventId: ID!) {\n  event(id: $eventId) {\n    title\n    description\n    dateTime\n    venues
+        {\n      name\n      address\n    }\n    group {\n      name\n      urlname\n    }\n  }\n}","variables":{"eventId":"103349942"}}'
+  response:
+    status: 200
+    headers:
+      content-type: application/json;charset=utf-8
+      accept-ranges: bytes
+      date: Wed, 17 Sep 2025 14:55:34 GMT
+      content-length: '3150'
+    body:
+      string: '{"data":{"event":{"title":"Ecosystem GIS & Community Building","description":"Hello
+        New DVDC Members!\n\nIs Data Visualization a science or an art? Our goal is
+        to create great events where everyones'' experiences reflect that sentiment,
+        and we are beginning a great speaker in Joseph Sexton (http://www.terpconnect.umd.edu/~jsexton/).
+        Joe will give us a glimpse of his department''s unique global ecological datasets,
+        with stunning visuals, and what goes into unparalleled GIS data. Joe''s datasets
+        include DISCO (Dynamic Impervious Surface Cover Observations) and global 30-m
+        resolution continuous fields of tree cover from 2000 - 2005. Elizabeth Lyon
+        will show us the next evolution of Wikipedia with interactive map visualization
+        by MapStory.\n\nWe are excited to have NClud host the event, they have a great
+        aesthetic downtown space that facilitates networking as well as presentations,
+        and as with all Data Community DC (http://www.meetup.com/Data-Visualization-DC/events/103349942/www.datacommunitydc.org)
+        events we cap the night with Data Drinks.\n\nAgenda\n\n6:30pm -- Networking
+        and Refreshments 7:00pm -- Introduction & Announcements 7:15pm -- Presentation
+        #1 7:45pm -- Readjust & Announcements 7:55pm -- Presentation #2 8:25pm --
+        Q&A - Discussion 8:40pm -- Data Drinks Bios\n\nJoseph Sexton (http://www.terpconnect.umd.edu/~jsexton/)\n\nJoe
+        is a research professor at the University of Maryland whose research focuses
+        on ecosystem dynamics and the remote sensing methods required to monitor landscape
+        changes over time. He developes statistical and ecological analyses for the
+        Global Forest Cover Change Project (http://glcf.umiacs.umd.edu/research/portal/gfcc/index.shtml),
+        a joint project of the Global Land Cover Facility (http://www.glcf.umd.edu/index.shtml),
+        NASA''s Goddard Space Flight Center (http://www.nasa.gov/centers/goddard/home/index.html),
+        and South Dakota State University (http://globalmonitoring.sdstate.edu/).
+        The project is mining more than thirty years of Landsat images to map changes
+        in Earth''s forest cover from 1975 to 2005. Joe also contributes ecological,
+        statistical, and remote sensing expertise to collaborative studies of urban
+        heat islands, threatened and endangered species habitat, tropical deforestation,
+        climate effects on boreal biomes, and urban growth.\n\nElizabeth Lyon\n\nLiz
+        is a Geographer with the U.S. Army Corps of Engineers. She leads innovative
+        research and technology development in social media, social sciences, and
+        geospatial technology. Currently she works on building technical capacity
+        for spatial narrative development. Elizabeth volunteers her time in Washington
+        DC growing the geospatial community. She is currently completing her Ph.D.
+        in Geography at George Mason University. She has a Certificate in Computational
+        Social Science from George Mason University, a Masters of Science in Geography
+        from University of Illinois and a bachelor’s degree in Economics and French
+        from Augustana College.","dateTime":"2013-02-18T18:30:00-05:00","venues":[{"name":"Browsermedia/NClud","address":"1203
+        19th Street"}],"group":{"name":"Data Visualization DC","urlname":"data-visualization-dc"}}}}'
+  recorded_at: 2025-09-17 14:55:34
+recorded_with: VCR-vcr/2.0.0

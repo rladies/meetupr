@@ -1,0 +1,30 @@
+http_interactions:
+- request:
+    method: POST
+    uri: https://api.meetup.com/gql-ext
+    body:
+      string: '{"query":"query groupSearch(\n  $query: String!\n  $cursor: String\n  $first:
+        Int = 1000\n  $lat: Float! = 0.0\n  $lon: Float! = 0.0\n  $radius: Float =
+        100000000.0\n) {\n  groupSearch(\n    after: $cursor\n    first: $first\n    filter:
+        {\n      query: $query\n      lat: $lat\n      lon: $lon\n      radius: $radius\n    }\n  )
+        {\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    totalCount\n    edges
+        {\n      node {\n        id\n        name\n        urlname\n        city\n        state\n        country\n        lat\n        lon\n        memberships
+        {\n          totalCount\n        }\n        foundedDate\n        timezone\n        joinMode\n        isPrivate\n        membershipMetadata
+        {\n          status\n        }\n      }\n    }\n  }\n}","variables":{"query":"JavaScript","first":10}}'
+  response:
+    status: 200
+    headers:
+      content-type: application/json;charset=utf-8
+      accept-ranges: bytes
+      date: Tue, 16 Sep 2025 14:28:41 GMT
+      content-length: '3309'
+    body:
+      string: '{"data":{"groupSearch":{"pageInfo":{"hasNextPage":true,"endCursor":"MTA="},"totalCount":10,"edges":[{"node":{"id":"38154603","name":"MG.js","urlname":"monchengladbach-open-source-intelligence-meetup-group","city":"Mönchengladbach","state":"","country":"de","lat":51.2,"lon":6.42,"memberships":{"totalCount":16},"foundedDate":"2025-08-20T15:16:54+02:00","timezone":"Europe/Berlin","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"5844892","name":"Uruguay
+        Javascript Meetup Group","urlname":"uruguayjs","city":"Montevideo","state":"","country":"uy","lat":-34.87,"lon":-56.17,"memberships":{"totalCount":2096},"foundedDate":"2012-11-14T10:55:56-02:00","timezone":"America/Montevideo","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"34960918","name":"JavaScript
+        en Español","urlname":"javascript-en-espanol","city":"Nashville","state":"TN","country":"us","lat":36.17,"lon":-86.78,"memberships":{"totalCount":4},"foundedDate":"2021-03-28T01:18:37-05:00","timezone":"America/Chicago","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"18305583","name":"LyonJS","urlname":"lyonjs","city":"Lyon","state":"","country":"fr","lat":45.76,"lon":4.83,"memberships":{"totalCount":4035},"foundedDate":"2015-01-06T06:22:47+01:00","timezone":"Europe/Paris","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"33189726","name":"Javascript
+        Malaysia","urlname":"Javascript-Malaysia","city":"Kuala Lumpur","state":"","country":"my","lat":3.16,"lon":101.71,"memberships":{"totalCount":1319},"foundedDate":"2020-01-10T23:36:23+08:00","timezone":"Asia/Kuala_Lumpur","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"18210750","name":"Javascript-G","urlname":"Javascript-G","city":"Chennai","state":"","country":"in","lat":13.09,"lon":80.27,"memberships":{"totalCount":247},"foundedDate":"2014-11-24T00:28:22+05:30","timezone":"Asia/Kolkata","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"1546066","name":"Triangle
+        JavaScript","urlname":"Triangle-JavaScript","city":"Durham","state":"NC","country":"us","lat":35.92,"lon":-78.92,"memberships":{"totalCount":2851},"foundedDate":"2009-10-25T00:58:08-04:00","timezone":"America/New_York","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"25021192","name":"Kuala
+        Lumpur JavaScript Meetup","urlname":"Kuala-Lumpur-JavaScript-Meetup","city":"Kuala
+        Lumpur","state":"","country":"my","lat":3.16,"lon":101.71,"memberships":{"totalCount":91},"foundedDate":"2017-07-17T05:37:40+08:00","timezone":"Asia/Kuala_Lumpur","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"11411202","name":"BartJS","urlname":"bartjs","city":"Trondheim","state":"","country":"no","lat":63.44,"lon":10.4,"memberships":{"totalCount":707},"foundedDate":"2013-12-10T12:39:44+01:00","timezone":"Europe/Oslo","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"20491886","name":"j4Guanatos","urlname":"j4Guanatos","city":"Guadalajara","state":"","country":"mx","lat":20.67,"lon":-103.35,"memberships":{"totalCount":3034},"foundedDate":"2016-09-28T13:01:15-05:00","timezone":"America/Mexico_City","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}}]}}}'
+  recorded_at: 2025-09-16 14:28:41
+recorded_with: VCR-vcr/2.0.0

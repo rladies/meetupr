@@ -7,20 +7,21 @@
 #' @noRd
 process_graphql_list <- function(
   dlist,
-  handle_multiples = "list"
+  handle_multiples = c("list", "first")
 ) {
   if (length(dlist) == 0) {
     return(dplyr::tibble())
   }
 
+  handle_multiples <- match.arg(
+    handle_multiples,
+    c("first", "list")
+  )
+
   handle_fun <- switch(
     handle_multiples,
     list = combine_duplicate_columns,
-    first = keep_first_duplicate_columns,
-    stop(
-      "Invalid handle_multiples option. Use 'first' or 'list'.",
-      call. = FALSE
-    )
+    first = keep_first_duplicate_columns
   )
 
   # Flatten each item completely
@@ -95,9 +96,8 @@ combine_duplicate_columns <- function(df) {
 #' @noRd
 keep_first_duplicate_columns <- function(df) {
   column_names <- names(df)
-  browser()
-  # Find base names (without ..1, ..2 suffixes)
-  base_names <- unique(gsub("\\.\\.\\d+$", "", column_names))
+  pattern <- "\\.{3}\\d+$"
+  base_names <- unique(gsub(pattern, "", column_names))
 
   new_data <- list()
 
@@ -134,17 +134,9 @@ escape_regex <- function(string) {
 #' @noRd
 clean_field_names <- function(df) {
   old_names <- names(df)
-  new_names <- purrr::map_chr(old_names, clean_single_field_name)
+  names(df) <- make.names(old_names, unique = TRUE) |>
+    sapply(clean_field_name)
 
-  # Handle duplicates
-  new_names <- make.names(new_names, unique = TRUE)
-
-  # Fix make.names artifacts
-  new_names <- gsub("\\.", "_", new_names)
-  new_names <- gsub("_+", "_", new_names)
-  new_names <- gsub("^_|_$", "", new_names)
-
-  names(df) <- new_names
   df
 }
 
@@ -153,16 +145,27 @@ clean_field_names <- function(df) {
 #' @return Cleaned field name
 #' @keywords internal
 #' @noRd
-clean_single_field_name <- function(name) {
-  # Convert camelCase to snake_case
-  name <- gsub("([a-z])([A-Z])", "\\1_\\2", name)
+clean_field_name <- function(name) {
+  gsub("([a-z])([A-Z])", "\\1_\\2", name) |>
+    gsub2("\\.", "_", ) |>
+    gsub2("-+", "_") |>
+    gsub2("^-|-$", "") |>
+    gsub2("__+", "_") |>
+    tolower() |>
+    gsub2("_total_count$", "_count") |>
+    gsub2("_base_url$", "_url") |>
+    gsub2("_metadata_", "_") |>
+    gsub2("(\\w+)_\\1(?=_|$)", "\\1", perl = TRUE)
+}
 
-  # Handle common GraphQL patterns
-  name <- gsub("_total_count$", "_count", name)
-  name <- gsub("_base_url$", "_url", name)
-  name <- gsub("member_member_", "member_", name)
-  name <- gsub("group_group_", "group_", name)
-
-  # Convert to lowercase
-  tolower(name)
+#' Wrapper around gsub to allow chaining
+#' @param x Input string
+#' @param pattern Pattern to replace
+#' @param replacement Replacement string
+#' @param ... Additional gsub parameters
+#' @return Modified string
+#' @keywords internal
+#' @noRd
+gsub2 <- function(x, pattern, replacement, ...) {
+  gsub(pattern, replacement, x, ...)
 }

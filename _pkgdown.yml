@@ -18,6 +18,11 @@ reference:
   - title: "Query functions"
     desc: "Functions enabling querying of data"
     contents:
-      - meetup_introspect
-      - meetup_query
       - meetup_req
+      - meetup_query
+  - title: "Introspection"
+    desc: "Functions for introspection and debugging"
+    contents:
+      - contains("introspect")
+      - starts_with("explore")
+      - starts_with("search")
