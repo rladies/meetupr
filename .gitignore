@@ -9,3 +9,5 @@ vignettes/*.html
 docs
 pkgdown/
 figure/
+
+/.quarto/

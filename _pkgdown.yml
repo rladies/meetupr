@@ -2,7 +2,7 @@ template:
   bootstrap: 5
 
 reference:
-  - title: "Retrieveing data and working with data"
+  - title: "Retrieving data and working with data"
     desc: >
       Functions for retrieving data
     contents:
