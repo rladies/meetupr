@@ -4,7 +4,10 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit the Rmd file -->
 
-```{r, echo = FALSE}
+```{r}
+#| include: false
+#| label: setup
+
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -26,6 +29,18 @@ knitr::opts_chunk$set(
 R interface to the Meetup GraphQL API
 
 ## Installation
+
+To install the current version from R-Universe (recommended):
+
+```r
+install.packages(
+  'meetupr', 
+  repos = c(
+    'https://rladies.r-universe.dev', 
+    'https://cloud.r-project.org'
+  )
+)
+```
 
 To install the development version from GitHub:
 
@@ -83,17 +98,6 @@ pro_groups <- get_pro_groups("rladies")
 # Get events from a pro network
 pro_events <- get_pro_events("rladies", status = "upcoming")
 ```
-
-## Available Functions
-
-- `get_events()` - Get events for a group
-- `get_group_members()` - Get members of a group  
-- `get_event_attendees()` - Get attendees for an event
-- `get_event_rsvps()` - Get RSVPs for an event
-- `find_groups()` - Search for groups by text
-- `get_pro_groups()` - Get groups in a Pro network
-- `get_pro_events()` - Get events from a Pro network
-- `get_self()` - Get information about the authenticated user
 
 ## Contributing
 
