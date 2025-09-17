@@ -62,7 +62,7 @@ Search for types related to your interests:
 event_types <- search_types(schema, pattern = "event")
 event_types
 
-user_types <- search_types(pattern = "user")
+user_types <- search_types(schema, pattern = "user")
 user_types
 ```
 
