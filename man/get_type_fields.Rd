@@ -3,7 +3,8 @@
 \name{get_type_fields}
 \alias{get_type_fields}
 \title{Get fields for a specific type in the Meetup GraphQL API schema
-This function retrieves the fields of a specified type from the Meetup GraphQL
+This function retrieves the fields of a specified
+type from the Meetup GraphQL
 API schema.}
 \usage{
 get_type_fields(schema, type_name)
@@ -15,13 +16,16 @@ the function will call \code{meetup_introspect()} to get the schema.}
 \item{type_name}{The name of the type for which to retrieve fields.}
 }
 \value{
-A tibble with details about the fields of the specified type, including
-field name, description, type, and deprecation status. If the type is not found
+A tibble with details about the fields of
+the specified type, including
+field name, description, type, and deprecation status.
+If the type is not found
 or has no fields, an appropriate message is returned.
 }
 \description{
 Get fields for a specific type in the Meetup GraphQL API schema
-This function retrieves the fields of a specified type from the Meetup GraphQL
+This function retrieves the fields of a specified
+type from the Meetup GraphQL
 API schema.
 }
 \examples{

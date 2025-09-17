@@ -234,7 +234,7 @@ test_that("get_country_code handles single values", {
       if (x == "XX") {
         return(NA_character_)
       }
-      return(NA_character_)
+      NA_character_
     }
   )
 

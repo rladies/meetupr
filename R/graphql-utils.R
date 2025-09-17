@@ -38,7 +38,8 @@ execute_from_template <- function(
 #' Get template path
 #' This function constructs the file path for a given GraphQL
 #' template file and checks if it exists.
-#' @param .file Name of the file containing the GraphQL query (without extension)
+#' @param .file Name of the file containing the GraphQL
+#' query (without extension)
 #' @return The full file path to the GraphQL template file.
 #' @keywords internal
 #' @noRd
