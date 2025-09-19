@@ -26,7 +26,7 @@ find_groups <- function(
   extra_graphql = NULL,
   ...
 ) {
-  ellipsis::check_dots_empty()
+  rlang::check_dots_empty()
 
   std_query <- standard_query(
     "find_groups",
