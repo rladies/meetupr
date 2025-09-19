@@ -17,7 +17,7 @@ meetup_api_prefix <- function() {
 #'
 #' @param cache A logical value indicating whether to cache the OAuth token
 #'   on disk. Defaults to `TRUE`.
-#' @param ... Additional arguments passed to `meetup_client()` for setting up
+#' @param ... Additional arguments passed to [meetup_client()] for setting up
 #'   the OAuth client.
 #'
 #' @return A `httr2` request object pre-configured to interact with the
