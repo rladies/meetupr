@@ -53,7 +53,7 @@ test_that("has_jwt_credentials checks file path if RSA key is not set", {
   expect_true(has_jwt_credentials())
 })
 
-test_that("has_jwt_credentials returns FALSE when RSA key requirements not met", {
+test_that("has_jwt_credentials returns FALSE for bad RSA", {
   withr::local_envvar(
     MEETUP_CLIENT_ID = "test_client_id",
     MEETUP_MEMBER_ID = "test_member_id",
