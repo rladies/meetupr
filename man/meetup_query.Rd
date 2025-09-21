@@ -4,10 +4,10 @@
 \alias{meetup_query}
 \title{Execute GraphQL query}
 \usage{
-meetup_query(.query, ..., .envir = parent.frame())
+meetup_query(graphql, ..., .envir = parent.frame())
 }
 \arguments{
-\item{.query}{GraphQL query string}
+\item{graphql}{GraphQL query string}
 
 \item{...}{Variables to pass to query}
 
@@ -30,6 +30,6 @@ query GetUser($id: ID!) {
  name
 }
 }"
-meetup_query(.query = query, id = "12345")
+meetup_query(graphql = query, id = "12345")
 }
 }
