@@ -21,8 +21,6 @@ meetup_api_prefix <- function() {
 #'   the OAuth client.
 #'
 #' @return A `httr2` request object pre-configured to interact with the
-#'   Meetup API. Note that the current implementation is commented out and
-#'   serves as a placeholder for the full logic.
 #'
 #' @examples
 #' \dontrun{
