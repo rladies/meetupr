@@ -24,7 +24,7 @@ get_group_members <- function(
   extra_graphql = NULL,
   ...
 ) {
-  ellipsis::check_dots_empty()
+  rlang::check_dots_empty()
 
   execute(
     standard_query(

@@ -29,7 +29,6 @@ Imports:
     countrycode,
     cli,
     dplyr,
-    ellipsis,
     glue,
     httr2,
     jsonlite,

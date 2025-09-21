@@ -42,7 +42,7 @@ get_pro_groups <- function(
   extra_graphql = NULL,
   ...
 ) {
-  ellipsis::check_dots_empty()
+  rlang::check_dots_empty()
   execute(
     standard_query(
       "get_pro_groups",
@@ -72,7 +72,7 @@ get_pro_events <- function(
   extra_graphql = NULL,
   ...
 ) {
-  ellipsis::check_dots_empty()
+  rlang::check_dots_empty()
 
   execute(
     standard_query(
