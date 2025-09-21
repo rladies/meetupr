@@ -107,7 +107,7 @@ meetup_req <- function(cache = TRUE, ...) {
 #' This function executes a GraphQL query with the provided variables.
 #' It validates the variables, constructs the request,
 #' and handles any errors returned by the GraphQL API.
-#' @param .query GraphQL query string
+#' @param graphql GraphQL query string
 #' @param ... Variables to pass to query
 #' @param .envir Environment for error handling
 #' @return The response from the GraphQL API as a list.
@@ -120,20 +120,20 @@ meetup_req <- function(cache = TRUE, ...) {
 #'  name
 #' }
 #' }"
-#' meetup_query(.query = query, id = "12345")
+#' meetup_query(graphql = query, id = "12345")
 #' }
 #' @export
 meetup_query <- function(
-  .query,
+  graphql,
   ...,
   .envir = parent.frame()
 ) {
-  variables <- purrr::compact(rlang::list2(...))
-
+  variables <- rlang::list2(...) |>
+    purrr::compact()
   validate_graphql_variables(variables)
 
   resp <- build_request(
-    .query,
+    graphql,
     variables
   ) |>
     httr2::req_perform() |>
@@ -163,18 +163,21 @@ meetup_query <- function(
 #' @noRd
 #' @keywords internal
 build_request <- function(
-  query,
+  graphql,
   variables = list()
 ) {
   # Ensure variables is always a proper object, not an array
   if (length(variables) == 0 || is.null(variables)) {
-    variables <- structure(list(), names = character(0))
+    variables <- structure(
+      list(),
+      names = character(0)
+    )
   }
 
   # Debug the request body if enabled
   if (check_debug_mode()) {
     body <- list(
-      query = query,
+      query = graphql,
       variables = variables
     ) |>
       jsonlite::toJSON(

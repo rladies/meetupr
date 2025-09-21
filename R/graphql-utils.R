@@ -17,19 +17,16 @@ execute_from_template <- function(
   extra_graphql = NULL,
   .envir = parent.frame()
 ) {
-  file_path <- get_template_path(.file)
-  query <- read_template(file_path)
-
   extra_graphql <- validate_extra_graphql(
     extra_graphql
   )
 
-  glued_query <- insert_extra_graphql(
-    query,
-    extra_graphql
-  )
+  template <- get_template_path(.file) |>
+    read_template() |>
+    insert_extra_graphql(extra_graphql)
+
   meetup_query(
-    .query = glued_query,
+    graphql = template,
     ...,
     .envir = .envir
   )
