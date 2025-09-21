@@ -108,23 +108,18 @@ get_rsa_key_status <- function(rsa_path, rsa_key) {
       ))
     }
 
-    tryCatch(
-      {
-        key_content <- paste(readLines(rsa_path, warn = FALSE), collapse = "\n")
-        if (validate_rsa_key(key_content)) {
-          return(list(valid = TRUE, message = "Valid RSA key file"))
-        }
-        list(
-          valid = FALSE,
-          message = "File exists but doesn't contain valid RSA key"
-        )
-      },
-      error = function(e) {
-        list(
-          valid = FALSE,
-          message = paste("Cannot read file:", e$message)
-        )
-      }
+    key_content <- paste(readLines(rsa_path, warn = FALSE), collapse = "\n")
+    if (validate_rsa_key(key_content)) {
+      return(list(
+        valid = TRUE,
+        message = "Valid RSA key file"
+      ))
+    }
+    return(
+      list(
+        valid = FALSE,
+        message = "File exists, but doesn't contain valid RSA key"
+      )
     )
   } else if (nzchar_null(rsa_key)) {
     if (validate_rsa_key(rsa_key)) {
@@ -135,7 +130,7 @@ get_rsa_key_status <- function(rsa_path, rsa_key) {
     }
     return(list(
       valid = FALSE,
-      message = "Environment variable set but doesn't contain valid RSA key"
+      message = "Environment variable set, but doesn't contain valid RSA key"
     ))
   }
   list(

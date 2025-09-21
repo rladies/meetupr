@@ -303,3 +303,123 @@ test_that("meetup_req uses OAuth when only OAuth credentials available", {
     "oauth_flow_auth_code"
   )
 })
+
+test_that("JWT authentication fails if environment variables are not set", {
+  withr::local_envvar(
+    MEETUP_AUTH_METHOD = "jwt",
+    MEETUP_CLIENT_ID = "",
+    MEETUP_MEMBER_ID = "",
+    MEETUP_RSA_PATH = ""
+  )
+
+  expect_error(
+    {
+      if (!has_jwt_credentials()) {
+        cli::cli_abort(c(
+          "x" = "JWT authentication selected but required environment variables are not set.",
+          "i" = "Set {.val MEETUP_CLIENT_ID}, {.val MEETUP_MEMBER_ID}, and {.val MEETUP_RSA_PATH}."
+        ))
+      }
+    },
+    regexp = "JWT authentication selected but required environment variables are not set."
+  )
+})
+
+test_that("meetup_req fails when JWT selected but credentials incomplete", {
+  withr::local_envvar(
+    MEETUP_AUTH_METHOD = "jwt",
+    MEETUP_CLIENT_ID = "",
+    MEETUP_MEMBER_ID = "",
+    MEETUP_RSA_PATH = ""
+  )
+
+  expect_error(
+    meetup_req(),
+    "JWT authentication selected but required environment variables are not set"
+  )
+})
+test_that("meetup_req fails when JWT selected but credentials incomplete", {
+  withr::local_envvar(
+    MEETUP_AUTH_METHOD = "jwt",
+    MEETUP_CLIENT_ID = "",
+    MEETUP_MEMBER_ID = "",
+    MEETUP_RSA_PATH = ""
+  )
+
+  expect_error(
+    meetup_req(),
+    "JWT authentication selected but required environment variables are not set"
+  )
+})
+
+test_that("meetup_req uses JWT authentication when method is jwt", {
+  withr::local_envvar(
+    MEETUP_AUTH_METHOD = "jwt",
+    MEETUP_CLIENT_ID = "test_client",
+    MEETUP_MEMBER_ID = "123456",
+    MEETUP_RSA_KEY = "-----BEGIN PRIVATE KEY-----\ntest_key\n-----END PRIVATE KEY-----"
+  )
+
+  mock_client <- structure(
+    list(name = "test_client"),
+    class = "httr2_oauth_client"
+  )
+
+  local_mocked_bindings(
+    has_jwt_credentials = function() TRUE,
+    get_rsa_key = function() "mock_key",
+    meetup_client = function(...) mock_client
+  )
+
+  req <- meetup_req()
+
+  expect_equal(
+    req$policies$auth_sign$params$flow_params$signature,
+    "jwt_encode_sig"
+  )
+})
+
+test_that("meetup_req uses OAuth when method is oauth", {
+  withr::local_envvar(
+    MEETUP_AUTH_METHOD = "oauth",
+    MEETUP_CLIENT_ID = "test_client",
+    MEETUP_CLIENT_SECRET = "test_secret"
+  )
+
+  mock_client <- structure(
+    list(name = "test_client"),
+    class = "httr2_oauth_client"
+  )
+
+  local_mocked_bindings(
+    has_oauth_credentials = function() TRUE,
+    meetup_client = function(...) mock_client
+  )
+
+  req <- meetup_req()
+
+  expect_equal(
+    req$policies$auth_sign$params$flow,
+    "oauth_flow_auth_code"
+  )
+})
+
+test_that("meetup_req fails when no auth method available", {
+  withr::local_envvar(
+    MEETUP_AUTH_METHOD = "",
+    MEETUP_CLIENT_ID = "",
+    MEETUP_CLIENT_SECRET = "",
+    MEETUP_MEMBER_ID = "",
+    MEETUP_RSA_PATH = ""
+  )
+
+  local_mocked_bindings(
+    has_jwt_credentials = function() FALSE,
+    has_oauth_credentials = function() FALSE
+  )
+
+  expect_error(
+    meetup_req(),
+    "Authentication required"
+  )
+})

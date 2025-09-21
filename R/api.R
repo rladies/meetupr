@@ -20,7 +20,7 @@ meetup_api_prefix <- function() {
 #' @param ... Additional arguments passed to [meetup_client()] for setting up
 #'   the OAuth client.
 #'
-#' @return A `httr2` request object pre-configured to interact with the
+#' @return A `httr2` request object pre-configured to interact with the Meetup API.
 #'
 #' @examples
 #' \dontrun{
@@ -67,14 +67,18 @@ meetup_req <- function(cache = TRUE, ...) {
       iss = Sys.getenv("MEETUP_CLIENT_ID"),
       aud = "api.meetup.com"
     )
+
+    client <- meetup_client(
+      key = get_rsa_key(),
+      auth = "jwt_sig",
+      auth_params = list(claim = claim),
+      ...
+    )
+
     req <- req |>
       httr2::req_oauth_bearer_jwt(
         claim = claim,
-        client = meetup_client(
-          key = get_rsa_key(),
-          auth = "jwt_sig",
-          auth_params = list(claim = claim)
-        )
+        client = client
       )
     return(req)
   } else if (has_oauth_credentials()) {

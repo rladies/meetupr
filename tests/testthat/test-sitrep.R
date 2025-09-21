@@ -241,7 +241,7 @@ test_that("get_rsa_key_status handles file paths", {
 
   result <- get_rsa_key_status(temp_file2, "")
   expect_false(result$valid)
-  expect_match(result$message, "Not set")
+  expect_match(result$message, "File exists, but doesn't contain valid RSA key")
 
   # Test with non-existent file
   result <- get_rsa_key_status("/nonexistent/file", "")
@@ -602,4 +602,36 @@ test_that("show_config_item handles empty string value", {
   )
   result <- show_config_item("TestName", "", mask = TRUE)
   expect_equal(result[[3]], "TestName: Not set")
+})
+
+test_that("get_rsa_key_status handles file not found", {
+  temp_path <- withr::local_tempfile()
+
+  result <- get_rsa_key_status(temp_path, NULL)
+
+  expect_false(result$valid)
+  expect_equal(result$message, "File not found")
+})
+
+test_that("get_rsa_key_status handles directory path", {
+  temp_dir <- withr::local_tempdir()
+
+  result <- get_rsa_key_status(temp_dir, NULL)
+
+  expect_false(result$valid)
+  expect_equal(result$message, "Path is a directory, not a file")
+})
+
+test_that("get_rsa_key_status handles invalid RSA key in file", {
+  temp_file <- withr::local_tempfile()
+  writeLines("invalid key content", temp_file)
+
+  local_mocked_bindings(
+    validate_rsa_key = function(key) FALSE
+  )
+
+  result <- get_rsa_key_status(temp_file, NULL)
+
+  expect_false(result$valid)
+  expect_equal(result$message, "File exists, but doesn't contain valid RSA key")
 })

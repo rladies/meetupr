@@ -53,6 +53,34 @@ test_that("has_jwt_credentials checks file path if RSA key is not set", {
   expect_true(has_jwt_credentials())
 })
 
+test_that("has_jwt_credentials returns FALSE when RSA key requirements not met", {
+  withr::local_envvar(
+    MEETUP_CLIENT_ID = "test_client_id",
+    MEETUP_MEMBER_ID = "test_member_id",
+    MEETUP_RSA_PATH = "",
+    MEETUP_RSA_KEY = ""
+  )
+
+  result <- has_jwt_credentials()
+
+  expect_false(result)
+})
+
+test_that("has_jwt_credentials handles RSA_PATH that doesn't exist", {
+  temp_path <- withr::local_tempfile()
+
+  withr::local_envvar(
+    MEETUP_CLIENT_ID = "test_client_id",
+    MEETUP_MEMBER_ID = "test_member_id",
+    MEETUP_RSA_PATH = temp_path,
+    MEETUP_RSA_KEY = ""
+  )
+
+  result <- has_jwt_credentials()
+
+  expect_false(result)
+})
+
 test_that("has_oauth_credentials returns true when all credentials are set", {
   mock_if_no_auth()
   withr::local_envvar(c(

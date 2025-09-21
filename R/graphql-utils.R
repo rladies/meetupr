@@ -78,18 +78,23 @@ read_template <- function(file_path) {
 #' @return The modified GraphQL query string with the extra GraphQL included.
 #' @keywords internal
 #' @noRd
-insert_extra_graphql <- function(query, extra_graphql) {
+insert_extra_graphql <- function(query, extra_graphql = NULL) {
+  if (is.null(extra_graphql)) {
+    extra_graphql <- ""
+  }
+
   if (nzchar(extra_graphql)) {
-    glue::glue_data(
+    extra <- glue::glue_data(
       list(extra_graphql = extra_graphql),
       query,
       .open = "<<",
       .close = ">>",
       trim = FALSE
     )
-  } else {
-    gsub("<< extra_graphql >>", "", query)
+    return(extra)
   }
+
+  gsub("<< extra_graphql >>", "", query)
 }
 
 #' Validate GraphQL Variables

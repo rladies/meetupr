@@ -177,7 +177,9 @@ print.meetup_group <- function(x, ...) {
   if (!is.null(x$description) && nzchar(x$description)) {
     cli::cli_h3("Description:")
     desc_clean <- gsub("<[^>]*>", "", x$description)
-    desc_truncated <- if (nchar(desc_clean) > 200) {
+    desc_truncated <- if (is.na(desc_clean) || nchar(desc_clean) == 0) {
+      "No description available."
+    } else if (nchar(desc_clean) > 200) {
       paste0(substr(desc_clean, 1, 197), "...")
     } else {
       desc_clean
