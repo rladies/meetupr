@@ -301,12 +301,14 @@ test_that("JWT authentication fails if environment variables are not set", {
     {
       if (!has_jwt_credentials()) {
         cli::cli_abort(c(
-          "x" = "JWT authentication selected but required environment variables are not set.",
-          "i" = "Set {.val MEETUP_CLIENT_ID}, {.val MEETUP_MEMBER_ID}, and {.val MEETUP_RSA_PATH}."
+          "x" = "JWT authentication selected 
+          but required environment variables are not set.",
+          "i" = "Set {.val MEETUP_CLIENT_ID},
+           {.val MEETUP_MEMBER_ID}, and {.val MEETUP_RSA_PATH}."
         ))
       }
     },
-    regexp = "JWT authentication selected but required environment variables are not set."
+    regexp = "required environment variables are not set."
   )
 })
 
@@ -342,7 +344,9 @@ test_that("meetup_req uses JWT authentication when method is jwt", {
     MEETUP_AUTH_METHOD = "jwt",
     MEETUP_CLIENT_ID = "test_client",
     MEETUP_MEMBER_ID = "123456",
-    MEETUP_RSA_KEY = "-----BEGIN PRIVATE KEY-----\ntest_key\n-----END PRIVATE KEY-----"
+    MEETUP_RSA_KEY = "-----BEGIN PRIVATE KEY-----\n
+    test_key\n
+    -----END PRIVATE KEY-----"
   )
 
   mock_client <- structure(

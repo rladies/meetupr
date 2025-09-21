@@ -3,7 +3,8 @@
     "0.3.0",
     ".fetch_results()",
     "meetup_query()",
-    details = "The REST API is no longer supported. Use GraphQL functions instead."
+    details = "The REST API is no longer supported.
+    Use GraphQL functions instead."
   )
 }
 
@@ -12,7 +13,8 @@ meetup_call <- function(...) {
     "0.3.0",
     "meetup_call()",
     "meetup_query()",
-    details = "The REST API is no longer supported. Use GraphQL functions instead."
+    details = "The REST API is no longer supported.
+     Use GraphQL functions instead."
   )
 }
 
@@ -21,7 +23,8 @@ meetup_call <- function(...) {
     "0.3.0",
     ".quick_fetch()",
     "meetup_query()",
-    details = "The REST API is no longer supported. Use GraphQL functions instead."
+    details = "The REST API is no longer supported.
+     Use GraphQL functions instead."
   )
 }
 

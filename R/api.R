@@ -20,7 +20,8 @@ meetup_api_prefix <- function() {
 #' @param ... Additional arguments passed to [meetup_client()] for setting up
 #'   the OAuth client.
 #'
-#' @return A `httr2` request object pre-configured to interact with the Meetup API.
+#' @return A `httr2` request object pre-configured to
+#' interact with the Meetup API.
 #'
 #' @examples
 #' \dontrun{
@@ -58,8 +59,10 @@ meetup_req <- function(cache = TRUE, ...) {
   if (use_jwt) {
     if (!has_jwt_credentials()) {
       cli::cli_abort(c(
-        "x" = "JWT authentication selected but required environment variables are not set.",
-        "i" = "Set {.val MEETUP_CLIENT_ID}, {.val MEETUP_MEMBER_ID}, and {.val MEETUP_RSA_PATH}."
+        "x" = "JWT authentication selected,
+         but required environment variables are not set.",
+        "i" = "Set {.val MEETUP_CLIENT_ID},
+         {.val MEETUP_MEMBER_ID}, and {.val MEETUP_RSA_PATH}."
       ))
     }
     claim <- httr2::jwt_claim(
@@ -103,7 +106,9 @@ meetup_req <- function(cache = TRUE, ...) {
     "i" = "Control method with 
     {.envvar MEETUP_AUTH_METHOD=jwt} or 
     {.envvar MEETUP_AUTH_METHOD=oauth}",
-    "i" = "See {.url https://rladies.org/meetupr/articles/meetupr.html} for details."
+    "i" = "See 
+    {.url https://rladies.org/meetupr/articles/meetupr.html} 
+    for details."
   ))
 }
 
