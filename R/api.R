@@ -81,7 +81,9 @@ meetup_req <- function(cache = TRUE, ...) {
         client = client
       )
     return(req)
-  } else if (has_oauth_credentials()) {
+  }
+
+  if (has_oauth_credentials()) {
     req <- req |>
       httr2::req_oauth_auth_code(
         client = meetup_client(...),
@@ -91,6 +93,7 @@ meetup_req <- function(cache = TRUE, ...) {
       )
     return(req)
   }
+
   cli::cli_abort(c(
     "x" = "Authentication required. Set either:",
     "i" = "JWT: {.val MEETUP_CLIENT_ID}, 
