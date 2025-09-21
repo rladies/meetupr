@@ -32,6 +32,7 @@ Imports:
     glue,
     httr2,
     jsonlite,
+    lifecycle,
     purrr,
     rlang,
     rlist,

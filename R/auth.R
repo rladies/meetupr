@@ -92,7 +92,7 @@ has_jwt_credentials <- function() {
   }
 
   rsa <- nzchar(rsa_path) ||
-    nzchar(Sys.getenv("MEETUP_RSA_PATH"))
+    nzchar(Sys.getenv("MEETUP_RSA_KEY"))
 
   nzchar(Sys.getenv("MEETUP_CLIENT_ID")) &&
     nzchar(Sys.getenv("MEETUP_MEMBER_ID")) &&
@@ -136,6 +136,7 @@ get_rsa_key <- function(rsa_path = Sys.getenv("MEETUP_RSA_PATH")) {
       cli::cli_abort("Private key file not found: {.path {rsa_path}}")
     }
     return(
+      # dont warn about incomplete final line
       paste(
         readLines(rsa_path, warn = FALSE),
         collapse = "\n"

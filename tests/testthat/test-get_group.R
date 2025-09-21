@@ -100,3 +100,87 @@ test_that("extract_category_info handles NULL input", {
   res <- extract_category_info(NULL)
   expect_null(res)
 })
+
+test_that("print.meetup_group outputs full data correctly", {
+  group <- structure(
+    list(
+      name = "Tech Enthusiasts",
+      urlname = "tech-enthusiasts",
+      link = "http://meetup.com/tech-enthusiasts",
+      location = list(city = "San Francisco", country = "USA"),
+      timezone = "PST",
+      created = as.POSIXct("2020-01-01"),
+      members = 500,
+      total_events = 100,
+      organizer = list(name = "Jane Doe"),
+      category = list(name = "Technology"),
+      description = "A group for tech lovers"
+    ),
+    class = c("meetup_group", "list")
+  )
+
+  expect_snapshot(print.meetup_group(group))
+})
+
+test_that("print.meetup_group handles missing optional fields", {
+  group <- structure(
+    list(
+      name = "Beginner Coders",
+      urlname = "beginner-coders",
+      link = "http://meetup.com/beginner-coders",
+      location = NULL,
+      timezone = "EST",
+      created = as.POSIXct("2021-06-15"),
+      members = 200,
+      total_events = 20,
+      organizer = NULL,
+      category = NULL,
+      description = NA_character_
+    ),
+    class = c("meetup_group", "list")
+  )
+  expect_snapshot(print.meetup_group(group))
+})
+
+test_that("print.meetup_group handles long descriptions", {
+  group <- structure(
+    list(
+      name = "History Lovers",
+      urlname = "history-lovers",
+      link = "http://meetup.com/history-lovers",
+      location = list(city = "Boston", country = "USA"),
+      timezone = "EST",
+      created = as.POSIXct("2019-09-20"),
+      members = 1000,
+      total_events = 50,
+      organizer = list(name = "John Smith"),
+      category = list(name = "Education"),
+      description = paste(
+        rep("This is a great group for history enthusiasts. ", 10),
+        collapse = ""
+      )
+    ),
+    class = c("meetup_group", "list")
+  )
+  expect_snapshot(print.meetup_group(group))
+})
+
+test_that("print.meetup_group handles edge case with location parts", {
+  group <- structure(
+    list(
+      name = "Science Gurus",
+      urlname = "science-gurus",
+      link = "http://meetup.com/science-gurus",
+      location = list(city = NULL, country = "USA"),
+      timezone = "CST",
+      created = as.POSIXct("2018-03-01"),
+      members = 300,
+      total_events = 30,
+      organizer = list(name = "Sarah Lee"),
+      category = NULL,
+      description = "Discussing science topics"
+    ),
+    class = c("meetup_group", "list")
+  )
+  expect_snapshot(print.meetup_group(group))
+})

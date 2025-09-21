@@ -169,3 +169,64 @@ test_that("validate_event_status throws an error for invalid status", {
     "Invalid event status"
   )
 })
+
+test_that("get_template_path fails when file doesn't exist", {
+  expect_error(
+    get_template_path("nonexistent_file"),
+    "GraphQL file not found"
+  )
+})
+
+test_that("read_template fails when file read error occurs", {
+  local_mocked_bindings(
+    readChar = function(...) stop("Permission denied"),
+    .package = "base"
+  )
+
+  temp_file <- withr::local_tempfile(fileext = ".graphql")
+  writeLines("query { test }", temp_file)
+
+  expect_error(
+    read_template(temp_file),
+    "Failed to read GraphQL file"
+  )
+})
+
+test_that("insert_extra_graphql handles all code paths", {
+  base_query <- "query { test << extra_graphql >> }"
+
+  expect_equal(
+    insert_extra_graphql(
+      base_query,
+      "fragment Test on Node { id }"
+    ),
+    "query { test fragment Test on Node { id } }"
+  )
+
+  expect_equal(
+    insert_extra_graphql(base_query, ""),
+    "query { test  }"
+  )
+
+  expect_equal(
+    insert_extra_graphql(base_query, NULL),
+    "query { test  }"
+  )
+})
+
+test_that("validate_extra_graphql rejects invalid input", {
+  expect_error(
+    validate_extra_graphql(123),
+    "extra_graphql.*must be a single string"
+  )
+
+  expect_error(
+    validate_extra_graphql(c("a", "b")),
+    "extra_graphql.*must be a single string"
+  )
+
+  expect_error(
+    validate_extra_graphql(list("a")),
+    "extra_graphql.*must be a single string"
+  )
+})

@@ -329,6 +329,62 @@ test_that("get_self uses meetup_template_query correctly", {
   expect_s3_class(result, "meetup_user")
 })
 
+test_that("print.meetup_user outputs full data correctly", {
+  user <- structure(
+    list(
+      id = "user123",
+      name = "John Doe",
+      email = "john@example.com",
+      is_organizer = TRUE,
+      is_leader = FALSE,
+      is_pro_organizer = TRUE,
+      is_member_plus_subscriber = FALSE,
+      has_pro_access = TRUE,
+      location = list(city = "New York", country = "USA")
+    ),
+    class = c("meetup_user", "list")
+  )
+  expect_snapshot(print.meetup_user(user))
+})
+
+test_that("print.meetup_user handles missing optional fields", {
+  user <- structure(
+    list(
+      id = "user123",
+      name = "John Doe",
+      email = NULL,
+      is_organizer = FALSE,
+      is_leader = FALSE,
+      is_pro_organizer = FALSE,
+      is_member_plus_subscriber = FALSE,
+      has_pro_access = NA,
+      location = list(city = NULL, country = NULL)
+    ),
+    class = c("meetup_user", "list")
+  )
+
+  expect_snapshot(print.meetup_user(user))
+})
+
+test_that("print.meetup_user handles partial location data", {
+  user <- structure(
+    list(
+      id = "user123",
+      name = "John Doe",
+      is_organizer = TRUE,
+      is_leader = TRUE,
+      is_pro_organizer = FALSE,
+      is_member_plus_subscriber = TRUE,
+      has_pro_access = FALSE,
+      location = list(city = "Los Angeles", country = NULL)
+    ),
+    class = c("meetup_user", "list")
+  )
+
+  expect_snapshot(print.meetup_user(user))
+})
+
+
 test_that("process_self_data uses null coalescing operator correctly", {
   user_data <- list(
     id = "test_id",

@@ -7,7 +7,7 @@
 #' @noRd
 process_graphql_list <- function(
   dlist,
-  handle_multiples = c("list", "first")
+  handle_multiples = "list"
 ) {
   if (length(dlist) == 0) {
     return(dplyr::tibble())

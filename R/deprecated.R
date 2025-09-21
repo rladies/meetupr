@@ -1,44 +1,35 @@
 .fetch_results <- function(...) {
-  .Deprecated(
-    msg = paste(
-      ".fetch_results() is deprecated as the REST API is no longer supported.",
-      "Use GraphQL functions instead."
-    )
+  lifecycle::deprecate_warn(
+    "0.3.0",
+    ".fetch_results()",
+    "meetup_query()",
+    details = "The REST API is no longer supported. Use GraphQL functions instead."
   )
-  abort_dep()
 }
 
 meetup_call <- function(...) {
-  .Deprecated(
-    msg = paste(
-      "meetup_call() is deprecated as the REST API is no longer supported.",
-      "Use GraphQL functions instead."
-    )
+  lifecycle::deprecate_warn(
+    "0.3.0",
+    "meetup_call()",
+    "meetup_query()",
+    details = "The REST API is no longer supported. Use GraphQL functions instead."
   )
-  abort_dep()
 }
 
 .quick_fetch <- function(...) {
-  .Deprecated(
-    msg = paste(
-      ".quick_fetch() is deprecated as the REST API is no longer supported.",
-      "Use GraphQL functions instead."
-    )
+  lifecycle::deprecate_warn(
+    "0.3.0",
+    ".quick_fetch()",
+    "meetup_query()",
+    details = "The REST API is no longer supported. Use GraphQL functions instead."
   )
-  abort_dep()
 }
 
 get_meetup_comments <- function(...) {
-  .Deprecated("get_event_comments")
-  get_event_comments(...)
-}
-
-abort_dep <- function(.envir = parent.frame()) {
-  cli::cli_abort(
-    c(
-      "REST API functions are no longer supported.",
-      "Please use GraphQL equivalents."
-    ),
-    .envir = .envir
+  lifecycle::deprecate_stop(
+    "0.3.0",
+    "get_meetup_comments()",
+    NULL,
+    details = "Comments are no longer supported in the Meetup API."
   )
 }
