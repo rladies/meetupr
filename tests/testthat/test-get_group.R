@@ -1,8 +1,7 @@
 test_that("get_group_members() works with one status", {
   mock_if_no_auth()
-  vcr::use_cassette("get_group_members", {
-    members <- get_group_members("rladies-lagos")
-  })
+  vcr::local_cassette("get_group_members")
+  members <- get_group_members("rladies-lagos")
   expect_s3_class(members, "data.frame")
 })
 
@@ -11,9 +10,8 @@ test_that("get_group_members validates rlang", {
 })
 
 test_that("get_group returns valid data", {
-  vcr::use_cassette("get_group", {
-    res <- get_group("rladies-lagos")
-  })
+  vcr::local_cassette("get_group")
+  res <- get_group("rladies-lagos")
   expect_s3_class(res, "meetup_group")
   expect_true(is.list(res))
   expect_named(

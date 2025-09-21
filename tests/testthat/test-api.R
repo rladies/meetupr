@@ -59,12 +59,6 @@ test_that("meetup_query executes GraphQL query successfully", {
   mock_if_no_auth()
 
   local_mocked_bindings(
-    meetup_req = function(...) {
-      request("https://api.meetup.com/gql-ext") |>
-        req_headers("Content-Type" = "application/json")
-    }
-  )
-  local_mocked_bindings(
     req_perform = function(req) {
       structure(list(status_code = 200), class = "httr2_response")
     },
@@ -84,12 +78,6 @@ test_that("meetup_query executes GraphQL query successfully", {
 test_that("meetup_query handles GraphQL errors", {
   mock_if_no_auth()
 
-  local_mocked_bindings(
-    meetup_req = function(...) {
-      request("https://api.meetup.com/gql-ext") |>
-        req_headers("Content-Type" = "application/json")
-    }
-  )
   local_mocked_bindings(
     req_perform = function(req) {
       structure(list(status_code = 200), class = "httr2_response")
@@ -111,13 +99,6 @@ test_that("meetup_query compacts variables", {
   mock_if_no_auth()
 
   local_mocked_bindings(
-    meetup_req = function(...) {
-      request("https://api.meetup.com/gql-ext") |>
-        req_headers("Content-Type" = "application/json")
-    }
-  )
-
-  local_mocked_bindings(
     req_perform = function(req) {
       structure(list(status_code = 200), class = "httr2_response")
     },
@@ -128,7 +109,11 @@ test_that("meetup_query compacts variables", {
   )
 
   query <- "query GetUser($id: ID!) { user(id: $id) { id } }"
-  result <- meetup_query(query, id = "123", empty_var = NULL)
+  result <- meetup_query(
+    query,
+    id = "123",
+    empty_var = NULL
+  )
 
   expect_equal(result$data$user$id, "123")
 })

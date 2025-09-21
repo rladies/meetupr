@@ -1,7 +1,6 @@
 test_that("get_self returns basic user info", {
-  use_cassette("get_self_basic", {
-    user <- get_self()
-  })
+  vcr::local_cassette("get_self_basic")
+  user <- get_self()
 
   expect_type(user, "list")
   expect_s3_class(user, "meetup_user")
@@ -55,9 +54,8 @@ test_that("determine_pro_status calculates correctly", {
 
 test_that("get_self returns correct structure", {
   mock_if_no_auth()
-  vcr::use_cassette("get_self", {
-    user <- get_self()
-  })
+  vcr::local_cassette("get_self")
+  user <- get_self()
 
   expect_type(user, "list")
   expect_s3_class(user, c("meetup_user", "list"))
@@ -101,7 +99,7 @@ test_that("get_self handles user with complete profile", {
     preferredLocale = "en-US"
   )
 
-  testthat::local_mocked_bindings(
+  local_mocked_bindings(
     execute = function(...) {
       process_self_data(mock_data)
     }
@@ -129,7 +127,7 @@ test_that("get_self handles user with minimal profile", {
     name = "Minimal User"
   )
 
-  testthat::local_mocked_bindings(
+  local_mocked_bindings(
     execute = function(...) {
       process_self_data(mock_data)
     }
@@ -305,7 +303,7 @@ test_that("print.meetup_user handles missing location", {
 test_that("get_self uses meetup_template_query correctly", {
   mock_if_no_auth()
 
-  testthat::local_mocked_bindings(
+  local_mocked_bindings(
     meetup_template_query = function(
       query_name,
       data_path,

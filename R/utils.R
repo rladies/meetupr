@@ -8,7 +8,8 @@
 #' @noRd
 #' @keywords internal
 validate_graphql_variables <- function(variables) {
-  unnamed <- purrr::discard(variables, rlang::is_named) |>
+  unnamed <- variables |>
+    not_named() |>
     unlist()
 
   if (length(unnamed) > 0) {
@@ -17,7 +18,17 @@ validate_graphql_variables <- function(variables) {
       unnamed
     ))
   }
-  invisible(TRUE)
+  invisible(variables)
+}
+
+#' Check if a List is Not Named
+#' This function checks if a list is not named.
+#' @param x A list
+#' @return TRUE if the list is not named, FALSE otherwise
+#' @noRd
+#' @keywords internal
+not_named <- function(x) {
+  x[!rlang::is_named(x)]
 }
 
 #' Paste a String Before the File Extension

@@ -1,23 +1,20 @@
 test_that("meetup_introspect returns expected schema format", {
-  vcr::use_cassette("introspection_query", {
-    schema <- meetup_introspect()
-    expect_true(is.list(schema))
-  })
+  vcr::local_cassette("introspection_query")
+  schema <- meetup_introspect()
+  expect_true(is.list(schema))
 })
 
 test_that("meetup_introspect handles raw response", {
-  vcr::use_cassette("introspection_raw", {
-    raw_schema <- meetup_introspect(asis = TRUE)
-    expect_true(jsonlite::validate(raw_schema))
-  })
+  vcr::local_cassette("introspection_raw")
+  raw_schema <- meetup_introspect(asis = TRUE)
+  expect_true(jsonlite::validate(raw_schema))
 })
 
 test_that("explore_query_fields extracts query fields", {
-  vcr::use_cassette("introspection_query_fields", {
-    schema <- meetup_introspect()
-    query_fields <- explore_query_fields(schema)
-    expect_true(is.data.frame(query_fields))
-  })
+  vcr::local_cassette("introspection_query_fields")
+  schema <- meetup_introspect()
+  query_fields <- explore_query_fields(schema)
+  expect_true(is.data.frame(query_fields))
 })
 
 test_that("explore_query_fields handles NULL descriptions", {
@@ -90,7 +87,7 @@ test_that("explore_query_fields calls meetup_introspect when schema is NULL", {
     )
   )
 
-  testthat::local_mocked_bindings(
+  local_mocked_bindings(
     meetup_introspect = function() mock_schema
   )
 
@@ -156,11 +153,10 @@ test_that("explore_mutations handles schema without mutationType", {
 })
 
 test_that("explore_mutations extracts mutation fields", {
-  vcr::use_cassette("introspection_explore_mutations", {
-    schema <- meetup_introspect()
-    mutations <- explore_mutations(schema)
-    expect_true(is.data.frame(mutations))
-  })
+  vcr::local_cassette("introspection_explore_mutations")
+  schema <- meetup_introspect()
+  mutations <- explore_mutations(schema)
+  expect_true(is.data.frame(mutations))
 })
 
 
@@ -174,7 +170,7 @@ test_that("meetup_introspect returns schema structure", {
     )
   )
 
-  testthat::local_mocked_bindings(
+  local_mocked_bindings(
     execute_from_template = function(template) {
       expect_equal(template, "introspection")
       list(data = list(`__schema` = mock_schema))
@@ -191,7 +187,7 @@ test_that("meetup_introspect returns JSON when asis=TRUE", {
     types = list()
   )
 
-  testthat::local_mocked_bindings(
+  local_mocked_bindings(
     execute_from_template = function(template) {
       list(data = list(`__schema` = mock_schema))
     }
@@ -207,12 +203,11 @@ test_that("meetup_introspect returns JSON when asis=TRUE", {
 
 
 test_that("search_types identifies matching types", {
-  vcr::use_cassette("introspection_search_types", {
-    schema <- meetup_introspect()
-    types <- search_types(schema, "user")
-    expect_true(is.data.frame(types))
-    expect_gt(nrow(types), 0)
-  })
+  vcr::local_cassette("introspection_search_types")
+  schema <- meetup_introspect()
+  types <- search_types(schema, "user")
+  expect_true(is.data.frame(types))
+  expect_gt(nrow(types), 0)
 })
 
 test_that("search_types finds matching types by name", {

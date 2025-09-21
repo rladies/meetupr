@@ -1,9 +1,8 @@
 test_that("find_groups() success case", {
   mock_if_no_auth()
-  vcr::use_cassette("find_groups", {
-    groups <- find_groups(query = "R-Ladies")
-    groups_15 <- find_groups(query = "data science", max_results = 15)
-  })
+  vcr::local_cassette("find_groups")
+  groups <- find_groups(query = "R-Ladies")
+  groups_15 <- find_groups(query = "data science", max_results = 15)
 
   expect_s3_class(groups, "data.frame")
   expect_equal(nrow(groups), 200)
@@ -21,12 +20,11 @@ test_that("find_groups ensures extra arguments (...) are empty", {
 
 test_that("find_groups returns correct data structure", {
   mock_if_no_auth()
-  vcr::use_cassette("find_groups_correct", {
-    groups <- find_groups(
-      query = "R-Ladies",
-      max_results = 10
-    )
-  })
+  vcr::local_cassette("find_groups_correct")
+  groups <- find_groups(
+    query = "R-Ladies",
+    max_results = 10
+  )
 
   expect_s3_class(groups, "data.frame")
   expect_true(nrow(groups) <= 10)
@@ -35,12 +33,11 @@ test_that("find_groups returns correct data structure", {
 
 test_that("find_groups processes datetime fields correctly", {
   mock_if_no_auth()
-  vcr::use_cassette("find_groups_datetime", {
-    groups <- find_groups(
-      query = "JavaScript",
-      max_results = 10
-    )
-  })
+  vcr::local_cassette("find_groups_datetime")
+  groups <- find_groups(
+    query = "JavaScript",
+    max_results = 10
+  )
 
   if (nrow(groups) > 0) {
     expect_s3_class(groups$founded_date, c("POSIXct", "POSIXt"))
@@ -49,16 +46,15 @@ test_that("find_groups processes datetime fields correctly", {
 
 test_that("find_groups handles different max_results values", {
   mock_if_no_auth()
-  vcr::use_cassette("find_groups_limits", {
-    groups_10 <- find_groups(
-      query = "Python",
-      max_results = 10
-    )
-    groups_25 <- find_groups(
-      query = "Python",
-      max_results = 25
-    )
-  })
+  vcr::local_cassette("find_groups_limits")
+  groups_10 <- find_groups(
+    query = "Python",
+    max_results = 10
+  )
+  groups_25 <- find_groups(
+    query = "Python",
+    max_results = 25
+  )
 
   expect_true(nrow(groups_10) <= 10)
   expect_true(nrow(groups_25) <= 25)
@@ -67,18 +63,17 @@ test_that("find_groups handles different max_results values", {
 
 test_that("find_groups handles handle_multiples parameter", {
   mock_if_no_auth()
-  vcr::use_cassette("find_groups_multiples", {
-    groups_list <- find_groups(
-      query = "React",
-      max_results = 10,
-      handle_multiples = "list"
-    )
-    groups_first <- find_groups(
-      query = "React",
-      max_results = 10,
-      handle_multiples = "first"
-    )
-  })
+  vcr::local_cassette("find_groups_multiples")
+  groups_list <- find_groups(
+    query = "React",
+    max_results = 10,
+    handle_multiples = "list"
+  )
+  groups_first <- find_groups(
+    query = "React",
+    max_results = 10,
+    handle_multiples = "first"
+  )
 
   expect_s3_class(groups_list, "data.frame")
   expect_s3_class(groups_first, "data.frame")
@@ -114,9 +109,8 @@ test_that("find_groups passes extra_graphql correctly", {
 
 test_that("find_topics returns correct data structure", {
   mock_if_no_auth()
-  vcr::use_cassette("find_topics", {
-    topics <- find_topics(query = "Data Science", max_results = 20)
-  })
+  vcr::local_cassette("find_topics")
+  topics <- find_topics(query = "Data Science", max_results = 20)
 
   expect_s3_class(topics, "data.frame")
   expect_true(nrow(topics) <= 20)
@@ -124,10 +118,9 @@ test_that("find_topics returns correct data structure", {
 
 test_that("find_topics handles different max_results values", {
   mock_if_no_auth()
-  vcr::use_cassette("find_topics_limits", {
-    topics_5 <- find_topics(query = "Machine Learning", max_results = 5)
-    topics_15 <- find_topics(query = "Machine Learning", max_results = 15)
-  })
+  vcr::local_cassette("find_topics_limits")
+  topics_5 <- find_topics(query = "Machine Learning", max_results = 5)
+  topics_15 <- find_topics(query = "Machine Learning", max_results = 15)
 
   expect_gte(nrow(topics_5), 5)
   expect_gte(nrow(topics_15), 15)
@@ -136,18 +129,17 @@ test_that("find_topics handles different max_results values", {
 
 test_that("find_topics handles handle_multiples parameter", {
   mock_if_no_auth()
-  vcr::use_cassette("find_topics_multiples", {
-    topics_list <- find_topics(
-      query = "AI",
-      max_results = 8,
-      handle_multiples = "list"
-    )
-    topics_first <- find_topics(
-      query = "AI",
-      max_results = 8,
-      handle_multiples = "first"
-    )
-  })
+  vcr::local_cassette("find_topics_multiples")
+  topics_list <- find_topics(
+    query = "AI",
+    max_results = 8,
+    handle_multiples = "list"
+  )
+  topics_first <- find_topics(
+    query = "AI",
+    max_results = 8,
+    handle_multiples = "first"
+  )
 
   expect_s3_class(topics_list, "data.frame")
   expect_s3_class(topics_first, "data.frame")
