@@ -1,4 +1,4 @@
-query groupSearch(
+query findGroups(
   $query: String!
   $cursor: String
   $first: Int = 1000
