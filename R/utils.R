@@ -8,7 +8,7 @@
 #' @noRd
 #' @keywords internal
 validate_graphql_variables <- function(variables) {
-  unnamed <- variables[!rlang::is_named(variables)] |>
+  unnamed <- purrr::discard(variables, rlang::is_named) |>
     unlist()
 
   if (length(unnamed) > 0) {
