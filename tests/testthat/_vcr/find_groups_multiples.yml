@@ -16,7 +16,7 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sat, 20 Sep 2025 14:21:58 GMT
+      date: Sun, 21 Sep 2025 19:47:10 GMT
       content-length: '3255'
     body:
       string: '{"data":{"groupSearch":{"pageInfo":{"hasNextPage":true,"endCursor":"MTA="},"totalCount":10,"edges":[{"node":{"id":"38152238","name":"RAP
@@ -30,7 +30,7 @@ http_interactions:
         Vienna","urlname":"ReactVienna","city":"Vienna","state":"","country":"at","lat":48.22,"lon":16.37,"memberships":{"totalCount":3023},"foundedDate":"2015-07-16T09:52:02+02:00","timezone":"Europe/Vienna","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"5844892","name":"Uruguay
         Javascript Meetup Group","urlname":"uruguayjs","city":"Montevideo","state":"","country":"uy","lat":-34.87,"lon":-56.17,"memberships":{"totalCount":2096},"foundedDate":"2012-11-14T10:55:56-02:00","timezone":"America/Montevideo","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"31780692","name":"React
         Live Coding","urlname":"React-Live-Coding","city":"Amsterdam","state":"","country":"nl","lat":52.37,"lon":4.89,"memberships":{"totalCount":80},"foundedDate":"2019-05-01T05:09:55+02:00","timezone":"Europe/Amsterdam","joinMode":"APPROVAL","isPrivate":false,"membershipMetadata":null}}]}}}'
-  recorded_at: 2025-09-20 14:21:58
+  recorded_at: 2025-09-21 19:47:10
 - request:
     method: POST
     uri: https://api.meetup.com/gql-ext
@@ -48,7 +48,7 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sat, 20 Sep 2025 14:21:59 GMT
+      date: Sun, 21 Sep 2025 19:47:11 GMT
       content-length: '3255'
     body:
       string: '{"data":{"groupSearch":{"pageInfo":{"hasNextPage":true,"endCursor":"MTA="},"totalCount":10,"edges":[{"node":{"id":"38152238","name":"RAP
@@ -62,5 +62,5 @@ http_interactions:
         Vienna","urlname":"ReactVienna","city":"Vienna","state":"","country":"at","lat":48.22,"lon":16.37,"memberships":{"totalCount":3023},"foundedDate":"2015-07-16T09:52:02+02:00","timezone":"Europe/Vienna","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"5844892","name":"Uruguay
         Javascript Meetup Group","urlname":"uruguayjs","city":"Montevideo","state":"","country":"uy","lat":-34.87,"lon":-56.17,"memberships":{"totalCount":2096},"foundedDate":"2012-11-14T10:55:56-02:00","timezone":"America/Montevideo","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"31780692","name":"React
         Live Coding","urlname":"React-Live-Coding","city":"Amsterdam","state":"","country":"nl","lat":52.37,"lon":4.89,"memberships":{"totalCount":80},"foundedDate":"2019-05-01T05:09:55+02:00","timezone":"Europe/Amsterdam","joinMode":"APPROVAL","isPrivate":false,"membershipMetadata":null}}]}}}'
-  recorded_at: 2025-09-20 14:21:59
+  recorded_at: 2025-09-21 19:47:11
 recorded_with: VCR-vcr/2.0.0

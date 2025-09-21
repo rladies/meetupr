@@ -14,7 +14,8 @@ on disk. Defaults to \code{TRUE}.}
 the OAuth client.}
 }
 \value{
-A \code{httr2} request object pre-configured to interact with the Meetup API.
+A \code{httr2} request object pre-configured to
+interact with the Meetup API.
 }
 \description{
 This function prepares and configures an HTTP request for interacting with

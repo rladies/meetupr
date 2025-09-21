@@ -12,53 +12,18 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Tue, 16 Sep 2025 14:28:49 GMT
-      content-length: '295'
+      date: Sun, 21 Sep 2025 19:47:15 GMT
+      content-length: '1147'
     body:
-      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"NTAzMDMy"},"totalCount":455,"edges":[{"node":{"id":"90164","name":"AI
-        and Society","urlkey":"ai-and-society","description":null}},{"node":{"id":"503032","name":"AI
-        Algorithms","urlkey":"ai-algorithms","description":null}}]}}}'
-  recorded_at: 2025-09-16 14:28:49
-- request:
-    method: POST
-    uri: https://api.meetup.com/gql-ext
-    body:
-      string: '{"query":"query findTopics(\n  $query: String!, \n  $first: Int = 1000,
-        \n  $after: String\n  ) {\n  suggestTopics(\n    query: $query\n    first:
-        $first\n    after: $after\n  ) {\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    totalCount\n    edges
-        {\n      node {\n        id\n        name\n        urlkey\n        description\n      }\n    }\n  }\n}","variables":{"query":"AI","first":8,"cursor":"NTAzMDMy"}}'
-  response:
-    status: 200
-    headers:
-      content-type: application/json;charset=utf-8
-      accept-ranges: bytes
-      date: Tue, 16 Sep 2025 14:28:50 GMT
-      content-length: '295'
-    body:
-      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"NTAzMDMy"},"totalCount":455,"edges":[{"node":{"id":"90164","name":"AI
-        and Society","urlkey":"ai-and-society","description":null}},{"node":{"id":"503032","name":"AI
-        Algorithms","urlkey":"ai-algorithms","description":null}}]}}}'
-  recorded_at: 2025-09-16 14:28:50
-- request:
-    method: POST
-    uri: https://api.meetup.com/gql-ext
-    body:
-      string: '{"query":"query findTopics(\n  $query: String!, \n  $first: Int = 1000,
-        \n  $after: String\n  ) {\n  suggestTopics(\n    query: $query\n    first:
-        $first\n    after: $after\n  ) {\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    totalCount\n    edges
-        {\n      node {\n        id\n        name\n        urlkey\n        description\n      }\n    }\n  }\n}","variables":{"query":"AI","first":8,"cursor":"NTAzMDMy"}}'
-  response:
-    status: 200
-    headers:
-      content-type: application/json;charset=utf-8
-      accept-ranges: bytes
-      date: Tue, 16 Sep 2025 14:28:50 GMT
-      content-length: '295'
-    body:
-      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"NTAzMDMy"},"totalCount":455,"edges":[{"node":{"id":"90164","name":"AI
-        and Society","urlkey":"ai-and-society","description":null}},{"node":{"id":"503032","name":"AI
-        Algorithms","urlkey":"ai-algorithms","description":null}}]}}}'
-  recorded_at: 2025-09-16 14:28:50
+      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJEb3VibGUiLCJ2YWx1ZSI6Mi42NTc0MDl9LHsidHlwZSI6IlN0cmluZyIsInZhbHVlIjoiNTA2ODkyLWVuX1VTIn1dfQ=="},"totalCount":383,"edges":[{"node":{"id":"128849","name":"Plein
+        Air Painting","urlkey":"plein-air-painting","description":null}},{"node":{"id":"67937","name":"Cosplay","urlkey":"cosplay","description":"Meet
+        other local costume players to talk about the art of cosplay: making yourself
+        look like you don''t belong in this reality."}},{"node":{"id":"33633","name":"Flying
+        Airplanes","urlkey":"flying-airplanes","description":null}},{"node":{"id":"127757","name":"Artificial
+        Intelligence Machine Learning Robotics","urlkey":"artificial-intelligence-machine-learning-robotics","description":null}},{"node":{"id":"90164","name":"AI
+        and Society","urlkey":"ai-and-society","description":null}},{"node":{"id":"1311042","name":"Multi-Rotor
+        Aircraft","urlkey":"multi-rotor-aircraft","description":null}},{"node":{"id":"17367","name":"Aircraft","urlkey":"aircraft","description":null}},{"node":{"id":"506892","name":"Airbnb","urlkey":"airbnb","description":null}}]}}}'
+  recorded_at: 2025-09-21 19:47:15
 - request:
     method: POST
     uri: https://api.meetup.com/gql-ext
@@ -72,51 +37,16 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Tue, 16 Sep 2025 14:28:51 GMT
-      content-length: '295'
+      date: Sun, 21 Sep 2025 19:47:16 GMT
+      content-length: '1147'
     body:
-      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"NTAzMDMy"},"totalCount":455,"edges":[{"node":{"id":"90164","name":"AI
-        and Society","urlkey":"ai-and-society","description":null}},{"node":{"id":"503032","name":"AI
-        Algorithms","urlkey":"ai-algorithms","description":null}}]}}}'
-  recorded_at: 2025-09-16 14:28:51
-- request:
-    method: POST
-    uri: https://api.meetup.com/gql-ext
-    body:
-      string: '{"query":"query findTopics(\n  $query: String!, \n  $first: Int = 1000,
-        \n  $after: String\n  ) {\n  suggestTopics(\n    query: $query\n    first:
-        $first\n    after: $after\n  ) {\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    totalCount\n    edges
-        {\n      node {\n        id\n        name\n        urlkey\n        description\n      }\n    }\n  }\n}","variables":{"query":"AI","first":8,"cursor":"NTAzMDMy"}}'
-  response:
-    status: 200
-    headers:
-      content-type: application/json;charset=utf-8
-      accept-ranges: bytes
-      date: Tue, 16 Sep 2025 14:28:51 GMT
-      content-length: '295'
-    body:
-      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"NTAzMDMy"},"totalCount":455,"edges":[{"node":{"id":"90164","name":"AI
-        and Society","urlkey":"ai-and-society","description":null}},{"node":{"id":"503032","name":"AI
-        Algorithms","urlkey":"ai-algorithms","description":null}}]}}}'
-  recorded_at: 2025-09-16 14:28:51
-- request:
-    method: POST
-    uri: https://api.meetup.com/gql-ext
-    body:
-      string: '{"query":"query findTopics(\n  $query: String!, \n  $first: Int = 1000,
-        \n  $after: String\n  ) {\n  suggestTopics(\n    query: $query\n    first:
-        $first\n    after: $after\n  ) {\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    totalCount\n    edges
-        {\n      node {\n        id\n        name\n        urlkey\n        description\n      }\n    }\n  }\n}","variables":{"query":"AI","first":8,"cursor":"NTAzMDMy"}}'
-  response:
-    status: 200
-    headers:
-      content-type: application/json;charset=utf-8
-      accept-ranges: bytes
-      date: Tue, 16 Sep 2025 14:28:52 GMT
-      content-length: '295'
-    body:
-      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"NTAzMDMy"},"totalCount":455,"edges":[{"node":{"id":"90164","name":"AI
-        and Society","urlkey":"ai-and-society","description":null}},{"node":{"id":"503032","name":"AI
-        Algorithms","urlkey":"ai-algorithms","description":null}}]}}}'
-  recorded_at: 2025-09-16 14:28:52
+      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJEb3VibGUiLCJ2YWx1ZSI6Mi42NTc3Mjl9LHsidHlwZSI6IlN0cmluZyIsInZhbHVlIjoiNTA2ODkyLWVuX1VTIn1dfQ=="},"totalCount":383,"edges":[{"node":{"id":"128849","name":"Plein
+        Air Painting","urlkey":"plein-air-painting","description":null}},{"node":{"id":"67937","name":"Cosplay","urlkey":"cosplay","description":"Meet
+        other local costume players to talk about the art of cosplay: making yourself
+        look like you don''t belong in this reality."}},{"node":{"id":"33633","name":"Flying
+        Airplanes","urlkey":"flying-airplanes","description":null}},{"node":{"id":"127757","name":"Artificial
+        Intelligence Machine Learning Robotics","urlkey":"artificial-intelligence-machine-learning-robotics","description":null}},{"node":{"id":"90164","name":"AI
+        and Society","urlkey":"ai-and-society","description":null}},{"node":{"id":"1311042","name":"Multi-Rotor
+        Aircraft","urlkey":"multi-rotor-aircraft","description":null}},{"node":{"id":"17367","name":"Aircraft","urlkey":"aircraft","description":null}},{"node":{"id":"506892","name":"Airbnb","urlkey":"airbnb","description":null}}]}}}'
+  recorded_at: 2025-09-21 19:47:16
 recorded_with: VCR-vcr/2.0.0
