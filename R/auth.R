@@ -86,15 +86,17 @@ meetup_client <- function(
 #' has_jwt_credentials() # Should return FALSE
 #' @export
 has_jwt_credentials <- function() {
-  rsa <- nzchar(Sys.getenv("MEETUP_RSA_KEY")) ||
+  rsa_path <- Sys.getenv("MEETUP_RSA_PATH")
+  if (nzchar(rsa_path) && !file.exists(rsa_path)) {
+    rsa_path <- ""
+  }
+
+  rsa <- nzchar(rsa_path) ||
     nzchar(Sys.getenv("MEETUP_RSA_PATH"))
-  all(
-    nzchar(c(
-      Sys.getenv("MEETUP_CLIENT_ID"),
-      Sys.getenv("MEETUP_MEMBER_ID")
-    )),
+
+  nzchar(Sys.getenv("MEETUP_CLIENT_ID")) &&
+    nzchar(Sys.getenv("MEETUP_MEMBER_ID")) &&
     rsa
-  )
 }
 
 #' Check for OAuth Credentials
@@ -121,10 +123,8 @@ has_jwt_credentials <- function() {
 #' has_oauth_credentials() # Should return FALSE
 #' @export
 has_oauth_credentials <- function() {
-  all(nzchar(c(
-    Sys.getenv("MEETUP_CLIENT_ID"),
-    Sys.getenv("MEETUP_CLIENT_SECRET")
-  )))
+  nzchar(Sys.getenv("MEETUP_CLIENT_ID")) &&
+    nzchar(Sys.getenv("MEETUP_CLIENT_SECRET"))
 }
 
 #' Retrieve RSA Private Key

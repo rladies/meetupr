@@ -57,7 +57,13 @@ meetup_req <- function(cache = TRUE, ...) {
     has_jwt_credentials()
   )
 
-  if (use_jwt && has_jwt_credentials()) {
+  if (use_jwt) {
+    if (!has_jwt_credentials()) {
+      cli::cli_abort(c(
+        "x" = "JWT authentication selected but required environment variables are not set.",
+        "i" = "Set {.val MEETUP_CLIENT_ID}, {.val MEETUP_MEMBER_ID}, and {.val MEETUP_RSA_PATH}."
+      ))
+    }
     claim <- httr2::jwt_claim(
       sub = Sys.getenv("MEETUP_MEMBER_ID"),
       iss = Sys.getenv("MEETUP_CLIENT_ID"),
@@ -91,7 +97,8 @@ meetup_req <- function(cache = TRUE, ...) {
     {.val MEETUP_CLIENT_SECRET}",
     "i" = "Control method with 
     {.envvar MEETUP_AUTH_METHOD=jwt} or 
-    {.envvar MEETUP_AUTH_METHOD=oauth}"
+    {.envvar MEETUP_AUTH_METHOD=oauth}",
+    "i" = "See {.url https://rladies.org/meetupr/articles/meetupr.html} for details."
   ))
 }
 
