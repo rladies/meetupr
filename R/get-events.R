@@ -34,7 +34,7 @@ get_events <- function(
   extra_graphql = NULL,
   ...
 ) {
-  ellipsis::check_dots_empty()
+  rlang::check_dots_empty()
 
   execute(
     standard_query(
@@ -85,7 +85,7 @@ get_event_rsvps <- function(
   extra_graphql = NULL,
   ...
 ) {
-  ellipsis::check_dots_empty()
+  rlang::check_dots_empty()
 
   execute(
     standard_query(
@@ -126,7 +126,7 @@ get_event_comments <- function(
   ...,
   extra_graphql = NULL
 ) {
-  ellipsis::check_dots_empty()
+  rlang::check_dots_empty()
 
   cli::cli_warn(c(
     "!" = "Event comments functionality has been 
