@@ -35,10 +35,10 @@ execute <- S7::new_generic("execute", "object")
 
 S7::method(execute, meetup_template) <- function(
   object,
-  ...,
   max_results = NULL,
   handle_multiples = "list",
   extra_graphql = NULL,
+  ...,
   .progress = TRUE
 ) {
   all_data <- list()

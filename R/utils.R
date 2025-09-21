@@ -10,6 +10,7 @@
 validate_graphql_variables <- function(variables) {
   unnamed <- variables[!rlang::is_named(variables)] |>
     unlist()
+
   if (length(unnamed) > 0) {
     cli::cli_abort(c(
       "All GraphQL variables must be named. Unnamed variable values:",
