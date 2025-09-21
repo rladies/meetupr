@@ -48,15 +48,7 @@ meetup_api_prefix <- function() {
 meetup_req <- function(cache = TRUE, ...) {
   req <- httr2::request(meetup_api_prefix()) |>
     httr2::req_headers("Content-Type" = "application/json") |>
-    httr2::req_error(body = function(resp) {
-      error_data <- httr2::resp_body_json(resp)
-      if (!is.null(error_data$errors)) {
-        messages <- sapply(error_data$errors, function(err) err$message)
-        paste("Meetup API errors:", paste(messages, collapse = "; "))
-      } else {
-        "Unknown Meetup API error"
-      }
-    })
+    httr2::req_error(body = handle_api_error)
 
   use_jwt <- switch(
     Sys.getenv("MEETUP_AUTH_METHOD"),
@@ -193,9 +185,28 @@ build_request <- function(
   meetup_req() |>
     httr2::req_body_json(
       list(
-        query = query,
+        query = graphql,
         variables = variables
       ),
       auto_unbox = TRUE
     )
+}
+
+#' Handle API Error
+#'
+#' This function processes the error response from the API
+#' and extracts meaningful error messages.
+#'
+#' @param resp The response object from the API request.
+#' @return A character string containing the error message.
+#' @keywords internal
+#' @noRd
+handle_api_error <- function(resp) {
+  error_data <- httr2::resp_body_json(resp)
+  if (!is.null(error_data$errors)) {
+    messages <- sapply(error_data$errors, function(err) err$message)
+    paste("Meetup API errors:", paste(messages, collapse = "; "))
+  } else {
+    "Unknown Meetup API error"
+  }
 }
