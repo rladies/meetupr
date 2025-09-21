@@ -20,8 +20,8 @@ process_graphql_list <- function(
 
   handle_fun <- switch(
     handle_multiples,
-    list = combine_duplicate_columns,
-    first = keep_first_duplicate_columns
+    list = multiples_to_listcol,
+    first = multiples_keep_first
   )
 
   # Flatten each item completely
@@ -42,7 +42,7 @@ silent_bind_rows <- function(...) {
 #' @return tibble with list columns for duplicates
 #' @keywords internal
 #' @noRd
-combine_duplicate_columns <- function(df) {
+multiples_to_listcol <- function(df) {
   column_names <- names(df)
   pattern <- "\\.{3}\\d+$"
   base_names <- unique(gsub(pattern, "", column_names))
@@ -94,7 +94,7 @@ combine_duplicate_columns <- function(df) {
 #' @return tibble with only first values
 #' @keywords internal
 #' @noRd
-keep_first_duplicate_columns <- function(df) {
+multiples_keep_first <- function(df) {
   column_names <- names(df)
   pattern <- "\\.{3}\\d+$"
   base_names <- unique(gsub(pattern, "", column_names))
