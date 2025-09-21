@@ -13,7 +13,7 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Wed, 17 Sep 2025 10:53:49 GMT
+      date: Sun, 21 Sep 2025 19:46:11 GMT
       content-length: '256587'
     body:
       string: "{\"data\":{\"groupByUrlname\":{\"id\":\"32612004\",\"name\":\"R-Ladies
@@ -691,5 +691,5 @@ http_interactions:
         ðɛɛƐ\",\"memberUrl\":\"https://www.meetup.com/members/475808300/\",\"memberPhoto\":null},\"metadata\":{\"status\":\"ACTIVE\",\"role\":\"MEMBER\",\"joinTime\":\"2025-09-11T14:21:11+01:00\",\"lastAccessTime\":\"2025-09-11T14:21:11+01:00\"}},{\"node\":{\"id\":\"475841895\",\"name\":\"Olans.\",\"memberUrl\":\"https://www.meetup.com/members/475841895/\",\"memberPhoto\":null},\"metadata\":{\"status\":\"ACTIVE\",\"role\":\"MEMBER\",\"joinTime\":\"2025-09-13T01:36:10+01:00\",\"lastAccessTime\":\"2025-09-13T01:36:10+01:00\"}},{\"node\":{\"id\":\"475859006\",\"name\":\"Offor
         Yetunde Nneamaka\",\"memberUrl\":\"https://www.meetup.com/members/475859006/\",\"memberPhoto\":null},\"metadata\":{\"status\":\"ACTIVE\",\"role\":\"MEMBER\",\"joinTime\":\"2025-09-13T18:03:08+01:00\",\"lastAccessTime\":\"2025-09-13T18:03:08+01:00\"}},{\"node\":{\"id\":\"475882348\",\"name\":\"ibrahimadekunle35\",\"memberUrl\":\"https://www.meetup.com/members/475882348/\",\"memberPhoto\":null},\"metadata\":{\"status\":\"ACTIVE\",\"role\":\"MEMBER\",\"joinTime\":\"2025-09-14T18:00:12+01:00\",\"lastAccessTime\":\"2025-09-14T18:00:12+01:00\"}},{\"node\":{\"id\":\"475915982\",\"name\":\"Temmy\",\"memberUrl\":\"https://www.meetup.com/members/475915982/\",\"memberPhoto\":null},\"metadata\":{\"status\":\"ACTIVE\",\"role\":\"MEMBER\",\"joinTime\":\"2025-09-16T04:40:58+01:00\",\"lastAccessTime\":\"2025-09-16T04:40:58+01:00\"}},{\"node\":{\"id\":\"475937425\",\"name\":\"최고
         여왕\",\"memberUrl\":\"https://www.meetup.com/members/475937425/\",\"memberPhoto\":null},\"metadata\":{\"status\":\"ACTIVE\",\"role\":\"MEMBER\",\"joinTime\":\"2025-09-17T00:37:27+01:00\",\"lastAccessTime\":\"2025-09-17T00:37:27+01:00\"}}]}}}}"
-  recorded_at: 2025-09-17 10:53:49
+  recorded_at: 2025-09-21 19:46:11
 recorded_with: VCR-vcr/2.0.0

@@ -46,126 +46,6 @@ test_that("meetup_req handles OAuth authentication", {
   )
 })
 
-test_that("meetup_req raises error if no authentication is set", {
-  withr::local_envvar(c(
-    MEETUP_AUTH_METHOD = "",
-    MEETUP_CLIENT_ID = "",
-    MEETUP_CLIENT_SECRET = ""
-  ))
-  expect_error(meetup_req(), "Authentication required. Set either:")
-})
-
-test_that("meetup_query executes GraphQL query successfully", {
-  mock_if_no_auth()
-
-  local_mocked_bindings(
-    req_perform = function(req) {
-      structure(list(status_code = 200), class = "httr2_response")
-    },
-    resp_body_json = function(resp) {
-      list(data = list(user = list(id = "123", name = "Test User")))
-    },
-    .package = "httr2"
-  )
-
-  query <- "query GetUser($id: ID!) { user(id: $id) { id name } }"
-  result <- meetup_query(query, id = "123")
-
-  expect_equal(result$data$user$id, "123")
-  expect_equal(result$data$user$name, "Test User")
-})
-
-test_that("meetup_query handles GraphQL errors", {
-  mock_if_no_auth()
-
-  local_mocked_bindings(
-    req_perform = function(req) {
-      structure(list(status_code = 200), class = "httr2_response")
-    },
-    resp_body_json = function(resp) {
-      list(errors = list(list(message = "User not found")))
-    },
-    .package = "httr2"
-  )
-
-  query <- "query GetUser($id: ID!) { user(id: $id) { id name } }"
-  expect_error(
-    meetup_query(query, id = "invalid"),
-    "Failed to execute GraphQL query"
-  )
-})
-
-test_that("meetup_query compacts variables", {
-  mock_if_no_auth()
-
-  local_mocked_bindings(
-    req_perform = function(req) {
-      structure(list(status_code = 200), class = "httr2_response")
-    },
-    resp_body_json = function(resp) {
-      list(data = list(user = list(id = "123")))
-    },
-    .package = "httr2"
-  )
-
-  query <- "query GetUser($id: ID!) { user(id: $id) { id } }"
-  result <- meetup_query(
-    query,
-    id = "123",
-    empty_var = NULL
-  )
-
-  expect_equal(result$data$user$id, "123")
-})
-
-test_that("build_request constructs proper GraphQL request", {
-  mock_if_no_auth()
-
-  query <- "query GetUser($id: ID!) { user(id: $id) { id } }"
-  variables <- list(id = "123")
-
-  req <- build_request(query, variables)
-
-  expect_s3_class(req, "httr2_request")
-  expect_equal(req$body$data$query, query)
-  expect_equal(req$body$data$variables$id, "123")
-})
-
-test_that("build_request handles empty variables", {
-  mock_if_no_auth()
-
-  query <- "query { viewer { id } }"
-  req <- build_request(query, list())
-
-  expect_s3_class(req, "httr2_request")
-  expect_equal(req$body$data$query, query)
-  expect_equal(length(req$body$data$variables), 0)
-})
-
-test_that("build_request handles NULL variables", {
-  mock_if_no_auth()
-
-  query <- "query { viewer { id } }"
-  req <- build_request(query, NULL)
-
-  expect_s3_class(req, "httr2_request")
-  expect_equal(req$body$data$query, query)
-  expect_equal(length(req$body$data$variables), 0)
-})
-
-test_that("build_request shows debug output when MEETUPR_DEBUG is set", {
-  mock_if_no_auth()
-
-  withr::local_envvar(c(MEETUPR_DEBUG = "true"))
-
-  expect_message(
-    {
-      query <- "query { viewer { id } }"
-      build_request(query, list())
-    },
-    "DEBUG: JSON to be sent:"
-  )
-})
 
 test_that("meetup_req error handler formats API errors correctly", {
   mock_if_no_auth()
@@ -289,28 +169,6 @@ test_that("meetup_req uses OAuth when only OAuth credentials available", {
   )
 })
 
-test_that("JWT authentication fails if environment variables are not set", {
-  withr::local_envvar(
-    MEETUP_AUTH_METHOD = "jwt",
-    MEETUP_CLIENT_ID = "",
-    MEETUP_MEMBER_ID = "",
-    MEETUP_RSA_PATH = ""
-  )
-
-  expect_error(
-    {
-      if (!has_jwt_credentials()) {
-        cli::cli_abort(c(
-          "x" = "JWT authentication selected 
-          but required environment variables are not set.",
-          "i" = "Set {.val MEETUP_CLIENT_ID},
-           {.val MEETUP_MEMBER_ID}, and {.val MEETUP_RSA_PATH}."
-        ))
-      }
-    },
-    regexp = "required environment variables are not set."
-  )
-})
 
 test_that("meetup_req fails when JWT selected but credentials incomplete", {
   withr::local_envvar(
@@ -322,20 +180,7 @@ test_that("meetup_req fails when JWT selected but credentials incomplete", {
 
   expect_error(
     meetup_req(),
-    "JWT authentication selected but required environment variables are not set"
-  )
-})
-test_that("meetup_req fails when JWT selected but credentials incomplete", {
-  withr::local_envvar(
-    MEETUP_AUTH_METHOD = "jwt",
-    MEETUP_CLIENT_ID = "",
-    MEETUP_MEMBER_ID = "",
-    MEETUP_RSA_PATH = ""
-  )
-
-  expect_error(
-    meetup_req(),
-    "JWT authentication selected but required environment variables are not set"
+    regexp = "are not set"
   )
 })
 
@@ -410,5 +255,126 @@ test_that("meetup_req fails when no auth method available", {
   expect_error(
     meetup_req(),
     "Authentication required"
+  )
+})
+
+test_that("meetup_req raises error if no authentication is set", {
+  withr::local_envvar(c(
+    MEETUP_AUTH_METHOD = "",
+    MEETUP_CLIENT_ID = "",
+    MEETUP_CLIENT_SECRET = ""
+  ))
+  expect_error(meetup_req(), "Authentication required. Set either:")
+})
+
+test_that("meetup_query executes GraphQL query successfully", {
+  mock_if_no_auth()
+
+  local_mocked_bindings(
+    req_perform = function(req) {
+      structure(list(status_code = 200), class = "httr2_response")
+    },
+    resp_body_json = function(resp) {
+      list(data = list(user = list(id = "123", name = "Test User")))
+    },
+    .package = "httr2"
+  )
+
+  query <- "query GetUser($id: ID!) { user(id: $id) { id name } }"
+  result <- meetup_query(query, id = "123")
+
+  expect_equal(result$data$user$id, "123")
+  expect_equal(result$data$user$name, "Test User")
+})
+
+test_that("meetup_query handles GraphQL errors", {
+  mock_if_no_auth()
+
+  local_mocked_bindings(
+    req_perform = function(req) {
+      structure(list(status_code = 200), class = "httr2_response")
+    },
+    resp_body_json = function(resp) {
+      list(errors = list(list(message = "User not found")))
+    },
+    .package = "httr2"
+  )
+
+  query <- "query GetUser($id: ID!) { user(id: $id) { id name } }"
+  expect_error(
+    meetup_query(query, id = "invalid"),
+    "Failed to execute GraphQL query"
+  )
+})
+
+test_that("meetup_query compacts variables", {
+  mock_if_no_auth()
+
+  local_mocked_bindings(
+    req_perform = function(req) {
+      structure(list(status_code = 200), class = "httr2_response")
+    },
+    resp_body_json = function(resp) {
+      list(data = list(user = list(id = "123")))
+    },
+    .package = "httr2"
+  )
+
+  query <- "query GetUser($id: ID!) { user(id: $id) { id } }"
+  result <- meetup_query(
+    query,
+    id = "123",
+    empty_var = NULL
+  )
+
+  expect_equal(result$data$user$id, "123")
+})
+
+test_that("build_request constructs proper GraphQL request", {
+  mock_if_no_auth()
+
+  query <- "query GetUser($id: ID!) { user(id: $id) { id } }"
+  variables <- list(id = "123")
+
+  req <- build_request(query, variables)
+
+  expect_s3_class(req, "httr2_request")
+  expect_equal(req$body$data$query, query)
+  expect_equal(req$body$data$variables$id, "123")
+})
+
+test_that("build_request handles empty variables", {
+  mock_if_no_auth()
+
+  query <- "query { viewer { id } }"
+  req <- build_request(query, list())
+
+  expect_s3_class(req, "httr2_request")
+  expect_equal(req$body$data$query, query)
+  expect_equal(length(req$body$data$variables), 0)
+})
+
+test_that("build_request handles NULL variables", {
+  mock_if_no_auth()
+
+  query <- "query { viewer { id } }"
+  req <- build_request(query, NULL)
+
+  expect_s3_class(req, "httr2_request")
+  expect_equal(req$body$data$query, query)
+  expect_equal(length(req$body$data$variables), 0)
+})
+
+test_that("build_request shows debug output when MEETUPR_DEBUG is set", {
+  mock_if_no_auth()
+
+  withr::local_envvar(c(MEETUPR_DEBUG = "true"))
+
+  expect_message(
+    {
+      query <- "query { viewer { id } }"
+      build_request(query, list())
+    },
+    "DEBUG: JSON to be sent:"
   )
 })

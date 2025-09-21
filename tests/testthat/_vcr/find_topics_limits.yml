@@ -13,15 +13,15 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Tue, 16 Sep 2025 14:28:47 GMT
-      content-length: '550'
+      date: Sun, 21 Sep 2025 19:47:13 GMT
+      content-length: '622'
     body:
-      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"MTUxNTA4Ng=="},"totalCount":591,"edges":[{"node":{"id":"584902","name":"Machine
-        Learning","urlkey":"machine-learning","description":null}},{"node":{"id":"488822","name":"Artificial
-        Intelligence","urlkey":"artificial-intelligence","description":null}},{"node":{"id":"1511040","name":"Machine
-        Learning In Cloud","urlkey":"machine-learning-in-cloud","description":null}},{"node":{"id":"1515086","name":"Machine
-        Learning Apps","urlkey":"machine-learning-apps","description":null}}]}}}'
-  recorded_at: 2025-09-16 14:28:47
+      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJEb3VibGUiLCJ2YWx1ZSI6MTguNTMxMTQzfSx7InR5cGUiOiJTdHJpbmciLCJ2YWx1ZSI6IjE1MTIzMTgtZW5fVVMifV19"},"totalCount":595,"edges":[{"node":{"id":"97440","name":"M2M
+        Machine-to-Machine","urlkey":"m2m-machine-to-machine","description":null}},{"node":{"id":"584902","name":"Machine
+        Learning","urlkey":"machine-learning","description":null}},{"node":{"id":"98137","name":"Machine
+        Intelligence","urlkey":"machine-intelligence","description":null}},{"node":{"id":"118575","name":"M2M
+        Devices","urlkey":"m2m-devices","description":null}}]}}}'
+  recorded_at: 2025-09-21 19:47:13
 - request:
     method: POST
     uri: https://api.meetup.com/gql-ext
@@ -30,21 +30,21 @@ http_interactions:
         \n  $after: String\n  ) {\n  suggestTopics(\n    query: $query\n    first:
         $first\n    after: $after\n  ) {\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    totalCount\n    edges
         {\n      node {\n        id\n        name\n        urlkey\n        description\n      }\n    }\n  }\n}","variables":{"query":"Machine
-        Learning","first":5,"cursor":"MTUxNTA4Ng=="}}'
+        Learning","first":5,"cursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJEb3VibGUiLCJ2YWx1ZSI6MTguNTMxMTQzfSx7InR5cGUiOiJTdHJpbmciLCJ2YWx1ZSI6IjE1MTIzMTgtZW5fVVMifV19"}}'
   response:
     status: 200
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Tue, 16 Sep 2025 14:28:48 GMT
-      content-length: '550'
+      date: Sun, 21 Sep 2025 19:47:14 GMT
+      content-length: '622'
     body:
-      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"MTUxNTA4Ng=="},"totalCount":591,"edges":[{"node":{"id":"584902","name":"Machine
-        Learning","urlkey":"machine-learning","description":null}},{"node":{"id":"488822","name":"Artificial
-        Intelligence","urlkey":"artificial-intelligence","description":null}},{"node":{"id":"1511040","name":"Machine
-        Learning In Cloud","urlkey":"machine-learning-in-cloud","description":null}},{"node":{"id":"1515086","name":"Machine
-        Learning Apps","urlkey":"machine-learning-apps","description":null}}]}}}'
-  recorded_at: 2025-09-16 14:28:48
+      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJEb3VibGUiLCJ2YWx1ZSI6MTguNTMzNzMxfSx7InR5cGUiOiJTdHJpbmciLCJ2YWx1ZSI6IjE1MTIzMTgtZW5fVVMifV19"},"totalCount":595,"edges":[{"node":{"id":"97440","name":"M2M
+        Machine-to-Machine","urlkey":"m2m-machine-to-machine","description":null}},{"node":{"id":"584902","name":"Machine
+        Learning","urlkey":"machine-learning","description":null}},{"node":{"id":"98137","name":"Machine
+        Intelligence","urlkey":"machine-intelligence","description":null}},{"node":{"id":"118575","name":"M2M
+        Devices","urlkey":"m2m-devices","description":null}}]}}}'
+  recorded_at: 2025-09-21 19:47:14
 - request:
     method: POST
     uri: https://api.meetup.com/gql-ext
@@ -59,18 +59,20 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Tue, 16 Sep 2025 14:28:48 GMT
-      content-length: '1006'
+      date: Sun, 21 Sep 2025 19:47:15 GMT
+      content-length: '1174'
     body:
-      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"MjEyNzQ="},"totalCount":591,"edges":[{"node":{"id":"584902","name":"Machine
-        Learning","urlkey":"machine-learning","description":null}},{"node":{"id":"488822","name":"Artificial
-        Intelligence","urlkey":"artificial-intelligence","description":null}},{"node":{"id":"1517703","name":"Machine
-        Learning with Python","urlkey":"machine-learning-with-python","description":null}},{"node":{"id":"1511040","name":"Machine
-        Learning In Cloud","urlkey":"machine-learning-in-cloud","description":null}},{"node":{"id":"1515086","name":"Machine
-        Learning Apps","urlkey":"machine-learning-apps","description":null}},{"node":{"id":"1519801","name":"Machine
+      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJEb3VibGUiLCJ2YWx1ZSI6MTcuNjQ0NDAyfSx7InR5cGUiOiJTdHJpbmciLCJ2YWx1ZSI6IjE1MTUwODYtZW5fVVMifV19"},"totalCount":595,"edges":[{"node":{"id":"97440","name":"M2M
+        Machine-to-Machine","urlkey":"m2m-machine-to-machine","description":null}},{"node":{"id":"45475","name":"Machine
+        Quilting","urlkey":"machine-quilting","description":null}},{"node":{"id":"118575","name":"M2M
+        Devices","urlkey":"m2m-devices","description":null}},{"node":{"id":"1519801","name":"Machine
         Learning Interpretability","urlkey":"machine-learning-interpretability","description":null}},{"node":{"id":"1518913","name":"Automated
-        Machine Learning","urlkey":"automated-machine-learning","description":null}},{"node":{"id":"21274","name":"E-Learning","urlkey":"e-learning","description":null}}]}}}'
-  recorded_at: 2025-09-16 14:28:48
+        Machine Learning","urlkey":"automated-machine-learning","description":null}},{"node":{"id":"150896","name":"Machine
+        Vision","urlkey":"machine-vision","description":null}},{"node":{"id":"584902","name":"Machine
+        Learning","urlkey":"machine-learning","description":null}},{"node":{"id":"98137","name":"Machine
+        Intelligence","urlkey":"machine-intelligence","description":null}},{"node":{"id":"1515086","name":"Machine
+        Learning Apps","urlkey":"machine-learning-apps","description":null}}]}}}'
+  recorded_at: 2025-09-21 19:47:15
 - request:
     method: POST
     uri: https://api.meetup.com/gql-ext
@@ -79,22 +81,24 @@ http_interactions:
         \n  $after: String\n  ) {\n  suggestTopics(\n    query: $query\n    first:
         $first\n    after: $after\n  ) {\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    totalCount\n    edges
         {\n      node {\n        id\n        name\n        urlkey\n        description\n      }\n    }\n  }\n}","variables":{"query":"Machine
-        Learning","first":15,"cursor":"MjEyNzQ="}}'
+        Learning","first":15,"cursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJEb3VibGUiLCJ2YWx1ZSI6MTcuNjQ0NDAyfSx7InR5cGUiOiJTdHJpbmciLCJ2YWx1ZSI6IjE1MTUwODYtZW5fVVMifV19"}}'
   response:
     status: 200
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Tue, 16 Sep 2025 14:28:48 GMT
-      content-length: '1006'
+      date: Sun, 21 Sep 2025 19:47:15 GMT
+      content-length: '1174'
     body:
-      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"MjEyNzQ="},"totalCount":591,"edges":[{"node":{"id":"584902","name":"Machine
-        Learning","urlkey":"machine-learning","description":null}},{"node":{"id":"488822","name":"Artificial
-        Intelligence","urlkey":"artificial-intelligence","description":null}},{"node":{"id":"1517703","name":"Machine
-        Learning with Python","urlkey":"machine-learning-with-python","description":null}},{"node":{"id":"1511040","name":"Machine
-        Learning In Cloud","urlkey":"machine-learning-in-cloud","description":null}},{"node":{"id":"1515086","name":"Machine
-        Learning Apps","urlkey":"machine-learning-apps","description":null}},{"node":{"id":"1519801","name":"Machine
+      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJEb3VibGUiLCJ2YWx1ZSI6MTcuNjQ4NzMxfSx7InR5cGUiOiJTdHJpbmciLCJ2YWx1ZSI6IjE1MTUwODYtZW5fVVMifV19"},"totalCount":595,"edges":[{"node":{"id":"97440","name":"M2M
+        Machine-to-Machine","urlkey":"m2m-machine-to-machine","description":null}},{"node":{"id":"45475","name":"Machine
+        Quilting","urlkey":"machine-quilting","description":null}},{"node":{"id":"118575","name":"M2M
+        Devices","urlkey":"m2m-devices","description":null}},{"node":{"id":"1519801","name":"Machine
         Learning Interpretability","urlkey":"machine-learning-interpretability","description":null}},{"node":{"id":"1518913","name":"Automated
-        Machine Learning","urlkey":"automated-machine-learning","description":null}},{"node":{"id":"21274","name":"E-Learning","urlkey":"e-learning","description":null}}]}}}'
-  recorded_at: 2025-09-16 14:28:48
+        Machine Learning","urlkey":"automated-machine-learning","description":null}},{"node":{"id":"150896","name":"Machine
+        Vision","urlkey":"machine-vision","description":null}},{"node":{"id":"584902","name":"Machine
+        Learning","urlkey":"machine-learning","description":null}},{"node":{"id":"98137","name":"Machine
+        Intelligence","urlkey":"machine-intelligence","description":null}},{"node":{"id":"1515086","name":"Machine
+        Learning Apps","urlkey":"machine-learning-apps","description":null}}]}}}'
+  recorded_at: 2025-09-21 19:47:15
 recorded_with: VCR-vcr/2.0.0
