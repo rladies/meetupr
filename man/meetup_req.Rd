@@ -10,13 +10,11 @@ meetup_req(cache = TRUE, ...)
 \item{cache}{A logical value indicating whether to cache the OAuth token
 on disk. Defaults to \code{TRUE}.}
 
-\item{...}{Additional arguments passed to \code{meetup_client()} for setting up
+\item{...}{Additional arguments passed to \code{\link[=meetup_client]{meetup_client()}} for setting up
 the OAuth client.}
 }
 \value{
 A \code{httr2} request object pre-configured to interact with the
-Meetup API. Note that the current implementation is commented out and
-serves as a placeholder for the full logic.
 }
 \description{
 This function prepares and configures an HTTP request for interacting with

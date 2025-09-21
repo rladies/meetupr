@@ -10,9 +10,9 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Wed, 17 Sep 2025 14:55:32 GMT
+      date: Sat, 20 Sep 2025 14:23:38 GMT
       content-length: '110'
     body:
       string: '{"data":{"groupByUrlname":{"id":"5190472","name":"R-Ladies San Francisco","memberships":{"totalCount":1724}}}}'
-  recorded_at: 2025-09-17 14:55:32
+  recorded_at: 2025-09-20 14:23:38
 recorded_with: VCR-vcr/2.0.0
