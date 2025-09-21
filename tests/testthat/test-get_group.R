@@ -6,7 +6,7 @@ test_that("get_group_members() works with one status", {
   expect_s3_class(members, "data.frame")
 })
 
-test_that("get_group_members validates ellipsis", {
+test_that("get_group_members validates rlang", {
   expect_error(get_group_members("valid_url", extra_parameter = "unexpected"))
 })
 
