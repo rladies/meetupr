@@ -14,7 +14,7 @@ test_that("execute_from_template works with basic parameters", {
     read_template = function(path) "query { test }",
     validate_extra_graphql = function(x) x %||% "",
     insert_extra_graphql = function(query, extra) query,
-    meetup_query = function(.query, ..., .envir) list(data = "success")
+    meetup_query = function(graphql, ..., .envir) list(data = "success")
   )
 
   result <- execute_from_template("test_file", var1 = "value1")
@@ -34,8 +34,8 @@ test_that("execute_from_template passes extra_graphql correctly", {
       expect_equal(extra, "fragment Test { id }")
       paste(query, extra)
     },
-    meetup_query = function(.query, ..., .envir) {
-      expect_true(grepl("fragment Test", .query))
+    meetup_query = function(graphql, ..., .envir) {
+      expect_true(grepl("fragment Test", graphql))
       list(data = "with_fragment")
     }
   )
@@ -57,7 +57,7 @@ test_that("execute_from_template handles NULL extra_graphql", {
       ""
     },
     insert_extra_graphql = function(query, extra) query,
-    meetup_query = function(.query, ..., .envir) list(data = "success")
+    meetup_query = function(graphql, ..., .envir) list(data = "success")
   )
 
   result <- execute_from_template("test")
