@@ -118,25 +118,48 @@ country_code <- function(x) {
   )
 }
 
-#' Check if a String is Non-Empty or NULL
-#' @param x A character string or NULL
-#' @return TRUE if x is NULL or a non-empty string, FALSE otherwise
-#' @keywords internal
-#' @noRd
-nzchar_null <- function(x) {
-  is.null(x) || nzchar(x)
+#' Temporarily enable debug mode
+#'
+#' @param level Debug level: 1 for on, 0 for off
+#' @param env The environment to use for scoping
+#' @return The old debug value (invisibly)
+#' @export
+#' @examples
+#' \dontrun{
+#' # Within a function or test
+#' local_meetupr_debug(1)
+#' # Debug output enabled for remainder of scope
+#'
+#' # Manual cleanup
+#' old <- local_meetupr_debug(1, env = emptyenv())
+#' # ... code with debugging ...
+#' Sys.setenv(MEETUPR_DEBUG = old)
+#' }
+local_meetupr_debug <- function(
+  level = 1,
+  env = parent.frame()
+) {
+  level <- match.arg(
+    as.character(level),
+    c("0", "1")
+  )
+  old <- Sys.getenv("MEETUPR_DEBUG", unset = "0")
+  Sys.setenv(MEETUPR_DEBUG = level)
+  withr::defer(
+    Sys.setenv(MEETUPR_DEBUG = old),
+    envir = env
+  )
+  invisible(old)
 }
 
 # nocov start
 mock_if_no_auth <- function() {
-  if (has_jwt_credentials() && has_oauth_credentials()) {
+  if (meetup_auth_status(silent = TRUE)) {
     return(invisible())
   }
   Sys.setenv(
     MEETUP_CLIENT_ID = "123456",
-    MEETUP_CLIENT_SECRET = "aB3xK9mP2",
-    MEETUP_MEMBER_ID = "1111111",
-    MEETUP_RSA_KEY = "-----BEGIN PRIVATE KEY-----"
+    MEETUP_CLIENT_SECRET = "aB3xK9mP2"
   )
   invisible()
 }

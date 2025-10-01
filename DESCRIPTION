@@ -26,8 +26,10 @@ License: MIT + file LICENSE
 Depends:
     R (>= 4.1)
 Imports:
+    base64enc,
     countrycode,
     cli,
+    clipr,
     dplyr,
     glue,
     httr2,

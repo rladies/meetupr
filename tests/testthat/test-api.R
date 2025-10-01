@@ -14,24 +14,6 @@ test_that("meetup_req configures request with proper headers", {
   expect_equal(httr2::req_get_headers(req)$`Content-Type`, "application/json")
 })
 
-test_that("meetup_req handles JWT authentication", {
-  mock_if_no_auth()
-  withr::local_envvar(c(
-    MEETUP_AUTH_METHOD = "jwt",
-    MEETUP_CLIENT_ID = "client_id",
-    MEETUP_MEMBER_ID = "member_id"
-  ))
-
-  local_mocked_bindings(
-    get_rsa_key = function() "mock_key"
-  )
-  req <- meetup_req()
-  expect_equal(
-    req$policies$auth_sign$params$flow,
-    "oauth_flow_bearer_jwt"
-  )
-})
-
 test_that("meetup_req handles OAuth authentication", {
   mock_if_no_auth()
   withr::local_envvar(c(
@@ -92,126 +74,6 @@ test_that("meetup_req error handler handles unknown errors", {
   expect_equal(result, "Unknown Meetup API error")
 })
 
-test_that("meetup_req chooses JWT when MEETUP_AUTH_METHOD=jwt", {
-  mock_if_no_auth()
-
-  withr::local_envvar(c(
-    MEETUP_AUTH_METHOD = "jwt",
-    MEETUP_CLIENT_ID = "client_id",
-    MEETUP_MEMBER_ID = "member_id"
-  ))
-
-  local_mocked_bindings(
-    has_jwt_credentials = function() TRUE,
-    get_rsa_key = function() "mock_key"
-  )
-
-  req <- meetup_req()
-  expect_equal(
-    req$policies$auth_sign$params$flow,
-    "oauth_flow_bearer_jwt"
-  )
-})
-
-test_that("meetup_req chooses OAuth when MEETUP_AUTH_METHOD=oauth", {
-  mock_if_no_auth()
-
-  withr::local_envvar(c(
-    MEETUP_AUTH_METHOD = "oauth",
-    MEETUP_CLIENT_ID = "client_id",
-    MEETUP_CLIENT_SECRET = "client_secret"
-  ))
-
-  local_mocked_bindings(
-    has_jwt_credentials = function() FALSE,
-    has_oauth_credentials = function() TRUE
-  )
-
-  req <- meetup_req()
-  expect_equal(
-    req$policies$auth_sign$params$flow,
-    "oauth_flow_auth_code"
-  )
-})
-
-test_that("meetup_req defaults to JWT when both credentials available", {
-  mock_if_no_auth()
-
-  withr::local_envvar(c(MEETUP_AUTH_METHOD = ""))
-
-  local_mocked_bindings(
-    has_jwt_credentials = function() TRUE,
-    has_oauth_credentials = function() TRUE,
-    get_rsa_key = function() "mock_key"
-  )
-
-  req <- meetup_req()
-  expect_equal(
-    req$policies$auth_sign$params$flow,
-    "oauth_flow_bearer_jwt"
-  )
-})
-
-test_that("meetup_req uses OAuth when only OAuth credentials available", {
-  mock_if_no_auth()
-
-  withr::local_envvar(c(MEETUP_AUTH_METHOD = ""))
-
-  local_mocked_bindings(
-    has_jwt_credentials = function() FALSE,
-    has_oauth_credentials = function() TRUE
-  )
-
-  req <- meetup_req()
-  expect_equal(
-    req$policies$auth_sign$params$flow,
-    "oauth_flow_auth_code"
-  )
-})
-
-
-test_that("meetup_req fails when JWT selected but credentials incomplete", {
-  withr::local_envvar(
-    MEETUP_AUTH_METHOD = "jwt",
-    MEETUP_CLIENT_ID = "",
-    MEETUP_MEMBER_ID = "",
-    MEETUP_RSA_PATH = ""
-  )
-
-  expect_error(
-    meetup_req(),
-    regexp = "are not set"
-  )
-})
-
-test_that("meetup_req uses JWT authentication when method is jwt", {
-  withr::local_envvar(
-    MEETUP_AUTH_METHOD = "jwt",
-    MEETUP_CLIENT_ID = "test_client",
-    MEETUP_MEMBER_ID = "123456",
-    MEETUP_RSA_KEY = "-----BEGIN PRIVATE KEY-----\n
-    test_key\n
-    -----END PRIVATE KEY-----"
-  )
-
-  mock_client <- structure(
-    list(name = "test_client"),
-    class = "httr2_oauth_client"
-  )
-
-  local_mocked_bindings(
-    has_jwt_credentials = function() TRUE,
-    get_rsa_key = function() "mock_key",
-    meetup_client = function(...) mock_client
-  )
-
-  req <- meetup_req()
-
-  expect_equal(
-    req$policies$auth_sign$params$flow_params$signature,
-    "jwt_encode_sig"
-  )
-})
 
 test_that("meetup_req uses OAuth when method is oauth", {
   withr::local_envvar(
@@ -226,7 +88,7 @@ test_that("meetup_req uses OAuth when method is oauth", {
   )
 
   local_mocked_bindings(
-    has_oauth_credentials = function() TRUE,
+    meetup_auth_status = function(...) TRUE,
     meetup_client = function(...) mock_client
   )
 
@@ -238,34 +100,6 @@ test_that("meetup_req uses OAuth when method is oauth", {
   )
 })
 
-test_that("meetup_req fails when no auth method available", {
-  withr::local_envvar(
-    MEETUP_AUTH_METHOD = "",
-    MEETUP_CLIENT_ID = "",
-    MEETUP_CLIENT_SECRET = "",
-    MEETUP_MEMBER_ID = "",
-    MEETUP_RSA_PATH = ""
-  )
-
-  local_mocked_bindings(
-    has_jwt_credentials = function() FALSE,
-    has_oauth_credentials = function() FALSE
-  )
-
-  expect_error(
-    meetup_req(),
-    "Authentication required"
-  )
-})
-
-test_that("meetup_req raises error if no authentication is set", {
-  withr::local_envvar(c(
-    MEETUP_AUTH_METHOD = "",
-    MEETUP_CLIENT_ID = "",
-    MEETUP_CLIENT_SECRET = ""
-  ))
-  expect_error(meetup_req(), "Authentication required. Set either:")
-})
 
 test_that("meetup_query executes GraphQL query successfully", {
   mock_if_no_auth()
@@ -368,7 +202,7 @@ test_that("build_request handles NULL variables", {
 test_that("build_request shows debug output when MEETUPR_DEBUG is set", {
   mock_if_no_auth()
 
-  withr::local_envvar(c(MEETUPR_DEBUG = "true"))
+  withr::local_envvar(c(MEETUPR_DEBUG = "1"))
 
   expect_message(
     {

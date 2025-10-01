@@ -1,20 +1,10 @@
 #' Show meetupr authentication status
 #'
-#' This function checks the authentication status for
-#' the Meetup API by attempting
-#' to create an OAuth client using the `meetupr` package.
-#' It provides feedback on whether
-#' the credentials are configured correctly or if there are any issues.
-#' If there are issues with the credentials, it provides
-#' setup instructions to help
-#' the user configure their environment correctly.
+#' This function checks the authentication status for the Meetup API.
+#' It provides feedback on whether credentials are configured correctly,
+#' tests API connectivity, and shows available authentication methods.
 #'
-#' It also informs the user that authentication is handled
-#' automatically when making requests
-#' and checks if debug mode is enabled via the
-#' `MEETUPR_DEBUG` environment variable.
-#' @return Invisibly returns `NULL`. The primary purpose of
-#' this function is to display
+#' @return Invisibly returns a list with authentication status details.
 #' @examples
 #' meetup_sitrep()
 #'
@@ -34,7 +24,161 @@ meetup_sitrep <- function() {
   invisible(auth_status)
 }
 
-# Custom helper functions
+#' Check available authentication methods
+#' @keywords internal
+#' @noRd
+check_auth_methods <- function() {
+  auth_status <- list()
+
+  # Check OAuth credentials
+  oauth_available <- meetup_auth_status(silent = TRUE)
+
+  # Check for cached token
+  has_token <- tryCatch(
+    {
+      token_path(pattern = ".rds.enc$")
+      TRUE
+    },
+    error = function(e) FALSE
+  )
+
+  # Check CI environment
+  ci_token <- nzchar(Sys.getenv("MEETUP_TOKEN")) &&
+    nzchar(Sys.getenv("MEETUP_TOKEN_FILE"))
+
+  auth_status$oauth <- list(
+    available = oauth_available,
+    client_id = Sys.getenv("MEETUP_CLIENT_ID"),
+    client_secret = Sys.getenv("MEETUP_CLIENT_SECRET"),
+    has_cached_token = has_token,
+    ci_mode = ci_token
+  )
+
+  # Determine active method
+  auth_status$active_method <- if (has_token || ci_token) {
+    "OAuth"
+  } else if (oauth_available) {
+    "OAuth (not authenticated)"
+  } else {
+    "None"
+  }
+
+  auth_status$debug <- list(
+    enabled = check_debug_mode(),
+    value = Sys.getenv("MEETUPR_DEBUG")
+  )
+
+  auth_status
+}
+
+#' Display authentication status
+#' @keywords internal
+#' @noRd
+display_auth_status <- function(auth_status) {
+  cli::cli_h2("Active Authentication Method")
+
+  if (auth_status$active_method == "OAuth") {
+    if (auth_status$oauth$ci_mode) {
+      cli::cli_alert_success("OAuth (CI Mode) - {.val Active}")
+    } else {
+      cli::cli_alert_success("OAuth - {.val Active}")
+    }
+  } else if (auth_status$active_method == "OAuth (not authenticated)") {
+    cli::cli_alert_warning("OAuth credentials configured but not authenticated")
+    cli::cli_text("   Run {.code meetup_auth()} to authenticate")
+  } else {
+    cli::cli_alert_danger("No Authentication Configured")
+  }
+
+  # Show OAuth configuration
+  cli::cli_h2("OAuth Configuration")
+
+  show_config_item("Client ID", auth_status$oauth$client_id, mask = TRUE)
+  show_config_item(
+    "Client Secret",
+    if (nzchar(auth_status$oauth$client_secret)) "Set" else ""
+  )
+
+  cli_status(
+    auth_status$oauth$has_cached_token,
+    "Cached Token: Available",
+    "Cached Token: None - run {.code meetup_auth()}",
+    "success",
+    "info"
+  )
+
+  if (auth_status$oauth$ci_mode) {
+    cli::cli_alert_info("CI environment detected (MEETUP_TOKEN set)")
+  }
+
+  # Package settings
+  cli::cli_h2("Package Settings")
+
+  cli_status(
+    auth_status$debug$enabled,
+    "Debug Mode: {cli::col_yellow('Enabled')}",
+    "Debug Mode: Disabled - Set {.envvar MEETUPR_DEBUG=1} or use {.code local_meetupr_debug(1)}",
+    "info",
+    "info"
+  )
+
+  api_endpoint <- Sys.getenv("MEETUP_API_URL", meetup_api_prefix())
+  cli::cli_alert_info("API endpoint: {.url {api_endpoint}}")
+}
+
+#' Test API connectivity
+#' @keywords internal
+#' @noRd
+test_api_connectivity <- function(auth_status) {
+  if (auth_status$active_method == "None") {
+    cli::cli_h2("Setup Instructions")
+
+    cli::cli_h3("Interactive Setup:")
+    cli::cli_ol(c(
+      "Create OAuth client at {.url https://www.meetup.com/api/oauth/list}",
+      "Set redirect URI to: {.strong http://localhost:1410}",
+      "Set environment variables in {.code .Renviron}:",
+      "  {.envvar MEETUP_CLIENT_ID=your_client_id}",
+      "  {.envvar MEETUP_CLIENT_SECRET=your_secret}",
+      "Restart R and run {.code meetup_auth()}"
+    ))
+
+    cli::cli_h3("CI/CD Setup:")
+    cli::cli_ol(c(
+      "Authenticate locally first with {.code meetup_auth()}",
+      "Run {.code meetup_auth_setup_ci()} to get encoded token",
+      "Set secrets in your CI: {.envvar MEETUP_TOKEN} and {.envvar MEETUP_TOKEN_FILE}"
+    ))
+
+    return(invisible(NULL))
+  }
+
+  if (auth_status$active_method == "OAuth (not authenticated)") {
+    return(invisible(NULL))
+  }
+
+  cli::cli_h2("API Connectivity Test")
+
+  tryCatch(
+    {
+      user_info <- get_self()
+
+      if (!is.null(user_info)) {
+        cli::cli_alert_success("API Connection: Working")
+        cli::cli_alert_info(
+          "Authenticated as: {.strong {user_info$name}} (ID: {user_info$id})"
+        )
+      } else {
+        cli::cli_alert_warning("API Connection: Unexpected response")
+      }
+    },
+    error = function(e) {
+      cli::cli_alert_danger("API Connection: Failed - {e$message}")
+    }
+  )
+}
+
+# Helper functions from original remain the same
 cli_status <- function(
   condition,
   true_msg,
@@ -69,15 +213,8 @@ cli_status <- function(
   }
 }
 
-#' Display configuration item with optional masking
-#' @keywords internal
-#' @noRd
-show_config_item <- function(
-  name,
-  value,
-  mask = FALSE
-) {
-  has_value <- nzchar_null(value)
+show_config_item <- function(name, value, mask = FALSE) {
+  has_value <- nzchar(value) && !is.null(value)
   display_value <- if (mask && has_value) {
     paste0(substr(value, 1, 6), "...")
   } else {
@@ -91,317 +228,6 @@ show_config_item <- function(
   )
 }
 
-#' Check RSA Key Status
-#' @keywords internal
-#' @noRd
-get_rsa_key_status <- function(rsa_path, rsa_key) {
-  if (nzchar_null(rsa_path)) {
-    if (!file.exists(rsa_path)) {
-      return(list(
-        valid = FALSE,
-        message = "File not found"
-      ))
-    } else if (file.info(rsa_path)$isdir) {
-      return(list(
-        valid = FALSE,
-        message = "Path is a directory, not a file"
-      ))
-    }
-
-    key_content <- paste(readLines(rsa_path, warn = FALSE), collapse = "\n")
-    if (validate_rsa_key(key_content)) {
-      return(list(
-        valid = TRUE,
-        message = "Valid RSA key file"
-      ))
-    }
-    return(
-      list(
-        valid = FALSE,
-        message = "File exists, but doesn't contain valid RSA key"
-      )
-    )
-  } else if (nzchar_null(rsa_key)) {
-    if (validate_rsa_key(rsa_key)) {
-      return(list(
-        valid = TRUE,
-        message = "Valid RSA key in environment"
-      ))
-    }
-    return(list(
-      valid = FALSE,
-      message = "Environment variable set, but doesn't contain valid RSA key"
-    ))
-  }
-  list(
-    valid = FALSE,
-    message = "Not set"
-  )
-}
-
-#' Validate RSA Key
-#' @keywords internal
-#' @noRd
-validate_rsa_key <- function(key_content) {
-  if (!nzchar_null(key_content)) {
-    return(FALSE)
-  }
-
-  # Check for PEM format markers
-  has_begin <- grepl("-----BEGIN", key_content)
-  has_end <- grepl("-----END", key_content)
-  has_rsa_markers <- grepl("(PRIVATE KEY|RSA PRIVATE KEY)", key_content)
-
-  has_begin && has_end && has_rsa_markers
-}
-
-#' Show RSA Key Status
-#' @keywords internal
-#' @noRd
-show_rsa_status <- function(rsa_path, rsa_key) {
-  status <- get_rsa_key_status(rsa_path, rsa_key)
-
-  if (status$valid) {
-    if (nzchar_null(rsa_path)) {
-      cli::cli_alert_success(
-        "RSA Key: {.path {rsa_path}}"
-      )
-    } else {
-      cli::cli_alert_success(
-        "RSA Key: Set via environment"
-      )
-    }
-  } else {
-    if (nzchar_null(rsa_path)) {
-      cli::cli_alert_danger(
-        "RSA Key: {.path {rsa_path}} {status$message}"
-      )
-    } else {
-      cli::cli_alert_danger("RSA Key: {status$message}")
-    }
-  }
-}
-
-#' Check available authentication methods
-#' @keywords internal
-#' @noRd
-check_auth_methods <- function() {
-  auth_status <- list()
-
-  # Check JWT credentials
-  jwt_available <- has_jwt_credentials()
-
-  auth_status$jwt <- list(
-    available = jwt_available,
-    client_id = Sys.getenv("MEETUP_CLIENT_ID"),
-    member_id = Sys.getenv("MEETUP_MEMBER_ID"),
-    rsa_path = Sys.getenv("MEETUP_RSA_PATH"),
-    rsa_key = Sys.getenv("MEETUP_RSA_KEY")
-  )
-
-  # Check OAuth credentials
-  oauth_available <- has_oauth_credentials()
-
-  auth_status$oauth <- list(
-    available = oauth_available,
-    client_id = Sys.getenv("MEETUP_CLIENT_ID"),
-    client_secret = Sys.getenv("MEETUP_CLIENT_SECRET")
-  )
-
-  # Determine active method (JWT takes priority)
-  auth_status$active_method <- if (jwt_available) {
-    "JWT"
-  } else if (oauth_available) {
-    "OAuth"
-  } else {
-    "None"
-  }
-
-  auth_status$debug <- list(
-    enabled = check_debug_mode(),
-    value = Sys.getenv("MEETUPR_DEBUG")
-  )
-
-  auth_status
-}
-
-#' Display authentication status
-#' @keywords internal
-#' @noRd
-display_auth_status <- function(auth_status) {
-  # Active authentication method
-  cli::cli_h2("Active Authentication Method")
-
-  cli_status(
-    auth_status$active_method == "JWT",
-    "JWT Authentication - {.val Active} - Perfect for M2M workflows",
-    NULL,
-    "success"
-  )
-
-  cli_status(
-    auth_status$active_method == "OAuth",
-    "OAuth Authentication - {.val Active} - Interactive browser auth",
-    NULL,
-    "success"
-  )
-
-  cli_status(
-    auth_status$active_method == "None",
-    "No Authentication Configured",
-    NULL,
-    true_type = "danger"
-  )
-
-  # Show configuration details
-  if (auth_status$active_method == "JWT") {
-    cli::cli_h3("JWT Configuration:")
-    show_config_item("Client ID", auth_status$jwt$client_id, mask = TRUE)
-    show_config_item("Member ID", auth_status$jwt$member_id)
-    show_rsa_status(auth_status$jwt$rsa_path, auth_status$jwt$rsa_key)
-  } else if (auth_status$active_method == "OAuth") {
-    cli::cli_h3("OAuth Configuration:")
-    show_config_item("Client ID", auth_status$oauth$client_id, mask = TRUE)
-    show_config_item(
-      "Client Secret",
-      if (nzchar_null(auth_status$oauth$client_secret)) "Set" else ""
-    )
-  }
-
-  # Available methods summary
-  cli::cli_h2("Available Authentication Methods")
-
-  cli_status(
-    auth_status$jwt$available,
-    "JWT: Available' (Machine-to-Machine)",
-    "JWT: Not configured'",
-    "success",
-    "warning"
-  )
-
-  # Show missing JWT variables if not available
-  if (!auth_status$jwt$available) {
-    missing_jwt <- c()
-    if (!nzchar_null(auth_status$jwt$client_id)) {
-      missing_jwt <- c(missing_jwt, "MEETUP_CLIENT_ID")
-    }
-    if (!nzchar_null(auth_status$jwt$member_id)) {
-      missing_jwt <- c(missing_jwt, "MEETUP_MEMBER_ID")
-    }
-    if (
-      !nzchar_null(auth_status$jwt$rsa_path) &&
-        !nzchar_null(auth_status$jwt$rsa_key)
-    ) {
-      missing_jwt <- c(missing_jwt, "MEETUP_RSA_PATH or MEETUP_RSA_KEY")
-    }
-    cli::cli_text("   Missing: {.envvar {missing_jwt}}")
-  }
-
-  cli_status(
-    auth_status$oauth$available,
-    "OAuth: Available (Interactive)",
-    "OAuth: Not configured",
-    "success",
-    "warning"
-  )
-
-  # Show missing OAuth variables if not available
-  if (!auth_status$oauth$available) {
-    missing_oauth <- c()
-    if (!nzchar_null(auth_status$oauth$client_id)) {
-      missing_oauth <- c(missing_oauth, "MEETUP_CLIENT_ID")
-    }
-    if (!nzchar_null(auth_status$oauth$client_secret)) {
-      missing_oauth <- c(missing_oauth, "MEETUP_CLIENT_SECRET")
-    }
-    cli::cli_text("   Missing: {.envvar {missing_oauth}}")
-  }
-
-  cli::cli_h2("Package Settings")
-
-  cli_status(
-    auth_status$debug$enabled,
-    "Debug Mode: {cli::col_yellow('Enabled')}",
-    "Debug Mode: {cli::col_red('Disabled')} - 
-      Set {.envvar MEETUPR_DEBUG=1} to enable verbose logging",
-    "success",
-    "info"
-  )
-
-  # nolint start
-  api_endpoint <- Sys.getenv(
-    "MEETUP_API_URL",
-    meetup_api_prefix()
-  )
-  cli::cli_alert_info("API endpoint in use: {.url {api_endpoint}}")
-  # nolint end
-}
-
-#' Test API connectivity
-#' @keywords internal
-#' @noRd
-test_api_connectivity <- function(auth_status) {
-  if (auth_status$active_method == "None") {
-    cli::cli_h2("Setup Instructions")
-
-    cli::cli_h3("For automated workflows (recommended):")
-    cli::cli_ol(c(
-      "See vignette: 
-        {.code vignette('jwt-authentication', package = 'meetupr')}",
-      "Create OAuth client at 
-      {.url https://secure.meetup.com/meetup_api/oauth_consumers/}",
-      "Generate RSA signing keys in your OAuth client settings",
-      "Set environment variables: {.envvar MEETUP_CLIENT_ID},
-       {.envvar MEETUP_MEMBER_ID}, {.envvar MEETUP_RSA_PATH}"
-    ))
-
-    cli::cli_h3("For interactive development:")
-    cli::cli_ol(c(
-      "Create OAuth client at 
-      {.url https://secure.meetup.com/meetup_api/oauth_consumers/}",
-      "Set redirect URI to: 
-        {.strong http://localhost:1410}",
-      "Set environment variables: 
-        {.envvar MEETUP_CLIENT_ID}",
-      " {.envvar MEETUP_CLIENT_SECRET}"
-    ))
-
-    return(invisible(NULL))
-  }
-
-  cli::cli_h2("API Connectivity Test")
-
-  tryCatch(
-    {
-      user_info <- get_self()
-
-      # Check if we got self data back
-      if (!is.null(user_info)) {
-        cli_status(
-          TRUE,
-          "API Connection: Working",
-          NULL,
-          "success"
-        )
-        cli::cli_alert_info(
-          "Authenticated as: {.strong {user_info$name}} (ID: {user_info$id})"
-        )
-      } else {
-        cli_status(
-          FALSE,
-          NULL,
-          "API Connection: Unexpected response",
-          false_type = "warning"
-        )
-      }
-    },
-    error = function(e) {
-      cli::cli_alert_danger(
-        "API Connection: Failed - {e$message}"
-      )
-    }
-  )
-}
 
 #' Check if debug mode is enabled
 #' @keywords internal
@@ -411,5 +237,5 @@ check_debug_mode <- function() {
   if (debug == 1) {
     return(TRUE)
   }
-  nzchar_null(debug)
+  FALSE
 }
