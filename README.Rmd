@@ -12,12 +12,12 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "README-",
-  eval = meetupr::has_jwt_credentials() || meetupr::has_oauth_credentials()
+  eval = meetupr::meetup_auth_status(silent = TRUE)
 )
 
 ```
 
-# meetupr <img src="man/figures/logo.png" align="right" alt="Zane Dax @StarTrek_Lt" width="138.5" />
+# meetupr <img src="man/figures/logo.png" align="right" alt="meetupr hex logo made by Zane Dax @StarTrek_Lt" width="138.5" />
 
 <small>Logo by Zane Dax [@StarTrek_Lt](https://mobile.twitter.com/startrek_lt)</small>
 

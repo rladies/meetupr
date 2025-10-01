@@ -167,33 +167,6 @@ test_that("process_datetime_fields handles empty data frames", {
   expect_equal(result2, test_df)
 })
 
-
-test_that("nzchar_null handles NULL input", {
-  result <- nzchar_null(NULL)
-  expect_true(result)
-})
-
-test_that("nzchar_null handles empty string", {
-  result <- nzchar_null("")
-  expect_false(result)
-})
-
-test_that("nzchar_null handles non-empty string", {
-  result <- nzchar_null("text")
-  expect_true(result)
-})
-
-test_that("nzchar_null handles various inputs", {
-  expect_true(nzchar_null(NULL))
-  expect_false(nzchar_null(""))
-  expect_true(nzchar_null("text"))
-  expect_true(nzchar_null("0"))
-  expect_true(nzchar_null(" "))
-  expect_true(nzchar_null("\t"))
-  expect_true(nzchar_null("\n"))
-})
-
-
 test_that("uq_filename generates unique filenames", {
   temp_dir <- withr::local_tempdir()
   test_file <- file.path(temp_dir, "test.txt")
@@ -337,29 +310,23 @@ test_that("country_code calls countrycode correctly", {
 test_that("mock_if_no_auth sets environment variables when needed", {
   # Test when no credentials exist
   local_mocked_bindings(
-    has_jwt_credentials = function() FALSE,
-    has_oauth_credentials = function() FALSE
+    meetup_auth_status = function(...) FALSE,
   )
 
   withr::local_envvar(c(
     MEETUP_CLIENT_ID = "",
-    MEETUP_CLIENT_SECRET = "",
-    MEETUP_MEMBER_ID = "",
-    MEETUP_RSA_KEY = ""
+    MEETUP_CLIENT_SECRET = ""
   ))
 
   mock_if_no_auth()
 
   expect_equal(Sys.getenv("MEETUP_CLIENT_ID"), "123456")
   expect_equal(Sys.getenv("MEETUP_CLIENT_SECRET"), "aB3xK9mP2")
-  expect_equal(Sys.getenv("MEETUP_MEMBER_ID"), "1111111")
-  expect_equal(Sys.getenv("MEETUP_RSA_KEY"), "-----BEGIN PRIVATE KEY-----")
 })
 
 test_that("mock_if_no_auth does nothing when credentials exist", {
   local_mocked_bindings(
-    has_jwt_credentials = function() TRUE,
-    has_oauth_credentials = function() TRUE
+    meetup_auth_status = function(...) TRUE,
   )
 
   withr::local_envvar(c(
@@ -374,4 +341,31 @@ test_that("mock_if_no_auth does nothing when credentials exist", {
 
   expect_equal(Sys.getenv("MEETUP_CLIENT_ID"), original_id)
   expect_equal(Sys.getenv("MEETUP_CLIENT_SECRET"), original_secret)
+})
+
+test_that("local_meetupr_debug sets and resets debug level", {
+  withr::local_envvar(MEETUPR_DEBUG = "0")
+  old <- local_meetupr_debug(level = 1)
+  expect_equal(Sys.getenv("MEETUPR_DEBUG"), "1")
+  expect_equal(old, "0")
+})
+
+test_that("local_meetupr_debug handles custom environments", {
+  withr::local_envvar(MEETUPR_DEBUG = "0")
+  env <- new.env()
+  local_meetupr_debug(level = 1, env = env)
+  Sys.setenv(MEETUPR_DEBUG = "0")
+  expect_equal(Sys.getenv("MEETUPR_DEBUG"), "0")
+  eval(withr::defer(Sys.setenv(MEETUPR_DEBUG = "1"), envir = env))
+})
+
+test_that("local_meetupr_debug accepts valid debug levels", {
+  withr::local_envvar(MEETUPR_DEBUG = "0")
+  old <- local_meetupr_debug(level = "1")
+  expect_equal(Sys.getenv("MEETUPR_DEBUG"), "1")
+  expect_equal(old, "0")
+})
+
+test_that("local_meetupr_debug rejects invalid debug levels", {
+  expect_error(local_meetupr_debug(level = "invalid"))
 })

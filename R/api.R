@@ -45,71 +45,18 @@ meetup_api_prefix <- function() {
 #'
 #' @export
 meetup_req <- function(cache = TRUE, ...) {
-  req <- httr2::request(meetup_api_prefix()) |>
-    httr2::req_headers("Content-Type" = "application/json") |>
-    httr2::req_error(body = handle_api_error)
-
-  use_jwt <- switch(
-    Sys.getenv("MEETUP_AUTH_METHOD"),
-    "jwt" = TRUE,
-    "oauth" = FALSE,
-    has_jwt_credentials()
-  )
-
-  if (use_jwt) {
-    if (!has_jwt_credentials()) {
-      cli::cli_abort(c(
-        "x" = "JWT authentication selected,
-         but required environment variables are not set.",
-        "i" = "Set {.val MEETUP_CLIENT_ID},
-         {.val MEETUP_MEMBER_ID}, and {.val MEETUP_RSA_PATH}."
-      ))
-    }
-    claim <- httr2::jwt_claim(
-      sub = Sys.getenv("MEETUP_MEMBER_ID"),
-      iss = Sys.getenv("MEETUP_CLIENT_ID"),
-      aud = "api.meetup.com"
+  meetup_api_prefix() |>
+    httr2::request() |>
+    httr2::req_headers(
+      "Content-Type" = "application/json"
+    ) |>
+    httr2::req_error(body = handle_api_error) |>
+    httr2::req_oauth_auth_code(
+      client = meetup_client(...),
+      auth_url = "https://secure.meetup.com/oauth2/authorize",
+      redirect_uri = "http://localhost:1410",
+      cache_disk = cache
     )
-
-    client <- meetup_client(
-      key = get_rsa_key(),
-      auth = "jwt_sig",
-      auth_params = list(claim = claim),
-      ...
-    )
-
-    req <- req |>
-      httr2::req_oauth_bearer_jwt(
-        claim = claim,
-        client = client
-      )
-    return(req)
-  }
-
-  if (has_oauth_credentials()) {
-    req <- req |>
-      httr2::req_oauth_auth_code(
-        client = meetup_client(...),
-        auth_url = "https://secure.meetup.com/oauth2/authorize",
-        redirect_uri = "http://localhost:1410",
-        cache_disk = cache
-      )
-    return(req)
-  }
-
-  cli::cli_abort(c(
-    "x" = "Authentication required. Set either:",
-    "i" = "JWT: {.val MEETUP_CLIENT_ID}, 
-    {.val MEETUP_MEMBER_ID}, {.val MEETUP_RSA_PATH}",
-    "i" = "OAuth: {.val MEETUP_CLIENT_ID}, 
-    {.val MEETUP_CLIENT_SECRET}",
-    "i" = "Control method with 
-    {.envvar MEETUP_AUTH_METHOD=jwt} or 
-    {.envvar MEETUP_AUTH_METHOD=oauth}",
-    "i" = "See 
-    {.url https://rladies.org/meetupr/articles/meetupr.html} 
-    for details."
-  ))
 }
 
 #' Execute GraphQL query
@@ -142,10 +89,12 @@ meetup_query <- function(
     purrr::compact()
   validate_graphql_variables(variables)
 
-  resp <- build_request(
+  req <- build_request(
     graphql,
     variables
-  ) |>
+  )
+
+  resp <- req |>
     httr2::req_perform() |>
     httr2::resp_body_json()
 

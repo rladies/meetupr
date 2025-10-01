@@ -39,7 +39,7 @@ meetup_sitrep()
 ```
 
 This function will show you:  
-- Which authentication method is active (JWT or OAuth)  
+- Which authentication method is active  
 - Whether your credentials are properly configured  
 - API connectivity status  
 - Setup instructions if authentication is missing  
@@ -48,57 +48,77 @@ This function will show you:
 
 meetupr supports two authentication methods:
 
-### JWT Authentication (Recommended for Automation)
-
-Best for:  
-- CI/CD pipelines  
-- Server applications  
-- Automated scripts  
-- Any non-interactive workflow  
-
-**Required environment variables:**
-- `MEETUP_CLIENT_ID` - OAuth client ID  
-- `MEETUP_MEMBER_ID` - Your Meetup member ID  
-- `MEETUP_RSA_PATH` - RSA private key for signing  
-
-See [JWT authentication vignette](jwt-auth.html) for complete setup instructions.
-
 ### OAuth Authentication (Interactive)
 
-Best for:  
-- Interactive development  
-- Data exploration  
-- One-off analyses  
+Best for interactive development, data exploration, and one-off analyses.
 
-**Required environment variables:**  
-- `MEETUP_CLIENT_ID` - OAuth client ID    
-- `MEETUP_CLIENT_SECRET` - OAuth client secret  
+**Setup:**
+```r
+# Authenticate interactively (opens browser)
+meetup_auth()
 
-## Setting Environment Variables
+# Check authentication status
+meetup_auth_status()
+```
 
-### Using .Renviron (Recommended)
+The OAuth token is cached locally in your httr2 cache directory. 
+Token files follow the pattern: `{hash}-token.rds.enc`
 
-```{r}
-#| label: edit-renviron
-#| eval: FALSE
+### CI/CD Authentication (Non-Interactive)
+
+For automated workflows, you can set up token-based authentication:
+
+**1. Authenticate locally first:**
+```r
+meetup_auth()
+meetup_auth_setup_ci()
+```
+
+This encodes your token as base64 and provides instructions for setting CI secrets.
+
+**2. Set environment variables in your CI:**
+- `MEETUP_TOKEN` - Base64-encoded token (from step 1)
+- `MEETUP_TOKEN_FILE` - Token filename (e.g., `ae743e0-token.rds.enc`)
+
+**3. Token loads automatically in CI** 
+
+To make the authentication work in CI/CD pipelines, add this line before running any API calls:
+
+```r
+meetup_auth_load_ci()
+```
+
+
+
+## Environment Variables Reference
+
+| Variable | Required | Purpose |
+|----------|----------|---------|
+| `MEETUP_CLIENT_ID` | Optional* | OAuth client ID |
+| `MEETUP_CLIENT_SECRET` | Optional* | OAuth client secret |
+| `MEETUP_CLIENT_NAME` | No | OAuth client name (default: "meetupr") |
+| `MEETUP_TOKEN` | No | Base64-encoded OAuth token |
+| `MEETUP_TOKEN_FILE` | No | Token filename |
+| `MEETUPR_DEBUG` | No | Enable debug output ("1" = on) |
+
+\* Built-in credentials are used if not provided, and Meetup clients are only available for approved apps from Pro (paid) accounts.
+
+### Setting Environment Variables
+
+Use `.Renviron` for local development:
+```r
 usethis::edit_r_environ()
 ```
 
-Add your credentials:
-
+Add:
 ```bash
-MEETUP_CLIENT_ID=your_client_id_here
-MEETUP_MEMBER_ID=123456789
-MEETUP_RSA_PATH="/path/to/your/private_key"
+MEETUP_CLIENT_ID=your_client_id
+MEETUP_CLIENT_SECRET=your_secret
 ```
 
-### Security Critical: Protecting .Renviron
+**Critical:** Never commit `.Renviron` to version control:
 
-**Never commit `.Renviron` to version control:**
-
-```{r}
-#| label: git-ignore
-#| eval: FALSE
+```r
 usethis::use_git_ignore(".Renviron")
 ```
 
@@ -192,6 +212,6 @@ Error: Rate limit exceeded
 
 - **For R-Ladies chapter management**: See [R-Ladies vignette](rladies.html)  
 - **For custom GraphQL queries**: See [GraphQL vignette](graphql.html)`
-- **For CI/CD workflows**: See [JWT Authentication vignette](jwt-auth.html)
+
 
 
