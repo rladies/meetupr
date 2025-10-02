@@ -329,7 +329,8 @@ meetup_auth_status <- function(
 
   if (length(cache_files) > 1) {
     cli::cli_warn(
-      "Multiple tokens found in {.path {cache_path}}"
+      "Multiple tokens found in {.path {cache_path}}.
+      Please clean up before proceeding."
     )
   }
 

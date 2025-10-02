@@ -100,6 +100,9 @@ get_pro_events <- function(
 #' @keywords internal
 #' @noRd
 is_self_pro <- function() {
+  if (!meetup_auth_status(silent = TRUE)) {
+    return(FALSE)
+  }
   resp <- meetup_query(
     "
   query { self { 
