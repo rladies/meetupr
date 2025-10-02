@@ -33,7 +33,8 @@ test_that("get_pro_events() warns for non-Pro organizers", {
 test_that("is_self_pro returns TRUE for Pro organizers", {
   mock_resp <- list(data = list(self = list(isProOrganizer = TRUE)))
   local_mocked_bindings(
-    meetup_query = function(...) mock_resp
+    meetup_query = function(...) mock_resp,
+    meetup_auth_status = function(...) TRUE
   )
   expect_true(is_self_pro())
 })
@@ -42,6 +43,11 @@ test_that("is_self_pro returns FALSE for non-Pro organizers", {
   mock_resp <- list(data = list(self = list(isProOrganizer = FALSE)))
   local_mocked_bindings(
     meetup_query = function(...) mock_resp
+  )
+  expect_false(is_self_pro())
+
+  local_mocked_bindings(
+    meetup_auth_status = function(...) FALSE
   )
   expect_false(is_self_pro())
 })
