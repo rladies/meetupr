@@ -87,7 +87,6 @@ S7::method(execute, meetup_template) <- function(
   if (!is.null(max_results) && length(all_data) > max_results) {
     all_data <- all_data[1:max_results]
   }
-
   object@process_data(all_data, handle_multiples)
 }
 

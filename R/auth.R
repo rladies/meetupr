@@ -334,3 +334,46 @@ meetup_auth_status <- function(
   }
   TRUE
 }
+
+
+#' Deauthorize Meetup API Client
+#'
+#' This function removes the cached authentication for the
+#' Meetup API client, effectively deauthorizing the client.
+#' @template client_name
+#' @return Returns an invisible logical value:
+#' \itemize{
+#'   \item `TRUE` if the authentication cache was successfully removed.
+#'   \item `FALSE` if no authentication cache was found to remove.
+#' }
+#' @examples
+#' \dontrun{
+#' # Default deauthorization
+#' meetup_deauth()
+#'
+#' # Deauthorization with a custom client name
+#' meetup_deauth(client_name = "custom_client")
+#' }
+#' @details This function checks for the existence of a directory containing
+#' cached authentication credentials. If found, the directory is deleted,
+#' removing the cached authentication for the specified client. If the
+#' directory does not exist, a message is displayed and the function returns
+#' `FALSE`.
+#' @export
+meetup_deauth <- function(
+  client_name = Sys.getenv("MEETUP_CLIENT_NAME", "meetupr")
+) {
+  cache_path <- file.path(
+    httr2::oauth_cache_path(),
+    client_name
+  )
+
+  if (!dir.exists(cache_path)) {
+    cli::cli_alert_info("No authentication cache to remove")
+    return(invisible(FALSE))
+  }
+
+  unlink(cache_path, recursive = TRUE)
+  cli::cli_alert_success("Authentication cache removed")
+  invisible(TRUE)
+}

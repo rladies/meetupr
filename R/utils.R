@@ -110,6 +110,9 @@ get_country_code <- function(x) {
 #' @keywords internal
 #' @noRd
 country_code <- function(x) {
+  if (is.null(x)) {
+    return(NULL)
+  }
   countrycode::countrycode(
     x,
     origin = "iso2c",
@@ -158,8 +161,8 @@ mock_if_no_auth <- function() {
     return(invisible())
   }
   Sys.setenv(
-    MEETUP_CLIENT_ID = "123456",
-    MEETUP_CLIENT_SECRET = "aB3xK9mP2"
+    MEETUP_TOKEN = "123456",
+    MEETUP_TOKEN_FILE = "aB3xK9mP2.rds.enc"
   )
   invisible()
 }

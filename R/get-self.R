@@ -35,7 +35,7 @@ extract_location_info <- function(user_data) {
   list(
     city = user_data$city,
     state = user_data$state,
-    country = user_data$country,
+    country = get_country_code(user_data$country),
     lat = user_data$lat,
     lon = user_data$lon
   )
@@ -95,7 +95,6 @@ print.meetup_user <- function(x, ...) {
 
   invisible(x)
 }
-
 
 #' Self query template
 #' @keywords internal
