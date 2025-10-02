@@ -20,7 +20,7 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sat, 20 Sep 2025 14:23:36 GMT
+      date: Thu, 02 Oct 2025 18:39:51 GMT
       content-length: '23707'
     body:
       string: "{\"data\":{\"groupByUrlname\":{\"id\":\"32612004\",\"name\":\"R-Ladies
@@ -234,5 +234,5 @@ http_interactions:
         invite your friends.\",\"group\":{\"id\":\"32612004\",\"name\":\"R-Ladies
         Lagos\",\"urlname\":\"rladies-lagos\"},\"venues\":[{\"id\":\"26906060\",\"name\":\"Online
         event\",\"address\":\"\",\"city\":\"\",\"state\":\"\",\"postalCode\":\"\",\"country\":\"\",\"lat\":-8.521147,\"lon\":179.1962,\"venueType\":\"online\"}],\"rsvps\":{\"totalCount\":1},\"featuredEventPhoto\":null,\"feeSettings\":null}}]}}}}"
-  recorded_at: 2025-09-20 14:23:36
+  recorded_at: 2025-10-02 18:39:51
 recorded_with: VCR-vcr/2.0.0

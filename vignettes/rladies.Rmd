@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
   warning = FALSE,
   message = FALSE,
   cache = FALSE,
-  eval = TRUE
+  eval = meetupr:::is_self_pro()
 )
 vcr::setup_knitr(prefix = "rladies-")
 meetupr:::mock_if_no_auth()
@@ -22,7 +22,6 @@ Sys.setenv(MEETUPR_DEBUG = "")
 ```
 
 ## Install and load packages
-
 
 ```{r}
 #| label: load
