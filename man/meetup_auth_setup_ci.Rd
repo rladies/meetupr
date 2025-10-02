@@ -29,7 +29,8 @@ The function performs the following steps:
 it prompts the user to authenticate interactively.
 \item Reads the existing token file from the OAuth cache directory.
 \item Encodes the token file contents into a base64 string.
-\item Provides guidance to the user for storing the base64 token (\code{MEETUP_TOKEN})
+\item Provides guidance to the user for storing the
+base64 token (\code{MEETUP_TOKEN})
 and token file name (\code{MEETUP_TOKEN_FILE}) as environment variables.
 \item Copies the encoded token to the clipboard (if the \code{clipr} package is
 installed and the clipboard is available).

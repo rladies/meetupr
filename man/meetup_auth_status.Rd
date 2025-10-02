@@ -18,12 +18,15 @@ default, it is set to \code{"meetupr"} and retrieved from the
 messages. Defaults to \code{FALSE}.}
 }
 \value{
-logical. \code{TRUE} if a valid token is found, \code{FALSE} otherwise.
+logical. \code{TRUE} if a valid token
+is found, \code{FALSE} otherwise.
 If \code{silent} is \code{FALSE}, the function outputs status messages.
 }
 \description{
-This function verifies if a user is authenticated to interact with the Meetup
-API by checking the existence of token cache files in the specified directory.
+This function verifies if a user is
+authenticated to interact with the Meetup
+API by checking the existence of token
+cache files in the specified directory.
 }
 \details{
 The function checks the \code{httr2} OAuth cache directory for encrypted
