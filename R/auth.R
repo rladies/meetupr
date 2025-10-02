@@ -75,7 +75,8 @@ meetup_client <- function(
 #'     it prompts the user to authenticate interactively.
 #'   - Reads the existing token file from the OAuth cache directory.
 #'   - Encodes the token file contents into a base64 string.
-#'   - Provides guidance to the user for storing the base64 token (`MEETUP_TOKEN`)
+#'   - Provides guidance to the user for storing the
+#' base64 token (`MEETUP_TOKEN`)
 #'     and token file name (`MEETUP_TOKEN_FILE`) as environment variables.
 #'   - Copies the encoded token to the clipboard (if the `clipr` package is
 #'     installed and the clipboard is available).
@@ -262,8 +263,10 @@ token_path <- function(
 
 #' Check Authentication Status for Meetup API
 #'
-#' This function verifies if a user is authenticated to interact with the Meetup
-#' API by checking the existence of token cache files in the specified directory.
+#' This function verifies if a user is
+#' authenticated to interact with the Meetup
+#' API by checking the existence of token
+#' cache files in the specified directory.
 #'
 #' @details
 #' The function checks the \code{httr2} OAuth cache directory for encrypted
@@ -276,7 +279,8 @@ token_path <- function(
 #' @param silent A \code{logical} indicating whether to suppress output
 #' messages. Defaults to \code{FALSE}.
 #'
-#' @return logical. \code{TRUE} if a valid token is found, \code{FALSE} otherwise.
+#' @return logical. \code{TRUE} if a valid token
+#' is found, \code{FALSE} otherwise.
 #' If \code{silent} is \code{FALSE}, the function outputs status messages.
 #' @export
 #' @examples
