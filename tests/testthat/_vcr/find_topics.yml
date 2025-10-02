@@ -13,24 +13,24 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 21 Sep 2025 19:47:12 GMT
-      content-length: '1529'
+      date: Thu, 02 Oct 2025 18:40:36 GMT
+      content-length: '1525'
     body:
-      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJEb3VibGUiLCJ2YWx1ZSI6MTQuNjI2MjAxfSx7InR5cGUiOiJTdHJpbmciLCJ2YWx1ZSI6IjE1MDk0NDktZW5fVVMifV19"},"totalCount":558,"edges":[{"node":{"id":"1413652","name":"Data
+      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJEb3VibGUiLCJ2YWx1ZSI6MTQuNTA2MDYxfSx7InR5cGUiOiJTdHJpbmciLCJ2YWx1ZSI6IjE1MDk0NDktZW5fVVMifV19"},"totalCount":558,"edges":[{"node":{"id":"1413652","name":"Data
         Warehouse","urlkey":"data-warehouse","description":null}},{"node":{"id":"95904","name":"Data
         Privacy","urlkey":"data-privacy","description":null}},{"node":{"id":"37381","name":"Data
-        Visualization","urlkey":"data-visualization","description":null}},{"node":{"id":"480642","name":"Data","urlkey":"data","description":null}},{"node":{"id":"1056672","name":"Big
+        Visualization","urlkey":"data-visualization","description":null}},{"node":{"id":"480642","name":"Data","urlkey":"data","description":null}},{"node":{"id":"60043","name":"Open
+        Data","urlkey":"open-data","description":null}},{"node":{"id":"1056672","name":"Big
         Data","urlkey":"big-data","description":"Meet other local people interested
         in Big Data!"}},{"node":{"id":"22620","name":"Business Intelligence & Data
         Warehousing","urlkey":"business-intelligence-data-warehousing","description":null}},{"node":{"id":"1515085","name":"Data
         Analytics","urlkey":"data-analytics","description":null}},{"node":{"id":"1401412","name":"Data
-        Vault Database Modeling","urlkey":"data-vault-database-modeling","description":null}},{"node":{"id":"1514245","name":"Data
-        Lakes","urlkey":"data-lakes","description":null}},{"node":{"id":"173333","name":"Data
+        Vault Database Modeling","urlkey":"data-vault-database-modeling","description":null}},{"node":{"id":"173333","name":"Data
         Governance","urlkey":"data-governance","description":null}},{"node":{"id":"102811","name":"Data
         Science","urlkey":"data-science","description":null}},{"node":{"id":"55324","name":"Data
         Mining","urlkey":"data-mining","description":null}},{"node":{"id":"1509449","name":"Data
         Engineering","urlkey":"data-engineering","description":null}}]}}}'
-  recorded_at: 2025-09-21 19:47:12
+  recorded_at: 2025-10-02 18:40:36
 - request:
     method: POST
     uri: https://api.meetup.com/gql-ext
@@ -39,28 +39,28 @@ http_interactions:
         \n  $after: String\n  ) {\n  suggestTopics(\n    query: $query\n    first:
         $first\n    after: $after\n  ) {\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    totalCount\n    edges
         {\n      node {\n        id\n        name\n        urlkey\n        description\n      }\n    }\n  }\n}","variables":{"query":"Data
-        Science","first":20,"cursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJEb3VibGUiLCJ2YWx1ZSI6MTQuNjI2MjAxfSx7InR5cGUiOiJTdHJpbmciLCJ2YWx1ZSI6IjE1MDk0NDktZW5fVVMifV19"}}'
+        Science","first":20,"cursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJEb3VibGUiLCJ2YWx1ZSI6MTQuNTA2MDYxfSx7InR5cGUiOiJTdHJpbmciLCJ2YWx1ZSI6IjE1MDk0NDktZW5fVVMifV19"}}'
   response:
     status: 200
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 21 Sep 2025 19:47:13 GMT
-      content-length: '1529'
+      date: Thu, 02 Oct 2025 18:40:36 GMT
+      content-length: '1525'
     body:
-      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJEb3VibGUiLCJ2YWx1ZSI6MTQuNjI2NDc4fSx7InR5cGUiOiJTdHJpbmciLCJ2YWx1ZSI6IjE1MDk0NDktZW5fVVMifV19"},"totalCount":558,"edges":[{"node":{"id":"1413652","name":"Data
+      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJEb3VibGUiLCJ2YWx1ZSI6MTQuNDk4MzZ9LHsidHlwZSI6IlN0cmluZyIsInZhbHVlIjoiMTUwOTQ0OS1lbl9VUyJ9XX0="},"totalCount":558,"edges":[{"node":{"id":"1413652","name":"Data
         Warehouse","urlkey":"data-warehouse","description":null}},{"node":{"id":"95904","name":"Data
         Privacy","urlkey":"data-privacy","description":null}},{"node":{"id":"37381","name":"Data
-        Visualization","urlkey":"data-visualization","description":null}},{"node":{"id":"480642","name":"Data","urlkey":"data","description":null}},{"node":{"id":"1056672","name":"Big
+        Visualization","urlkey":"data-visualization","description":null}},{"node":{"id":"480642","name":"Data","urlkey":"data","description":null}},{"node":{"id":"60043","name":"Open
+        Data","urlkey":"open-data","description":null}},{"node":{"id":"1056672","name":"Big
         Data","urlkey":"big-data","description":"Meet other local people interested
         in Big Data!"}},{"node":{"id":"22620","name":"Business Intelligence & Data
         Warehousing","urlkey":"business-intelligence-data-warehousing","description":null}},{"node":{"id":"1515085","name":"Data
         Analytics","urlkey":"data-analytics","description":null}},{"node":{"id":"1401412","name":"Data
-        Vault Database Modeling","urlkey":"data-vault-database-modeling","description":null}},{"node":{"id":"1514245","name":"Data
-        Lakes","urlkey":"data-lakes","description":null}},{"node":{"id":"173333","name":"Data
+        Vault Database Modeling","urlkey":"data-vault-database-modeling","description":null}},{"node":{"id":"173333","name":"Data
         Governance","urlkey":"data-governance","description":null}},{"node":{"id":"102811","name":"Data
         Science","urlkey":"data-science","description":null}},{"node":{"id":"55324","name":"Data
         Mining","urlkey":"data-mining","description":null}},{"node":{"id":"1509449","name":"Data
         Engineering","urlkey":"data-engineering","description":null}}]}}}'
-  recorded_at: 2025-09-21 19:47:13
+  recorded_at: 2025-10-02 18:40:36
 recorded_with: VCR-vcr/2.0.0

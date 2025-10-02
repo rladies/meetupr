@@ -247,3 +247,33 @@ test_that("meetup_auth_load_ci decodes and saves token successfully", {
   )
   expect_true(result)
 })
+
+
+test_that("meetup_deauth works correctly", {
+  withr::local_tempdir()
+
+  mock_cache_path <- file.path(tempdir(), "meetupr")
+  dir.create(mock_cache_path)
+
+  local_mocked_bindings(
+    oauth_cache_path = function() dirname(mock_cache_path),
+    .package = "httr2"
+  )
+
+  local_mocked_bindings(
+    cli_alert_info = function(...) NULL,
+    cli_alert_success = function(...) NULL,
+    .package = "cli"
+  )
+
+  expect_false(
+    meetup_deauth(client_name = "nonexistent")
+  )
+  expect_true(
+    meetup_deauth(client_name = "meetupr")
+  )
+
+  expect_false(
+    meetup_deauth(client_name = "meetupr")
+  )
+})

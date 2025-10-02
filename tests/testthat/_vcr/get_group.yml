@@ -15,7 +15,7 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 21 Sep 2025 19:46:12 GMT
+      date: Thu, 02 Oct 2025 18:40:32 GMT
       content-length: '3754'
     body:
       string: '{"data":{"groupByUrlname":{"id":"32612004","name":"R-Ladies Lagos","description":"R-Ladies
@@ -58,7 +58,7 @@ http_interactions:
         fundraising or other purposes to help achieve the community’s aims. This might
         include (but is not limited to), the right to use them in their printed and
         online publicity, social media, press releases and funding applications. If
-        you do not wish to be recorded in these media please inform a community organizer.","urlname":"rladies-lagos","link":"https://www.meetup.com/rladies-lagos","city":"Lagos","country":"ng","timezone":"Africa/Lagos","foundedDate":"2019-08-16T09:45:21+01:00","stats":{"memberCounts":{"all":866}},"organizer":{"id":"251470805","name":"R-Ladies
+        you do not wish to be recorded in these media please inform a community organizer.","urlname":"rladies-lagos","link":"https://www.meetup.com/rladies-lagos","city":"Lagos","country":"ng","timezone":"Africa/Lagos","foundedDate":"2019-08-16T09:45:21+01:00","stats":{"memberCounts":{"all":870}},"organizer":{"id":"251470805","name":"R-Ladies
         Global"},"keyGroupPhoto":{"baseUrl":"https://secure-content.meetupstatic.com/images/classic-events/"},"topicCategory":{"id":"546","name":"Technology"},"events":{"totalCount":13}}}}'
-  recorded_at: 2025-09-21 19:46:12
+  recorded_at: 2025-10-02 18:40:32
 recorded_with: VCR-vcr/2.0.0

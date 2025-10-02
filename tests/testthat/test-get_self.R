@@ -124,7 +124,8 @@ test_that("get_self handles user with minimal profile", {
 
   mock_data <- list(
     id = "456",
-    name = "Minimal User"
+    name = "Minimal User",
+    country = "GB"
   )
 
   local_mocked_bindings(
@@ -170,13 +171,15 @@ test_that("extract_location_info extracts all location fields", {
 
   expect_equal(location$city, "San Francisco")
   expect_equal(location$state, "CA")
-  expect_equal(location$country, "US")
+  expect_equal(location$country, "United States")
   expect_equal(location$lat, 37.7749)
   expect_equal(location$lon, -122.4194)
 })
 
 test_that("extract_location_info handles missing fields", {
-  user_data <- list(city = "Chicago")
+  user_data <- list(
+    city = "Chicago"
+  )
 
   location <- extract_location_info(user_data)
 
