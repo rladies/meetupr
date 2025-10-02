@@ -11,10 +11,10 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sat, 20 Sep 2025 14:23:41 GMT
+      date: Thu, 02 Oct 2025 18:39:54 GMT
       content-length: '490'
     body:
       string: '{"data":{"self":{"id":"251470805","name":"R-Ladies Global","email":"meetup@rladies.org","isOrganizer":true,"isLeader":true,"isMemberPlusSubscriber":false,"isProOrganizer":true,"adminProNetworks":[{"id":"559792434039549952","name":"R-Ladies"}],"bio":"R-Ladies
         Global.  https://rladies.org","city":"San Francisco","country":"us","state":"CA","lat":37.78,"lon":-122.42,"startDate":"2018-04-01T22:15:11-04:00","preferredLocale":"en-US","memberUrl":"https://www.meetup.com/members/251470805/"}}}'
-  recorded_at: 2025-09-20 14:23:41
+  recorded_at: 2025-10-02 18:39:54
 recorded_with: VCR-vcr/2.0.0

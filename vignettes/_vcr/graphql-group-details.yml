@@ -11,7 +11,7 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sat, 20 Sep 2025 14:23:37 GMT
+      date: Thu, 02 Oct 2025 18:39:52 GMT
       content-length: '3411'
     body:
       string: '{"data":{"groupByUrlname":{"id":"32612004","name":"R-Ladies Lagos","description":"R-Ladies
@@ -54,6 +54,6 @@ http_interactions:
         fundraising or other purposes to help achieve the community’s aims. This might
         include (but is not limited to), the right to use them in their printed and
         online publicity, social media, press releases and funding applications. If
-        you do not wish to be recorded in these media please inform a community organizer.","city":"Lagos","country":"ng","timezone":"Africa/Lagos","memberships":{"totalCount":866}}}}'
-  recorded_at: 2025-09-20 14:23:37
+        you do not wish to be recorded in these media please inform a community organizer.","city":"Lagos","country":"ng","timezone":"Africa/Lagos","memberships":{"totalCount":870}}}}'
+  recorded_at: 2025-10-02 18:39:52
 recorded_with: VCR-vcr/2.0.0

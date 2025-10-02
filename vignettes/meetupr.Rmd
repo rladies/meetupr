@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 )
 
 vcr::setup_knitr(prefix = "meetupr-")
-meetupr:::mock_if_no_auth()
+#meetupr:::mock_if_no_auth()
 Sys.setenv(MEETUPR_DEBUG = "")
 ```
 
@@ -29,7 +29,7 @@ library(meetupr)
 
 ## Quick Setup Check
 
-Start by running `meetup_sitrep()` to check your authentication status:
+Start by running `meetup_sitrep()` to set up authentication or check your authentication status:
 
 ```{r}
 #| label: sitrep
@@ -97,36 +97,31 @@ meetup_auth_load_ci()
 | `MEETUP_CLIENT_ID` | Optional* | OAuth client ID |
 | `MEETUP_CLIENT_SECRET` | Optional* | OAuth client secret |
 | `MEETUP_CLIENT_NAME` | No | OAuth client name (default: "meetupr") |
-| `MEETUP_TOKEN` | No | Base64-encoded OAuth token |
-| `MEETUP_TOKEN_FILE` | No | Token filename |
-| `MEETUPR_DEBUG` | No | Enable debug output ("1" = on) |
+| `MEETUP_TOKEN` | for CI | Base64-encoded OAuth token |
+| `MEETUP_TOKEN_FILE` | for CI | Token filename |
+| `MEETUPR_DEBUG` | for CI | Enable debug output ("1" = on) |
 
 \* Built-in credentials are used if not provided, and Meetup clients are only available for approved apps from Pro (paid) accounts.
 
 ### Setting Environment Variables
 
+If you want to use your own Meetup OAuth app credentials, set them as environment variables.
 Use `.Renviron` for local development:
+
 ```r
 usethis::edit_r_environ()
 ```
 
 Add:
+
 ```bash
 MEETUP_CLIENT_ID=your_client_id
 MEETUP_CLIENT_SECRET=your_secret
 ```
 
-**Critical:** Never commit `.Renviron` to version control:
-
-```r
-usethis::use_git_ignore(".Renviron")
-```
-
-The `.Renviron` file contains sensitive credentials. If accidentally committed:
-
-1. Immediately rotate all credentials  
-2. Remove from git history: `git filter-branch` or BFG Repo-Cleaner  
-3. Update repository secrets in CI/CD systems  
+The `.Renviron` file contains potentially sensitive credentials.
+While the client ID and secret are not as sensitive as the token, treat them with care.
+However, despite secrets generally should remain secret, noone can actually use the Meetup API without authenticating as a user, so the risk is lower. 
 
 ### Verification
 
@@ -177,9 +172,20 @@ Enable debugging mode by setting system variable "MEETUPR_DEBUG" to 1 (0 or miss
 #| label: debug
 #| cassette: true
 
-Sys.setenv(MEETUPR_DEBUG = "1")
+local_meetupr_debug(1)
 meetup_sitrep()
-r_groups <- find_groups("R programming")
+find_groups("R programming")
+```
+
+to turn it off again, set it to 0 or unset it:
+
+```{r}
+#| label: debug-off
+#| cassette: true
+
+local_meetupr_debug(0)
+meetup_sitrep()
+find_groups("R programming")
 ```
 
 ## Common Issues
