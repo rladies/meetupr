@@ -134,21 +134,29 @@ valid_event_status <- c(
   "TEMPLATE"
 )
 
-valid_pro_events <- c(
+#' Event Status Enums including Pro-only statuses
+#' @keywords internal
+#' @noRd
+valid_pro_status <- c(
   valid_event_status,
   "UPCOMING"
 )
 
 #' Validate event status for regular group events
 #' @param status Event status values to validate
+#' @param pro Boolean indicating if Pro event statuses should be used
 #' @return Validated status values
 #' @keywords internal
 #' @noRd
-validate_event_status <- function(status = NULL) {
-  if (is.null(status)) {
-    return(valid_event_status)
+validate_event_status <- function(status = NULL, pro = FALSE) {
+  valid_events <- valid_event_status
+  if (pro) {
+    valid_events <- valid_pro_status
   }
-  validate_status_enum(status, valid_event_status)
+  if (is.null(status)) {
+    return(valid_events)
+  }
+  validate_status_enum(status, valid_events)
 }
 
 #' Generic status validation function

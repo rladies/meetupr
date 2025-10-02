@@ -108,7 +108,7 @@ display_auth_status <- function(auth_status) {
   )
 
   if (auth_status$oauth$ci_mode) {
-    cli::cli_alert_info("CI environment detected (MEETUP_TOKEN set)")
+    cli::cli_alert_info("CI environment detected")
   }
 
   # Package settings
@@ -135,17 +135,12 @@ test_api_connectivity <- function(auth_status) {
 
     cli::cli_h3("Interactive Setup:")
     cli::cli_ol(c(
-      "Create OAuth client at {.url https://www.meetup.com/api/oauth/list}",
-      "Set redirect URI to: {.strong http://localhost:1410}",
-      "Set environment variables in {.code .Renviron}:",
-      "  {.envvar MEETUP_CLIENT_ID=your_client_id}",
-      "  {.envvar MEETUP_CLIENT_SECRET=your_secret}",
-      "Restart R and run {.code meetup_auth()}"
+      "Run {.code get_self()} to authenticate"
     ))
 
     cli::cli_h3("CI/CD Setup:")
     cli::cli_ol(c(
-      "Authenticate locally first with {.code meetup_auth()}",
+      "Authenticate locally first with {.code get_self()}",
       "Run {.code meetup_auth_setup_ci()} to get encoded token",
       "Set secrets in your CI: {.envvar MEETUP_TOKEN} and {.envvar MEETUP_TOKEN_FILE}"
     ))

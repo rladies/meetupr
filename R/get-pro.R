@@ -74,6 +74,13 @@ get_pro_events <- function(
 ) {
   rlang::check_dots_empty()
 
+  if (!is_self_pro()) {
+    cli::cli_warn(
+      "The authenticated user must have Pro 
+      access to retrieve Network event data."
+    )
+  }
+
   execute(
     standard_query(
       "get_pro_events",
@@ -82,8 +89,23 @@ get_pro_events <- function(
     urlname = urlname,
     first = max_results,
     max_results = max_results,
+    status = validate_event_status(status, pro = TRUE),
     handle_multiples = handle_multiples,
     extra_graphql = extra_graphql
   ) |>
     process_datetime_fields(c("date_time", "pro_join_date"))
+}
+
+#' Check if the authenticated user has Pro access
+#' @keywords internal
+#' @noRd
+is_self_pro <- function() {
+  resp <- meetup_query(
+    "
+  query { self { 
+    isProOrganizer 
+    } }
+  "
+  )
+  resp$data$self$isProOrganizer
 }
