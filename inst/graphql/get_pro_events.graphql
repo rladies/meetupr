@@ -1,6 +1,5 @@
 query proEvents(
   $urlname: ID!,
-  $status: [String!],
   $first: Int = 1000,
   $cursor: String
   $date_after: DateTime
@@ -12,7 +11,6 @@ query proEvents(
         after: $cursor, 
         first: $first, 
         filter: {
-          status: $status
           eventDateMax: $date_before
           eventDateMin: $date_after
           }

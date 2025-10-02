@@ -4,7 +4,10 @@ query proGroups(
   $cursor: String
   ) {
   proNetwork(urlname: $urlname) {
-    groupsSearch(input: {after: $cursor, first: $first}) {
+    groupsSearch(input: {
+      after: $cursor, 
+      first: $first
+      }) {
       totalCount
       pageInfo {
         hasNextPage

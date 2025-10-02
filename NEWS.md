@@ -6,7 +6,7 @@
 - Switched to using the `httr2` package for making API requests instead of `httr`.
 - Uses s7 classes for internal query objects instead of lists.
 - Added functions:
-  - `meetup_template_query()` - Run custom queries against the Meetup API.
+  - `meetup_query()` - Run custom queries against the Meetup API.
   - `meetup_sitrep()` - Get information about your API connection status.
   - `meetup_introspect()` - Get information about the Meetup API query options.
 - added deprecation warnings for `get_meetup_comments()`.

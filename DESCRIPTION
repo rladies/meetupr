@@ -39,18 +39,17 @@ Imports:
     rlang,
     rlist,
     S7,
-    tools
+    tools,
+    withr
 Suggests:
     covr,
     ggplot2,
     httpuv,
-    jose,
     knitr,
     rmarkdown,
     testthat,
     tidyr,
-    vcr,
-    withr
+    vcr
 VignetteBuilder:
     knitr
 Config/testthat/edition: 3

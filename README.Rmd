@@ -1,46 +1,23 @@
 ---
-output: github_document
+format: gfm
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit the Rmd file -->
 
-```{r}
-#| include: false
-#| label: setup
+# meetupr <img src="man/figures/logo.png" align="right" alt="Meetupr hex logo by Zane Dax @StarTrek_Lt" width="138.5" />
 
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "README-",
-  eval = meetupr::meetup_auth_status(silent = TRUE)
-)
-
-```
-
-# meetupr <img src="man/figures/logo.png" align="right" alt="meetupr hex logo made by Zane Dax @StarTrek_Lt" width="138.5" />
-
-<small>Logo by Zane Dax [@StarTrek_Lt](https://mobile.twitter.com/startrek_lt)</small>
+<small>Logo by Zane Dax
+[@StarTrek_Lt](https://mobile.twitter.com/startrek_lt)</small>
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/rladies/meetupr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rladies/meetupr/actions)
-[![Codecov test coverage](https://codecov.io/gh/rladies/meetupr/branch/master/graph/badge.svg)](https://codecov.io/gh/rladies/meetupr?branch=master)
+[![R-CMD-check](https://github.com/rladies/meetupr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rladies/meetupr/actions/workflows/R-CMD-check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/rladies/meetupr/graph/badge.svg)](https://app.codecov.io/gh/rladies/meetupr)
 <!-- badges: end -->
 
 R interface to the Meetup GraphQL API
 
 ## Installation
-
-To install the current version from R-Universe (recommended):
-
-```r
-install.packages(
-  'meetupr', 
-  repos = c(
-    'https://rladies.r-universe.dev', 
-    'https://cloud.r-project.org'
-  )
-)
-```
 
 To install the development version from GitHub:
 
@@ -51,17 +28,16 @@ remotes::install_github("rladies/meetupr")
 
 ## Authentication
 
-meetupr uses OAuth 2.0 for authentication with the Meetup API. 
-The first time you run a meetupr function, you'll be prompted to authorize the application in your browser. 
-Your token will be cached for future sessions.
+meetupr uses OAuth 2.0 for authentication with the Meetup API. The first
+time you run a meetupr function, you’ll be prompted to authorize the
+application in your browser. Your token will be cached for future
+sessions.
 
 ## Usage
 
 ### Get group events
 
 ```{r}
-#| label: events
-
 library(meetupr)
 
 events <- get_events("rladies-san-francisco", "past")
@@ -70,8 +46,6 @@ events <- get_events("rladies-san-francisco", "past")
 ### Get group members
 
 ```{r}
-#| label: members
-
 members <- get_group_members("rladies-san-francisco")
 head(members)
 ```
@@ -79,32 +53,29 @@ head(members)
 ### Search for groups
 
 ```{r}
-#| label: groups
-
-groups <- find_groups("R-Ladies")
-dplyr::arrange(groups, desc(founded_date))
+groups <- find_groups("R-Ladies") |>
+  dplyr::arrange(desc(founded_date))
 ```
 
 ### Pro network access
 
-For Meetup Pro networks:
+For Meetup Pro networks, note that user needs to be a **pro** network organiser to access the data.
 
-```{r}
-#| label: pro
-
+``` r
 # Get all groups in a pro network
 pro_groups <- get_pro_groups("rladies")
 
 # Get events from a pro network
-pro_events <- get_pro_events("rladies", status = "upcoming")
+pro_events <- get_pro_events("rladies", max_results = 10)
 ```
 
 ## Contributing
 
-We welcome contributions! 
-Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md)
+for guidelines.
 
 ## Code of Conduct
 
-Please note that this project is released with a [Contributor Code of Conduct](https://github.com/rladies/.github/blob/master/CODE_OF_CONDUCT.md).
+Please note that this project is released with a [Contributor Code of
+Conduct](https://github.com/rladies/.github/blob/master/CODE_OF_CONDUCT.md).
 By contributing to this project, you agree to abide by its terms.
