@@ -116,13 +116,15 @@ display_auth_status <- function(auth_status) {
 
   cli_status(
     auth_status$debug$enabled,
-    "Debug Mode: {cli::col_yellow('Enabled')}",
-    "Debug Mode: Disabled - Set {.envvar MEETUPR_DEBUG=1} or use {.code local_meetupr_debug(1)}",
+    "Debug Mode: {cli::col_green('Enabled')}",
+    "Debug Mode: {cli::col_red('Disabled')}",
     "info",
     "info"
   )
 
+  # nolint start
   api_endpoint <- Sys.getenv("MEETUP_API_URL", meetup_api_prefix())
+  # nolint end
   cli::cli_alert_info("API endpoint: {.url {api_endpoint}}")
 }
 
@@ -142,7 +144,9 @@ test_api_connectivity <- function(auth_status) {
     cli::cli_ol(c(
       "Authenticate locally first with {.code get_self()}",
       "Run {.code meetup_auth_setup_ci()} to get encoded token",
-      "Set secrets in your CI: {.envvar MEETUP_TOKEN} and {.envvar MEETUP_TOKEN_FILE}"
+      "Set secrets in your CI: 
+        {.envvar MEETUP_TOKEN} and 
+      {.envvar MEETUP_TOKEN_FILE}"
     ))
 
     return(invisible(NULL))

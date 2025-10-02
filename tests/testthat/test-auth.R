@@ -58,7 +58,7 @@ test_that("token_path handles no or multiple tokens", {
   expect_error(token_path(client_name = "meetupr"))
 })
 
-test_that("meetup_auth_status returns FALSE if cache directory does not exist", {
+test_that("meetup_auth_status returns FALSE", {
   local_mocked_bindings(
     oauth_cache_path = function() local_tempdir(),
     .package = "httr2"
