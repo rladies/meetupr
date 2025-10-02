@@ -306,6 +306,12 @@ test_that("country_code calls countrycode correctly", {
   expect_true(is.na(country_code("ZZ")))
 })
 
+test_that("country_code handles NULL", {
+  expect_null(
+    country_code(NULL)
+  )
+})
+
 
 test_that("mock_if_no_auth sets environment variables when needed", {
   # Test when no credentials exist
@@ -314,14 +320,14 @@ test_that("mock_if_no_auth sets environment variables when needed", {
   )
 
   withr::local_envvar(c(
-    MEETUP_CLIENT_ID = "",
-    MEETUP_CLIENT_SECRET = ""
+    MEETUP_TOKEN = "",
+    MEETUP_TOKEN_FILE = ""
   ))
 
   mock_if_no_auth()
 
-  expect_equal(Sys.getenv("MEETUP_CLIENT_ID"), "123456")
-  expect_equal(Sys.getenv("MEETUP_CLIENT_SECRET"), "aB3xK9mP2")
+  expect_equal(Sys.getenv("MEETUP_TOKEN"), "123456")
+  expect_equal(Sys.getenv("MEETUP_TOKEN_FILE"), "aB3xK9mP2.rds.enc")
 })
 
 test_that("mock_if_no_auth does nothing when credentials exist", {

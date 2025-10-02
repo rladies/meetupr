@@ -12,10 +12,10 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 21 Sep 2025 19:47:15 GMT
+      date: Thu, 02 Oct 2025 18:40:37 GMT
       content-length: '1147'
     body:
-      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJEb3VibGUiLCJ2YWx1ZSI6Mi42NTc0MDl9LHsidHlwZSI6IlN0cmluZyIsInZhbHVlIjoiNTA2ODkyLWVuX1VTIn1dfQ=="},"totalCount":383,"edges":[{"node":{"id":"128849","name":"Plein
+      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJEb3VibGUiLCJ2YWx1ZSI6Mi42NDg1ODY4fSx7InR5cGUiOiJTdHJpbmciLCJ2YWx1ZSI6IjUwNjg5Mi1lbl9VUyJ9XX0="},"totalCount":383,"edges":[{"node":{"id":"128849","name":"Plein
         Air Painting","urlkey":"plein-air-painting","description":null}},{"node":{"id":"67937","name":"Cosplay","urlkey":"cosplay","description":"Meet
         other local costume players to talk about the art of cosplay: making yourself
         look like you don''t belong in this reality."}},{"node":{"id":"33633","name":"Flying
@@ -23,7 +23,7 @@ http_interactions:
         Intelligence Machine Learning Robotics","urlkey":"artificial-intelligence-machine-learning-robotics","description":null}},{"node":{"id":"90164","name":"AI
         and Society","urlkey":"ai-and-society","description":null}},{"node":{"id":"1311042","name":"Multi-Rotor
         Aircraft","urlkey":"multi-rotor-aircraft","description":null}},{"node":{"id":"17367","name":"Aircraft","urlkey":"aircraft","description":null}},{"node":{"id":"506892","name":"Airbnb","urlkey":"airbnb","description":null}}]}}}'
-  recorded_at: 2025-09-21 19:47:15
+  recorded_at: 2025-10-02 18:40:37
 - request:
     method: POST
     uri: https://api.meetup.com/gql-ext
@@ -37,16 +37,18 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 21 Sep 2025 19:47:16 GMT
-      content-length: '1147'
+      date: Thu, 02 Oct 2025 18:40:37 GMT
+      content-length: '1268'
     body:
-      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJEb3VibGUiLCJ2YWx1ZSI6Mi42NTc3Mjl9LHsidHlwZSI6IlN0cmluZyIsInZhbHVlIjoiNTA2ODkyLWVuX1VTIn1dfQ=="},"totalCount":383,"edges":[{"node":{"id":"128849","name":"Plein
+      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJEb3VibGUiLCJ2YWx1ZSI6Mi42MTY2NzU0fSx7InR5cGUiOiJTdHJpbmciLCJ2YWx1ZSI6IjQ3NjY4Mi1lbl9VUyJ9XX0="},"totalCount":383,"edges":[{"node":{"id":"128849","name":"Plein
         Air Painting","urlkey":"plein-air-painting","description":null}},{"node":{"id":"67937","name":"Cosplay","urlkey":"cosplay","description":"Meet
         other local costume players to talk about the art of cosplay: making yourself
         look like you don''t belong in this reality."}},{"node":{"id":"33633","name":"Flying
         Airplanes","urlkey":"flying-airplanes","description":null}},{"node":{"id":"127757","name":"Artificial
         Intelligence Machine Learning Robotics","urlkey":"artificial-intelligence-machine-learning-robotics","description":null}},{"node":{"id":"90164","name":"AI
         and Society","urlkey":"ai-and-society","description":null}},{"node":{"id":"1311042","name":"Multi-Rotor
-        Aircraft","urlkey":"multi-rotor-aircraft","description":null}},{"node":{"id":"17367","name":"Aircraft","urlkey":"aircraft","description":null}},{"node":{"id":"506892","name":"Airbnb","urlkey":"airbnb","description":null}}]}}}'
-  recorded_at: 2025-09-21 19:47:16
+        Aircraft","urlkey":"multi-rotor-aircraft","description":null}},{"node":{"id":"506892","name":"Airbnb","urlkey":"airbnb","description":null}},{"node":{"id":"476682","name":"Aikido","urlkey":"aikido","description":"Meet
+        other local Aikidoka to get off the mat for some fun and relaxation as well
+        as learn about people from surrounding dojos."}}]}}}'
+  recorded_at: 2025-10-02 18:40:37
 recorded_with: VCR-vcr/2.0.0
