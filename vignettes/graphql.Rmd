@@ -91,7 +91,6 @@ result <- meetup_query(
 )
 
 result
-
 ```
 
 GraphQL queries can include variables (like `$urlname` above) for flexibility.
