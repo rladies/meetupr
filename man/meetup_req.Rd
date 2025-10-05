@@ -4,9 +4,11 @@
 \alias{meetup_req}
 \title{Create and Configure a Meetup API Request}
 \usage{
-meetup_req(cache = TRUE, ...)
+meetup_req(rate_limit = 500/60, cache = TRUE, ...)
 }
 \arguments{
+\item{rate_limit}{A numeric value specifying the maximum number of requests}
+
 \item{cache}{A logical value indicating whether to cache the OAuth token
 on disk. Defaults to \code{TRUE}.}
 

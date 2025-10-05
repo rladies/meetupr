@@ -120,6 +120,7 @@ validate_extra_graphql <- function(extra_graphql) {
 #' @keywords internal
 #' @noRd
 valid_event_status <- c(
+  "ACTIVE",
   "AUTOSCHED",
   "AUTOSCHED_CANCELLED",
   "AUTOSCHED_DRAFT",
