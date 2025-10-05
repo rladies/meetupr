@@ -35,17 +35,23 @@
 #'
 #' @export
 meetup_client <- function(
-  client_id = Sys.getenv("MEETUP_CLIENT_ID"),
-  client_secret = Sys.getenv("MEETUP_CLIENT_SECRET"),
+  client_id = NULL,
+  client_secret = NULL,
   client_name = Sys.getenv("MEETUP_CLIENT_NAME", "meetupr"),
   ...
 ) {
-  # Use built-in credentials if not provided
-  if (!nzchar(client_id)) {
-    client_id <- meetup_builtin_key
+  if (is.null(client_id)) {
+    client_id <- tryCatch(
+      meetup_key_get("client_id"),
+      error = function(e) meetup_builtin_key
+    )
   }
-  if (!nzchar(client_secret)) {
-    client_secret <- meetup_builtin_secret
+
+  if (is.null(client_secret)) {
+    client_secret <- tryCatch(
+      meetup_key_get("client_secret"),
+      error = function(e) meetup_builtin_secret
+    )
   }
 
   httr2::oauth_client(
@@ -102,16 +108,15 @@ meetup_auth_setup_ci <- function(
 ) {
   cli::cli_h1("CI Authentication Setup")
 
-  # Interactive setup
   cli::cli_alert_info("Setting up authentication for non-interactive use...")
 
-  # Check if user has authenticated
   meetup_auth_status()
 
-  # Get token file
-  cache_path <- token_path(client_name = client_name)
+  cache_path <- token_path(
+    client_name = client_name,
+    silent = TRUE
+  )
 
-  # Encode token as base64
   token_bytes <- readBin(
     cache_path,
     "raw",
@@ -119,32 +124,41 @@ meetup_auth_setup_ci <- function(
   )
   encoded_token <- base64enc::base64encode(token_bytes)
 
-  cli::cli_alert_success("Token encoded for CI:")
-  cli::cli_alert_info("Set this as a CI secret:")
-  cli::cli_bullets(c(
+  cli::cli_alert_success("Credentials encoded for CI")
+
+  cli::cli_h2("Storing credentials with keyring")
+  meetup_key_set("token_file", basename(cache_path))
+  meetup_key_set("token", encoded_token)
+
+  cli::cli_h2("Set CI Environment Variables:")
+
+  secrets <- c(
     "MEETUP_TOKEN={encoded_token}",
     "MEETUP_TOKEN_FILE={basename(cache_path)}"
-  ))
+  )
 
-  # Copy to clipboard if available
+  cli::cli_bullets(secrets)
+
   if (rlang::is_installed("clipr") && clipr::clipr_available()) {
     clipr::write_clip(encoded_token)
     cli::cli_alert_info("Token copied to clipboard!")
   }
 
-  cli::cli_h2("Example GitHub Actions:")
-  cli::cli_code(c(
+  cli::cli_h3("Example GitHub Actions:")
+
+  c(
     "env:",
     "  MEETUP_TOKEN: ${{ secrets.MEETUP_TOKEN }}",
     "  MEETUP_TOKEN_FILE: ${{ secrets.MEETUP_TOKEN_FILE }}",
-    "",
     "steps:",
     "  - name: Use API",
     "    run: Rscript -e 'meetupr::get_events(\"my-group\")'"
-  ))
+  ) |>
+    cli::cli_code()
 
   invisible(encoded_token)
 }
+
 
 #' Load Meetup Authentication Token from CI Environment
 #'
@@ -188,15 +202,8 @@ meetup_auth_load_ci <- function(
   client_name = Sys.getenv("MEETUP_CLIENT_NAME", "meetupr")
 ) {
   # Get encoded token from environment
-  encoded_token <- Sys.getenv("MEETUP_TOKEN")
-  if (!nzchar(encoded_token)) {
-    cli::cli_abort("No {.var MEETUP_TOKEN} environment variable found")
-  }
-
-  token_file <- Sys.getenv("MEETUP_TOKEN_FILE")
-  if (!nzchar(token_file)) {
-    cli::cli_abort("No {.var MEETUP_TOKEN_FILE} environment variable found")
-  }
+  encoded_token <- meetup_key_get("token")
+  token_file <- meetup_key_get("token_file")
 
   cli::cli_alert_info("Loading token from environment...")
 
@@ -215,50 +222,6 @@ meetup_auth_load_ci <- function(
 
   cli::cli_alert_success("Token loaded successfully")
   invisible(TRUE)
-}
-
-
-#' Find token
-#'
-#' Locate the OAuth token file in the httr2 cache directory.
-#' This function searches for a single token file matching the
-#' specified pattern within the httr2 OAuth cache directory.
-#' If multiple or no tokens are found, it raises an error.
-#' The function returns the path to the found token file.
-#' @param pattern A regex pattern to match the token file name.
-#' Defaults to ".rds.enc$".
-#' @param client_name The name of the OAuth client.
-#' Defaults to the value of the "MEETUP_CLIENT_NAME"
-#' environment variable or "meetupr" if not set.
-#' @keywords internal
-#' @noRd
-token_path <- function(
-  pattern = ".rds.enc$",
-  client_name = Sys.getenv("MEETUP_CLIENT_NAME", "meetupr")
-) {
-  cache_path <- file.path(
-    httr2::oauth_cache_path(),
-    client_name
-  )
-
-  cache_file <- list.files(
-    cache_path,
-    pattern,
-    full.names = TRUE,
-    recursive = TRUE
-  )
-
-  if (length(cache_file) != 1) {
-    if (length(cache_file) > 1) {
-      cli::cli_abort(
-        "Multiple tokens found. Please clean up: {.path {cache_path}}"
-      )
-    }
-    cli::cli_abort("No token found. Please authenticate first.")
-  }
-
-  cli::cli_alert_success("Token found: {.path {cache_file}}")
-  cache_file
 }
 
 #' Check Authentication Status for Meetup API
@@ -340,17 +303,30 @@ meetup_auth_status <- function(
   TRUE
 }
 
+#' @describeIn meetup_auth_status Check if authenticated
+#' to Meetup API. Uses silent mode.
+has_auth <- function(
+  client_name = Sys.getenv("MEETUP_CLIENT_NAME", "meetupr")
+) {
+  meetup_auth_status(
+    client_name,
+    silent = TRUE
+  )
+}
 
-#' Deauthorize Meetup API Client
+#' Meetup API Authentication
 #'
-#' This function removes the cached authentication for the
-#' Meetup API client, effectively deauthorizing the client.
+#' Functions to manage authentication with the Meetup API.
+#' Includes functions to authenticate,
+#' and deauthorize by removing cached credentials.
+#'
 #' @template client_name
-#' @return Returns an invisible logical value:
-#' \itemize{
-#'   \item `TRUE` if the authentication cache was successfully removed.
-#'   \item `FALSE` if no authentication cache was found to remove.
-#' }
+#' @param clear_keyring A logical value indicating whether to clear
+#' the associated keyring entries. Defaults to `TRUE`.
+#' @param ... Additional arguments to `meetup_client()`.
+#' @return Nothing. Outputs messages indicating the result of the
+#' process.
+#'
 #' @examples
 #' \dontrun{
 #' # Default deauthorization
@@ -359,26 +335,63 @@ meetup_auth_status <- function(
 #' # Deauthorization with a custom client name
 #' meetup_deauth(client_name = "custom_client")
 #' }
-#' @details This function checks for the existence of a directory containing
-#' cached authentication credentials. If found, the directory is deleted,
-#' removing the cached authentication for the specified client. If the
-#' directory does not exist, a message is displayed and the function returns
-#' `FALSE`.
+#' @name meetup_auth
 #' @export
+NULL
+
+#' @describeIn meetup_auth Authenticate and display the
+#' authenticated user's name.
+meetup_auth <- function(...) {
+  resp <- meetup_req(...) |>
+    httr2::req_body_json(
+      list(
+        query = "query { self { name } }"
+      ),
+      auto_unbox = TRUE
+    ) |>
+    httr2::req_perform() |>
+    httr2::resp_body_json(simplifyVector = TRUE)
+
+  # nolint start
+  auth_name <- resp$data$self$name
+  cli::cli_alert_success(
+    "Authenticated as {.val {auth_name}}"
+  )
+  # nolint end
+}
+
+#' @describeIn meetup_auth Remove cached authentication
+#' for the Meetup API client.
 meetup_deauth <- function(
-  client_name = Sys.getenv("MEETUP_CLIENT_NAME", "meetupr")
+  client_name = Sys.getenv(
+    "MEETUP_CLIENT_NAME",
+    "meetupr"
+  ),
+  clear_keyring = TRUE
 ) {
   cache_path <- file.path(
     httr2::oauth_cache_path(),
     client_name
   )
 
-  if (!dir.exists(cache_path)) {
+  if (dir.exists(cache_path)) {
+    unlink(cache_path, recursive = TRUE)
+    cli::cli_alert_success("Authentication cache removed")
+  } else {
     cli::cli_alert_info("No authentication cache to remove")
-    return(invisible(FALSE))
   }
 
-  unlink(cache_path, recursive = TRUE)
-  cli::cli_alert_success("Authentication cache removed")
-  invisible(TRUE)
+  if (clear_keyring) {
+    keys_to_clear <- c("client_id", "client_secret", "token", "token_file") |>
+      sapply(key_name)
+
+    sapply(keys_to_clear, function(key) {
+      if (!key_available(key)) {
+        return(FALSE)
+      }
+      keyring::key_delete(key)
+      cli::cli_alert_success("Keyring {.val {key}} cleared")
+      TRUE
+    })
+  }
 }

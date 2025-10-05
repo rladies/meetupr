@@ -5,8 +5,8 @@
 \title{Create a Meetup OAuth Client}
 \usage{
 meetup_client(
-  client_id = Sys.getenv("MEETUP_CLIENT_ID"),
-  client_secret = Sys.getenv("MEETUP_CLIENT_SECRET"),
+  client_id = NULL,
+  client_secret = NULL,
   client_name = Sys.getenv("MEETUP_CLIENT_NAME", "meetupr"),
   ...
 )

@@ -2,12 +2,15 @@
 % Please edit documentation in R/auth.R
 \name{meetup_auth_status}
 \alias{meetup_auth_status}
+\alias{has_auth}
 \title{Check Authentication Status for Meetup API}
 \usage{
 meetup_auth_status(
   client_name = Sys.getenv("MEETUP_CLIENT_NAME", "meetupr"),
   silent = FALSE
 )
+
+has_auth(client_name = Sys.getenv("MEETUP_CLIENT_NAME", "meetupr"))
 }
 \arguments{
 \item{client_name}{A string representing the name of the client. By
@@ -35,6 +38,12 @@ the results, it provides feedback about the authentication status. Multiple
 tokens in the cache directory trigger a warning, while a missing token or
 cache directory result in an error message.
 }
+\section{Functions}{
+\itemize{
+\item \code{has_auth()}: Check if authenticated
+to Meetup API. Uses silent mode.
+
+}}
 \examples{
 \dontrun{
 # Check authentication status with default client name
