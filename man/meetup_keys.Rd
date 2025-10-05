@@ -15,21 +15,25 @@ meetup_key_get(key = "token", error = TRUE)
 Default is \code{"token"}. Valid options are \code{"client_id"}, \code{"client_secret"},
 \code{"token"}, and \code{"token_file"}.}
 
-\item{value}{Character string with the value to store. If \code{NULL} (default),
+\item{value}{Character string with the value to store. If
+\code{NULL} (default),
 prompts for interactive input via \code{readline()}.}
 
-\item{error}{Logical. If \code{TRUE} (default), raises an error when key not found.
+\item{error}{Logical. If \code{TRUE} (default), raises an
+error when key not found.
 If \code{FALSE}, returns \code{NULL}.}
 }
 \value{
 \itemize{
 \item \code{meetup_key_set()}: Returns \code{TRUE} invisibly on success
-\item \code{meetup_key_get()}: Returns the key value, or \code{NULL} if not found and \code{error = FALSE}
+\item \code{meetup_key_get()}: Returns the key value, or \code{NULL}
+if not found and \code{error = FALSE}
 }
 }
 \description{
 Store and retrieve keys securely using the system keyring.
-Typically used for storing OAuth tokens and credentials for the meetupr package.
+Typically used for storing OAuth tokens and credentials
+for the meetupr package.
 }
 \section{Functions}{
 \itemize{

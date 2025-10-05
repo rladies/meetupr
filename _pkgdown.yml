@@ -9,6 +9,7 @@ reference:
       - starts_with("has")
       - meetup_client
       - meetup_sitrep
+      - meetup_keys
   - title: "Retrieving data and working with data"
     desc: >
       Functions for retrieving data
@@ -26,3 +27,4 @@ reference:
       - contains("introspect")
       - starts_with("explore")
       - starts_with("search")
+      - contains("debug")
