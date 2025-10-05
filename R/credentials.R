@@ -1,19 +1,23 @@
 #' Manage API keys in system keyring
 #'
 #' Store and retrieve keys securely using the system keyring.
-#' Typically used for storing OAuth tokens and credentials for the meetupr package.
+#' Typically used for storing OAuth tokens and credentials
+#'  for the meetupr package.
 #'
 #' @param key Character string indicating the key name to store/retrieve.
 #'   Default is `"token"`. Valid options are `"client_id"`, `"client_secret"`,
 #'   `"token"`, and `"token_file"`.
-#' @param value Character string with the value to store. If `NULL` (default),
+#' @param value Character string with the value to store. If
+#'   `NULL` (default),
 #'   prompts for interactive input via `readline()`.
-#' @param error Logical. If `TRUE` (default), raises an error when key not found.
+#' @param error Logical. If `TRUE` (default), raises an
+#'    error when key not found.
 #'   If `FALSE`, returns `NULL`.
 #'
 #' @return
 #' - `meetup_key_set()`: Returns `TRUE` invisibly on success
-#' - `meetup_key_get()`: Returns the key value, or `NULL` if not found and `error = FALSE`
+#' - `meetup_key_get()`: Returns the key value, or `NULL`
+#'  if not found and `error = FALSE`
 #'
 #' @examples
 #' \dontrun{

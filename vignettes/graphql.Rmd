@@ -66,9 +66,7 @@ events
 For complete control, build queries using `meetup_template_query()` directly:
 
 ```{r}
-#| label: group-details
-#| cassette: true
-
+#| label: group-query
 custom_query <- "
   query GetGroupWithDetails($urlname: String!) {
     groupByUrlname(urlname: $urlname) {
@@ -85,15 +83,30 @@ custom_query <- "
     }
   }"
 
-result <- meetup_query(
+```
+
+In this example, we fetch detailed group info including member count.
+It also demonstrates using a variable `$urlname` for flexibility.
+In this case, we can pass the variable when calling `meetup_query()`, which allows reusing the query for different groups.
+
+```{r}
+#| label: group-details
+#| cassette: true
+
+lagos <- meetup_query(
   custom_query,
   urlname = "rladies-lagos"
 )
+lagos
 
-result
+ottawa <- meetup_query(
+  custom_query,
+  urlname = "rladies-ottawa"
+)
+ottawa
+
 ```
 
-GraphQL queries can include variables (like `$urlname` above) for flexibility.
 The `meetup_query()` function handles variable substitution by passing them as additional arguments (captured by `...`).
 
 To learn how to explore the schema and build queries, see the [API Introspection vignette](introspection.html).

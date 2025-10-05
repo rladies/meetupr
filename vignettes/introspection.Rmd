@@ -24,7 +24,17 @@ Sys.setenv(MEETUPR_DEBUG = "")
 
 
 The meetupr package provides powerful introspection functions to explore the Meetup GraphQL API schema. 
-This allows you to understand available data and build custom queries efficiently.
+This allows you to understand available data and build custom queries, as demonstrated in the [Custom Meetup Queries](graphql.html), efficiently.
+
+## Practical Workflow
+
+1. Use `explore_query_fields()` to see top-level fields
+2. Search for relevant types with `search_types()`
+3. Examine specific type fields with `get_type_fields()`
+4. Build and test queries in the [Meetup API Playground](https://www.meetup.com/api/playground)
+5. Execute with `meetup_query()`
+
+This approach lets you efficiently discover and utilize the full Meetup API schema for custom data extraction beyond the package's built-in functions.
 
 ## Basic Introspection
 
@@ -85,8 +95,7 @@ group_fields
 Use the introspection data to construct targeted queries with `meetup_query()`:
 
 ```{r}
-#| label: custom-query
-#| cassette: true
+#| label: custom-build
 
 custom_query <- "
 query($eventId: ID!) {
@@ -104,6 +113,14 @@ query($eventId: ID!) {
     }
   }
 }"
+```
+
+In this example, we fetch event details including title, description, date/time, venue info, and associated group details.
+It sets up a variable `$eventId` for flexibility, which can be passed when calling `meetup_query()`, allowing reuse for different events.
+
+```{r}
+#| label: custom-query
+#| cassette: true
 
 result <- meetup_query(custom_query, eventId = "103349942")
 result
@@ -111,21 +128,48 @@ result
 
 ## Finding Available Mutations
 
+In GraphQL, mutations are used to modify data.
+They are less commonly used for data retrieval, but it's useful to know what's available.
+Mutations allow creating, updating, or deleting resources, and typical use cases would involve managing events, RSVPs, or group details.
+Mutations will require users to have appropriate permissions to perform these actions.
 Check what mutations are available:
 
 ```{r}
+#| label: mutations
 mutations <- explore_mutations(schema)
 mutations
 ```
 
-Most query building will focus on queries rather than mutations for data retrieval.
+Available mutations might include actions like `createEvent`, `updateEvent`, `deleteEvent`, etc.
 
-## Practical Workflow
+### Building Mutation Queries
 
-1. Use `explore_query_fields()` to see top-level fields
-2. Search for relevant types with `search_types()`
-3. Examine specific type fields with `get_type_fields()`
-4. Build and test queries at https://www.meetup.com/api/playground
-5. Execute with `meetup_template_query()`
+To build a mutation query, you would follow a similar process as with queries.
+For example, to create a new event, you might construct a mutation like this:
 
-This approach lets you efficiently discover and utilize the full Meetup API schema for custom data extraction beyond the package's built-in functions.
+```{r}
+#| label: mutation-build
+#| eval: false
+
+mutation_query <- "
+mutation($input: CreateEventInput!) {
+  createEvent(input: $input) {
+    event {
+      id
+      title
+      dateTime
+    }
+  }
+}"
+
+# Example input for creating an event
+input_data <- list(
+  title = "New Meetup Event",
+  description = "Description of the new event",
+  dateTime = "2024-07-01T18:00:00Z",
+  groupId = "123456"
+)
+
+# Execute the mutation (requires appropriate permissions)
+meetup_query(mutation_query, input = input_data)
+```
