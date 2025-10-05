@@ -30,10 +30,8 @@ meetup_sitrep <- function() {
 check_auth_methods <- function() {
   auth_status <- list()
 
-  # Check OAuth credentials
   oauth_available <- meetup_auth_status(silent = TRUE)
 
-  # Check for cached token
   has_token <- tryCatch(
     {
       token_path(pattern = ".rds.enc$")
@@ -42,23 +40,24 @@ check_auth_methods <- function() {
     error = function(e) FALSE
   )
 
-  # Check CI environment
-  ci_token <- nzchar(Sys.getenv("MEETUP_TOKEN")) &&
-    nzchar(Sys.getenv("MEETUP_TOKEN_FILE"))
+  ci_token <- !is.null(meetup_key_get("token", error = FALSE)) &&
+    !is.null(meetup_key_get("token_file", error = FALSE))
+
+  client_id <- meetup_key_get("client_id", error = FALSE)
+
+  client_secret <- meetup_key_get("client_secret", error = FALSE)
 
   auth_status$oauth <- list(
     available = oauth_available,
-    client_id = Sys.getenv("MEETUP_CLIENT_ID"),
-    client_secret = Sys.getenv("MEETUP_CLIENT_SECRET"),
+    client_id = client_id,
+    client_secret = client_secret,
     has_cached_token = has_token,
-    ci_mode = ci_token
+    ci_mode = ci_token,
+    uses_custom_client = !is.null(client_id)
   )
 
-  # Determine active method
   auth_status$active_method <- if (has_token || ci_token) {
     "OAuth"
-  } else if (oauth_available) {
-    "OAuth (not authenticated)"
   } else {
     "None"
   }
@@ -85,24 +84,26 @@ display_auth_status <- function(auth_status) {
     }
   } else if (auth_status$active_method == "OAuth (not authenticated)") {
     cli::cli_alert_warning("OAuth credentials configured but not authenticated")
-    cli::cli_text("   Run {.code meetup_auth()} to authenticate")
+    cli::cli_text("   Run {.code get_self()} to authenticate")
   } else {
     cli::cli_alert_danger("No Authentication Configured")
   }
 
-  # Show OAuth configuration
-  cli::cli_h2("OAuth Configuration")
+  if (auth_status$oauth$uses_custom_client) {
+    cli::cli_h2("OAuth Configuration")
 
-  show_config_item("Client ID", auth_status$oauth$client_id, mask = TRUE)
-  show_config_item(
-    "Client Secret",
-    if (nzchar(auth_status$oauth$client_secret)) "Set" else ""
-  )
+    show_config_item("Client ID", auth_status$oauth$client_id, mask = TRUE)
+    show_config_item(
+      "Client Secret",
+      auth_status$oauth$client_secret,
+      mask = TRUE
+    )
+  }
 
   cli_status(
     auth_status$oauth$has_cached_token,
     "Cached Token: Available",
-    "Cached Token: None - run {.code meetup_auth()}",
+    "Cached Token: None - run {.code get_self()}",
     "success",
     "info"
   )
@@ -111,7 +112,6 @@ display_auth_status <- function(auth_status) {
     cli::cli_alert_info("CI environment detected")
   }
 
-  # Package settings
   cli::cli_h2("Package Settings")
 
   cli_status(
@@ -123,9 +123,12 @@ display_auth_status <- function(auth_status) {
   )
 
   # nolint start
-  api_endpoint <- Sys.getenv("MEETUP_API_URL", meetup_api_prefix())
-  # nolint end
+  api_endpoint <- Sys.getenv(
+    "MEETUP_API_URL",
+    meetup_api_prefix()
+  )
   cli::cli_alert_info("API endpoint: {.url {api_endpoint}}")
+  # nolint end
 }
 
 #' Test API connectivity
@@ -177,7 +180,17 @@ test_api_connectivity <- function(auth_status) {
   )
 }
 
-# Helper functions from original remain the same
+#' Display status messages using cli
+#'
+#' A helper function to display status messages based on a condition.
+#' It uses the `cli` package to format messages with different alert types.
+#' If the condition is TRUE, it shows the `true_msg`
+#' with the specified `true_type`.
+#' If FALSE, it shows the `false_msg` with the specified `false_type`.
+#' If either message is NULL, it does not display anything for that case.
+#' @return Nothing. Messages are printed to the console.
+#' @keywords internal
+#' @noRd
 cli_status <- function(
   condition,
   true_msg,
@@ -212,6 +225,16 @@ cli_status <- function(
   }
 }
 
+#' Show configuration item with optional masking
+#'
+#' Displays a configuration item, masking its value if specified.
+#' If the value is not set, it indicates that as well.
+#' @param name The name of the configuration item.
+#' @param value The value of the configuration item.
+#' @param mask Logical indicating whether to mask the value (default is FALSE).
+#' @return Invisibly returns NULL after displaying the item.
+#' @keywords internal
+#' @noRd
 show_config_item <- function(name, value, mask = FALSE) {
   has_value <- nzchar(value) && !is.null(value)
   display_value <- if (mask && has_value) {

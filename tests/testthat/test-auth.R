@@ -1,29 +1,27 @@
 test_that("meetup_client returns a valid oauth client", {
   mock_if_no_auth()
-  withr::local_envvar(c(
-    MEETUP_CLIENT_ID = "client_id",
-    MEETUP_CLIENT_SECRET = "client_secret",
-    MEETUP_CLIENT_NAME = "meetupr"
-  ))
+  local_mocked_bindings(
+    meetup_key_get = function(key, error = TRUE) {
+      switch(
+        key,
+        client_id = "client_id",
+        client_secret = "client_secret",
+      )
+    }
+  )
+  withr::local_envvar(
+    MEETUP_CLIENT_NAME = "test_client"
+  )
   client <- meetup_client()
   expect_equal(client$id, "client_id")
   expect_equal(client$secret, "client_secret")
-  expect_equal(client$name, "meetupr")
+  expect_equal(client$name, "test_client")
 })
 
-test_that("meetup_client defaults to environment variables", {
-  withr::local_envvar(
-    MEETUP_CLIENT_ID = "test_id",
-    MEETUP_CLIENT_SECRET = "test_secret"
-  )
+test_that("meetup_client defaults built ins", {
   client <- meetup_client()
-  expect_equal(client$id, "test_id")
-  expect_equal(client$secret, "test_secret")
-})
-
-test_that("meetup_auth_load_ci handles missing variables", {
-  withr::local_envvar(MEETUP_TOKEN = "", MEETUP_TOKEN_FILE = "")
-  expect_error(meetup_auth_load_ci())
+  expect_equal(client$id, meetup_builtin_key)
+  expect_equal(client$secret, meetup_builtin_secret)
 })
 
 test_that("token_path finds token", {
@@ -202,30 +200,6 @@ test_that("meetup_auth_setup_ci copies to clipboard when available", {
   expect_true(clipboard_called)
 })
 
-test_that("meetup_auth_load_ci fails without MEETUP_TOKEN", {
-  withr::local_envvar(
-    MEETUP_TOKEN = "",
-    MEETUP_TOKEN_FILE = "token.rds.enc"
-  )
-
-  expect_error(
-    meetup_auth_load_ci(),
-    "MEETUP_TOKEN"
-  )
-})
-
-test_that("meetup_auth_load_ci fails without MEETUP_TOKEN_FILE", {
-  withr::local_envvar(
-    MEETUP_TOKEN = "dGVzdA==",
-    MEETUP_TOKEN_FILE = ""
-  )
-
-  expect_error(
-    meetup_auth_load_ci(),
-    "MEETUP_TOKEN_FILE"
-  )
-})
-
 test_that("meetup_auth_load_ci decodes and saves token successfully", {
   temp_dir <- withr::local_tempdir()
 
@@ -248,32 +222,178 @@ test_that("meetup_auth_load_ci decodes and saves token successfully", {
   expect_true(result)
 })
 
+test_that("meetup_client falls back to builtin when keyring fails", {
+  local_mocked_bindings(
+    key_get = function(...) stop("No key found"),
+    .package = "keyring"
+  )
 
-test_that("meetup_deauth works correctly", {
-  withr::local_tempdir()
+  client <- meetup_client()
 
-  mock_cache_path <- file.path(tempdir(), "meetupr")
-  dir.create(mock_cache_path)
+  expect_equal(client$id, meetup_builtin_key)
+  expect_equal(client$secret, meetup_builtin_secret)
+})
+test_that("meetup_deauth skips keyring when clear_keyring is FALSE", {
+  temp_dir <- withr::local_tempdir()
+  cache_path <- file.path(temp_dir, "meetupr")
+  dir.create(cache_path)
+
+  keyring_called <- FALSE
 
   local_mocked_bindings(
-    oauth_cache_path = function() dirname(mock_cache_path),
+    oauth_cache_path = function() temp_dir,
     .package = "httr2"
   )
 
   local_mocked_bindings(
-    cli_alert_info = function(...) NULL,
-    cli_alert_success = function(...) NULL,
-    .package = "cli"
+    key_delete = function(...) {
+      keyring_called <<- TRUE
+    },
+    .package = "keyring"
   )
 
-  expect_false(
-    meetup_deauth(client_name = "nonexistent")
-  )
-  expect_true(
-    meetup_deauth(client_name = "meetupr")
+  meetup_deauth(clear_keyring = FALSE)
+
+  expect_false(keyring_called)
+})
+
+test_that("has_auth returns TRUE when authenticated", {
+  temp_dir <- withr::local_tempdir()
+  temp_token <- file.path(temp_dir, "meetupr", "token.rds.enc")
+  dir.create(dirname(temp_token), recursive = TRUE)
+  writeLines("token", temp_token)
+
+  local_mocked_bindings(
+    oauth_cache_path = function() temp_dir,
+    .package = "httr2"
   )
 
-  expect_false(
-    meetup_deauth(client_name = "meetupr")
+  result <- has_auth()
+
+  expect_true(result)
+})
+
+test_that("has_auth returns FALSE when not authenticated", {
+  temp_dir <- withr::local_tempdir()
+
+  local_mocked_bindings(
+    oauth_cache_path = function() temp_dir,
+    .package = "httr2"
+  )
+
+  result <- has_auth()
+
+  expect_false(result)
+})
+
+test_that("meetup_auth authenticates and displays user name", {
+  mock_resp <- list(
+    data = list(
+      self = list(name = "Test User")
+    )
+  )
+
+  mock_client <- structure(
+    list(name = "test_client"),
+    class = "httr2_oauth_client"
+  )
+
+  local_mocked_bindings(
+    meetup_req = function(...) {
+      structure(list(), class = "httr2_request")
+    },
+    meetup_client = function(...) mock_client
+  )
+
+  local_mocked_bindings(
+    req_body_json = function(req, ...) req,
+    req_perform = function(req) structure(list(), class = "httr2_response"),
+    resp_body_json = function(...) mock_resp,
+    .package = "httr2"
+  )
+
+  expect_message(
+    meetup_auth(),
+    "Authenticated as"
+  )
+})
+
+test_that("meetup_deauth removes cache directory", {
+  temp_dir <- withr::local_tempdir()
+  cache_dir <- file.path(temp_dir, "meetupr")
+  dir.create(cache_dir, recursive = TRUE)
+  writeLines("token", file.path(cache_dir, "token.rds.enc"))
+
+  local_mocked_bindings(
+    oauth_cache_path = function() temp_dir,
+    .package = "httr2"
+  )
+
+  meetup_deauth(clear_keyring = FALSE)
+
+  expect_false(dir.exists(cache_dir))
+})
+
+test_that("meetup_deauth handles missing cache directory", {
+  temp_dir <- withr::local_tempdir()
+
+  local_mocked_bindings(
+    oauth_cache_path = function() temp_dir,
+    .package = "httr2"
+  )
+
+  expect_message(
+    meetup_deauth(clear_keyring = FALSE),
+    "No authentication cache"
+  )
+})
+
+test_that("meetup_deauth clears keyring when requested", {
+  temp_dir <- withr::local_tempdir()
+  cache_dir <- file.path(temp_dir, "meetupr")
+  dir.create(cache_dir, recursive = TRUE)
+
+  local_mocked_bindings(
+    oauth_cache_path = function() temp_dir,
+    .package = "httr2"
+  )
+
+  local_mocked_bindings(
+    key_available = function(key) TRUE
+  )
+
+  local_mocked_bindings(
+    key_delete = function(key) {
+      key
+    },
+    .package = "keyring"
+  )
+
+  expect_message(
+    meetup_deauth(clear_keyring = TRUE),
+    "Keyring.*MEETUP.*cleared"
+  )
+})
+
+test_that("meetup_deauth skips unavailable keys", {
+  temp_dir <- withr::local_tempdir()
+  cache_dir <- file.path(temp_dir, "meetupr")
+  dir.create(cache_dir, recursive = TRUE)
+
+  keys_checked <- character()
+
+  local_mocked_bindings(
+    oauth_cache_path = function() temp_dir,
+    .package = "httr2"
+  )
+  local_mocked_bindings(
+    key_available = function(key) {
+      FALSE
+    }
+  )
+
+  expect_message(
+    meetup_deauth(clear_keyring = TRUE),
+    "Authentication cache removed"
   )
 })
