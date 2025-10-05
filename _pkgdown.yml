@@ -2,12 +2,6 @@ template:
   bootstrap: 5
 
 reference:
-  - title: "Retrieving data and working with data"
-    desc: >
-      Functions for retrieving data
-    contents:
-      - starts_with("get")
-      - starts_with("find")
   - title: "Authentication"
     desc: "Functions for authenticating and verification"
     contents:
@@ -15,6 +9,12 @@ reference:
       - starts_with("has")
       - meetup_client
       - meetup_sitrep
+  - title: "Retrieving data and working with data"
+    desc: >
+      Functions for retrieving data
+    contents:
+      - starts_with("get")
+      - starts_with("find")
   - title: "Query functions"
     desc: "Functions enabling querying of data"
     contents:
