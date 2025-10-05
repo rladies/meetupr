@@ -15,6 +15,7 @@ meetup_api_prefix <- function() {
 #' the Meetup API. It allows the user to authenticate via OAuth, specify the
 #' use of caching, and set custom client configuration.
 #'
+#' @param rate_limit A numeric value specifying the maximum number of requests
 #' @param cache A logical value indicating whether to cache the OAuth token
 #'   on disk. Defaults to `TRUE`.
 #' @param ... Additional arguments passed to [meetup_client()] for setting up
@@ -44,7 +45,7 @@ meetup_api_prefix <- function() {
 #' commented out and would require activation for functionality.
 #'
 #' @export
-meetup_req <- function(cache = TRUE, ...) {
+meetup_req <- function(rate_limit = 500 / 60, cache = TRUE, ...) {
   meetup_api_prefix() |>
     httr2::request() |>
     httr2::req_headers(
@@ -56,7 +57,8 @@ meetup_req <- function(cache = TRUE, ...) {
       auth_url = "https://secure.meetup.com/oauth2/authorize",
       redirect_uri = "http://localhost:1410",
       cache_disk = cache
-    )
+    ) |>
+    httr2::req_throttle(rate = rate_limit)
 }
 
 #' Execute GraphQL query
