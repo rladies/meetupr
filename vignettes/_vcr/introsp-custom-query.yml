@@ -10,7 +10,7 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Thu, 02 Oct 2025 18:39:53 GMT
+      date: Sun, 05 Oct 2025 18:13:57 GMT
       content-length: '3150'
     body:
       string: '{"data":{"event":{"title":"Ecosystem GIS & Community Building","description":"Hello
@@ -51,5 +51,5 @@ http_interactions:
         from University of Illinois and a bachelor’s degree in Economics and French
         from Augustana College.","dateTime":"2013-02-18T18:30:00-05:00","venues":[{"name":"Browsermedia/NClud","address":"1203
         19th Street"}],"group":{"name":"Data Visualization DC","urlname":"data-visualization-dc"}}}}'
-  recorded_at: 2025-10-02 18:39:53
+  recorded_at: 2025-10-05 18:13:57
 recorded_with: VCR-vcr/2.0.0
