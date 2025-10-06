@@ -45,14 +45,14 @@ Imports:
 Suggests:
     covr,
     ggplot2,
+    ggwordcloud,
     httpuv,
     knitr,
     rmarkdown,
     testthat,
     tidyr,
     tidytext,
-    vcr,
-    wordcloud
+    vcr
 VignetteBuilder:
     knitr
 Config/testthat/edition: 3
