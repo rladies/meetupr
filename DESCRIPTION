@@ -45,7 +45,6 @@ Imports:
 Suggests:
     covr,
     ggplot2,
-    ggwordcloud
     ggwordcloud,
     httpuv,
     knitr,
