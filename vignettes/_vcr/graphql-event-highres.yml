@@ -14,13 +14,13 @@ http_interactions:
         {\n    id\n    name\n    urlname\n  }\n  \n  venues {\n    id\n    name\n    address\n    city\n    state\n    postalCode\n    country\n    lat\n    lon\n    venueType\n  }\n  \n  rsvps(first:
         1) {\n    totalCount\n  }\n  \n  featuredEventPhoto {\n    baseUrl\n  }\n  \n  feeSettings
         {\n    required\n    amount\n    currency\n    accepts\n    refundPolicy {\n      notes\n      days\n    }\n  }\n  \n  \n    featuredEventPhoto
-        {\n      highResUrl\n      id\n    }\n  \n}","variables":{"urlname":"rladies-lagos","status":["AUTOSCHED","AUTOSCHED_CANCELLED","AUTOSCHED_DRAFT","AUTOSCHED_FINISHED","BLOCKED","CANCELLED","CANCELLED_PERM","DRAFT","PAST","PENDING","PROPOSED","TEMPLATE"]}}'
+        {\n      highResUrl\n      id\n    }\n  \n}","variables":{"urlname":"rladies-lagos","status":["ACTIVE","AUTOSCHED","AUTOSCHED_CANCELLED","AUTOSCHED_DRAFT","AUTOSCHED_FINISHED","BLOCKED","CANCELLED","CANCELLED_PERM","DRAFT","PAST","PENDING","PROPOSED","TEMPLATE"]}}'
   response:
     status: 200
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Thu, 02 Oct 2025 18:39:51 GMT
+      date: Sun, 05 Oct 2025 18:13:55 GMT
       content-length: '23707'
     body:
       string: "{\"data\":{\"groupByUrlname\":{\"id\":\"32612004\",\"name\":\"R-Ladies
@@ -234,5 +234,5 @@ http_interactions:
         invite your friends.\",\"group\":{\"id\":\"32612004\",\"name\":\"R-Ladies
         Lagos\",\"urlname\":\"rladies-lagos\"},\"venues\":[{\"id\":\"26906060\",\"name\":\"Online
         event\",\"address\":\"\",\"city\":\"\",\"state\":\"\",\"postalCode\":\"\",\"country\":\"\",\"lat\":-8.521147,\"lon\":179.1962,\"venueType\":\"online\"}],\"rsvps\":{\"totalCount\":1},\"featuredEventPhoto\":null,\"feeSettings\":null}}]}}}}"
-  recorded_at: 2025-10-02 18:39:51
+  recorded_at: 2025-10-05 18:13:55
 recorded_with: VCR-vcr/2.0.0

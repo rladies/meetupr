@@ -27,6 +27,8 @@ Sys.setenv(MEETUPR_DEBUG = "")
 ```{r}
 #| label: load
 
+library(tidytext)
+library(ggwordcloud)
 library(dplyr)
 library(tidyr)
 library(ggplot2)
@@ -166,4 +168,93 @@ rladies |>
     is.na(next_event)
   ) |>
   arrange(last_event)
+```
+
+## Wordcloud of events
+
+Finally, let us create a wordcloud of the most common words in the event descriptions of all R-Ladies chapters.
+
+```{r}
+#| label: wordcloud
+
+# Strip html tags from event descriptions
+strip_html <- function(x) {
+  sapply(x, function(x) {
+    gsub("<[^>]+>", "", x)
+  })
+}
+
+#' custom function to create wordcloud data
+rladies_wc <- function(data, column, n = 100) {
+  data |>
+    unnest_tokens(word, {{ column }}) |>
+    anti_join(stop_words, by = "word") |>
+    filter(
+      !grepl("^[0-9]+$", word),
+      nchar(word) > 2,
+      !word %in% c("p", "br", "href", "http", "https", "class", "www", "com"),
+      !word %in%
+        c(
+          "de",
+          "la",
+          "et",
+          "les",
+          "des",
+          "le",
+          "en",
+          "un",
+          "une",
+          "du",
+          "para",
+          "con",
+          "del",
+          "el",
+          "se",
+          "y",
+          "los",
+          "es"
+        )
+    ) |>
+    count(word, sort = TRUE) |>
+    slice_max(n, n = n) |>
+
+    ggplot(aes(
+      label = word,
+      size = n,
+      color = n
+    )) +
+    geom_text_wordcloud() +
+    scale_size_area(max_size = 12) +
+    scale_color_gradient(
+      low = "#88398A",
+      high = "#562457"
+    ) +
+    theme_minimal()
+}
+
+```
+
+```{r}
+#| label: title-wordcloud
+#| eval: false
+#| echo: false
+
+rladies_wc(rladies_events, title) +
+  labs(
+    title = "Most common words in R-Ladies event titles",
+    caption = "Data from meetup.com via the meetupr package"
+  )
+
+
+```
+
+```{r}
+#| label: desc-wordcloud
+
+rladies_wc(rladies_events, description) +
+  labs(
+    title = "Most common words in R-Ladies event descriptions",
+    caption = "Data from meetup.com via the meetupr package"
+  )
+
 ```
