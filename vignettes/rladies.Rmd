@@ -244,8 +244,6 @@ rladies_wc(rladies_events, title) +
     title = "Most common words in R-Ladies event titles",
     caption = "Data from meetup.com via the meetupr package"
   )
-
-
 ```
 
 ```{r}
@@ -256,5 +254,4 @@ rladies_wc(rladies_events, description) +
     title = "Most common words in R-Ladies event descriptions",
     caption = "Data from meetup.com via the meetupr package"
   )
-
 ```

@@ -1,0 +1,8 @@
+linters: linters_with_defaults(
+    object_usage_linter = NULL,
+    defaults = default_linters
+    )
+encoding: "UTF-8"
+exclusions: list(
+    "vignettes/rladies.Rmd"
+    )
