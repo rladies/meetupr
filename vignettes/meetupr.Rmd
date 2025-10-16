@@ -48,7 +48,7 @@ This function will show you:
 
 Authentication is required to access the Meetup API.
 When you first install and load the `meetupr` package, you can use built-in credentials for basic access.
-You authenticate by running `meetup_auth()`, (or any querying functino) which opens a browser window for OAuth login.
+You authenticate by running `meetup_auth()`, (or any querying function) which opens a browser window for OAuth login.
 You provide consent for the app to use your Meetup account to retrieve data.
 
 meetupr supports two authentication methods:
@@ -211,5 +211,4 @@ Error: Authentication required
 
 ## Next Steps
 
-- **For R-Ladies chapter management**: See [R-Ladies vignette](rladies.html)  
 - **For custom GraphQL queries**: See [GraphQL vignette](graphql.html)`

@@ -93,7 +93,7 @@ pro_events <- get_pro_events("rladies", max_results = 10)
 
 ## Contributing
 
-We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md)
+We welcome contributions! Please see [.github/CONTRIBUTING.md](CONTRIBUTING.md)
 for guidelines.
 
 ## Code of Conduct
