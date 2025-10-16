@@ -62,7 +62,11 @@ get_template_path <- function(.file) {
 read_template <- function(file_path) {
   tryCatch(
     {
-      readChar(file_path, file.info(file_path)$size)
+      content <- readChar(
+        file_path,
+        file.info(file_path)$size
+      )
+      gsub("\r", "", content, fixed = TRUE)
     },
     error = function(e) {
       cli::cli_abort("Failed to read GraphQL file: {e$message}")
