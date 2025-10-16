@@ -60,12 +60,46 @@ paste_before_ext <- function(x, p) {
 #' @keywords internal
 uq_filename <- function(file_name) {
   stopifnot(is.character(file_name) && length(file_name) == 1L)
-  if (file.exists(file_name)) {
-    files <- list.files(dirname(file_name), all.files = TRUE, full.names = TRUE)
-    file_name <- paste_before_ext(file_name, 1:1000)
-    file_name <- file_name[!file_name %in% files][1]
+
+  if (!file.exists(file_name)) {
+    return(file_name)
   }
-  file_name
+
+  normalized_path <- normalizePath(
+    file_name,
+    winslash = "/",
+    mustWork = FALSE
+  )
+  dir_path <- dirname(normalized_path)
+
+  existing_files <- normalizePath(
+    list.files(dir_path, all.files = TRUE, full.names = TRUE),
+    winslash = "/",
+    mustWork = FALSE
+  )
+
+  ext <- tools::file_ext(normalized_path)
+  base <- tools::file_path_sans_ext(normalized_path)
+
+  if (nzchar(ext)) {
+    ext_with_dot <- paste0(".", ext)
+    candidates <- paste0(base, seq_len(1000), ext_with_dot)
+  } else {
+    candidates <- paste0(base, seq_len(1000))
+  }
+
+  available <- candidates[!candidates %in% existing_files]
+
+  if (length(available) > 0L) {
+    return(available[1L])
+  }
+
+  if (nzchar(ext)) {
+    return(
+      paste0(base, "1001", ext_with_dot)
+    )
+  }
+  paste0(base, "1001")
 }
 
 #' Process Date-Time Fields in a Data Table
