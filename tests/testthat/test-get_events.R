@@ -10,16 +10,16 @@ test_that("get_events() works with one status", {
 
 test_that("get_event_rsvps gets data correctly", {
   mock_if_no_auth()
+  vcr::local_cassette("get_event_rsvps")
   result <- get_event_rsvps(id = event_id)
   expect_s3_class(result, "tbl_df")
   expect_true(nrow(result) > 0)
 })
 
-
-test_that("get_event_comments() works with one status", {
-  vcr::local_cassette("get_event_comments")
+test_that("get_event_comments() returns empty", {
   expect_warning(
-    comments <- get_event_comments(id = event_id)
+    comments <- get_event_comments(id = event_id),
+    "no longer available"
   )
   expect_s3_class(comments, "data.frame")
   expect_equal(ncol(comments), 7)
