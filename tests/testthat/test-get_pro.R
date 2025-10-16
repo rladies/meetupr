@@ -1,21 +1,26 @@
 test_that("get_pro_groups() works", {
   mock_if_no_auth()
   vcr::local_cassette("get_pro_groups")
-  groups <- get_pro_groups(urlname = "rladies")
+  # Limit results to reduce fixture size
+  groups <- get_pro_groups(urlname = "rladies", max_results = 10)
   expect_s3_class(groups, "data.frame")
-  expect_gt(nrow(groups), 10)
+  expect_gt(nrow(groups), 5)
+  expect_lte(nrow(groups), 10)
 })
 
 test_that("get_pro_events() works", {
   mock_if_no_auth()
   vcr::local_cassette("get_pro_events")
   skip_if_not(is_self_pro(), "Skipping Pro tests")
+  # Limit results to reduce fixture size
   events <- get_pro_events(
     urlname = "rladies",
-    status = "cancelled"
+    status = "cancelled",
+    max_results = 5
   )
   expect_s3_class(events, "data.frame")
-  expect_gt(nrow(events), 5)
+  expect_gt(nrow(events), 0)
+  expect_lte(nrow(events), 5)
 })
 
 test_that("get_pro_events() warns for non-Pro organizers", {
@@ -25,7 +30,8 @@ test_that("get_pro_events() warns for non-Pro organizers", {
     is_self_pro = function() FALSE
   )
   expect_warning(
-    get_pro_events(urlname = "rladies"),
+    # Limit results to reduce fixture size
+    get_pro_events(urlname = "rladies", max_results = 5),
     "The authenticated user must have Pro access"
   )
 })
