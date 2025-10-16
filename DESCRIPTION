@@ -1,6 +1,6 @@
 Type: Package
 Package: meetupr
-Title: Meetup R API
+Title: Access Meetup Data
 Version: 0.3.0
 Authors@R: c(
     person("Athanasia Mo", "Mowinckel", , "a.m.mowinckel@psykologi.uio.no", role = c("aut", "cre"),
@@ -18,10 +18,14 @@ Authors@R: c(
     person("Maëlle", "Salmon", , "maelle.salmon@yahoo.se", role = "ctb",
            comment = c(ORCID = "0000-0002-2815-0399")),
     person("Barret", "Schloerke", , "barret@rstudio.com", role = "ctb",
-           comment = c(ORCID = "0000-0001-9986-114X"))
+           comment = c(ORCID = "0000-0001-9986-114X")),
+    person("R-Ladies Global", role = "cph")
   )
-Description: Provides access to data from <https:www.meetup.com> (see
-    <https:www.meetup.com/meetup_api/> for more information).
+Description: Provides programmatic access to the 'Meetup' GraphQL API 
+    (<https://www.meetup.com/api/schema/>), enabling users to retrieve
+    information about groups, events, and members from 'Meetup' 
+    (<https://www.meetup.com/>). Supports authentication via 'OAuth2' and
+    includes functions for common queries and data manipulation tasks.
 License: MIT + file LICENSE
 Depends:
     R (>= 4.1)
@@ -60,3 +64,5 @@ Config/testthat/parallel: true
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
+URL: https://github.com/rladies/meetupr
+BugReports: https://github.com/rladies/meetupr/issues
