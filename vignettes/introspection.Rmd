@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
   comment = "#>",
   eval = TRUE
 )
+vcr::local_vcr_configure_log()
 
 vcr::setup_knitr(prefix = "introsp-")
 meetupr:::mock_if_no_auth()
