@@ -78,28 +78,33 @@ uq_filename <- function(file_name) {
     mustWork = FALSE
   )
 
-  ext <- tools::file_ext(normalized_path)
+  ext <- ext(normalized_path)
   base <- tools::file_path_sans_ext(normalized_path)
 
-  if (nzchar(ext)) {
-    ext_with_dot <- paste0(".", ext)
-    candidates <- paste0(base, seq_len(1000), ext_with_dot)
-  } else {
-    candidates <- paste0(base, seq_len(1000))
-  }
+  candidates <- paste0(base, seq_len(1000), ext)
 
   available <- candidates[!candidates %in% existing_files]
 
   if (length(available) > 0L) {
     return(available[1L])
   }
+  paste0(base, "1001", ext)
+}
 
-  if (nzchar(ext)) {
-    return(
-      paste0(base, "1001", ext_with_dot)
-    )
+#' Get File Extension with Leading Dot
+#' This function returns the file extension of a given file name,
+#' including the leading dot. If the file has no extension,
+#' it returns an empty string.
+#' @param x A character string representing the file name.
+#' @return A character string
+#' @noRd
+#' @keywords internal
+ext <- function(x) {
+  extension <- tools::file_ext(x)
+  if (nzchar(extension)) {
+    return(paste0(".", extension))
   }
-  paste0(base, "1001")
+  ""
 }
 
 #' Process Date-Time Fields in a Data Table

@@ -1,6 +1,43 @@
 template:
   bootstrap: 5
 
+url: https://rladies.org/meetupr
+
+navbar:
+  structure:
+    left: [intro, reference, articles, tutorials, news]
+    right: [search, github]
+  components:
+    articles:
+      text: Tutorials
+      href: articles/index.html
+    news:
+      text: News
+      href: news/index.html
+
+home:
+  sidebar:
+    structure: [links, license, community, citation, authors, dev]
+  links:
+    - text: Logo
+      href: man/figures/logo.png
+
+logo:
+  image: man/figures/logo.png
+  href: https://rladies.org/meetupr
+
+articles:
+  - title: Get Started
+    contents:
+      - meetupr
+  - title: Advanced Topics
+    contents:
+      - graphql
+      - introspection
+  - title: Use Cases
+    contents:
+      - rladies
+
 reference:
   - title: "Authentication"
     desc: "Functions for authenticating and verification"

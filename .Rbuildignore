@@ -15,3 +15,6 @@
 ^LICENSE\.md$
 figure/
 .lintr
+vignettes/rladies*
+vignettes/_vcr/rladies-*
+vignettes/figures/rladies

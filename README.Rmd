@@ -7,19 +7,41 @@ format: gfm
 # meetupr <img src="man/figures/logo.png" align="right" alt="Meetupr hex logo by Zane Dax @StarTrek_Lt" width="138.5" />
 
 <small>Logo by Zane Dax
-[@StarTrek_Lt](https://mobile.twitter.com/startrek_lt)</small>
+[@StarTrek_Lt](https://x.com/startrek_lt)</small>
 
 <!-- badges: start -->
+[![CRAN status](https://www.r-pkg.org/badges/version/meetupr)](https://CRAN.R-project.org/package=meetupr)
+[![meetupr status badge](https://rladies.r-universe.dev/meetupr/badges/version)](https://rladies.r-universe.dev/meetupr)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![R-CMD-check](https://github.com/rladies/meetupr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rladies/meetupr/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/rladies/meetupr/graph/badge.svg)](https://app.codecov.io/gh/rladies/meetupr)
+
 <!-- badges: end -->
 
 R interface to the Meetup GraphQL API
 
 ## Installation
 
-To install the development version from GitHub:
+Install the CRAN version:
+
+```r
+install.packages("meetupr")
+```
+
+To install the development version from R-universe:
+
+```r
+install.packages(
+  'meetupr', 
+  repos = c(
+    'https://rladies.r-universe.dev', 
+    'https://cloud.r-project.org'
+  )
+)
+```
+
+or from GitHub:
 
 ```r
 # install.packages("remotes")
