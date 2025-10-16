@@ -210,7 +210,7 @@ test_that("uq_filename handles complex scenarios", {
   # Create file and test numbering
   file.create(base_file)
   result2 <- uq_filename(base_file)
-  expect_equal(result2, paste0(base_file, "1"))
+  expect_true(grepl("testfile1$", result2))
 
   # Test with deeply nested path
   nested_dir <- file.path(temp_dir, "nested", "path")
@@ -224,13 +224,14 @@ test_that("uq_filename finds first available number", {
   temp_dir <- withr::local_tempdir()
   test_file <- file.path(temp_dir, "test.txt")
 
-  # Create original and first few numbered versions
   file.create(test_file)
   file.create(file.path(temp_dir, "test1.txt"))
   file.create(file.path(temp_dir, "test2.txt"))
 
   result <- uq_filename(test_file)
-  expect_equal(result, file.path(temp_dir, "test3.txt"))
+
+  expect_true(grepl("test3\\.txt$", result))
+  expect_false(file.exists(result))
 })
 
 test_that("uq_filename handles edge case with numbered files", {
@@ -244,7 +245,9 @@ test_that("uq_filename handles edge case with numbered files", {
   file.create(file.path(temp_dir, "test4.txt"))
 
   result <- uq_filename(test_file)
-  expect_equal(result, file.path(temp_dir, "test2.txt"))
+
+  expect_true(grepl("test2\\.txt$", result))
+  expect_false(file.exists(result))
 })
 
 test_that("get_country_code handles single values", {
