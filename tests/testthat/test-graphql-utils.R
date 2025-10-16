@@ -122,7 +122,8 @@ test_that("build_request debug mode outputs JSON", {
     .package = "cli"
   )
 
-  build_request("query { test }", list(var = "value"))
+  result <- build_request("query { test }", list(var = "value"))
+  expect_s3_class(result, "httr2_request")
 })
 
 test_that("build_request debug mode disabled", {
