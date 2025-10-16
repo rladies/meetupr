@@ -17,7 +17,7 @@ get_events(
 }
 \arguments{
 \item{urlname}{Character. The name of the group as indicated in the
-\url{https://meetup.com} url.}
+\url{https://www.meetup.com/} url.}
 
 \item{status}{Character vector of event statuses to retrieve.}
 

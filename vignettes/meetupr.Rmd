@@ -209,23 +209,6 @@ Error: Authentication required
 
 **Solution**: Run `meetup_sitrep()` to diagnose authentication issues.
 
-### Invalid RSA Key
-
-```r
-Error: RSA private key not found
-```
-
-**Solution**: Verify your RSA key format includes header/footer lines and is properly formatted.
-
-### Rate Limiting
-
-```r
-Error: Rate limit exceeded
-```
-
-**Solution**: Implement delays between requests or use caching strategies.
-
-
 ## Next Steps
 
 - **For R-Ladies chapter management**: See [R-Ladies vignette](rladies.html)  

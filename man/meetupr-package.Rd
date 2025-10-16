@@ -4,11 +4,19 @@
 \name{meetupr-package}
 \alias{meetupr}
 \alias{meetupr-package}
-\title{meetupr: Meetup R API}
+\title{meetupr: Access Meetup Data}
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Provides access to data from <https:www.meetup.com> (see <https:www.meetup.com/meetup_api/> for more information).
+Provides programmatic access to the 'Meetup' GraphQL API (\url{https://www.meetup.com/api/schema/}), enabling users to retrieve information about groups, events, and members from 'Meetup' (\url{https://www.meetup.com/}). Supports authentication via 'OAuth2' and includes functions for common queries and data manipulation tasks.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/rladies/meetupr}
+  \item Report bugs at \url{https://github.com/rladies/meetupr/issues}
+}
+
 }
 \author{
 \strong{Maintainer}: Athanasia Mo Mowinckel \email{a.m.mowinckel@psykologi.uio.no} (\href{https://orcid.org/0000-0002-5756-0223}{ORCID})
@@ -31,6 +39,7 @@ Other contributors:
   \item Ben Ubah \email{ubah.ben22@gmail.com} [contributor]
   \item Maëlle Salmon \email{maelle.salmon@yahoo.se} (\href{https://orcid.org/0000-0002-2815-0399}{ORCID}) [contributor]
   \item Barret Schloerke \email{barret@rstudio.com} (\href{https://orcid.org/0000-0001-9986-114X}{ORCID}) [contributor]
+  \item R-Ladies Global [copyright holder]
 }
 
 }

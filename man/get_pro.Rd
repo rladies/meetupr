@@ -28,7 +28,7 @@ get_pro_events(
 }
 \arguments{
 \item{urlname}{Character. The name of the group as indicated in the
-\url{https://meetup.com} url.}
+\url{https://www.meetup.com/} url.}
 
 \item{max_results}{Maximum number of results to return. If set to NULL,
 will return all available results (may take a long time).}
