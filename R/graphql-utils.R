@@ -66,7 +66,7 @@ read_template <- function(file_path) {
         file_path,
         file.info(file_path)$size
       )
-      gsub("\r", "", content, fixed = TRUE)
+      gsub("\r", "", content)
     },
     error = function(e) {
       cli::cli_abort("Failed to read GraphQL file: {e$message}")
