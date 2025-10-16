@@ -45,8 +45,8 @@
 * Added `find_groups()` function to get list of groups using text-based search.
 * Added short vignette to demonstrate the use of the new `find_groups()` function.
 * Added `...` option to `.quick_fetch()` and `.fetch_results()` (in `internals.R`) to use any parameter in the `GET` request. 
-* Removed `LazyData = TRUE` from DESCRIPTION file (this is not needed becasue there is no dataset shipped within the package).
-* Added `.get_api_key()` internal function which is used inside `.fetch_results()` so now if `api_key = NULL` it will automatically populate that variable with the `MEETUP_KEY` environemnt variable, if available.
+* Removed `LazyData = TRUE` from DESCRIPTION file (this is not needed because there is no dataset shipped within the package).
+* Added `.get_api_key()` internal function which is used inside `.fetch_results()` so now if `api_key = NULL` it will automatically populate that variable with the `MEETUP_KEY` environment variable, if available.
 * Added a printout of how many results are returned for a query so users will understand why it's taking a while for the function to finish executing.
 * Renamed `api_params` to `api_method` in internal function, `.fetch_results()`, since that's the official name for what that argument represents.
 * Added several new columns to the `get_group_members()` result tibble (e.g. bio, city, country, lat, lon, etc)
