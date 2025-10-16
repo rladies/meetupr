@@ -192,6 +192,28 @@ test_that("read_template fails when file read error occurs", {
   )
 })
 
+test_that("read_template strips end-of-line", {
+  temp_file <- withr::local_tempfile(fileext = ".graphql")
+
+  query_with_cr <- "query GetEvent($id: ID!) {\r\n
+    event(id: $id) {\r\n
+      id\r\n
+      title\r\n
+    }\r\n}"
+
+  writeChar(
+    query_with_cr,
+    temp_file,
+    eos = NULL
+  )
+
+  result <- read_template(temp_file)
+
+  # Should have Unix line endings only
+  expect_false(grepl("\r", result))
+  expect_match(result, "query GetEvent")
+})
+
 test_that("insert_extra_graphql handles all code paths", {
   base_query <- "query { test << extra_graphql >> }"
 
