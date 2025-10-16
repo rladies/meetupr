@@ -250,6 +250,28 @@ test_that("uq_filename handles edge case with numbered files", {
   expect_false(file.exists(result))
 })
 
+test_that("uq_filename handles exhausted candidates", {
+  temp_dir <- withr::local_tempdir()
+  test_file <- file.path(temp_dir, "test.txt")
+
+  # Create original file
+  file.create(test_file)
+
+  # Create all 1000 numbered candidates to force fallback
+  for (i in seq_len(1000)) {
+    file.create(file.path(
+      temp_dir,
+      paste0("test", i, ".txt")
+    ))
+  }
+
+  result <- uq_filename(test_file)
+
+  # Should return the 1001st candidate as fallback
+  expect_true(grepl("test1001\\.txt$", result))
+  expect_false(file.exists(result))
+})
+
 test_that("get_country_code handles single values", {
   local_mocked_bindings(
     country_code = function(x) {

@@ -1,13 +1,16 @@
 test_that("get_group_members() works with one status", {
   mock_if_no_auth()
   vcr::local_cassette("get_group_members")
-  members <- get_group_members("rladies-lagos")
+  # Limit to 20 members to reduce fixture size
+  members <- get_group_members("rladies-lagos", max_results = 20)
   expect_s3_class(members, "data.frame")
+  expect_lte(nrow(members), 20)
 })
 
 test_that("get_group_members validates rlang", {
   expect_error(get_group_members("valid_url", extra_parameter = "unexpected"))
 })
+
 
 test_that("get_group returns valid data", {
   vcr::local_cassette("get_group")
