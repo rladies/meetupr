@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
   comment = "#>",
   eval = TRUE
 )
-vcr::local_vcr_configure_log()
+vcr::vcr_configure_log()
 vcr::setup_knitr(prefix = "graphql-")
 meetupr:::mock_if_no_auth()
 Sys.setenv(MEETUPR_DEBUG = "")
