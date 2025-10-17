@@ -78,7 +78,7 @@ For automated workflows, you can set up token-based authentication:
 
 ```r
 meetup_auth()
-meetup_auth_setup_ci()
+meetup_ci_setup()
 ```
 
 This encodes your token as base64 and provides instructions for setting CI secrets.
@@ -86,29 +86,46 @@ It will also store this information using the [keyring](https://keyring.r-lib.or
 
 #### 2. Set environment variables in your CI
 
-- `MEETUP_TOKEN` - Base64-encoded token (from step 1)  
-- `MEETUP_TOKEN_FILE` - Token filename (e.g., `ae743e0-token.rds.enc`)  
+- `meetupr:token` - Base64-encoded token (from step 1)  
+- `meetupr:token_file` - Token filename (e.g., `ae743e0-token.rds.enc`)  
 
 #### 3. Token loads automatically in CI
 
 To make the authentication work in CI/CD pipelines, add this line before running any API calls:
 
 ```r
-meetup_auth_load_ci()
+meetup_ci_load()
 ```
 
 ## Variables Reference
 
+### Keyring Credentials
+
+When using keyring (either locally or in CI), credentials follow the format `service:username`:
+
+| Keyring Key | Required | Purpose |
+|-------------|----------|---------|
+| `meetupr:client_id` | No* | OAuth client ID |
+| `meetupr:client_secret` | No* | OAuth client secret |
+| `meetupr:token` | for CI | Base64-encoded OAuth token |
+| `meetupr:token_file` | for CI | Token filename |
+
+\* Built-in credentials are used if not provided
+
+### Environment Variables
+
 | Variable | Required | Purpose |
 |----------|----------|---------|
-| `MEETUP_CLIENT_ID` | No* | OAuth client ID |
-| `MEETUP_CLIENT_SECRET` | No* | OAuth client secret |
 | `MEETUP_CLIENT_NAME` | No | OAuth client name (default: "meetupr") |
-| `MEETUP_TOKEN` | for CI | Base64-encoded OAuth token |
-| `MEETUP_TOKEN_FILE` | for CI | Token filename |
 | `MEETUPR_DEBUG` | No | Enable debug output ("1" = on) |
 
-\* Built-in credentials are used if not provided, and Meetup clients are only available for approved apps from Pro (paid) accounts.
+**Note for GitHub Actions**: When setting keyring credentials as environment variables in YAML, quote the names:
+
+```yaml
+env:
+  "meetupr:token": ${{ secrets.meetupr_token }}
+  "meetupr:token_file": ${{ secrets.meetupr_token_file }}
+```
 
 ### Setting Credentials using Keyring
 

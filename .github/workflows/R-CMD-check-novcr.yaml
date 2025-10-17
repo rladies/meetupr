@@ -21,8 +21,8 @@ jobs:
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       R_KEEP_PKG_SOURCE: yes
-      MEETUP_TOKEN: ${{ secrets.MEETUP_TOKEN }}
-      MEETUP_TOKEN_FILE: ${{ secrets.MEETUP_TOKEN_FILE }}
+      "meetupr:token": ${{ secrets.meetupr_token }}
+      "meetupr:token_file": ${{ secrets.meetupr_token_file }}
       VCR_TURN_OFF: true
 
     steps:

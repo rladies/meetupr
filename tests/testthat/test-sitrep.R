@@ -148,8 +148,8 @@ test_that("show_config_item handles empty string value", {
 
 test_that("meetup_sitrep runs with OAuth active", {
   withr::local_envvar(
-    MEETUP_CLIENT_ID = "test_client",
-    MEETUP_CLIENT_SECRET = "test_secret",
+    `meetup:client_id` = "test_client",
+    `meetup:client_secret` = "test_secret",
     MEETUPR_DEBUG = ""
   )
 
@@ -165,18 +165,22 @@ test_that("meetup_sitrep runs with OAuth active", {
   expect_true(result$oauth$available)
 })
 
-
 test_that("check_auth_methods detects CI mode", {
   withr::local_envvar(
-    MEETUP_TOKEN = "encoded_token",
-    MEETUP_TOKEN_FILE = "token.rds.enc",
-    MEETUP_CLIENT_ID = "test_client",
-    MEETUP_CLIENT_SECRET = "test_secret"
+    `meetupr:token` = "encoded_token",
+    `meetupr:token_file` = "token.rds.enc",
+    `meetup:client_id` = "test_client",
+    `meetup:client_secret` = "test_secret"
   )
 
   local_mocked_bindings(
     meetup_auth_status = function(...) TRUE,
     token_path = function(...) "/fake/token.rds.enc"
+  )
+
+  local_mocked_bindings(
+    has_keyring_support = function() FALSE,
+    .package = "keyring"
   )
 
   result <- check_auth_methods()
@@ -306,8 +310,8 @@ test_that("test_api_connectivity skips for not authenticated", {
 
 test_that("meetup_sitrep runs with OAuth active", {
   withr::local_envvar(
-    MEETUP_CLIENT_ID = "test_client",
-    MEETUP_CLIENT_SECRET = "test_secret",
+    `meetup:client_id` = "test_client",
+    `meetup:client_secret` = "test_secret",
     MEETUPR_DEBUG = ""
   )
 

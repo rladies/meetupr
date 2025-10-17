@@ -4,11 +4,25 @@
 \alias{meetup_keys}
 \alias{meetup_key_set}
 \alias{meetup_key_get}
+\alias{meetup_key_delete}
 \title{Manage API keys in system keyring}
 \usage{
-meetup_key_set(key = "token", value = NULL)
+meetup_key_set(
+  key,
+  value,
+  client_name = Sys.getenv("MEETUP_CLIENT_NAME", "meetupr")
+)
 
-meetup_key_get(key = "token", error = TRUE)
+meetup_key_get(
+  key,
+  client_name = Sys.getenv("MEETUP_CLIENT_NAME", "meetupr"),
+  error = TRUE
+)
+
+meetup_key_delete(
+  key,
+  client_name = Sys.getenv("MEETUP_CLIENT_NAME", "meetupr")
+)
 }
 \arguments{
 \item{key}{Character string indicating the key name to store/retrieve.
@@ -17,7 +31,11 @@ Default is \code{"token"}. Valid options are \code{"client_id"}, \code{"client_s
 
 \item{value}{Character string with the value to store. If
 \code{NULL} (default),
-prompts for interactive input via \code{readline()}.}
+prompts for interactive input.}
+
+\item{client_name}{A string representing the name of the client. By
+default, it is set to \code{"meetupr"} and retrieved from the
+\code{MEETUP_CLIENT_NAME} environment variable.}
 
 \item{error}{Logical. If \code{TRUE} (default), raises an
 error when key not found.
@@ -40,6 +58,8 @@ for the meetupr package.
 \item \code{meetup_key_set()}: Store a key in the system keyring
 
 \item \code{meetup_key_get()}: Retrieve a key from the system keyring
+
+\item \code{meetup_key_delete()}: Delete a key in the system keyring
 
 }}
 \examples{

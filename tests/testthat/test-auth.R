@@ -18,10 +18,10 @@ test_that("meetup_client returns a valid oauth client", {
   expect_equal(client$name, "test_client")
 })
 
-test_that("meetup_client defaults built ins", {
+test_that("meetup_client defaults built-ins", {
   client <- meetup_client()
-  expect_equal(client$id, meetup_builtin_key)
-  expect_equal(client$secret, meetup_builtin_secret)
+  expect_equal(client$id, .meetupr_client$id)
+  expect_equal(client$secret, .meetupr_client$secret)
 })
 
 test_that("token_path finds token", {
@@ -136,13 +136,15 @@ test_that("meetup_auth_status silent mode suppresses messages", {
 
 test_that("meetup_client uses built-in credentials when env vars empty", {
   withr::local_envvar(
-    MEETUP_CLIENT_ID = "",
-    MEETUP_CLIENT_SECRET = ""
+    `meetup:client_id` = "",
+    `meetup:client_secret` = ""
   )
 
   local_mocked_bindings(
-    meetup_builtin_key = "builtin_key",
-    meetup_builtin_secret = "builtin_secret"
+    .meetupr_client = list(
+      id = "builtin_key",
+      secret = "builtin_secret"
+    )
   )
 
   client <- meetup_client()
@@ -150,7 +152,7 @@ test_that("meetup_client uses built-in credentials when env vars empty", {
   expect_s3_class(client, "httr2_oauth_client")
 })
 
-test_that("meetup_auth_setup_ci encodes token successfully", {
+test_that("meetup_ci_setup encodes token successfully", {
   temp_dir <- withr::local_tempdir()
   temp_token <- file.path(temp_dir, "token.rds.enc")
   writeBin(charToRaw("test_token_data"), temp_token)
@@ -160,13 +162,13 @@ test_that("meetup_auth_setup_ci encodes token successfully", {
     token_path = function(...) temp_token
   )
 
-  result <- meetup_auth_setup_ci()
+  result <- meetup_ci_setup()
 
   expect_type(result, "character")
   expect_gt(nchar(result), 0)
 })
 
-test_that("meetup_auth_setup_ci copies to clipboard when available", {
+test_that("meetup_ci_setup copies to clipboard when available", {
   temp_dir <- withr::local_tempdir()
   temp_token <- file.path(temp_dir, "token.rds.enc")
   writeBin(charToRaw("test_token_data"), temp_token)
@@ -195,20 +197,20 @@ test_that("meetup_auth_setup_ci copies to clipboard when available", {
     )
   })
 
-  result <- meetup_auth_setup_ci()
+  result <- meetup_ci_setup()
 
   expect_true(clipboard_called)
 })
 
-test_that("meetup_auth_load_ci decodes and saves token successfully", {
+test_that("meetup_ci_load decodes and saves token successfully", {
   temp_dir <- withr::local_tempdir()
 
   test_token <- "test_token_content"
   encoded <- base64enc::base64encode(charToRaw(test_token))
 
   withr::local_envvar(
-    MEETUP_TOKEN = encoded,
-    MEETUP_TOKEN_FILE = "token.rds.enc"
+    `meetupr:token` = encoded,
+    `meetupr:token_file` = "token.rds.enc"
   )
 
   local_mocked_bindings(
@@ -216,7 +218,7 @@ test_that("meetup_auth_load_ci decodes and saves token successfully", {
     .package = "httr2"
   )
   expect_message(
-    result <- meetup_auth_load_ci(client_name = "test_client"),
+    result <- meetup_ci_load(client_name = "test_client"),
     "Token loaded successfully"
   )
   expect_true(result)
@@ -224,15 +226,15 @@ test_that("meetup_auth_load_ci decodes and saves token successfully", {
 
 test_that("meetup_client falls back to builtin when keyring fails", {
   local_mocked_bindings(
-    key_get = function(...) stop("No key found"),
-    .package = "keyring"
+    meetup_key_get = function(...) stop("No key found")
   )
 
   client <- meetup_client()
 
-  expect_equal(client$id, meetup_builtin_key)
-  expect_equal(client$secret, meetup_builtin_secret)
+  expect_equal(client$id, .meetupr_client$id)
+  expect_equal(client$secret, .meetupr_client$secret)
 })
+
 test_that("meetup_deauth skips keyring when clear_keyring is FALSE", {
   temp_dir <- withr::local_tempdir()
   cache_path <- file.path(temp_dir, "meetupr")
@@ -371,7 +373,7 @@ test_that("meetup_deauth clears keyring when requested", {
 
   expect_message(
     meetup_deauth(clear_keyring = TRUE),
-    "Keyring.*MEETUP.*cleared"
+    "Keyring.*cleared"
   )
 })
 

@@ -200,8 +200,8 @@ mock_if_no_auth <- function() {
     return(invisible())
   }
   Sys.setenv(
-    MEETUP_TOKEN = "123456",
-    MEETUP_TOKEN_FILE = "aB3xK9mP2.rds.enc"
+    `meetupr:token` = "123456",
+    `meetupr:token_file` = "aB3xK9mP2.rds.enc"
   )
   invisible()
 }
