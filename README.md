@@ -106,8 +106,8 @@ pro_events <- get_pro_events("rladies", max_results = 10)
 
 ## Contributing
 
-We welcome contributions! Please see
-[https://github.com/rladies/meetupr/.github/CONTRIBUTING.md](contributions%20guidelines).
+We welcome contributions! Please see the [contribution
+guidelines](https://github.com/rladies/meetupr/.github/CONTRIBUTING.md).
 
 ## Code of Conduct
 
