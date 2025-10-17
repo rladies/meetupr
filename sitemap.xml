@@ -1,78 +1,41 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/CONTRIBUTING.html</loc>
-  </url>
-  <url>
-    <loc>/ISSUE_TEMPLATE.html</loc>
-  </url>
-  <url>
-    <loc>/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>/articles/rladies.html</loc>
-  </url>
-  <url>
-    <loc>/articles/setup.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/news/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/find_groups.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_event_attendees.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_event_comments.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_event_rsvps.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_events.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_members.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/is_legit_token.html</loc>
-  </url>
-  <url>
-    <loc>/reference/meetup-auth.html</loc>
-  </url>
-  <url>
-    <loc>/reference/meetup_pro.html</loc>
-  </url>
-  <url>
-    <loc>/reference/meetup_query.html</loc>
-  </url>
-  <url>
-    <loc>/reference/meetupr-package.html</loc>
-  </url>
-  <url>
-    <loc>/reference/meetupr_verbose.html</loc>
-  </url>
-  <url>
-    <loc>/reference/token_available.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>http://rladies.org/meetupr/404.html</loc></url>
+<url><loc>http://rladies.org/meetupr/CONTRIBUTING.html</loc></url>
+<url><loc>http://rladies.org/meetupr/ISSUE_TEMPLATE.html</loc></url>
+<url><loc>http://rladies.org/meetupr/LICENSE-text.html</loc></url>
+<url><loc>http://rladies.org/meetupr/LICENSE.html</loc></url>
+<url><loc>http://rladies.org/meetupr/articles/graphql.html</loc></url>
+<url><loc>http://rladies.org/meetupr/articles/index.html</loc></url>
+<url><loc>http://rladies.org/meetupr/articles/introspection.html</loc></url>
+<url><loc>http://rladies.org/meetupr/articles/meetupr.html</loc></url>
+<url><loc>http://rladies.org/meetupr/articles/rladies.html</loc></url>
+<url><loc>http://rladies.org/meetupr/authors.html</loc></url>
+<url><loc>http://rladies.org/meetupr/index.html</loc></url>
+<url><loc>http://rladies.org/meetupr/news/index.html</loc></url>
+<url><loc>http://rladies.org/meetupr/reference/explore_mutations.html</loc></url>
+<url><loc>http://rladies.org/meetupr/reference/explore_query_fields.html</loc></url>
+<url><loc>http://rladies.org/meetupr/reference/find_groups.html</loc></url>
+<url><loc>http://rladies.org/meetupr/reference/find_topics.html</loc></url>
+<url><loc>http://rladies.org/meetupr/reference/get_event_comments.html</loc></url>
+<url><loc>http://rladies.org/meetupr/reference/get_event_rsvps.html</loc></url>
+<url><loc>http://rladies.org/meetupr/reference/get_events.html</loc></url>
+<url><loc>http://rladies.org/meetupr/reference/get_group.html</loc></url>
+<url><loc>http://rladies.org/meetupr/reference/get_group_members.html</loc></url>
+<url><loc>http://rladies.org/meetupr/reference/get_pro.html</loc></url>
+<url><loc>http://rladies.org/meetupr/reference/get_self.html</loc></url>
+<url><loc>http://rladies.org/meetupr/reference/get_type_fields.html</loc></url>
+<url><loc>http://rladies.org/meetupr/reference/index.html</loc></url>
+<url><loc>http://rladies.org/meetupr/reference/local_meetupr_debug.html</loc></url>
+<url><loc>http://rladies.org/meetupr/reference/meetup_auth.html</loc></url>
+<url><loc>http://rladies.org/meetupr/reference/meetup_auth_status.html</loc></url>
+<url><loc>http://rladies.org/meetupr/reference/meetup_ci.html</loc></url>
+<url><loc>http://rladies.org/meetupr/reference/meetup_client.html</loc></url>
+<url><loc>http://rladies.org/meetupr/reference/meetup_introspect.html</loc></url>
+<url><loc>http://rladies.org/meetupr/reference/meetup_keys.html</loc></url>
+<url><loc>http://rladies.org/meetupr/reference/meetup_query.html</loc></url>
+<url><loc>http://rladies.org/meetupr/reference/meetup_req.html</loc></url>
+<url><loc>http://rladies.org/meetupr/reference/meetup_sitrep.html</loc></url>
+<url><loc>http://rladies.org/meetupr/reference/meetupr-package.html</loc></url>
+<url><loc>http://rladies.org/meetupr/reference/search_types.html</loc></url>
 </urlset>
+
