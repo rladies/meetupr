@@ -13,7 +13,7 @@ Provides programmatic access to the 'Meetup' GraphQL API (\url{https://www.meetu
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/rladies/meetupr}
+  \item \url{https://rladies.org/meetupr}
   \item Report bugs at \url{https://github.com/rladies/meetupr/issues}
 }
 
