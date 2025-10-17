@@ -43,14 +43,14 @@ meetup_client <- function(
   if (is.null(client_id)) {
     client_id <- tryCatch(
       meetup_key_get("client_id"),
-      error = function(e) .meetupr_client$id
+      error = function(e) meetupr_client$id
     )
   }
 
   if (is.null(client_secret)) {
     client_secret <- tryCatch(
       meetup_key_get("client_secret"),
-      error = function(e) .meetupr_client$secret
+      error = function(e) meetupr_client$secret
     )
   }
 

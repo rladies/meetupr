@@ -20,8 +20,8 @@ test_that("meetup_client returns a valid oauth client", {
 
 test_that("meetup_client defaults built-ins", {
   client <- meetup_client()
-  expect_equal(client$id, .meetupr_client$id)
-  expect_equal(client$secret, .meetupr_client$secret)
+  expect_equal(client$id, meetupr_client$id)
+  expect_equal(client$secret, meetupr_client$secret)
 })
 
 test_that("token_path finds token", {
@@ -141,7 +141,7 @@ test_that("meetup_client uses built-in credentials when env vars empty", {
   )
 
   local_mocked_bindings(
-    .meetupr_client = list(
+    meetupr_client = list(
       id = "builtin_key",
       secret = "builtin_secret"
     )
@@ -231,8 +231,8 @@ test_that("meetup_client falls back to builtin when keyring fails", {
 
   client <- meetup_client()
 
-  expect_equal(client$id, .meetupr_client$id)
-  expect_equal(client$secret, .meetupr_client$secret)
+  expect_equal(client$id, meetupr_client$id)
+  expect_equal(client$secret, meetupr_client$secret)
 })
 
 test_that("meetup_deauth skips keyring when clear_keyring is FALSE", {
