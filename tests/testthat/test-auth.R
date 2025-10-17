@@ -366,8 +366,9 @@ test_that("meetup_deauth clears keyring when requested", {
 
   local_mocked_bindings(
     key_delete = function(key, ...) {
-      key
+      TRUE
     },
+    has_keyring_support = function() TRUE,
     .package = "keyring"
   )
 
