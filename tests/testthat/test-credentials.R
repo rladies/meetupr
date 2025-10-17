@@ -88,7 +88,6 @@ test_that("meetup_key_get returns NULL with error = FALSE", {
 })
 
 test_that("meetup_key_delete removes key from keyring", {
-  skip_on_cran()
   deleted <- NULL
 
   mock_backend <- list(

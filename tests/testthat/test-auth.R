@@ -361,11 +361,11 @@ test_that("meetup_deauth clears keyring when requested", {
   )
 
   local_mocked_bindings(
-    key_available = function(key) TRUE
+    key_available = function(key, ...) TRUE
   )
 
   local_mocked_bindings(
-    key_delete = function(key) {
+    key_delete = function(key, ...) {
       key
     },
     .package = "keyring"
@@ -373,7 +373,7 @@ test_that("meetup_deauth clears keyring when requested", {
 
   expect_message(
     meetup_deauth(clear_keyring = TRUE),
-    "Keyring.*cleared"
+    "removed from keyring"
   )
 })
 
@@ -389,7 +389,7 @@ test_that("meetup_deauth skips unavailable keys", {
     .package = "httr2"
   )
   local_mocked_bindings(
-    key_available = function(key) {
+    key_available = function(key, ...) {
       FALSE
     }
   )

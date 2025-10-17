@@ -324,14 +324,15 @@ has_auth <- function(
 #' @template client_name
 #' @param clear_keyring A logical value indicating whether to clear
 #' the associated keyring entries. Defaults to `TRUE`.
-#' @param service The name of the keyring service to clear.
-#' Defaults to `"meetupr"`.
+#' @template client_name
 #' @param ... Additional arguments to `meetup_client()`.
 #' @return Nothing. Outputs messages indicating the result of the
 #' process.
 #'
 #' @examples
 #' \dontrun{
+#' meetup_auth()
+#'
 #' # Default deauthorization
 #' meetup_deauth()
 #'
@@ -370,7 +371,6 @@ meetup_deauth <- function(
     "MEETUP_CLIENT_NAME",
     "meetupr"
   ),
-  service = "meetupr",
   clear_keyring = TRUE
 ) {
   cache_path <- file.path(
@@ -385,8 +385,16 @@ meetup_deauth <- function(
     cli::cli_alert_info("No authentication cache to remove")
   }
 
-  if (clear_keyring) {
-    keyring::key_delete(service)
-    cli::cli_alert_success("Keyring {.val {service}} cleared")
+  if (clear_keyring && keyring::has_keyring_support()) {
+    if (clear_keyring) {
+      sapply(c("token", "token_file"), function(key) {
+        if (key_available(key, client_name = client_name)) {
+          meetup_key_delete(key, client_name = client_name)
+          cli::cli_alert_success(
+            "Key {.val {key}} removed from keyring {.val {client_name}}"
+          )
+        }
+      })
+    }
   }
 }

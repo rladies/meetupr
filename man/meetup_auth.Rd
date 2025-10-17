@@ -9,7 +9,6 @@ meetup_auth(...)
 
 meetup_deauth(
   client_name = Sys.getenv("MEETUP_CLIENT_NAME", "meetupr"),
-  service = "meetupr",
   clear_keyring = TRUE
 )
 }
@@ -19,9 +18,6 @@ meetup_deauth(
 \item{client_name}{A string representing the name of the client. By
 default, it is set to \code{"meetupr"} and retrieved from the
 \code{MEETUP_CLIENT_NAME} environment variable.}
-
-\item{service}{The name of the keyring service to clear.
-Defaults to \code{"meetupr"}.}
 
 \item{clear_keyring}{A logical value indicating whether to clear
 the associated keyring entries. Defaults to \code{TRUE}.}
@@ -46,6 +42,8 @@ for the Meetup API client.
 }}
 \examples{
 \dontrun{
+meetup_auth()
+
 # Default deauthorization
 meetup_deauth()
 
