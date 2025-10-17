@@ -48,8 +48,10 @@ credentials in the CI environment.
 \code{meetup_load_ci()} requires the following to be stored in the keyring
 (typically populated from environment variables in CI):
 \itemize{
-\item \code{token}: The base64-encoded token string (service: "meetupr", username: "token")
-\item \code{token_file}: The name of the token file (service: "meetupr", username: "token_file")
+\item \code{token}: The base64-encoded token string
+(service: "meetupr", username: "token")
+\item \code{token_file}: The name of the token file
+(service: "meetupr", username: "token_file")
 }
 
 The decoded token is saved in the OAuth cache directory at:

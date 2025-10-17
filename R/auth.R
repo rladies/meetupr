@@ -93,8 +93,10 @@ meetup_client <- function(
 #'
 #' `meetup_load_ci()` requires the following to be stored in the keyring
 #' (typically populated from environment variables in CI):
-#' - `token`: The base64-encoded token string (service: "meetupr", username: "token")
-#' - `token_file`: The name of the token file (service: "meetupr", username: "token_file")
+#' - `token`: The base64-encoded token string
+#'   (service: "meetupr", username: "token")
+#' - `token_file`: The name of the token file
+#'   (service: "meetupr", username: "token_file")
 #'
 #' The decoded token is saved in the OAuth cache directory at:
 #' `{oauth_cache_path}/{client_name}/{token_file}`
