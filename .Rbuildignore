@@ -18,3 +18,5 @@ figure/
 vignettes/rladies*
 vignettes/_vcr/rladies-*
 vignettes/figures/rladies
+^CRAN-SUBMISSION$
+data-raw/

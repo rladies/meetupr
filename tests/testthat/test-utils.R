@@ -345,14 +345,14 @@ test_that("mock_if_no_auth sets environment variables when needed", {
   )
 
   withr::local_envvar(c(
-    MEETUP_TOKEN = "",
-    MEETUP_TOKEN_FILE = ""
+    `meetupr:token` = "",
+    `meetupr:token_file` = ""
   ))
 
   mock_if_no_auth()
 
-  expect_equal(Sys.getenv("MEETUP_TOKEN"), "123456")
-  expect_equal(Sys.getenv("MEETUP_TOKEN_FILE"), "aB3xK9mP2.rds.enc")
+  expect_equal(Sys.getenv("meetupr:token"), "123456")
+  expect_equal(Sys.getenv("meetupr:token_file"), "aB3xK9mP2.rds.enc")
 })
 
 test_that("mock_if_no_auth does nothing when credentials exist", {
@@ -361,17 +361,17 @@ test_that("mock_if_no_auth does nothing when credentials exist", {
   )
 
   withr::local_envvar(c(
-    MEETUP_CLIENT_ID = "existing_id",
-    MEETUP_CLIENT_SECRET = "existing_secret"
+    `meetup:client_id` = "existing_id",
+    `meetup:client_secret` = "existing_secret"
   ))
 
-  original_id <- Sys.getenv("MEETUP_CLIENT_ID")
-  original_secret <- Sys.getenv("MEETUP_CLIENT_SECRET")
+  original_id <- Sys.getenv("meetup:client_id")
+  original_secret <- Sys.getenv("meetup:client_secret")
 
   result <- mock_if_no_auth()
 
-  expect_equal(Sys.getenv("MEETUP_CLIENT_ID"), original_id)
-  expect_equal(Sys.getenv("MEETUP_CLIENT_SECRET"), original_secret)
+  expect_equal(Sys.getenv("meetup:client_id"), original_id)
+  expect_equal(Sys.getenv("meetup:client_secret"), original_secret)
 })
 
 test_that("local_meetupr_debug sets and resets debug level", {

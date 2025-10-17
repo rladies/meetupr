@@ -13,10 +13,10 @@ meetup_client(
 }
 \arguments{
 \item{client_id}{A string representing the Meetup client ID. By default,
-it is retrieved from the \code{MEETUP_CLIENT_ID} environment variable.}
+it is retrieved from the \code{meetup:client_id} environment variable.}
 
 \item{client_secret}{A string representing the Meetup client secret. By
-default, it is retrieved from the \code{MEETUP_CLIENT_SECRET} environment
+default, it is retrieved from the \code{meetup:client_secret} environment
 variable.}
 
 \item{client_name}{A string representing the name of the client. By
@@ -37,8 +37,8 @@ can be passed as arguments or retrieved from environment variables.
 }
 \details{
 If the \code{client_id} or \code{client_secret} parameters are empty, the function
-will throw an error prompting you to set the \code{MEETUP_CLIENT_ID} and
-\code{MEETUP_CLIENT_SECRET} environment variables.
+will throw an error prompting you to set the \code{meetup:client_id} and
+\code{meetup:client_secret} environment variables.
 }
 \examples{
 \dontrun{

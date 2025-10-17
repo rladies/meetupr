@@ -9,7 +9,8 @@
 #'   `"token"`, and `"token_file"`.
 #' @param value Character string with the value to store. If
 #'   `NULL` (default),
-#'   prompts for interactive input via `readline()`.
+#'   prompts for interactive input.
+#' @template client_name
 #' @param error Logical. If `TRUE` (default), raises an
 #'    error when key not found.
 #'   If `FALSE`, returns `NULL`.
@@ -30,36 +31,81 @@
 #' @name meetup_keys
 NULL
 
+#' Get appropriate keyring backend
+#' @keywords internal
+#' @noRd
+get_keyring_backend <- function() {
+  tryCatch(
+    {
+      if (keyring::has_keyring_support()) {
+        return(keyring::default_backend())
+      }
+      keyring::backend_env$new()
+    },
+    error = function(e) {
+      keyring::backend_env$new()
+    }
+  )
+}
+
 #' @describeIn meetup_keys Store a key in the system keyring
 #' @export
-meetup_key_set <- function(key = "token", value = NULL) {
+meetup_key_set <- function(
+  key,
+  value,
+  client_name = Sys.getenv("MEETUP_CLIENT_NAME", "meetupr")
+) {
   key <- key_name(key)
 
-  if (is.null(value)) {
-    value <- get_input(key)
-  }
-
-  keyring::key_set_with_value(service = key, password = value)
-
-  cli::cli_alert_success("Credentials for {.val {key}} stored securely")
-  invisible(TRUE)
+  backend <- get_keyring_backend()
+  backend$set_with_value(
+    service = client_name,
+    username = key,
+    password = value
+  )
 }
 
 #' @describeIn meetup_keys Retrieve a key from the system keyring
 #' @export
-meetup_key_get <- function(key = "token", error = TRUE) {
+meetup_key_get <- function(
+  key,
+  client_name = Sys.getenv("MEETUP_CLIENT_NAME", "meetupr"),
+  error = TRUE
+) {
+  backend <- get_keyring_backend()
   key <- key_name(key)
+
   tryCatch(
-    keyring::key_get(key),
+    backend$get(
+      service = client_name,
+      username = key
+    ),
     error = function(e) {
       if (error) {
-        cli::cli_abort("Key {.val {key}} not found in keyring")
-      } else {
-        NULL
+        cli::cli_abort("Key {.val {key}} not found")
       }
     }
   )
 }
+
+#' @describeIn meetup_keys Delete a key in the system keyring
+#' @export
+meetup_key_delete <- function(
+  key,
+  client_name = Sys.getenv("MEETUP_CLIENT_NAME", "meetupr")
+) {
+  backend <- get_keyring_backend()
+  key <- key_name(key)
+
+  tryCatch(
+    backend$delete(
+      service = client_name,
+      username = key
+    ),
+    error = function(e) invisible(NULL)
+  )
+}
+
 
 #' Create standardized key names
 #'
@@ -72,13 +118,11 @@ meetup_key_get <- function(key = "token", error = TRUE) {
 #' @keywords internal
 #' @noRd
 key_name <- function(key = "token") {
-  key <- match.arg(
+  match.arg(
     key,
     c("client_id", "client_secret", "token", "token_file"),
     several.ok = FALSE
   )
-  paste0("meetup_", key) |>
-    toupper()
 }
 
 #' Prompt user for input
@@ -100,9 +144,7 @@ get_input <- function(key) {
 #' The function returns the path to the found token file.
 #' @param pattern A regex pattern to match the token file name.
 #' Defaults to ".rds.enc$".
-#' @param client_name The name of the OAuth client.
-#' Defaults to the value of the "MEETUP_CLIENT_NAME"
-#' environment variable or "meetupr" if not set.
+#' @template client_name
 #' @keywords internal
 #' @noRd
 token_path <- function(
@@ -141,7 +183,18 @@ token_path <- function(
 #' Check if a Key is Available in the Keyring
 #' @keywords internal
 #' @noRd
-key_available <- function(key) {
-  available <- keyring::key_list(key)
-  nrow(available) > 0
+key_available <- function(
+  key,
+  client_name = Sys.getenv("MEETUP_CLIENT_NAME", "meetupr")
+) {
+  key_name_val <- key_name(key)
+  tryCatch(
+    {
+      available <- keyring::key_list(client_name)
+      any(available$username == key_name_val)
+    },
+    error = function(e) {
+      FALSE
+    }
+  )
 }

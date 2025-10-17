@@ -18,8 +18,8 @@ test_that("meetup_req handles OAuth authentication", {
   mock_if_no_auth()
   withr::local_envvar(c(
     MEETUP_AUTH_METHOD = "oauth",
-    MEETUP_CLIENT_ID = "client_id",
-    MEETUP_CLIENT_SECRET = "client_secret"
+    `meetup:client_id` = "client_id",
+    `meetup:client_secret` = "client_secret"
   ))
   req <- meetup_req(cache = FALSE)
   expect_equal(
@@ -78,8 +78,8 @@ test_that("meetup_req error handler handles unknown errors", {
 test_that("meetup_req uses OAuth when method is oauth", {
   withr::local_envvar(
     MEETUP_AUTH_METHOD = "oauth",
-    MEETUP_CLIENT_ID = "test_client",
-    MEETUP_CLIENT_SECRET = "test_secret"
+    `meetup:client_id` = "test_client",
+    `meetup:client_secret` = "test_secret"
   )
 
   mock_client <- structure(

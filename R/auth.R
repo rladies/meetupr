@@ -5,9 +5,9 @@
 #' can be passed as arguments or retrieved from environment variables.
 #'
 #' @param client_id A string representing the Meetup client ID. By default,
-#'   it is retrieved from the `MEETUP_CLIENT_ID` environment variable.
+#'   it is retrieved from the `meetup:client_id` environment variable.
 #' @param client_secret A string representing the Meetup client secret. By
-#'   default, it is retrieved from the `MEETUP_CLIENT_SECRET` environment
+#'   default, it is retrieved from the `meetup:client_secret` environment
 #'   variable.
 #' @template client_name
 #' @param ... Additional arguments passed to the `httr2::oauth_client` function.
@@ -30,8 +30,8 @@
 #'
 #' @details
 #' If the `client_id` or `client_secret` parameters are empty, the function
-#' will throw an error prompting you to set the `MEETUP_CLIENT_ID` and
-#' `MEETUP_CLIENT_SECRET` environment variables.
+#' will throw an error prompting you to set the `meetup:client_id` and
+#' `meetup:client_secret` environment variables.
 #'
 #' @export
 meetup_client <- function(
@@ -43,14 +43,14 @@ meetup_client <- function(
   if (is.null(client_id)) {
     client_id <- tryCatch(
       meetup_key_get("client_id"),
-      error = function(e) meetup_builtin_key
+      error = function(e) .meetupr_client$id
     )
   }
 
   if (is.null(client_secret)) {
     client_secret <- tryCatch(
       meetup_key_get("client_secret"),
-      error = function(e) meetup_builtin_secret
+      error = function(e) .meetupr_client$secret
     )
   }
 
@@ -63,47 +63,75 @@ meetup_client <- function(
   )
 }
 
-#' Setup Meetup Authentication for CI Environments
+#' Meetup API CI Authentication
 #'
-#' This function guides the user through setting up Meetup API authentication
-#' for use in non-interactive Continuous Integration (CI) environments. It
-#' encodes the existing authentication token as a base64 string and provides
-#' instructions for storing it securely as environment variables in a CI
-#' pipeline.
+#' Functions to manage Meetup API authentication in Continuous Integration (CI)
+#' environments. `meetup_setup_ci()` prepares authentication credentials for CI
+#' use by encoding tokens, while `meetup_load_ci()` loads and decodes those
+#' credentials in the CI environment.
 #'
 #' @template client_name
 #'
-#' @return The encoded base64 authentication token as a character string.
-#'   Returns invisibly.
+#' @return
+#' - `meetup_setup_ci()`: Returns the encoded base64 authentication token
+#'   invisibly.
+#' - `meetup_load_ci()`: Returns `TRUE` invisibly if the token was successfully
+#'   loaded.
 #'
-#' @details The function performs the following steps:
-#'   - Checks if the user has authenticated with the Meetup API. If not,
-#'     it prompts the user to authenticate interactively.
-#'   - Reads the existing token file from the OAuth cache directory.
-#'   - Encodes the token file contents into a base64 string.
-#'   - Provides guidance to the user for storing the
-#' base64 token (`MEETUP_TOKEN`)
-#'     and token file name (`MEETUP_TOKEN_FILE`) as environment variables.
-#'   - Copies the encoded token to the clipboard (if the `clipr` package is
-#'     installed and the clipboard is available).
-#'   - Displays example YAML configuration snippets for use in GitHub Actions.
+#' @details
+#' ## Setting up CI Authentication
+#'
+#' `meetup_setup_ci()` performs the following steps:
+#' - Checks if the user has authenticated with the Meetup API
+#' - Reads the existing token file from the OAuth cache directory
+#' - Encodes the token file contents into a base64 string
+#' - Stores credentials in the keyring with service name "meetupr"
+#' - Provides guidance for setting environment variables in CI
+#' - Copies the encoded token to the clipboard (if available)
+#'
+#' ## Loading CI Authentication
+#'
+#' `meetup_load_ci()` requires the following to be stored in the keyring
+#' (typically populated from environment variables in CI):
+#' - `token`: The base64-encoded token string (service: "meetupr", username: "token")
+#' - `token_file`: The name of the token file (service: "meetupr", username: "token_file")
+#'
+#' The decoded token is saved in the OAuth cache directory at:
+#' `{oauth_cache_path}/{client_name}/{token_file}`
+#'
+#' ## Environment Variables for CI
+#'
+#' When using the environment backend (automatically selected when keyring
+#' support is unavailable, such as on CRAN or headless CI systems), credentials
+#' are stored as:
+#' - `meetupr:token` - The base64-encoded token
+#' - `meetupr:token_file` - The token filename
 #'
 #' @examples
 #' \dontrun{
-#'   # Example usage to set up CI authentication:
-#'   meetup_auth_setup_ci()
+#' # Setup CI authentication (run locally):
+#' meetup_setup_ci()
 #'
-#'   # Custom client name for token directory:
-#'   meetup_auth_setup_ci(client_name = "my_custom_client")
+#' # In your CI pipeline, load the credentials:
+#' meetup_load_ci()
+#'
+#' # Custom client name:
+#' meetup_setup_ci(client_name = "my_custom_client")
+#' meetup_load_ci(client_name = "my_custom_client")
 #' }
 #'
-#' @importFrom base64enc base64encode
+#' @name meetup_ci
+#' @importFrom base64enc base64encode base64decode
 #' @importFrom rlang is_installed
 #' @importFrom clipr clipr_available write_clip
-#' @importFrom cli cli_h1 cli_h2 cli_alert_info cli_alert_success
-#'   cli_bullets cli_code
+#' @importFrom cli cli_h1 cli_h2 cli_h3 cli_alert_info cli_alert_success
+#'   cli_bullets cli_code cli_abort
+#' @importFrom httr2 oauth_cache_path
+NULL
+
+#' @describeIn meetup_ci Setup authentication for CI environments
 #' @export
-meetup_auth_setup_ci <- function(
+meetup_ci_setup <- function(
   client_name = Sys.getenv("MEETUP_CLIENT_NAME", "meetupr")
 ) {
   cli::cli_h1("CI Authentication Setup")
@@ -127,14 +155,22 @@ meetup_auth_setup_ci <- function(
   cli::cli_alert_success("Credentials encoded for CI")
 
   cli::cli_h2("Storing credentials with keyring")
-  meetup_key_set("token_file", basename(cache_path))
-  meetup_key_set("token", encoded_token)
+  meetup_key_set(
+    "token_file",
+    basename(cache_path),
+    client_name
+  )
+  meetup_key_set(
+    "token",
+    encoded_token,
+    client_name
+  )
 
   cli::cli_h2("Set CI Environment Variables:")
 
   secrets <- c(
-    "MEETUP_TOKEN={encoded_token}",
-    "MEETUP_TOKEN_FILE={basename(cache_path)}"
+    "{client_name}:token={encoded_token}",
+    "{client_name}:token_file={basename(cache_path)}"
   )
 
   cli::cli_bullets(secrets)
@@ -148,8 +184,8 @@ meetup_auth_setup_ci <- function(
 
   c(
     "env:",
-    "  MEETUP_TOKEN: ${{ secrets.MEETUP_TOKEN }}",
-    "  MEETUP_TOKEN_FILE: ${{ secrets.MEETUP_TOKEN_FILE }}",
+    "  'meetupr:token': ${{ secrets.meetupr:token }}",
+    "  'meetupr:token_file': ${{ secrets.meetupr:token_file}}",
     "steps:",
     "  - name: Use API",
     "    run: Rscript -e 'meetupr::get_events(\"my-group\")'"
@@ -159,46 +195,9 @@ meetup_auth_setup_ci <- function(
   invisible(encoded_token)
 }
 
-
-#' Load Meetup Authentication Token from CI Environment
-#'
-#' This function reads and decodes a Meetup API authentication token from
-#' environment variables. The decoded token is then saved to a specified token
-#' file within the OAuth cache directory for use by the application. This
-#' function is designed to integrate with Continuous Integration (CI)
-#' pipelines.
-#'
-#' @template client_name
-#'
-#' @return Invisible `TRUE` if the token was successfully loaded and decoded.
-#'   If an error occurs, the function will throw an error and halt execution.
-#'
-#' @details The function requires the following environment variables to be
-#'   set in the CI environment:
-#'   - `MEETUP_TOKEN`: The base64-encoded token string.
-#'   - `MEETUP_TOKEN_FILE`: The name of the file where the decoded token
-#'     will be stored.
-#'
-#'   If any of these variables are not set, the function will terminate with an
-#'   error.
-#'
-#'   The decoded token is saved in the OAuth cache directory at a path
-#'   constructed as `{oauth_cache_path}/{client_name}/{MEETUP_TOKEN_FILE}`.
-#'
-#' @examples
-#' \dontrun{
-#'   # Example usage in a CI pipeline with the required environment variables:
-#'   meetup_auth_load_ci()
-#'
-#'   # Overriding the default client name:
-#'   meetup_auth_load_ci(client_name = "my_custom_client")
-#' }
-#'
-#' @importFrom base64enc base64decode
-#' @importFrom httr2 oauth_cache_path
-#' @importFrom cli cli_abort cli_alert_info cli_alert_success
+#' @describeIn meetup_ci Load authentication from CI environment
 #' @export
-meetup_auth_load_ci <- function(
+meetup_ci_load <- function(
   client_name = Sys.getenv("MEETUP_CLIENT_NAME", "meetupr")
 ) {
   # Get encoded token from environment
@@ -323,6 +322,8 @@ has_auth <- function(
 #' @template client_name
 #' @param clear_keyring A logical value indicating whether to clear
 #' the associated keyring entries. Defaults to `TRUE`.
+#' @param service The name of the keyring service to clear.
+#' Defaults to `"meetupr"`.
 #' @param ... Additional arguments to `meetup_client()`.
 #' @return Nothing. Outputs messages indicating the result of the
 #' process.
@@ -367,6 +368,7 @@ meetup_deauth <- function(
     "MEETUP_CLIENT_NAME",
     "meetupr"
   ),
+  service = "meetupr",
   clear_keyring = TRUE
 ) {
   cache_path <- file.path(
@@ -382,16 +384,7 @@ meetup_deauth <- function(
   }
 
   if (clear_keyring) {
-    keys_to_clear <- c("client_id", "client_secret", "token", "token_file") |>
-      sapply(key_name)
-
-    sapply(keys_to_clear, function(key) {
-      if (!key_available(key)) {
-        return(FALSE)
-      }
-      keyring::key_delete(key)
-      cli::cli_alert_success("Keyring {.val {key}} cleared")
-      TRUE
-    })
+    keyring::key_delete(service)
+    cli::cli_alert_success("Keyring {.val {service}} cleared")
   }
 }

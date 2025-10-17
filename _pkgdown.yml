@@ -47,6 +47,7 @@ reference:
       - meetup_client
       - meetup_sitrep
       - meetup_keys
+      - contains("_ci")
   - title: "Retrieving data and working with data"
     desc: >
       Functions for retrieving data

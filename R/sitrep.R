@@ -40,20 +40,22 @@ check_auth_methods <- function() {
     error = function(e) FALSE
   )
 
-  ci_token <- !is.null(meetup_key_get("token", error = FALSE)) &&
-    !is.null(meetup_key_get("token_file", error = FALSE))
+  token_vars <- sapply(
+    c("token", "token_file", "client_id", "client_secret"),
+    meetup_key_get,
+    error = FALSE
+  )
 
-  client_id <- meetup_key_get("client_id", error = FALSE)
-
-  client_secret <- meetup_key_get("client_secret", error = FALSE)
+  ci_token <- !is.null(token_vars$token) &&
+    !is.null(token_vars$token_file)
 
   auth_status$oauth <- list(
     available = oauth_available,
-    client_id = client_id,
-    client_secret = client_secret,
+    client_id = token_vars$client_id,
+    client_secret = token_vars$client_secret,
     has_cached_token = has_token,
     ci_mode = ci_token,
-    uses_custom_client = !is.null(client_id)
+    uses_custom_client = !is.null(token_vars$client_id)
   )
 
   auth_status$active_method <- if (has_token || ci_token) {
@@ -146,10 +148,10 @@ test_api_connectivity <- function(auth_status) {
     cli::cli_h3("CI/CD Setup:")
     cli::cli_ol(c(
       "Authenticate locally first with {.code get_self()}",
-      "Run {.code meetup_auth_setup_ci()} to get encoded token",
-      "Set secrets in your CI: 
-        {.envvar MEETUP_TOKEN} and 
-      {.envvar MEETUP_TOKEN_FILE}"
+      "Run {.code meetup_ci_setup()} to get encoded token",
+      "Set secrets in your CI (quote the names in YAML):",
+      "  {.code \"meetupr:token\": ${{ secrets.meetupr_token }}}",
+      "  {.code \"meetupr:token_file\": ${{ secrets.meetupr_token_file }}}"
     ))
 
     return(invisible(NULL))
