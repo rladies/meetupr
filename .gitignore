@@ -7,7 +7,6 @@ vignettes/*.R
 vignettes/*.html
 .DS_Store
 docs
-pkgdown/
 figure/
 
 /.quarto/
