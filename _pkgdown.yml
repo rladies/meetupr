@@ -1,12 +1,17 @@
 template:
   bootstrap: 5
-
-url: https://rladies.org/meetupr
-
+url: http://rladies.org/meetupr/
 navbar:
   structure:
-    left: [intro, reference, articles, tutorials, news]
-    right: [search, github]
+    left:
+      - intro
+      - reference
+      - articles
+      - tutorials
+      - news
+    right:
+      - search
+      - github
   components:
     articles:
       text: Tutorials
@@ -14,33 +19,33 @@ navbar:
     news:
       text: News
       href: news/index.html
-
 home:
   sidebar:
-    structure: [links, license, community, citation, authors, dev]
+    structure:
+      - links
+      - license
+      - community
+      - citation
+      - authors
+      - dev
   links:
     - text: Logo
       href: man/figures/logo.png
-
 logo:
   image: man/figures/logo.png
   href: https://rladies.org/meetupr
-
 articles:
   - title: Get Started
-    contents:
-      - meetupr
+    contents: meetupr
   - title: Advanced Topics
     contents:
       - graphql
       - introspection
   - title: Use Cases
-    contents:
-      - rladies
-
+    contents: rladies
 reference:
-  - title: "Authentication"
-    desc: "Functions for authenticating and verification"
+  - title: Authentication
+    desc: Functions for authenticating and verification
     contents:
       - contains("auth")
       - starts_with("has")
@@ -48,19 +53,19 @@ reference:
       - meetup_sitrep
       - meetup_keys
       - contains("_ci")
-  - title: "Retrieving data and working with data"
-    desc: >
+  - title: Retrieving data and working with data
+    desc: |
       Functions for retrieving data
     contents:
       - starts_with("get")
       - starts_with("find")
-  - title: "Query functions"
-    desc: "Functions enabling querying of data"
+  - title: Query functions
+    desc: Functions enabling querying of data
     contents:
       - meetup_req
       - meetup_query
-  - title: "Introspection"
-    desc: "Functions for introspection and debugging"
+  - title: Introspection
+    desc: Functions for introspection and debugging
     contents:
       - contains("introspect")
       - starts_with("explore")
