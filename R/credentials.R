@@ -90,7 +90,7 @@ meetup_key_get <- function(
 
 #' @describeIn meetup_keys Delete a key in the system keyring
 #' @export
-xmeetup_key_delete <- function(
+meetup_key_delete <- function(
   key,
   client_name = Sys.getenv("MEETUP_CLIENT_NAME", "meetupr")
 ) {
