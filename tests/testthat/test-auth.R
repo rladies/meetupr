@@ -153,6 +153,7 @@ test_that("meetup_client uses built-in credentials when env vars empty", {
 })
 
 test_that("meetup_ci_setup encodes token successfully", {
+  skip_on_cran()
   temp_dir <- withr::local_tempdir()
   temp_token <- file.path(temp_dir, "token.rds.enc")
   writeBin(charToRaw("test_token_data"), temp_token)
@@ -169,6 +170,7 @@ test_that("meetup_ci_setup encodes token successfully", {
 })
 
 test_that("meetup_ci_setup copies to clipboard when available", {
+  skip_on_cran()
   temp_dir <- withr::local_tempdir()
   temp_token <- file.path(temp_dir, "token.rds.enc")
   writeBin(charToRaw("test_token_data"), temp_token)
@@ -203,6 +205,7 @@ test_that("meetup_ci_setup copies to clipboard when available", {
 })
 
 test_that("meetup_ci_load decodes and saves token successfully", {
+  skip_on_cran()
   temp_dir <- withr::local_tempdir()
 
   test_token <- "test_token_content"

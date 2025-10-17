@@ -38,7 +38,9 @@ get_keyring_backend <- function() {
   tryCatch(
     {
       if (keyring::has_keyring_support()) {
-        return(keyring::default_backend())
+        suppressWarnings(
+          return(keyring::default_backend())
+        )
       }
       keyring::backend_env$new()
     },
