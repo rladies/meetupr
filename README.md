@@ -67,6 +67,9 @@ library(meetupr)
 events <- get_events("rladies-san-francisco", "past")
 ```
 
+    Caching httr2 token in
+    '~/Library/Caches/httr2/meetupr/ae743e0fbd718c21f2cca632e77bd180-token.rds.enc'.
+
 ### Get group members
 
 ``` r
@@ -106,8 +109,8 @@ pro_events <- get_pro_events("rladies", max_results = 10)
 
 ## Contributing
 
-We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md)
-for guidelines.
+We welcome contributions! Please see
+[.github/CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ## Code of Conduct
 
