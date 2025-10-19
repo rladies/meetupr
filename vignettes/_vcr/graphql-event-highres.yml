@@ -3,8 +3,8 @@ http_interactions:
     method: POST
     uri: https://api.meetup.com/gql-ext
     body:
-      string: '{"query":"query findEvents(\n  $urlname: String!\n  $cursor: String\n  $first:
-        Int = 1000\n  $status: [EventStatus]\n  $date_after: DateTime\n  $date_before:
+      string: '{"query":"query groupEvents(\n  $urlname: String!\n  $cursor: String\n  $first:
+        Int = 1000\n  $status: [EventStatus!]\n  $date_after: DateTime\n  $date_before:
         DateTime\n) {\n  groupByUrlname(urlname: $urlname) {\n    id\n    name\n    events(\n      after:
         $cursor\n      first: $first\n      filter: {\n        status: $status\n        afterDateTime:
         $date_after\n        beforeDateTime: $date_before\n      }\n    ) {\n      pageInfo
@@ -20,7 +20,7 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 05 Oct 2025 18:13:55 GMT
+      date: Sun, 19 Oct 2025 16:50:34 GMT
       content-length: '23707'
     body:
       string: "{\"data\":{\"groupByUrlname\":{\"id\":\"32612004\",\"name\":\"R-Ladies
@@ -234,5 +234,5 @@ http_interactions:
         invite your friends.\",\"group\":{\"id\":\"32612004\",\"name\":\"R-Ladies
         Lagos\",\"urlname\":\"rladies-lagos\"},\"venues\":[{\"id\":\"26906060\",\"name\":\"Online
         event\",\"address\":\"\",\"city\":\"\",\"state\":\"\",\"postalCode\":\"\",\"country\":\"\",\"lat\":-8.521147,\"lon\":179.1962,\"venueType\":\"online\"}],\"rsvps\":{\"totalCount\":1},\"featuredEventPhoto\":null,\"feeSettings\":null}}]}}}}"
-  recorded_at: 2025-10-05 18:13:55
+  recorded_at: 2025-10-19 16:50:34
 recorded_with: VCR-vcr/2.0.0

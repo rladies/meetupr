@@ -11,7 +11,7 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 05 Oct 2025 18:13:56 GMT
+      date: Sun, 19 Oct 2025 16:50:35 GMT
       content-length: '3411'
     body:
       string: '{"data":{"groupByUrlname":{"id":"32612004","name":"R-Ladies Lagos","description":"R-Ladies
@@ -54,8 +54,8 @@ http_interactions:
         fundraising or other purposes to help achieve the community’s aims. This might
         include (but is not limited to), the right to use them in their printed and
         online publicity, social media, press releases and funding applications. If
-        you do not wish to be recorded in these media please inform a community organizer.","city":"Lagos","country":"ng","timezone":"Africa/Lagos","memberships":{"totalCount":873}}}}'
-  recorded_at: 2025-10-05 18:13:56
+        you do not wish to be recorded in these media please inform a community organizer.","city":"Lagos","country":"ng","timezone":"Africa/Lagos","memberships":{"totalCount":880}}}}'
+  recorded_at: 2025-10-19 16:50:35
 - request:
     method: POST
     uri: https://api.meetup.com/gql-ext
@@ -68,7 +68,7 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 05 Oct 2025 18:13:56 GMT
+      date: Sun, 19 Oct 2025 16:50:35 GMT
       content-length: '3386'
     body:
       string: '{"data":{"groupByUrlname":{"id":"30655714","name":"R-Ladies Ottawa","description":"R-Ladies
@@ -112,6 +112,6 @@ http_interactions:
         aims. This might include (but is not limited to), the right to use them in
         their printed and online publicity, social media, press releases and funding
         applications. If you do not wish to be recorded in these media please inform
-        a community organizer.*","city":"Ottawa","country":"ca","timezone":"America/Toronto","memberships":{"totalCount":1067}}}}'
-  recorded_at: 2025-10-05 18:13:56
+        a community organizer.*","city":"Ottawa","country":"ca","timezone":"America/Toronto","memberships":{"totalCount":1076}}}}'
+  recorded_at: 2025-10-19 16:50:35
 recorded_with: VCR-vcr/2.0.0
