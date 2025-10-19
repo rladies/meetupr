@@ -1,3 +1,64 @@
+#' Get the events from a meetup group
+#'
+#' @template urlname
+#' @param status Character vector of event statuses to retrieve.
+#' @template max_results
+#' @template handle_multiples
+#' @template date_before
+#' @template date_after
+#' @param ... Should be empty. Used for parameter expansion
+#' @template extra_graphql
+#' @return A tibble with the events for the specified group
+#' @examples
+#' \dontshow{
+#' vcr::insert_example_cassette("get_group_events", package = "meetupr")
+#' meetupr:::mock_if_no_auth()
+#' }
+#' get_group_events("rladies-lagos", "past")
+#' get_group_events(
+#'    "rladies-lagos",
+#'    status = "past",
+#'    date_before = "2023-01-01T12:00:00Z"
+#' )
+#' \dontshow{
+#' vcr::eject_cassette()
+#' }
+#' @export
+get_group_events <- function(
+  urlname,
+  status = NULL,
+  date_before = NULL,
+  date_after = NULL,
+  max_results = NULL,
+  handle_multiples = "list",
+  extra_graphql = NULL,
+  ...
+) {
+  rlang::check_dots_empty()
+
+  execute(
+    standard_query(
+      "get_group_events",
+      "data.groupByUrlname.events"
+    ),
+    urlname = urlname,
+    status = validate_event_status(status),
+    date_before = date_before,
+    date_after = date_after,
+    first = max_results,
+    max_results = max_results,
+    handle_multiples = handle_multiples,
+    extra_graphql = extra_graphql
+  ) |>
+    dplyr::mutate(
+      venues_country = get_country_code(venues_country)
+    ) |>
+    process_datetime_fields(c(
+      "created_time",
+      "date_time"
+    ))
+}
+
 #' Get the members from a meetup group
 #'
 #' @template urlname

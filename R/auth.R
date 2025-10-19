@@ -41,25 +41,25 @@ meetup_client <- function(
   ...
 ) {
   if (is.null(client_id)) {
-    client_id <- tryCatch(
-      meetup_key_get("client_id"),
-      error = function(e) meetupr_client$id
-    )
+    client_id <- meetup_key_get("client_id", error = FALSE)
+    if (is.null(client_id)) {
+      client_id <- meetupr_client$id
+    }
   }
 
   if (is.null(client_secret)) {
-    client_secret <- tryCatch(
-      meetup_key_get("client_secret"),
-      error = function(e) meetupr_client$secret
-    )
+    client_secret <- meetup_key_get("client_secret", error = FALSE)
+    if (is.null(client_secret)) {
+      client_secret <- meetupr_client$secret
+    }
   }
 
   httr2::oauth_client(
     id = client_id,
     secret = client_secret,
     name = client_name,
-    ...,
-    token_url = "https://secure.meetup.com/oauth2/access"
+    token_url = "https://secure.meetup.com/oauth2/access",
+    ...
   )
 }
 
@@ -190,7 +190,7 @@ meetup_ci_setup <- function(
     "  'meetupr:token_file': ${{ secrets.meetupr:token_file}}",
     "steps:",
     "  - name: Use API",
-    "    run: Rscript -e 'meetupr::get_events(\"my-group\")'"
+    "    run: Rscript -e 'meetupr::get_group_events(\"my-group\")'"
   ) |>
     cli::cli_code()
 
@@ -277,12 +277,7 @@ meetup_auth_status <- function(
     return(FALSE)
   }
 
-  cache_files <- list.files(
-    cache_path,
-    pattern = ".rds.enc$",
-    full.names = TRUE,
-    recursive = TRUE
-  )
+  cache_files <- list_token_files(cache_path)
 
   if (length(cache_files) == 0) {
     if (!silent) {
@@ -292,10 +287,10 @@ meetup_auth_status <- function(
   }
 
   if (length(cache_files) > 1) {
-    cli::cli_warn(
-      "Multiple tokens found in {.path {cache_path}}.
-      Please clean up before proceeding."
-    )
+    cli::cli_warn(c(
+      "!" = "Multiple tokens found in {.path {cache_path}}",
+      "i" = "Please clean up before proceeding"
+    ))
   }
 
   if (!silent) {
@@ -346,22 +341,22 @@ NULL
 #' @describeIn meetup_auth Authenticate and display the
 #' authenticated user's name.
 meetup_auth <- function(...) {
-  resp <- meetup_req(...) |>
-    httr2::req_body_json(
-      list(
-        query = "query { self { name } }"
-      ),
-      auto_unbox = TRUE
-    ) |>
-    httr2::req_perform() |>
-    httr2::resp_body_json(simplifyVector = TRUE)
-
-  # nolint start
-  auth_name <- resp$data$self$name
-  cli::cli_alert_success(
-    "Authenticated as {.val {auth_name}}"
+  tryCatch(
+    {
+      user <- get_self()
+      cli::cli_alert_success(
+        "Authenticated as {.val {user$name}}"
+      )
+      invisible(user)
+    },
+    error = function(e) {
+      cli::cli_alert_danger("Authentication failed: {e$message}")
+      cli::cli_alert_info(
+        "Try running {.code meetup_deauth()} and authenticate again"
+      )
+      invisible(NULL)
+    }
   )
-  # nolint end
 }
 
 #' @describeIn meetup_auth Remove cached authentication
@@ -386,15 +381,33 @@ meetup_deauth <- function(
   }
 
   if (clear_keyring && keyring::has_keyring_support()) {
-    if (clear_keyring) {
-      sapply(c("token", "token_file"), function(key) {
+    sapply(
+      c("token", "token_file", "client_id", "client_secret"),
+      function(key) {
         if (key_available(key, client_name = client_name)) {
           meetup_key_delete(key, client_name = client_name)
           cli::cli_alert_success(
             "Key {.val {key}} removed from keyring {.val {client_name}}"
           )
         }
-      })
-    }
+      }
+    )
   }
+}
+
+# Add helper function before meetup_auth_status()
+#' List token files in cache directory
+#' @keywords internal
+#' @noRd
+list_token_files <- function(cache_path, pattern = ".rds.enc$") {
+  if (!dir.exists(cache_path)) {
+    return(character(0))
+  }
+
+  list.files(
+    cache_path,
+    pattern = pattern,
+    full.names = TRUE,
+    recursive = TRUE
+  )
 }

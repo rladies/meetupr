@@ -1,62 +1,108 @@
-#' Get the events from a meetup group
+#' Get information for a specified event
 #'
-#' @template urlname
-#' @param status Character vector of event statuses to retrieve.
-#' @template max_results
-#' @template handle_multiples
-#' @template date_before
-#' @template date_after
+#' @param id Required event ID
 #' @param ... Should be empty. Used for parameter expansion
 #' @template extra_graphql
-#' @return A tibble with the events for the specified group
+#' @return A meetup_event object with information about the specified event
+#'
 #' @examples
 #' \dontshow{
-#' vcr::insert_example_cassette("get_events", package = "meetupr")
+#' vcr::insert_example_cassette("get_event", package = "meetupr")
 #' meetupr:::mock_if_no_auth()
 #' }
-#' get_events("rladies-lagos", "past")
-#' get_events(
-#'    "rladies-lagos",
-#'    status = "past",
-#'    date_before = "2023-01-01T12:00:00Z"
-#' )
+#' event <- get_event(id = "103349942")
 #' \dontshow{
 #' vcr::eject_cassette()
 #' }
 #' @export
-get_events <- function(
-  urlname,
-  status = NULL,
-  date_before = NULL,
-  date_after = NULL,
-  max_results = NULL,
-  handle_multiples = "list",
+get_event <- function(
+  id,
   extra_graphql = NULL,
   ...
 ) {
   rlang::check_dots_empty()
 
-  execute(
-    standard_query(
-      "get_events",
-      "data.groupByUrlname.events"
+  result <- execute(
+    meetup_template_query(
+      template = "get_event",
+      page_info_path = "data.event.pageInfo",
+      edges_path = "data.event",
+      process_data = process_event_data
     ),
-    urlname = urlname,
-    status = validate_event_status(status),
-    date_before = date_before,
-    date_after = date_after,
-    first = max_results,
-    max_results = max_results,
-    handle_multiples = handle_multiples,
+    id = id,
     extra_graphql = extra_graphql
-  ) |>
-    dplyr::mutate(
-      venues_country = get_country_code(venues_country)
-    ) |>
-    process_datetime_fields(c(
-      "created_time",
-      "date_time"
-    ))
+  )
+
+  result
+}
+
+#' Process event data into meetup_event object
+#' @keywords internal
+#' @noRd
+process_event_data <- function(data, ...) {
+  if (length(data) == 0 || is.null(data[[1]])) {
+    cli::cli_abort("No event data returned")
+  }
+
+  # Just add the class to the existing list
+  structure(
+    data,
+    class = c("meetup_event", "list")
+  )
+}
+
+#' @export
+print.meetup_event <- function(x, ...) {
+  cli::cli_h2("Meetup Event")
+
+  cli::cli_li("ID: {.val {x$id}}")
+  cli::cli_li("Title: {.strong {x$title}}")
+  cli::cli_li("Status: {.val {x$status}}")
+
+  if (!is.null(x$dateTime)) {
+    cli::cli_li("Date/Time: {x$dateTime}")
+  }
+
+  if (!is.null(x$duration)) {
+    cli::cli_li("Duration: {x$duration}")
+  }
+
+  if (!is.null(x$rsvps$totalCount)) {
+    cli::cli_li("RSVPs: {x$rsvps$totalCount}")
+  }
+
+  if (!is.null(x$group)) {
+    cli::cli_h3("Group:")
+    cli::cli_li("{x$group$name} ({.val {x$group$urlname}})")
+  }
+
+  if (!is.null(x$venues) && length(x$venues) > 0) {
+    venue <- x$venues[[1]]
+    cli::cli_h3("Venue:")
+    if (!is.null(venue$name)) {
+      cli::cli_li("Name: {venue$name}")
+    }
+    location_parts <- c(venue$city, venue$state, venue$country)
+    location <- paste(
+      location_parts[!sapply(location_parts, is.null)],
+      collapse = ", "
+    )
+    if (nzchar(location)) {
+      cli::cli_li("Location: {location}")
+    }
+  }
+
+  if (!is.null(x$feeSettings) && isTRUE(x$feeSettings$required)) {
+    cli::cli_h3("Fee:")
+    cli::cli_li("{x$feeSettings$amount} {x$feeSettings$currency}")
+  }
+
+  if (!is.null(x$eventUrl)) {
+    cli::cli_text("")
+    cli::cli_text("{.url {x$eventUrl}}")
+  }
+
+  invisible(x)
 }
 
 #' Get the RSVPs for a specified event
@@ -139,10 +185,6 @@ get_event_comments <- function(
     querying comments is not supported."
   ))
 
-  create_empty_comments_tibble()
-}
-
-create_empty_comments_tibble <- function() {
   dplyr::tibble(
     id = character(0),
     comment = character(0),

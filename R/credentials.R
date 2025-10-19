@@ -31,23 +31,39 @@
 #' @name meetup_keys
 NULL
 
-#' Get appropriate keyring backend
+#' Package environment for caching keyring backend
+#' @keywords internal
+#' @noRd
+.meetupr_env <- new.env(parent = emptyenv())
+.meetupr_env$keyring_backend <- NULL
+
+#' Get appropriate keyring backend (cached)
 #' @keywords internal
 #' @noRd
 get_keyring_backend <- function() {
-  tryCatch(
+  # Return cached backend if available
+  if (!is.null(.meetupr_env$keyring_backend)) {
+    return(.meetupr_env$keyring_backend)
+  }
+
+  # Initialize and cache backend
+  backend <- tryCatch(
     {
-      if (keyring::has_keyring_support()) {
-        suppressWarnings(
-          return(keyring::default_backend())
-        )
-      }
-      keyring::backend_env$new()
+      suppressWarnings(keyring::default_backend())
     },
-    error = function(e) {
-      keyring::backend_env$new()
-    }
+    error = function(e) keyring::backend_env$new()
   )
+
+  .meetupr_env$keyring_backend <- backend
+  backend
+}
+
+#' Reset cached keyring backend (mainly for testing)
+#' @keywords internal
+#' @noRd
+reset_keyring_backend <- function() {
+  .meetupr_env$keyring_backend <- NULL
+  invisible(NULL)
 }
 
 #' @describeIn meetup_keys Store a key in the system keyring
@@ -85,6 +101,8 @@ meetup_key_get <- function(
     error = function(e) {
       if (error) {
         cli::cli_abort("Key {.val {key}} not found")
+      } else {
+        NULL
       }
     }
   )
@@ -104,7 +122,12 @@ meetup_key_delete <- function(
       service = client_name,
       username = key
     ),
-    error = function(e) invisible(NULL)
+    error = function(e) {
+      if (check_debug_mode()) {
+        cli::cli_alert_warning("Failed to delete key {.val {key}}: {e$message}")
+      }
+      invisible(NULL)
+    }
   )
 }
 

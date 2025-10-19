@@ -135,32 +135,27 @@ build_request <- function(
     )
   }
 
+  # Construct body once
+  body_list <- list(
+    query = graphql,
+    variables = variables
+  )
+
   # Debug the request body if enabled
   if (check_debug_mode()) {
-    body <- list(
-      query = graphql,
-      variables = variables
+    body <- jsonlite::toJSON(
+      body_list,
+      auto_unbox = TRUE,
+      pretty = TRUE
     ) |>
-      jsonlite::toJSON(
-        auto_unbox = TRUE,
-        pretty = TRUE
-      ) |>
       strsplit("\n|\\\\n") |>
       unlist()
     cli::cli_alert_info("DEBUG: JSON to be sent:")
-    cli::cli_code(
-      body
-    )
+    cli::cli_code(body)
   }
 
   meetup_req() |>
-    httr2::req_body_json(
-      list(
-        query = graphql,
-        variables = variables
-      ),
-      auto_unbox = TRUE
-    )
+    httr2::req_body_json(body_list, auto_unbox = TRUE)
 }
 
 #' Handle API Error

@@ -146,26 +146,18 @@ clean_field_names <- function(df) {
 #' @keywords internal
 #' @noRd
 clean_field_name <- function(name) {
-  gsub("([a-z])([A-Z])", "\\1_\\2", name) |>
-    gsub2("\\.", "_", ) |>
-    gsub2("-+", "_") |>
-    gsub2("^-|-$", "") |>
-    gsub2("__+", "_") |>
+  name |>
+    # Convert camelCase to snake_case
+    gsub("([a-z])([A-Z])", "\\1_\\2", x = _) |>
+    # Replace dots and dashes with underscores
+    gsub("[.-]+", "_", x = _) |>
     tolower() |>
-    gsub2("_total_count$", "_count") |>
-    gsub2("_base_url$", "_url") |>
-    gsub2("_metadata_", "_") |>
-    gsub2("(\\w+)_\\1(?=_|$)", "\\1", perl = TRUE)
-}
-
-#' Wrapper around gsub to allow chaining
-#' @param x Input string
-#' @param pattern Pattern to replace
-#' @param replacement Replacement string
-#' @param ... Additional gsub parameters
-#' @return Modified string
-#' @keywords internal
-#' @noRd
-gsub2 <- function(x, pattern, replacement, ...) {
-  gsub(pattern, replacement, x, ...)
+    # Collapse multiple underscores
+    gsub("__+", "_", x = _) |>
+    # Clean up redundant suffixes
+    gsub("_total_count$", "_count", x = _) |>
+    gsub("_base_url$", "_url", x = _) |>
+    gsub("_metadata_", "_", x = _) |>
+    # Remove duplicate words (e.g., "group_group" -> "group")
+    gsub("(\\w+)_\\1(?=_|$)", "\\1", x = _, perl = TRUE)
 }

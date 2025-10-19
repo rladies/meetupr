@@ -4,6 +4,8 @@
 #' you to find groups that match your search criteria.
 #'
 #' @param query Character string to search for groups
+#' @param topic_id Numeric ID of a topic to filter groups by
+#' @param category_id Numeric ID of a category to filter groups by
 #' @template max_results
 #' @template handle_multiples
 #' @template extra_graphql
@@ -21,6 +23,8 @@
 #' @export
 find_groups <- function(
   query,
+  topic_id = NULL,
+  category_id = NULL,
   max_results = 200,
   handle_multiples = "list",
   extra_graphql = NULL,
@@ -36,6 +40,8 @@ find_groups <- function(
   execute(
     std_query,
     query = query,
+    categoryId = category_id,
+    topicCategoryId = topic_id,
     first = max_results,
     max_results = max_results,
     handle_multiples = handle_multiples,

@@ -73,7 +73,7 @@ S7::method(execute, meetup_template) <- function(
       break
     }
 
-    # Prevent infinite loops - if cursor hasn't changed, stop
+    # Prevent infinite loops
     new_cursor <- cursor_info$cursor
     if (!is.null(previous_cursor) && new_cursor == previous_cursor) {
       break
