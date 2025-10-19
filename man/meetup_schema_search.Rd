@@ -24,8 +24,8 @@ A tibble with details about matching types:
 }
 \description{
 This function searches across all types in the schema by name or description.
-Useful for discovering what data structures are available (e.g., Event, Group,
-Venue, Member).
+Useful for discovering what data structures are
+available (e.g., Event, Group, Venue, Member).
 }
 \examples{
 \dontrun{

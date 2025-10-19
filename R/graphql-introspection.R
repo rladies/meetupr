@@ -153,8 +153,8 @@ meetup_schema_mutations <- function(schema = NULL) {
 #' Search for types in the Meetup GraphQL API schema
 #'
 #' This function searches across all types in the schema by name or description.
-#' Useful for discovering what data structures are available (e.g., Event, Group,
-#' Venue, Member).
+#' Useful for discovering what data structures are
+#' available (e.g., Event, Group, Venue, Member).
 #'
 #' @param pattern A string pattern to search for in type names and descriptions.
 #'   The search is case-insensitive.
@@ -203,8 +203,10 @@ meetup_schema_search <- function(pattern, schema = NULL) {
 
 #' Get fields for a specific type in the Meetup GraphQL API schema
 #'
-#' This function retrieves detailed information about all fields available on a
-#' specific GraphQL type. Use this to discover what data you can query from types
+#' This function retrieves detailed information about
+#' all fields available on a
+#' specific GraphQL type. Use this to discover what
+#' data you can query from types
 #' like Event, Group, or Member.
 #'
 #' @param type_name The name of the type for which to retrieve fields (e.g.,

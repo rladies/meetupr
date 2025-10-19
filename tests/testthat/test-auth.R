@@ -547,7 +547,7 @@ test_that("meetup_auth returns user object on success", {
   expect_equal(result$name, "Test User")
 })
 
-test_that("list_token_files returns empty vector when cache_path doesn't exist", {
+test_that("list_token_files returns empty vector when no cache_path", {
   non_existent_path <- file.path(tempdir(), "does-not-exist-12345")
 
   result <- list_token_files(non_existent_path)
@@ -677,7 +677,7 @@ test_that("list_token_files is used correctly in meetup_auth_status", {
   expect_true(meetup_auth_status(client_name = "meetupr", silent = TRUE))
 })
 
-test_that("list_token_files integration with meetup_auth_status warns on multiple tokens", {
+test_that("list_token_files warns on multiple tokens", {
   temp_cache <- withr::local_tempdir()
   client_cache <- file.path(temp_cache, "meetupr")
   dir.create(client_cache, recursive = TRUE)

@@ -490,7 +490,11 @@ token_dir <- httr2::oauth_cache_path()
 list.files(file.path(token_dir, "meetupr"))
 
 # Delete specific token file if needed
-# file.remove(file.path(token_dir, "meetupr", "token.rds.enc"))
+# file.remove(file.path(
+#   token_dir,
+#   "meetupr",
+#   "token.rds.enc"
+# ))
 
 # Re-authenticate
 meetup_auth()

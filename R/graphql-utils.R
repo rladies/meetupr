@@ -47,8 +47,10 @@ execute_from_template <- function(
 get_template_path <- function(path) {
   if (!grepl("\\.graphql$", path)) {
     cli::cli_abort(c(
-      "The {.code path} argument must include the {.code .graphql} extension.",
-      "i" = "Please provide the full filename, e.g., {.code 'custom_query.graphql'}."
+      "The {.code path} argument must include
+         the {.code .graphql} extension.",
+      "i" = "Please provide the full filename, 
+        e.g., {.code 'custom_query.graphql'}."
     ))
   }
 

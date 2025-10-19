@@ -29,8 +29,10 @@ a tibble of matching type names. If the type has no fields, returns a
 message.
 }
 \description{
-This function retrieves detailed information about all fields available on a
-specific GraphQL type. Use this to discover what data you can query from types
+This function retrieves detailed information about
+all fields available on a
+specific GraphQL type. Use this to discover what
+data you can query from types
 like Event, Group, or Member.
 }
 \examples{
