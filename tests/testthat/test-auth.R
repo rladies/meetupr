@@ -229,7 +229,13 @@ test_that("meetup_ci_load decodes and saves token successfully", {
 
 test_that("meetup_client falls back to builtin when keyring fails", {
   local_mocked_bindings(
-    meetup_key_get = function(...) stop("No key found")
+    meetup_key_get = function(key, error = TRUE, ...) {
+      if (error) {
+        stop("No key found")
+      } else {
+        NULL
+      }
+    }
   )
 
   client <- meetup_client()
@@ -401,5 +407,294 @@ test_that("meetup_deauth skips unavailable keys", {
   expect_message(
     meetup_deauth(clear_keyring = TRUE),
     "Authentication cache removed"
+  )
+})
+
+test_that("meetup_ci_setup works when clipr is not installed", {
+  skip_on_cran()
+  temp_dir <- withr::local_tempdir()
+  temp_token <- file.path(temp_dir, "token.rds.enc")
+  writeBin(charToRaw("test_token_data"), temp_token)
+
+  local_mocked_bindings(
+    meetup_auth_status = function() invisible(TRUE),
+    token_path = function(...) temp_token
+  )
+
+  withr::with_package("rlang", {
+    local_mocked_bindings(
+      is_installed = function(...) FALSE,
+      .package = "rlang"
+    )
+  })
+
+  result <- meetup_ci_setup()
+
+  expect_type(result, "character")
+  expect_gt(nchar(result), 0)
+})
+
+test_that("meetup_ci_setup works when clipboard is unavailable", {
+  skip_on_cran()
+  temp_dir <- withr::local_tempdir()
+  temp_token <- file.path(temp_dir, "token.rds.enc")
+  writeBin(charToRaw("test_token_data"), temp_token)
+
+  local_mocked_bindings(
+    meetup_auth_status = function() invisible(TRUE),
+    token_path = function(...) temp_token
+  )
+
+  withr::with_package("rlang", {
+    local_mocked_bindings(
+      is_installed = function(...) TRUE,
+      .package = "rlang"
+    )
+  })
+
+  withr::with_package("clipr", {
+    local_mocked_bindings(
+      clipr_available = function() FALSE,
+      .package = "clipr"
+    )
+  })
+
+  result <- meetup_ci_setup()
+
+  expect_type(result, "character")
+})
+
+test_that("meetup_client passes additional arguments to oauth_client", {
+  local_mocked_bindings(
+    meetup_key_get = function(key, error = TRUE) {
+      switch(
+        key,
+        client_id = "test_id",
+        client_secret = "test_secret"
+      )
+    }
+  )
+
+  client <- meetup_client(auth = "header")
+
+  expect_equal(client$id, "test_id")
+  expect_equal(client$secret, "test_secret")
+})
+
+test_that("meetup_client uses provided client_id and client_secret", {
+  client <- meetup_client(
+    client_id = "custom_id",
+    client_secret = "custom_secret"
+  )
+
+  expect_equal(client$id, "custom_id")
+  expect_equal(client$secret, "custom_secret")
+})
+
+test_that("meetup_deauth handles case when keyring has no support", {
+  temp_dir <- withr::local_tempdir()
+  cache_dir <- file.path(temp_dir, "meetupr")
+  dir.create(cache_dir, recursive = TRUE)
+
+  local_mocked_bindings(
+    oauth_cache_path = function() temp_dir,
+    .package = "httr2"
+  )
+
+  local_mocked_bindings(
+    has_keyring_support = function() FALSE,
+    .package = "keyring"
+  )
+
+  expect_message(
+    meetup_deauth(clear_keyring = TRUE),
+    "Authentication cache removed"
+  )
+})
+
+test_that("meetup_auth handles authentication failure gracefully", {
+  local_mocked_bindings(
+    get_self = function() stop("API error")
+  )
+
+  expect_message(
+    result <- meetup_auth(),
+    "Authentication failed"
+  )
+
+  expect_null(result)
+})
+
+test_that("meetup_auth returns user object on success", {
+  mock_user <- structure(
+    list(
+      id = "123",
+      name = "Test User",
+      email = "test@example.com"
+    ),
+    class = c("meetup_user", "list")
+  )
+
+  local_mocked_bindings(
+    get_self = function() mock_user
+  )
+
+  expect_message(
+    result <- meetup_auth(),
+    "Authenticated as.*Test User"
+  )
+
+  expect_equal(result$name, "Test User")
+})
+
+test_that("list_token_files returns empty vector when cache_path doesn't exist", {
+  non_existent_path <- file.path(tempdir(), "does-not-exist-12345")
+
+  result <- list_token_files(non_existent_path)
+
+  expect_type(result, "character")
+  expect_length(result, 0)
+})
+
+test_that("list_token_files finds encrypted token files with default pattern", {
+  temp_cache <- withr::local_tempdir()
+
+  # Create test token files
+  token_file <- file.path(temp_cache, "test_token.rds.enc")
+  other_file <- file.path(temp_cache, "other_file.txt")
+  writeBin(raw(), token_file)
+  writeBin(raw(), other_file)
+
+  result <- list_token_files(temp_cache)
+
+  expect_length(result, 1)
+  expect_equal(basename(result), "test_token.rds.enc")
+  expect_true(grepl("\\.rds\\.enc$", result))
+})
+
+test_that("list_token_files finds multiple token files", {
+  temp_cache <- withr::local_tempdir()
+
+  # Create multiple token files
+  token1 <- file.path(temp_cache, "token1.rds.enc")
+  token2 <- file.path(temp_cache, "token2.rds.enc")
+  writeBin(raw(), token1)
+  writeBin(raw(), token2)
+
+  result <- list_token_files(temp_cache)
+
+  expect_length(result, 2)
+  expect_true(all(grepl("\\.rds\\.enc$", result)))
+})
+
+test_that("list_token_files searches recursively", {
+  temp_cache <- withr::local_tempdir()
+
+  # Create nested directory structure
+  subdir <- file.path(temp_cache, "meetupr", "tokens")
+  dir.create(subdir, recursive = TRUE)
+
+  token_top <- file.path(temp_cache, "top.rds.enc")
+  token_nested <- file.path(subdir, "nested.rds.enc")
+  writeBin(raw(), token_top)
+  writeBin(raw(), token_nested)
+
+  result <- list_token_files(temp_cache)
+
+  expect_length(result, 2)
+  expect_true(any(grepl("top\\.rds\\.enc$", result)))
+  expect_true(any(grepl("nested\\.rds\\.enc$", result)))
+})
+
+test_that("list_token_files respects custom pattern", {
+  temp_cache <- withr::local_tempdir()
+
+  # Create files with different extensions
+  enc_file <- file.path(temp_cache, "token.rds.enc")
+  json_file <- file.path(temp_cache, "token.json")
+  txt_file <- file.path(temp_cache, "token.txt")
+  writeBin(raw(), enc_file)
+  writeBin(raw(), json_file)
+  writeBin(raw(), txt_file)
+
+  # Search for JSON files only
+  result <- list_token_files(temp_cache, pattern = "\\.json$")
+
+  expect_length(result, 1)
+  expect_equal(basename(result), "token.json")
+})
+
+test_that("list_token_files returns full paths", {
+  temp_cache <- withr::local_tempdir()
+
+  token_file <- file.path(temp_cache, "token.rds.enc")
+  writeBin(raw(), token_file)
+
+  result <- list_token_files(temp_cache)
+
+  expect_true(file.exists(result))
+  expect_equal(normalizePath(result), normalizePath(token_file))
+})
+
+test_that("list_token_files returns empty vector when no matching files", {
+  temp_cache <- withr::local_tempdir()
+
+  # Create non-matching files
+  other_file <- file.path(temp_cache, "not_a_token.txt")
+  writeBin(raw(), other_file)
+
+  result <- list_token_files(temp_cache)
+
+  expect_type(result, "character")
+  expect_length(result, 0)
+})
+
+test_that("list_token_files handles empty directory", {
+  temp_cache <- withr::local_tempdir()
+
+  # Directory exists but is empty
+  result <- list_token_files(temp_cache)
+
+  expect_type(result, "character")
+  expect_length(result, 0)
+})
+
+test_that("list_token_files is used correctly in meetup_auth_status", {
+  temp_cache <- withr::local_tempdir()
+  client_cache <- file.path(temp_cache, "meetupr")
+  dir.create(client_cache, recursive = TRUE)
+
+  # Create a token file
+  token_file <- file.path(client_cache, "token.rds.enc")
+  writeBin(raw(), token_file)
+
+  local_mocked_bindings(
+    oauth_cache_path = function() temp_cache,
+    .package = "httr2"
+  )
+
+  # Should find the token and return TRUE
+  expect_true(meetup_auth_status(client_name = "meetupr", silent = TRUE))
+})
+
+test_that("list_token_files integration with meetup_auth_status warns on multiple tokens", {
+  temp_cache <- withr::local_tempdir()
+  client_cache <- file.path(temp_cache, "meetupr")
+  dir.create(client_cache, recursive = TRUE)
+
+  # Create multiple token files
+  token1 <- file.path(client_cache, "token1.rds.enc")
+  token2 <- file.path(client_cache, "token2.rds.enc")
+  writeBin(raw(), token1)
+  writeBin(raw(), token2)
+
+  local_mocked_bindings(
+    oauth_cache_path = function() temp_cache,
+    .package = "httr2"
+  )
+
+  expect_warning(
+    meetup_auth_status(client_name = "meetupr", silent = FALSE),
+    "Multiple tokens found"
   )
 })

@@ -15,8 +15,8 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Thu, 16 Oct 2025 19:53:57 GMT
-      content-length: '25173'
+      date: Sun, 19 Oct 2025 16:29:37 GMT
+      content-length: '25174'
     body:
       string: '{"data":{"proNetwork":{"groupsSearch":{"totalCount":247,"pageInfo":{"hasNextPage":true,"endCursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJMb25nIiwidmFsdWUiOjE3MjIzNzg3MjMwMDB9LHsidHlwZSI6IkxvbmciLCJ2YWx1ZSI6Mzc3MTA2NTN9XX0="},"edges":[{"node":{"id":"37968764","name":"R-Ladies
         Tlalnepantla","urlname":"rladies-tlalnepantla","description":"This is a local
@@ -158,7 +158,7 @@ http_interactions:
         or other purposes to help achieve the community''s aims. This might include
         (but is not limited to), the right to use them in their printed and online
         publicity, social media, press releases and funding applications. If you do
-        not wish to be recorded in these media please inform a community organizer.","lat":45.83,"lon":1.25,"city":"Limoges","state":"","country":"fr","membershipMetadata":{"status":"LEADER"},"memberships":{"totalCount":68},"foundedDate":"2025-01-14T17:48:21+01:00","proJoinDate":"2025-01-14T17:49:50-05:00","timezone":"Europe/Paris","joinMode":"OPEN","who":"R-Ladies","isPrivate":false}},{"node":{"id":"37800965","name":"R
+        not wish to be recorded in these media please inform a community organizer.","lat":45.83,"lon":1.25,"city":"Limoges","state":"","country":"fr","membershipMetadata":{"status":"LEADER"},"memberships":{"totalCount":73},"foundedDate":"2025-01-14T17:48:21+01:00","proJoinDate":"2025-01-14T17:49:50-05:00","timezone":"Europe/Paris","joinMode":"OPEN","who":"R-Ladies","isPrivate":false}},{"node":{"id":"37800965","name":"R
         Ladies Fort Collins","urlname":"rladies-fort-collins","description":"This
         is a local chapter of R-Ladies Global (https://www.rladies.org), an organisation
         that promotes gender diversity in the R community worldwide. We meetup in
@@ -211,7 +211,7 @@ http_interactions:
         or other purposes to help achieve the community''s aims. This might include
         (but is not limited to), the right to use them in their printed and online
         publicity, social media, press releases and funding applications. If you do
-        not wish to be recorded in these media please inform a community organizer.","lat":41.33,"lon":19.82,"city":"Tiranë","state":"","country":"al","membershipMetadata":{"status":"LEADER"},"memberships":{"totalCount":164},"foundedDate":"2024-10-17T11:02:09+02:00","proJoinDate":"2024-10-17T11:03:30-04:00","timezone":"Europe/Tirane","joinMode":"OPEN","who":"R-Ladies","isPrivate":false}},{"node":{"id":"37734448","name":"R-Ladies
+        not wish to be recorded in these media please inform a community organizer.","lat":41.33,"lon":19.82,"city":"Tiranë","state":"","country":"al","membershipMetadata":{"status":"LEADER"},"memberships":{"totalCount":165},"foundedDate":"2024-10-17T11:02:09+02:00","proJoinDate":"2024-10-17T11:03:30-04:00","timezone":"Europe/Tirane","joinMode":"OPEN","who":"R-Ladies","isPrivate":false}},{"node":{"id":"37734448","name":"R-Ladies
         Cape Coast","urlname":"rladies-cape-coast","description":"This is a local
         chapter of R-Ladies Global (https://www.rladies.org), an organisation that
         promotes gender diversity in the R community worldwide. We meetup in person
@@ -238,7 +238,7 @@ http_interactions:
         (but is not limited to), the right to use them in their printed and online
         publicity, social media, press releases and funding applications. If you do
         not wish to be recorded in these media please inform a community organizer.","lat":5.11,"lon":-1.25,"city":"Cape
-        Coast","state":"","country":"gh","membershipMetadata":{"status":"LEADER"},"memberships":{"totalCount":98},"foundedDate":"2024-08-21T08:43:32Z","proJoinDate":"2024-08-21T08:45:06-04:00","timezone":"Africa/Accra","joinMode":"OPEN","who":"R-Ladies","isPrivate":false}},{"node":{"id":"37721013","name":"R-Ladies
+        Coast","state":"","country":"gh","membershipMetadata":{"status":"LEADER"},"memberships":{"totalCount":100},"foundedDate":"2024-08-21T08:43:32Z","proJoinDate":"2024-08-21T08:45:06-04:00","timezone":"Africa/Accra","joinMode":"OPEN","who":"R-Ladies","isPrivate":false}},{"node":{"id":"37721013","name":"R-Ladies
         Sheffield","urlname":"rladies-sheffield","description":"This is a local chapter
         of R-Ladies Global (https://www.rladies.org), an organisation that promotes
         gender diversity in the R community worldwide. We meetup in person or virtually
@@ -264,7 +264,7 @@ http_interactions:
         or other purposes to help achieve the community''s aims. This might include
         (but is not limited to), the right to use them in their printed and online
         publicity, social media, press releases and funding applications. If you do
-        not wish to be recorded in these media please inform a community organizer.","lat":53.38,"lon":-1.46,"city":"Sheffield","state":"37","country":"gb","membershipMetadata":{"status":"LEADER"},"memberships":{"totalCount":57},"foundedDate":"2024-08-08T18:54:19+01:00","proJoinDate":"2024-08-08T19:06:03-04:00","timezone":"Europe/London","joinMode":"OPEN","who":"R-Ladies","isPrivate":false}},{"node":{"id":"37710653","name":"R
+        not wish to be recorded in these media please inform a community organizer.","lat":53.38,"lon":-1.46,"city":"Sheffield","state":"37","country":"gb","membershipMetadata":{"status":"LEADER"},"memberships":{"totalCount":58},"foundedDate":"2024-08-08T18:54:19+01:00","proJoinDate":"2024-08-08T19:06:03-04:00","timezone":"Europe/London","joinMode":"OPEN","who":"R-Ladies","isPrivate":false}},{"node":{"id":"37710653","name":"R
         Ladies Temuco","urlname":"rladies-temuco","description":"This is a local chapter
         of R-Ladies Global (https://www.rladies.org), an organisation that promotes
         gender diversity in the R community worldwide. We meetup in person or virtually
@@ -291,5 +291,5 @@ http_interactions:
         (but is not limited to), the right to use them in their printed and online
         publicity, social media, press releases and funding applications. If you do
         not wish to be recorded in these media please inform a community organizer.","lat":-38.73,"lon":-72.58,"city":"Temuco","state":"","country":"cl","membershipMetadata":{"status":"LEADER"},"memberships":{"totalCount":83},"foundedDate":"2024-07-30T18:31:25-04:00","proJoinDate":"2024-07-30T18:32:03-04:00","timezone":"America/Santiago","joinMode":"OPEN","who":"R-Ladies","isPrivate":false}}]}}}}'
-  recorded_at: 2025-10-16 19:53:57
+  recorded_at: 2025-10-19 16:29:37
 recorded_with: VCR-vcr/2.0.0

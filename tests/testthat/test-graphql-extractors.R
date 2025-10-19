@@ -237,11 +237,6 @@ test_that("clean_field_name works with edge cases", {
   expect_equal(clean_field_name("snake_case"), "snake_case")
 })
 
-test_that("gsub2 works as gsub wrapper", {
-  expect_equal(gsub2("hello world", "world", "R"), "hello R")
-  expect_equal(gsub2("test.test", "\\.", "_"), "test_test")
-})
-
 test_that("silent_bind_rows suppresses messages", {
   df1 <- dplyr::tibble(a = 1, b = "x")
   df2 <- dplyr::tibble(a = 2, c = "y")

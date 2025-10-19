@@ -1,3 +1,14 @@
+test_that("get_group_events() works with one status", {
+  vcr::local_cassette("get_group_events")
+  events <- get_group_events(
+    urlname = "rladies-lagos",
+    status = "past"
+  )
+
+  expect_s3_class(events, "data.frame")
+})
+
+
 test_that("get_group_members() works with one status", {
   mock_if_no_auth()
   vcr::local_cassette("get_group_members")

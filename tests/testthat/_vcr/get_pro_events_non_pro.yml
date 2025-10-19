@@ -4,27 +4,32 @@ http_interactions:
     uri: https://api.meetup.com/gql-ext
     body:
       string: '{"query":"query proEvents(\n  $urlname: ID!,\n  $first: Int = 1000,\n  $cursor:
-        String\n  $date_after: DateTime\n  $date_before: DateTime\n  ) {\n  proNetwork(urlname:
-        $urlname) {\n    eventsSearch(\n      input: {\n        after: $cursor, \n        first:
-        $first, \n        filter: {\n          eventDateMax: $date_before\n          eventDateMin:
-        $date_after\n          }\n        }\n      ) {\n      totalCount\n      pageInfo
-        {\n        hasNextPage\n        endCursor\n      }\n      edges {\n        node
-        {\n          id\n          title\n          description\n          status\n          dateTime\n          duration\n          group
+        String\n  $date_after: DateTime\n  $date_before: DateTime\n  $status: [String!]\n  )
+        {\n  proNetwork(urlname: $urlname) {\n    eventsSearch(\n      input: {\n        after:
+        $cursor, \n        first: $first, \n        filter: {\n          eventDateMax:
+        $date_before\n          eventDateMin: $date_after\n          status: $status\n          }\n        }\n      )
+        {\n      totalCount\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      edges
+        {\n        node {\n          id\n          title\n          description\n          status\n          dateTime\n          duration\n          eventUrl\n          featuredEventPhoto
+        {\n            id\n            baseUrl\n            highResUrl\n            standardUrl\n            thumbUrl\n          }\n          rsvps
+        {\n            yesCount\n            waitlistCount\n            totalCount\n          }\n          venues
+        {\n            id\n            name\n            address\n            city\n            state\n            country\n            lat\n            lon\n            postalCode\n            venueType\n          }\n          group
         {\n            name\n            urlname\n          }\n          \n        }\n      }\n    }\n  }\n}","variables":{"urlname":"rladies","first":5,"status":["ACTIVE","AUTOSCHED","AUTOSCHED_CANCELLED","AUTOSCHED_DRAFT","AUTOSCHED_FINISHED","BLOCKED","CANCELLED","CANCELLED_PERM","DRAFT","PAST","PENDING","PROPOSED","TEMPLATE","UPCOMING"]}}'
   response:
     status: 200
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Thu, 16 Oct 2025 19:53:59 GMT
-      content-length: '3386'
+      date: Sun, 19 Oct 2025 16:29:39 GMT
+      content-length: '6471'
     body:
-      string: '{"data":{"proNetwork":{"eventsSearch":{"totalCount":5122,"pageInfo":{"hasNextPage":true,"endCursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJMb25nIiwidmFsdWUiOjE3NjI4OTg0MDAwMDB9LHsidHlwZSI6IkxvbmciLCJ2YWx1ZSI6MzEwNjU1MjMwfV19"},"edges":[{"node":{"id":"311527696","title":"Lunch
-        & learn with Casey Aguilar-Gervase","description":"TBD","status":"ACTIVE","dateTime":"2025-12-09T12:00:00-05:00","duration":"PT1H","group":{"name":"R-Ladies
+      string: '{"data":{"proNetwork":{"eventsSearch":{"totalCount":5123,"pageInfo":{"hasNextPage":true,"endCursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJMb25nIiwidmFsdWUiOjE3NjI4OTg0MDAwMDB9LHsidHlwZSI6IkxvbmciLCJ2YWx1ZSI6MzEwNjU1MjMwfV19"},"edges":[{"node":{"id":"311527696","title":"Lunch
+        & learn with Casey Aguilar-Gervase","description":"TBD","status":"ACTIVE","dateTime":"2025-12-09T12:00:00-05:00","duration":"PT1H","eventUrl":"https://www.meetup.com/rladies-philly/events/311527696/","featuredEventPhoto":null,"rsvps":{"yesCount":2,"waitlistCount":0,"totalCount":2},"venues":[{"id":"26906060","name":"Online
+        event","address":"","city":"","state":"","country":"","lat":-8.521147,"lon":179.1962,"postalCode":"","venueType":"online"}],"group":{"name":"R-Ladies
         Philly","urlname":"rladies-philly"}}},{"node":{"id":"310294392","title":"Release
         0.0.1","description":"☁️ O ar tá diferente… tem algo no código.\n\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\nNão
         é só uma palestra. É um evento.\n\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\nNos
-        siga nas redes sociais: @rladiesgyn\n#VemAí #MistérioNoConsole","status":"ACTIVE","dateTime":"2025-11-29T14:00:00-03:00","duration":"PT4H","group":{"name":"R-Ladies
+        siga nas redes sociais: @rladiesgyn\n#VemAí #MistérioNoConsole","status":"ACTIVE","dateTime":"2025-11-29T14:00:00-03:00","duration":"PT4H","eventUrl":"https://www.meetup.com/rladies-goiania/events/310294392/","featuredEventPhoto":{"id":"529386540","baseUrl":"https://secure-content.meetupstatic.com/images/classic-events/","highResUrl":"https://secure.meetupstatic.com/photos/event/1/9/8/c/highres_529386540.jpeg","standardUrl":"https://secure.meetupstatic.com/photos/event/1/9/8/c/600_529386540.jpeg","thumbUrl":"https://secure.meetupstatic.com/photos/event/1/9/8/c/thumb_529386540.jpeg"},"rsvps":{"yesCount":5,"waitlistCount":0,"totalCount":5},"venues":[{"id":"26906060","name":"Online
+        event","address":"","city":"","state":"","country":"","lat":-8.521147,"lon":179.1962,"postalCode":"","venueType":"online"}],"group":{"name":"R-Ladies
         Goiânia","urlname":"rladies-goiania"}}},{"node":{"id":"310990549","title":"Pré-processamento
         e Tratamento de Dados com Tidyverse em R","description":"Este minicurso oferecerá
         uma introdução prática ao pré-processamento e tratamento de dados utilizando
@@ -34,7 +39,8 @@ http_interactions:
         será em preparar os dados para análises estatísticas e visualizações, uma
         etapa fundamental em qualquer projeto de ciência de dados.\n\n**NÃO CONFIRME
         PRESENÇA CLICANDO EM ‘ATTEND’ NO MEETUP. APENAS INSCRIÇÕES ATRAVÉS DE LINK
-        EXTERNO SERÃO VÁLIDAS.**\n\n**O LINK PARA INSCRIÇÃO SERÁ DIVULGADO EM BREVE.**","status":"ACTIVE","dateTime":"2025-11-25T18:00:00-03:00","duration":"PT3H","group":{"name":"R-Ladies
+        EXTERNO SERÃO VÁLIDAS.**\n\n**O LINK PARA INSCRIÇÃO SERÁ DIVULGADO EM BREVE.**","status":"ACTIVE","dateTime":"2025-11-25T18:00:00-03:00","duration":"PT3H","eventUrl":"https://www.meetup.com/rladies-niteroi/events/310990549/","featuredEventPhoto":{"id":"530144078","baseUrl":"https://secure-content.meetupstatic.com/images/classic-events/","highResUrl":"https://secure.meetupstatic.com/photos/event/a/c/2/e/highres_530144078.jpeg","standardUrl":"https://secure.meetupstatic.com/photos/event/a/c/2/e/600_530144078.jpeg","thumbUrl":"https://secure.meetupstatic.com/photos/event/a/c/2/e/thumb_530144078.jpeg"},"rsvps":{"yesCount":3,"waitlistCount":0,"totalCount":3},"venues":[{"id":"26906060","name":"Online
+        event","address":"","city":"","state":"","country":"","lat":-8.521147,"lon":179.1962,"postalCode":"","venueType":"online"}],"group":{"name":"R-Ladies
         Niterói","urlname":"rladies-niteroi"}}},{"node":{"id":"311537998","title":"Happy
         hour in the city!","description":"Join us for another in-person outdoor happy
         hour! It''ll be refreshing to see everyone in person! Seeing everyone''s lovely
@@ -43,14 +49,16 @@ http_interactions:
         is on 1709 Walnut street, a few blocks walk from City Hall and Suburban Station.\n*
         More info here [https://www.walnutphl.com/](https://www.walnutphl.com/)\n\nThere
         is sheltered seating in case it''s too cold or the weather doesn''t cooperate
-        on the date!","status":"ACTIVE","dateTime":"2025-11-12T18:00:00-05:00","duration":"PT2H","group":{"name":"R-Ladies
+        on the date!","status":"ACTIVE","dateTime":"2025-11-12T18:00:00-05:00","duration":"PT2H","eventUrl":"https://www.meetup.com/rladies-philly/events/311537998/","featuredEventPhoto":{"id":"527286966","baseUrl":"https://secure-content.meetupstatic.com/images/classic-events/","highResUrl":"https://secure.meetupstatic.com/photos/event/1/b/3/6/highres_527286966.jpeg","standardUrl":"https://secure.meetupstatic.com/photos/event/1/b/3/6/600_527286966.jpeg","thumbUrl":"https://secure.meetupstatic.com/photos/event/1/b/3/6/thumb_527286966.jpeg"},"rsvps":{"yesCount":8,"waitlistCount":0,"totalCount":8},"venues":[{"id":"28030055","name":"Walnut
+        Garden","address":"1708 Walnut Street","city":"Philadelphia","state":"PA","country":"us","lat":39.949875,"lon":-75.16964,"postalCode":"19103","venueType":""}],"group":{"name":"R-Ladies
         Philly","urlname":"rladies-philly"}}},{"node":{"id":"310655230","title":"tidymodels
         intro","description":"If you''re interested in learning about tidymodels,
         the tidyverse iteration of statistical modelling and a more modern version
         of the caret package, come for a live coding lesson on tidymodels led by Brooke
         Wolford. Bring your laptop with tidymodels installed in RStudio! This is a
         module from the Health AI in R workshop sponsored by Digital Life Norway in
-        August.","status":"ACTIVE","dateTime":"2025-11-11T17:00:00+01:00","duration":"PT1H30M","group":{"name":"R-Ladies
+        August.","status":"ACTIVE","dateTime":"2025-11-11T17:00:00+01:00","duration":"PT1H30M","eventUrl":"https://www.meetup.com/rladies-trondheim/events/310655230/","featuredEventPhoto":{"id":"529769860","baseUrl":"https://secure-content.meetupstatic.com/images/classic-events/","highResUrl":"https://secure.meetupstatic.com/photos/event/7/4/a/4/highres_529769860.jpeg","standardUrl":"https://secure.meetupstatic.com/photos/event/7/4/a/4/600_529769860.jpeg","thumbUrl":"https://secure.meetupstatic.com/photos/event/7/4/a/4/thumb_529769860.jpeg"},"rsvps":{"yesCount":2,"waitlistCount":0,"totalCount":2},"venues":[{"id":"27789840","name":"Central
+        Building 2, NTNU","address":"Alfred Getz'' vei 1","city":"Trondheim","state":"","country":"no","lat":63.417618,"lon":10.403983,"postalCode":"7034","venueType":""}],"group":{"name":"R-Ladies
         Trondheim","urlname":"rladies-trondheim"}}}]}}}}'
-  recorded_at: 2025-10-16 19:53:59
+  recorded_at: 2025-10-19 16:29:39
 recorded_with: VCR-vcr/2.0.0

@@ -1,0 +1,29 @@
+http_interactions:
+- request:
+    method: POST
+    uri: https://api.meetup.com/gql-ext
+    body:
+      string: '{"query":"query eventRSVPs(\n  $id: ID!\n  $cursor: String\n  $first:
+        Int = 1000\n) {\n  event(id: $id) {\n    id\n    title\n    dateTime\n    rsvps(after:
+        $cursor, first: $first) {\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n      edges
+        {\n        cursor\n        node {\n          id\n          member {\n            id\n            name\n            bio\n            memberUrl\n            memberPhoto
+        {\n              baseUrl\n            }\n            organizedGroupCount\n          }\n          guestsCount\n          status\n        }\n      }\n    }\n    \n  }\n}","variables":{"id":"103349942","first":5}}'
+  response:
+    status: 200
+    headers:
+      content-type: application/json;charset=utf-8
+      accept-ranges: bytes
+      date: Sun, 19 Oct 2025 16:29:37 GMT
+      content-length: '1868'
+    body:
+      string: '{"data":{"event":{"id":"103349942","title":"Ecosystem GIS & Community
+        Building","dateTime":"2013-02-18T18:30:00-05:00","rsvps":{"pageInfo":{"hasNextPage":true,"endCursor":"NA=="},"totalCount":97,"edges":[{"cursor":"MA==","node":{"id":"683104152","member":{"id":"12251810","name":"Sean
+        Moore Gonzalez","bio":"Background in the defense industry with focus on physics,
+        machine learning, communications, and AI. General goal to connect and promote
+        data scientists.","memberUrl":"https://www.meetup.com/members/12251810/","memberPhoto":{"baseUrl":"https://secure-content.meetupstatic.com/images/classic-member/"},"organizedGroupCount":0},"guestsCount":0,"status":"YES"}},{"cursor":"MQ==","node":{"id":"683108312","member":{"id":"482161","name":"Harlan
+        Harris","bio":"","memberUrl":"https://www.meetup.com/members/482161/","memberPhoto":{"baseUrl":"https://secure-content.meetupstatic.com/images/classic-member/"},"organizedGroupCount":0},"guestsCount":0,"status":"YES"}},{"cursor":"Mg==","node":{"id":"683109202","member":{"id":"6382386","name":"Harnam
+        Rai","bio":"","memberUrl":"https://www.meetup.com/members/6382386/","memberPhoto":{"baseUrl":"https://secure-content.meetupstatic.com/images/classic-member/"},"organizedGroupCount":0},"guestsCount":0,"status":"YES"}},{"cursor":"Mw==","node":{"id":"683114012","member":{"id":"70383262","name":"Dario
+        Rivera","bio":"","memberUrl":"https://www.meetup.com/members/70383262/","memberPhoto":{"baseUrl":"https://secure-content.meetupstatic.com/images/classic-member/"},"organizedGroupCount":0},"guestsCount":0,"status":"YES"}},{"cursor":"NA==","node":{"id":"683114892","member":{"id":"8783792","name":"Aaron
+        M","bio":"","memberUrl":"https://www.meetup.com/members/8783792/","memberPhoto":{"baseUrl":"https://secure-content.meetupstatic.com/images/classic-member/"},"organizedGroupCount":0},"guestsCount":0,"status":"YES"}}]}}}}'
+  recorded_at: 2025-10-19 16:29:37
+recorded_with: VCR-vcr/2.0.0

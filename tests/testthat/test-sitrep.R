@@ -166,21 +166,22 @@ test_that("meetup_sitrep runs with OAuth active", {
 })
 
 test_that("check_auth_methods detects CI mode", {
-  withr::local_envvar(
-    `meetupr:token` = "encoded_token",
-    `meetupr:token_file` = "token.rds.enc",
-    `meetup:client_id` = "test_client",
-    `meetup:client_secret` = "test_secret"
-  )
+  local_clean_backend()
 
+  # Mock the keyring backend to return expected values
   local_mocked_bindings(
     meetup_auth_status = function(...) TRUE,
-    token_path = function(...) "/fake/token.rds.enc"
-  )
-
-  local_mocked_bindings(
-    has_keyring_support = function() FALSE,
-    .package = "keyring"
+    token_path = function(...) "/fake/token.rds.enc",
+    meetup_key_get = function(key, error = TRUE) {
+      switch(
+        key,
+        "token" = "encoded_token_value",
+        "token_file" = "token.rds.enc",
+        "client_id" = NULL,
+        "client_secret" = NULL,
+        NULL
+      )
+    }
   )
 
   result <- check_auth_methods()

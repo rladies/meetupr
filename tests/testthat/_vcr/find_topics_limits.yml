@@ -13,38 +13,16 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Thu, 02 Oct 2025 18:40:37 GMT
-      content-length: '622'
+      date: Sun, 19 Oct 2025 16:29:43 GMT
+      content-length: '725'
     body:
-      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJEb3VibGUiLCJ2YWx1ZSI6MTguNTEyNzAzfSx7InR5cGUiOiJTdHJpbmciLCJ2YWx1ZSI6IjE1MTIzMTgtZW5fVVMifV19"},"totalCount":595,"edges":[{"node":{"id":"97440","name":"M2M
-        Machine-to-Machine","urlkey":"m2m-machine-to-machine","description":null}},{"node":{"id":"584902","name":"Machine
+      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJEb3VibGUiLCJ2YWx1ZSI6MTguMTc4NTE2fSx7InR5cGUiOiJTdHJpbmciLCJ2YWx1ZSI6Ijk4MTM3LWVuX1VTIn1dfQ=="},"totalCount":595,"edges":[{"node":{"id":"97440","name":"M2M
+        Machine-to-Machine","urlkey":"m2m-machine-to-machine","description":null}},{"node":{"id":"150896","name":"Machine
+        Vision","urlkey":"machine-vision","description":null}},{"node":{"id":"45475","name":"Machine
+        Quilting","urlkey":"machine-quilting","description":null}},{"node":{"id":"584902","name":"Machine
         Learning","urlkey":"machine-learning","description":null}},{"node":{"id":"98137","name":"Machine
-        Intelligence","urlkey":"machine-intelligence","description":null}},{"node":{"id":"118575","name":"M2M
-        Devices","urlkey":"m2m-devices","description":null}}]}}}'
-  recorded_at: 2025-10-02 18:40:37
-- request:
-    method: POST
-    uri: https://api.meetup.com/gql-ext
-    body:
-      string: '{"query":"query findTopics(\n  $query: String!, \n  $first: Int = 1000,
-        \n  $after: String\n  ) {\n  suggestTopics(\n    query: $query\n    first:
-        $first\n    after: $after\n  ) {\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    totalCount\n    edges
-        {\n      node {\n        id\n        name\n        urlkey\n        description\n      }\n    }\n  }\n}","variables":{"query":"Machine
-        Learning","first":5,"cursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJEb3VibGUiLCJ2YWx1ZSI6MTguNTEyNzAzfSx7InR5cGUiOiJTdHJpbmciLCJ2YWx1ZSI6IjE1MTIzMTgtZW5fVVMifV19"}}'
-  response:
-    status: 200
-    headers:
-      content-type: application/json;charset=utf-8
-      accept-ranges: bytes
-      date: Thu, 02 Oct 2025 18:40:37 GMT
-      content-length: '622'
-    body:
-      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJEb3VibGUiLCJ2YWx1ZSI6MTguNTEyNzAzfSx7InR5cGUiOiJTdHJpbmciLCJ2YWx1ZSI6IjE1MTIzMTgtZW5fVVMifV19"},"totalCount":595,"edges":[{"node":{"id":"97440","name":"M2M
-        Machine-to-Machine","urlkey":"m2m-machine-to-machine","description":null}},{"node":{"id":"584902","name":"Machine
-        Learning","urlkey":"machine-learning","description":null}},{"node":{"id":"98137","name":"Machine
-        Intelligence","urlkey":"machine-intelligence","description":null}},{"node":{"id":"118575","name":"M2M
-        Devices","urlkey":"m2m-devices","description":null}}]}}}'
-  recorded_at: 2025-10-02 18:40:37
+        Intelligence","urlkey":"machine-intelligence","description":null}}]}}}'
+  recorded_at: 2025-10-19 16:29:43
 - request:
     method: POST
     uri: https://api.meetup.com/gql-ext
@@ -59,10 +37,10 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Thu, 02 Oct 2025 18:40:37 GMT
+      date: Sun, 19 Oct 2025 16:29:44 GMT
       content-length: '1174'
     body:
-      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJEb3VibGUiLCJ2YWx1ZSI6MTcuNzI4MjU2fSx7InR5cGUiOiJTdHJpbmciLCJ2YWx1ZSI6IjE1MTUwODYtZW5fVVMifV19"},"totalCount":595,"edges":[{"node":{"id":"97440","name":"M2M
+      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJEb3VibGUiLCJ2YWx1ZSI6MTcuNjgxMzA5fSx7InR5cGUiOiJTdHJpbmciLCJ2YWx1ZSI6IjE1MTUwODYtZW5fVVMifV19"},"totalCount":595,"edges":[{"node":{"id":"97440","name":"M2M
         Machine-to-Machine","urlkey":"m2m-machine-to-machine","description":null}},{"node":{"id":"45475","name":"Machine
         Quilting","urlkey":"machine-quilting","description":null}},{"node":{"id":"118575","name":"M2M
         Devices","urlkey":"m2m-devices","description":null}},{"node":{"id":"1519801","name":"Machine
@@ -72,7 +50,7 @@ http_interactions:
         Learning","urlkey":"machine-learning","description":null}},{"node":{"id":"98137","name":"Machine
         Intelligence","urlkey":"machine-intelligence","description":null}},{"node":{"id":"1515086","name":"Machine
         Learning Apps","urlkey":"machine-learning-apps","description":null}}]}}}'
-  recorded_at: 2025-10-02 18:40:37
+  recorded_at: 2025-10-19 16:29:44
 - request:
     method: POST
     uri: https://api.meetup.com/gql-ext
@@ -81,16 +59,16 @@ http_interactions:
         \n  $after: String\n  ) {\n  suggestTopics(\n    query: $query\n    first:
         $first\n    after: $after\n  ) {\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    totalCount\n    edges
         {\n      node {\n        id\n        name\n        urlkey\n        description\n      }\n    }\n  }\n}","variables":{"query":"Machine
-        Learning","first":15,"cursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJEb3VibGUiLCJ2YWx1ZSI6MTcuNzI4MjU2fSx7InR5cGUiOiJTdHJpbmciLCJ2YWx1ZSI6IjE1MTUwODYtZW5fVVMifV19"}}'
+        Learning","first":15,"cursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJEb3VibGUiLCJ2YWx1ZSI6MTcuNjgxMzA5fSx7InR5cGUiOiJTdHJpbmciLCJ2YWx1ZSI6IjE1MTUwODYtZW5fVVMifV19"}}'
   response:
     status: 200
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Thu, 02 Oct 2025 18:40:37 GMT
+      date: Sun, 19 Oct 2025 16:29:44 GMT
       content-length: '1174'
     body:
-      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJEb3VibGUiLCJ2YWx1ZSI6MTcuNzI4MjU2fSx7InR5cGUiOiJTdHJpbmciLCJ2YWx1ZSI6IjE1MTUwODYtZW5fVVMifV19"},"totalCount":595,"edges":[{"node":{"id":"97440","name":"M2M
+      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJEb3VibGUiLCJ2YWx1ZSI6MTcuNjgxMzA5fSx7InR5cGUiOiJTdHJpbmciLCJ2YWx1ZSI6IjE1MTUwODYtZW5fVVMifV19"},"totalCount":595,"edges":[{"node":{"id":"97440","name":"M2M
         Machine-to-Machine","urlkey":"m2m-machine-to-machine","description":null}},{"node":{"id":"45475","name":"Machine
         Quilting","urlkey":"machine-quilting","description":null}},{"node":{"id":"118575","name":"M2M
         Devices","urlkey":"m2m-devices","description":null}},{"node":{"id":"1519801","name":"Machine
@@ -100,5 +78,5 @@ http_interactions:
         Learning","urlkey":"machine-learning","description":null}},{"node":{"id":"98137","name":"Machine
         Intelligence","urlkey":"machine-intelligence","description":null}},{"node":{"id":"1515086","name":"Machine
         Learning Apps","urlkey":"machine-learning-apps","description":null}}]}}}'
-  recorded_at: 2025-10-02 18:40:37
+  recorded_at: 2025-10-19 16:29:44
 recorded_with: VCR-vcr/2.0.0

@@ -179,3 +179,153 @@ test_that("token_path shows message when not silent", {
     "Token found"
   )
 })
+
+
+test_that("get_keyring_backend suppresses warnings", {
+  local_clean_backend()
+
+  local_mocked_bindings(
+    default_backend = function() {
+      warning("Some warning")
+      structure(
+        list(),
+        class = c("backend_macos", "backend_keyrings", "backend", "R6")
+      )
+    },
+    .package = "keyring"
+  )
+
+  expect_silent(result <- get_keyring_backend())
+  expect_s3_class(result, "backend_macos")
+})
+
+test_that("get_keyring_backend returns default backend when available", {
+  local_clean_backend()
+
+  local_mocked_bindings(
+    default_backend = function() {
+      structure(
+        list(),
+        class = c("backend_macos", "backend_keyrings", "backend", "R6")
+      )
+    },
+    .package = "keyring"
+  )
+
+  result <- get_keyring_backend()
+  expect_s3_class(result, "backend_macos")
+})
+
+test_that("get_keyring_backend falls back to env backend on error", {
+  local_clean_backend()
+
+  local_mocked_bindings(
+    default_backend = function() stop("No keyring support"),
+    backend_env = list(
+      new = function() {
+        structure(list(), class = c("backend_env", "backend", "R6"))
+      }
+    ),
+    .package = "keyring"
+  )
+
+  result <- get_keyring_backend()
+  expect_s3_class(result, "backend_env")
+})
+
+test_that("get_keyring_backend suppresses warnings from default_backend", {
+  local_clean_backend()
+
+  local_mocked_bindings(
+    default_backend = function() {
+      warning("Keyring warning")
+      structure(
+        list(),
+        class = c("backend_macos", "backend_keyrings", "backend", "R6")
+      )
+    },
+    .package = "keyring"
+  )
+
+  expect_silent(result <- get_keyring_backend())
+  expect_s3_class(result, "backend_macos")
+})
+
+test_that("get_keyring_backend caches backend across calls", {
+  local_clean_backend()
+
+  call_count <- 0
+  local_mocked_bindings(
+    default_backend = function() {
+      call_count <<- call_count + 1
+      structure(
+        list(),
+        class = c("backend_macos", "backend_keyrings", "backend", "R6")
+      )
+    },
+    .package = "keyring"
+  )
+
+  result1 <- get_keyring_backend()
+  result2 <- get_keyring_backend()
+
+  expect_equal(call_count, 1) # Called only once due to caching
+  expect_identical(result1, result2)
+})
+
+test_that("reset_keyring_backend clears cache", {
+  local_clean_backend()
+
+  # Populate cache first
+  local_mocked_bindings(
+    default_backend = function() {
+      structure(
+        list(),
+        class = c("backend_macos", "backend_keyrings", "backend", "R6")
+      )
+    },
+    .package = "keyring"
+  )
+
+  backend1 <- get_keyring_backend()
+  expect_false(is.null(.meetupr_env$keyring_backend))
+
+  # Reset
+  reset_keyring_backend()
+
+  # Should be NULL after reset
+  expect_null(.meetupr_env$keyring_backend)
+
+  # Next call should re-initialize
+  backend2 <- get_keyring_backend()
+  expect_false(is.null(backend2))
+})
+
+test_that("meetup_key_delete logs warning in debug mode on error", {
+  mock_backend <- list(
+    delete = function(service, username) {
+      stop("Keyring is locked")
+    }
+  )
+
+  local_mocked_bindings(
+    get_keyring_backend = function() mock_backend,
+    check_debug_mode = function() TRUE
+  )
+
+  expect_message(
+    meetup_key_delete("token"),
+    "Failed to delete key.*token.*Keyring is locked"
+  )
+})
+
+test_that("key_available returns FALSE when keyring::key_list errors", {
+  local_mocked_bindings(
+    key_list = function(service) {
+      stop("Keyring unavailable")
+    },
+    .package = "keyring"
+  )
+
+  expect_false(key_available("token"))
+})
