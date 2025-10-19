@@ -3,8 +3,8 @@ http_interactions:
     method: POST
     uri: https://api.meetup.com/gql-ext
     body:
-      string: '{"query":"query findEvents(\n  $urlname: String!\n  $cursor: String\n  $first:
-        Int = 1000\n  $status: [EventStatus]\n  $date_after: DateTime\n  $date_before:
+      string: '{"query":"query groupEvents(\n  $urlname: String!\n  $cursor: String\n  $first:
+        Int = 1000\n  $status: [EventStatus!]\n  $date_after: DateTime\n  $date_before:
         DateTime\n) {\n  groupByUrlname(urlname: $urlname) {\n    id\n    name\n    events(\n      after:
         $cursor\n      first: $first\n      filter: {\n        status: $status\n        afterDateTime:
         $date_after\n        beforeDateTime: $date_before\n      }\n    ) {\n      pageInfo
@@ -19,7 +19,7 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 14 Sep 2025 15:58:31 GMT
+      date: Sun, 19 Oct 2025 16:54:35 GMT
       content-length: '20304'
     body:
       string: "{\"data\":{\"groupByUrlname\":{\"id\":\"32612004\",\"name\":\"R-Ladies
@@ -209,91 +209,13 @@ http_interactions:
         motivated to achieve your goals\\nWin fantastic prices\",\"group\":{\"id\":\"32612004\",\"name\":\"R-Ladies
         Lagos\",\"urlname\":\"rladies-lagos\"},\"venues\":[{\"id\":\"26906060\",\"name\":\"Online
         event\",\"address\":\"\",\"city\":\"\",\"state\":\"\",\"postalCode\":\"\",\"country\":\"\",\"lat\":-8.521147,\"lon\":179.1962,\"venueType\":\"online\"}],\"rsvps\":{\"totalCount\":31},\"featuredEventPhoto\":{\"baseUrl\":\"https://secure-content.meetupstatic.com/images/classic-events/\"},\"feeSettings\":null}}]}}}}"
-  recorded_at: 2025-09-14 15:58:31
+  recorded_at: 2025-10-19 16:54:35
 - request:
     method: POST
     uri: https://api.meetup.com/gql-ext
     body:
-      string: '{"query":"query findEvents(\n  $urlname: String!\n  $cursor: String\n  $first:
-        Int = 1000\n  $status: [EventStatus]\n  $date_after: DateTime\n  $date_before:
-        DateTime\n) {\n  groupByUrlname(urlname: $urlname) {\n    id\n    name\n    events(\n      after:
-        $cursor\n      first: $first\n      filter: {\n        status: $status\n        afterDateTime:
-        $date_after\n        beforeDateTime: $date_before\n      }\n    ) {\n      pageInfo
-        {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n      edges
-        {\n        cursor\n        node {\n          ...eventFields\n        }\n      }\n    }\n  }\n}\n\nfragment
-        eventFields on Event {\n  id\n  title\n  eventUrl\n  createdTime\n  status\n  dateTime\n  duration\n  description\n  \n  group
-        {\n    id\n    name\n    urlname\n  }\n  \n  venues {\n    id\n    name\n    address\n    city\n    state\n    postalCode\n    country\n    lat\n    lon\n    venueType\n  }\n  \n  rsvps(first:
-        1) {\n    totalCount\n  }\n  \n  featuredEventPhoto {\n    baseUrl\n  }\n  \n  feeSettings
-        {\n    required\n    amount\n    currency\n    accepts\n    refundPolicy {\n      notes\n      days\n    }\n  }\n  \n  \n}","variables":{"urlname":"rladies-lagos","status":["AUTOSCHED","AUTOSCHED_CANCELLED","AUTOSCHED_DRAFT","AUTOSCHED_FINISHED","BLOCKED","CANCELLED","CANCELLED_PERM","DRAFT","PAST","PENDING","PROPOSED","TEMPLATE","UPCOMING"],"date_before":"2023-01-01"}}'
-  response:
-    status: 200
-    headers:
-      content-type: application/json;charset=utf-8
-      accept-ranges: bytes
-      date: Sun, 14 Sep 2025 15:58:57 GMT
-      content-length: '225'
-    body:
-      string: '{"errors":[{"message":"Variable ''status'' has an invalid value: Invalid
-        input for enum ''EventStatus''. No value found for name ''UPCOMING''","locations":[{"line":5,"column":3}],"extensions":{"classification":"ValidationError"}}]}'
-  recorded_at: 2025-09-14 15:58:57
-- request:
-    method: POST
-    uri: https://api.meetup.com/gql-ext
-    body:
-      string: '{"query":"query findEvents(\n  $urlname: String!\n  $cursor: String\n  $first:
-        Int = 1000\n  $status: [EventStatus]\n  $date_after: DateTime\n  $date_before:
-        DateTime\n) {\n  groupByUrlname(urlname: $urlname) {\n    id\n    name\n    events(\n      after:
-        $cursor\n      first: $first\n      filter: {\n        status: $status\n        afterDateTime:
-        $date_after\n        beforeDateTime: $date_before\n      }\n    ) {\n      pageInfo
-        {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n      edges
-        {\n        cursor\n        node {\n          ...eventFields\n        }\n      }\n    }\n  }\n}\n\nfragment
-        eventFields on Event {\n  id\n  title\n  eventUrl\n  createdTime\n  status\n  dateTime\n  duration\n  description\n  \n  group
-        {\n    id\n    name\n    urlname\n  }\n  \n  venues {\n    id\n    name\n    address\n    city\n    state\n    postalCode\n    country\n    lat\n    lon\n    venueType\n  }\n  \n  rsvps(first:
-        1) {\n    totalCount\n  }\n  \n  featuredEventPhoto {\n    baseUrl\n  }\n  \n  feeSettings
-        {\n    required\n    amount\n    currency\n    accepts\n    refundPolicy {\n      notes\n      days\n    }\n  }\n  \n  \n}","variables":{"urlname":"rladies-lagos","status":"PAST","date_before":"2023-01-01"}}'
-  response:
-    status: 200
-    headers:
-      content-type: application/json;charset=utf-8
-      accept-ranges: bytes
-      date: Sun, 14 Sep 2025 16:00:07 GMT
-      content-length: '213'
-    body:
-      string: '{"errors":[{"message":"Variable ''date_before'' has an invalid value:
-        Failed to parse input value 2023-01-01 as ZonedDateTime","locations":[{"line":7,"column":3}],"extensions":{"classification":"ValidationError"}}]}'
-  recorded_at: 2025-09-14 16:00:07
-- request:
-    method: POST
-    uri: https://api.meetup.com/gql-ext
-    body:
-      string: '{"query":"query findEvents(\n  $urlname: String!\n  $cursor: String\n  $first:
-        Int = 1000\n  $status: [EventStatus]\n  $date_after: DateTime\n  $date_before:
-        DateTime\n) {\n  groupByUrlname(urlname: $urlname) {\n    id\n    name\n    events(\n      after:
-        $cursor\n      first: $first\n      filter: {\n        status: $status\n        afterDateTime:
-        $date_after\n        beforeDateTime: $date_before\n      }\n    ) {\n      pageInfo
-        {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n      edges
-        {\n        cursor\n        node {\n          ...eventFields\n        }\n      }\n    }\n  }\n}\n\nfragment
-        eventFields on Event {\n  id\n  title\n  eventUrl\n  createdTime\n  status\n  dateTime\n  duration\n  description\n  \n  group
-        {\n    id\n    name\n    urlname\n  }\n  \n  venues {\n    id\n    name\n    address\n    city\n    state\n    postalCode\n    country\n    lat\n    lon\n    venueType\n  }\n  \n  rsvps(first:
-        1) {\n    totalCount\n  }\n  \n  featuredEventPhoto {\n    baseUrl\n  }\n  \n  feeSettings
-        {\n    required\n    amount\n    currency\n    accepts\n    refundPolicy {\n      notes\n      days\n    }\n  }\n  \n  \n}","variables":{"urlname":"rladies-lagos","status":"PAST","date_before":"2023-01-01T12:00:00"}}'
-  response:
-    status: 200
-    headers:
-      content-type: application/json;charset=utf-8
-      accept-ranges: bytes
-      date: Sun, 14 Sep 2025 16:02:07 GMT
-      content-length: '222'
-    body:
-      string: '{"errors":[{"message":"Variable ''date_before'' has an invalid value:
-        Failed to parse input value 2023-01-01T12:00:00 as ZonedDateTime","locations":[{"line":7,"column":3}],"extensions":{"classification":"ValidationError"}}]}'
-  recorded_at: 2025-09-14 16:02:07
-- request:
-    method: POST
-    uri: https://api.meetup.com/gql-ext
-    body:
-      string: '{"query":"query findEvents(\n  $urlname: String!\n  $cursor: String\n  $first:
-        Int = 1000\n  $status: [EventStatus]\n  $date_after: DateTime\n  $date_before:
+      string: '{"query":"query groupEvents(\n  $urlname: String!\n  $cursor: String\n  $first:
+        Int = 1000\n  $status: [EventStatus!]\n  $date_after: DateTime\n  $date_before:
         DateTime\n) {\n  groupByUrlname(urlname: $urlname) {\n    id\n    name\n    events(\n      after:
         $cursor\n      first: $first\n      filter: {\n        status: $status\n        afterDateTime:
         $date_after\n        beforeDateTime: $date_before\n      }\n    ) {\n      pageInfo
@@ -308,7 +230,7 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 14 Sep 2025 16:04:49 GMT
+      date: Sun, 19 Oct 2025 16:55:00 GMT
       content-length: '6639'
     body:
       string: '{"data":{"groupByUrlname":{"id":"32612004","name":"R-Ladies Lagos","events":{"pageInfo":{"hasNextPage":false,"endCursor":"Mjg0NjEyMzk0OjE2NTE5MzU2MDAwMDA="},"totalCount":5,"edges":[{"cursor":"MjY0MTU2MDYxOjE1NjkwNTI4MDAwMDA=","node":{"id":"264156061","title":"satRday
@@ -366,5 +288,5 @@ http_interactions:
         welcome to contact the event organizer to signify your interest.","group":{"id":"32612004","name":"R-Ladies
         Lagos","urlname":"rladies-lagos"},"venues":[{"id":"26906060","name":"Online
         event","address":"","city":"","state":"","postalCode":"","country":"","lat":-8.521147,"lon":179.1962,"venueType":"online"}],"rsvps":{"totalCount":17},"featuredEventPhoto":{"baseUrl":"https://secure-content.meetupstatic.com/images/classic-events/"},"feeSettings":null}}]}}}}'
-  recorded_at: 2025-09-14 16:04:49
+  recorded_at: 2025-10-19 16:55:00
 recorded_with: VCR-vcr/2.0.0

@@ -1,8 +1,8 @@
-query findEvents(
+query groupEvents(
   $urlname: String!
   $cursor: String
   $first: Int = 1000
-  $status: [EventStatus]
+  $status: [EventStatus!]
   $date_after: DateTime
   $date_before: DateTime
 ) {

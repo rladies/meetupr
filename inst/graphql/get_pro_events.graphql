@@ -4,6 +4,7 @@ query proEvents(
   $cursor: String
   $date_after: DateTime
   $date_before: DateTime
+  $status: [String!]
   ) {
   proNetwork(urlname: $urlname) {
     eventsSearch(
@@ -13,6 +14,7 @@ query proEvents(
         filter: {
           eventDateMax: $date_before
           eventDateMin: $date_after
+          status: $status
           }
         }
       ) {
@@ -29,6 +31,31 @@ query proEvents(
           status
           dateTime
           duration
+          eventUrl
+          featuredEventPhoto {
+            id
+            baseUrl
+            highResUrl
+            standardUrl
+            thumbUrl
+          }
+          rsvps {
+            yesCount
+            waitlistCount
+            totalCount
+          }
+          venues {
+            id
+            name
+            address
+            city
+            state
+            country
+            lat
+            lon
+            postalCode
+            venueType
+          }
           group {
             name
             urlname

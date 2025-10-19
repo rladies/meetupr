@@ -2,9 +2,11 @@ query findGroups(
   $query: String!
   $cursor: String
   $first: Int = 1000
-  $lat: Float! = 0.0
-  $lon: Float! = 0.0
+  $lat: Float = 0.0
+  $lon: Float = 0.0
   $radius: Float = 100000000.0
+  $categoryId: ID
+  $topicCategoryId: ID
 ) {
   groupSearch(
     after: $cursor
@@ -14,6 +16,8 @@ query findGroups(
       lat: $lat
       lon: $lon
       radius: $radius
+      categoryId: $categoryId
+      topicCategoryId: $topicCategoryId
     }
   ) {
     pageInfo {
@@ -43,5 +47,6 @@ query findGroups(
         }
       }
     }
+    << extra_graphql >>
   }
 }
