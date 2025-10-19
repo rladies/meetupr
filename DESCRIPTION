@@ -28,7 +28,7 @@ Description: Provides programmatic access to the 'Meetup' GraphQL API
     includes functions for common queries and data manipulation tasks.
 License: MIT + file LICENSE
 Depends:
-    R (>= 4.1)
+    R (>= 4.2)
 Imports:
     base64enc,
     countrycode,
