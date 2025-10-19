@@ -1,17 +1,12 @@
 template:
   bootstrap: 5
 url: http://rladies.org/meetupr/
+
+logo:
+  image: man/figures/logo.png
+  href: https://rladies.org/meetupr
+
 navbar:
-  structure:
-    left:
-      - intro
-      - reference
-      - articles
-      - tutorials
-      - news
-    right:
-      - search
-      - github
   components:
     articles:
       text: Tutorials
@@ -19,21 +14,7 @@ navbar:
     news:
       text: News
       href: news/index.html
-home:
-  sidebar:
-    structure:
-      - links
-      - license
-      - community
-      - citation
-      - authors
-      - dev
-  links:
-    - text: Logo
-      href: man/figures/logo.png
-logo:
-  image: man/figures/logo.png
-  href: https://rladies.org/meetupr
+
 articles:
   - title: Get Started
     contents: meetupr
@@ -41,16 +22,18 @@ articles:
     contents:
       - graphql
       - introspection
+      - advanced-auth
   - title: Use Cases
     contents: rladies
+
 reference:
   - title: Authentication
     desc: Functions for authenticating and verification
     contents:
+      - meetup_sitrep
       - contains("auth")
       - starts_with("has")
       - meetup_client
-      - meetup_sitrep
       - meetup_keys
       - contains("_ci")
   - title: Retrieving data and working with data
@@ -67,7 +50,5 @@ reference:
   - title: Introspection
     desc: Functions for introspection and debugging
     contents:
-      - contains("introspect")
-      - starts_with("explore")
-      - starts_with("search")
+      - starts_with("meetup_schema")
       - contains("debug")
