@@ -73,11 +73,7 @@ meetup_schema <- function(asis = FALSE) {
 #' }
 #'
 #' @export
-meetup_schema_queries <- function(schema = NULL) {
-  if (is.null(schema)) {
-    schema <- meetup_schema()
-  }
-
+meetup_schema_queries <- function(schema = meetup_schema()) {
   query_type_name <- schema$queryType$name
 
   query_type <- schema$types[sapply(schema$types, function(x) {
@@ -125,11 +121,7 @@ meetup_schema_queries <- function(schema = NULL) {
 #' }
 #'
 #' @export
-meetup_schema_mutations <- function(schema = NULL) {
-  if (is.null(schema)) {
-    schema <- meetup_schema()
-  }
-
+meetup_schema_mutations <- function(schema = meetup_schema()) {
   if (is.null(schema$mutationType)) {
     return(dplyr::tibble(message = "No mutations available"))
   }
@@ -179,11 +171,7 @@ meetup_schema_mutations <- function(schema = NULL) {
 #' }
 #'
 #' @export
-meetup_schema_search <- function(pattern, schema = NULL) {
-  if (is.null(schema)) {
-    schema <- meetup_schema()
-  }
-
+meetup_schema_search <- function(pattern, schema = meetup_schema()) {
   matching_types <- schema$types[
     sapply(schema$types, function(x) {
       grepl(pattern, x$name, ignore.case = TRUE) ||
@@ -242,11 +230,7 @@ meetup_schema_search <- function(pattern, schema = NULL) {
 #' }
 #'
 #' @export
-meetup_schema_type <- function(type_name, schema = NULL, ...) {
-  if (is.null(schema)) {
-    schema <- meetup_schema()
-  }
-
+meetup_schema_type <- function(type_name, schema = meetup_schema(), ...) {
   matching <- schema$types[
     sapply(schema$types, function(x) {
       grepl(type_name, x$name, ...)

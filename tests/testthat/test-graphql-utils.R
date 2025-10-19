@@ -231,6 +231,14 @@ test_that("get_template_path returns absolute path", {
   # Result should be absolute (not relative)
   expect_true(grepl("^/", path) || grepl("^[A-Z]:", path)) # Unix or Windows
 })
+
+test_that("get_template_path errors on missing .graphql extension", {
+  expect_error(
+    get_template_path("query_without_extension"),
+    "argument must include"
+  )
+})
+
 test_that("get_template_path handles symlinks", {
   skip_on_os("windows") # Symlink behavior differs on Windows
 
