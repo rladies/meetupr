@@ -39,7 +39,7 @@ Use custom GraphQL queries when:
 
 ## Using extra_graphql in Wrapper Functions
 
-The `get_events()` function accepts an `extra_graphql` parameter to add custom fields:
+The `get_group_events()` function accepts an `extra_graphql` parameter to add custom fields:
 
 ```{r}
 #| label: event-highres
@@ -52,7 +52,7 @@ extra_fields <- "
     }
   "
 
-events <- get_events(
+events <- get_group_events(
   "rladies-lagos",
   extra_graphql = extra_fields
 )

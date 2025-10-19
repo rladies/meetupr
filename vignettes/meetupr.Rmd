@@ -177,7 +177,7 @@ str(group_info)
 ```{r}
 #| label: upcoming-events
 #| cassette: true
-events <- get_events("rladies-lagos")
+events <- get_group_events("rladies-lagos")
 head(events)
 ```
 

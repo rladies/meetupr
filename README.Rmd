@@ -62,7 +62,7 @@ sessions.
 ```{r}
 library(meetupr)
 
-events <- get_events("rladies-san-francisco", "past")
+events <- get_group_events("rladies-san-francisco", "past")
 ```
 
 ### Get group members
