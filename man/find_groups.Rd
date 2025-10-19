@@ -6,6 +6,8 @@
 \usage{
 find_groups(
   query,
+  topic_id = NULL,
+  category_id = NULL,
   max_results = 200,
   handle_multiples = "list",
   extra_graphql = NULL,
@@ -14,6 +16,10 @@ find_groups(
 }
 \arguments{
 \item{query}{Character string to search for groups}
+
+\item{topic_id}{Numeric ID of a topic to filter groups by}
+
+\item{category_id}{Numeric ID of a category to filter groups by}
 
 \item{max_results}{Maximum number of results to return. If set to NULL,
 will return all available results (may take a long time).}
