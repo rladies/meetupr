@@ -27,9 +27,15 @@ meetupr::local_meetupr_debug(0)
 library(meetupr)
 ```
 
+## Introduction
+
+meetupr is an R package that provides a client for the Meetup.com GraphQL API.
+It allows you to search for groups, retrieve event information, get member lists, and access other Meetup data directly from R.
+This vignette will guide you through setup, authentication, and common use cases.
+
 ## Quick Setup Check
 
-Start by running `meetup_sitrep()` to set up authentication or check your authentication status:
+Start by running `meetup_sitrep()` to check your authentication status or set up authentication:
 
 ```{r}
 #| label: sitrep
@@ -38,26 +44,23 @@ Start by running `meetup_sitrep()` to set up authentication or check your authen
 meetup_sitrep()
 ```
 
-This function will show you:  
-- Which authentication method is active  
+This function shows you:
+
+- Which authentication method is currently active  
 - Whether your credentials are properly configured  
 - API connectivity status  
 - Setup instructions if authentication is missing  
 
-## Authentication Methods
+The function provides actionable feedback, telling you exactly what to do if authentication isn't working.
+
+## Authentication
 
 Authentication is required to access the Meetup API.
-When you first install and load the `meetupr` package, you can use built-in credentials for basic access.
-You authenticate by running `meetup_auth()`, (or any querying function) which opens a browser window for OAuth login.
-You provide consent for the app to use your Meetup account to retrieve data.
+meetupr supports two authentication methods: interactive OAuth (for local development) and CI/CD authentication (for automated workflows).
 
-meetupr supports two authentication methods:
+### Interactive Authentication
 
-### OAuth Authentication (Interactive)
-
-Best for interactive development, data exploration, and one-off analyses.
-
-**Setup:**
+For interactive use (exploring data, one-off analyses), simply authenticate when prompted:
 
 ```r
 # Authenticate interactively (opens browser)
@@ -67,93 +70,84 @@ meetup_auth()
 meetup_auth_status()
 ```
 
-The OAuth token is cached locally in your httr2 cache directory. 
-Token files follow the pattern: `{hash}-token.rds.enc`
+When you run `meetup_auth()`:
 
-### CI/CD Authentication (Non-Interactive)
+1. A browser window opens to Meetup's authorization page  
+2. You log in with your Meetup credentials  
+3. You grant permission to the meetupr app  
+4. The OAuth token is securely cached on your system  
 
-For automated workflows, you can set up token-based authentication:
+The OAuth token is stored locally in your httr2 cache directory.
+Token files follow the naming pattern: `{hash}-token.rds.enc`.
+These files are encrypted and specific to your system.
 
-#### 1. Authenticate locally first:
+You only need to authenticate once.
+The token will be reused in future R sessions until it expires (typically after 90 days).
+
+### CI/CD Authentication
+
+For automated workflows (GitHub Actions, scheduled scripts, etc.), you need token-based authentication that doesn't require browser interaction.
+
+#### Step 1: Set up CI credentials locally
 
 ```r
+# First authenticate interactively
 meetup_auth()
+
+# Then set up CI credentials
 meetup_ci_setup()
 ```
 
-This encodes your token as base64 and provides instructions for setting CI secrets.
-It will also store this information using the [keyring](https://keyring.r-lib.org/) package.
+The `meetup_ci_setup()` function will:
 
-#### 2. Set environment variables in your CI
+1. Encode your existing OAuth token as base64  
+2. Store the encoded token in your system keyring  
+3. Display the token and filename for setting CI secrets  
+4. Provide instructions for your CI platform  
 
-- `meetupr:token` - Base64-encoded token (from step 1)  
-- `meetupr:token_file` - Token filename (e.g., `ae743e0-token.rds.enc`)  
+#### Step 2: Set environment variables in your CI
 
-#### 3. Token loads automatically in CI
+In your CI platform (GitHub Actions, GitLab CI, etc.), set these secrets:
 
-To make the authentication work in CI/CD pipelines, add this line before running any API calls:
+- `meetupr:token`: Base64-encoded token (from step 1)  
+- `meetupr:token_file`: Token filename (e.g., `ae743e0-token.rds.enc`)  
+
+For GitHub Actions, your workflow YAML should include:
+
+```yaml
+env:
+  "meetupr:token": ${{ secrets.MEETUPR_TOKEN }}
+  "meetupr:token_file": ${{ secrets.MEETUPR_TOKEN_FILE }}
+```
+
+**Important**: Quote the environment variable names in YAML because they contain colons.
+
+#### Step 3: Load token in CI
+
+Add this line at the beginning of your CI script, before any API calls:
 
 ```r
 meetup_ci_load()
 ```
 
-## Variables Reference
+This function decodes the base64 token and writes it to the expected cache location.
+All subsequent API calls will use this token automatically.
 
-### Keyring Credentials
+### Deauthentication
 
-When using keyring (either locally or in CI), credentials follow the format `service:username`:
-
-| Keyring Key | Required | Purpose |
-|-------------|----------|---------|
-| `meetupr:client_id` | No* | OAuth client ID |
-| `meetupr:client_secret` | No* | OAuth client secret |
-| `meetupr:token` | for CI | Base64-encoded OAuth token |
-| `meetupr:token_file` | for CI | Token filename |
-
-\* Built-in credentials are used if not provided
-
-### Environment Variables
-
-| Variable | Required | Purpose |
-|----------|----------|---------|
-| `MEETUP_CLIENT_NAME` | No | OAuth client name (default: "meetupr") |
-| `MEETUPR_DEBUG` | No | Enable debug output ("1" = on) |
-
-**Note for GitHub Actions**: When setting keyring credentials as environment variables in YAML, quote the names:
-
-```yaml
-env:
-  "meetupr:token": ${{ secrets.meetupr_token }}
-  "meetupr:token_file": ${{ secrets.meetupr_token_file }}
-```
-
-### Setting Credentials using Keyring
-
-Instead of using environment variables, you can securely store and retrieve credentials using the system keyring with the `meetup_key_set()` and `meetup_key_get()` functions.
-
-#### Storing Credentials
+To remove cached credentials:
 
 ```r
-# Store client ID and secret in keyring
-meetup_key_set("client_id", "your_client_id")
-meetup_key_set("client_secret", "your_secret")
+# Clear authentication completely
+meetup_deauth()
 ```
 
-If you don't provide a value, you will be prompted to input it interactively.
+The `meetup_deauth()` function removes all cached tokens and clears authentication state.
+You'll need to re-authenticate the next time you make an API call.
 
-Using Stored Credentials
-When authentication is needed, the meetupr package will automatically retrieve the stored credentials:
+## Verification
 
-
-```r
-# Retrieve client ID and secret (used internally by meetupr)
-client_id <- meetup_key_get("client_id")
-client_secret <- meetup_key_get("client_secret")
-```
-
-### Verification
-
-After storing your credentials in the keyring, you can verify the setup:
+After authenticating, verify the setup:
 
 ```{r}
 #| label: verify-sitrep
@@ -161,9 +155,20 @@ After storing your credentials in the keyring, you can verify the setup:
 meetup_sitrep()
 ```
 
+The output shows:
+
+- Whether an OAuth token exists and is valid  
+- Whether you're in CI mode (token loaded from environment variables)  
+- API connectivity status  
+
 ## Basic Usage Examples
 
+Once authenticated, you can start querying the Meetup API.
+All functions return tibbles (data frames) for easy manipulation with dplyr and other tidyverse packages.
+
 ### Get Group Information
+
+Retrieve detailed information about a specific group using its URL name (the part after `meetup.com/` in the URL):
 
 ```{r}
 #| label: group-info
@@ -172,7 +177,18 @@ group_info <- get_group("rladies-lagos")
 str(group_info)
 ```
 
-### List Upcoming Events
+The result includes:
+
+- Group name, description, and URL  
+- Location (city, state, country)  
+- Member count  
+- Organizer information  
+- Group creation date  
+
+### List Group Events
+
+Get events for a specific group.
+By default, this returns upcoming events:
 
 ```{r}
 #| label: upcoming-events
@@ -181,7 +197,117 @@ events <- get_group_events("rladies-lagos")
 head(events)
 ```
 
+Each row represents an event with:
+
+- Event ID, title, and description  
+- Date and time (as POSIXct objects)  
+- Duration  
+- RSVP counts (yes, waitlist, total)  
+- Venue information (if available)  
+
+### Get Past Events
+
+To retrieve historical events, use the `status` parameter:
+
+```{r}
+#| label: past-events
+#| cassette: true
+past_events <- get_group_events(
+  "rladies-lagos",
+  status = "past",
+  max_results = 10
+)
+head(past_events)
+```
+
+Valid status values are:
+
+- `upcoming`: Future events (default)  
+- `past`: Historical events  
+- `cancelled`: Cancelled events  
+- `draft`: Draft events (if you're a group organizer)  
+
+### Filter Events by Date
+
+You can filter events within a specific date range:
+
+```{r}
+#| label: date-filter
+#| cassette: true
+# Events from 2024 onwards
+recent_events <- get_group_events(
+  "rladies-lagos",
+  status = "past",
+  date_after = "2024-01-01T00:00:00Z"
+)
+head(recent_events)
+```
+
+Dates must be in ISO 8601 format with timezone (typically UTC: `YYYY-MM-DDTHH:MM:SSZ`).
+
+### Get Event Details
+
+Retrieve detailed information about a specific event using its ID:
+
+```{r}
+#| label: event-details
+#| cassette: true
+event <- get_event(id = "103349942")
+event
+```
+
+The `print()` method displays a formatted summary.
+Access individual fields with `$` notation:
+
+```r
+event$title
+event$dateTime
+event$going
+```
+
+### Get Event RSVPs
+
+See who has RSVP'd to an event:
+
+```{r}
+#| label: event-rsvps
+#| cassette: true
+rsvps <- get_event_rsvps(id = "103349942")
+head(rsvps)
+```
+
+Each row represents one RSVP with:
+
+- Member ID and name  
+- RSVP response (yes, no, waitlist)  
+- Number of guests  
+- RSVP creation time  
+
+This is useful for analyzing attendance patterns or contacting attendees (with appropriate permissions).
+
+### Get Group Members
+
+List members of a group:
+
+```{r}
+#| label: group-members
+#| cassette: true
+members <- get_group_members("rladies-lagos", max_results = 10)
+head(members)
+```
+
+Member data includes:
+
+- Member ID and name  
+- Join date  
+- Member status (active, organizer, etc.)  
+- Bio and profile URL  
+
+Note: Due to privacy settings, some member information may be limited.
+
 ### Search for Groups
+
+Find groups matching a search term:
 
 ```{r}
 #| label: search-groups
@@ -190,11 +316,90 @@ r_groups <- find_groups("R programming")
 head(r_groups)
 ```
 
+Search results include:
+
+- Group name and URL name  
+- Location  
+- Member count  
+- Description snippet  
+
+This is useful for discovering groups in your area or analyzing group networks.
+
+### Pagination and Rate Limits
+
+The Meetup API limits how many results can be returned in a single request.
+The `max_results` parameter controls pagination:
+
+```{r}
+#| label: pagination
+#| cassette: true
+# Get up to 50 events (may require multiple API calls)
+many_events <- get_group_events(
+  "rladies-san-francisco",
+  status = "past",
+  max_results = 50
+)
+
+cli::cli_alert_info("Retrieved {nrow(many_events)} events")
+```
+
+meetupr automatically handles pagination behind the scenes.
+It makes multiple API requests if needed and combines the results into a single tibble.
+
+The Meetup API rate limit is 500 requests per 60 seconds.
+meetupr automatically throttles requests to stay under this limit.
+For large batch operations, consider adding explicit delays:
+
+```r
+# Process multiple groups with delays
+groups <- c("rladies-nyc", "rladies-sf", "rladies-london")
+
+events <- purrr::map_dfr(groups, \(x) {
+  result <- get_group_events(x, max_results = 20)
+  Sys.sleep(0.5)  # 500ms delay between requests
+  result
+})
+```
+
+## Pro Account Features
+
+If you have a Meetup Pro account, you can access network-wide data using the Pro functions.
+These functions require appropriate permissions and will error if you don't have Pro access.
+
+### List All Pro Groups
+
+```{r}
+#| label: pro-groups
+#| eval: false
+
+# Get all groups in the R-Ladies network
+pro_groups <- get_pro_groups("rladies")
+head(pro_groups)
+```
+
+### Network-Wide Events
+
+```{r}
+#| label: pro-events
+#| eval: false
+
+# Get upcoming events across all groups in network
+upcoming <- get_pro_events("rladies", status = "upcoming")
+head(upcoming)
+
+# Get cancelled events
+cancelled <- get_pro_events("rladies", status = "cancelled")
+head(cancelled)
+```
+
+Pro functions return data for all groups in your network with a single API call, which is more efficient than querying each group individually.
+
 ## Debug Mode
 
-Sometimes issues arise due to misconfiguration.
-Enabling debugging mode provides more information on what is sent to the API, i.e. the full graphql query.
-Enable debugging mode by setting system variable "MEETUPR_DEBUG" to 1 (0 or missing means no debugging):
+Sometimes issues arise due to misconfiguration or unexpected API behavior.
+Enabling debug mode shows the exact GraphQL queries being sent to the API.
+
+Enable debugging by setting the `MEETUPR_DEBUG` environment variable to `1`:
 
 ```{r}
 #| label: debug
@@ -205,7 +410,15 @@ meetup_sitrep()
 find_groups("R programming")
 ```
 
-to turn it off again, set it to 0 or unset it:
+Debug output includes:
+
+- The complete GraphQL query sent to the API  
+- Variable values being passed  
+- The raw JSON response  
+
+This is invaluable when queries fail unexpectedly or you're unsure what data is being returned.
+
+To turn it off again, set it to `0`:
 
 ```{r}
 #| label: debug-off
@@ -216,16 +429,106 @@ meetup_sitrep()
 find_groups("R programming")
 ```
 
+For persistent debugging across R sessions, set the environment variable in your `.Renviron` file:
+
+```
+MEETUPR_DEBUG=1
+```
+
 ## Common Issues
 
 ### Authentication Errors
 
-```r
+```
 Error: Authentication required
 ```
 
-**Solution**: Run `meetup_sitrep()` to diagnose authentication issues.
+**Solution**: Run `meetup_sitrep()` to diagnose the issue.
+Common causes include:
+
+- No OAuth token cached (run `meetup_auth()`)  
+- Expired token (re-authenticate with `meetup_auth()`)  
+- Missing CI environment variables (check `meetupr:token` and `meetupr:token_file`)  
+
+### Multiple Token Warning
+
+```
+Warning: Multiple tokens found in cache
+```
+
+**Solution**: Clear old tokens and re-authenticate:
+
+```r
+meetup_deauth()
+meetup_auth()
+```
+
+This happens when tokens from different OAuth applications accumulate in your cache directory.
+
+### Rate Limiting
+
+```
+Error: Rate limit exceeded
+```
+
+**Solution**: The Meetup API limits you to 500 requests per 60 seconds.
+If you hit this limit:
+
+1. Add delays between requests (`Sys.sleep(0.5)`)  
+2. Reduce `max_results` to minimize pagination  
+3. Cache results locally to avoid repeated queries  
+
+meetupr automatically throttles requests, but aggressive batch operations may still hit limits.
+
+### Group Not Found
+
+```
+Error: Group not found
+```
+
+**Solution**: Verify the group URL name.
+The URL name is the part after `meetup.com/` in the group's URL.
+For example, for `https://www.meetup.com/rladies-san-francisco/`, the URL name is `rladies-san-francisco`.
+
+### CI Token Expired
+
+If CI authentication fails with "token expired":
+
+```r
+# Locally, refresh token
+meetup_auth()
+meetup_ci_setup()
+
+# Update CI secrets with new values shown by meetup_ci_setup()
+```
+
+You'll need to refresh CI secrets periodically.
 
 ## Next Steps
 
-- **For custom GraphQL queries**: See [GraphQL vignette](graphql.html)`
+Now that you're set up, explore more advanced features:
+
+- **Custom GraphQL Queries**: See the [GraphQL vignette](graphql.html) to write custom queries and access fields not available through wrapper functions  
+- **Custom OAuth Application**: See the [Advanced Authentication vignette](advanced-auth.html) for setting up your own OAuth app for higher rate limits  
+- **API Schema Exploration**: See the [Inspecting the API vignette](inspection.html) for exploring the Meetup GraphQL schema
+- **Data Analysis**: Combine meetupr with dplyr, ggplot2, and other tidyverse packages for analysis and visualization  
+
+For package updates and issues, visit the [GitHub repository](https://github.com/rladies/meetupr).
+
+## Getting Help
+
+If you encounter issues:
+
+1. **Check `meetup_sitrep()`** for authentication diagnostics  
+2. **Enable debug mode** (`local_meetupr_debug(1)`) to see API queries  
+3. **Search existing issues** on GitHub  
+4. **File a bug report** with a reproducible example (use `reprex::reprex()`)  
+
+When reporting issues, include:
+
+- Output from `meetup_sitrep()`  
+- Debug output (if relevant)  
+- A minimal reproducible example  
+- Your R and package versions (`sessionInfo()`)  
+
+This helps maintainers diagnose and fix problems quickly.

@@ -15,7 +15,7 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 19 Oct 2025 16:51:17 GMT
+      date: Sun, 19 Oct 2025 21:43:31 GMT
       content-length: '765667'
     body:
       string: "{\"data\":{\"proNetwork\":{\"groupsSearch\":{\"totalCount\":247,\"pageInfo\":{\"hasNextPage\":false,\"endCursor\":\"eyJ2YWx1ZXMiOlt7InR5cGUiOiJMb25nIiwidmFsdWUiOjE1MjIxMDM4MDQwMDB9LHsidHlwZSI6IkxvbmciLCJ2YWx1ZSI6NTE5MDQ3Mn1dfQ==\"},\"edges\":[{\"node\":{\"id\":\"37968764\",\"name\":\"R-Ladies
@@ -1015,7 +1015,7 @@ http_interactions:
         Ciò potrebbe includere (ma non è limitato a), il diritto di utilizzarli nella
         loro pubblicità stampata e online, social media, comunicati stampa e domande
         di finanziamento. Se non desideri essere registrato su questi supporti, informa
-        un organizzatore del gruppo qui: **[rome@rladies.org](rome@rladies.org)**\",\"lat\":41.9,\"lon\":12.48,\"city\":\"Roma\",\"state\":\"RM\",\"country\":\"it\",\"membershipMetadata\":{\"status\":\"LEADER\"},\"memberships\":{\"totalCount\":1948},\"foundedDate\":\"2022-01-30T13:04:32+01:00\",\"proJoinDate\":\"2022-01-30T13:05:16-05:00\",\"timezone\":\"Europe/Rome\",\"joinMode\":\"OPEN\",\"who\":\"R-Ladies\",\"isPrivate\":false}},{\"node\":{\"id\":\"36128390\",\"name\":\"R-Ladies
+        un organizzatore del gruppo qui: **[rome@rladies.org](rome@rladies.org)**\",\"lat\":41.9,\"lon\":12.48,\"city\":\"Roma\",\"state\":\"RM\",\"country\":\"it\",\"membershipMetadata\":{\"status\":\"LEADER\"},\"memberships\":{\"totalCount\":1950},\"foundedDate\":\"2022-01-30T13:04:32+01:00\",\"proJoinDate\":\"2022-01-30T13:05:16-05:00\",\"timezone\":\"Europe/Rome\",\"joinMode\":\"OPEN\",\"who\":\"R-Ladies\",\"isPrivate\":false}},{\"node\":{\"id\":\"36128390\",\"name\":\"R-Ladies
         Oxford MS\",\"urlname\":\"rladies-oxford-ms\",\"description\":\"**This is
         a local chapter of R-Ladies Global ([https://www.rladies.org](https://www.rladies.org)),
         an organisation that promotes gender diversity in the R community worldwide.
@@ -2507,7 +2507,7 @@ http_interactions:
         or other purposes to help achieve the community’s aims. This might include
         (but is not limited to), the right to use them in their printed and online
         publicity, social media, press releases and funding applications. If you do
-        not wish to be recorded in these media please inform a community organizer.</p>\",\"lat\":52.42,\"lon\":-1.5,\"city\":\"Coventry\",\"state\":\"43\",\"country\":\"gb\",\"membershipMetadata\":{\"status\":\"LEADER\"},\"memberships\":{\"totalCount\":1021},\"foundedDate\":\"2020-02-22T12:51:34Z\",\"proJoinDate\":\"2020-02-22T12:52:30-05:00\",\"timezone\":\"Europe/London\",\"joinMode\":\"OPEN\",\"who\":\"R-Ladies\",\"isPrivate\":false}},{\"node\":{\"id\":\"33409584\",\"name\":\"R-Ladies
+        not wish to be recorded in these media please inform a community organizer.</p>\",\"lat\":52.42,\"lon\":-1.5,\"city\":\"Coventry\",\"state\":\"43\",\"country\":\"gb\",\"membershipMetadata\":{\"status\":\"LEADER\"},\"memberships\":{\"totalCount\":1020},\"foundedDate\":\"2020-02-22T12:51:34Z\",\"proJoinDate\":\"2020-02-22T12:52:30-05:00\",\"timezone\":\"Europe/London\",\"joinMode\":\"OPEN\",\"who\":\"R-Ladies\",\"isPrivate\":false}},{\"node\":{\"id\":\"33409584\",\"name\":\"R-Ladies
         Niš\",\"urlname\":\"rladies-nis\",\"description\":\"<p>This is a local chapter
         of R-Ladies Global (<a href=\\\"https://www.rladies.org\\\" class=\\\"linkified\\\">https://www.rladies.org</a>),
         an organisation that promotes gender diversity in the R community worldwide.
@@ -4569,7 +4569,7 @@ http_interactions:
         can find us on social media at:\\n\\nYouTube: [https://www.youtube.com/channel/UCQ7DcXWJm3es06U7lGmBDkw](https://www.youtube.com/channel/UCQ7DcXWJm3es06U7lGmBDkw)\\n\\nTwitter:
         [https://twitter.com/RLadiesSTL](https://twitter.com/RLadiesSTL)\\n\\nGitHub:
         [https://github.com/rladiesstl](https://github.com/rladiesstl)\",\"lat\":38.63,\"lon\":-90.19,\"city\":\"Saint
-        Louis\",\"state\":\"MO\",\"country\":\"us\",\"membershipMetadata\":{\"status\":\"LEADER\"},\"memberships\":{\"totalCount\":2084},\"foundedDate\":\"2017-08-28T14:24:41-05:00\",\"proJoinDate\":\"2019-03-30T05:27:01-04:00\",\"timezone\":\"America/Chicago\",\"joinMode\":\"OPEN\",\"who\":\"R-Ladies
+        Louis\",\"state\":\"MO\",\"country\":\"us\",\"membershipMetadata\":{\"status\":\"LEADER\"},\"memberships\":{\"totalCount\":2085},\"foundedDate\":\"2017-08-28T14:24:41-05:00\",\"proJoinDate\":\"2019-03-30T05:27:01-04:00\",\"timezone\":\"America/Chicago\",\"joinMode\":\"OPEN\",\"who\":\"R-Ladies
         of St. Louis\",\"isPrivate\":false}},{\"node\":{\"id\":\"20871369\",\"name\":\"R-Ladies
         Taipei\",\"urlname\":\"rladies-taipei\",\"description\":\"<p>Hi R-Ladies,</p>\\n<p>經過兩年的學習與歷練，R-Ladies
         Taipei 已經長大茁壯，可以獨立 meetup 頁面囉！ 從 2016 年 10 月起，相關活動的報名都會在這個頁面。我們仍在搬家中，如果你想了解以前的活動，請參考以下網址：<a
@@ -5196,7 +5196,7 @@ http_interactions:
         and collective progress worldwide.\\n\\n\\n\\n\\nHow can you get involved?
         Join our meetup, but then also join our slack workspace at: rladies-philly.slack.com,
         follow us on twitter @RLadiesPhilly, and check out our website at rladiesphilly.org.\\n\\n\\n\\n\\nContact
-        us at philly@rladies.org if you want to learn more about supporting our group.\",\"lat\":40.12,\"lon\":-75.01,\"city\":\"Philadelphia\",\"state\":\"PA\",\"country\":\"us\",\"membershipMetadata\":{\"status\":\"LEADER\"},\"memberships\":{\"totalCount\":2601},\"foundedDate\":\"2017-10-11T09:36:55-04:00\",\"proJoinDate\":\"2018-10-28T19:25:40-04:00\",\"timezone\":\"America/New_York\",\"joinMode\":\"OPEN\",\"who\":\"R-Ladies\",\"isPrivate\":false}},{\"node\":{\"id\":\"26203679\",\"name\":\"R-Ladies
+        us at philly@rladies.org if you want to learn more about supporting our group.\",\"lat\":40.12,\"lon\":-75.01,\"city\":\"Philadelphia\",\"state\":\"PA\",\"country\":\"us\",\"membershipMetadata\":{\"status\":\"LEADER\"},\"memberships\":{\"totalCount\":2600},\"foundedDate\":\"2017-10-11T09:36:55-04:00\",\"proJoinDate\":\"2018-10-28T19:25:40-04:00\",\"timezone\":\"America/New_York\",\"joinMode\":\"OPEN\",\"who\":\"R-Ladies\",\"isPrivate\":false}},{\"node\":{\"id\":\"26203679\",\"name\":\"R-Ladies
         San Jose\",\"urlname\":\"rladies-san-jose\",\"description\":\"<p>R-Ladies
         San José es parte de una organización mundial para promover la Diversidad
         de Género en la comunidad R. <span>Nuestra meta es crear una atmósfera amigable
@@ -7015,7 +7015,7 @@ http_interactions:
         to fully respect each other and the mandate of this Meetup, or face expulsion
         of any form, whether from events, Meetup membership, or any other community
         participation. This community is a social initiative, hence will never involve
-        charges or fees to participate.</i></p>\",\"lat\":45.46,\"lon\":9.19,\"city\":\"Milano\",\"state\":\"MI\",\"country\":\"it\",\"membershipMetadata\":{\"status\":\"LEADER\"},\"memberships\":{\"totalCount\":1303},\"foundedDate\":\"2017-06-29T18:16:07+02:00\",\"proJoinDate\":\"2018-06-05T09:42:58-04:00\",\"timezone\":\"Europe/Rome\",\"joinMode\":\"OPEN\",\"who\":\"Members\",\"isPrivate\":false}},{\"node\":{\"id\":\"21510971\",\"name\":\"R-Ladies
+        charges or fees to participate.</i></p>\",\"lat\":45.46,\"lon\":9.19,\"city\":\"Milano\",\"state\":\"MI\",\"country\":\"it\",\"membershipMetadata\":{\"status\":\"LEADER\"},\"memberships\":{\"totalCount\":1305},\"foundedDate\":\"2017-06-29T18:16:07+02:00\",\"proJoinDate\":\"2018-06-05T09:42:58-04:00\",\"timezone\":\"Europe/Rome\",\"joinMode\":\"OPEN\",\"who\":\"Members\",\"isPrivate\":false}},{\"node\":{\"id\":\"21510971\",\"name\":\"R-Ladies
         Washington D.C.\",\"urlname\":\"rladies-dc\",\"description\":\"R-Ladies D.C.
         is the Washington, D.C. chapter of the [global R-Ladies organization](https://rladies.org/).
         The goal of the R-Ladies organization is to promote Gender Diversity in the
@@ -8236,7 +8236,7 @@ http_interactions:
         (<a href=\\\"https://github.com/rladies/starter-kit/wiki/Code-of-Conduct#spanish\\\">https://github.com/rladies/starter-kit/wiki/Code-of-Conduct#spanish</a>)
         También adherimos al código de conducta del R Consortium y del resto de la
         Comunidad R. (<a href=\\\"https://wiki.r-consortium.org/view/R_Consortium_and_the_R_Community_Code_of_Conduct\\\">https://wiki.r-consortium.org/view/R_Consortium_and_the_R_Community_Code_of_Conduct</a>)</p>\\n<p>
-        <br></p>\",\"lat\":-12.07,\"lon\":-77.05,\"city\":\"Lima\",\"state\":\"\",\"country\":\"pe\",\"membershipMetadata\":{\"status\":\"LEADER\"},\"memberships\":{\"totalCount\":2295},\"foundedDate\":\"2018-01-25T00:04:49-05:00\",\"proJoinDate\":\"2018-03-26T18:37:05-04:00\",\"timezone\":\"America/Lima\",\"joinMode\":\"OPEN\",\"who\":\"R-Ladies\",\"isPrivate\":false}},{\"node\":{\"id\":\"26871250\",\"name\":\"R-Ladies
+        <br></p>\",\"lat\":-12.07,\"lon\":-77.05,\"city\":\"Lima\",\"state\":\"\",\"country\":\"pe\",\"membershipMetadata\":{\"status\":\"LEADER\"},\"memberships\":{\"totalCount\":2294},\"foundedDate\":\"2018-01-25T00:04:49-05:00\",\"proJoinDate\":\"2018-03-26T18:37:05-04:00\",\"timezone\":\"America/Lima\",\"joinMode\":\"OPEN\",\"who\":\"R-Ladies\",\"isPrivate\":false}},{\"node\":{\"id\":\"26871250\",\"name\":\"R-Ladies
         Atlanta\",\"urlname\":\"rladies-atlanta\",\"description\":\"<p>R-Ladies Atlanta
         welcomes members of all R proficiency levels, whether you are a new or aspiring
         R user, or an experienced R programmer interested in mentoring, networking
@@ -8373,5 +8373,5 @@ http_interactions:
         are emphatically queer and trans friendly.</p>\\n<p><b>Code of Conduct:</b>
         <a href=\\\"https://github.com/rladies/starter-kit/wiki/Code-of-Conduct\\\">https://github.com/rladies/starter-kit/wiki/Code-of-Conduct</a></p>\",\"lat\":37.79,\"lon\":-122.4,\"city\":\"San
         Francisco\",\"state\":\"CA\",\"country\":\"us\",\"membershipMetadata\":{\"status\":\"LEADER\"},\"memberships\":{\"totalCount\":1723},\"foundedDate\":\"2012-10-01T12:28:21-07:00\",\"proJoinDate\":\"2018-03-26T18:36:44-04:00\",\"timezone\":\"America/Los_Angeles\",\"joinMode\":\"OPEN\",\"who\":\"R-Ladies\",\"isPrivate\":false}}]}}}}"
-  recorded_at: 2025-10-19 16:51:17
+  recorded_at: 2025-10-19 21:43:31
 recorded_with: VCR-vcr/2.0.0

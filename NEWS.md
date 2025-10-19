@@ -6,7 +6,7 @@
 - Added functions:
   - `meetup_query()` - Run custom queries against the Meetup API.
   - `meetup_sitrep()` - Get information about your API connection status.
-  - `meetup_introspect()` - Get information about the Meetup API query options.
+  - `meetup_schema()` - Get information about the Meetup API query options.
 - added deprecation warnings for `get_meetup_comments()`.
 - Added new vignettes
 - Expanded test suite

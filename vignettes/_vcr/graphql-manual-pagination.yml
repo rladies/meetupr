@@ -1,0 +1,21 @@
+http_interactions:
+- request:
+    method: POST
+    uri: https://api.meetup.com/gql-ext
+    body:
+      string: '{"query":"\n  query GetEvents($urlname: String!, $after: String) {\n    groupByUrlname(urlname:
+        $urlname) {\n      pastEvents(input: {first: 20, after: $after}) {\n        pageInfo
+        {\n          hasNextPage\n          endCursor\n        }\n        edges {\n          node
+        {\n            id\n            title\n            dateTime\n          }\n        }\n      }\n    }\n  }","variables":{"urlname":"rladies-san-francisco"}}'
+  response:
+    status: 200
+    headers:
+      content-type: application/json;charset=utf-8
+      accept-ranges: bytes
+      date: Sun, 19 Oct 2025 21:43:19 GMT
+      content-length: '224'
+    body:
+      string: '{"errors":[{"message":"Validation error (FieldUndefined@[groupByUrlname/pastEvents])
+        : Field ''pastEvents'' in type ''Group'' is undefined","locations":[{"line":4,"column":7}],"extensions":{"classification":"ValidationError"}}]}'
+  recorded_at: 2025-10-19 21:43:19
+recorded_with: VCR-vcr/2.0.0

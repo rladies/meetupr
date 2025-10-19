@@ -141,7 +141,7 @@ S7::method(get_cursor, list(meetup_template, S7::class_any)) <- function(
 # For common patterns
 standard_query <- function(template, base_path) {
   meetup_template_query(
-    template = template,
+    template = template_path(template),
     page_info_path = paste0(
       base_path,
       ".pageInfo"

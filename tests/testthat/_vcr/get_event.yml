@@ -13,7 +13,7 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 19 Oct 2025 16:29:37 GMT
+      date: Sun, 19 Oct 2025 21:21:00 GMT
       content-length: '3538'
     body:
       string: '{"data":{"event":{"id":"103349942","title":"Ecosystem GIS & Community
@@ -56,5 +56,5 @@ http_interactions:
         from Augustana College.","group":{"id":"6957082","name":"Data Visualization
         DC","urlname":"data-visualization-dc"},"venues":[{"id":"10975182","name":"Browsermedia/NClud","address":"1203
         19th Street","city":"Washington","state":"DC","postalCode":"20036","country":"us","lat":38.905802,"lon":-77.043432,"venueType":""}],"rsvps":{"totalCount":97},"featuredEventPhoto":null,"feeSettings":null}}}'
-  recorded_at: 2025-10-19 16:29:37
+  recorded_at: 2025-10-19 21:21:00
 recorded_with: VCR-vcr/2.0.0

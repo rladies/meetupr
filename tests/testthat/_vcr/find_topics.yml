@@ -13,7 +13,7 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 19 Oct 2025 16:29:43 GMT
+      date: Sun, 19 Oct 2025 21:21:06 GMT
       content-length: '2093'
     body:
       string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJEb3VibGUiLCJ2YWx1ZSI6MTQuNTQ5OTMyfSx7InR5cGUiOiJTdHJpbmciLCJ2YWx1ZSI6IjE1MDk0NDktZW5fVVMifV19"},"totalCount":558,"edges":[{"node":{"id":"1413652","name":"Data
@@ -35,7 +35,7 @@ http_interactions:
         Mining","urlkey":"data-mining","description":null}},{"node":{"id":"358011","name":"Data
         Architecture","urlkey":"data-architecture","description":null}},{"node":{"id":"1509449","name":"Data
         Engineering","urlkey":"data-engineering","description":null}}]}}}'
-  recorded_at: 2025-10-19 16:29:43
+  recorded_at: 2025-10-19 21:21:06
 - request:
     method: POST
     uri: https://api.meetup.com/gql-ext
@@ -50,10 +50,10 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 19 Oct 2025 16:29:43 GMT
+      date: Sun, 19 Oct 2025 21:21:06 GMT
       content-length: '2093'
     body:
-      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJEb3VibGUiLCJ2YWx1ZSI6MTQuNTU2NzUxfSx7InR5cGUiOiJTdHJpbmciLCJ2YWx1ZSI6IjE1MDk0NDktZW5fVVMifV19"},"totalCount":558,"edges":[{"node":{"id":"1413652","name":"Data
+      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJEb3VibGUiLCJ2YWx1ZSI6MTQuNTQ5OTMyfSx7InR5cGUiOiJTdHJpbmciLCJ2YWx1ZSI6IjE1MDk0NDktZW5fVVMifV19"},"totalCount":558,"edges":[{"node":{"id":"1413652","name":"Data
         Warehouse","urlkey":"data-warehouse","description":null}},{"node":{"id":"95904","name":"Data
         Privacy","urlkey":"data-privacy","description":null}},{"node":{"id":"37381","name":"Data
         Visualization","urlkey":"data-visualization","description":null}},{"node":{"id":"480642","name":"Data","urlkey":"data","description":null}},{"node":{"id":"24778","name":"Linked
@@ -72,5 +72,5 @@ http_interactions:
         Mining","urlkey":"data-mining","description":null}},{"node":{"id":"358011","name":"Data
         Architecture","urlkey":"data-architecture","description":null}},{"node":{"id":"1509449","name":"Data
         Engineering","urlkey":"data-engineering","description":null}}]}}}'
-  recorded_at: 2025-10-19 16:29:43
+  recorded_at: 2025-10-19 21:21:06
 recorded_with: VCR-vcr/2.0.0

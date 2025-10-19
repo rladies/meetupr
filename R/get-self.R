@@ -19,7 +19,7 @@
 get_self <- function() {
   execute(
     meetup_template_query(
-      "get_self",
+      template_path("get_self"),
       "",
       "data.self",
       process_data = process_self_data

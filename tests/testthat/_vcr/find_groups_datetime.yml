@@ -17,7 +17,7 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 19 Oct 2025 16:29:40 GMT
+      date: Sun, 19 Oct 2025 21:21:03 GMT
       content-length: '3327'
     body:
       string: '{"data":{"groupSearch":{"pageInfo":{"hasNextPage":true,"endCursor":"MTA="},"totalCount":10,"edges":[{"node":{"id":"38154603","name":"MG.js","urlname":"monchengladbach-open-source-intelligence-meetup-group","city":"Mönchengladbach","state":"","country":"de","lat":51.2,"lon":6.42,"memberships":{"totalCount":21},"foundedDate":"2025-08-20T15:16:54+02:00","timezone":"Europe/Berlin","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"5844892","name":"Uruguay
@@ -28,5 +28,5 @@ http_interactions:
         Lumpur JavaScript Meetup","urlname":"Kuala-Lumpur-JavaScript-Meetup","city":"Kuala
         Lumpur","state":"","country":"my","lat":3.16,"lon":101.71,"memberships":{"totalCount":91},"foundedDate":"2017-07-17T05:37:40+08:00","timezone":"Asia/Kuala_Lumpur","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"10269972","name":"JavaScript
         Zagreb","urlname":"JavaScript-Zagreb","city":"Zagreb","state":"","country":"hr","lat":45.8,"lon":15.97,"memberships":{"totalCount":1929},"foundedDate":"2013-09-15T08:26:04+02:00","timezone":"Europe/Belgrade","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}}]}}}'
-  recorded_at: 2025-10-19 16:29:40
+  recorded_at: 2025-10-19 21:21:03
 recorded_with: VCR-vcr/2.0.0

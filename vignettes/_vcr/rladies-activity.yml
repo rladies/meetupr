@@ -9,11 +9,11 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 19 Oct 2025 16:51:18 GMT
+      date: Sun, 19 Oct 2025 21:43:31 GMT
       content-length: '41'
     body:
       string: '{"data":{"self":{"isProOrganizer":true}}}'
-  recorded_at: 2025-10-19 16:51:18
+  recorded_at: 2025-10-19 21:43:31
 - request:
     method: POST
     uri: https://api.meetup.com/gql-ext
@@ -34,7 +34,7 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 19 Oct 2025 16:51:26 GMT
+      date: Sun, 19 Oct 2025 21:43:35 GMT
       content-length: '2085144'
     body:
       string: "{\"data\":{\"proNetwork\":{\"eventsSearch\":{\"totalCount\":5123,\"pageInfo\":{\"hasNextPage\":true,\"endCursor\":\"eyJ2YWx1ZXMiOlt7InR5cGUiOiJMb25nIiwidmFsdWUiOjE2NjcyNDI4MDAwMDB9LHsidHlwZSI6IkxvbmciLCJ2YWx1ZSI6Mjg5NDIyMzk3fV19\"},\"edges\":[{\"node\":{\"id\":\"311527696\",\"title\":\"Lunch
@@ -83,7 +83,7 @@ http_interactions:
         in ggplot2; and then refine our chart to create something that's artistic
         and aesthetic, yet effective. Some basic knowledge of the tidyverse will be
         helpful, but all of the code in this session will be explained and made available
-        afterwards.\",\"status\":\"ACTIVE\",\"dateTime\":\"2025-11-04T18:00:00+01:00\",\"duration\":\"PT2H\",\"eventUrl\":\"https://www.meetup.com/rladies-rome/events/311324200/\",\"featuredEventPhoto\":{\"id\":\"530514041\",\"baseUrl\":\"https://secure-content.meetupstatic.com/images/classic-events/\",\"highResUrl\":\"https://secure.meetupstatic.com/photos/event/d/3/1/9/highres_530514041.jpeg\",\"standardUrl\":\"https://secure.meetupstatic.com/photos/event/d/3/1/9/600_530514041.jpeg\",\"thumbUrl\":\"https://secure.meetupstatic.com/photos/event/d/3/1/9/thumb_530514041.jpeg\"},\"rsvps\":{\"yesCount\":105,\"waitlistCount\":0,\"totalCount\":105},\"venues\":[{\"id\":\"26906060\",\"name\":\"Online
+        afterwards.\",\"status\":\"ACTIVE\",\"dateTime\":\"2025-11-04T18:00:00+01:00\",\"duration\":\"PT2H\",\"eventUrl\":\"https://www.meetup.com/rladies-rome/events/311324200/\",\"featuredEventPhoto\":{\"id\":\"530514041\",\"baseUrl\":\"https://secure-content.meetupstatic.com/images/classic-events/\",\"highResUrl\":\"https://secure.meetupstatic.com/photos/event/d/3/1/9/highres_530514041.jpeg\",\"standardUrl\":\"https://secure.meetupstatic.com/photos/event/d/3/1/9/600_530514041.jpeg\",\"thumbUrl\":\"https://secure.meetupstatic.com/photos/event/d/3/1/9/thumb_530514041.jpeg\"},\"rsvps\":{\"yesCount\":109,\"waitlistCount\":0,\"totalCount\":109},\"venues\":[{\"id\":\"26906060\",\"name\":\"Online
         event\",\"address\":\"\",\"city\":\"\",\"state\":\"\",\"country\":\"\",\"lat\":-8.521147,\"lon\":179.1962,\"postalCode\":\"\",\"venueType\":\"online\"}],\"group\":{\"name\":\"R-Ladies
         Rome\",\"urlname\":\"rladies-rome\"}}},{\"node\":{\"id\":\"311581694\",\"title\":\"Geocomputation
         in R (In persian) \",\"description\":\"Geocomputation in R (In persian) Season
@@ -17549,7 +17549,7 @@ http_interactions:
         para unirse a la sesión.\",\"status\":\"PAST\",\"dateTime\":\"2022-10-31T15:00:00-03:00\",\"duration\":\"PT3H\",\"eventUrl\":\"https://www.meetup.com/rladies-valparaiso/events/289422397/\",\"featuredEventPhoto\":{\"id\":\"508173327\",\"baseUrl\":\"https://secure-content.meetupstatic.com/images/classic-events/\",\"highResUrl\":\"https://secure.meetupstatic.com/photos/event/8/2/2/f/highres_508173327.jpeg\",\"standardUrl\":\"https://secure.meetupstatic.com/photos/event/8/2/2/f/600_508173327.jpeg\",\"thumbUrl\":\"https://secure.meetupstatic.com/photos/event/8/2/2/f/thumb_508173327.jpeg\"},\"rsvps\":{\"yesCount\":10,\"waitlistCount\":0,\"totalCount\":10},\"venues\":[{\"id\":\"26906060\",\"name\":\"Online
         event\",\"address\":\"\",\"city\":\"\",\"state\":\"\",\"country\":\"\",\"lat\":-8.521147,\"lon\":179.1962,\"postalCode\":\"\",\"venueType\":\"online\"}],\"group\":{\"name\":\"R-Ladies
         Valparaíso\",\"urlname\":\"rladies-valparaiso\"}}}]}}}}"
-  recorded_at: 2025-10-19 16:51:26
+  recorded_at: 2025-10-19 21:43:36
 - request:
     method: POST
     uri: https://api.meetup.com/gql-ext
@@ -17570,7 +17570,7 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 19 Oct 2025 16:51:33 GMT
+      date: Sun, 19 Oct 2025 21:43:39 GMT
       content-length: '2195209'
     body:
       string: "{\"data\":{\"proNetwork\":{\"eventsSearch\":{\"totalCount\":5123,\"pageInfo\":{\"hasNextPage\":true,\"endCursor\":\"eyJ2YWx1ZXMiOlt7InR5cGUiOiJMb25nIiwidmFsdWUiOjE2MTYxOTEyMDAwMDB9LHsidHlwZSI6IkxvbmciLCJ2YWx1ZSI6Mjc3MDExNzI0fV19\"},\"edges\":[{\"node\":{\"id\":\"289405034\",\"title\":\"Cosas
@@ -37175,7 +37175,7 @@ http_interactions:
         esperamos!\",\"status\":\"PAST\",\"dateTime\":\"2021-03-19T18:00:00-03:00\",\"duration\":\"PT2H\",\"eventUrl\":\"https://www.meetup.com/rladies-concepcion/events/277011724/\",\"featuredEventPhoto\":{\"id\":\"495241502\",\"baseUrl\":\"https://secure-content.meetupstatic.com/images/classic-events/\",\"highResUrl\":\"https://secure.meetupstatic.com/photos/event/5/d/e/highres_495241502.jpeg\",\"standardUrl\":\"https://secure.meetupstatic.com/photos/event/5/d/e/600_495241502.jpeg\",\"thumbUrl\":\"https://secure.meetupstatic.com/photos/event/5/d/e/thumb_495241502.jpeg\"},\"rsvps\":{\"yesCount\":20,\"waitlistCount\":0,\"totalCount\":20},\"venues\":[{\"id\":\"26906060\",\"name\":\"Online
         event\",\"address\":\"\",\"city\":\"\",\"state\":\"\",\"country\":\"\",\"lat\":-8.521147,\"lon\":179.1962,\"postalCode\":\"\",\"venueType\":\"online\"}],\"group\":{\"name\":\"R-Ladies
         Concepción\",\"urlname\":\"rladies-concepcion\"}}}]}}}}"
-  recorded_at: 2025-10-19 16:51:33
+  recorded_at: 2025-10-19 21:43:39
 - request:
     method: POST
     uri: https://api.meetup.com/gql-ext
@@ -37196,7 +37196,7 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 19 Oct 2025 16:51:39 GMT
+      date: Sun, 19 Oct 2025 21:43:43 GMT
       content-length: '2124900'
     body:
       string: "{\"data\":{\"proNetwork\":{\"eventsSearch\":{\"totalCount\":5123,\"pageInfo\":{\"hasNextPage\":true,\"endCursor\":\"eyJ2YWx1ZXMiOlt7InR5cGUiOiJMb25nIiwidmFsdWUiOjE1ODIwNjg2MDAwMDB9LHsidHlwZSI6IkxvbmciLCJ2YWx1ZSI6MjY4NzQ2MzI2fV19\"},\"edges\":[{\"node\":{\"id\":\"276956741\",\"title\":\"
@@ -56312,7 +56312,7 @@ http_interactions:
         Freiburg Fahnenbergplatz\",\"address\":\"Fahnenbergpl. 1\",\"city\":\"Freiburg
         im Breisgau\",\"state\":\"BW\",\"country\":\"de\",\"lat\":47.99832,\"lon\":7.849117,\"postalCode\":\"79098\",\"venueType\":\"\"}],\"group\":{\"name\":\"R-Ladies
         Freiburg\",\"urlname\":\"rladies-freiburg\"}}}]}}}}"
-  recorded_at: 2025-10-19 16:51:40
+  recorded_at: 2025-10-19 21:43:43
 - request:
     method: POST
     uri: https://api.meetup.com/gql-ext
@@ -56333,7 +56333,7 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 19 Oct 2025 16:51:48 GMT
+      date: Sun, 19 Oct 2025 21:43:53 GMT
       content-length: '1942381'
     body:
       string: "{\"data\":{\"proNetwork\":{\"eventsSearch\":{\"totalCount\":5123,\"pageInfo\":{\"hasNextPage\":true,\"endCursor\":\"eyJ2YWx1ZXMiOlt7InR5cGUiOiJMb25nIiwidmFsdWUiOjE1NDY3MDA0MDAwMDB9LHsidHlwZSI6IkxvbmciLCJ2YWx1ZSI6MjU2Mzc0MDE4fV19\"},\"edges\":[{\"node\":{\"id\":\"268503878\",\"title\":\"Data
@@ -73745,7 +73745,7 @@ http_interactions:
         of you!\",\"status\":\"PAST\",\"dateTime\":\"2019-01-05T10:00:00-06:00\",\"duration\":\"PT2H\",\"eventUrl\":\"https://www.meetup.com/rladies-dallas/events/256374018/\",\"featuredEventPhoto\":null,\"rsvps\":{\"yesCount\":9,\"waitlistCount\":0,\"totalCount\":9},\"venues\":[{\"id\":\"24042507\",\"name\":\"Starbucks\",\"address\":\"8026
         Park Ln\",\"city\":\"Dallas\",\"state\":\"TX\",\"country\":\"us\",\"lat\":32.871868,\"lon\":-96.768326,\"postalCode\":\"\",\"venueType\":\"\"}],\"group\":{\"name\":\"R-Ladies
         Dallas\",\"urlname\":\"rladies-dallas\"}}}]}}}}"
-  recorded_at: 2025-10-19 16:51:48
+  recorded_at: 2025-10-19 21:43:53
 - request:
     method: POST
     uri: https://api.meetup.com/gql-ext
@@ -73766,7 +73766,7 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 19 Oct 2025 16:51:53 GMT
+      date: Sun, 19 Oct 2025 21:43:57 GMT
       content-length: '1782027'
     body:
       string: "{\"data\":{\"proNetwork\":{\"eventsSearch\":{\"totalCount\":5123,\"pageInfo\":{\"hasNextPage\":true,\"endCursor\":\"eyJ2YWx1ZXMiOlt7InR5cGUiOiJMb25nIiwidmFsdWUiOjE0ODcyODc4MDAwMDB9LHsidHlwZSI6IkxvbmciLCJ2YWx1ZSI6MjM3MjE0MDc4fV19\"},\"edges\":[{\"node\":{\"id\":\"250503879\",\"title\":\"¡Primer
@@ -90053,7 +90053,7 @@ http_interactions:
         is :)\",\"status\":\"PAST\",\"dateTime\":\"2017-02-16T18:30:00+01:00\",\"duration\":\"PT0S\",\"eventUrl\":\"https://www.meetup.com/rladies-budapest/events/237214078/\",\"featuredEventPhoto\":null,\"rsvps\":{\"yesCount\":82,\"waitlistCount\":0,\"totalCount\":82},\"venues\":[{\"id\":\"25013271\",\"name\":\"BME
         I épület, IB019-es terem\",\"address\":\"Magyar Tudósok körútja 2.\",\"city\":\"Budapest\",\"state\":\"\",\"country\":\"hu\",\"lat\":47.473511,\"lon\":19.059244,\"postalCode\":\"\",\"venueType\":\"\"}],\"group\":{\"name\":\"R-Ladies
         Budapest\",\"urlname\":\"rladies-budapest\"}}}]}}}}"
-  recorded_at: 2025-10-19 16:51:53
+  recorded_at: 2025-10-19 21:43:57
 - request:
     method: POST
     uri: https://api.meetup.com/gql-ext
@@ -90074,7 +90074,7 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 19 Oct 2025 16:51:56 GMT
+      date: Sun, 19 Oct 2025 21:43:58 GMT
       content-length: '203226'
     body:
       string: "{\"data\":{\"proNetwork\":{\"eventsSearch\":{\"totalCount\":5123,\"pageInfo\":{\"hasNextPage\":false,\"endCursor\":\"eyJ2YWx1ZXMiOlt7InR5cGUiOiJMb25nIiwidmFsdWUiOjEzNTE3MjA4MDAwMDB9LHsidHlwZSI6IkxvbmciLCJ2YWx1ZSI6ODUzMjAzODJ9XX0=\"},\"edges\":[{\"node\":{\"id\":\"237327713\",\"title\":\"February
@@ -91954,5 +91954,5 @@ http_interactions:
         San Francisco \",\"address\":\"4th floor, 345 Spear Street\",\"city\":\"San
         Francisco\",\"state\":\"CA\",\"country\":\"us\",\"lat\":37.789761,\"lon\":-122.390175,\"postalCode\":\"94105\",\"venueType\":\"\"}],\"group\":{\"name\":\"R-Ladies
         San Francisco\",\"urlname\":\"rladies-san-francisco\"}}}]}}}}"
-  recorded_at: 2025-10-19 16:51:56
+  recorded_at: 2025-10-19 21:43:58
 recorded_with: VCR-vcr/2.0.0

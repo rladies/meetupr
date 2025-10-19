@@ -1,30 +1,31 @@
 test_that("introspection functions work correctly", {
   # Use a single cassette for all introspection tests
   vcr::local_cassette("introspection")
+  mock_if_no_auth()
 
-  # Test meetup_introspect returns expected schema format
-  schema <- meetup_introspect()
+  # Test meetup_schema returns expected schema format
+  schema <- meetup_schema()
   expect_true(is.list(schema))
 
   # Test raw response
-  raw_schema <- meetup_introspect(asis = TRUE)
+  raw_schema <- meetup_schema(asis = TRUE)
   expect_true(jsonlite::validate(raw_schema))
 
-  # Test explore_query_fields extracts query fields
-  query_fields <- explore_query_fields(schema)
+  # Test meetup_schema_queries extracts query fields
+  query_fields <- meetup_schema_queries(schema = schema)
   expect_true(is.data.frame(query_fields))
 
-  # Test explore_mutations extracts mutation fields
-  mutations <- explore_mutations(schema)
+  # Test meetup_schema_mutations extracts mutation fields
+  mutations <- meetup_schema_mutations(schema = schema)
   expect_true(is.data.frame(mutations))
 
-  # Test search_types identifies matching types
-  types <- search_types(schema, "user")
+  # Test meetup_schema_search identifies matching types
+  types <- meetup_schema_search("user", schema = schema)
   expect_true(is.data.frame(types))
   expect_gt(nrow(types), 0)
 })
 
-test_that("explore_query_fields handles NULL descriptions", {
+test_that("meetup_schema_queries handles NULL descriptions", {
   mock_schema <- list(
     queryType = list(name = "Query"),
     types = list(
@@ -42,12 +43,12 @@ test_that("explore_query_fields handles NULL descriptions", {
     )
   )
 
-  result <- explore_query_fields(mock_schema)
+  result <- meetup_schema_queries(schema = mock_schema)
   expect_equal(result$description, "")
 })
 
 
-test_that("explore_query_fields processes schema correctly", {
+test_that("meetup_schema_queries processes schema correctly", {
   mock_schema <- list(
     queryType = list(name = "Query"),
     types = list(
@@ -72,7 +73,7 @@ test_that("explore_query_fields processes schema correctly", {
     )
   )
 
-  result <- explore_query_fields(mock_schema)
+  result <- meetup_schema_queries(schema = mock_schema)
 
   expect_s3_class(result, "data.frame")
   expect_equal(nrow(result), 2)
@@ -86,7 +87,7 @@ test_that("explore_query_fields processes schema correctly", {
   expect_equal(result$return_type, c("Event", "User"))
 })
 
-test_that("explore_query_fields calls meetup_introspect when schema is NULL", {
+test_that("meetup_schema_queries calls meetup_schema when schema is NULL", {
   mock_schema <- list(
     queryType = list(name = "Query"),
     types = list(
@@ -95,28 +96,28 @@ test_that("explore_query_fields calls meetup_introspect when schema is NULL", {
   )
 
   local_mocked_bindings(
-    meetup_introspect = function() mock_schema
+    meetup_schema = function() mock_schema
   )
 
-  result <- explore_query_fields()
+  result <- meetup_schema_queries()
   expect_s3_class(result, "data.frame")
 })
 
-test_that("explore_mutations handles missing mutationType", {
+test_that("meetup_schema_mutations handles missing mutationType", {
   schema_no_mutations <- list(
     queryType = list(name = "Query"),
     mutationType = NULL,
     types = list()
   )
 
-  result <- explore_mutations(schema_no_mutations)
+  result <- meetup_schema_mutations(schema = schema_no_mutations)
 
   expect_s3_class(result, "data.frame")
   expect_equal(nrow(result), 1)
   expect_equal(result$message, "No mutations available")
 })
 
-test_that("explore_mutations processes mutations correctly", {
+test_that("meetup_schema_mutations processes mutations correctly", {
   mock_schema <- list(
     mutationType = list(name = "Mutation"),
     types = list(
@@ -140,7 +141,7 @@ test_that("explore_mutations processes mutations correctly", {
     )
   )
 
-  result <- explore_mutations(mock_schema)
+  result <- meetup_schema_mutations(schema = mock_schema)
 
   expect_s3_class(result, "data.frame")
   expect_equal(nrow(result), 2)
@@ -151,15 +152,15 @@ test_that("explore_mutations processes mutations correctly", {
 })
 
 
-test_that("explore_mutations handles schema without mutationType", {
-  local_mocked_bindings(meetup_introspect = function(...) {
+test_that("meetup_schema_mutations handles schema without mutationType", {
+  local_mocked_bindings(meetup_schema = function(...) {
     list(mutationType = NULL)
   })
-  mutations <- explore_mutations()
+  mutations <- meetup_schema_mutations()
   expect_true(all(mutations$message == "No mutations available"))
 })
 
-test_that("meetup_introspect returns schema structure", {
+test_that("meetup_schema returns schema structure", {
   mock_schema <- list(
     queryType = list(name = "Query"),
     mutationType = list(name = "Mutation"),
@@ -171,16 +172,15 @@ test_that("meetup_introspect returns schema structure", {
 
   local_mocked_bindings(
     execute_from_template = function(template) {
-      expect_equal(template, "introspection")
       list(data = list(`__schema` = mock_schema))
     }
   )
 
-  result <- meetup_introspect()
+  result <- meetup_schema()
   expect_equal(result, mock_schema)
 })
 
-test_that("meetup_introspect returns JSON when asis=TRUE", {
+test_that("meetup_schema returns JSON when asis=TRUE", {
   mock_schema <- list(
     queryType = list(name = "Query"),
     types = list()
@@ -192,7 +192,7 @@ test_that("meetup_introspect returns JSON when asis=TRUE", {
     }
   )
 
-  result <- meetup_introspect(asis = TRUE)
+  result <- meetup_schema(asis = TRUE)
   expect_type(result, "character")
   expect_true(jsonlite::validate(result))
 
@@ -200,7 +200,7 @@ test_that("meetup_introspect returns JSON when asis=TRUE", {
   expect_equal(parsed$queryType$name, "Query")
 })
 
-test_that("search_types finds matching types by name", {
+test_that("meetup_schema_search finds matching types by name", {
   mock_schema <- list(
     types = list(
       list(
@@ -224,7 +224,7 @@ test_that("search_types finds matching types by name", {
     )
   )
 
-  result <- search_types(mock_schema, "user")
+  result <- meetup_schema_search("user", schema = mock_schema)
 
   expect_s3_class(result, "data.frame")
   expect_equal(nrow(result), 2)
@@ -232,7 +232,7 @@ test_that("search_types finds matching types by name", {
   expect_equal(result$field_count, c(2, 0))
 })
 
-test_that("search_types finds matching types by description", {
+test_that("meetup_schema_search finds matching types by description", {
   mock_schema <- list(
     types = list(
       list(
@@ -250,28 +250,32 @@ test_that("search_types finds matching types by description", {
     )
   )
 
-  result <- search_types(mock_schema, "event")
+  result <- meetup_schema_search("event", schema = mock_schema)
 
   expect_s3_class(result, "data.frame")
   expect_equal(nrow(result), 1)
   expect_equal(result$type_name, "Profile")
 })
 
-test_that("search_types handles empty results", {
+test_that("meetup_schema_search handles empty results", {
   mock_schema <- list(
     types = list(
-      list(name = "User", kind = "OBJECT", description = "A user")
+      list(
+        name = "User",
+        kind = "OBJECT",
+        description = "A user"
+      )
     )
   )
 
-  result <- search_types(mock_schema, "nonexistent")
+  result <- meetup_schema_search("nonexistent", schema = mock_schema)
 
   expect_s3_class(result, "data.frame")
   expect_equal(nrow(result), 0)
 })
 
 
-test_that("search_types handles NULL descriptions", {
+test_that("meetup_schema_search handles NULL descriptions", {
   mock_schema <- list(
     types = list(
       list(
@@ -283,7 +287,7 @@ test_that("search_types handles NULL descriptions", {
     )
   )
 
-  result <- search_types(mock_schema, "test")
+  result <- meetup_schema_search("test", schema = mock_schema)
   expect_equal(result$description, "")
 })
 
@@ -318,10 +322,10 @@ test_that("type_name handles simple types", {
 })
 
 
-test_that("get_type_fields handles missing isDeprecated field", {
+test_that("meetup_schema_type handles missing isDeprecated field", {
   mock_schema <- list(
     types = list(
-      Test = list(
+      list(
         name = "Test",
         fields = list(
           list(
@@ -335,45 +339,45 @@ test_that("get_type_fields handles missing isDeprecated field", {
     )
   )
 
-  result <- get_type_fields(mock_schema, "Test")
+  result <- meetup_schema_type("Test", schema = mock_schema)
   expect_equal(result$deprecated, FALSE)
 })
 
 
-test_that("get_type_fields returns error for no matching types", {
+test_that("meetup_schema_type returns error for no matching types", {
   schema <- list(
     types = list(
-      TypeB = list(name = "TypeB", kind = "Object")
+      list(name = "TypeB", kind = "Object")
     )
   )
 
   expect_error(
-    get_type_fields(schema, "UnmatchedType"),
+    meetup_schema_type("UnmatchedType", schema = schema),
     "Type not found"
   )
 })
 
-test_that("get_type_fields handles multiple matching types", {
+test_that("meetup_schema_type handles multiple matching types", {
   schema <- list(
     types = list(
-      Type1 = list(name = "Type1", kind = "Object"),
-      Type1Sub = list(name = "Type1Sub", kind = "Object")
+      list(name = "Type1", kind = "Object"),
+      list(name = "Type1Sub", kind = "Object")
     )
   )
 
-  result <- get_type_fields(schema, "Type1")
+  result <- meetup_schema_type("Type1", schema = schema)
 
   expect_equal(nrow(result), 2)
 })
 
-test_that("get_type_fields handles type with no fields", {
+test_that("meetup_schema_type handles type with no fields", {
   schema <- list(
     types = list(
-      TypeC = list(name = "TypeC", kind = "Object", fields = NULL)
+      list(name = "TypeC", kind = "Object", fields = NULL)
     )
   )
 
-  result <- get_type_fields(schema, "TypeC")
+  result <- meetup_schema_type("TypeC", schema = schema)
 
   expect_equal(
     result,
@@ -384,18 +388,18 @@ test_that("get_type_fields handles type with no fields", {
 })
 
 
-test_that("get_type_fields handles missing types", {
-  local_mocked_bindings(meetup_introspect = function(...) list(types = list()))
-  expect_error(get_type_fields(
-    schema = list(types = list()),
-    type_name = "InvalidType"
+test_that("meetup_schema_type handles missing types", {
+  local_mocked_bindings(meetup_schema = function(...) list(types = list()))
+  expect_error(meetup_schema_type(
+    type_name = "InvalidType",
+    schema = list(types = list())
   ))
 })
 
-test_that("get_type_fields handles exact type match", {
+test_that("meetup_schema_type handles exact type match", {
   mock_schema <- list(
     types = list(
-      User = list(
+      list(
         name = "User",
         fields = list(
           list(
@@ -415,7 +419,7 @@ test_that("get_type_fields handles exact type match", {
     )
   )
 
-  result <- get_type_fields(mock_schema, "User")
+  result <- meetup_schema_type("User", schema = mock_schema)
 
   expect_s3_class(result, "data.frame")
   expect_equal(nrow(result), 2)

@@ -15,7 +15,7 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 19 Oct 2025 16:29:37 GMT
+      date: Sun, 19 Oct 2025 21:21:00 GMT
       content-length: '25174'
     body:
       string: '{"data":{"proNetwork":{"groupsSearch":{"totalCount":247,"pageInfo":{"hasNextPage":true,"endCursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJMb25nIiwidmFsdWUiOjE3MjIzNzg3MjMwMDB9LHsidHlwZSI6IkxvbmciLCJ2YWx1ZSI6Mzc3MTA2NTN9XX0="},"edges":[{"node":{"id":"37968764","name":"R-Ladies
@@ -291,5 +291,5 @@ http_interactions:
         (but is not limited to), the right to use them in their printed and online
         publicity, social media, press releases and funding applications. If you do
         not wish to be recorded in these media please inform a community organizer.","lat":-38.73,"lon":-72.58,"city":"Temuco","state":"","country":"cl","membershipMetadata":{"status":"LEADER"},"memberships":{"totalCount":83},"foundedDate":"2024-07-30T18:31:25-04:00","proJoinDate":"2024-07-30T18:32:03-04:00","timezone":"America/Santiago","joinMode":"OPEN","who":"R-Ladies","isPrivate":false}}]}}}}'
-  recorded_at: 2025-10-19 16:29:37
+  recorded_at: 2025-10-19 21:21:00
 recorded_with: VCR-vcr/2.0.0

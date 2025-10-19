@@ -117,7 +117,7 @@ get_group_members <- function(
 get_group <- function(urlname) {
   execute(
     meetup_template_query(
-      template = "get_group",
+      template = template_path("get_group"),
       page_info_path = ".pageInfo",
       edges_path = "data.groupByUrlname",
       process_data = process_group_data

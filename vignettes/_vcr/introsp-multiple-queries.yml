@@ -1,0 +1,21 @@
+http_interactions:
+- request:
+    method: POST
+    uri: https://api.meetup.com/gql-ext
+    body:
+      string: '{"query":"\nquery GetMultipleThings($groupUrlname: String!, $eventId:
+        ID!) {\n  # First query\n  group: groupByUrlname(urlname: $groupUrlname) {\n    name\n    memberCount\n  }\n  \n  #
+        Second query\n  event: event(id: $eventId) {\n    title\n    dateTime\n  }\n  \n  #
+        Third query\n  self {\n    name\n    email\n  }\n}\n","variables":{"groupUrlname":"rladies-lagos","eventId":"103349942"}}'
+  response:
+    status: 200
+    headers:
+      content-type: application/json;charset=utf-8
+      accept-ranges: bytes
+      date: Sun, 19 Oct 2025 21:43:21 GMT
+      content-length: '226'
+    body:
+      string: '{"errors":[{"message":"Validation error (FieldUndefined@[groupByUrlname/memberCount])
+        : Field ''memberCount'' in type ''Group'' is undefined","locations":[{"line":6,"column":5}],"extensions":{"classification":"ValidationError"}}]}'
+  recorded_at: 2025-10-19 21:43:21
+recorded_with: VCR-vcr/2.0.0

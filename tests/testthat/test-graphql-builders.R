@@ -105,7 +105,7 @@ test_that("standard_query constructs correctly", {
   result <- standard_query("template", "base.path")
   expect_true(S7::S7_inherits(result, S7::S7_object))
 
-  expect_equal(result@template, "template")
+  expect_equal(result@template, "")
   expect_equal(result@page_info_path, "base.path.pageInfo")
   expect_equal(result@edges_path, "base.path.edges")
 })

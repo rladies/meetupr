@@ -137,7 +137,7 @@ Key quirks:
 - Pagination uses cursor-based system (not offset/limit)
 - Some fields Pro-only (e.g., `UPCOMING` status for events)
 - Comments endpoint removed from schema (see `get_event_comments()` for deprecation pattern)
-- Introspection available via `meetup_introspect()` to explore schema
+- Introspection available via `meetup_schema()` to explore schema
 
 ### Debug Mode
 

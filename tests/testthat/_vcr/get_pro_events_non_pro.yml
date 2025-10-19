@@ -19,7 +19,7 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 19 Oct 2025 16:29:39 GMT
+      date: Sun, 19 Oct 2025 21:21:02 GMT
       content-length: '6471'
     body:
       string: '{"data":{"proNetwork":{"eventsSearch":{"totalCount":5123,"pageInfo":{"hasNextPage":true,"endCursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJMb25nIiwidmFsdWUiOjE3NjI4OTg0MDAwMDB9LHsidHlwZSI6IkxvbmciLCJ2YWx1ZSI6MzEwNjU1MjMwfV19"},"edges":[{"node":{"id":"311527696","title":"Lunch
@@ -60,5 +60,5 @@ http_interactions:
         August.","status":"ACTIVE","dateTime":"2025-11-11T17:00:00+01:00","duration":"PT1H30M","eventUrl":"https://www.meetup.com/rladies-trondheim/events/310655230/","featuredEventPhoto":{"id":"529769860","baseUrl":"https://secure-content.meetupstatic.com/images/classic-events/","highResUrl":"https://secure.meetupstatic.com/photos/event/7/4/a/4/highres_529769860.jpeg","standardUrl":"https://secure.meetupstatic.com/photos/event/7/4/a/4/600_529769860.jpeg","thumbUrl":"https://secure.meetupstatic.com/photos/event/7/4/a/4/thumb_529769860.jpeg"},"rsvps":{"yesCount":2,"waitlistCount":0,"totalCount":2},"venues":[{"id":"27789840","name":"Central
         Building 2, NTNU","address":"Alfred Getz'' vei 1","city":"Trondheim","state":"","country":"no","lat":63.417618,"lon":10.403983,"postalCode":"7034","venueType":""}],"group":{"name":"R-Ladies
         Trondheim","urlname":"rladies-trondheim"}}}]}}}}'
-  recorded_at: 2025-10-19 16:29:39
+  recorded_at: 2025-10-19 21:21:02
 recorded_with: VCR-vcr/2.0.0

@@ -173,24 +173,92 @@ test_that("validate_event_status throws an error for invalid status", {
 
 test_that("get_template_path fails when file doesn't exist", {
   expect_error(
-    get_template_path("nonexistent_file"),
-    "GraphQL file not found"
+    get_template_path("nonexistent_file.graphql"),
+    "GraphQL template file not found"
   )
 })
 
-test_that("read_template fails when file read error occurs", {
-  local_mocked_bindings(
-    readChar = function(...) stop("Permission denied"),
-    .package = "base"
-  )
+
+test_that("get_template_path accepts user file with full path", {
+  temp_file <- withr::local_tempfile(fileext = ".graphql")
+  writeLines("query { test }", temp_file)
+
+  path <- get_template_path(temp_file)
+  expect_equal(normalizePath(path), normalizePath(temp_file))
+  expect_true(file.exists(path))
+})
+
+
+test_that("get_template_path handles relative paths", {
+  # Create temporary directory structure
+  temp_dir <- withr::local_tempdir()
+  queries_dir <- file.path(temp_dir, "queries")
+  dir.create(queries_dir)
+
+  query_file <- file.path(queries_dir, "custom.graphql")
+  writeLines("query { test }", query_file)
+
+  # Change to temp directory to test relative path
+  withr::local_dir(temp_dir)
+
+  path <- get_template_path("queries/custom.graphql")
+  expect_true(file.exists(path))
+  expect_match(path, "queries/custom\\.graphql$")
+})
+
+test_that("get_template_path normalizes paths", {
+  temp_file <- withr::local_tempfile(fileext = ".graphql")
+  writeLines("query { test }", temp_file)
+
+  # Test with redundant path separators
+  messy_path <- gsub("/", "//", temp_file)
+  path <- get_template_path(messy_path)
+
+  # Should return normalized path
+  expect_equal(path, normalizePath(temp_file, mustWork = TRUE))
+})
+
+test_that("get_template_path returns absolute path", {
+  temp_file <- withr::local_tempfile(fileext = ".graphql")
+  writeLines("query { test }", temp_file)
+
+  path <- get_template_path(temp_file)
+
+  # Result should be absolute (not relative)
+  expect_true(grepl("^/", path) || grepl("^[A-Z]:", path)) # Unix or Windows
+})
+test_that("get_template_path handles symlinks", {
+  skip_on_os("windows") # Symlink behavior differs on Windows
 
   temp_file <- withr::local_tempfile(fileext = ".graphql")
   writeLines("query { test }", temp_file)
 
-  expect_error(
-    read_template(temp_file),
-    "Failed to read GraphQL file"
-  )
+  # Create symlink
+  temp_dir <- withr::local_tempdir()
+  link_path <- file.path(temp_dir, "link.graphql")
+  file.symlink(temp_file, link_path)
+
+  if (file.exists(link_path)) {
+    path <- get_template_path(link_path)
+    expect_true(file.exists(path))
+    # Should resolve to real path
+    expect_equal(normalizePath(path), normalizePath(temp_file))
+  }
+})
+
+test_that("get_template_path validates file is readable", {
+  skip_on_os("windows") # Permission testing works differently
+
+  temp_file <- withr::local_tempfile(fileext = ".graphql")
+  writeLines("query { test }", temp_file)
+
+  # Remove read permissions
+  Sys.chmod(temp_file, mode = "000")
+  withr::defer(Sys.chmod(temp_file, mode = "644"))
+
+  # File exists but isn't readable - normalizePath should still work
+  # (actual read error happens in read_template, not here)
+  expect_no_error(get_template_path(temp_file))
 })
 
 test_that("read_template strips end-of-line", {

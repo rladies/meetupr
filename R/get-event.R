@@ -24,7 +24,7 @@ get_event <- function(
 
   result <- execute(
     meetup_template_query(
-      template = "get_event",
+      template = template_path("get_event"),
       page_info_path = "data.event.pageInfo",
       edges_path = "data.event",
       process_data = process_event_data

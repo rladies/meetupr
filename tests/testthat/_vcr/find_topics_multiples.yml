@@ -12,7 +12,7 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 19 Oct 2025 16:29:44 GMT
+      date: Sun, 19 Oct 2025 21:21:07 GMT
       content-length: '1268'
     body:
       string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJEb3VibGUiLCJ2YWx1ZSI6Mi42MzAyNDJ9LHsidHlwZSI6IlN0cmluZyIsInZhbHVlIjoiNDc2NjgyLWVuX1VTIn1dfQ=="},"totalCount":383,"edges":[{"node":{"id":"128849","name":"Plein
@@ -25,7 +25,7 @@ http_interactions:
         Aircraft","urlkey":"multi-rotor-aircraft","description":null}},{"node":{"id":"506892","name":"Airbnb","urlkey":"airbnb","description":null}},{"node":{"id":"476682","name":"Aikido","urlkey":"aikido","description":"Meet
         other local Aikidoka to get off the mat for some fun and relaxation as well
         as learn about people from surrounding dojos."}}]}}}'
-  recorded_at: 2025-10-19 16:29:44
+  recorded_at: 2025-10-19 21:21:07
 - request:
     method: POST
     uri: https://api.meetup.com/gql-ext
@@ -39,7 +39,7 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 19 Oct 2025 16:29:44 GMT
+      date: Sun, 19 Oct 2025 21:21:07 GMT
       content-length: '1268'
     body:
       string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJEb3VibGUiLCJ2YWx1ZSI6Mi42MzAyNDJ9LHsidHlwZSI6IlN0cmluZyIsInZhbHVlIjoiNDc2NjgyLWVuX1VTIn1dfQ=="},"totalCount":383,"edges":[{"node":{"id":"128849","name":"Plein
@@ -52,5 +52,5 @@ http_interactions:
         Aircraft","urlkey":"multi-rotor-aircraft","description":null}},{"node":{"id":"506892","name":"Airbnb","urlkey":"airbnb","description":null}},{"node":{"id":"476682","name":"Aikido","urlkey":"aikido","description":"Meet
         other local Aikidoka to get off the mat for some fun and relaxation as well
         as learn about people from surrounding dojos."}}]}}}'
-  recorded_at: 2025-10-19 16:29:44
+  recorded_at: 2025-10-19 21:21:07
 recorded_with: VCR-vcr/2.0.0

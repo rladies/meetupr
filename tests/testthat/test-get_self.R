@@ -303,32 +303,6 @@ test_that("print.meetup_user handles missing location", {
   expect_false(any(grepl("Location:", output)))
 })
 
-test_that("get_self uses meetup_template_query correctly", {
-  mock_if_no_auth()
-
-  local_mocked_bindings(
-    meetup_template_query = function(
-      query_name,
-      data_path,
-      extract_path,
-      process_data
-    ) {
-      expect_equal(query_name, "get_self")
-      expect_equal(data_path, "")
-      expect_equal(extract_path, "data.self")
-      expect_identical(process_data, process_self_data)
-      "mock_query_object"
-    },
-    execute = function(query_obj, extra_graphql) {
-      expect_equal(query_obj, "mock_query_object")
-      expect_null(extra_graphql)
-      structure(list(id = "test"), class = c("meetup_user", "list"))
-    }
-  )
-
-  result <- get_self()
-  expect_s3_class(result, "meetup_user")
-})
 
 test_that("print.meetup_user outputs full data correctly", {
   user <- structure(

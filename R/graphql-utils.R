@@ -4,7 +4,7 @@
 #' optionally inserts additional GraphQL fragments or queries,
 #' and executes the query with provided variables.
 #'
-#' @param .file Name of the file containing the GraphQL
+#' @param path Name of the file containing the GraphQL
 #' query (without extension)
 #' @param ... Variables to pass to query
 #' @param extra_graphql Additional GraphQL fragments or queries to include
@@ -12,7 +12,7 @@
 #' @noRd
 #' @keywords internal
 execute_from_template <- function(
-  .file,
+  path,
   ...,
   extra_graphql = NULL,
   .envir = parent.frame()
@@ -21,7 +21,7 @@ execute_from_template <- function(
     extra_graphql
   )
 
-  template <- get_template_path(.file) |>
+  template <- get_template_path(path) |>
     read_template() |>
     insert_extra_graphql(extra_graphql)
 
@@ -33,24 +33,48 @@ execute_from_template <- function(
 }
 
 #' Get template path
-#' This function constructs the file path for a given GraphQL
-#' template file and checks if it exists.
-#' @param .file Name of the file containing the GraphQL
-#' query (without extension)
+#'
+#' This function constructs the file path for a given GraphQL template file.
+#' It first checks if the file exists as a full path, then checks in the
+#' package's inst/graphql/ directory.
+#'
+#' @param path Name of the file containing the GraphQL query. Can be either:
+#'   - A full file path (with or without .graphql extension)
+#'   - A template name (looks in inst/graphql/)
 #' @return The full file path to the GraphQL template file.
 #' @keywords internal
 #' @noRd
-get_template_path <- function(.file) {
-  file_path <- system.file(
-    file.path("graphql", paste0(.file, ".graphql")),
-    package = "meetupr"
-  )
-
-  if (!file.exists(file_path)) {
-    cli::cli_abort("GraphQL file not found: {.path {file_path}}")
+get_template_path <- function(path) {
+  if (!grepl("\\.graphql$", path)) {
+    cli::cli_abort(c(
+      "The {.code path} argument must include the {.code .graphql} extension.",
+      "i" = "Please provide the full filename, e.g., {.code 'custom_query.graphql'}."
+    ))
   }
 
-  file_path
+  file_path <- normalizePath(path)
+  if (file.exists(file_path)) {
+    return(file_path)
+  }
+
+  # File not found anywhere
+  cli::cli_abort(c(
+    "GraphQL template file not found: {.path {file_path}}"
+  ))
+}
+
+#' Get template file path in package
+#' This function constructs the file path for a GraphQL template
+#' located in the package's inst/graphql/ directory.
+#' @param path Name of the file containing the GraphQL query (without extension)
+#' @return The full file path to the GraphQL template file in the package.
+#' @keywords internal
+#' @noRd
+template_path <- function(path) {
+  system.file(
+    file.path("graphql", paste0(path, ".graphql")),
+    package = "meetupr"
+  )
 }
 
 #' Read template file

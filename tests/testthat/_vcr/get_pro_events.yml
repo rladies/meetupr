@@ -9,11 +9,11 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 19 Oct 2025 16:29:38 GMT
+      date: Sun, 19 Oct 2025 21:21:01 GMT
       content-length: '41'
     body:
       string: '{"data":{"self":{"isProOrganizer":true}}}'
-  recorded_at: 2025-10-19 16:29:38
+  recorded_at: 2025-10-19 21:21:01
 - request:
     method: POST
     uri: https://api.meetup.com/gql-ext
@@ -24,11 +24,11 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 19 Oct 2025 16:29:38 GMT
+      date: Sun, 19 Oct 2025 21:21:01 GMT
       content-length: '41'
     body:
       string: '{"data":{"self":{"isProOrganizer":true}}}'
-  recorded_at: 2025-10-19 16:29:38
+  recorded_at: 2025-10-19 21:21:01
 - request:
     method: POST
     uri: https://api.meetup.com/gql-ext
@@ -49,7 +49,7 @@ http_interactions:
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 19 Oct 2025 16:29:39 GMT
+      date: Sun, 19 Oct 2025 21:21:02 GMT
       content-length: '8771'
     body:
       string: '{"data":{"proNetwork":{"eventsSearch":{"totalCount":218,"pageInfo":{"hasNextPage":true,"endCursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJMb25nIiwidmFsdWUiOjE3MzM4NzUyMDAwMDB9LHsidHlwZSI6IkxvbmciLCJ2YWx1ZSI6MzAzOTg5ODE1fV19"},"edges":[{"node":{"id":"310482419","title":"[DRAFT]
@@ -134,5 +134,5 @@ http_interactions:
         copilot and R","description":"Using copilot and R","status":"CANCELLED","dateTime":"2024-12-10T19:00:00+01:00","duration":"PT2H","eventUrl":"https://www.meetup.com/rladies-rome/events/303989815/","featuredEventPhoto":null,"rsvps":{"yesCount":0,"waitlistCount":0,"totalCount":0},"venues":[{"id":"26906060","name":"Online
         event","address":"","city":"","state":"","country":"","lat":-8.521147,"lon":179.1962,"postalCode":"","venueType":"online"}],"group":{"name":"R-Ladies
         Rome","urlname":"rladies-rome"}}}]}}}}'
-  recorded_at: 2025-10-19 16:29:39
+  recorded_at: 2025-10-19 21:21:02
 recorded_with: VCR-vcr/2.0.0
