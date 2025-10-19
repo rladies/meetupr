@@ -45,6 +45,8 @@ you to find groups that match your search criteria.</p>
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">find_groups</span><span class="op">(</span></span>
 <span>  <span class="va">query</span>,</span>
+<span>  topic_id <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  category_id <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  max_results <span class="op">=</span> <span class="fl">200</span>,</span>
 <span>  handle_multiples <span class="op">=</span> <span class="st">"list"</span>,</span>
 <span>  extra_graphql <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -58,6 +60,14 @@ you to find groups that match your search criteria.</p>
 
 <dl><dt id="arg-query">query<a class="anchor" aria-label="anchor" href="#arg-query"></a></dt>
 <dd><p>Character string to search for groups</p></dd>
+
+
+<dt id="arg-topic-id">topic_id<a class="anchor" aria-label="anchor" href="#arg-topic-id"></a></dt>
+<dd><p>Numeric ID of a topic to filter groups by</p></dd>
+
+
+<dt id="arg-category-id">category_id<a class="anchor" aria-label="anchor" href="#arg-category-id"></a></dt>
+<dd><p>Numeric ID of a category to filter groups by</p></dd>
 
 
 <dt id="arg-max-results">max_results<a class="anchor" aria-label="anchor" href="#arg-max-results"></a></dt>
@@ -88,8 +98,6 @@ If "first", return only the first match.</p></dd>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">groups</span> <span class="op">&lt;-</span> <span class="fu">find_groups</span><span class="op">(</span><span class="st">"R-Ladies"</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Selecting ‘env’ backend. Secrets are stored in environment variables</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Selecting ‘env’ backend. Secrets are stored in environment variables</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

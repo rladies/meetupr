@@ -68,22 +68,23 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rladies.org/meetupr/" class="external-link">meetupr</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
+<p>meetupr is an R package that provides a client for the Meetup.com
+GraphQL API. It allows you to search for groups, retrieve event
+information, get member lists, and access other Meetup data directly
+from R. This vignette will guide you through setup, authentication, and
+common use cases.</p>
+</div>
+<div class="section level2">
 <h2 id="quick-setup-check">Quick Setup Check<a class="anchor" aria-label="anchor" href="#quick-setup-check"></a>
 </h2>
-<p>Start by running <code><a href="../reference/meetup_sitrep.html">meetup_sitrep()</a></code> to set up
-authentication or check your authentication status:</p>
+<p>Start by running <code><a href="../reference/meetup_sitrep.html">meetup_sitrep()</a></code> to check your
+authentication status or set up authentication:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/meetup_sitrep.html">meetup_sitrep</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">meetupr Situation Report</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────</span></span></span>
-<span><span class="co">#&gt; Warning in default_backend_auto(): Selecting 'env' backend. Secrets are stored</span></span>
-<span><span class="co">#&gt; in environment variables</span></span>
-<span><span class="co">#&gt; Warning in default_backend_auto(): Selecting 'env' backend. Secrets are stored</span></span>
-<span><span class="co">#&gt; in environment variables</span></span>
-<span><span class="co">#&gt; Warning in default_backend_auto(): Selecting 'env' backend. Secrets are stored</span></span>
-<span><span class="co">#&gt; in environment variables</span></span>
-<span><span class="co">#&gt; Warning in default_backend_auto(): Selecting 'env' backend. Secrets are stored</span></span>
-<span><span class="co">#&gt; in environment variables</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── <span style="font-weight: bold;">Active Authentication Method</span> ──</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -98,188 +99,133 @@ authentication or check your authentication status:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── <span style="font-weight: bold;">API Connectivity Test</span> ──</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Warning in default_backend_auto(): Selecting 'env' backend. Secrets are stored</span></span>
-<span><span class="co">#&gt; in environment variables</span></span>
-<span><span class="co">#&gt; Warning in default_backend_auto(): Selecting 'env' backend. Secrets are stored</span></span>
-<span><span class="co">#&gt; in environment variables</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> API Connection: Working</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Authenticated as: <span style="font-weight: bold;">R-Ladies Global</span> (ID: 251470805)</span></span></code></pre></div>
-<p>This function will show you:<br>
-- Which authentication method is active<br>
-- Whether your credentials are properly configured<br>
-- API connectivity status<br>
-- Setup instructions if authentication is missing</p>
+<p>This function shows you:</p>
+<ul>
+<li>Which authentication method is currently active<br>
+</li>
+<li>Whether your credentials are properly configured<br>
+</li>
+<li>API connectivity status<br>
+</li>
+<li>Setup instructions if authentication is missing</li>
+</ul>
+<p>The function provides actionable feedback, telling you exactly what
+to do if authentication isn’t working.</p>
 </div>
 <div class="section level2">
-<h2 id="authentication-methods">Authentication Methods<a class="anchor" aria-label="anchor" href="#authentication-methods"></a>
+<h2 id="authentication">Authentication<a class="anchor" aria-label="anchor" href="#authentication"></a>
 </h2>
-<p>Authentication is required to access the Meetup API. When you first
-install and load the <code>meetupr</code> package, you can use built-in
-credentials for basic access. You authenticate by running
-<code><a href="../reference/meetup_auth.html">meetup_auth()</a></code>, (or any querying function) which opens a
-browser window for OAuth login. You provide consent for the app to use
-your Meetup account to retrieve data.</p>
-<p>meetupr supports two authentication methods:</p>
+<p>Authentication is required to access the Meetup API. meetupr supports
+two authentication methods: interactive OAuth (for local development)
+and CI/CD authentication (for automated workflows).</p>
 <div class="section level3">
-<h3 id="oauth-authentication-interactive">OAuth Authentication (Interactive)<a class="anchor" aria-label="anchor" href="#oauth-authentication-interactive"></a>
+<h3 id="interactive-authentication">Interactive Authentication<a class="anchor" aria-label="anchor" href="#interactive-authentication"></a>
 </h3>
-<p>Best for interactive development, data exploration, and one-off
-analyses.</p>
-<p><strong>Setup:</strong></p>
+<p>For interactive use (exploring data, one-off analyses), simply
+authenticate when prompted:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Authenticate interactively (opens browser)</span></span>
 <span><span class="fu"><a href="../reference/meetup_auth.html">meetup_auth</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Check authentication status</span></span>
 <span><span class="fu"><a href="../reference/meetup_auth_status.html">meetup_auth_status</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>The OAuth token is cached locally in your httr2 cache directory.
-Token files follow the pattern: <code>{hash}-token.rds.enc</code></p>
+<p>When you run <code><a href="../reference/meetup_auth.html">meetup_auth()</a></code>:</p>
+<ol style="list-style-type: decimal">
+<li>A browser window opens to Meetup’s authorization page<br>
+</li>
+<li>You log in with your Meetup credentials<br>
+</li>
+<li>You grant permission to the meetupr app<br>
+</li>
+<li>The OAuth token is securely cached on your system</li>
+</ol>
+<p>The OAuth token is stored locally in your httr2 cache directory.
+Token files follow the naming pattern:
+<code>{hash}-token.rds.enc</code>. These files are encrypted and
+specific to your system.</p>
+<p>You only need to authenticate once. The token will be reused in
+future R sessions until it expires (typically after 90 days).</p>
 </div>
 <div class="section level3">
-<h3 id="cicd-authentication-non-interactive">CI/CD Authentication (Non-Interactive)<a class="anchor" aria-label="anchor" href="#cicd-authentication-non-interactive"></a>
+<h3 id="cicd-authentication">CI/CD Authentication<a class="anchor" aria-label="anchor" href="#cicd-authentication"></a>
 </h3>
-<p>For automated workflows, you can set up token-based
-authentication:</p>
+<p>For automated workflows (GitHub Actions, scheduled scripts, etc.),
+you need token-based authentication that doesn’t require browser
+interaction.</p>
 <div class="section level4">
-<h4 id="authenticate-locally-first">1. Authenticate locally first:<a class="anchor" aria-label="anchor" href="#authenticate-locally-first"></a>
+<h4 id="step-1-set-up-ci-credentials-locally">Step 1: Set up CI credentials locally<a class="anchor" aria-label="anchor" href="#step-1-set-up-ci-credentials-locally"></a>
 </h4>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/meetup_auth.html">meetup_auth</a></span><span class="op">(</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="co"># First authenticate interactively</span></span>
+<span><span class="fu"><a href="../reference/meetup_auth.html">meetup_auth</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Then set up CI credentials</span></span>
 <span><span class="fu"><a href="../reference/meetup_ci.html">meetup_ci_setup</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>This encodes your token as base64 and provides instructions for
-setting CI secrets. It will also store this information using the <a href="https://keyring.r-lib.org/" class="external-link">keyring</a> package.</p>
+<p>The <code><a href="../reference/meetup_ci.html">meetup_ci_setup()</a></code> function will:</p>
+<ol style="list-style-type: decimal">
+<li>Encode your existing OAuth token as base64<br>
+</li>
+<li>Store the encoded token in your system keyring<br>
+</li>
+<li>Display the token and filename for setting CI secrets<br>
+</li>
+<li>Provide instructions for your CI platform</li>
+</ol>
 </div>
 <div class="section level4">
-<h4 id="set-environment-variables-in-your-ci">2. Set environment variables in your CI<a class="anchor" aria-label="anchor" href="#set-environment-variables-in-your-ci"></a>
+<h4 id="step-2-set-environment-variables-in-your-ci">Step 2: Set environment variables in your CI<a class="anchor" aria-label="anchor" href="#step-2-set-environment-variables-in-your-ci"></a>
 </h4>
+<p>In your CI platform (GitHub Actions, GitLab CI, etc.), set these
+secrets:</p>
 <ul>
 <li>
-<code>meetupr:token</code> - Base64-encoded token (from step
-1)<br>
+<code>meetupr:token</code>: Base64-encoded token (from step 1)<br>
 </li>
 <li>
-<code>meetupr:token_file</code> - Token filename (e.g.,
+<code>meetupr:token_file</code>: Token filename (e.g.,
 <code>ae743e0-token.rds.enc</code>)</li>
 </ul>
+<p>For GitHub Actions, your workflow YAML should include:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">env</span><span class="kw">:</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="at">  </span><span class="fu">"meetupr:token"</span><span class="kw">:</span><span class="at"> ${{ secrets.MEETUPR_TOKEN }}</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="at">  </span><span class="fu">"meetupr:token_file"</span><span class="kw">:</span><span class="at"> ${{ secrets.MEETUPR_TOKEN_FILE }}</span></span></code></pre></div>
+<p><strong>Important</strong>: Quote the environment variable names in
+YAML because they contain colons.</p>
 </div>
 <div class="section level4">
-<h4 id="token-loads-automatically-in-ci">3. Token loads automatically in CI<a class="anchor" aria-label="anchor" href="#token-loads-automatically-in-ci"></a>
+<h4 id="step-3-load-token-in-ci">Step 3: Load token in CI<a class="anchor" aria-label="anchor" href="#step-3-load-token-in-ci"></a>
 </h4>
-<p>To make the authentication work in CI/CD pipelines, add this line
-before running any API calls:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<p>Add this line at the beginning of your CI script, before any API
+calls:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/meetup_ci.html">meetup_ci_load</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>This function decodes the base64 token and writes it to the expected
+cache location. All subsequent API calls will use this token
+automatically.</p>
 </div>
+</div>
+<div class="section level3">
+<h3 id="deauthentication">Deauthentication<a class="anchor" aria-label="anchor" href="#deauthentication"></a>
+</h3>
+<p>To remove cached credentials:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Clear authentication completely</span></span>
+<span><span class="fu"><a href="../reference/meetup_auth.html">meetup_deauth</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>The <code><a href="../reference/meetup_auth.html">meetup_deauth()</a></code> function removes all cached tokens
+and clears authentication state. You’ll need to re-authenticate the next
+time you make an API call.</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="variables-reference">Variables Reference<a class="anchor" aria-label="anchor" href="#variables-reference"></a>
+<h2 id="verification">Verification<a class="anchor" aria-label="anchor" href="#verification"></a>
 </h2>
-<div class="section level3">
-<h3 id="keyring-credentials">Keyring Credentials<a class="anchor" aria-label="anchor" href="#keyring-credentials"></a>
-</h3>
-<p>When using keyring (either locally or in CI), credentials follow the
-format <code>service:username</code>:</p>
-<table class="table">
-<thead><tr class="header">
-<th>Keyring Key</th>
-<th>Required</th>
-<th>Purpose</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td><code>meetupr:client_id</code></td>
-<td>No*</td>
-<td>OAuth client ID</td>
-</tr>
-<tr class="even">
-<td><code>meetupr:client_secret</code></td>
-<td>No*</td>
-<td>OAuth client secret</td>
-</tr>
-<tr class="odd">
-<td><code>meetupr:token</code></td>
-<td>for CI</td>
-<td>Base64-encoded OAuth token</td>
-</tr>
-<tr class="even">
-<td><code>meetupr:token_file</code></td>
-<td>for CI</td>
-<td>Token filename</td>
-</tr>
-</tbody>
-</table>
-<p>* Built-in credentials are used if not provided</p>
-</div>
-<div class="section level3">
-<h3 id="environment-variables">Environment Variables<a class="anchor" aria-label="anchor" href="#environment-variables"></a>
-</h3>
-<table class="table">
-<thead><tr class="header">
-<th>Variable</th>
-<th>Required</th>
-<th>Purpose</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td><code>MEETUP_CLIENT_NAME</code></td>
-<td>No</td>
-<td>OAuth client name (default: “meetupr”)</td>
-</tr>
-<tr class="even">
-<td><code>MEETUPR_DEBUG</code></td>
-<td>No</td>
-<td>Enable debug output (“1” = on)</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Note for GitHub Actions</strong>: When setting keyring
-credentials as environment variables in YAML, quote the names:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">env</span><span class="kw">:</span></span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="at">  </span><span class="fu">"meetupr:token"</span><span class="kw">:</span><span class="at"> ${{ secrets.meetupr_token }}</span></span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="at">  </span><span class="fu">"meetupr:token_file"</span><span class="kw">:</span><span class="at"> ${{ secrets.meetupr_token_file }}</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="setting-credentials-using-keyring">Setting Credentials using Keyring<a class="anchor" aria-label="anchor" href="#setting-credentials-using-keyring"></a>
-</h3>
-<p>Instead of using environment variables, you can securely store and
-retrieve credentials using the system keyring with the
-<code><a href="../reference/meetup_keys.html">meetup_key_set()</a></code> and <code><a href="../reference/meetup_keys.html">meetup_key_get()</a></code>
-functions.</p>
-<div class="section level4">
-<h4 id="storing-credentials">Storing Credentials<a class="anchor" aria-label="anchor" href="#storing-credentials"></a>
-</h4>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Store client ID and secret in keyring</span></span>
-<span><span class="fu"><a href="../reference/meetup_keys.html">meetup_key_set</a></span><span class="op">(</span><span class="st">"client_id"</span>, <span class="st">"your_client_id"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/meetup_keys.html">meetup_key_set</a></span><span class="op">(</span><span class="st">"client_secret"</span>, <span class="st">"your_secret"</span><span class="op">)</span></span></code></pre></div>
-<p>If you don’t provide a value, you will be prompted to input it
-interactively.</p>
-<p>Using Stored Credentials When authentication is needed, the meetupr
-package will automatically retrieve the stored credentials:</p>
+<p>After authenticating, verify the setup:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Retrieve client ID and secret (used internally by meetupr)</span></span>
-<span><span class="va">client_id</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meetup_keys.html">meetup_key_get</a></span><span class="op">(</span><span class="st">"client_id"</span><span class="op">)</span></span>
-<span><span class="va">client_secret</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meetup_keys.html">meetup_key_get</a></span><span class="op">(</span><span class="st">"client_secret"</span><span class="op">)</span></span></code></pre></div>
-</div>
-</div>
-<div class="section level3">
-<h3 id="verification">Verification<a class="anchor" aria-label="anchor" href="#verification"></a>
-</h3>
-<p>After storing your credentials in the keyring, you can verify the
-setup:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/meetup_sitrep.html">meetup_sitrep</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">meetupr Situation Report</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────</span></span></span>
-<span><span class="co">#&gt; Warning in default_backend_auto(): Selecting 'env' backend. Secrets are stored</span></span>
-<span><span class="co">#&gt; in environment variables</span></span>
-<span><span class="co">#&gt; Warning in default_backend_auto(): Selecting 'env' backend. Secrets are stored</span></span>
-<span><span class="co">#&gt; in environment variables</span></span>
-<span><span class="co">#&gt; Warning in default_backend_auto(): Selecting 'env' backend. Secrets are stored</span></span>
-<span><span class="co">#&gt; in environment variables</span></span>
-<span><span class="co">#&gt; Warning in default_backend_auto(): Selecting 'env' backend. Secrets are stored</span></span>
-<span><span class="co">#&gt; in environment variables</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── <span style="font-weight: bold;">Active Authentication Method</span> ──</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -294,26 +240,31 @@ setup:</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── <span style="font-weight: bold;">API Connectivity Test</span> ──</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Warning in default_backend_auto(): Selecting 'env' backend. Secrets are stored</span></span>
-<span><span class="co">#&gt; in environment variables</span></span>
-<span><span class="co">#&gt; Warning in default_backend_auto(): Selecting 'env' backend. Secrets are stored</span></span>
-<span><span class="co">#&gt; in environment variables</span></span>
 <span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> API Connection: Working</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Authenticated as: <span style="font-weight: bold;">R-Ladies Global</span> (ID: 251470805)</span></span></code></pre></div>
-</div>
+<p>The output shows:</p>
+<ul>
+<li>Whether an OAuth token exists and is valid<br>
+</li>
+<li>Whether you’re in CI mode (token loaded from environment
+variables)<br>
+</li>
+<li>API connectivity status</li>
+</ul>
 </div>
 <div class="section level2">
 <h2 id="basic-usage-examples">Basic Usage Examples<a class="anchor" aria-label="anchor" href="#basic-usage-examples"></a>
 </h2>
+<p>Once authenticated, you can start querying the Meetup API. All
+functions return tibbles (data frames) for easy manipulation with dplyr
+and other tidyverse packages.</p>
 <div class="section level3">
 <h3 id="get-group-information">Get Group Information<a class="anchor" aria-label="anchor" href="#get-group-information"></a>
 </h3>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<p>Retrieve detailed information about a specific group using its URL
+name (the part after <code>meetup.com/</code> in the URL):</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">group_info</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_group.html">get_group</a></span><span class="op">(</span><span class="st">"rladies-lagos"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in default_backend_auto(): Selecting 'env' backend. Secrets are stored</span></span>
-<span><span class="co">#&gt; in environment variables</span></span>
-<span><span class="co">#&gt; Warning in default_backend_auto(): Selecting 'env' backend. Secrets are stored</span></span>
-<span><span class="co">#&gt; in environment variables</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">group_info</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 13</span></span>
 <span><span class="co">#&gt;  $ id          : chr "32612004"</span></span>
@@ -326,7 +277,7 @@ setup:</p>
 <span><span class="co">#&gt;   ..$ country: chr "ng"</span></span>
 <span><span class="co">#&gt;  $ timezone    : chr "Africa/Lagos"</span></span>
 <span><span class="co">#&gt;  $ created     : POSIXct[1:1], format: "2019-08-16 08:45:21"</span></span>
-<span><span class="co">#&gt;  $ members     : int 873</span></span>
+<span><span class="co">#&gt;  $ members     : int 880</span></span>
 <span><span class="co">#&gt;  $ total_events: int 13</span></span>
 <span><span class="co">#&gt;  $ organizer   :List of 2</span></span>
 <span><span class="co">#&gt;   ..$ id  : chr "251470805"</span></span>
@@ -336,16 +287,26 @@ setup:</p>
 <span><span class="co">#&gt;   ..$ name: chr "Technology"</span></span>
 <span><span class="co">#&gt;  $ photo_url   : chr "https://secure-content.meetupstatic.com/images/classic-events/"</span></span>
 <span><span class="co">#&gt;  - attr(*, "class")= chr [1:2] "meetup_group" "list"</span></span></code></pre></div>
+<p>The result includes:</p>
+<ul>
+<li>Group name, description, and URL<br>
+</li>
+<li>Location (city, state, country)<br>
+</li>
+<li>Member count<br>
+</li>
+<li>Organizer information<br>
+</li>
+<li>Group creation date</li>
+</ul>
 </div>
 <div class="section level3">
-<h3 id="list-upcoming-events">List Upcoming Events<a class="anchor" aria-label="anchor" href="#list-upcoming-events"></a>
+<h3 id="list-group-events">List Group Events<a class="anchor" aria-label="anchor" href="#list-group-events"></a>
 </h3>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">events</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_events.html">get_events</a></span><span class="op">(</span><span class="st">"rladies-lagos"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in default_backend_auto(): Selecting 'env' backend. Secrets are stored</span></span>
-<span><span class="co">#&gt; in environment variables</span></span>
-<span><span class="co">#&gt; Warning in default_backend_auto(): Selecting 'env' backend. Secrets are stored</span></span>
-<span><span class="co">#&gt; in environment variables</span></span>
+<p>Get events for a specific group. By default, this returns upcoming
+events:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">events</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_group_events.html">get_group_events</a></span><span class="op">(</span><span class="st">"rladies-lagos"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">events</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 23</span></span></span>
 <span><span class="co">#&gt;   id     title event_url created_time        status date_time           duration</span></span>
@@ -362,50 +323,287 @@ setup:</p>
 <span><span class="co">#&gt; <span style="color: #949494;">#   venues_postal_code &lt;list&gt;, venues_country &lt;list&gt;, venues_lat &lt;list&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   venues_lon &lt;list&gt;, venues_venue_type &lt;list&gt;, rsvps_count &lt;int&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   featured_event_photo_url &lt;chr&gt;</span></span></span></code></pre></div>
+<p>Each row represents an event with:</p>
+<ul>
+<li>Event ID, title, and description<br>
+</li>
+<li>Date and time (as POSIXct objects)<br>
+</li>
+<li>Duration<br>
+</li>
+<li>RSVP counts (yes, waitlist, total)<br>
+</li>
+<li>Venue information (if available)</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="get-past-events">Get Past Events<a class="anchor" aria-label="anchor" href="#get-past-events"></a>
+</h3>
+<p>To retrieve historical events, use the <code>status</code>
+parameter:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">past_events</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_group_events.html">get_group_events</a></span><span class="op">(</span></span>
+<span>  <span class="st">"rladies-lagos"</span>,</span>
+<span>  status <span class="op">=</span> <span class="st">"past"</span>,</span>
+<span>  max_results <span class="op">=</span> <span class="fl">10</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">past_events</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 23</span></span></span>
+<span><span class="co">#&gt;   id     title event_url created_time        status date_time           duration</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 26415… satR… https://… 2019-08-20 <span style="color: #949494;">11:54:50</span> PAST   2019-09-21 <span style="color: #949494;">08:00:00</span> PT7H    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 26675… Data… https://… 2019-11-26 <span style="color: #949494;">17:00:29</span> PAST   2019-12-07 <span style="color: #949494;">08:00:00</span> PT7H    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 26780… Gett… https://… 2020-01-10 <span style="color: #949494;">12:56:39</span> PAST   2020-02-22 <span style="color: #949494;">08:00:00</span> PT7H    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 28432… Data… https://… 2022-03-01 <span style="color: #949494;">00:27:32</span> PAST   2022-03-26 <span style="color: #949494;">13:00:00</span> PT2H    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 28461… R La… https://… 2022-03-14 <span style="color: #949494;">16:37:46</span> PAST   2022-05-07 <span style="color: #949494;">15:00:00</span> PT1H    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 29226… Wome… https://… 2023-03-15 <span style="color: #949494;">19:29:08</span> PAST   2023-03-24 <span style="color: #949494;">09:00:00</span> PT2H    </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 16 more variables: description &lt;chr&gt;, group_id &lt;chr&gt;, group_name &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   group_urlname &lt;chr&gt;, venues_id &lt;chr&gt;, venues_name &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   venues_address &lt;chr&gt;, venues_city &lt;chr&gt;, venues_state &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   venues_postal_code &lt;chr&gt;, venues_country &lt;chr&gt;, venues_lat &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   venues_lon &lt;dbl&gt;, venues_venue_type &lt;chr&gt;, rsvps_count &lt;int&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   featured_event_photo_url &lt;chr&gt;</span></span></span></code></pre></div>
+<p>Valid status values are:</p>
+<ul>
+<li>
+<code>upcoming</code>: Future events (default)<br>
+</li>
+<li>
+<code>past</code>: Historical events<br>
+</li>
+<li>
+<code>cancelled</code>: Cancelled events<br>
+</li>
+<li>
+<code>draft</code>: Draft events (if you’re a group organizer)</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="filter-events-by-date">Filter Events by Date<a class="anchor" aria-label="anchor" href="#filter-events-by-date"></a>
+</h3>
+<p>You can filter events within a specific date range:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Events from 2024 onwards</span></span>
+<span><span class="va">recent_events</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_group_events.html">get_group_events</a></span><span class="op">(</span></span>
+<span>  <span class="st">"rladies-lagos"</span>,</span>
+<span>  status <span class="op">=</span> <span class="st">"past"</span>,</span>
+<span>  date_after <span class="op">=</span> <span class="st">"2024-01-01T00:00:00Z"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">recent_events</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 23</span></span></span>
+<span><span class="co">#&gt;   id     title event_url created_time        status date_time           duration</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 30002… Buil… https://… 2024-03-26 <span style="color: #949494;">12:37:08</span> PAST   2024-04-06 <span style="color: #949494;">16:00:00</span> PT3H    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 30035… Inte… https://… 2024-04-11 <span style="color: #949494;">19:14:08</span> PAST   2024-04-25 <span style="color: #949494;">10:00:00</span> PT5H    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 30002… Inte… https://… 2024-03-26 <span style="color: #949494;">13:08:58</span> PAST   2024-04-27 <span style="color: #949494;">16:00:00</span> PT3H    </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 16 more variables: description &lt;chr&gt;, group_id &lt;chr&gt;, group_name &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   group_urlname &lt;chr&gt;, venues_id &lt;list&gt;, venues_name &lt;list&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   venues_address &lt;list&gt;, venues_city &lt;list&gt;, venues_state &lt;list&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   venues_postal_code &lt;list&gt;, venues_country &lt;list&gt;, venues_lat &lt;list&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   venues_lon &lt;list&gt;, venues_venue_type &lt;list&gt;, rsvps_count &lt;int&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   featured_event_photo_url &lt;chr&gt;</span></span></span></code></pre></div>
+<p>Dates must be in ISO 8601 format with timezone (typically UTC:
+<code>YYYY-MM-DDTHH:MM:SSZ</code>).</p>
+</div>
+<div class="section level3">
+<h3 id="get-event-details">Get Event Details<a class="anchor" aria-label="anchor" href="#get-event-details"></a>
+</h3>
+<p>Retrieve detailed information about a specific event using its
+ID:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">event</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_event.html">get_event</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"103349942"</span><span class="op">)</span></span>
+<span><span class="va">event</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── <span style="font-weight: bold;">Meetup Event</span> ──</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; • ID: <span style="color: #0000BB;">"103349942"</span></span></span>
+<span><span class="co">#&gt; • Title: <span style="font-weight: bold;">Ecosystem GIS &amp; Community Building</span></span></span>
+<span><span class="co">#&gt; • Status: <span style="color: #0000BB;">"PAST"</span></span></span>
+<span><span class="co">#&gt; • Date/Time: 2013-02-18T18:30:00-05:00</span></span>
+<span><span class="co">#&gt; • Duration: PT2H</span></span>
+<span><span class="co">#&gt; • RSVPs: 97</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── Group:</span></span>
+<span><span class="co">#&gt; • Data Visualization DC (<span style="color: #0000BB;">"data-visualization-dc"</span>)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── Venue:</span></span>
+<span><span class="co">#&gt; • Name: Browsermedia/NClud</span></span>
+<span><span class="co">#&gt; • Location: Washington, DC, us</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; <span style="color: #0000BB; font-style: italic;">&lt;https://www.meetup.com/data-visualization-dc/events/103349942/&gt;</span></span></span></code></pre></div>
+<p>The <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code> method displays a formatted summary. Access
+individual fields with <code>$</code> notation:</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">event</span><span class="op">$</span><span class="va">title</span></span>
+<span><span class="va">event</span><span class="op">$</span><span class="va">dateTime</span></span>
+<span><span class="va">event</span><span class="op">$</span><span class="va">going</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="get-event-rsvps">Get Event RSVPs<a class="anchor" aria-label="anchor" href="#get-event-rsvps"></a>
+</h3>
+<p>See who has RSVP’d to an event:</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">rsvps</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_event_rsvps.html">get_event_rsvps</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"103349942"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">rsvps</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 9</span></span></span>
+<span><span class="co">#&gt;   id        member_id member_name         member_bio member_url member_photo_url</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 683104152 12251810  Sean Moore Gonzalez <span style="color: #949494;">"</span>Backgrou… https://w… https://secure-…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 683108312 482161    Harlan Harris       <span style="color: #949494;">""</span>         https://w… https://secure-…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 683109202 6382386   Harnam Rai          <span style="color: #949494;">""</span>         https://w… https://secure-…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 683114012 70383262  Dario Rivera        <span style="color: #949494;">""</span>         https://w… https://secure-…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 683114892 8783792   Aaron M             <span style="color: #949494;">""</span>         https://w… https://secure-…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 683118132 10948775  Sam                 <span style="color: #949494;">""</span>         https://w… https://secure-…</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3 more variables: member_organized_group_count &lt;int&gt;, guests_count &lt;int&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   status &lt;chr&gt;</span></span></span></code></pre></div>
+<p>Each row represents one RSVP with:</p>
+<ul>
+<li>Member ID and name<br>
+</li>
+<li>RSVP response (yes, no, waitlist)<br>
+</li>
+<li>Number of guests<br>
+</li>
+<li>RSVP creation time</li>
+</ul>
+<p>This is useful for analyzing attendance patterns or contacting
+attendees (with appropriate permissions).</p>
+</div>
+<div class="section level3">
+<h3 id="get-group-members">Get Group Members<a class="anchor" aria-label="anchor" href="#get-group-members"></a>
+</h3>
+<p>List members of a group:</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">members</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_group_members.html">get_group_members</a></span><span class="op">(</span><span class="st">"rladies-lagos"</span>, max_results <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">members</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 4</span></span></span>
+<span><span class="co">#&gt;   id        name                 member_url                     member_photo_url</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                          <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 251470805 R-Ladies Global      https://www.meetup.com/member… https://secure-…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 225839690 EYITAYO ALIMI        https://www.meetup.com/member… https://secure-…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 236466773 Adedamilola Adekanye https://www.meetup.com/member… https://secure-…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 255806325 Helen                https://www.meetup.com/member… https://secure-…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 287781170 Alvin                https://www.meetup.com/member… https://secure-…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 266271010 ijeoma benson        https://www.meetup.com/member… <span style="color: #BB0000;">NA</span></span></span></code></pre></div>
+<p>Member data includes:</p>
+<ul>
+<li>Member ID and name<br>
+</li>
+<li>Join date<br>
+</li>
+<li>Member status (active, organizer, etc.)<br>
+</li>
+<li>Bio and profile URL</li>
+</ul>
+<p>Note: Due to privacy settings, some member information may be
+limited.</p>
 </div>
 <div class="section level3">
 <h3 id="search-for-groups">Search for Groups<a class="anchor" aria-label="anchor" href="#search-for-groups"></a>
 </h3>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<p>Find groups matching a search term:</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">r_groups</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/find_groups.html">find_groups</a></span><span class="op">(</span><span class="st">"R programming"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in default_backend_auto(): Selecting 'env' backend. Secrets are stored</span></span>
-<span><span class="co">#&gt; in environment variables</span></span>
-<span><span class="co">#&gt; Warning in default_backend_auto(): Selecting 'env' backend. Secrets are stored</span></span>
-<span><span class="co">#&gt; in environment variables</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">r_groups</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 14</span></span></span>
-<span><span class="co">#&gt;   id       name       urlname city  state country   lat    lon memberships_count</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 38207702 Birmingha… bham-r… Birm… <span style="color: #949494;">"</span>AL<span style="color: #949494;">"</span>  us       33.5 -<span style="color: #BB0000;">86.8</span>                  2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 24890872 Warwick R… warwic… Cove… <span style="color: #949494;">"</span>43<span style="color: #949494;">"</span>  gb       52.4  -<span style="color: #BB0000;">1.56</span>               918</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 18574545 Johannesb… joburg… Joha… <span style="color: #949494;">""</span>    za      -<span style="color: #BB0000;">26.2</span>  28.0               <span style="text-decoration: underline;">1</span>549</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2906882  Birmingha… Birmin… Birm… <span style="color: #949494;">"</span>43<span style="color: #949494;">"</span>  gb       52.5  -<span style="color: #BB0000;">1.9</span>                810</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 23174619 R-Ladies … rladie… Sant… <span style="color: #949494;">""</span>    ar      -<span style="color: #BB0000;">36.6</span> -<span style="color: #BB0000;">64.3</span>                185</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 21760043 R-Ladies … rladie… Buen… <span style="color: #949494;">""</span>    ar      -<span style="color: #BB0000;">34.6</span> -<span style="color: #BB0000;">58.4</span>               <span style="text-decoration: underline;">1</span>960</span></span>
+<span><span class="co">#&gt;   id       name      urlname city  state country   lat     lon memberships_count</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 38207702 Birmingh… bham-r… Birm… <span style="color: #949494;">"</span>AL<span style="color: #949494;">"</span>  us       33.5  -<span style="color: #BB0000;">86.8</span>                  5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 24890872 Warwick … warwic… Cove… <span style="color: #949494;">"</span>43<span style="color: #949494;">"</span>  gb       52.4   -<span style="color: #BB0000;">1.56</span>               919</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 18574545 Johannes… joburg… Joha… <span style="color: #949494;">""</span>    za      -<span style="color: #BB0000;">26.2</span>   28.0               <span style="text-decoration: underline;">1</span>557</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> 2906882  Birmingh… Birmin… Birm… <span style="color: #949494;">"</span>43<span style="color: #949494;">"</span>  gb       52.5   -<span style="color: #BB0000;">1.9</span>                808</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> 23174619 R-Ladies… rladie… Sant… <span style="color: #949494;">""</span>    ar      -<span style="color: #BB0000;">36.6</span>  -<span style="color: #BB0000;">64.3</span>                185</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> 26517118 Salt Lak… slc-rug Salt… <span style="color: #949494;">"</span>UT<span style="color: #949494;">"</span>  us       40.8 -<span style="color: #BB0000;">112.</span>                <span style="text-decoration: underline;">3</span>050</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 5 more variables: founded_date &lt;dttm&gt;, timezone &lt;chr&gt;, join_mode &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   is_private &lt;lgl&gt;, membership_status &lt;chr&gt;</span></span></span></code></pre></div>
+<p>Search results include:</p>
+<ul>
+<li>Group name and URL name<br>
+</li>
+<li>Location<br>
+</li>
+<li>Member count<br>
+</li>
+<li>Description snippet</li>
+</ul>
+<p>This is useful for discovering groups in your area or analyzing group
+networks.</p>
+</div>
+<div class="section level3">
+<h3 id="pagination-and-rate-limits">Pagination and Rate Limits<a class="anchor" aria-label="anchor" href="#pagination-and-rate-limits"></a>
+</h3>
+<p>The Meetup API limits how many results can be returned in a single
+request. The <code>max_results</code> parameter controls pagination:</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Get up to 50 events (may require multiple API calls)</span></span>
+<span><span class="va">many_events</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_group_events.html">get_group_events</a></span><span class="op">(</span></span>
+<span>  <span class="st">"rladies-san-francisco"</span>,</span>
+<span>  status <span class="op">=</span> <span class="st">"past"</span>,</span>
+<span>  max_results <span class="op">=</span> <span class="fl">50</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">cli</span><span class="fu">::</span><span class="fu"><a href="https://cli.r-lib.org/reference/cli_alert.html" class="external-link">cli_alert_info</a></span><span class="op">(</span><span class="st">"Retrieved {nrow(many_events)} events"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Retrieved 50 events</span></span></code></pre></div>
+<p>meetupr automatically handles pagination behind the scenes. It makes
+multiple API requests if needed and combines the results into a single
+tibble.</p>
+<p>The Meetup API rate limit is 500 requests per 60 seconds. meetupr
+automatically throttles requests to stay under this limit. For large
+batch operations, consider adding explicit delays:</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Process multiple groups with delays</span></span>
+<span><span class="va">groups</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rladies-nyc"</span>, <span class="st">"rladies-sf"</span>, <span class="st">"rladies-london"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">events</span> <span class="op">&lt;-</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html" class="external-link">map_dfr</a></span><span class="op">(</span><span class="va">groups</span>, \<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_group_events.html">get_group_events</a></span><span class="op">(</span><span class="va">x</span>, max_results <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/Sys.sleep.html" class="external-link">Sys.sleep</a></span><span class="op">(</span><span class="fl">0.5</span><span class="op">)</span>  <span class="co"># 500ms delay between requests</span></span>
+<span>  <span class="va">result</span></span>
+<span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="pro-account-features">Pro Account Features<a class="anchor" aria-label="anchor" href="#pro-account-features"></a>
+</h2>
+<p>If you have a Meetup Pro account, you can access network-wide data
+using the Pro functions. These functions require appropriate permissions
+and will error if you don’t have Pro access.</p>
+<div class="section level3">
+<h3 id="list-all-pro-groups">List All Pro Groups<a class="anchor" aria-label="anchor" href="#list-all-pro-groups"></a>
+</h3>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Get all groups in the R-Ladies network</span></span>
+<span><span class="va">pro_groups</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_pro.html">get_pro_groups</a></span><span class="op">(</span><span class="st">"rladies"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">pro_groups</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="network-wide-events">Network-Wide Events<a class="anchor" aria-label="anchor" href="#network-wide-events"></a>
+</h3>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Get upcoming events across all groups in network</span></span>
+<span><span class="va">upcoming</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_pro.html">get_pro_events</a></span><span class="op">(</span><span class="st">"rladies"</span>, status <span class="op">=</span> <span class="st">"upcoming"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">upcoming</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Get cancelled events</span></span>
+<span><span class="va">cancelled</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_pro.html">get_pro_events</a></span><span class="op">(</span><span class="st">"rladies"</span>, status <span class="op">=</span> <span class="st">"cancelled"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">cancelled</span><span class="op">)</span></span></code></pre></div>
+<p>Pro functions return data for all groups in your network with a
+single API call, which is more efficient than querying each group
+individually.</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="debug-mode">Debug Mode<a class="anchor" aria-label="anchor" href="#debug-mode"></a>
 </h2>
-<p>Sometimes issues arise due to misconfiguration. Enabling debugging
-mode provides more information on what is sent to the API, i.e. the full
-graphql query. Enable debugging mode by setting system variable
-“MEETUPR_DEBUG” to 1 (0 or missing means no debugging):</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<p>Sometimes issues arise due to misconfiguration or unexpected API
+behavior. Enabling debug mode shows the exact GraphQL queries being sent
+to the API.</p>
+<p>Enable debugging by setting the <code>MEETUPR_DEBUG</code>
+environment variable to <code>1</code>:</p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/local_meetupr_debug.html">local_meetupr_debug</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/meetup_sitrep.html">meetup_sitrep</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">meetupr Situation Report</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────</span></span></span>
-<span><span class="co">#&gt; Warning in default_backend_auto(): Selecting 'env' backend. Secrets are stored</span></span>
-<span><span class="co">#&gt; in environment variables</span></span>
-<span><span class="co">#&gt; Warning in default_backend_auto(): Selecting 'env' backend. Secrets are stored</span></span>
-<span><span class="co">#&gt; in environment variables</span></span>
-<span><span class="co">#&gt; Warning in default_backend_auto(): Selecting 'env' backend. Secrets are stored</span></span>
-<span><span class="co">#&gt; in environment variables</span></span>
-<span><span class="co">#&gt; Warning in default_backend_auto(): Selecting 'env' backend. Secrets are stored</span></span>
-<span><span class="co">#&gt; in environment variables</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── <span style="font-weight: bold;">Active Authentication Method</span> ──</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -449,11 +647,8 @@ graphql query. Enable debugging mode by setting system variable
 <span><span class="co">#&gt; }",</span></span>
 <span><span class="co">#&gt;   "variables": {}</span></span>
 <span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; Warning in default_backend_auto(): Selecting 'env' backend. Secrets are stored</span></span>
-<span><span class="co">#&gt; in environment variables</span></span>
-<span><span class="co">#&gt; Warning in default_backend_auto(): Selecting 'env' backend. Secrets are stored</span></span>
-<span><span class="co">#&gt; in environment variables</span></span>
-<span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> API Connection: Failed - Failed to find matching request in active cassette, "meetupr-debug".</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> API Connection: Working</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Authenticated as: <span style="font-weight: bold;">R-Ladies Global</span> (ID: 251470805)</span></span>
 <span><span class="fu"><a href="../reference/find_groups.html">find_groups</a></span><span class="op">(</span><span class="st">"R programming"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> DEBUG: JSON to be sent:</span></span>
 <span><span class="co">#&gt; {</span></span>
@@ -461,9 +656,11 @@ graphql query. Enable debugging mode by setting system variable
 <span><span class="co">#&gt;   $query: String!</span></span>
 <span><span class="co">#&gt;   $cursor: String</span></span>
 <span><span class="co">#&gt;   $first: Int = 1000</span></span>
-<span><span class="co">#&gt;   $lat: Float! = 0.0</span></span>
-<span><span class="co">#&gt;   $lon: Float! = 0.0</span></span>
+<span><span class="co">#&gt;   $lat: Float = 0.0</span></span>
+<span><span class="co">#&gt;   $lon: Float = 0.0</span></span>
 <span><span class="co">#&gt;   $radius: Float = 100000000.0</span></span>
+<span><span class="co">#&gt;   $categoryId: ID</span></span>
+<span><span class="co">#&gt;   $topicCategoryId: ID</span></span>
 <span><span class="co">#&gt; ) {</span></span>
 <span><span class="co">#&gt;   groupSearch(</span></span>
 <span><span class="co">#&gt;     after: $cursor</span></span>
@@ -473,6 +670,8 @@ graphql query. Enable debugging mode by setting system variable
 <span><span class="co">#&gt;       lat: $lat</span></span>
 <span><span class="co">#&gt;       lon: $lon</span></span>
 <span><span class="co">#&gt;       radius: $radius</span></span>
+<span><span class="co">#&gt;       categoryId: $categoryId</span></span>
+<span><span class="co">#&gt;       topicCategoryId: $topicCategoryId</span></span>
 <span><span class="co">#&gt;     }</span></span>
 <span><span class="co">#&gt;   ) {</span></span>
 <span><span class="co">#&gt;     pageInfo {</span></span>
@@ -502,6 +701,7 @@ graphql query. Enable debugging mode by setting system variable
 <span><span class="co">#&gt;         }</span></span>
 <span><span class="co">#&gt;       }</span></span>
 <span><span class="co">#&gt;     }</span></span>
+<span><span class="co">#&gt;     </span></span>
 <span><span class="co">#&gt;   }</span></span>
 <span><span class="co">#&gt; }",</span></span>
 <span><span class="co">#&gt;   "variables": {</span></span>
@@ -509,40 +709,38 @@ graphql query. Enable debugging mode by setting system variable
 <span><span class="co">#&gt;     "first": 200</span></span>
 <span><span class="co">#&gt;   }</span></span>
 <span><span class="co">#&gt; }</span></span>
-<span><span class="co">#&gt; Warning in default_backend_auto(): Selecting 'env' backend. Secrets are stored</span></span>
-<span><span class="co">#&gt; in environment variables</span></span>
-<span><span class="co">#&gt; Warning in default_backend_auto(): Selecting 'env' backend. Secrets are stored</span></span>
-<span><span class="co">#&gt; in environment variables</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 200 × 14</span></span></span>
 <span><span class="co">#&gt;    id       name     urlname city  state country   lat     lon memberships_count</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 38207702 Birming… bham-r… Birm… <span style="color: #949494;">"</span>AL<span style="color: #949494;">"</span>  us       33.5  -<span style="color: #BB0000;">86.8</span>                  2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 24890872 Warwick… warwic… Cove… <span style="color: #949494;">"</span>43<span style="color: #949494;">"</span>  gb       52.4   -<span style="color: #BB0000;">1.56</span>               918</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 18574545 Johanne… joburg… Joha… <span style="color: #949494;">""</span>    za      -<span style="color: #BB0000;">26.2</span>   28.0               <span style="text-decoration: underline;">1</span>549</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 2906882  Birming… Birmin… Birm… <span style="color: #949494;">"</span>43<span style="color: #949494;">"</span>  gb       52.5   -<span style="color: #BB0000;">1.9</span>                810</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 38207702 Birming… bham-r… Birm… <span style="color: #949494;">"</span>AL<span style="color: #949494;">"</span>  us       33.5  -<span style="color: #BB0000;">86.8</span>                  5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 24890872 Warwick… warwic… Cove… <span style="color: #949494;">"</span>43<span style="color: #949494;">"</span>  gb       52.4   -<span style="color: #BB0000;">1.56</span>               919</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 18574545 Johanne… joburg… Joha… <span style="color: #949494;">""</span>    za      -<span style="color: #BB0000;">26.2</span>   28.0               <span style="text-decoration: underline;">1</span>557</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 2906882  Birming… Birmin… Birm… <span style="color: #949494;">"</span>43<span style="color: #949494;">"</span>  gb       52.5   -<span style="color: #BB0000;">1.9</span>                808</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 23174619 R-Ladie… rladie… Sant… <span style="color: #949494;">""</span>    ar      -<span style="color: #BB0000;">36.6</span>  -<span style="color: #BB0000;">64.3</span>                185</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 21760043 R-Ladie… rladie… Buen… <span style="color: #949494;">""</span>    ar      -<span style="color: #BB0000;">34.6</span>  -<span style="color: #BB0000;">58.4</span>               <span style="text-decoration: underline;">1</span>960</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 26517118 Salt La… slc-rug Salt… <span style="color: #949494;">"</span>UT<span style="color: #949494;">"</span>  us       40.8 -<span style="color: #BB0000;">112.</span>                <span style="text-decoration: underline;">3</span>041</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 20443056 R-Ladie… rladie… Paris <span style="color: #949494;">""</span>    fr       48.9    2.34              <span style="text-decoration: underline;">1</span>142</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 37281989 Cape To… cape-t… Cape… <span style="color: #949494;">""</span>    za      -<span style="color: #BB0000;">33.9</span>   18.5                108</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 17428672 R Users… spotka… Wars… <span style="color: #949494;">""</span>    pl       52.3   21.0               <span style="text-decoration: underline;">2</span>976</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 26517118 Salt La… slc-rug Salt… <span style="color: #949494;">"</span>UT<span style="color: #949494;">"</span>  us       40.8 -<span style="color: #BB0000;">112.</span>                <span style="text-decoration: underline;">3</span>050</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 20443056 R-Ladie… rladie… Paris <span style="color: #949494;">""</span>    fr       48.9    2.34              <span style="text-decoration: underline;">1</span>143</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 21760043 R-Ladie… rladie… Buen… <span style="color: #949494;">""</span>    ar      -<span style="color: #BB0000;">34.6</span>  -<span style="color: #BB0000;">58.4</span>               <span style="text-decoration: underline;">1</span>966</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 37281989 Cape To… cape-t… Cape… <span style="color: #949494;">""</span>    za      -<span style="color: #BB0000;">33.9</span>   18.5                110</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 17428672 R Users… spotka… Wars… <span style="color: #949494;">""</span>    pl       52.3   21.0               <span style="text-decoration: underline;">2</span>975</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 190 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 5 more variables: founded_date &lt;dttm&gt;, timezone &lt;chr&gt;, join_mode &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   is_private &lt;lgl&gt;, membership_status &lt;chr&gt;</span></span></span></code></pre></div>
-<p>to turn it off again, set it to 0 or unset it:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<p>Debug output includes:</p>
+<ul>
+<li>The complete GraphQL query sent to the API<br>
+</li>
+<li>Variable values being passed<br>
+</li>
+<li>The raw JSON response</li>
+</ul>
+<p>This is invaluable when queries fail unexpectedly or you’re unsure
+what data is being returned.</p>
+<p>To turn it off again, set it to <code>0</code>:</p>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/local_meetupr_debug.html">local_meetupr_debug</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/meetup_sitrep.html">meetup_sitrep</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; <span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">meetupr Situation Report</span> <span style="color: #00BBBB;">────────────────────────────────────────────────────</span></span></span>
-<span><span class="co">#&gt; Warning in default_backend_auto(): Selecting 'env' backend. Secrets are stored</span></span>
-<span><span class="co">#&gt; in environment variables</span></span>
-<span><span class="co">#&gt; Warning in default_backend_auto(): Selecting 'env' backend. Secrets are stored</span></span>
-<span><span class="co">#&gt; in environment variables</span></span>
-<span><span class="co">#&gt; Warning in default_backend_auto(): Selecting 'env' backend. Secrets are stored</span></span>
-<span><span class="co">#&gt; in environment variables</span></span>
-<span><span class="co">#&gt; Warning in default_backend_auto(): Selecting 'env' backend. Secrets are stored</span></span>
-<span><span class="co">#&gt; in environment variables</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── <span style="font-weight: bold;">Active Authentication Method</span> ──</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -557,32 +755,28 @@ graphql query. Enable debugging mode by setting system variable
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── <span style="font-weight: bold;">API Connectivity Test</span> ──</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Warning in default_backend_auto(): Selecting 'env' backend. Secrets are stored</span></span>
-<span><span class="co">#&gt; in environment variables</span></span>
-<span><span class="co">#&gt; Warning in default_backend_auto(): Selecting 'env' backend. Secrets are stored</span></span>
-<span><span class="co">#&gt; in environment variables</span></span>
-<span><span class="co">#&gt; <span style="color: #BB0000;">✖</span> API Connection: Failed - Failed to find matching request in active cassette, "meetupr-debug-off".</span></span>
+<span><span class="co">#&gt; <span style="color: #00BB00;">✔</span> API Connection: Working</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Authenticated as: <span style="font-weight: bold;">R-Ladies Global</span> (ID: 251470805)</span></span>
 <span><span class="fu"><a href="../reference/find_groups.html">find_groups</a></span><span class="op">(</span><span class="st">"R programming"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in default_backend_auto(): Selecting 'env' backend. Secrets are stored</span></span>
-<span><span class="co">#&gt; in environment variables</span></span>
-<span><span class="co">#&gt; Warning in default_backend_auto(): Selecting 'env' backend. Secrets are stored</span></span>
-<span><span class="co">#&gt; in environment variables</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 200 × 14</span></span></span>
 <span><span class="co">#&gt;    id       name     urlname city  state country   lat     lon memberships_count</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 38207702 Birming… bham-r… Birm… <span style="color: #949494;">"</span>AL<span style="color: #949494;">"</span>  us       33.5  -<span style="color: #BB0000;">86.8</span>                  2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 24890872 Warwick… warwic… Cove… <span style="color: #949494;">"</span>43<span style="color: #949494;">"</span>  gb       52.4   -<span style="color: #BB0000;">1.56</span>               918</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 18574545 Johanne… joburg… Joha… <span style="color: #949494;">""</span>    za      -<span style="color: #BB0000;">26.2</span>   28.0               <span style="text-decoration: underline;">1</span>549</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 2906882  Birming… Birmin… Birm… <span style="color: #949494;">"</span>43<span style="color: #949494;">"</span>  gb       52.5   -<span style="color: #BB0000;">1.9</span>                810</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 38207702 Birming… bham-r… Birm… <span style="color: #949494;">"</span>AL<span style="color: #949494;">"</span>  us       33.5  -<span style="color: #BB0000;">86.8</span>                  5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 24890872 Warwick… warwic… Cove… <span style="color: #949494;">"</span>43<span style="color: #949494;">"</span>  gb       52.4   -<span style="color: #BB0000;">1.56</span>               919</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 18574545 Johanne… joburg… Joha… <span style="color: #949494;">""</span>    za      -<span style="color: #BB0000;">26.2</span>   28.0               <span style="text-decoration: underline;">1</span>557</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 2906882  Birming… Birmin… Birm… <span style="color: #949494;">"</span>43<span style="color: #949494;">"</span>  gb       52.5   -<span style="color: #BB0000;">1.9</span>                808</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 23174619 R-Ladie… rladie… Sant… <span style="color: #949494;">""</span>    ar      -<span style="color: #BB0000;">36.6</span>  -<span style="color: #BB0000;">64.3</span>                185</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 21760043 R-Ladie… rladie… Buen… <span style="color: #949494;">""</span>    ar      -<span style="color: #BB0000;">34.6</span>  -<span style="color: #BB0000;">58.4</span>               <span style="text-decoration: underline;">1</span>960</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 26517118 Salt La… slc-rug Salt… <span style="color: #949494;">"</span>UT<span style="color: #949494;">"</span>  us       40.8 -<span style="color: #BB0000;">112.</span>                <span style="text-decoration: underline;">3</span>041</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 20443056 R-Ladie… rladie… Paris <span style="color: #949494;">""</span>    fr       48.9    2.34              <span style="text-decoration: underline;">1</span>142</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 37281989 Cape To… cape-t… Cape… <span style="color: #949494;">""</span>    za      -<span style="color: #BB0000;">33.9</span>   18.5                108</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 17428672 R Users… spotka… Wars… <span style="color: #949494;">""</span>    pl       52.3   21.0               <span style="text-decoration: underline;">2</span>976</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 26517118 Salt La… slc-rug Salt… <span style="color: #949494;">"</span>UT<span style="color: #949494;">"</span>  us       40.8 -<span style="color: #BB0000;">112.</span>                <span style="text-decoration: underline;">3</span>050</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 20443056 R-Ladie… rladie… Paris <span style="color: #949494;">""</span>    fr       48.9    2.34              <span style="text-decoration: underline;">1</span>143</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 21760043 R-Ladie… rladie… Buen… <span style="color: #949494;">""</span>    ar      -<span style="color: #BB0000;">34.6</span>  -<span style="color: #BB0000;">58.4</span>               <span style="text-decoration: underline;">1</span>966</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 37281989 Cape To… cape-t… Cape… <span style="color: #949494;">""</span>    za      -<span style="color: #BB0000;">33.9</span>   18.5                110</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 17428672 R Users… spotka… Wars… <span style="color: #949494;">""</span>    pl       52.3   21.0               <span style="text-decoration: underline;">2</span>975</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 190 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 5 more variables: founded_date &lt;dttm&gt;, timezone &lt;chr&gt;, join_mode &lt;chr&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   is_private &lt;lgl&gt;, membership_status &lt;chr&gt;</span></span></span></code></pre></div>
+<p>For persistent debugging across R sessions, set the environment
+variable in your <code>.Renviron</code> file:</p>
+<pre><code><span><span class="va">MEETUPR_DEBUG</span><span class="op">=</span><span class="fl">1</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="common-issues">Common Issues<a class="anchor" aria-label="anchor" href="#common-issues"></a>
@@ -590,18 +784,121 @@ graphql query. Enable debugging mode by setting system variable
 <div class="section level3">
 <h3 id="authentication-errors">Authentication Errors<a class="anchor" aria-label="anchor" href="#authentication-errors"></a>
 </h3>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>Error<span class="sc">:</span> Authentication required</span></code></pre></div>
+<pre><code>Error: Authentication required</code></pre>
 <p><strong>Solution</strong>: Run <code><a href="../reference/meetup_sitrep.html">meetup_sitrep()</a></code> to
-diagnose authentication issues.</p>
+diagnose the issue. Common causes include:</p>
+<ul>
+<li>No OAuth token cached (run <code><a href="../reference/meetup_auth.html">meetup_auth()</a></code>)<br>
+</li>
+<li>Expired token (re-authenticate with
+<code><a href="../reference/meetup_auth.html">meetup_auth()</a></code>)<br>
+</li>
+<li>Missing CI environment variables (check <code>meetupr:token</code>
+and <code>meetupr:token_file</code>)</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="multiple-token-warning">Multiple Token Warning<a class="anchor" aria-label="anchor" href="#multiple-token-warning"></a>
+</h3>
+<pre><code>Warning: Multiple tokens found in cache</code></pre>
+<p><strong>Solution</strong>: Clear old tokens and re-authenticate:</p>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/meetup_auth.html">meetup_deauth</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/meetup_auth.html">meetup_auth</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>This happens when tokens from different OAuth applications accumulate
+in your cache directory.</p>
+</div>
+<div class="section level3">
+<h3 id="rate-limiting">Rate Limiting<a class="anchor" aria-label="anchor" href="#rate-limiting"></a>
+</h3>
+<pre><code>Error: Rate limit exceeded</code></pre>
+<p><strong>Solution</strong>: The Meetup API limits you to 500 requests
+per 60 seconds. If you hit this limit:</p>
+<ol style="list-style-type: decimal">
+<li>Add delays between requests (<code>Sys.sleep(0.5)</code>)<br>
+</li>
+<li>Reduce <code>max_results</code> to minimize pagination<br>
+</li>
+<li>Cache results locally to avoid repeated queries</li>
+</ol>
+<p>meetupr automatically throttles requests, but aggressive batch
+operations may still hit limits.</p>
+</div>
+<div class="section level3">
+<h3 id="group-not-found">Group Not Found<a class="anchor" aria-label="anchor" href="#group-not-found"></a>
+</h3>
+<pre><code>Error: Group not found</code></pre>
+<p><strong>Solution</strong>: Verify the group URL name. The URL name is
+the part after <code>meetup.com/</code> in the group’s URL. For example,
+for <code>https://www.meetup.com/rladies-san-francisco/</code>, the URL
+name is <code>rladies-san-francisco</code>.</p>
+</div>
+<div class="section level3">
+<h3 id="ci-token-expired">CI Token Expired<a class="anchor" aria-label="anchor" href="#ci-token-expired"></a>
+</h3>
+<p>If CI authentication fails with “token expired”:</p>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Locally, refresh token</span></span>
+<span><span class="fu"><a href="../reference/meetup_auth.html">meetup_auth</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/meetup_ci.html">meetup_ci_setup</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Update CI secrets with new values shown by meetup_ci_setup()</span></span></code></pre></div>
+<p>You’ll need to refresh CI secrets periodically.</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="next-steps">Next Steps<a class="anchor" aria-label="anchor" href="#next-steps"></a>
 </h2>
+<p>Now that you’re set up, explore more advanced features:</p>
 <ul>
 <li>
-<strong>For custom GraphQL queries</strong>: See <a href="graphql.html">GraphQL vignette</a>`</li>
+<strong>Custom GraphQL Queries</strong>: See the <a href="graphql.html">GraphQL vignette</a> to write custom queries and
+access fields not available through wrapper functions<br>
+</li>
+<li>
+<strong>Custom OAuth Application</strong>: See the <a href="advanced-auth.html">Advanced Authentication vignette</a> for
+setting up your own OAuth app for higher rate limits<br>
+</li>
+<li>
+<strong>API Schema Exploration</strong>: See the <a href="inspection.html">Inspecting the API vignette</a> for exploring the
+Meetup GraphQL schema</li>
+<li>
+<strong>Data Analysis</strong>: Combine meetupr with dplyr, ggplot2,
+and other tidyverse packages for analysis and visualization</li>
 </ul>
+<p>For package updates and issues, visit the <a href="https://github.com/rladies/meetupr" class="external-link">GitHub repository</a>.</p>
+</div>
+<div class="section level2">
+<h2 id="getting-help">Getting Help<a class="anchor" aria-label="anchor" href="#getting-help"></a>
+</h2>
+<p>If you encounter issues:</p>
+<ol style="list-style-type: decimal">
+<li>
+<strong>Check <code><a href="../reference/meetup_sitrep.html">meetup_sitrep()</a></code></strong> for
+authentication diagnostics<br>
+</li>
+<li>
+<strong>Enable debug mode</strong>
+(<code>local_meetupr_debug(1)</code>) to see API queries<br>
+</li>
+<li>
+<strong>Search existing issues</strong> on GitHub<br>
+</li>
+<li>
+<strong>File a bug report</strong> with a reproducible example (use
+<code>reprex::reprex()</code>)</li>
+</ol>
+<p>When reporting issues, include:</p>
+<ul>
+<li>Output from <code><a href="../reference/meetup_sitrep.html">meetup_sitrep()</a></code><br>
+</li>
+<li>Debug output (if relevant)<br>
+</li>
+<li>A minimal reproducible example<br>
+</li>
+<li>Your R and package versions (<code><a href="https://rdrr.io/r/utils/sessionInfo.html" class="external-link">sessionInfo()</a></code>)</li>
+</ul>
+<p>This helps maintainers diagnose and fix problems quickly.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

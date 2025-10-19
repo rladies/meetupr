@@ -65,48 +65,170 @@
 
     
     
-<p>The meetupr package provides powerful introspection functions to
-explore the Meetup GraphQL API schema. This allows you to understand
-available data and build custom queries, as demonstrated in the <a href="graphql.html">Custom Meetup Queries</a>, efficiently.</p>
-<div class="section level2">
-<h2 id="practical-workflow">Practical Workflow<a class="anchor" aria-label="anchor" href="#practical-workflow"></a>
-</h2>
-<ol style="list-style-type: decimal">
-<li>Use <code><a href="../reference/explore_query_fields.html">explore_query_fields()</a></code> to see top-level fields</li>
-<li>Search for relevant types with <code><a href="../reference/search_types.html">search_types()</a></code>
-</li>
-<li>Examine specific type fields with
-<code><a href="../reference/get_type_fields.html">get_type_fields()</a></code>
-</li>
-<li>Build and test queries in the <a href="https://www.meetup.com/api/playground" class="external-link">Meetup API
-Playground</a>
-</li>
-<li>Execute with <code><a href="../reference/meetup_query.html">meetup_query()</a></code>
-</li>
-</ol>
-<p>This approach lets you efficiently discover and utilize the full
-Meetup API schema for custom data extraction beyond the package’s
-built-in functions.</p>
-</div>
-<div class="section level2">
-<h2 id="basic-introspection">Basic Introspection<a class="anchor" aria-label="anchor" href="#basic-introspection"></a>
-</h2>
-<p>Start by examining the full schema:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rladies.org/meetupr/" class="external-link">meetupr</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">schema</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meetup_introspect.html">meetup_introspect</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in default_backend_auto(): Selecting 'env' backend. Secrets are stored</span></span>
-<span><span class="co">#&gt; in environment variables</span></span>
-<span><span class="co">#&gt; Warning in default_backend_auto(): Selecting 'env' backend. Secrets are stored</span></span>
-<span><span class="co">#&gt; in environment variables</span></span></code></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     filter, lag</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span></code></pre></div>
+<div class="section level2">
+<h2 id="introduction-to-graphql-introspection">Introduction to GraphQL Introspection<a class="anchor" aria-label="anchor" href="#introduction-to-graphql-introspection"></a>
+</h2>
+<p>GraphQL APIs are self-documenting through a feature called
+<strong>introspection</strong>. This means you can query the API to
+learn about its own structure: what types exist, what fields are
+available on each type, and what operations you can perform.</p>
+<p>The meetupr package exposes this introspection capability through a
+family of <code>meetup_schema_*</code> functions. These functions help
+you discover the full capabilities of the Meetup API beyond what the
+package’s built-in wrapper functions provide.</p>
+<div class="section level3">
+<h3 id="why-use-introspection">Why Use Introspection?<a class="anchor" aria-label="anchor" href="#why-use-introspection"></a>
+</h3>
+<p>Introspection is valuable when you need to:</p>
+<ul>
+<li>
+<strong>Discover new fields</strong>: Meetup may add new data fields
+that aren’t yet wrapped in meetupr functions<br>
+</li>
+<li>
+<strong>Build custom queries</strong>: Access specific field
+combinations not available through standard wrappers<br>
+</li>
+<li>
+<strong>Understand relationships</strong>: See how types connect
+(e.g., how Events relate to Groups and Venues)<br>
+</li>
+<li>
+<strong>Check deprecations</strong>: Identify deprecated fields
+before they’re removed<br>
+</li>
+<li>
+<strong>Explore Pro features</strong>: Discover fields only
+available with Meetup Pro accounts</li>
+</ul>
+</div>
+<div class="section level3">
+<h3 id="how-graphql-schema-works">How GraphQL Schema Works<a class="anchor" aria-label="anchor" href="#how-graphql-schema-works"></a>
+</h3>
+<p>A GraphQL schema defines:</p>
+<ol style="list-style-type: decimal">
+<li>
+<strong>Types</strong>: Data structures like <code>Event</code>,
+<code>Group</code>, <code>Member</code> (think of these as classes or
+tables)<br>
+</li>
+<li>
+<strong>Fields</strong>: Properties on each type (like
+<code>title</code>, <code>dateTime</code>,
+<code>memberCount</code>)<br>
+</li>
+<li>
+<strong>Queries</strong>: Entry points for reading data (like
+<code>event(id: "123")</code>)<br>
+</li>
+<li>
+<strong>Mutations</strong>: Operations for modifying data (like
+<code>createEvent</code>, <code>updateGroup</code>)</li>
+</ol>
+<p>The schema also specifies: - Field types (String, Int, Boolean, or
+custom types)<br>
+- Required vs. optional fields<br>
+- Arguments each field accepts<br>
+- Relationships between types (one-to-one, one-to-many)</p>
+</div>
 </div>
 <div class="section level2">
-<h2 id="exploring-available-queries">Exploring Available Queries<a class="anchor" aria-label="anchor" href="#exploring-available-queries"></a>
+<h2 id="recommended-exploration-workflow">Recommended Exploration Workflow<a class="anchor" aria-label="anchor" href="#recommended-exploration-workflow"></a>
 </h2>
-<p>Get an overview of all query fields:</p>
+<ol style="list-style-type: decimal">
+<li>
+<strong>Cache the schema</strong>:
+<code>schema &lt;- meetup_schema()</code><br>
+</li>
+<li>
+<strong>Browse queries</strong>:
+<code>meetup_schema_queries(schema)</code> to see entry points<br>
+</li>
+<li>
+<strong>Search for types</strong>:
+<code>meetup_schema_search("topic", schema)</code> to find relevant
+types<br>
+</li>
+<li>
+<strong>Examine type fields</strong>:
+<code>meetup_schema_type("TypeName", schema)</code> for details<br>
+</li>
+<li>
+<strong>Check related types</strong>: Follow object-type fields to
+discover relationships<br>
+</li>
+<li>
+<strong>Build query</strong>: Combine fields based on introspection
+data<br>
+</li>
+<li>
+<strong>Test in Playground</strong>: Validate query at <a href="https://www.meetup.com/api/playground" class="external-link uri">https://www.meetup.com/api/playground</a><br>
+</li>
+<li>
+<strong>Execute in R</strong>: <code><a href="../reference/meetup_query.html">meetup_query()</a></code> with your
+final query<br>
+</li>
+<li>
+<strong>Extract data</strong>: Use purrr or dplyr to transform
+nested results</li>
+</ol>
+<p>This systematic approach helps you efficiently discover and utilize
+the full Meetup API schema for custom data extraction beyond the
+package’s built-in functions.</p>
+</div>
+<div class="section level2">
+<h2 id="the-meetup_schema_-function-family">The meetup_schema_* Function Family<a class="anchor" aria-label="anchor" href="#the-meetup_schema_-function-family"></a>
+</h2>
+<p>meetupr provides five introspection functions, all starting with
+<code>meetup_schema_</code>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">query_fields</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/explore_query_fields.html">explore_query_fields</a></span><span class="op">(</span><span class="va">schema</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/meetup_schema.html">meetup_schema</a></span><span class="op">(</span><span class="op">)</span>           <span class="co"># Get the complete schema</span></span>
+<span><span class="fu"><a href="../reference/meetup_schema_queries.html">meetup_schema_queries</a></span><span class="op">(</span><span class="op">)</span>   <span class="co"># List available query entry points</span></span>
+<span><span class="fu"><a href="../reference/meetup_schema_mutations.html">meetup_schema_mutations</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># List available mutations</span></span>
+<span><span class="fu"><a href="../reference/meetup_schema_search.html">meetup_schema_search</a></span><span class="op">(</span><span class="op">)</span>    <span class="co"># Search for types by name/description</span></span>
+<span><span class="fu"><a href="../reference/meetup_schema_type.html">meetup_schema_type</a></span><span class="op">(</span><span class="op">)</span>      <span class="co"># Examine fields on a specific type</span></span></code></pre></div>
+<p>Type <code>meetup_schema_</code> in your console and press Tab to see
+all available functions.</p>
+<div class="section level3">
+<h3 id="performance-tip-cache-the-schema">Performance Tip: Cache the Schema<a class="anchor" aria-label="anchor" href="#performance-tip-cache-the-schema"></a>
+</h3>
+<p>The schema is large (~1-2MB) and rarely changes. Fetch it once and
+pass it to subsequent functions:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Fetch once</span></span>
+<span><span class="va">schema</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meetup_schema.html">meetup_schema</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Reuse for multiple queries (no additional API calls)</span></span>
+<span><span class="va">queries</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meetup_schema_queries.html">meetup_schema_queries</a></span><span class="op">(</span>schema <span class="op">=</span> <span class="va">schema</span><span class="op">)</span></span>
+<span><span class="va">mutations</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meetup_schema_mutations.html">meetup_schema_mutations</a></span><span class="op">(</span>schema <span class="op">=</span> <span class="va">schema</span><span class="op">)</span></span>
+<span><span class="va">event_fields</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meetup_schema_type.html">meetup_schema_type</a></span><span class="op">(</span><span class="st">"Event"</span>, schema <span class="op">=</span> <span class="va">schema</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Multiple types match <span style="color: #0000BB;">"Event"</span>. Showing matches:</span></span></code></pre></div>
+<p>This pattern avoids repeated introspection queries and speeds up
+exploration significantly.</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="step-by-step-exploration-workflow">Step-by-Step Exploration Workflow<a class="anchor" aria-label="anchor" href="#step-by-step-exploration-workflow"></a>
+</h2>
+<p>Here’s the recommended workflow for discovering and using new API
+capabilities:</p>
+<div class="section level3">
+<h3 id="step-1-identify-available-entry-points">Step 1: Identify Available Entry Points<a class="anchor" aria-label="anchor" href="#step-1-identify-available-entry-points"></a>
+</h3>
+<p>Start by seeing what top-level queries exist:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">query_fields</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meetup_schema_queries.html">meetup_schema_queries</a></span><span class="op">(</span>schema <span class="op">=</span> <span class="va">schema</span><span class="op">)</span></span>
 <span><span class="va">query_fields</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 11 × 4</span></span></span>
 <span><span class="co">#&gt;    field_name        description                          args_count return_type</span></span>
@@ -122,16 +244,52 @@ built-in functions.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> self              <span style="color: #949494;">"</span>The currently authenticated member<span style="color: #949494;">"</span>          0 Member     </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> suggestTopics     <span style="color: #949494;">"</span>Suggest topics given a search term<span style="color: #949494;">"</span>          4 TopicsConn…</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> topicCategories   <span style="color: #949494;">"</span>List top level topic categories<span style="color: #949494;">"</span>             1 TopicCateg…</span></span></code></pre></div>
-<p>This shows field names, descriptions, argument counts, and return
-types. For example, you might see fields like <code>event</code>,
-<code>group</code>, <code>self</code>, etc.</p>
+<p>Each row represents a query you can execute:</p>
+<ul>
+<li>
+<code>field_name</code>: The query name (use this in your GraphQL
+query)<br>
+</li>
+<li>
+<code>description</code>: What the query does<br>
+</li>
+<li>
+<code>args_count</code>: How many arguments it accepts<br>
+</li>
+<li>
+<code>return_type</code>: What type of data it returns</li>
+</ul>
+<p>For example, if you see <code>groupByUrlname</code> returning
+<code>Group</code>, you know you can query group data using a URL
+name.</p>
+<p><strong>Finding specific queries</strong>:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Find all group-related queries</span></span>
+<span><span class="va">query_fields</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"group"</span>, <span class="va">field_name</span>, ignore.case <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 4</span></span></span>
+<span><span class="co">#&gt;   field_name        description                           args_count return_type</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> group             <span style="color: #949494;">"</span>Fetch a single group by its id<span style="color: #949494;">"</span>               1 Group      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> groupByUrlname    <span style="color: #949494;">"</span>Fetch a single group by its urlname<span style="color: #949494;">"</span>          1 Group      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> groupSearch       <span style="color: #949494;">"</span>Search groups using keywords and a …          4 GroupSearc…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> recommendedGroups <span style="color: #949494;">""</span>                                             4 Recommende…</span></span>
+<span></span>
+<span><span class="co"># Find queries that don't require arguments</span></span>
+<span><span class="va">query_fields</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">args_count</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 4</span></span></span>
+<span><span class="co">#&gt;   field_name description                        args_count return_type</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> self       The currently authenticated member          0 Member</span></span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="finding-specific-types">Finding Specific Types<a class="anchor" aria-label="anchor" href="#finding-specific-types"></a>
-</h2>
-<p>Search for types related to your interests:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">event_types</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/search_types.html">search_types</a></span><span class="op">(</span><span class="va">schema</span>, pattern <span class="op">=</span> <span class="st">"event"</span><span class="op">)</span></span>
+<div class="section level3">
+<h3 id="step-2-search-for-relevant-types">Step 2: Search for Relevant Types<a class="anchor" aria-label="anchor" href="#step-2-search-for-relevant-types"></a>
+</h3>
+<p>Once you know what queries exist, search for related data types:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Find all event-related types</span></span>
+<span><span class="va">event_types</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meetup_schema_search.html">meetup_schema_search</a></span><span class="op">(</span><span class="st">"event"</span>, schema <span class="op">=</span> <span class="va">schema</span><span class="op">)</span></span>
 <span><span class="va">event_types</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 72 × 4</span></span></span>
 <span><span class="co">#&gt;    type_name                  kind         description               field_count</span></span>
@@ -146,22 +304,76 @@ types. For example, you might see fields like <code>event</code>,
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> DeleteEventInput           INPUT_OBJECT <span style="color: #949494;">""</span>                                  0</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> DeleteEventPayload         OBJECT       <span style="color: #949494;">""</span>                                  2</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> EditEventInput             INPUT_OBJECT <span style="color: #949494;">""</span>                                  0</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 62 more rows</span></span></span>
-<span></span>
-<span><span class="va">user_types</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/search_types.html">search_types</a></span><span class="op">(</span><span class="va">schema</span>, pattern <span class="op">=</span> <span class="st">"user"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 62 more rows</span></span></span></code></pre></div>
+<p>The search looks in both type names and descriptions, so you might
+find: - <code>Event</code>: The main event type<br>
+- <code>EventConnection</code>: Pagination wrapper for event lists<br>
+- <code>EventEdge</code>: Individual event in a paginated list<br>
+- <code>EventInput</code>: Input type for creating/updating events<br>
+- <code>EventStatus</code>: Enum of possible event statuses</p>
+<p><strong>Key fields explained</strong>:</p>
+<ul>
+<li>
+<code>type_name</code>: The GraphQL type name<br>
+</li>
+<li>
+<code>kind</code>: Type category (OBJECT, ENUM, INTERFACE,
+INPUT_OBJECT, etc.)<br>
+</li>
+<li>
+<code>field_count</code>: How many fields the type has (0 for enums
+and inputs)</li>
+</ul>
+<p><strong>Different type kinds</strong>:</p>
+<ul>
+<li>
+<code>OBJECT</code>: Standard data type with fields (like Event,
+Group)<br>
+</li>
+<li>
+<code>ENUM</code>: Fixed set of values (like EventStatus: UPCOMING,
+PAST, CANCELLED)<br>
+</li>
+<li>
+<code>INPUT_OBJECT</code>: Type used as mutation argument (like
+CreateEventInput)<br>
+</li>
+<li>
+<code>INTERFACE</code>: Shared fields across multiple types<br>
+</li>
+<li>
+<code>SCALAR</code>: Primitive values (String, Int, Boolean, ID,
+DateTime)</li>
+</ul>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Find user/member related types</span></span>
+<span><span class="va">user_types</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meetup_schema_search.html">meetup_schema_search</a></span><span class="op">(</span><span class="st">"user"</span>, schema <span class="op">=</span> <span class="va">schema</span><span class="op">)</span></span>
 <span><span class="va">user_types</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 4</span></span></span>
 <span><span class="co">#&gt;   type_name          kind         description                        field_count</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> MembershipDues     OBJECT       <span style="color: #949494;">"</span>The last known state of member's…           5</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> NetworkUsersFilter INPUT_OBJECT <span style="color: #949494;">""</span>                                           0</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> NetworkUsersFilter INPUT_OBJECT <span style="color: #949494;">""</span>                                           0</span></span>
+<span></span>
+<span><span class="co"># Find location-related types</span></span>
+<span><span class="va">location_types</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meetup_schema_search.html">meetup_schema_search</a></span><span class="op">(</span><span class="st">"location"</span>, schema <span class="op">=</span> <span class="va">schema</span><span class="op">)</span></span>
+<span><span class="va">location_types</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 4</span></span></span>
+<span><span class="co">#&gt;   type_name           kind         description                       field_count</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> CityLocation        INPUT_OBJECT <span style="color: #949494;">""</span>                                          0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> GeoLocation         INPUT_OBJECT <span style="color: #949494;">""</span>                                          0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> GroupLocation       INPUT_OBJECT <span style="color: #949494;">"</span>Group Location (if any is provi…           0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> PointLocation       INPUT_OBJECT <span style="color: #949494;">""</span>                                          0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> __DirectiveLocation ENUM         <span style="color: #949494;">"</span>An enum describing valid locati…           0</span></span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="examining-type-fields">Examining Type Fields<a class="anchor" aria-label="anchor" href="#examining-type-fields"></a>
-</h2>
-<p>Once you find a relevant type, examine its available fields:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">event_fields</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_type_fields.html">get_type_fields</a></span><span class="op">(</span><span class="va">schema</span>, <span class="st">"Event"</span><span class="op">)</span></span>
+<div class="section level3">
+<h3 id="step-3-examine-type-fields">Step 3: Examine Type Fields<a class="anchor" aria-label="anchor" href="#step-3-examine-type-fields"></a>
+</h3>
+<p>Now inspect what fields a specific type has:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">event_fields</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meetup_schema_type.html">meetup_schema_type</a></span><span class="op">(</span><span class="st">"Event"</span>, schema <span class="op">=</span> <span class="va">schema</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Multiple types match <span style="color: #0000BB;">"Event"</span>. Showing matches:</span></span>
 <span><span class="va">event_fields</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 69 × 2</span></span></span>
 <span><span class="co">#&gt;    type_name              kind        </span></span>
@@ -176,61 +388,185 @@ types. For example, you might see fields like <code>event</code>,
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> DeleteEventPayload     OBJECT      </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> EditEventInput         INPUT_OBJECT</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> EditEventPayload       OBJECT      </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 59 more rows</span></span></span>
-<span></span>
-<span><span class="va">group_fields</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_type_fields.html">get_type_fields</a></span><span class="op">(</span><span class="va">schema</span>, <span class="st">"Group"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 59 more rows</span></span></span></code></pre></div>
+<p>When multiple types match your search, use regex to select one:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Use regular expression to choose one specific type</span></span>
+<span><span class="va">event</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meetup_schema_type.html">meetup_schema_type</a></span><span class="op">(</span><span class="st">"^Event$"</span>, schema <span class="op">=</span> <span class="va">schema</span><span class="op">)</span></span>
+<span><span class="va">event</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 37 × 4</span></span></span>
+<span><span class="co">#&gt;    field_name         description                               type  deprecated</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> createdTime        <span style="color: #949494;">"</span>Event creating datetime<span style="color: #949494;">"</span>                 Date… FALSE     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> dateTime           <span style="color: #949494;">"</span>The scheduled time of the event<span style="color: #949494;">"</span>         Date… FALSE     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> description        <span style="color: #949494;">"</span>Description of the event. Visibility ma… Stri… FALSE     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> duration           <span style="color: #949494;">"</span>Duration of the event<span style="color: #949494;">"</span>                   Dura… FALSE     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> endTime            <span style="color: #949494;">"</span>Time when event ends<span style="color: #949494;">"</span>                    Date… FALSE     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> eventHosts         <span style="color: #949494;">"</span>List of event hosts<span style="color: #949494;">"</span>                     Even… FALSE     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> eventType          <span style="color: #949494;">"</span>Type of the event<span style="color: #949494;">"</span>                       Even… FALSE     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> eventUrl           <span style="color: #949494;">"</span>Name used for the event's web address o… Stri… FALSE     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> featuredEventPhoto <span style="color: #949494;">""</span>                                        Phot… FALSE     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> feeSettings        <span style="color: #949494;">"</span>Optional organizer-defined fee payment … Even… FALSE     </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 27 more rows</span></span></span></code></pre></div>
+<p>This shows every field available on the <code>Event</code> type:</p>
+<ul>
+<li>
+<code>field_name</code>: Field to request in your query<br>
+</li>
+<li>
+<code>description</code>: What the field represents<br>
+</li>
+<li>
+<code>type</code>: GraphQL type (String, Int, or another object
+type)<br>
+</li>
+<li>
+<code>deprecated</code>: Whether the field is being phased out</li>
+</ul>
+<p><strong>Understanding field types</strong>:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Look at specific field types</span></span>
+<span><span class="va">event</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">field_name</span>, <span class="va">type</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 10 × 2</span></span></span>
+<span><span class="co">#&gt;    field_name         type            </span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> createdTime        DateTime        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> dateTime           DateTime        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> description        String          </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> duration           Duration        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> endTime            DateTime        </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> eventHosts         EventHost       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> eventType          EventType       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> eventUrl           String          </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> featuredEventPhoto PhotoInfo       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> feeSettings        EventFeeSettings</span></span></code></pre></div>
+<p>Field types tell you: - Simple types (<code>String</code>,
+<code>Int</code>, <code>Boolean</code>): Return scalar values<br>
+- Object types (<code>Group</code>, <code>Venue</code>): Return nested
+objects (you can query their fields too)<br>
+- <code>ID</code>: Unique identifier (usually a string)</p>
+<p><strong>Find deprecated fields</strong> (avoid using these):</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">event</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">deprecated</span> <span class="op">==</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 0 × 4</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 4 variables: field_name &lt;chr&gt;, description &lt;chr&gt;, type &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   deprecated &lt;lgl&gt;</span></span></span></code></pre></div>
+<p><strong>Explore complex types</strong>:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># See what fields are on Group objects</span></span>
+<span><span class="va">group_fields</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meetup_schema_type.html">meetup_schema_type</a></span><span class="op">(</span><span class="st">"^Group$"</span>, schema <span class="op">=</span> <span class="va">schema</span><span class="op">)</span></span>
 <span><span class="va">group_fields</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 56 × 2</span></span></span>
-<span><span class="co">#&gt;    type_name                kind        </span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> AddGroupToNetworkInput   INPUT_OBJECT</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> AddGroupToNetworkPayload OBJECT      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> CreateGroupDraftInput    INPUT_OBJECT</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> CreateGroupDraftPayload  OBJECT      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> DeleteGroupDraftInput    INPUT_OBJECT</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Group                    OBJECT      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> GroupAnalytics           OBJECT      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> GroupDuesReasons         OBJECT      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> GroupEventConnection     OBJECT      </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> GroupEventFilter         INPUT_OBJECT</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 46 more rows</span></span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 44 × 4</span></span></span>
+<span><span class="co">#&gt;    field_name              description                          type  deprecated</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> activeTopics            A list of group active topics.       Topic FALSE     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> allowMemberPhotoUploads Indicates if members are allowed to… Bool… FALSE     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> canAddPhotos            Shows current user's permission to … Bool… FALSE     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> city                    A city where a group is located.     Stri… FALSE     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> country                 A country where a group is located.  Stri… FALSE     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> customMemberLabel       What this group calls its members    Stri… FALSE     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> description             Description of a group.              Stri… FALSE     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> duesSettings            Active group membership dues settin… Dues… FALSE     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> emailAnnounceAddress    an email address, representing an O… Stri… FALSE     </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> eventSearch             Search for events in this group      Grou… TRUE      </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 34 more rows</span></span></span></code></pre></div>
+<p>If an Event has a <code>group</code> field of type
+<code>Group</code>, you can query Group fields nested under Event:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode graphql"><code class="sourceCode graphql"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="kw">query</span> {</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>  event(id: <span class="st">"123"</span>) {</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>    title</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>    group {</span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>      name</span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>      urlname</span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>      memberCount</span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a>    }</span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a>  }</span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a>}</span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="building-custom-queries">Building Custom Queries<a class="anchor" aria-label="anchor" href="#building-custom-queries"></a>
-</h2>
-<p>Use the introspection data to construct targeted queries with
-<code><a href="../reference/meetup_query.html">meetup_query()</a></code>:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="section level3">
+<h3 id="step-4-build-your-custom-query">Step 4: Build Your Custom Query<a class="anchor" aria-label="anchor" href="#step-4-build-your-custom-query"></a>
+</h3>
+<p>Armed with introspection data, construct a GraphQL query:</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">custom_query</span> <span class="op">&lt;-</span> <span class="st">"</span></span>
-<span><span class="st">query($eventId: ID!) {</span></span>
+<span><span class="st">query GetEventDetails($eventId: ID!) {</span></span>
 <span><span class="st">  event(id: $eventId) {</span></span>
+<span><span class="st">    id</span></span>
 <span><span class="st">    title</span></span>
 <span><span class="st">    description</span></span>
 <span><span class="st">    dateTime</span></span>
-<span><span class="st">    venues {</span></span>
-<span><span class="st">      name</span></span>
-<span><span class="st">      address</span></span>
-<span><span class="st">    }</span></span>
+<span><span class="st">    duration</span></span>
+<span><span class="st">    </span></span>
+<span><span class="st">    # Nested group information</span></span>
 <span><span class="st">    group {</span></span>
 <span><span class="st">      name</span></span>
 <span><span class="st">      urlname</span></span>
+<span><span class="st">      city</span></span>
+<span><span class="st">    }</span></span>
+<span><span class="st"></span></span>
+<span><span class="st">    venues {</span></span>
+<span><span class="st">      name</span></span>
+<span><span class="st">      address</span></span>
+<span><span class="st">      city</span></span>
+<span><span class="st">      state</span></span>
+<span><span class="st">      postalCode</span></span>
+<span><span class="st">      country</span></span>
+<span><span class="st">      lat</span></span>
+<span><span class="st">      lon</span></span>
+<span><span class="st">      venueType</span></span>
 <span><span class="st">    }</span></span>
 <span><span class="st">  }</span></span>
-<span><span class="st">}"</span></span></code></pre></div>
-<p>In this example, we fetch event details including title, description,
-date/time, venue info, and associated group details. It sets up a
-variable <code>$eventId</code> for flexibility, which can be passed when
-calling <code><a href="../reference/meetup_query.html">meetup_query()</a></code>, allowing reuse for different
-events.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<span><span class="st">}</span></span>
+<span><span class="st">"</span></span></code></pre></div>
+<p><strong>Query anatomy</strong>:</p>
+<ul>
+<li>
+<strong>Operation type</strong>: <code>query</code> (or
+<code>mutation</code>)<br>
+</li>
+<li>
+<strong>Operation name</strong>: <code>GetEventDetails</code>
+(optional but helpful for debugging)<br>
+</li>
+<li>
+<strong>Variables</strong>: <code>$eventId: ID!</code> (the
+<code>!</code> means required)<br>
+</li>
+<li>
+<strong>Field selection</strong>: Choose which fields to
+retrieve<br>
+</li>
+<li>
+<strong>Nested selections</strong>: Query fields on related objects
+(group)</li>
+</ul>
+<p><strong>How to choose fields</strong>:</p>
+<ol style="list-style-type: decimal">
+<li>Use <code><a href="../reference/meetup_schema_type.html">meetup_schema_type()</a></code> to see available fields<br>
+</li>
+<li>Include scalar fields (String, Int, etc.) directly<br>
+</li>
+<li>For object fields (Group, Venue), nest another selection set<br>
+</li>
+<li>Test in the <a href="https://www.meetup.com/api/playground" class="external-link">Meetup
+API Playground</a> first</li>
+</ol>
+</div>
+<div class="section level3">
+<h3 id="step-5-execute-your-query">Step 5: Execute Your Query<a class="anchor" aria-label="anchor" href="#step-5-execute-your-query"></a>
+</h3>
+<p>Run the query with <code><a href="../reference/meetup_query.html">meetup_query()</a></code>:</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meetup_query.html">meetup_query</a></span><span class="op">(</span><span class="va">custom_query</span>, eventId <span class="op">=</span> <span class="st">"103349942"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in default_backend_auto(): Selecting 'env' backend. Secrets are stored</span></span>
-<span><span class="co">#&gt; in environment variables</span></span>
-<span><span class="co">#&gt; Warning in default_backend_auto(): Selecting 'env' backend. Secrets are stored</span></span>
-<span><span class="co">#&gt; in environment variables</span></span>
 <span><span class="va">result</span></span>
 <span><span class="co">#&gt; $data</span></span>
 <span><span class="co">#&gt; $data$event</span></span>
+<span><span class="co">#&gt; $data$event$id</span></span>
+<span><span class="co">#&gt; [1] "103349942"</span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $data$event$title</span></span>
 <span><span class="co">#&gt; [1] "Ecosystem GIS &amp; Community Building"</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -240,6 +576,20 @@ events.</p>
 <span><span class="co">#&gt; $data$event$dateTime</span></span>
 <span><span class="co">#&gt; [1] "2013-02-18T18:30:00-05:00"</span></span>
 <span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $data$event$duration</span></span>
+<span><span class="co">#&gt; [1] "PT2H"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $data$event$group</span></span>
+<span><span class="co">#&gt; $data$event$group$name</span></span>
+<span><span class="co">#&gt; [1] "Data Visualization DC"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $data$event$group$urlname</span></span>
+<span><span class="co">#&gt; [1] "data-visualization-dc"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $data$event$group$city</span></span>
+<span><span class="co">#&gt; [1] "Washington"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $data$event$venues</span></span>
 <span><span class="co">#&gt; $data$event$venues[[1]]</span></span>
 <span><span class="co">#&gt; $data$event$venues[[1]]$name</span></span>
@@ -248,26 +598,65 @@ events.</p>
 <span><span class="co">#&gt; $data$event$venues[[1]]$address</span></span>
 <span><span class="co">#&gt; [1] "1203 19th Street"</span></span>
 <span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $data$event$venues[[1]]$city</span></span>
+<span><span class="co">#&gt; [1] "Washington"</span></span>
 <span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $data$event$venues[[1]]$state</span></span>
+<span><span class="co">#&gt; [1] "DC"</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $data$event$group</span></span>
-<span><span class="co">#&gt; $data$event$group$name</span></span>
+<span><span class="co">#&gt; $data$event$venues[[1]]$postalCode</span></span>
+<span><span class="co">#&gt; [1] "20036"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $data$event$venues[[1]]$country</span></span>
+<span><span class="co">#&gt; [1] "us"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $data$event$venues[[1]]$lat</span></span>
+<span><span class="co">#&gt; [1] 38.9058</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $data$event$venues[[1]]$lon</span></span>
+<span><span class="co">#&gt; [1] -77.04343</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $data$event$venues[[1]]$venueType</span></span>
+<span><span class="co">#&gt; [1] ""</span></span></code></pre></div>
+<p>The result structure mirrors your query structure: -
+<code>data</code>: Top-level wrapper<br>
+- <code>event</code>: The query field you requested<br>
+- Nested fields match your selection set</p>
+<p><strong>Extract specific data</strong>:</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Get just the event title</span></span>
+<span><span class="va">result</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">event</span><span class="op">$</span><span class="va">title</span></span>
+<span><span class="co">#&gt; [1] "Ecosystem GIS &amp; Community Building"</span></span>
+<span></span>
+<span><span class="co"># Get group information</span></span>
+<span><span class="va">result</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">event</span><span class="op">$</span><span class="va">group</span></span>
+<span><span class="co">#&gt; $name</span></span>
 <span><span class="co">#&gt; [1] "Data Visualization DC"</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $data$event$group$urlname</span></span>
-<span><span class="co">#&gt; [1] "data-visualization-dc"</span></span></code></pre></div>
+<span><span class="co">#&gt; $urlname</span></span>
+<span><span class="co">#&gt; [1] "data-visualization-dc"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $city</span></span>
+<span><span class="co">#&gt; [1] "Washington"</span></span>
+<span></span>
+<span><span class="co"># Get venue coordinates</span></span>
+<span><span class="va">venue</span> <span class="op">&lt;-</span> <span class="va">result</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">event</span><span class="op">$</span><span class="va">venues</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>lat <span class="op">=</span> <span class="va">venue</span><span class="op">$</span><span class="va">lat</span>, lng <span class="op">=</span> <span class="va">venue</span><span class="op">$</span><span class="va">lon</span><span class="op">)</span></span>
+<span><span class="co">#&gt;       lat       lng </span></span>
+<span><span class="co">#&gt;  38.90580 -77.04343</span></span></code></pre></div>
+</div>
 </div>
 <div class="section level2">
-<h2 id="finding-available-mutations">Finding Available Mutations<a class="anchor" aria-label="anchor" href="#finding-available-mutations"></a>
+<h2 id="working-with-mutations">Working with Mutations<a class="anchor" aria-label="anchor" href="#working-with-mutations"></a>
 </h2>
-<p>In GraphQL, mutations are used to modify data. They are less commonly
-used for data retrieval, but it’s useful to know what’s available.
-Mutations allow creating, updating, or deleting resources, and typical
-use cases would involve managing events, RSVPs, or group details.
-Mutations will require users to have appropriate permissions to perform
-these actions. Check what mutations are available:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mutations</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/explore_mutations.html">explore_mutations</a></span><span class="op">(</span><span class="va">schema</span><span class="op">)</span></span>
+<p>Mutations modify data on the server (create, update, delete
+operations). They require appropriate permissions based on your Meetup
+account and group roles.</p>
+<div class="section level3">
+<h3 id="discovering-available-mutations">Discovering Available Mutations<a class="anchor" aria-label="anchor" href="#discovering-available-mutations"></a>
+</h3>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">mutations</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meetup_schema_mutations.html">meetup_schema_mutations</a></span><span class="op">(</span>schema <span class="op">=</span> <span class="va">schema</span><span class="op">)</span></span>
 <span><span class="va">mutations</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 16 × 4</span></span></span>
 <span><span class="co">#&gt;    field_name                description                  args_count return_type</span></span>
@@ -288,38 +677,331 @@ these actions. Check what mutations are available:</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> updateGroup               <span style="color: #949494;">"</span>Changes any field of a gro…          2 Group      </span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> updateGroupDraft          <span style="color: #949494;">"</span>Request to update the exis…          1 UpdateGrou…</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span> updateGroupMembershipRole <span style="color: #949494;">"</span>Allows a Group leader to g…          1 UpdateGrou…</span></span></code></pre></div>
-<p>Available mutations might include actions like
-<code>createEvent</code>, <code>updateEvent</code>,
-<code>deleteEvent</code>, etc.</p>
+<p>Each mutation: - Takes an <code>input</code> argument (usually an
+INPUT_OBJECT type)<br>
+- Returns a payload type with <code>errors</code> field and the modified
+object<br>
+- Requires authentication and appropriate permissions</p>
+<p><strong>Common mutation patterns</strong>:</p>
+<ul>
+<li>
+<strong>Create</strong>: <code>createEvent</code>,
+<code>createGroup</code><br>
+</li>
+<li>
+<strong>Update</strong>: <code>updateEvent</code>,
+<code>updateMember</code><br>
+</li>
+<li>
+<strong>Delete</strong>: <code>deleteEvent</code>,
+<code>removeGroupMember</code><br>
+</li>
+<li>
+<strong>RSVP</strong>: <code>createEventRsvp</code>,
+<code>deleteEventRsvp</code>
+</li>
+</ul>
+</div>
 <div class="section level3">
-<h3 id="building-mutation-queries">Building Mutation Queries<a class="anchor" aria-label="anchor" href="#building-mutation-queries"></a>
+<h3 id="understanding-mutation-structure">Understanding Mutation Structure<a class="anchor" aria-label="anchor" href="#understanding-mutation-structure"></a>
 </h3>
-<p>To build a mutation query, you would follow a similar process as with
-queries. For example, to create a new event, you might construct a
-mutation like this:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<p>Mutations follow a standard pattern in the Meetup API:</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mutation_query</span> <span class="op">&lt;-</span> <span class="st">"</span></span>
-<span><span class="st">mutation($input: CreateEventInput!) {</span></span>
-<span><span class="st">  createEvent(input: $input) {</span></span>
-<span><span class="st">    event {</span></span>
+<span><span class="st">mutation OperationName($input: InputType!) {</span></span>
+<span><span class="st">  mutationField(input: $input) {</span></span>
+<span><span class="st">    # Always check for errors</span></span>
+<span><span class="st">    errors {</span></span>
+<span><span class="st">      code</span></span>
+<span><span class="st">      message</span></span>
+<span><span class="st">    }</span></span>
+<span><span class="st">    </span></span>
+<span><span class="st">    # The modified object (if successful)</span></span>
+<span><span class="st">    resultField {</span></span>
 <span><span class="st">      id</span></span>
-<span><span class="st">      title</span></span>
-<span><span class="st">      dateTime</span></span>
+<span><span class="st">      # other fields you want back</span></span>
 <span><span class="st">    }</span></span>
 <span><span class="st">  }</span></span>
-<span><span class="st">}"</span></span>
+<span><span class="st">}</span></span>
+<span><span class="st">"</span></span></code></pre></div>
+<p><strong>Mutation response structure</strong>:</p>
+<ol style="list-style-type: decimal">
+<li>
+<strong>errors</strong>: Array of error objects (null if
+successful)<br>
+</li>
+<li>
+<strong>Result field</strong>: The created/updated object (null if
+errors occurred)</li>
+</ol>
+<p>Always check the <code>errors</code> field before accessing the
+result.</p>
+</div>
+<div class="section level3">
+<h3 id="example-rsvp-to-an-event">Example: RSVP to an Event<a class="anchor" aria-label="anchor" href="#example-rsvp-to-an-event"></a>
+</h3>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># First, explore the mutation</span></span>
+<span><span class="va">mutations</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">field_name</span> <span class="op">==</span> <span class="st">"createEventRsvp"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Example input for creating an event</span></span>
-<span><span class="va">input_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>  title <span class="op">=</span> <span class="st">"New Meetup Event"</span>,</span>
-<span>  description <span class="op">=</span> <span class="st">"Description of the new event"</span>,</span>
-<span>  dateTime <span class="op">=</span> <span class="st">"2024-07-01T18:00:00Z"</span>,</span>
-<span>  groupId <span class="op">=</span> <span class="st">"123456"</span></span>
+<span><span class="co"># Check what input fields are needed</span></span>
+<span><span class="va">rsvp_input</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meetup_schema_type.html">meetup_schema_type</a></span><span class="op">(</span><span class="st">"CreateEventRsvpInput"</span>, schema <span class="op">=</span> <span class="va">schema</span><span class="op">)</span></span>
+<span><span class="va">rsvp_input</span></span>
+<span></span>
+<span><span class="co"># Build the mutation</span></span>
+<span><span class="va">rsvp_mutation</span> <span class="op">&lt;-</span> <span class="st">"</span></span>
+<span><span class="st">mutation RSVPToEvent($input: CreateEventRsvpInput!) {</span></span>
+<span><span class="st">  createEventRsvp(input: $input) {</span></span>
+<span><span class="st">    errors {</span></span>
+<span><span class="st">      code</span></span>
+<span><span class="st">      message</span></span>
+<span><span class="st">    }</span></span>
+<span><span class="st">    rsvp {</span></span>
+<span><span class="st">      id</span></span>
+<span><span class="st">      response</span></span>
+<span><span class="st">      created</span></span>
+<span><span class="st">    }</span></span>
+<span><span class="st">  }</span></span>
+<span><span class="st">}</span></span>
+<span><span class="st">"</span></span>
+<span></span>
+<span><span class="co"># Execute (requires authentication and valid event)</span></span>
+<span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meetup_query.html">meetup_query</a></span><span class="op">(</span></span>
+<span>  <span class="va">rsvp_mutation</span>,</span>
+<span>  input <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>    eventId <span class="op">=</span> <span class="st">"123456"</span>,</span>
+<span>    response <span class="op">=</span> <span class="st">"YES"</span></span>
+<span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Execute the mutation (requires appropriate permissions)</span></span>
-<span><span class="fu"><a href="../reference/meetup_query.html">meetup_query</a></span><span class="op">(</span><span class="va">mutation_query</span>, input <span class="op">=</span> <span class="va">input_data</span><span class="op">)</span></span></code></pre></div>
+<span><span class="co"># Check for errors</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">createEventRsvp</span><span class="op">$</span><span class="va">errors</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu">cli</span><span class="fu">::</span><span class="fu"><a href="https://cli.r-lib.org/reference/cli_alert.html" class="external-link">cli_alert_danger</a></span><span class="op">(</span><span class="st">"RSVP failed"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">createEventRsvp</span><span class="op">$</span><span class="va">errors</span><span class="op">)</span></span>
+<span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
+<span>  <span class="fu">cli</span><span class="fu">::</span><span class="fu"><a href="https://cli.r-lib.org/reference/cli_alert.html" class="external-link">cli_alert_success</a></span><span class="op">(</span><span class="st">"RSVP successful"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">result</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">createEventRsvp</span><span class="op">$</span><span class="va">rsvp</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+<p><strong>Important mutation considerations</strong>:</p>
+<ul>
+<li>
+<strong>Permissions</strong>: You must have appropriate group
+roles<br>
+</li>
+<li>
+<strong>Validation</strong>: Input must match schema requirements
+exactly<br>
+</li>
+<li>
+<strong>Idempotency</strong>: Some mutations can be repeated safely,
+others cannot<br>
+</li>
+<li>
+<strong>Rate limits</strong>: Mutations count toward API rate limits
+(500 req/60s)</li>
+</ul>
 </div>
+</div>
+<div class="section level2">
+<h2 id="advanced-introspection-patterns">Advanced Introspection Patterns<a class="anchor" aria-label="anchor" href="#advanced-introspection-patterns"></a>
+</h2>
+<div class="section level3">
+<h3 id="exploring-enum-values">Exploring Enum Values<a class="anchor" aria-label="anchor" href="#exploring-enum-values"></a>
+</h3>
+<p>Enums are fixed sets of allowed values (like event status: UPCOMING,
+PAST, CANCELLED):</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Find all enum types</span></span>
+<span><span class="va">enum_types</span> <span class="op">&lt;-</span> <span class="va">schema</span><span class="op">$</span><span class="va">types</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">schema</span><span class="op">$</span><span class="va">types</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">x</span><span class="op">$</span><span class="va">kind</span> <span class="op">==</span> <span class="st">"ENUM"</span></span>
+<span><span class="op">}</span><span class="op">)</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co"># Example: Event status values</span></span>
+<span><span class="va">event_status</span> <span class="op">&lt;-</span> <span class="va">enum_types</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">enum_types</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">x</span><span class="op">$</span><span class="va">name</span> <span class="op">==</span> <span class="st">"EventStatus"</span></span>
+<span><span class="op">}</span><span class="op">)</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
+<span></span>
+<span><span class="co"># Get allowed values</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">event_status</span><span class="op">$</span><span class="va">enumValues</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">$</span><span class="va">name</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  [1] "ACTIVE"              "AUTOSCHED"           "AUTOSCHED_CANCELLED"</span></span>
+<span><span class="co">#&gt;  [4] "AUTOSCHED_DRAFT"     "AUTOSCHED_FINISHED"  "BLOCKED"            </span></span>
+<span><span class="co">#&gt;  [7] "CANCELLED"           "CANCELLED_PERM"      "DRAFT"              </span></span>
+<span><span class="co">#&gt; [10] "PAST"                "PENDING"             "PROPOSED"           </span></span>
+<span><span class="co">#&gt; [13] "TEMPLATE"</span></span></code></pre></div>
+<p>This tells you exactly which status values are valid when filtering
+events.</p>
+</div>
+<div class="section level3">
+<h3 id="finding-required-vs--optional-fields">Finding Required vs. Optional Fields<a class="anchor" aria-label="anchor" href="#finding-required-vs--optional-fields"></a>
+</h3>
+<p>Field types can be wrapped in modifiers: - <code>!</code> suffix
+means <strong>required</strong> (NON_NULL kind)<br>
+- <code>[]</code> brackets mean <strong>list/array</strong> (LIST
+kind)</p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Find required fields on Event</span></span>
+<span><span class="va">event</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grepl</a></span><span class="op">(</span><span class="st">"!"</span>, <span class="va">type</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">field_name</span>, <span class="va">type</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 0 × 2</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 2 variables: field_name &lt;chr&gt;, type &lt;chr&gt;</span></span></span></code></pre></div>
+<p>The <code>!</code> indicates you must provide this field in mutations
+or it will always be present in queries.</p>
+</div>
+<div class="section level3">
+<h3 id="discovering-input-types-for-mutations">Discovering Input Types for Mutations<a class="anchor" aria-label="anchor" href="#discovering-input-types-for-mutations"></a>
+</h3>
+<p>Input types define what data mutations accept:</p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Find all input types</span></span>
+<span><span class="va">input_types</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meetup_schema_search.html">meetup_schema_search</a></span><span class="op">(</span><span class="st">"Input"</span>, schema <span class="op">=</span> <span class="va">schema</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">kind</span> <span class="op">==</span> <span class="st">"INPUT_OBJECT"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">input_types</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 35 × 4</span></span></span>
+<span><span class="co">#&gt;    type_name                  kind         description               field_count</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> AddGroupToNetworkInput     INPUT_OBJECT <span style="color: #949494;">""</span>                                  0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> AnnounceEventInput         INPUT_OBJECT <span style="color: #949494;">""</span>                                  0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> CloseEventRsvpsInput       INPUT_OBJECT <span style="color: #949494;">""</span>                                  0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> CommunicationSettingsInput INPUT_OBJECT <span style="color: #949494;">"</span>Event communication too…           0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> CovidPrecautionsInput      INPUT_OBJECT <span style="color: #949494;">""</span>                                  0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> CreateEventInput           INPUT_OBJECT <span style="color: #949494;">""</span>                                  0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> CreateGroupDraftInput      INPUT_OBJECT <span style="color: #949494;">""</span>                                  0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> CreateVenueInput           INPUT_OBJECT <span style="color: #949494;">""</span>                                  0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> DeleteEventInput           INPUT_OBJECT <span style="color: #949494;">""</span>                                  0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> DeleteGroupDraftInput      INPUT_OBJECT <span style="color: #949494;">""</span>                                  0</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 25 more rows</span></span></span></code></pre></div>
+<p>Examine specific input types to see required fields:</p>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># See what fields CreateEventInput requires</span></span>
+<span><span class="va">create_event_input</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meetup_schema_type.html">meetup_schema_type</a></span><span class="op">(</span><span class="st">"CreateEventInput"</span>, schema <span class="op">=</span> <span class="va">schema</span><span class="op">)</span></span>
+<span><span class="va">create_event_input</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 1</span></span></span>
+<span><span class="co">#&gt;   message                            </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                              </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> Type CreateEventInput has no fields</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="understanding-pagination-types">Understanding Pagination Types<a class="anchor" aria-label="anchor" href="#understanding-pagination-types"></a>
+</h3>
+<p>Meetup uses cursor-based pagination with Connection/Edge
+patterns:</p>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Find pagination-related types</span></span>
+<span><span class="va">pagination_types</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meetup_schema_search.html">meetup_schema_search</a></span><span class="op">(</span><span class="st">"Connection"</span>, schema <span class="op">=</span> <span class="va">schema</span><span class="op">)</span></span>
+<span><span class="va">pagination_types</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 27 × 4</span></span></span>
+<span><span class="co">#&gt;    type_name                        kind   description               field_count</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                           <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> EventSearchConnection            OBJECT <span style="color: #949494;">""</span>                                  3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> FeaturedEventPhotoConnection     OBJECT <span style="color: #949494;">""</span>                                  3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> FeaturedEventPhotoConnectionEdge OBJECT <span style="color: #949494;">""</span>                                  2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> GroupEventConnection             OBJECT <span style="color: #949494;">""</span>                                  3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> GroupEventSearchConnection       OBJECT <span style="color: #949494;">""</span>                                  3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> GroupMemberConnection            OBJECT <span style="color: #949494;">""</span>                                  3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> GroupSearchConnection            OBJECT <span style="color: #949494;">""</span>                                  3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> GroupVenueConnection             OBJECT <span style="color: #949494;">"</span>#######################…           3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> HostRsvpConnection               OBJECT <span style="color: #949494;">""</span>                                  3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> MemberEventConnection            OBJECT <span style="color: #949494;">""</span>                                  3</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 17 more rows</span></span></span></code></pre></div>
+<p><strong>Pagination pattern</strong>:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode graphql"><code class="sourceCode graphql"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>{</span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>  group(urlname: <span class="st">"rladies-lagos"</span>) {</span>
+<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>    upcomingEvents(<span class="kw">input</span>: {first: <span class="dv">10</span>, after: <span class="st">"cursor"</span>}) {</span>
+<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a>      pageInfo {</span>
+<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a>        hasNextPage</span>
+<span id="cb25-6"><a href="#cb25-6" tabindex="-1"></a>        endCursor</span>
+<span id="cb25-7"><a href="#cb25-7" tabindex="-1"></a>      }</span>
+<span id="cb25-8"><a href="#cb25-8" tabindex="-1"></a>      edges {</span>
+<span id="cb25-9"><a href="#cb25-9" tabindex="-1"></a>        node {</span>
+<span id="cb25-10"><a href="#cb25-10" tabindex="-1"></a>          <span class="co"># Event fields here</span></span>
+<span id="cb25-11"><a href="#cb25-11" tabindex="-1"></a>        }</span>
+<span id="cb25-12"><a href="#cb25-12" tabindex="-1"></a>      }</span>
+<span id="cb25-13"><a href="#cb25-13" tabindex="-1"></a>    }</span>
+<span id="cb25-14"><a href="#cb25-14" tabindex="-1"></a>  }</span>
+<span id="cb25-15"><a href="#cb25-15" tabindex="-1"></a>}</span></code></pre></div>
+<ul>
+<li>
+<code>pageInfo</code>: Contains <code>hasNextPage</code> (boolean)
+and <code>endCursor</code> (string)<br>
+</li>
+<li>
+<code>edges</code>: Array of results<br>
+</li>
+<li>
+<code>node</code>: The actual object (Event, Group, etc.)</li>
+</ul>
+<p>The meetupr package handles pagination automatically in wrapper
+functions, but understanding this structure helps when building custom
+queries.</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="exporting-schema-for-external-tools">Exporting Schema for External Tools<a class="anchor" aria-label="anchor" href="#exporting-schema-for-external-tools"></a>
+</h2>
+<p>Some developers prefer graphical schema explorers or IDE plugins.
+Export the schema as JSON:</p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Export full schema</span></span>
+<span><span class="va">schema_json</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meetup_schema.html">meetup_schema</a></span><span class="op">(</span>asis <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/writeLines.html" class="external-link">writeLines</a></span><span class="op">(</span><span class="va">schema_json</span>, <span class="st">"meetup_schema.json"</span><span class="op">)</span></span></code></pre></div>
+<p>This JSON can be imported into: - <a href="https://graphql-voyager.com/" class="external-link">GraphQL Voyager</a> for visual
+exploration<br>
+- <a href="https://github.com/graphql/graphiql" class="external-link">GraphiQL</a> for
+interactive queries<br>
+- IDE plugins (VS Code GraphQL extension, IntelliJ GraphQL plugin)</p>
+</div>
+<div class="section level2">
+<h2 id="practical-tips-and-workflow">Practical Tips and Workflow<a class="anchor" aria-label="anchor" href="#practical-tips-and-workflow"></a>
+</h2>
+<div class="section level3">
+<h3 id="use-the-meetup-api-playground">Use the Meetup API Playground<a class="anchor" aria-label="anchor" href="#use-the-meetup-api-playground"></a>
+</h3>
+<p>The <a href="https://www.meetup.com/api/playground" class="external-link">Meetup API
+Playground</a> provides: - Autocomplete for fields and types<br>
+- Real-time validation<br>
+- Example queries<br>
+- Schema documentation browser</p>
+<p>Build and test your query there, then copy it into
+<code><a href="../reference/meetup_query.html">meetup_query()</a></code>.</p>
+</div>
+<div class="section level3">
+<h3 id="use-debug-mode">Use Debug Mode<a class="anchor" aria-label="anchor" href="#use-debug-mode"></a>
+</h3>
+<p>Enable debug mode to see the exact GraphQL being sent:</p>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">meetupr</span><span class="fu">::</span><span class="fu"><a href="../reference/local_meetupr_debug.html">local_meetupr_debug</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Your query here</span></span>
+<span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meetup_query.html">meetup_query</a></span><span class="op">(</span><span class="va">custom_query</span>, eventId <span class="op">=</span> <span class="st">"123"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">meetupr</span><span class="fu">::</span><span class="fu"><a href="../reference/local_meetupr_debug.html">local_meetupr_debug</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span></span></code></pre></div>
+<p>This prints: - The complete query with variables substituted<br>
+- Request headers<br>
+- Response structure</p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="next-steps">Next Steps<a class="anchor" aria-label="anchor" href="#next-steps"></a>
+</h2>
+<ul>
+<li>
+<strong>Build custom queries</strong>: See the <a href="graphql.html">Custom Queries vignette</a> for template-based query
+patterns<br>
+</li>
+<li>
+<strong>Authentication</strong>: See the <a href="meetupr.html">Getting Started vignette</a> for auth setup<br>
+</li>
+<li>
+<strong>Advanced auth</strong>: See the <a href="advanced-auth.html">Advanced Authentication vignette</a> for
+custom OAuth apps<br>
+</li>
+<li>
+<strong>API Reference</strong>: Visit <a href="https://www.meetup.com/api/schema/" class="external-link uri">https://www.meetup.com/api/schema/</a> for official schema
+documentation</li>
+</ul>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>

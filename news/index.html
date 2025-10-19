@@ -44,7 +44,7 @@
 <li>
 <code><a href="../reference/meetup_sitrep.html">meetup_sitrep()</a></code> - Get information about your API connection status.</li>
 <li>
-<code><a href="../reference/meetup_introspect.html">meetup_introspect()</a></code> - Get information about the Meetup API query options.</li>
+<code><a href="../reference/meetup_schema.html">meetup_schema()</a></code> - Get information about the Meetup API query options.</li>
 </ul></li>
 <li>added deprecation warnings for <code>get_meetup_comments()</code>.</li>
 <li>Added new vignettes</li>
@@ -78,13 +78,13 @@
 <ul><li>Added <code>NEWS.md</code> file.</li>
 </ul><div class="section level3">
 <h3 id="breaking-change-0-1-0">BREAKING CHANGE<a class="anchor" aria-label="anchor" href="#breaking-change-0-1-0"></a></h3>
-<p>Updated <code><a href="../reference/get_events.html">get_events()</a></code>, <code>get_boards()</code>, and <code><a href="../reference/get_group_members.html">get_group_members()</a></code> to output a tibble with summarised information. The raw content previously output by these functions can be found in the <code>resource</code> column of each output tibble.</p>
+<p>Updated <code>get_events()</code>, <code>get_boards()</code>, and <code><a href="../reference/get_group_members.html">get_group_members()</a></code> to output a tibble with summarised information. The raw content previously output by these functions can be found in the <code>resource</code> column of each output tibble.</p>
 </div>
 <div class="section level3">
 <h3 id="breaking-changes-0-1-0">BREAKING CHANGES<a class="anchor" aria-label="anchor" href="#breaking-changes-0-1-0"></a></h3>
 <p>Changed the name of <code>get_meetup_attendees()</code> and <code>get_meetup_comments()</code> to <code>get_comments()</code> and <code>get_attendees()</code> for distinction (all other <code>get_*</code> functions get something about a group, not a specific event from that group). Also updated the output of these functions from lists to tibbles. The raw content previously output by these functions can be found in the <code>resource</code> column of each output tibble.</p>
 <ul><li>Officially deprecated the <code>get_meetup_attendees()</code> and <code>get_meetup_comments()</code> functions.</li>
-<li>Added a bunch of fields to the <code><a href="../reference/get_events.html">get_events()</a></code> output.</li>
+<li>Added a bunch of fields to the <code>get_events()</code> output.</li>
 <li>Added ability to pass in a vector of statuses for <code>event_status</code> in addition to a single string.</li>
 <li>Added <code><a href="../reference/find_groups.html">find_groups()</a></code> function to get list of groups using text-based search.</li>
 <li>Added short vignette to demonstrate the use of the new <code><a href="../reference/find_groups.html">find_groups()</a></code> function.</li>
