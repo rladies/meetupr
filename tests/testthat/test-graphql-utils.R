@@ -203,7 +203,11 @@ test_that("get_template_path handles relative paths", {
 
   path <- get_template_path("queries/custom.graphql")
   expect_true(file.exists(path))
-  expect_match(path, "queries/custom\\.graphql$")
+
+  # Normalize path separators for cross-platform testing
+  # Convert backslashes to forward slashes for consistent regex matching
+  normalized_path <- normalizePath(path, winslash = "/")
+  expect_match(normalized_path, "queries/custom\\.graphql$")
 })
 
 test_that("get_template_path normalizes paths", {

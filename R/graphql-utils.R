@@ -54,14 +54,14 @@ get_template_path <- function(path) {
     ))
   }
 
-  file_path <- normalizePath(path)
-  if (file.exists(file_path)) {
-    return(file_path)
+  # Check if file exists before normalizing path (avoids Windows warning)
+  if (file.exists(path)) {
+    return(normalizePath(path, mustWork = TRUE))
   }
 
   # File not found anywhere
   cli::cli_abort(c(
-    "GraphQL template file not found: {.path {file_path}}"
+    "GraphQL template file not found: {.path {path}}"
   ))
 }
 
