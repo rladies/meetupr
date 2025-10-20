@@ -4,11 +4,10 @@
 \alias{meetup_schema_queries}
 \title{Explore available query fields in the Meetup GraphQL API}
 \usage{
-meetup_schema_queries(schema = NULL)
+meetup_schema_queries(schema = meetup_schema())
 }
 \arguments{
-\item{schema}{The schema object obtained from \code{meetup_schema()}. If NULL
-(default), the function will call \code{meetup_schema()} to fetch the schema.}
+\item{schema}{The schema object obtained from \code{meetup_schema()}.}
 }
 \value{
 A tibble with details about each query field, including:

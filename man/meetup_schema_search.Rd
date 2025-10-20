@@ -4,14 +4,13 @@
 \alias{meetup_schema_search}
 \title{Search for types in the Meetup GraphQL API schema}
 \usage{
-meetup_schema_search(pattern, schema = NULL)
+meetup_schema_search(pattern, schema = meetup_schema())
 }
 \arguments{
 \item{pattern}{A string pattern to search for in type names and descriptions.
 The search is case-insensitive.}
 
-\item{schema}{The schema object obtained from \code{meetup_schema()}. If NULL
-(default), the function will call \code{meetup_schema()} to fetch the schema.}
+\item{schema}{The schema object obtained from \code{meetup_schema()}.}
 }
 \value{
 A tibble with details about matching types:

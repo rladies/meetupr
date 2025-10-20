@@ -51,9 +51,7 @@ meetup_schema <- function(asis = FALSE) {
 #' GraphQL API. These are the entry points for data fetching (e.g.,
 #' `groupByUrlname`, `event`, etc.).
 #'
-#' @param schema The schema object obtained from `meetup_schema()`. If NULL
-#'   (default), the function will call `meetup_schema()` to fetch the schema.
-#'
+#' @template schema
 #' @return A tibble with details about each query field, including:
 #'   \describe{
 #'     \item{field_name}{Name of the query field}
@@ -97,9 +95,7 @@ meetup_schema_queries <- function(schema = meetup_schema()) {
 #' GraphQL API. Mutations are operations that modify data on the server (create,
 #' update, delete).
 #'
-#' @param schema The schema object obtained from `meetup_schema()`. If NULL
-#'   (default), the function will call `meetup_schema()` to fetch the schema.
-#'
+#' @template schema
 #' @return A tibble with details about each mutation, including:
 #'   \describe{
 #'     \item{field_name}{Name of the mutation}
@@ -150,9 +146,7 @@ meetup_schema_mutations <- function(schema = meetup_schema()) {
 #'
 #' @param pattern A string pattern to search for in type names and descriptions.
 #'   The search is case-insensitive.
-#' @param schema The schema object obtained from `meetup_schema()`. If NULL
-#'   (default), the function will call `meetup_schema()` to fetch the schema.
-#'
+#' @template schema
 #' @return A tibble with details about matching types:
 #'   \describe{
 #'     \item{type_name}{Name of the type}
@@ -199,8 +193,7 @@ meetup_schema_search <- function(pattern, schema = meetup_schema()) {
 #'
 #' @param type_name The name of the type for which to retrieve fields (e.g.,
 #'   "Event", "Group", "Member").
-#' @param schema The schema object obtained from `meetup_schema()`. If NULL
-#'   (default), the function will call `meetup_schema()` to fetch the schema.
+#' @template schema
 #' @param ... Additional arguments passed to `grepl()` for type name matching
 #'   (e.g., `ignore.case = TRUE`).
 #' @return A tibble with details about the fields:

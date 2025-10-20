@@ -4,11 +4,10 @@
 \alias{meetup_schema_mutations}
 \title{Explore available mutations in the Meetup GraphQL API}
 \usage{
-meetup_schema_mutations(schema = NULL)
+meetup_schema_mutations(schema = meetup_schema())
 }
 \arguments{
-\item{schema}{The schema object obtained from \code{meetup_schema()}. If NULL
-(default), the function will call \code{meetup_schema()} to fetch the schema.}
+\item{schema}{The schema object obtained from \code{meetup_schema()}.}
 }
 \value{
 A tibble with details about each mutation, including:

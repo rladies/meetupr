@@ -4,14 +4,13 @@
 \alias{meetup_schema_type}
 \title{Get fields for a specific type in the Meetup GraphQL API schema}
 \usage{
-meetup_schema_type(type_name, schema = NULL, ...)
+meetup_schema_type(type_name, schema = meetup_schema(), ...)
 }
 \arguments{
 \item{type_name}{The name of the type for which to retrieve fields (e.g.,
 "Event", "Group", "Member").}
 
-\item{schema}{The schema object obtained from \code{meetup_schema()}. If NULL
-(default), the function will call \code{meetup_schema()} to fetch the schema.}
+\item{schema}{The schema object obtained from \code{meetup_schema()}.}
 
 \item{...}{Additional arguments passed to \code{grepl()} for type name matching
 (e.g., \code{ignore.case = TRUE}).}
