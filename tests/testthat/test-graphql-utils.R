@@ -333,3 +333,14 @@ test_that("validate_extra_graphql rejects invalid input", {
     "extra_graphql.*must be a single string"
   )
 })
+
+
+test_that("read_template errors when file cannot be read", {
+  # Create a file that doesn't exist
+  nonexistent_file <- withr::local_tempfile(fileext = ".graphql")
+
+  expect_error(
+    read_template(nonexistent_file),
+    "cannot open the connection"
+  )
+})
