@@ -159,9 +159,6 @@ get_event_rsvps <- function(
 #'    * member_id
 #'    * member_name
 #'    * link
-#' @references
-#' \url{https://www.meetup.com/api/schema/#Event}
-#' \url{https://www.meetup.com/api/schema/#EventCommentConnection}
 #' @examples
 #' \dontrun{
 #' comments <- get_event_comments(id = "103349942")

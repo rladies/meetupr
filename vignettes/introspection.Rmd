@@ -590,8 +590,7 @@ writeLines(schema_json, "meetup_schema.json")
 ```
 
 This JSON can be imported into:
-- [GraphQL Voyager](https://graphql-voyager.com/) for visual exploration  
-- [GraphiQL](https://github.com/graphql/graphiql) for interactive queries  
+- [GraphQL Voyager](https://apis.guru/graphql-voyager/) for visual exploration  
 - IDE plugins (VS Code GraphQL extension, IntelliJ GraphQL plugin)  
 
 ## Practical Tips and Workflow

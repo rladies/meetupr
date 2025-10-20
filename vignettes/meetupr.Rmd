@@ -510,7 +510,7 @@ Now that you're set up, explore more advanced features:
 
 - **Custom GraphQL Queries**: See the [GraphQL vignette](graphql.html) to write custom queries and access fields not available through wrapper functions  
 - **Custom OAuth Application**: See the [Advanced Authentication vignette](advanced-auth.html) for setting up your own OAuth app for higher rate limits  
-- **API Schema Exploration**: See the [Inspecting the API vignette](inspection.html) for exploring the Meetup GraphQL schema
+- **API Schema Exploration**: See the [Inspecting the API vignette](introspection.html) for exploring the Meetup GraphQL schema
 - **Data Analysis**: Combine meetupr with dplyr, ggplot2, and other tidyverse packages for analysis and visualization  
 
 For package updates and issues, visit the [GitHub repository](https://github.com/rladies/meetupr).

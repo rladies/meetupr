@@ -21,7 +21,7 @@ Authors@R: c(
            comment = c(ORCID = "0000-0001-9986-114X")),
     person("R-Ladies Global", role = "cph")
   )
-Description: Provides programmatic access to the 'Meetup' GraphQL API 
+Description: Provides programmatic access to the 'Meetup' 'GraphQL' API 
     (<https://www.meetup.com/api/schema/>), enabling users to retrieve
     information about groups, events, and members from 'Meetup' 
     (<https://www.meetup.com/>). Supports authentication via 'OAuth2' and

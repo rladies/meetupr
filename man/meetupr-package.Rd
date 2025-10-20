@@ -8,7 +8,7 @@
 \description{
 \if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
 
-Provides programmatic access to the 'Meetup' GraphQL API (\url{https://www.meetup.com/api/schema/}), enabling users to retrieve information about groups, events, and members from 'Meetup' (\url{https://www.meetup.com/}). Supports authentication via 'OAuth2' and includes functions for common queries and data manipulation tasks.
+Provides programmatic access to the 'Meetup' 'GraphQL' API (\url{https://www.meetup.com/api/schema/}), enabling users to retrieve information about groups, events, and members from 'Meetup' (\url{https://www.meetup.com/}). Supports authentication via 'OAuth2' and includes functions for common queries and data manipulation tasks.
 }
 \seealso{
 Useful links:

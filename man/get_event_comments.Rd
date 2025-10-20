@@ -33,7 +33,3 @@ Get the comments for a specified event
 comments <- get_event_comments(id = "103349942")
 }
 }
-\references{
-\url{https://www.meetup.com/api/schema/#Event}
-\url{https://www.meetup.com/api/schema/#EventCommentConnection}
-}
