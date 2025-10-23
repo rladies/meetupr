@@ -340,6 +340,7 @@ NULL
 
 #' @describeIn meetup_auth Authenticate and display the
 #' authenticated user's name.
+#' @export
 meetup_auth <- function(...) {
   tryCatch(
     {
@@ -361,6 +362,7 @@ meetup_auth <- function(...) {
 
 #' @describeIn meetup_auth Remove cached authentication
 #' for the Meetup API client.
+#' @export
 meetup_deauth <- function(
   client_name = Sys.getenv(
     "MEETUP_CLIENT_NAME",

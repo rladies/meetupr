@@ -12,6 +12,7 @@
 #' @template handle_multiples
 #' @template date_before
 #' @template date_after
+#' @template asis
 #' @param ... Should be empty. Used for parameter expansion
 #' @template extra_graphql
 #' @param status Which status the events should have.
@@ -40,6 +41,7 @@ get_pro_groups <- function(
   max_results = NULL,
   handle_multiples = "list",
   extra_graphql = NULL,
+  asis = FALSE,
   ...
 ) {
   rlang::check_dots_empty()
@@ -52,7 +54,8 @@ get_pro_groups <- function(
     first = max_results,
     max_results = max_results,
     handle_multiples = handle_multiples,
-    extra_graphql = extra_graphql
+    extra_graphql = extra_graphql,
+    asis = asis
   ) |>
     process_datetime_fields(c("founded_date", "pro_join_date")) |>
     dplyr::mutate(
@@ -70,6 +73,7 @@ get_pro_events <- function(
   max_results = NULL,
   handle_multiples = "list",
   extra_graphql = NULL,
+  asis = FALSE,
   ...
 ) {
   rlang::check_dots_empty()
@@ -91,7 +95,8 @@ get_pro_events <- function(
     max_results = max_results,
     status = validate_event_status(status, pro = TRUE),
     handle_multiples = handle_multiples,
-    extra_graphql = extra_graphql
+    extra_graphql = extra_graphql,
+    asis = asis
   ) |>
     process_datetime_fields(c("date_time", "pro_join_date"))
 }

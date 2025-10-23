@@ -9,6 +9,7 @@
 #' @template max_results
 #' @template handle_multiples
 #' @template extra_graphql
+#' @template asis
 #' @param ... Should be empty. Used for parameter expansion
 #' @return A tibble with group information
 #' @examples
@@ -28,6 +29,7 @@ find_groups <- function(
   max_results = 200,
   handle_multiples = "list",
   extra_graphql = NULL,
+  asis = FALSE,
   ...
 ) {
   rlang::check_dots_empty()
@@ -45,7 +47,8 @@ find_groups <- function(
     first = max_results,
     max_results = max_results,
     handle_multiples = handle_multiples,
-    extra_graphql = extra_graphql
+    extra_graphql = extra_graphql,
+    asis = asis
   ) |>
     process_datetime_fields("founded_date")
 }
@@ -60,6 +63,7 @@ find_groups <- function(
 #' @template max_results
 #' @template handle_multiples
 #' @template extra_graphql
+#' @template asis
 #' @param ... Used for parameter expansion, must be empty.
 #' @return A data frame of topics matching the search query.
 #' @examples
@@ -78,6 +82,7 @@ find_topics <- function(
   max_results = 200,
   handle_multiples = "list",
   extra_graphql = NULL,
+  asis = FALSE,
   ...
 ) {
   rlang::check_dots_empty()
@@ -93,6 +98,7 @@ find_topics <- function(
     first = max_results,
     max_results = max_results,
     handle_multiples = handle_multiples,
-    extra_graphql = extra_graphql
+    extra_graphql = extra_graphql,
+    asis = asis
   )
 }

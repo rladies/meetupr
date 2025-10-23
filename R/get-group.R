@@ -6,6 +6,7 @@
 #' @template handle_multiples
 #' @template date_before
 #' @template date_after
+#' @template asis
 #' @param ... Should be empty. Used for parameter expansion
 #' @template extra_graphql
 #' @return A tibble with the events for the specified group
@@ -32,6 +33,7 @@ get_group_events <- function(
   max_results = NULL,
   handle_multiples = "list",
   extra_graphql = NULL,
+  asis = FALSE,
   ...
 ) {
   rlang::check_dots_empty()
@@ -48,7 +50,8 @@ get_group_events <- function(
     first = max_results,
     max_results = max_results,
     handle_multiples = handle_multiples,
-    extra_graphql = extra_graphql
+    extra_graphql = extra_graphql,
+    asis = asis
   ) |>
     dplyr::mutate(
       venues_country = get_country_code(venues_country)
@@ -67,6 +70,7 @@ get_group_events <- function(
 #' @template max_results
 #' @template handle_multiples
 #' @template extra_graphql
+#' @template asis
 #' @return A tibble with group members
 #' @export
 #' @examples
@@ -83,6 +87,7 @@ get_group_members <- function(
   max_results = NULL,
   handle_multiples = "list",
   extra_graphql = NULL,
+  asis = FALSE,
   ...
 ) {
   rlang::check_dots_empty()
@@ -96,13 +101,15 @@ get_group_members <- function(
     first = max_results,
     max_results = max_results,
     handle_multiples = handle_multiples,
-    extra_graphql = extra_graphql
+    extra_graphql = extra_graphql,
+    asis = asis
   )
 }
 
 #' Get detailed information about a Meetup group
 #'
 #' @param urlname The URL name of the Meetup group (e.g., "rladies-lagos")
+#' @template asis
 #' @return A list containing detailed information about the Meetup group
 #' @export
 #' @examples
@@ -114,7 +121,7 @@ get_group_members <- function(
 #' \dontshow{
 #' vcr::eject_cassette()
 #' }
-get_group <- function(urlname) {
+get_group <- function(urlname, asis = FALSE) {
   execute(
     meetup_template_query(
       template = template_path("get_group"),
@@ -125,7 +132,8 @@ get_group <- function(urlname) {
     urlname = urlname,
     first = NULL,
     max_results = NULL,
-    handle_multiples = "list"
+    handle_multiples = "list",
+    asis = asis
   )
 }
 

@@ -3,6 +3,7 @@
 #' @param id Required event ID
 #' @param ... Should be empty. Used for parameter expansion
 #' @template extra_graphql
+#' @template asis
 #' @return A meetup_event object with information about the specified event
 #'
 #' @examples
@@ -112,6 +113,7 @@ print.meetup_event <- function(x, ...) {
 #' @template max_results
 #' @template handle_multiples
 #' @template extra_graphql
+#' @template asis
 #' @return A tibble with the RSVPs for the specified event
 #'
 #' @examples
@@ -129,6 +131,7 @@ get_event_rsvps <- function(
   max_results = NULL,
   handle_multiples = "list",
   extra_graphql = NULL,
+  asis = FALSE,
   ...
 ) {
   rlang::check_dots_empty()
@@ -142,7 +145,8 @@ get_event_rsvps <- function(
     first = max_results,
     max_results = max_results,
     handle_multiples = handle_multiples,
-    extra_graphql = extra_graphql
+    extra_graphql = extra_graphql,
+    asis = asis
   )
 }
 

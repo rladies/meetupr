@@ -38,6 +38,7 @@ S7::method(execute, meetup_template) <- function(
   max_results = NULL,
   handle_multiples = "list",
   extra_graphql = NULL,
+  asis = FALSE,
   ...,
   .progress = TRUE
 ) {
@@ -86,6 +87,9 @@ S7::method(execute, meetup_template) <- function(
   # Trim to max_results if specified
   if (!is.null(max_results) && length(all_data) > max_results) {
     all_data <- all_data[1:max_results]
+  }
+  if (asis) {
+    return(all_data)
   }
   object@process_data(all_data, handle_multiples)
 }

@@ -12,6 +12,8 @@ get_event(id, extra_graphql = NULL, ...)
 \item{extra_graphql}{A graphql object. Extra objects to return}
 
 \item{...}{Should be empty. Used for parameter expansion}
+
+\item{asis}{Return the raw API response as-is without processing}
 }
 \value{
 A meetup_event object with information about the specified event

@@ -9,6 +9,7 @@ get_group_members(
   max_results = NULL,
   handle_multiples = "list",
   extra_graphql = NULL,
+  asis = FALSE,
   ...
 )
 }
@@ -25,6 +26,8 @@ If "list", return a list-column with all matches.
 If "first", return only the first match.}
 
 \item{extra_graphql}{A graphql object. Extra objects to return}
+
+\item{asis}{Return the raw API response as-is without processing}
 
 \item{...}{Should be empty. Used for parameter expansion}
 }

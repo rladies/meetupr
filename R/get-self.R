@@ -4,6 +4,7 @@
 #' including basic profile data, account type,
 #' subscription status, and API access permissions.
 #'
+#' @template asis
 #' @return A list containing user information
 #' @export
 #' @examples
@@ -16,7 +17,7 @@
 #' \dontshow{
 #' vcr::eject_cassette()
 #' }
-get_self <- function() {
+get_self <- function(asis = FALSE) {
   execute(
     meetup_template_query(
       template_path("get_self"),
@@ -24,7 +25,8 @@ get_self <- function() {
       "data.self",
       process_data = process_self_data
     ),
-    extra_graphql = NULL
+    extra_graphql = NULL,
+    asis = asis
   )
 }
 
