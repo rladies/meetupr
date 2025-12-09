@@ -27,7 +27,6 @@ meetupr::local_meetupr_debug(0)
 library(meetupr)
 ```
 
-## Introduction
 
 meetupr is an R package that provides a client for the Meetup.com GraphQL API.
 It allows you to search for groups, retrieve event information, get member lists, and access other Meetup data directly from R.
@@ -35,13 +34,13 @@ This vignette will guide you through setup, authentication, and common use cases
 
 ## Quick Setup Check
 
-Start by running `meetup_sitrep()` to check your authentication status or set up authentication:
+Start by running `meetupr_sitrep()` to check your authentication status or set up authentication:
 
 ```{r}
 #| label: sitrep
 #| cassette: true
 
-meetup_sitrep()
+meetupr_sitrep()
 ```
 
 This function shows you:
@@ -56,7 +55,34 @@ The function provides actionable feedback, telling you exactly what to do if aut
 ## Authentication
 
 Authentication is required to access the Meetup API.
-meetupr supports two authentication methods: interactive OAuth (for local development) and CI/CD authentication (for automated workflows).
+meetupr automatically detects whether you're working interactively or in an automated environment:
+
+- **Interactive sessions** (RStudio, R console): OAuth opens a browser for authorization
+- **Non-interactive sessions** (CI/CD, scheduled scripts): OAuth uses pre-cached tokens
+
+This detection uses `rlang::is_interactive()` to determine the context and switch authentication flows accordingly.
+
+When working interactively:
+
+```r
+# First time: browser opens for authorization
+get_group("rladies-lagos")
+
+# Subsequent calls: uses cached token (no browser)
+get_group_events("rladies-lagos")
+```
+
+When running non-interactively (GitHub Actions, cron jobs):
+
+```r
+# Load token from environment variables (set via CI secrets)
+meetupr_encrypt_load()
+
+# All API calls use the loaded token
+get_group_events("rladies-lagos")
+```
+
+The package handles the switching automatically — you don't need to change your code between environments.
 
 ### Interactive Authentication
 
@@ -64,13 +90,13 @@ For interactive use (exploring data, one-off analyses), simply authenticate when
 
 ```r
 # Authenticate interactively (opens browser)
-meetup_auth()
+meetupr_auth()
 
 # Check authentication status
-meetup_auth_status()
+meetupr_auth_status()
 ```
 
-When you run `meetup_auth()`:
+When you run `meetupr_auth()`:
 
 1. A browser window opens to Meetup's authorization page  
 2. You log in with your Meetup credentials  
@@ -84,66 +110,12 @@ These files are encrypted and specific to your system.
 You only need to authenticate once.
 The token will be reused in future R sessions until it expires (typically after 90 days).
 
-### CI/CD Authentication
+### Non-Interactive Authentication (CI/CD)
 
-For automated workflows (GitHub Actions, scheduled scripts, etc.), you need token-based authentication that doesn't require browser interaction.
+meetupr also supports secure, non-interactive authentication for automated workflows (such as GitHub Actions, GitLab CI, and other CI/CD systems). 
+This allows you to run scripts and scheduled jobs without manual login.
 
-#### Step 1: Set up CI credentials locally
-
-```r
-# First authenticate interactively
-meetup_auth()
-
-# Then set up CI credentials
-meetup_ci_setup()
-```
-
-The `meetup_ci_setup()` function will:
-
-1. Encode your existing OAuth token as base64  
-2. Store the encoded token in your system keyring  
-3. Display the token and filename for setting CI secrets  
-4. Provide instructions for your CI platform  
-
-#### Step 2: Set environment variables in your CI
-
-In your CI platform (GitHub Actions, GitLab CI, etc.), set these secrets:
-
-- `meetupr:token`: Base64-encoded token (from step 1)  
-- `meetupr:token_file`: Token filename (e.g., `ae743e0-token.rds.enc`)  
-
-For GitHub Actions, your workflow YAML should include:
-
-```yaml
-env:
-  "meetupr:token": ${{ secrets.MEETUPR_TOKEN }}
-  "meetupr:token_file": ${{ secrets.MEETUPR_TOKEN_FILE }}
-```
-
-**Important**: Quote the environment variable names in YAML because they contain colons.
-
-#### Step 3: Load token in CI
-
-Add this line at the beginning of your CI script, before any API calls:
-
-```r
-meetup_ci_load()
-```
-
-This function decodes the base64 token and writes it to the expected cache location.
-All subsequent API calls will use this token automatically.
-
-### Deauthentication
-
-To remove cached credentials:
-
-```r
-# Clear authentication completely
-meetup_deauth()
-```
-
-The `meetup_deauth()` function removes all cached tokens and clears authentication state.
-You'll need to re-authenticate the next time you make an API call.
+For details on setting up meetupr in CI/CD, including secure token management and advanced authentication options, see the [Advanced Authentication](advanced-auth.html) vignette.
 
 ## Verification
 
@@ -152,7 +124,7 @@ After authenticating, verify the setup:
 ```{r}
 #| label: verify-sitrep
 #| cassette: true
-meetup_sitrep()
+meetupr_sitrep()
 ```
 
 The output shows:
@@ -220,12 +192,6 @@ past_events <- get_group_events(
 head(past_events)
 ```
 
-Valid status values are:
-
-- `upcoming`: Future events (default)  
-- `past`: Historical events  
-- `cancelled`: Cancelled events  
-- `draft`: Draft events (if you're a group organizer)  
 
 ### Filter Events by Date
 
@@ -399,14 +365,12 @@ Pro functions return data for all groups in your network with a single API call,
 Sometimes issues arise due to misconfiguration or unexpected API behavior.
 Enabling debug mode shows the exact GraphQL queries being sent to the API.
 
-Enable debugging by setting the `MEETUPR_DEBUG` environment variable to `1`:
-
 ```{r}
 #| label: debug
 #| cassette: true
 
 local_meetupr_debug(1)
-meetup_sitrep()
+meetupr_sitrep()
 find_groups("R programming")
 ```
 
@@ -425,7 +389,7 @@ To turn it off again, set it to `0`:
 #| cassette: true
 
 local_meetupr_debug(0)
-meetup_sitrep()
+meetupr_sitrep()
 find_groups("R programming")
 ```
 
@@ -443,12 +407,12 @@ MEETUPR_DEBUG=1
 Error: Authentication required
 ```
 
-**Solution**: Run `meetup_sitrep()` to diagnose the issue.
+**Solution**: Run `meetupr_sitrep()` to diagnose the issue.
 Common causes include:
 
-- No OAuth token cached (run `meetup_auth()`)  
-- Expired token (re-authenticate with `meetup_auth()`)  
-- Missing CI environment variables (check `meetupr:token` and `meetupr:token_file`)  
+- No OAuth token cached (run `meetupr_auth()`)  
+- Expired token (re-authenticate with `meetupr_auth()`)  
+- Missing CI environment variables (check `meetupr_token` and `meetupr_token_file`)  
 
 ### Multiple Token Warning
 
@@ -459,8 +423,8 @@ Warning: Multiple tokens found in cache
 **Solution**: Clear old tokens and re-authenticate:
 
 ```r
-meetup_deauth()
-meetup_auth()
+meetupr_deauth()
+meetupr_auth()
 ```
 
 This happens when tokens from different OAuth applications accumulate in your cache directory.
@@ -496,10 +460,10 @@ If CI authentication fails with "token expired":
 
 ```r
 # Locally, refresh token
-meetup_auth()
-meetup_ci_setup()
+meetupr_auth()
+meetupr_encrypt_setup()
 
-# Update CI secrets with new values shown by meetup_ci_setup()
+# Update CI secrets with new values shown by meetupr_encrypt_setup()
 ```
 
 You'll need to refresh CI secrets periodically.
@@ -519,14 +483,14 @@ For package updates and issues, visit the [GitHub repository](https://github.com
 
 If you encounter issues:
 
-1. **Check `meetup_sitrep()`** for authentication diagnostics  
-2. **Enable debug mode** (`local_meetupr_debug(1)`) to see API queries  
+1. **Check `meetupr_sitrep()`** for authentication diagnostics  
+2. **Enable debug mode** (`local_meetupr_debug(TRUE)`) to see API queries  
 3. **Search existing issues** on GitHub  
 4. **File a bug report** with a reproducible example (use `reprex::reprex()`)  
 
 When reporting issues, include:
 
-- Output from `meetup_sitrep()`  
+- Output from `meetupr_sitrep()`  
 - Debug output (if relevant)  
 - A minimal reproducible example  
 - Your R and package versions (`sessionInfo()`)  

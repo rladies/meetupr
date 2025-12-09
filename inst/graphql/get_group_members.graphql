@@ -6,7 +6,10 @@ query members(
   groupByUrlname(urlname: $urlname) {
     id
     name
-    memberships(after: $cursor, first: $first) {
+    memberships(
+      after: $cursor, 
+      first: $first
+    ) {
       pageInfo {
         hasNextPage
         endCursor

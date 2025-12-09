@@ -1,64 +1,160 @@
-#' Meetup API Prefix
+#' Meetup API URLs
 #'
 #' @keywords internal
 #' @noRd
-meetup_api_prefix <- function() {
-  Sys.getenv(
-    "MEETUP_API_URL",
-    "https://api.meetup.com/gql-ext"
+meetupr_api_urls <- function() {
+  list(
+    api = Sys.getenv(
+      "MEETUP_API_URL",
+      "https://api.meetup.com/gql-ext"
+    ),
+    auth = "https://secure.meetup.com/oauth2/authorize",
+    token = "https://secure.meetup.com/oauth2/access",
+    redirect = Sys.getenv(
+      "MEETUP_CLIENT_REDIRECT_URL",
+      "http://localhost:1410"
+    )
   )
 }
 
 #' Create and Configure a Meetup API Request
 #'
-#' This function prepares and configures an HTTP request for interacting with
-#' the Meetup API. It allows the user to authenticate via OAuth, specify the
-#' use of caching, and set custom client configuration.
+#' This function prepares and configures an HTTP request for
+#' interacting with the Meetup API. It handles both interactive and
+#' non-interactive OAuth flows. In interactive mode, it uses OAuth
+#' authorization code flow. In non-interactive mode (CI/CD), it loads
+#' cached tokens.
 #'
-#' @param rate_limit A numeric value specifying the maximum number of requests
-#' @param cache A logical value indicating whether to cache the OAuth token
-#'   on disk. Defaults to `TRUE`.
-#' @param ... Additional arguments passed to [meetup_client()] for setting up
-#'   the OAuth client.
+#' @param rate_limit A numeric value specifying the maximum number of
+#'   requests per second. Defaults to `500 / 60` (500 requests per
+#'   60 seconds).
+#' @param cache A logical value indicating whether to cache the OAuth
+#'   token on disk. Defaults to `TRUE`.
+#' @param ... Additional arguments passed to [meetupr_client()] for
+#'   setting up the OAuth client.
 #'
-#' @return A `httr2` request object pre-configured to
-#' interact with the Meetup API.
+#' @return A `httr2` request object pre-configured to interact with
+#'   the Meetup API.
 #'
 #' @examples
 #' \dontrun{
-#' # Example 1: Basic request with caching enabled
-#' req <- meetup_req(cache = TRUE)
+#' req <- meetupr_req(cache = TRUE)
 #'
-#' # Example 2: Request with custom client ID and secret
-#' req <- meetup_req(
+#' req <- meetupr_req(
 #'   cache = FALSE,
-#'   client_id = "your_client_id",
+#'   client_key = "your_client_key",
 #'   client_secret = "your_client_secret"
 #' )
 #' }
 #'
 #' @details
-#' This function constructs an HTTP POST request directed to the Meetup API
-#' and applies appropriate OAuth headers for authentication. The function
-#' is prepared to support caching and provides flexibility for client
-#' customization with the `...` parameter. The implementation is currently
-#' commented out and would require activation for functionality.
+#' This function constructs an HTTP POST request directed to the
+#' Meetup API and applies appropriate OAuth authentication. The
+#' function automatically detects whether it's running in an
+#' interactive or non-interactive context:
+#'
+#' - **Interactive**: Uses OAuth authorization code flow with browser
+#'   redirect
+#' - **Non-interactive**: Loads pre-cached token from CI environment
+#'   or disk
 #'
 #' @export
-meetup_req <- function(rate_limit = 500 / 60, cache = TRUE, ...) {
-  meetup_api_prefix() |>
+meetupr_req <- function(rate_limit = 500 / 60, cache = TRUE, ...) {
+  meetupr_api_urls()$api |>
     httr2::request() |>
     httr2::req_headers(
       "Content-Type" = "application/json"
     ) |>
-    httr2::req_error(body = handle_api_error) |>
+    httr2::req_throttle(rate = rate_limit) |>
+    req_auth(cache = cache, ...)
+}
+
+#' Apply OAuth Authentication to Request
+#'
+#' Adds authentication to httr2 request. Handles JWT tokens,
+#' OAuth refresh tokens, and interactive OAuth flows.
+#'
+#' @param req httr2 request object
+#' @param cache Cache OAuth token on disk (interactive only).
+#'   Default TRUE.
+#' @param ... Arguments to [meetupr_client()]
+#'
+#' @return Authenticated httr2 request object
+#'
+#' @details
+#' Non-interactive mode tries: JWT token → encrypted token file
+#' → refresh token. Interactive mode uses OAuth
+#' browser flow.
+#'
+#' @keywords internal
+#' @noRd
+req_auth <- function(
+  req,
+  client_name = get_client_name(),
+  cache = TRUE,
+  ...
+) {
+  auth <- meetupr_auth_status(silent = TRUE)
+
+  if (auth$jwt$available) {
+    if (check_debug_mode()) {
+      cli::cli_alert_info("Using jwt token authentication")
+    }
+
+    claim <- httr2::jwt_claim(
+      iss = auth$jwt$client_key,
+      sub = auth$jwt$issuer,
+      aud = "api.meetup.com"
+    )
+
+    claim <- httr2::jwt_claim(
+      iss = auth$jwt$client_key,
+      sub = auth$jwt$issuer,
+      aud = "api.meetup.com"
+    )
+
+    req <- req |>
+      httr2::req_oauth_bearer_jwt(
+        claim = claim,
+        client = meetupr_client(
+          key = auth$jwt$value,
+          auth = "jwt_sig",
+          auth_params = list(
+            claim = claim
+          )
+        )
+      )
+
+    return(req)
+  }
+
+  token <- tryCatch(
+    meetupr_encrypt_load(client_name = client_name),
+    error = function(e) NULL
+  )
+
+  if (!is_empty(token)) {
+    if (check_debug_mode()) {
+      cli::cli_alert_info("Using encrypted token authentication")
+    }
+    return(
+      httr2::req_auth_bearer_token(req, token)
+    )
+  }
+
+  if (check_debug_mode()) {
+    cli::cli_alert_info("Falling back to OAuth browser flow")
+  }
+
+  flow_params <- meetupr_oauth_flow_params()
+
+  req |>
     httr2::req_oauth_auth_code(
-      client = meetup_client(...),
-      auth_url = "https://secure.meetup.com/oauth2/authorize",
-      redirect_uri = "http://localhost:1410",
+      client = meetupr_client(...),
+      auth_url = flow_params$auth_url,
+      redirect_uri = flow_params$redirect_uri,
       cache_disk = cache
-    ) |>
-    httr2::req_throttle(rate = rate_limit)
+    )
 }
 
 #' Execute GraphQL query
@@ -79,10 +175,10 @@ meetup_req <- function(rate_limit = 500 / 60, cache = TRUE, ...) {
 #'  name
 #' }
 #' }"
-#' meetup_query(graphql = query, id = "12345")
+#' meetupr_query(graphql = query, id = "12345")
 #' }
 #' @export
-meetup_query <- function(
+meetupr_query <- function(
   graphql,
   ...,
   .envir = parent.frame()
@@ -97,6 +193,7 @@ meetup_query <- function(
   )
 
   resp <- req |>
+    httr2::req_error(body = handle_api_error) |>
     httr2::req_perform() |>
     httr2::resp_body_json()
 
@@ -141,20 +238,7 @@ build_request <- function(
     variables = variables
   )
 
-  # Debug the request body if enabled
-  if (check_debug_mode()) {
-    body <- jsonlite::toJSON(
-      body_list,
-      auto_unbox = TRUE,
-      pretty = TRUE
-    ) |>
-      strsplit("\n|\\\\n") |>
-      unlist()
-    cli::cli_alert_info("DEBUG: JSON to be sent:")
-    cli::cli_code(body)
-  }
-
-  meetup_req() |>
+  meetupr_req() |>
     httr2::req_body_json(body_list, auto_unbox = TRUE)
 }
 
@@ -175,4 +259,16 @@ handle_api_error <- function(resp) {
   } else {
     "Unknown Meetup API error"
   }
+}
+
+#' Get OAuth Flow Parameters
+#'
+#' @keywords internal
+#' @noRd
+meetupr_oauth_flow_params <- function() {
+  urls <- meetupr_api_urls()
+  list(
+    auth_url = urls$auth,
+    redirect_uri = urls$redirect
+  )
 }

@@ -4,19 +4,19 @@
 \alias{get_event}
 \title{Get information for a specified event}
 \usage{
-get_event(id, extra_graphql = NULL, ...)
+get_event(id, extra_graphql = NULL, asis = FALSE, ...)
 }
 \arguments{
 \item{id}{Required event ID}
 
 \item{extra_graphql}{A graphql object. Extra objects to return}
 
-\item{...}{Should be empty. Used for parameter expansion}
-
 \item{asis}{Return the raw API response as-is without processing}
+
+\item{...}{Should be empty. Used for parameter expansion}
 }
 \value{
-A meetup_event object with information about the specified event
+A meetupr_event object with information about the specified event
 }
 \description{
 Get information for a specified event

@@ -159,7 +159,7 @@ Alternatively, setting `handle_multiples = "first"` would keep only the first of
 
 ## Custom Queries from Scratch
 
-For complete control, you can write full GraphQL queries using `meetup_query()`.
+For complete control, you can write full GraphQL queries using `meetupr_query()`.
 This is useful when wrapper functions don't exist for the data you need, or when you're constructing complex queries with multiple nested levels.
 
 GraphQL queries follow a structured syntax.
@@ -179,7 +179,7 @@ custom_query <- "
       city
       country
       timezone
-      
+
       memberships {
         totalCount
       }
@@ -196,7 +196,7 @@ This query demonstrates several GraphQL concepts:
 
 ### Executing Custom Queries
 
-The `meetup_query()` function executes your custom GraphQL and handles variable substitution.
+The `meetupr_query()` function executes your custom GraphQL and handles variable substitution.
 You pass variables as additional named arguments:
 
 ```{r}
@@ -204,12 +204,12 @@ You pass variables as additional named arguments:
 #| cassette: true
 
 # Execute for different groups using the same query
-lagos <- meetup_query(
+lagos <- meetupr_query(
   custom_query,
   urlname = "rladies-lagos"
 )
 
-ottawa <- meetup_query(
+ottawa <- meetupr_query(
   custom_query,
   urlname = "rladies-ottawa"
 )
@@ -287,20 +287,20 @@ When you call `get_group_events("rladies-lagos", extra_graphql = "going")`, meet
 
 ### Creating Custom Extractors
 
-For advanced use cases, you can create your own `meetup_template` objects that define how to process responses:
+For advanced use cases, you can create your own `meetupr_template` objects that define how to process responses:
 
 ```{r}
 #| label: custom-extractor
 #| eval: false
 
 # Define a custom template with extraction logic
-template <- meetup_template(
+template <- meetupr_template(
   template = "my_custom_query.graphql",
   edges_path = "data.group.customField.edges",
   page_info_path = "data.group.customField.pageInfo",
   process_data = function(data) {
     # Custom processing for your specific data structure
-    tibble::tibble(
+    dplyr::tibble(
       id = purrr::map_chr(data, "node.id"),
       name = purrr::map_chr(data, "node.name"),
       custom_field = purrr::map_dbl(data, "node.customField")
@@ -330,7 +330,7 @@ When a query fails, enable debug mode to see the exact GraphQL being sent:
 Sys.setenv(MEETUPR_DEBUG = "1")
 
 # Run a query - you'll see the full request/response
-result <- meetup_query(
+result <- meetupr_query(
   "
   query {
     groupByUrlname(urlname: \"rladies-san-francisco\") {
@@ -487,8 +487,7 @@ GraphQL supports filtering arguments on many fields; check the schema introspect
 
 ### Official Documentation
 
-- **Meetup GraphQL Schema**: <https://www.meetup.com/api/schema/>  
-- **GraphQL General Guide**: <https://www.meetup.com/api/general/>  
+- **GraphQL General Guide**: <https://www.meetup.com/graphql/>  
 - **GraphQL Learning**: <https://graphql.org/learn/>  
 
 ### Related Vignettes

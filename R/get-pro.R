@@ -63,13 +63,13 @@ get_pro_groups <- function(
     )
 }
 
-#' @export
 #' @describeIn get_pro retrieve events from a pro network
+#' @export
 get_pro_events <- function(
   urlname,
   status = NULL,
-  date_before = date_before,
-  date_after = date_after,
+  date_before = NULL,
+  date_after = NULL,
   max_results = NULL,
   handle_multiples = "list",
   extra_graphql = NULL,
@@ -77,13 +77,6 @@ get_pro_events <- function(
   ...
 ) {
   rlang::check_dots_empty()
-
-  if (!is_self_pro()) {
-    cli::cli_warn(
-      "The authenticated user must have Pro 
-      access to retrieve Network event data."
-    )
-  }
 
   execute(
     standard_query(
@@ -95,25 +88,10 @@ get_pro_events <- function(
     max_results = max_results,
     status = validate_event_status(status, pro = TRUE),
     handle_multiples = handle_multiples,
+    date_before = date_before,
+    date_after = date_after,
     extra_graphql = extra_graphql,
     asis = asis
   ) |>
     process_datetime_fields(c("date_time", "pro_join_date"))
-}
-
-#' Check if the authenticated user has Pro access
-#' @keywords internal
-#' @noRd
-is_self_pro <- function() {
-  if (!meetup_auth_status(silent = TRUE)) {
-    return(FALSE)
-  }
-  resp <- meetup_query(
-    "
-  query { self { 
-    isProOrganizer 
-    } }
-  "
-  )
-  resp$data$self$isProOrganizer
 }

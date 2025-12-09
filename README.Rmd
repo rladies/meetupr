@@ -6,16 +6,12 @@ format: gfm
 
 # meetupr <img src="man/figures/logo.png" align="right" alt="Meetupr hex logo by Zane Dax @StarTrek_Lt" width="138.5" />
 
-<small>Logo by Zane Dax
-[@StarTrek_Lt](https://x.com/startrek_lt)</small>
-
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/meetupr)](https://CRAN.R-project.org/package=meetupr)
 [![meetupr status badge](https://rladies.r-universe.dev/meetupr/badges/version)](https://rladies.r-universe.dev/meetupr)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![R-CMD-check](https://github.com/rladies/meetupr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rladies/meetupr/actions/workflows/R-CMD-check.yaml)
-[![Codecov test
-coverage](https://codecov.io/gh/rladies/meetupr/graph/badge.svg)](https://app.codecov.io/gh/rladies/meetupr)
+[![codecov](https://codecov.io/gh/rladies/meetupr/graph/badge.svg?token=vohoQX6cdk)](https://codecov.io/gh/rladies/meetupr)
 
 <!-- badges: end -->
 
@@ -50,40 +46,58 @@ remotes::install_github("rladies/meetupr")
 
 ## Authentication
 
-meetupr uses OAuth 2.0 for authentication with the Meetup API. The first
-time you run a meetupr function, you’ll be prompted to authorize the
-application in your browser. Your token will be cached for future
+meetupr uses OAuth 2.0 for authentication with the Meetup API.
+The first time you run a meetupr function, you’ll be prompted to authorize the application in your browser. 
+Your token will be cached for future
 sessions.
 
 ## Usage
 
+```{r}
+#| label: setup
+#| include: false
+vcr::setup_knitr("readme-")
+meetupr:::mock_if_no_auth()
+meetupr::local_meetupr_debug(FALSE)
+```
+
 ### Get group events
 
 ```{r}
+#| label: get-group-events
+#| cassette: true
 library(meetupr)
 
-events <- get_group_events("rladies-san-francisco", "past")
+get_group_events("rladies-san-francisco", "past")
 ```
 
 ### Get group members
 
 ```{r}
-members <- get_group_members("rladies-san-francisco")
-head(members)
+#| label: get-group-members
+#| cassette: true
+
+get_group_members("rladies-san-francisco")
 ```
 
 ### Search for groups
 
 ```{r}
-groups <- find_groups("R-Ladies") |>
+#| label: search-groups
+#| cassette: true
+find_groups("R-Ladies") |>
   dplyr::arrange(desc(founded_date))
 ```
 
 ### Pro network access
 
-For Meetup Pro networks, note that user needs to be a **pro** network organiser to access the data.
+For Meetup Pro networks, note that user needs to be a **pro** network organizer to access the data.
 
-``` r
+```{r}
+#| label: pro
+#| cassette: true
+#| eval: FALSE
+
 # Get all groups in a pro network
 pro_groups <- get_pro_groups("rladies")
 

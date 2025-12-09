@@ -17,9 +17,9 @@
 #' }
 #' get_group_events("rladies-lagos", "past")
 #' get_group_events(
-#'    "rladies-lagos",
-#'    status = "past",
-#'    date_before = "2023-01-01T12:00:00Z"
+#'   "rladies-lagos",
+#'   status = "past",
+#'   date_before = "2023-01-01T12:00:00Z"
 #' )
 #' \dontshow{
 #' vcr::eject_cassette()
@@ -51,8 +51,19 @@ get_group_events <- function(
     max_results = max_results,
     handle_multiples = handle_multiples,
     extra_graphql = extra_graphql,
+    process_data = process_group_event_data,
     asis = asis
-  ) |>
+  )
+}
+
+#' Process Group Event Data
+#' @param data The raw data returned from the API
+#' @param ... Additional arguments (not used)
+#' @return A tibble with processed event data
+#' @keywords internal
+#' @noRd
+process_group_event_data <- function(data, ...) {
+  data |>
     dplyr::mutate(
       venues_country = get_country_code(venues_country)
     ) |>
@@ -123,7 +134,7 @@ get_group_members <- function(
 #' }
 get_group <- function(urlname, asis = FALSE) {
   execute(
-    meetup_template_query(
+    meetupr_template_query(
       template = template_path("get_group"),
       page_info_path = ".pageInfo",
       edges_path = "data.groupByUrlname",
@@ -147,7 +158,6 @@ process_group_data <- function(data, ...) {
   if (length(data) == 0 || is.null(data)) {
     cli::cli_abort("No group data returned")
   }
-
   structure(
     list(
       id = data$id,
@@ -164,7 +174,7 @@ process_group_data <- function(data, ...) {
       category = extract_category_info(data$topicCategory),
       photo_url = data$keyGroupPhoto$baseUrl
     ),
-    class = c("meetup_group", "list")
+    class = c("meetupr_group", "list")
   )
 }
 
@@ -213,7 +223,7 @@ extract_category_info <- function(category_data) {
 }
 
 #' @export
-print.meetup_group <- function(x, ...) {
+print.meetupr_group <- function(x, ...) {
   cli::cli_h2("Meetup Group:")
   cli::cli_li("Name: {x$name}")
   cli::cli_li("URL: {x$urlname}")

@@ -1,0 +1,27 @@
+name: Meetupr JWT Token Job
+on:
+  workflow_dispatch:
+jobs:
+  jwt-job:
+    runs-on: ubuntu-latest
+    env:
+      "{{CLIENT_ENV_JWT}}": ${{ secrets.{{JWT_SECRET}} }}
+      "{{CLIENT_ENV_CLIENTID}}": ${{ secrets.{{client_key_SECRET}} }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+      - name: Install dependencies
+        run: |
+          install.packages('pak')
+          pak::pak('rladies/meetupr')
+        shell: Rscript {0}
+      - name: Activate JWT and verify
+        run: |
+          meetupr::meetupr_auth_jwt(Sys.getenv('{{CLIENT_ENV_JWT}}'))
+          meetupr::meetupr_auth_status()
+        shell: Rscript {0}
+      - name: Run your script
+        run: |
+          Rscript your_script.R

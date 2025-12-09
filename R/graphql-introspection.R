@@ -13,23 +13,23 @@
 #'
 #' @examples
 #' \dontshow{
-#' vcr::insert_example_cassette("meetup_schema", package = "meetupr")
+#' vcr::insert_example_cassette("meetupr_schema", package = "meetupr")
 #' meetupr:::mock_if_no_auth()
 #' }
 #' # Get the full schema
-#' schema <- meetup_schema()
+#' schema <- meetupr_schema()
 #'
 #' # Explore what's available
 #' names(schema)
 #'
 #' # Get as JSON for external tools
-#' schema_json <- meetup_schema(asis = TRUE)
+#' schema_json <- meetupr_schema(asis = TRUE)
 #' \dontshow{
 #' vcr::eject_cassette()
 #' }
 #'
 #' @export
-meetup_schema <- function(asis = FALSE) {
+meetupr_schema <- function(asis = FALSE) {
   result <- template_path("introspection") |>
     execute_from_template()
   result <- result$data$`__schema`
@@ -63,7 +63,7 @@ meetup_schema <- function(asis = FALSE) {
 #' @examples
 #' \dontrun{
 #' # List all available queries
-#' queries <- meetup_schema_queries()
+#' queries <- meetupr_schema_queries()
 #'
 #' # Find group-related queries
 #' queries |>
@@ -71,7 +71,7 @@ meetup_schema <- function(asis = FALSE) {
 #' }
 #'
 #' @export
-meetup_schema_queries <- function(schema = meetup_schema()) {
+meetupr_schema_queries <- function(schema = meetupr_schema()) {
   query_type_name <- schema$queryType$name
 
   query_type <- schema$types[sapply(schema$types, function(x) {
@@ -108,7 +108,7 @@ meetup_schema_queries <- function(schema = meetup_schema()) {
 #' @examples
 #' \dontrun{
 #' # List all available mutations
-#' mutations <- meetup_schema_mutations()
+#' mutations <- meetupr_schema_mutations()
 #'
 #' # Check if mutations are supported
 #' if (nrow(mutations) > 0 && !"message" %in% names(mutations)) {
@@ -117,7 +117,7 @@ meetup_schema_queries <- function(schema = meetup_schema()) {
 #' }
 #'
 #' @export
-meetup_schema_mutations <- function(schema = meetup_schema()) {
+meetupr_schema_mutations <- function(schema = meetupr_schema()) {
   if (is.null(schema$mutationType)) {
     return(dplyr::tibble(message = "No mutations available"))
   }
@@ -158,14 +158,14 @@ meetup_schema_mutations <- function(schema = meetup_schema()) {
 #' @examples
 #' \dontrun{
 #' # Find all event-related types
-#' meetup_schema_search("event")
+#' meetupr_schema_search("event")
 #'
 #' # Find location-related types
-#' meetup_schema_search("location")
+#' meetupr_schema_search("location")
 #' }
 #'
 #' @export
-meetup_schema_search <- function(pattern, schema = meetup_schema()) {
+meetupr_schema_search <- function(pattern, schema = meetupr_schema()) {
   matching_types <- schema$types[
     sapply(schema$types, function(x) {
       grepl(pattern, x$name, ignore.case = TRUE) ||
@@ -210,20 +210,20 @@ meetup_schema_search <- function(pattern, schema = meetup_schema()) {
 #' @examples
 #' \dontrun{
 #' # Get all fields on the Event type
-#' event_fields <- meetup_schema_type("Event")
+#' event_fields <- meetupr_schema_type("Event")
 #'
 #' # Find deprecated fields
 #' event_fields |>
 #'   dplyr::filter(deprecated)
 #'
 #' # Pass cached schema to avoid repeated introspection
-#' schema <- meetup_schema()
-#' group_fields <- meetup_schema_type("Group", schema = schema)
-#' venue_fields <- meetup_schema_type("Venue", schema = schema)
+#' schema <- meetupr_schema()
+#' group_fields <- meetupr_schema_type("Group", schema = schema)
+#' venue_fields <- meetupr_schema_type("Venue", schema = schema)
 #' }
 #'
 #' @export
-meetup_schema_type <- function(type_name, schema = meetup_schema(), ...) {
+meetupr_schema_type <- function(type_name, schema = meetupr_schema(), ...) {
   matching <- schema$types[
     sapply(schema$types, function(x) {
       grepl(type_name, x$name, ...)

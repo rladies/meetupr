@@ -1,7 +1,7 @@
 Type: Package
 Package: meetupr
 Title: Access Meetup Data
-Version: 0.3.0
+Version: 0.3.1
 Authors@R: c(
     person("Athanasia Mo", "Mowinckel", , "a.m.mowinckel@psykologi.uio.no", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-5756-0223")),
@@ -22,7 +22,7 @@ Authors@R: c(
     person("R-Ladies Global", role = "cph")
   )
 Description: Provides programmatic access to the 'Meetup' 'GraphQL' API 
-    (<https://www.meetup.com/api/schema/>), enabling users to retrieve
+    (<https://www.meetup.com/graphql/>), enabling users to retrieve
     information about groups, events, and members from 'Meetup' 
     (<https://www.meetup.com/>). Supports authentication via 'OAuth2' and
     includes functions for common queries and data manipulation tasks.
@@ -30,29 +30,34 @@ License: MIT + file LICENSE
 Depends:
     R (>= 4.2)
 Imports:
-    base64enc,
     countrycode,
     cli,
     clipr,
     dplyr,
+    fs,
     glue,
     httr2,
     jsonlite,
-    keyring,
     lifecycle,
     purrr,
     rlang,
     rlist,
     S7,
     tools,
-    withr
+    stats,
+    utils,
+    withr,
+    rstudioapi
 Suggests:
     covr,
+    cyphr,
     ggplot2,
     ggwordcloud,
     httpuv,
     knitr,
+    openssl,
     rmarkdown,
+    sodium,
     testthat,
     tidyr,
     tidytext,
@@ -63,6 +68,6 @@ Config/testthat/edition: 3
 Config/testthat/parallel: true
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 URL: https://rladies.org/meetupr/
 BugReports: https://github.com/rladies/meetupr/issues

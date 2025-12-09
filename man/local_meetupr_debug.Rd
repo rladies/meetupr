@@ -4,28 +4,27 @@
 \alias{local_meetupr_debug}
 \title{Temporarily enable debug mode}
 \usage{
-local_meetupr_debug(level = 1, env = parent.frame())
+local_meetupr_debug(verbosity = 0, env = rlang::caller_env())
 }
 \arguments{
-\item{level}{Debug level: 1 for on, 0 for off}
+\item{verbosity}{How much debug information to show.
+0 = off, 1 = basic, 2 = verbose, 3 = very verbose}
 
-\item{env}{The environment to use for scoping}
+\item{env}{The environment in which to set the variable.}
 }
 \value{
 The old debug value (invisibly)
 }
 \description{
-Temporarily enable debug mode
+Sets the level of verbosity for \code{httr2::local_verbosity()},
+and the MEETUPR_DEBUG environment variable.
+Can help debug issues with API requests.
 }
 \examples{
 \dontrun{
-# Within a function or test
-local_meetupr_debug(1)
-# Debug output enabled for remainder of scope
+local_meetupr_debug(2)
 
-# Manual cleanup
-old <- local_meetupr_debug(1, env = emptyenv())
-# ... code with debugging ...
-Sys.setenv(MEETUPR_DEBUG = old)
+# Turn off debug mode
+local_meetupr_debug(0)
 }
 }

@@ -1,7 +1,7 @@
-# print.meetup_user outputs full data correctly
+# print.meetupr_user: outputs full data correctly
 
     Code
-      print.meetup_user(user)
+      print.meetupr_user(user)
     Message
       
       -- Meetup User: --
@@ -21,10 +21,10 @@
       * City: New York
       * Country: USA
 
-# print.meetup_user handles missing optional fields
+# print.meetupr_user: handles missing optional fields
 
     Code
-      print.meetup_user(user)
+      print.meetupr_user(user)
     Message
       
       -- Meetup User: --
@@ -40,10 +40,10 @@
       
       -- Location: 
 
-# print.meetup_user handles partial location data
+# print.meetupr_user: handles partial location data
 
     Code
-      print.meetup_user(user)
+      print.meetupr_user(user)
     Message
       
       -- Meetup User: --

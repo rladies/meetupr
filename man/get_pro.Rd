@@ -19,8 +19,8 @@ get_pro_groups(
 get_pro_events(
   urlname,
   status = NULL,
-  date_before = date_before,
-  date_after = date_after,
+  date_before = NULL,
+  date_after = NULL,
   max_results = NULL,
   handle_multiples = "list",
   extra_graphql = NULL,

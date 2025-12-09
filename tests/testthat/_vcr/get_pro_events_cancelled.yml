@@ -1,0 +1,136 @@
+http_interactions:
+- request:
+    method: POST
+    uri: https://api.meetup.com/gql-ext
+    body:
+      string: '{"query":"\n  query { self {\n    isProOrganizer\n    } }\n  ","variables":{}}'
+  response:
+    status: 200
+    headers:
+      content-type: application/json;charset=utf-8
+      accept-ranges: bytes
+      date: Thu, 27 Nov 2025 15:41:16 GMT
+      content-length: '41'
+    body:
+      string: '{"data":{"self":{"isProOrganizer":true}}}'
+  recorded_at: 2025-11-27 15:41:16
+- request:
+    method: POST
+    uri: https://api.meetup.com/gql-ext
+    body:
+      string: '{"query":"\n  query { self {\n    isProOrganizer\n    } }\n  ","variables":{}}'
+  response:
+    status: 200
+    headers:
+      content-type: application/json;charset=utf-8
+      accept-ranges: bytes
+      date: Thu, 27 Nov 2025 15:41:16 GMT
+      content-length: '41'
+    body:
+      string: '{"data":{"self":{"isProOrganizer":true}}}'
+  recorded_at: 2025-11-27 15:41:16
+- request:
+    method: POST
+    uri: https://api.meetup.com/gql-ext
+    body:
+      string: '{"query":"query proEvents(\n  $urlname: ID!,\n  $first: Int = 1000,\n  $cursor:
+        String\n  $date_after: DateTime\n  $date_before: DateTime\n  $status: [String!]\n  )
+        {\n  proNetwork(urlname: $urlname) {\n    eventsSearch(\n      input: {\n        after:
+        $cursor, \n        first: $first, \n        filter: {\n          eventDateMax:
+        $date_before\n          eventDateMin: $date_after\n          status: $status\n          }\n        }\n      )
+        {\n      totalCount\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      edges
+        {\n        node {\n          id\n          title\n          description\n          status\n          dateTime\n          duration\n          eventUrl\n          featuredEventPhoto
+        {\n            id\n            baseUrl\n            highResUrl\n            standardUrl\n            thumbUrl\n          }\n          rsvps
+        {\n            yesCount\n            waitlistCount\n            totalCount\n          }\n          venues
+        {\n            id\n            name\n            address\n            city\n            state\n            country\n            lat\n            lon\n            postalCode\n            venueType\n          }\n          group
+        {\n            name\n            urlname\n          }\n          \n        }\n      }\n    }\n  }\n}","variables":{"urlname":"rladies","first":5,"status":"CANCELLED"}}'
+  response:
+    status: 200
+    headers:
+      accept-ranges: bytes
+      content-type: application/json;charset=utf-8
+      date: Thu, 27 Nov 2025 15:41:17 GMT
+      content-length: '8933'
+    body:
+      string: '{"data":{"proNetwork":{"eventsSearch":{"totalCount":220,"pageInfo":{"hasNextPage":true,"endCursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJMb25nIiwidmFsdWUiOjE3NDY4ODU2MDAwMDB9LHsidHlwZSI6IkxvbmciLCJ2YWx1ZSI6MzA2NTk4MDIzfV19"},"edges":[{"node":{"id":"310990549","title":"16º
+        Meet Up: Pré-processamento e Tratamento de Dados com Tidyverse em R","description":"Este
+        minicurso oferecerá uma introdução prática ao pré-processamento e tratamento
+        de dados utilizando o ecossistema Tidyverse no ambiente R e RStudio. Os participantes
+        aprenderão a importar, limpar, transformar e organizar conjuntos de dados
+        de forma eficiente e reprodutível, utilizando as principais ferramentas do
+        Tidyverse. O foco será em preparar os dados para análises estatísticas e visualizações,
+        uma etapa fundamental em qualquer projeto de ciência de dados.","status":"CANCELLED","dateTime":"2025-11-25T18:00:00-03:00","duration":"PT3H","eventUrl":"https://www.meetup.com/rladies-niteroi/events/310990549/","featuredEventPhoto":null,"rsvps":{"yesCount":79,"waitlistCount":0,"totalCount":79},"venues":[{"id":"26906060","name":"Online
+        event","address":"","city":"","state":"","country":"","lat":-8.521147,"lon":179.1962,"postalCode":"","venueType":"online"}],"group":{"name":"R-Ladies
+        Niterói","urlname":"rladies-niteroi"}}},{"node":{"id":"310294379","title":"desencapsulado()","description":"☁️
+        O ar tá diferente… tem algo no código.\n\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\nNão
+        é só uma palestra. É um evento.\n\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\nNos
+        siga nas redes sociais: @rladiesgyn\n#VemAí #MistérioNoConsole","status":"CANCELLED","dateTime":"2025-10-25T14:00:00-03:00","duration":"PT4H","eventUrl":"https://www.meetup.com/rladies-goiania/events/310294379/","featuredEventPhoto":{"id":"529386514","baseUrl":"https://secure-content.meetupstatic.com/images/classic-events/","highResUrl":"https://secure.meetupstatic.com/photos/event/1/9/7/2/highres_529386514.jpeg","standardUrl":"https://secure.meetupstatic.com/photos/event/1/9/7/2/600_529386514.jpeg","thumbUrl":"https://secure.meetupstatic.com/photos/event/1/9/7/2/thumb_529386514.jpeg"},"rsvps":{"yesCount":8,"waitlistCount":0,"totalCount":8},"venues":[{"id":"26906060","name":"Online
+        event","address":"","city":"","state":"","country":"","lat":-8.521147,"lon":179.1962,"postalCode":"","venueType":"online"}],"group":{"name":"R-Ladies
+        Goiânia","urlname":"rladies-goiania"}}},{"node":{"id":"310482419","title":"[DRAFT]
+        Introduction to building Shiny Apps with {RHINO}","description":"Ready to
+        take your Shiny skills to the next level? Join us for an interactive workshop
+        on building modern, production-grade Shiny applications with the {rhino} framework.\n\nIn
+        this practical session, you’ll learn how to:\n\n* Explore the structure and
+        features of a real-world {rhino}-built Shiny app\n* Follow a step-by-step,
+        hands-on tutorial to create your own {rhino} app\n* Use AI-powered development
+        to rapidly design and build a Shiny module\n\nWhether you’re just starting
+        with {rhino} or already familiar with Shiny, you’ll leave with actionable
+        knowledge, reusable code, and the confidence to apply these techniques to
+        your own projects.\n\n**Speaker: Rory Chen**\n\nRory Chen is a health data
+        scientist specialising in the data infrastructure that supports dementia research.
+        She leads CHeBA’s Dementias Platform Australia initiative, advancing the FAIR
+        data principles — making research data more **Findable, Accessible, Interoperable,
+        and Reusable**.\n\nWith over nine years’ experience working with large, complex
+        datasets in academic and public health settings, Rory brings expertise in
+        R, Python, SAS, SQL, REDCap, AWS, and agile project management. She is also
+        an active member of R-Ladies Sydney and the UNSW CodeRs Committee.\n\n**RSVP
+        now** to secure your spot and receive the Zoom link!\n\n***R-Ladies Sydney
+        organisers***\n*Find us on [Bluesky Social](https://bsky.app/profile/rladiessydney.bsky.social)
+        and on [LinkedIn](https://www.linkedin.com/groups/14405806/) for more information
+        on news, presentations and code!*\n\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\\*\n***Photos,
+        Films and all other media/recordings***\\*: This event will not be recorded.\\*\n***Code
+        of Conduct***\\*: R-Ladies Sydney is dedicated to providing a welcoming and
+        harassment-free event experience for everyone, regardless of gender, gender
+        identity and expression, age, sexual orientation, disability, physical appearance,
+        body size, race, ethnicity, or religion (or lack thereof). We do not tolerate
+        harassment of event participants in any form, for any event venue, including
+        talks, workshops, parties, Twitter and other online media.\\*\n***Community
+        Policies***\\*: Please note, cis men are welcome to join our meetups when
+        they come as a guest of a woman participant or they bring a woman with them.
+        We highly encourage speakers and teachers at R-Ladies Sydney events to be
+        of minority genders.\\*","status":"CANCELLED","dateTime":"2025-08-29T13:00:00+10:00","duration":"PT1H","eventUrl":"https://www.meetup.com/rladies-sydney/events/310482419/","featuredEventPhoto":null,"rsvps":{"yesCount":2,"waitlistCount":0,"totalCount":2},"venues":[{"id":"26906060","name":"Online
+        event","address":"","city":"","state":"","country":"","lat":-33.891525,"lon":151.18785,"postalCode":"","venueType":"online"}],"group":{"name":"R-Ladies
+        Sydney","urlname":"rladies-sydney"}}},{"node":{"id":"310117383","title":"[ONLINE]
+        Tidymodels Summer Bookclub #5","description":"Interested in learning more
+        about the tidymodels framework in R, but not sure where to start? Looking
+        for some fun summer reading (and coding)? This will be the last a five part
+        summer bookclub series where we''ll read through a handful of chapters in
+        the Tidy Models with R book ([https://www.tmwr.org/](https://www.tmwr.org/))
+        on our own and then meet to discuss what we liked, learned, and want to know
+        more about. This is a great opportunity to learn a new R skill and meet some
+        members of the R-Ladies community!\n\nCovered Chapters (Please read these
+        before you come.)\n8\\. Feature Engineering with recipes\n\nWho is this for?\nFor
+        this bookclub series it will be helpful if you have a basic understanding
+        of coding in R. That said, this event is all about supporting folks and learning
+        together! All R-Ladies are welcome - including R-Ladies RTP members and R-Ladies
+        from around the world.\n\nWhat should I bring?\nYou''ll need a computer with
+        videoconferencing capabilities and R. If you''re a note taker, your notes
+        and questions from reading through the chapters are also a must have!\n\nWhere
+        will it take place?\n**Please join us online via Zoom.** A link to join will
+        be provided when you RSVP.\n\nAll events are intended for women as leaders,
+        mentors, members, and attendees. We are emphatically queer and trans friendly.
+        Men are welcomed to attend *as guests* and must be accompanied by the R-Lady
+        who invited them. This group was created so those who identify as women have
+        a comfortable place to learn. If you would like to attend and feel excluded,
+        please introduce yourself to an organizer.","status":"CANCELLED","dateTime":"2025-08-05T18:00:00-04:00","duration":"PT1H","eventUrl":"https://www.meetup.com/rladies-rtp/events/310117383/","featuredEventPhoto":null,"rsvps":{"yesCount":8,"waitlistCount":0,"totalCount":8},"venues":[{"id":"26906060","name":"Online
+        event","address":"","city":"","state":"","country":"","lat":-8.521147,"lon":179.1962,"postalCode":"","venueType":"online"}],"group":{"name":"R-Ladies
+        RTP","urlname":"rladies-rtp"}}},{"node":{"id":"306598023","title":"Coffee
+        and Conversation","description":"Join us for a networking event for women
+        in data science! If you’re looking for a data job, wanting to connect with
+        other women in the STL data community, or looking to hire from underrepresented
+        genders in data, we look forward to seeing you.\n\nThis is an in-person event.
+        Coffee and light breakfast foods will be provided, so we appreciate your RSVP.","status":"CANCELLED","dateTime":"2025-05-10T10:00:00-05:00","duration":"PT2H","eventUrl":"https://www.meetup.com/rladies-st-louis/events/306598023/","featuredEventPhoto":null,"rsvps":{"yesCount":28,"waitlistCount":0,"totalCount":28},"venues":[{"id":"26174589","name":"Webster
+        Groves Public Library","address":"301 E Lockwood Ave","city":"St. Louis","state":"MO","country":"us","lat":38.592365,"lon":-90.350464,"postalCode":"63119","venueType":""}],"group":{"name":"R-Ladies
+        St. Louis","urlname":"rladies-st-louis"}}}]}}}}'
+  recorded_at: 2025-11-27 15:41:17
+recorded_with: VCR-vcr/2.0.0

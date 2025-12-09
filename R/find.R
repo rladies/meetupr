@@ -3,6 +3,7 @@
 #' Search for groups on Meetup using a text query. This function allows
 #' you to find groups that match your search criteria.
 #'
+#'
 #' @param query Character string to search for groups
 #' @param topic_id Numeric ID of a topic to filter groups by
 #' @param category_id Numeric ID of a category to filter groups by
@@ -10,7 +11,12 @@
 #' @template handle_multiples
 #' @template extra_graphql
 #' @template asis
-#' @param ... Should be empty. Used for parameter expansion
+#' @param ... other named variables for graphql query. options are:
+#'   - lat: Float
+#'   - lon: Float
+#'   - radius: Float
+#'   - categoryId: ID
+#'   - topicCategoryId: ID
 #' @return A tibble with group information
 #' @examples
 #' \dontshow{
@@ -18,6 +24,7 @@
 #' meetupr:::mock_if_no_auth()
 #' }
 #' groups <- find_groups("R-Ladies")
+#' groups
 #' \dontshow{
 #' vcr::eject_cassette()
 #' }
@@ -32,8 +39,6 @@ find_groups <- function(
   asis = FALSE,
   ...
 ) {
-  rlang::check_dots_empty()
-
   std_query <- standard_query(
     "find_groups",
     "data.groupSearch"
@@ -48,7 +53,8 @@ find_groups <- function(
     max_results = max_results,
     handle_multiples = handle_multiples,
     extra_graphql = extra_graphql,
-    asis = asis
+    asis = asis,
+    ...
   ) |>
     process_datetime_fields("founded_date")
 }

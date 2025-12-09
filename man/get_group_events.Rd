@@ -53,9 +53,9 @@ meetupr:::mock_if_no_auth()
 }
 get_group_events("rladies-lagos", "past")
 get_group_events(
-   "rladies-lagos",
-   status = "past",
-   date_before = "2023-01-01T12:00:00Z"
+  "rladies-lagos",
+  status = "past",
+  date_before = "2023-01-01T12:00:00Z"
 )
 \dontshow{
 vcr::eject_cassette()

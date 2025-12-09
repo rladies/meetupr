@@ -45,8 +45,8 @@ query findGroups(
         membershipMetadata {
           status
         }
+        << extra_graphql >>
       }
     }
-    << extra_graphql >>
   }
 }

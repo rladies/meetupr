@@ -11,26 +11,27 @@ http_interactions:
         {\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    totalCount\n    edges
         {\n      node {\n        id\n        name\n        urlname\n        city\n        state\n        country\n        lat\n        lon\n        memberships
         {\n          totalCount\n        }\n        foundedDate\n        timezone\n        joinMode\n        isPrivate\n        membershipMetadata
-        {\n          status\n        }\n      }\n    }\n    \n  }\n}","variables":{"query":"React","first":10}}'
+        {\n          status\n        }\n        \n      }\n    }\n  }\n}","variables":{"query":"React","first":10}}'
   response:
     status: 200
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 19 Oct 2025 21:21:05 GMT
-      content-length: '3243'
+      date: Sun, 26 Oct 2025 19:30:17 GMT
+      content-length: '3254'
     body:
       string: '{"data":{"groupSearch":{"pageInfo":{"hasNextPage":true,"endCursor":"MTA="},"totalCount":10,"edges":[{"node":{"id":"38220234","name":"React
-        Denver","urlname":"reactdenvercom","city":"Denver","state":"CO","country":"us","lat":39.7,"lon":-105.08,"memberships":{"totalCount":15},"foundedDate":"2025-10-09T15:35:45-06:00","timezone":"America/Denver","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"23347751","name":"React
+        Denver","urlname":"reactdenvercom","city":"Denver","state":"CO","country":"us","lat":39.7,"lon":-105.08,"memberships":{"totalCount":17},"foundedDate":"2025-10-09T15:35:45-06:00","timezone":"America/Denver","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"23347751","name":"React
         Osaka","urlname":"react-osaka","city":"Osaka","state":"","country":"jp","lat":34.68,"lon":135.5,"memberships":{"totalCount":213},"foundedDate":"2017-04-19T21:47:42+09:00","timezone":"Asia/Tokyo","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"20299732","name":"React
         HTX","urlname":"react-htx","city":"Houston","state":"TX","country":"us","lat":29.76,"lon":-95.36,"memberships":{"totalCount":2269},"foundedDate":"2016-08-10T00:06:52-05:00","timezone":"America/Chicago","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"33227626","name":"React
         en Mendoza","urlname":"React-en-Mendoza","city":"Mendoza","state":"","country":"ar","lat":-32.89,"lon":-68.83,"memberships":{"totalCount":196},"foundedDate":"2020-01-21T10:05:52-03:00","timezone":"America/Argentina/Mendoza","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"22799127","name":"React
-        CWB","urlname":"ReactJS-CWB","city":"Curitiba","state":"","country":"br","lat":-25.42,"lon":-49.29,"memberships":{"totalCount":2661},"foundedDate":"2017-03-06T15:45:01-03:00","timezone":"America/Sao_Paulo","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"31780692","name":"React
+        CWB","urlname":"ReactJS-CWB","city":"Curitiba","state":"","country":"br","lat":-25.42,"lon":-49.29,"memberships":{"totalCount":2663},"foundedDate":"2017-03-06T15:45:01-03:00","timezone":"America/Sao_Paulo","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"31780692","name":"React
         Live Coding","urlname":"React-Live-Coding","city":"Amsterdam","state":"","country":"nl","lat":52.37,"lon":4.89,"memberships":{"totalCount":80},"foundedDate":"2019-05-01T05:09:55+02:00","timezone":"Europe/Amsterdam","joinMode":"APPROVAL","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"36634797","name":"Toronto
         React","urlname":"toronto-react","city":"Toronto","state":"ON","country":"ca","lat":43.65,"lon":-79.37,"memberships":{"totalCount":76},"foundedDate":"2022-10-06T13:06:42-04:00","timezone":"America/Toronto","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"18925259","name":"React
-        Vancouver Meetup","urlname":"ReactJS-Vancouver-Meetup","city":"Vancouver","state":"BC","country":"ca","lat":49.28,"lon":-123.12,"memberships":{"totalCount":4204},"foundedDate":"2015-09-12T18:21:38-07:00","timezone":"America/Vancouver","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"10269972","name":"JavaScript
-        Zagreb","urlname":"JavaScript-Zagreb","city":"Zagreb","state":"","country":"hr","lat":45.8,"lon":15.97,"memberships":{"totalCount":1929},"foundedDate":"2013-09-15T08:26:04+02:00","timezone":"Europe/Belgrade","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"10972562","name":"CHCH.JS","urlname":"chch-js","city":"Christchurch","state":"","country":"nz","lat":-43.53,"lon":172.64,"memberships":{"totalCount":804},"foundedDate":"2013-11-04T19:39:16+13:00","timezone":"Pacific/Auckland","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}}]}}}'
-  recorded_at: 2025-10-19 21:21:05
+        Vancouver Meetup","urlname":"ReactJS-Vancouver-Meetup","city":"Vancouver","state":"BC","country":"ca","lat":49.28,"lon":-123.12,"memberships":{"totalCount":4205},"foundedDate":"2015-09-12T18:21:38-07:00","timezone":"America/Vancouver","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"10269972","name":"JavaScript
+        Zagreb","urlname":"JavaScript-Zagreb","city":"Zagreb","state":"","country":"hr","lat":45.8,"lon":15.97,"memberships":{"totalCount":1931},"foundedDate":"2013-09-15T08:26:04+02:00","timezone":"Europe/Belgrade","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"18607703","name":"ReactJS
+        Barcelona","urlname":"reactjs-barcelona","city":"Barcelona","state":"","country":"es","lat":41.4,"lon":2.17,"memberships":{"totalCount":1666},"foundedDate":"2015-05-18T19:38:36+02:00","timezone":"Europe/Madrid","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}}]}}}'
+  recorded_at: 2025-10-26 19:30:17
 - request:
     method: POST
     uri: https://api.meetup.com/gql-ext
@@ -43,24 +44,25 @@ http_interactions:
         {\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    totalCount\n    edges
         {\n      node {\n        id\n        name\n        urlname\n        city\n        state\n        country\n        lat\n        lon\n        memberships
         {\n          totalCount\n        }\n        foundedDate\n        timezone\n        joinMode\n        isPrivate\n        membershipMetadata
-        {\n          status\n        }\n      }\n    }\n    \n  }\n}","variables":{"query":"React","first":10}}'
+        {\n          status\n        }\n        \n      }\n    }\n  }\n}","variables":{"query":"React","first":10}}'
   response:
     status: 200
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 19 Oct 2025 21:21:05 GMT
-      content-length: '3243'
+      date: Sun, 26 Oct 2025 19:30:17 GMT
+      content-length: '3254'
     body:
       string: '{"data":{"groupSearch":{"pageInfo":{"hasNextPage":true,"endCursor":"MTA="},"totalCount":10,"edges":[{"node":{"id":"38220234","name":"React
-        Denver","urlname":"reactdenvercom","city":"Denver","state":"CO","country":"us","lat":39.7,"lon":-105.08,"memberships":{"totalCount":15},"foundedDate":"2025-10-09T15:35:45-06:00","timezone":"America/Denver","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"23347751","name":"React
+        Denver","urlname":"reactdenvercom","city":"Denver","state":"CO","country":"us","lat":39.7,"lon":-105.08,"memberships":{"totalCount":17},"foundedDate":"2025-10-09T15:35:45-06:00","timezone":"America/Denver","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"23347751","name":"React
         Osaka","urlname":"react-osaka","city":"Osaka","state":"","country":"jp","lat":34.68,"lon":135.5,"memberships":{"totalCount":213},"foundedDate":"2017-04-19T21:47:42+09:00","timezone":"Asia/Tokyo","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"20299732","name":"React
         HTX","urlname":"react-htx","city":"Houston","state":"TX","country":"us","lat":29.76,"lon":-95.36,"memberships":{"totalCount":2269},"foundedDate":"2016-08-10T00:06:52-05:00","timezone":"America/Chicago","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"33227626","name":"React
         en Mendoza","urlname":"React-en-Mendoza","city":"Mendoza","state":"","country":"ar","lat":-32.89,"lon":-68.83,"memberships":{"totalCount":196},"foundedDate":"2020-01-21T10:05:52-03:00","timezone":"America/Argentina/Mendoza","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"22799127","name":"React
-        CWB","urlname":"ReactJS-CWB","city":"Curitiba","state":"","country":"br","lat":-25.42,"lon":-49.29,"memberships":{"totalCount":2661},"foundedDate":"2017-03-06T15:45:01-03:00","timezone":"America/Sao_Paulo","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"31780692","name":"React
+        CWB","urlname":"ReactJS-CWB","city":"Curitiba","state":"","country":"br","lat":-25.42,"lon":-49.29,"memberships":{"totalCount":2663},"foundedDate":"2017-03-06T15:45:01-03:00","timezone":"America/Sao_Paulo","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"31780692","name":"React
         Live Coding","urlname":"React-Live-Coding","city":"Amsterdam","state":"","country":"nl","lat":52.37,"lon":4.89,"memberships":{"totalCount":80},"foundedDate":"2019-05-01T05:09:55+02:00","timezone":"Europe/Amsterdam","joinMode":"APPROVAL","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"36634797","name":"Toronto
         React","urlname":"toronto-react","city":"Toronto","state":"ON","country":"ca","lat":43.65,"lon":-79.37,"memberships":{"totalCount":76},"foundedDate":"2022-10-06T13:06:42-04:00","timezone":"America/Toronto","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"18925259","name":"React
-        Vancouver Meetup","urlname":"ReactJS-Vancouver-Meetup","city":"Vancouver","state":"BC","country":"ca","lat":49.28,"lon":-123.12,"memberships":{"totalCount":4204},"foundedDate":"2015-09-12T18:21:38-07:00","timezone":"America/Vancouver","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"10269972","name":"JavaScript
-        Zagreb","urlname":"JavaScript-Zagreb","city":"Zagreb","state":"","country":"hr","lat":45.8,"lon":15.97,"memberships":{"totalCount":1929},"foundedDate":"2013-09-15T08:26:04+02:00","timezone":"Europe/Belgrade","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"10972562","name":"CHCH.JS","urlname":"chch-js","city":"Christchurch","state":"","country":"nz","lat":-43.53,"lon":172.64,"memberships":{"totalCount":804},"foundedDate":"2013-11-04T19:39:16+13:00","timezone":"Pacific/Auckland","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}}]}}}'
-  recorded_at: 2025-10-19 21:21:05
+        Vancouver Meetup","urlname":"ReactJS-Vancouver-Meetup","city":"Vancouver","state":"BC","country":"ca","lat":49.28,"lon":-123.12,"memberships":{"totalCount":4205},"foundedDate":"2015-09-12T18:21:38-07:00","timezone":"America/Vancouver","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"10269972","name":"JavaScript
+        Zagreb","urlname":"JavaScript-Zagreb","city":"Zagreb","state":"","country":"hr","lat":45.8,"lon":15.97,"memberships":{"totalCount":1931},"foundedDate":"2013-09-15T08:26:04+02:00","timezone":"Europe/Belgrade","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"18607703","name":"ReactJS
+        Barcelona","urlname":"reactjs-barcelona","city":"Barcelona","state":"","country":"es","lat":41.4,"lon":2.17,"memberships":{"totalCount":1666},"foundedDate":"2015-05-18T19:38:36+02:00","timezone":"Europe/Madrid","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}}]}}}'
+  recorded_at: 2025-10-26 19:30:17
 recorded_with: VCR-vcr/2.0.0
