@@ -288,7 +288,7 @@ get_jwt_token <- function(
         length(jwt_token) == 1L &&
         file.exists(jwt_token)
     ) {
-      return(normalizePath(jwt_token, winslash = "/"))
+      return(normalize_path(jwt_token, winslash = "/"))
     }
     if (
       is.character(jwt_token) &&
@@ -312,7 +312,7 @@ get_jwt_token <- function(
   )
   if (!is_empty(token)) {
     if (is.character(token) && length(token) == 1L && file.exists(token)) {
-      return(normalizePath(token))
+      return(normalize_path(token))
     }
     return(as.character(token))
   }
@@ -321,7 +321,7 @@ get_jwt_token <- function(
   env_token <- Sys.getenv("meetupr_jwt_token", "")
   if (nzchar(env_token)) {
     if (file.exists(env_token)) {
-      return(normalizePath(env_token))
+      return(normalize_path(env_token))
     }
     return(env_token)
   }
@@ -329,7 +329,7 @@ get_jwt_token <- function(
   # Fallback to default path (~/.ssh/<client>.rsa)
   token_path <- get_jwt_path(client_name = client_name)
   if (file.exists(token_path)) {
-    return(normalizePath(token_path))
+    return(normalize_path(token_path))
   }
 
   NA_character_

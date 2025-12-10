@@ -4,8 +4,8 @@ http_interactions:
     uri: https://api.meetup.com/gql-ext
     body:
       string: '{"query":"query members(\n  $urlname: String!\n  $cursor: String\n  $first:
-        Int = 1000\n) {\n  groupByUrlname(urlname: $urlname) {\n    id\n    name\n    memberships(after:
-        $cursor, first: $first) {\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n      edges
+        Int = 1000\n) {\n  groupByUrlname(urlname: $urlname) {\n    id\n    name\n    memberships(\n      after:
+        $cursor, \n      first: $first\n    ) {\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n      edges
         {\n        node {\n          id\n          name\n          memberUrl\n          memberPhoto
         {\n            baseUrl\n          }\n        }\n        metadata {\n          status\n          role\n          joinTime\n          lastAccessTime\n        }\n      }\n    }\n    \n  }\n}","variables":{"urlname":"rladies-san-francisco"}}'
   response:
@@ -13,10 +13,10 @@ http_interactions:
     headers:
       accept-ranges: bytes
       content-type: application/json;charset=utf-8
-      date: Sat, 29 Nov 2025 11:17:24 GMT
+      date: Wed, 10 Dec 2025 11:30:01 GMT
       content-length: '313022'
     body:
-      string: '{"data":{"groupByUrlname":{"id":"5190472","name":"R-Ladies San Francisco","memberships":{"pageInfo":{"hasNextPage":true,"endCursor":"MTUyNTY0MDk0OTAwMDoyNDM1ODEzMDI="},"totalCount":1868,"edges":[{"node":{"id":"14534094","name":"Gabriela
+      string: '{"data":{"groupByUrlname":{"id":"5190472","name":"R-Ladies San Francisco","memberships":{"pageInfo":{"hasNextPage":true,"endCursor":"MTUyNTY0MDk0OTAwMDoyNDM1ODEzMDI="},"totalCount":1869,"edges":[{"node":{"id":"14534094","name":"Gabriela
         de Queiroz","memberUrl":"https://www.meetup.com/members/14534094/","memberPhoto":{"baseUrl":"https://secure-content.meetupstatic.com/images/classic-member/"}},"metadata":{"status":"LEADER","role":"COORGANIZER","joinTime":"2012-10-01T12:28:21-07:00","lastAccessTime":"2025-09-08T18:29:38-07:00"}},{"node":{"id":"64513952","name":"T.
         Libman","memberUrl":"https://www.meetup.com/members/64513952/","memberPhoto":{"baseUrl":"https://secure-content.meetupstatic.com/images/classic-member/"}},"metadata":{"status":"ACTIVE","role":"MEMBER","joinTime":"2012-10-01T14:04:47-07:00","lastAccessTime":"2012-10-22T17:44:38-07:00"}},{"node":{"id":"25902562","name":"Maggie
         L.","memberUrl":"https://www.meetup.com/members/25902562/","memberPhoto":{"baseUrl":"https://secure-content.meetupstatic.com/images/classic-member/"}},"metadata":{"status":"ACTIVE","role":"MEMBER","joinTime":"2012-10-04T02:31:20-07:00","lastAccessTime":"2017-05-01T17:25:33-07:00"}},{"node":{"id":"2412055","name":"Marsee
@@ -642,14 +642,14 @@ http_interactions:
         Rosul","memberUrl":"https://www.meetup.com/members/253793538/","memberPhoto":null},"metadata":{"status":"ACTIVE","role":"MEMBER","joinTime":"2018-05-04T14:08:03-07:00","lastAccessTime":"2018-06-08T00:46:00-07:00"}},{"node":{"id":"143958672","name":"Yingke","memberUrl":"https://www.meetup.com/members/143958672/","memberPhoto":{"baseUrl":"https://secure-content.meetupstatic.com/images/classic-member/"}},"metadata":{"status":"ACTIVE","role":"MEMBER","joinTime":"2018-05-06T00:42:10-07:00","lastAccessTime":"2018-05-07T18:25:10-07:00"}},{"node":{"id":"216852973","name":"Ien
         Whang","memberUrl":"https://www.meetup.com/members/216852973/","memberPhoto":null},"metadata":{"status":"ACTIVE","role":"MEMBER","joinTime":"2018-05-06T12:34:44-07:00","lastAccessTime":"2018-05-06T12:34:44-07:00"}},{"node":{"id":"196403570","name":"Alison","memberUrl":"https://www.meetup.com/members/196403570/","memberPhoto":{"baseUrl":"https://secure-content.meetupstatic.com/images/classic-member/"}},"metadata":{"status":"ACTIVE","role":"MEMBER","joinTime":"2018-05-06T13:59:01-07:00","lastAccessTime":"2018-07-14T18:45:20-07:00"}},{"node":{"id":"243581302","name":"Nicholas
         DiQuattro","memberUrl":"https://www.meetup.com/members/243581302/","memberPhoto":{"baseUrl":"https://secure-content.meetupstatic.com/images/classic-member/"}},"metadata":{"status":"ACTIVE","role":"MEMBER","joinTime":"2018-05-06T17:09:09-07:00","lastAccessTime":"2018-05-06T17:09:09-07:00"}}]}}}}'
-  recorded_at: 2025-11-29 11:17:24
+  recorded_at: 2025-12-10 11:30:01
 - request:
     method: POST
     uri: https://api.meetup.com/gql-ext
     body:
       string: '{"query":"query members(\n  $urlname: String!\n  $cursor: String\n  $first:
-        Int = 1000\n) {\n  groupByUrlname(urlname: $urlname) {\n    id\n    name\n    memberships(after:
-        $cursor, first: $first) {\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n      edges
+        Int = 1000\n) {\n  groupByUrlname(urlname: $urlname) {\n    id\n    name\n    memberships(\n      after:
+        $cursor, \n      first: $first\n    ) {\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n      edges
         {\n        node {\n          id\n          name\n          memberUrl\n          memberPhoto
         {\n            baseUrl\n          }\n        }\n        metadata {\n          status\n          role\n          joinTime\n          lastAccessTime\n        }\n      }\n    }\n    \n  }\n}","variables":{"urlname":"rladies-san-francisco","cursor":"MTUyNTY0MDk0OTAwMDoyNDM1ODEzMDI="}}'
   response:
@@ -657,10 +657,10 @@ http_interactions:
     headers:
       accept-ranges: bytes
       content-type: application/json;charset=utf-8
-      date: Sat, 29 Nov 2025 11:17:26 GMT
-      content-length: '271643'
+      date: Wed, 10 Dec 2025 11:30:03 GMT
+      content-length: '271974'
     body:
-      string: '{"data":{"groupByUrlname":{"id":"5190472","name":"R-Ladies San Francisco","memberships":{"pageInfo":{"hasNextPage":false,"endCursor":"MTc2MDgyNzU0NzAwMDo0NzY2MzY3NzM="},"totalCount":1868,"edges":[{"node":{"id":"12304328","name":"Xi
+      string: '{"data":{"groupByUrlname":{"id":"5190472","name":"R-Ladies San Francisco","memberships":{"pageInfo":{"hasNextPage":false,"endCursor":"MTc2NDk3MjYyNTAwMDoxODMyNDk1Mjc="},"totalCount":1869,"edges":[{"node":{"id":"12304328","name":"Xi
         Zhao","memberUrl":"https://www.meetup.com/members/12304328/","memberPhoto":{"baseUrl":"https://secure-content.meetupstatic.com/images/classic-member/"}},"metadata":{"status":"ACTIVE","role":"MEMBER","joinTime":"2018-05-06T17:17:58-07:00","lastAccessTime":"2019-08-07T21:20:46-07:00"}},{"node":{"id":"240644736","name":"Julia
         Zhang","memberUrl":"https://www.meetup.com/members/240644736/","memberPhoto":{"baseUrl":"https://secure-content.meetupstatic.com/images/classic-member/"}},"metadata":{"status":"ACTIVE","role":"MEMBER","joinTime":"2018-05-06T17:35:12-07:00","lastAccessTime":"2018-11-06T19:47:41-08:00"}},{"node":{"id":"253941173","name":"Andrew
         Reece","memberUrl":"https://www.meetup.com/members/253941173/","memberPhoto":{"baseUrl":"https://secure-content.meetupstatic.com/images/classic-member/"}},"metadata":{"status":"ACTIVE","role":"MEMBER","joinTime":"2018-05-06T19:15:07-07:00","lastAccessTime":"2018-05-06T19:15:07-07:00"}},{"node":{"id":"55559612","name":"Sourav","memberUrl":"https://www.meetup.com/members/55559612/","memberPhoto":{"baseUrl":"https://secure-content.meetupstatic.com/images/classic-member/"}},"metadata":{"status":"ACTIVE","role":"MEMBER","joinTime":"2018-05-06T23:01:02-07:00","lastAccessTime":"2018-05-11T17:48:14-07:00"}},{"node":{"id":"214397271","name":"Kristina
@@ -1313,6 +1313,7 @@ http_interactions:
         Shaw-Meadow","memberUrl":"https://www.meetup.com/members/315862352/","memberPhoto":null},"metadata":{"status":"ACTIVE","role":"MEMBER","joinTime":"2025-05-01T19:05:55-07:00","lastAccessTime":"2025-05-05T13:07:28-07:00"}},{"node":{"id":"471835167","name":"zohra_01","memberUrl":"https://www.meetup.com/members/471835167/","memberPhoto":null},"metadata":{"status":"ACTIVE","role":"MEMBER","joinTime":"2025-05-03T15:35:38-07:00","lastAccessTime":"2025-05-03T15:35:38-07:00"}},{"node":{"id":"473562854","name":"Summer","memberUrl":"https://www.meetup.com/members/473562854/","memberPhoto":null},"metadata":{"status":"ACTIVE","role":"MEMBER","joinTime":"2025-06-08T22:58:05-07:00","lastAccessTime":"2025-06-08T22:58:05-07:00"}},{"node":{"id":"258178329","name":"puja
         gundu","memberUrl":"https://www.meetup.com/members/258178329/","memberPhoto":{"baseUrl":"https://secure-content.meetupstatic.com/images/classic-member/"}},"metadata":{"status":"ACTIVE","role":"MEMBER","joinTime":"2025-06-25T16:27:17-07:00","lastAccessTime":"2025-06-25T16:27:17-07:00"}},{"node":{"id":"474686640","name":"eva.grotkopp","memberUrl":"https://www.meetup.com/members/474686640/","memberPhoto":null},"metadata":{"status":"ACTIVE","role":"MEMBER","joinTime":"2025-07-25T17:46:35-07:00","lastAccessTime":"2025-07-25T18:58:14-07:00"}},{"node":{"id":"165939772","name":"Megan","memberUrl":"https://www.meetup.com/members/165939772/","memberPhoto":{"baseUrl":"https://secure-content.meetupstatic.com/images/classic-member/"}},"metadata":{"status":"ACTIVE","role":"MEMBER","joinTime":"2025-07-30T18:54:41-07:00","lastAccessTime":"2025-09-18T19:18:50-07:00"}},{"node":{"id":"475479104","name":"Gianna
         Pahoundis","memberUrl":"https://www.meetup.com/members/475479104/","memberPhoto":null},"metadata":{"status":"ACTIVE","role":"MEMBER","joinTime":"2025-08-28T16:07:10-07:00","lastAccessTime":"2025-08-28T16:07:12-07:00"}},{"node":{"id":"474343014","name":"kkschaeferca","memberUrl":"https://www.meetup.com/members/474343014/","memberPhoto":null},"metadata":{"status":"ACTIVE","role":"MEMBER","joinTime":"2025-10-07T11:50:40-07:00","lastAccessTime":"2025-10-07T11:50:49-07:00"}},{"node":{"id":"195292816","name":"Leslie
-        Bogen","memberUrl":"https://www.meetup.com/members/195292816/","memberPhoto":{"baseUrl":"https://secure-content.meetupstatic.com/images/classic-member/"}},"metadata":{"status":"ACTIVE","role":"MEMBER","joinTime":"2025-10-15T19:03:43-07:00","lastAccessTime":"2025-10-15T19:03:44-07:00"}},{"node":{"id":"476636773","name":"gtorresmartinez521","memberUrl":"https://www.meetup.com/members/476636773/","memberPhoto":null},"metadata":{"status":"ACTIVE","role":"MEMBER","joinTime":"2025-10-18T18:45:47-07:00","lastAccessTime":"2025-11-08T17:40:36-08:00"}}]}}}}'
-  recorded_at: 2025-11-29 11:17:26
+        Bogen","memberUrl":"https://www.meetup.com/members/195292816/","memberPhoto":{"baseUrl":"https://secure-content.meetupstatic.com/images/classic-member/"}},"metadata":{"status":"ACTIVE","role":"MEMBER","joinTime":"2025-10-15T19:03:43-07:00","lastAccessTime":"2025-10-15T19:03:44-07:00"}},{"node":{"id":"476636773","name":"gtorresmartinez521","memberUrl":"https://www.meetup.com/members/476636773/","memberPhoto":null},"metadata":{"status":"ACTIVE","role":"MEMBER","joinTime":"2025-10-18T18:45:47-07:00","lastAccessTime":"2025-11-08T17:40:36-08:00"}},{"node":{"id":"183249527","name":"Leila
+        Jamoosian","memberUrl":"https://www.meetup.com/members/183249527/","memberPhoto":{"baseUrl":"https://secure-content.meetupstatic.com/images/classic-member/"}},"metadata":{"status":"ACTIVE","role":"MEMBER","joinTime":"2025-12-05T17:10:25-08:00","lastAccessTime":"2025-12-05T17:26:23-08:00"}}]}}}}'
+  recorded_at: 2025-12-10 11:30:03
 recorded_with: VCR-vcr/2.0.0

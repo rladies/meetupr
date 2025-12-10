@@ -150,12 +150,11 @@ clear_meetupr_token <- function(client_name = get_client_name()) {
 #'
 #' Generates standardized key names for storing in env vars.
 #' @param key A character string indicating the name of the key.
-#' Valid options are "client_key", "client_secret", "refresh_token",
-#' "encrypt_pwd", and "jwt_token".
+#' Valid options are `r paste(valid_keys, collapse = ", ")`.
 #' @return A character string representing the standardized key name.
 #' @keywords internal
 #' @noRd
-key_name <- function(key = "jwt_token") {
+key_name <- function(key) {
   match.arg(key, valid_keys, several.ok = FALSE)
 }
 

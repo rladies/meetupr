@@ -237,8 +237,9 @@ describe("meetupr_encrypt_load()", {
     skip_if_not_installed("cyphr")
     skip_if_not_installed("sodium")
     mock_if_no_auth()
-    temp_path <- withr::local_tempfile(fileext = ".rds")
-    test_pwd <- sodium::bin2hex(sodium::random(32))
+    encrypt_path <- withr::local_tempfile(fileext = ".rds")
+    temp_token <- withr::local_tempfile(fileext = ".rds")
+    encrypt_pwd <- sodium::bin2hex(sodium::random(32))
     token <- structure(
       list(
         access_token = "old_access",
@@ -248,19 +249,27 @@ describe("meetupr_encrypt_load()", {
       ),
       class = "httr2_token"
     )
-    temp_token <- withr::local_tempfile(fileext = ".rds")
     saveRDS(token, temp_token)
-    key <- cyphr::key_sodium(sodium::hex2bin(test_pwd))
-    cyphr::encrypt_file(temp_token, key = key, dest = temp_path)
+    key <- cyphr::key_sodium(sodium::hex2bin(encrypt_pwd))
+    cyphr::encrypt_file(
+      temp_token,
+      key = key,
+      dest = encrypt_path
+    )
     local_mocked_bindings(
-      meetupr_key_get = function(...) test_pwd
+      meetupr_key_get = function(key, ...) {
+        if (key == "encrypt_pwd") {
+          return(encrypt_pwd)
+        }
+        NULL
+      }
     )
     local_mocked_bindings(
       request = function(...) stop("Network error"),
       .package = "httr2"
     )
     expect_error(
-      meetupr_encrypt_load(path = temp_path),
+      meetupr_encrypt_load(path = encrypt_path),
       "Failed to refresh OAuth token"
     )
   })
@@ -271,9 +280,10 @@ describe("get_encrypted_path()", {
     local_mocked_bindings(
       meetupr_key_get = function(key, ..., error = FALSE) NULL
     )
+
     expect_equal(
       get_encrypted_path("test_client"),
-      ".test_client.rds"
+      normalize_path(".test_client.rds")
     )
   })
 
@@ -281,7 +291,10 @@ describe("get_encrypted_path()", {
     withr::local_envvar(
       "testclient_encrypt_path" = "custom_token.rds"
     )
-    expect_equal(get_encrypted_path("testclient"), "custom_token.rds")
+    expect_equal(
+      get_encrypted_path("testclient"),
+      normalize_path("custom_token.rds")
+    )
   })
 
   it("errors when no token to encrypt", {
@@ -331,8 +344,8 @@ describe("get_jwt_token()", {
     )
     token <- get_jwt_token(jwt_token = NULL)
     expect_equal(
-      normalizePath(token),
-      normalizePath(default_path)
+      normalize_path(token),
+      normalize_path(default_path)
     )
   })
 
@@ -353,7 +366,7 @@ describe("get_jwt_path()", {
   it("returns path if set", {
     tmp <- withr::local_tempfile()
     writeLines("header.payload.signature", tmp)
-    tmp <- normalizePath(tmp)
+    tmp <- normalize_path(tmp)
     withr::local_envvar(
       "testclient_jwt_token" = tmp
     )
@@ -364,8 +377,10 @@ describe("get_jwt_path()", {
   })
 
   it("returns default path if not set", {
-    temp_dir <- withr::local_tempdir()
+    temp_dir <- withr::local_tempdir() |>
+      normalize_path()
     default_path <- file.path(temp_dir, ".ssh/testclient.rsa")
+    default_path <- normalize_path(default_path)
     dir.create(dirname(default_path), recursive = TRUE)
 
     local_mocked_bindings(

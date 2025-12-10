@@ -454,20 +454,6 @@ Error: Group not found
 The URL name is the part after `meetup.com/` in the group's URL.
 For example, for `https://www.meetup.com/rladies-san-francisco/`, the URL name is `rladies-san-francisco`.
 
-### CI Token Expired
-
-If CI authentication fails with "token expired":
-
-```r
-# Locally, refresh token
-meetupr_auth()
-meetupr_encrypt_setup()
-
-# Update CI secrets with new values shown by meetupr_encrypt_setup()
-```
-
-You'll need to refresh CI secrets periodically.
-
 ## Next Steps
 
 Now that you're set up, explore more advanced features:
@@ -484,7 +470,7 @@ For package updates and issues, visit the [GitHub repository](https://github.com
 If you encounter issues:
 
 1. **Check `meetupr_sitrep()`** for authentication diagnostics  
-2. **Enable debug mode** (`local_meetupr_debug(TRUE)`) to see API queries  
+2. **Enable debug mode** (`local_meetupr_debug(1)`) to see API queries  
 3. **Search existing issues** on GitHub  
 4. **File a bug report** with a reproducible example (use `reprex::reprex()`)  
 

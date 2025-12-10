@@ -13,7 +13,7 @@ badge](https://rladies.r-universe.dev/meetupr/badges/version.png)](https://rladi
 [![License:
 MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![R-CMD-check](https://github.com/rladies/meetupr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rladies/meetupr/actions/workflows/R-CMD-check.yaml)
-[![codecov](https://codecov.io/gh/rladies/meetupr/graph/badge.svg?token=vohoQX6cdk)](https://codecov.io/gh/rladies/meetupr)
+[![codecov](https://codecov.io/gh/rladies/meetupr/graph/badge.svg?token=vohoQX6cdk)](https://app.codecov.io/gh/rladies/meetupr)
 
 <!-- badges: end -->
 
@@ -89,20 +89,21 @@ get_group_events("rladies-san-francisco", "past")
 get_group_members("rladies-san-francisco")
 ```
 
-    # A tibble: 1,868 × 4
-       id       name                 member_url                     member_photo_url
-       <chr>    <chr>                <chr>                          <chr>           
-     1 14534094 Gabriela de Queiroz  https://www.meetup.com/member… https://secure-…
-     2 64513952 T. Libman            https://www.meetup.com/member… https://secure-…
-     3 25902562 Maggie L.            https://www.meetup.com/member… https://secure-…
-     4 2412055  Marsee Henon         https://www.meetup.com/member… https://secure-…
-     5 11509157 Jessica Montoya      https://www.meetup.com/member… https://secure-…
-     6 2920822  Benay Dara-Abrams    https://www.meetup.com/member… https://secure-…
-     7 11405574 Eleanor              https://www.meetup.com/member… https://secure-…
-     8 14796891 Jennifer Romanek     https://www.meetup.com/member… https://secure-…
-     9 10790320 Member ID: #10790320 https://www.meetup.com/member… https://secure-…
-    10 43420932 Milène Darnis        https://www.meetup.com/member… https://secure-…
-    # ℹ 1,858 more rows
+    # A tibble: 1,869 × 8
+       id       name              member_url member_photo_url status role  join_time
+       <chr>    <chr>             <chr>      <chr>            <chr>  <chr> <chr>    
+     1 14534094 Gabriela de Quei… https://w… https://secure-… LEADER COOR… 2012-10-…
+     2 64513952 T. Libman         https://w… https://secure-… ACTIVE MEMB… 2012-10-…
+     3 25902562 Maggie L.         https://w… https://secure-… ACTIVE MEMB… 2012-10-…
+     4 2412055  Marsee Henon      https://w… https://secure-… ACTIVE MEMB… 2012-10-…
+     5 11509157 Jessica Montoya   https://w… https://secure-… ACTIVE MEMB… 2012-10-…
+     6 2920822  Benay Dara-Abrams https://w… https://secure-… ACTIVE MEMB… 2012-10-…
+     7 11405574 Eleanor           https://w… https://secure-… ACTIVE MEMB… 2012-10-…
+     8 14796891 Jennifer Romanek  https://w… https://secure-… ACTIVE MEMB… 2012-10-…
+     9 10790320 Member ID: #1079… https://w… https://secure-… ACTIVE MEMB… 2012-10-…
+    10 43420932 Milène Darnis     https://w… https://secure-… ACTIVE MEMB… 2012-10-…
+    # ℹ 1,859 more rows
+    # ℹ 1 more variable: last_access_time <chr>
 
 ### Search for groups
 
@@ -114,16 +115,16 @@ find_groups("R-Ladies") |>
     # A tibble: 200 × 14
        id       name     urlname city  state country   lat     lon memberships_count
        <chr>    <chr>    <chr>   <chr> <chr> <chr>   <dbl>   <dbl>             <int>
-     1 38277511 Gurl 2 … gurl-2… Atla… "GA"  us       33.9  -84.4                  1
-     2 38274859 The Gol… meetup… Oslo  ""    no       59.9   10.8                  1
-     3 38274092 Ladies … ladies… Quee… "AZ"  us       33.2 -112.                   4
-     4 38273149 Her Lip… mcdono… McDo… "GA"  us       33.5  -84.0                  8
-     5 38271904 Lonely … lonely… Riya… ""    sa       24.6   46.8                  0
-     6 38267718 R User … r-nvsu  Mani… ""    ph       14.6  121.                   3
-     7 38261472 LA Limi… la-lim… Los … "CA"  us       34.0 -118.                   5
-     8 38258200 Entre N… mayore… Madr… ""    es       40.4   -3.71                 1
-     9 38253213 Sensual… sensua… Madr… ""    es       40.4   -3.71                 3
-    10 38252286 Sortit … sortit… Mari… ""    fr       43.4    5.22                11
+     1 38288984 Happy T… happy-… Tokyo ""    jp       35.7  140.                   5
+     2 38287199 FRAUEN-… soulsi… Darm… ""    de       49.9    8.64                 1
+     3 38286172 Red Pil… dynami… Köln  ""    de       51.0    6.97                 3
+     4 38274859 The Gol… meetup… Oslo  ""    no       59.9   10.8                  2
+     5 38273149 Her Lip… mcdono… McDo… "GA"  us       33.5  -84.0                 11
+     6 38271904 Lonely … lonely… Riya… ""    sa       24.6   46.8                  0
+     7 38267718 R User … r-nvsu  Mani… ""    ph       14.6  121.                   3
+     8 38261472 LA Limi… la-lim… Los … "CA"  us       34.0 -118.                   6
+     9 38258200 Entre N… mayore… Madr… ""    es       40.4   -3.71                 4
+    10 38252321 NuWang   nuwang  Paris ""    fr       48.9    2.34                 9
     # ℹ 190 more rows
     # ℹ 5 more variables: founded_date <dttm>, timezone <chr>, join_mode <chr>,
     #   is_private <lgl>, membership_status <chr>

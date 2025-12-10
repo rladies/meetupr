@@ -230,16 +230,6 @@ describe("has_auth()", {
     expect_true(result)
   })
 
-  it("returns TRUE with refresh token", {
-    withr::local_envvar(
-      "MEETUPR_CLIENT_NAME" = "test_client",
-      "test_client_jwt_token" = "test_jwt_token"
-    )
-
-    result <- has_auth()
-    expect_true(result)
-  })
-
   it("returns FALSE when not authenticated", {
     withr::local_envvar("testclient_refresh_token" = "")
     local_mocked_bindings(

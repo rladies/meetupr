@@ -72,7 +72,7 @@ meetupr_req <- function(rate_limit = 500 / 60, cache = TRUE, ...) {
 #' Apply OAuth Authentication to Request
 #'
 #' Adds authentication to httr2 request. Handles JWT tokens,
-#' OAuth refresh tokens, and interactive OAuth flows.
+#' OAuth encrypted tokens, and interactive OAuth flows.
 #'
 #' @param req httr2 request object
 #' @param cache Cache OAuth token on disk (interactive only).
@@ -82,8 +82,7 @@ meetupr_req <- function(rate_limit = 500 / 60, cache = TRUE, ...) {
 #' @return Authenticated httr2 request object
 #'
 #' @details
-#' Non-interactive mode tries: JWT token → encrypted token file
-#' → refresh token. Interactive mode uses OAuth
+#' Non-interactive mode tries: JWT token → encrypted token file. Interactive mode uses OAuth
 #' browser flow.
 #'
 #' @keywords internal

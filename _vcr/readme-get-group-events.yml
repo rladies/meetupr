@@ -21,7 +21,7 @@ http_interactions:
     headers:
       accept-ranges: bytes
       content-type: application/json;charset=utf-8
-      date: Sat, 29 Nov 2025 11:17:21 GMT
+      date: Wed, 10 Dec 2025 11:29:59 GMT
       content-length: '140652'
     body:
       string: "{\"data\":{\"groupByUrlname\":{\"id\":\"5190472\",\"name\":\"R-Ladies
@@ -1366,5 +1366,5 @@ http_interactions:
         https://lu.ma/26780pjv)\",\"group\":{\"id\":\"5190472\",\"name\":\"R-Ladies
         San Francisco\",\"urlname\":\"rladies-san-francisco\"},\"venues\":[{\"id\":\"16855052\",\"name\":\"GitHub\",\"address\":\"88
         Colin P Kelly Jr St\",\"city\":\"San Francisco\",\"state\":\"CA\",\"postalCode\":\"94107\",\"country\":\"us\",\"lat\":37.782269,\"lon\":-122.391251,\"venueType\":\"\"}],\"rsvps\":{\"totalCount\":1},\"featuredEventPhoto\":{\"baseUrl\":\"https://secure-content.meetupstatic.com/images/classic-events/\"},\"feeSettings\":null}}]}}}}"
-  recorded_at: 2025-11-29 11:17:21
+  recorded_at: 2025-12-10 11:29:59
 recorded_with: VCR-vcr/2.0.0

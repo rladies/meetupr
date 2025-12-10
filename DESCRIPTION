@@ -54,6 +54,7 @@ Suggests:
     ggplot2,
     ggwordcloud,
     httpuv,
+    jose,
     knitr,
     openssl,
     rmarkdown,

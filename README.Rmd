@@ -11,9 +11,11 @@ format: gfm
 [![meetupr status badge](https://rladies.r-universe.dev/meetupr/badges/version)](https://rladies.r-universe.dev/meetupr)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![R-CMD-check](https://github.com/rladies/meetupr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/rladies/meetupr/actions/workflows/R-CMD-check.yaml)
-[![codecov](https://codecov.io/gh/rladies/meetupr/graph/badge.svg?token=vohoQX6cdk)](https://codecov.io/gh/rladies/meetupr)
+[![codecov](https://codecov.io/gh/rladies/meetupr/graph/badge.svg?token=vohoQX6cdk)](https://app.codecov.io/gh/rladies/meetupr)
 
 <!-- badges: end -->
+
+
 
 R interface to the Meetup GraphQL API
 
@@ -58,7 +60,7 @@ sessions.
 #| include: false
 vcr::setup_knitr("readme-")
 meetupr:::mock_if_no_auth()
-meetupr::local_meetupr_debug(FALSE)
+meetupr::local_meetupr_debug(0)
 ```
 
 ### Get group events
@@ -96,7 +98,6 @@ For Meetup Pro networks, note that user needs to be a **pro** network organizer 
 ```{r}
 #| label: pro
 #| cassette: true
-#| eval: FALSE
 
 # Get all groups in a pro network
 pro_groups <- get_pro_groups("rladies")
