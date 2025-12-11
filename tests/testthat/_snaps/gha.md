@@ -1,4 +1,4 @@
-# write_gha_workflow: writes file and opens when requested
+# write_gha_workflow / writes file and opens when requested
 
     Code
       write_gha_workflow(filename = filename, yaml_lines = yaml, overwrite = TRUE,
@@ -6,7 +6,7 @@
     Message
       opened:.github/workflows/test.yml
 
-# use_gha_jwt_token: reads template, substitutes placeholders and writes workflow
+# use_gha_jwt_token / reads template, substitutes placeholders and writes workflow
 
     Code
       use_gha_jwt_token(client_name = client, jwt = jwt_secret, client_key = client_key_secret,
@@ -18,7 +18,7 @@
         - {.envvar {jwt}}: Your JWT token
         - {.envvar {client_key}}: Your client ID
 
-# use_gha_encrypted_token: reads rotate template, substitutes and writes workflow
+# use_gha_encrypted_token / reads rotate template, substitutes and writes workflow
 
     Code
       use_gha_encrypted_token(token_path = fake_token, overwrite = TRUE)

@@ -1,4 +1,4 @@
-# get_event: print.meetupr_event snapshot test
+# get_event / print.meetupr_event snapshot test
 
     Code
       print(event)
@@ -22,7 +22,7 @@
       
       <https://www.meetup.com/data-visualization-dc/events/103349942/>
 
-# process_event_data: adds correct class
+# process_event_data / adds correct class
 
     Code
       print(result)

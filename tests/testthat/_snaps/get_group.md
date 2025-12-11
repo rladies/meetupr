@@ -1,4 +1,4 @@
-# print.meetupr_group: prints a nicely formatted group summary
+# print.meetupr_group / prints a nicely formatted group summary
 
     Code
       print(grp)
@@ -24,7 +24,7 @@
       -- Description: 
       Hello world
 
-# print.meetupr_group: handles missing optional fields gracefully
+# print.meetupr_group / handles missing optional fields gracefully
 
     Code
       print(grp)
