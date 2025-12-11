@@ -283,7 +283,7 @@ describe("get_encrypted_path()", {
 
     expect_equal(
       get_encrypted_path("test_client"),
-      normalize_path(".test_client.rds")
+      normalize_path(".test_client.rds", mustWork = FALSE)
     )
   })
 
@@ -293,7 +293,7 @@ describe("get_encrypted_path()", {
     )
     expect_equal(
       get_encrypted_path("testclient"),
-      normalize_path("custom_token.rds")
+      normalize_path("custom_token.rds", mustWork = FALSE)
     )
   })
 
@@ -378,7 +378,7 @@ describe("get_jwt_path()", {
 
   it("returns default path if not set", {
     temp_dir <- withr::local_tempdir() |>
-      normalize_path()
+      normalize_path(mustWork = FALSE)
     default_path <- file.path(temp_dir, ".ssh/testclient.rsa")
     default_path <- normalize_path(default_path)
     dir.create(dirname(default_path), recursive = TRUE)
