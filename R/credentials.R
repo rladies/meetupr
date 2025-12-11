@@ -117,20 +117,6 @@ meetupr_key_delete <- function(
   invisible(NULL)
 }
 
-#' Remove all credentials and cached tokens for a client
-#' @param client_name OAuth client name
-#' @export
-clear_meetupr_token <- function(client_name = get_client_name()) {
-  for (k in valid_keys) {
-    meetupr_key_delete(k, client_name)
-  }
-  cache_path <- get_cache_path(client_name)
-  if (dir.exists(cache_path)) {
-    unlink(cache_path, recursive = TRUE)
-  }
-  invisible(NULL)
-}
-
 #' Create standardized key names
 #'
 #' Generates standardized key names for storing in env vars.

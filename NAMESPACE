@@ -3,7 +3,6 @@
 S3method(print,meetupr_event)
 S3method(print,meetupr_group)
 S3method(print,meetupr_user)
-export(clear_meetupr_token)
 export(find_groups)
 export(find_topics)
 export(get_client_name)

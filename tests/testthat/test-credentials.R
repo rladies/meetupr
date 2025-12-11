@@ -98,40 +98,6 @@ describe("key_name", {
     expect_error(key_name("notakey"), "'arg' should be one of")
   })
 })
-describe("clear_meetupr_token()", {
-  it("unsets envvars and removes oauth cache dir", {
-    td <- local_tempdir()
-    # create client cache dir
-    client_dir <- file.path(td, "testclient")
-    dir.create(client_dir, recursive = TRUE)
-    file.create(file.path(client_dir, "dummy"))
-    withr::local_envvar(
-      c(
-        "testclient_client_key" = "id",
-        "testclient_client_secret" = "sec",
-        "testclient_encrypt_pwd" = "p",
-        "testclient_jwt_token" = "j"
-      )
-    )
-
-    local_mocked_bindings(
-      oauth_cache_path = function() td,
-      .package = "httr2"
-    )
-
-    clear_meetupr_token("testclient")
-
-    expect_false(dir.exists(client_dir))
-    expect_equal(
-      Sys.getenv("testclient_client_key", unset = "notset"),
-      "notset"
-    )
-    expect_equal(
-      Sys.getenv("testclient_jwt_token", unset = "notset"),
-      "notset"
-    )
-  })
-})
 
 describe("get_input() and key_available()", {
   it("detects presence and absence of env keys", {

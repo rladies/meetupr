@@ -82,7 +82,8 @@ meetupr_req <- function(rate_limit = 500 / 60, cache = TRUE, ...) {
 #' @return Authenticated httr2 request object
 #'
 #' @details
-#' Non-interactive mode tries: JWT token → encrypted token file. Interactive mode uses OAuth
+#' Non-interactive mode tries: JWT token → encrypted token file.
+#'  Interactive mode uses OAuth
 #' browser flow.
 #'
 #' @keywords internal

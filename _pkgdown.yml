@@ -34,8 +34,9 @@ reference:
       - contains("auth")
       - starts_with("has")
       - meetupr_client
-      - meetupr_keys
       - contains("_ci")
+      - meetupr_credentials
+      - use_gha
   - title: Retrieving data and working with data
     desc: |
       Functions for retrieving data
