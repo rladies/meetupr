@@ -7,6 +7,7 @@ $ # meetupr NEWS
 - Fixed bug that made only "node" response format work,
   more data is now available from the API.
 - Updated vignettes to reflect new authentication methods.
+- adds the option to return data from the API "asis", without any processing by the package.
 
 ## meetupr 0.3.0
 

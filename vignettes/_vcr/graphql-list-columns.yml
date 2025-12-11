@@ -1,0 +1,55 @@
+http_interactions:
+- request:
+    method: POST
+    uri: https://api.meetup.com/gql-ext
+    body:
+      string: '{"query":"query groupEvents(\n  $urlname: String!\n  $cursor: String\n  $first:
+        Int = 1000\n  $status: [EventStatus!]\n  $date_after: DateTime\n  $date_before:
+        DateTime\n) {\n  groupByUrlname(urlname: $urlname) {\n    id\n    name\n    events(\n      after:
+        $cursor\n      first: $first\n      filter: {\n        status: $status\n        afterDateTime:
+        $date_after\n        beforeDateTime: $date_before\n      }\n    ) {\n      pageInfo
+        {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n      edges
+        {\n        cursor\n        node {\n          ...eventFields\n        }\n      }\n    }\n  }\n}\n\nfragment
+        eventFields on Event {\n  id\n  title\n  eventUrl\n  createdTime\n  status\n  dateTime\n  duration\n  description\n  \n  group
+        {\n    id\n    name\n    urlname\n  }\n  \n  venues {\n    id\n    name\n    address\n    city\n    state\n    postalCode\n    country\n    lat\n    lon\n    venueType\n  }\n  \n  rsvps(first:
+        1) {\n    totalCount\n  }\n  \n  featuredEventPhoto {\n    baseUrl\n  }\n  \n  feeSettings
+        {\n    required\n    amount\n    currency\n    accepts\n    refundPolicy {\n      notes\n      days\n    }\n  }\n  \n  \n    featuredEventPhoto
+        {\n      highResUrl\n    }\n  \n}","variables":{"urlname":"rladies-lagos","status":["ACTIVE","AUTOSCHED","AUTOSCHED_CANCELLED","AUTOSCHED_DRAFT","AUTOSCHED_FINISHED","BLOCKED","CANCELLED","CANCELLED_PERM","DRAFT","PAST","PENDING","PROPOSED","TEMPLATE"],"first":3,"process_data":["function
+        (data, ...) ","{","    process_datetime_fields(dplyr::mutate(data, venues_country
+        = get_country_code(venues_country)), ","        c(\"created_time\", \"date_time\"))","}"]}}'
+  response:
+    status: 200
+    headers:
+      accept-ranges: bytes
+      content-type: application/json;charset=utf-8
+      date: Thu, 11 Dec 2025 15:28:50 GMT
+      content-length: '3549'
+    body:
+      string: '{"data":{"groupByUrlname":{"id":"32612004","name":"R-Ladies Lagos","events":{"pageInfo":{"hasNextPage":true,"endCursor":"MjY3ODA0ODE0OjE1ODIzNTg0MDAwMDA="},"totalCount":14,"edges":[{"cursor":"MjY0MTU2MDYxOjE1NjkwNTI4MDAwMDA=","node":{"id":"264156061","title":"satRday
+        Lagos +  The Launch of RLadies Lagos.","eventUrl":"https://www.meetup.com/rladies-lagos/events/264156061/","createdTime":"2019-08-20T07:54:50-04:00","status":"PAST","dateTime":"2019-09-21T09:00:00+01:00","duration":"PT7H","description":"satRday-Lagos
+        is an event aimed at getting you started with the R programing language.\n\nDo
+        you love data or you are thinking of kick-starting your career in Technology
+        by learning a programing language, then this is for you.\n\nDo you do statistics,digital
+        media listening and analysis, data visualization, data engineering, data management,data
+        sciences animation, economics and more. Let''s show you how R would improve
+        your projects.\n\nThis event is strictly hands-on so bring your laptops and
+        devices along .\n\nSee you there .","group":{"id":"32612004","name":"R-Ladies
+        Lagos","urlname":"rladies-lagos"},"venues":[{"id":"26632228","name":"Civil
+        Engineering Building,","address":"YABATECH,","city":"Lagos","state":"al","postalCode":"meetup1","country":"ng","lat":6.652131,"lon":3.271455,"venueType":""}],"rsvps":{"totalCount":26},"featuredEventPhoto":null,"feeSettings":null}},{"cursor":"MjY2NzU3MjY1OjE1NzU3MDU2MDAwMDA=","node":{"id":"266757265","title":"Data
+        Mining using  R","eventUrl":"https://www.meetup.com/rladies-lagos/events/266757265/","createdTime":"2019-11-26T12:00:29-05:00","status":"PAST","dateTime":"2019-12-07T09:00:00+01:00","duration":"PT7H","description":"Hi
+        there R Users, it is time again for our physical meetup. It promises to packed
+        but very interesting time.\n\nAgenda\n\n* Project presentation from the last
+        online meeting\n*Hands-on projects for this month\n* Preparation for upcoming
+        conferences\n- Women in Analytics 2020 (Columbus)\n- useR 2020 (St. Louis)\n*R-Ladies
+        Lagos 2020 Outlook\n\nCome with your computers, extension boxes and data visualization
+        ideas.","group":{"id":"32612004","name":"R-Ladies Lagos","urlname":"rladies-lagos"},"venues":[{"id":"26750374","name":"Sweets
+        And Pastries Ltd","address":"76 Ogudu Rd","city":"Lagos","state":"LA","postalCode":"100242","country":"ng","lat":6.580285,"lon":3.385895,"venueType":""}],"rsvps":{"totalCount":14},"featuredEventPhoto":null,"feeSettings":null}},{"cursor":"MjY3ODA0ODE0OjE1ODIzNTg0MDAwMDA=","node":{"id":"267804814","title":"Getting
+        started with animated data in R","eventUrl":"https://www.meetup.com/rladies-lagos/events/267804814/","createdTime":"2020-01-10T07:56:39-05:00","status":"PAST","dateTime":"2020-02-22T09:00:00+01:00","duration":"PT7H","description":"Hi
+        there R Users, it is time again for our first physical meetup of the year
+        2020.\n\nAgenda\n\n*2019 in Review\n*Homework presentation\n*Getting started
+        with data animation in R\n*Summer training.\n\nCome with your computers, extension
+        boxes, and data - maker ideas.","group":{"id":"32612004","name":"R-Ladies
+        Lagos","urlname":"rladies-lagos"},"venues":[{"id":"26750374","name":"Sweets
+        And Pastries Ltd","address":"76 Ogudu Rd","city":"Lagos","state":"LA","postalCode":"100242","country":"ng","lat":6.580285,"lon":3.385895,"venueType":""}],"rsvps":{"totalCount":15},"featuredEventPhoto":{"baseUrl":"https://secure-content.meetupstatic.com/images/classic-events/","highResUrl":"https://secure.meetupstatic.com/photos/event/b/6/9/2/highres_488026738.jpeg"},"feeSettings":null}}]}}}}'
+  recorded_at: 2025-12-11 15:28:49
+recorded_with: VCR-vcr/2.0.0

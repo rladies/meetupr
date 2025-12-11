@@ -1,0 +1,18 @@
+http_interactions:
+- request:
+    method: POST
+    uri: https://api.meetup.com/gql-ext
+    body:
+      string: '{"query":"\n  query {\n    groupByUrlname(urlname: \"rladies-san-francisco\")
+        {\n      id\n      name\n    }\n  }","variables":{}}'
+  response:
+    status: 200
+    headers:
+      accept-ranges: bytes
+      content-type: application/json;charset=utf-8
+      date: Thu, 11 Dec 2025 15:28:52 GMT
+      content-length: '76'
+    body:
+      string: '{"data":{"groupByUrlname":{"id":"5190472","name":"R-Ladies San Francisco"}}}'
+  recorded_at: 2025-12-11 15:28:52
+recorded_with: VCR-vcr/2.0.0

@@ -230,7 +230,7 @@ mock_if_no_auth <- function(
   )
 
   Sys.unsetenv(c(
-    "MEETUPR_JWT_TOKEN",
+    "MEETUPR_CLIENT_NAME",
     paste0("meetupr_", valid_keys)
   ))
 

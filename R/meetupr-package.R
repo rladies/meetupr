@@ -3,8 +3,6 @@
 
 # Global variable bindings for R CMD check
 utils::globalVariables(c(
-  # attendee_mappings
-  "id",
   "country",
   "venues_country",
   "field_name"
