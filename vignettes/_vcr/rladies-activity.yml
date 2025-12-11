@@ -19,7 +19,7 @@ http_interactions:
     headers:
       accept-ranges: bytes
       content-type: application/json;charset=utf-8
-      date: Thu, 11 Dec 2025 15:29:18 GMT
+      date: Thu, 11 Dec 2025 18:49:08 GMT
       content-length: '2068789'
     body:
       string: "{\"data\":{\"proNetwork\":{\"eventsSearch\":{\"totalCount\":5149,\"pageInfo\":{\"hasNextPage\":true,\"endCursor\":\"eyJ2YWx1ZXMiOlt7InR5cGUiOiJMb25nIiwidmFsdWUiOjE2Njk0ODkyMDAwMDB9LHsidHlwZSI6IkxvbmciLCJ2YWx1ZSI6Mjg5OTAzNjI2fV19\"},\"edges\":[{\"node\":{\"id\":\"312266942\",\"title\":\"R
@@ -73,7 +73,7 @@ http_interactions:
         of diabetes profiles.\\n\\nThe session is designed to transition smoothly
         from basic to more advanced methods, offering a practical and reproducible
         framework for health data analysis.\\n\\nNo previous experience with medical
-        datasets is required—all code will be shown step by step and shared afterwards.\",\"status\":\"ACTIVE\",\"dateTime\":\"2025-12-17T18:00:00+01:00\",\"duration\":\"PT2H\",\"eventUrl\":\"https://www.meetup.com/rladies-rome/events/312256010/\",\"featuredEventPhoto\":{\"id\":\"531585522\",\"baseUrl\":\"https://secure-content.meetupstatic.com/images/classic-events/\",\"highResUrl\":\"https://secure.meetupstatic.com/photos/event/b/1/d/2/highres_531585522.jpeg\",\"standardUrl\":\"https://secure.meetupstatic.com/photos/event/b/1/d/2/600_531585522.jpeg\",\"thumbUrl\":\"https://secure.meetupstatic.com/photos/event/b/1/d/2/thumb_531585522.jpeg\"},\"rsvps\":{\"yesCount\":68,\"waitlistCount\":0,\"totalCount\":68},\"venues\":[{\"id\":\"26906060\",\"name\":\"Online
+        datasets is required—all code will be shown step by step and shared afterwards.\",\"status\":\"ACTIVE\",\"dateTime\":\"2025-12-17T18:00:00+01:00\",\"duration\":\"PT2H\",\"eventUrl\":\"https://www.meetup.com/rladies-rome/events/312256010/\",\"featuredEventPhoto\":{\"id\":\"531585522\",\"baseUrl\":\"https://secure-content.meetupstatic.com/images/classic-events/\",\"highResUrl\":\"https://secure.meetupstatic.com/photos/event/b/1/d/2/highres_531585522.jpeg\",\"standardUrl\":\"https://secure.meetupstatic.com/photos/event/b/1/d/2/600_531585522.jpeg\",\"thumbUrl\":\"https://secure.meetupstatic.com/photos/event/b/1/d/2/thumb_531585522.jpeg\"},\"rsvps\":{\"yesCount\":69,\"waitlistCount\":0,\"totalCount\":69},\"venues\":[{\"id\":\"26906060\",\"name\":\"Online
         event\",\"address\":\"\",\"city\":\"\",\"state\":\"\",\"country\":\"\",\"lat\":-8.521147,\"lon\":179.1962,\"postalCode\":\"\",\"venueType\":\"online\"}],\"group\":{\"name\":\"R-Ladies
         Rome\",\"urlname\":\"rladies-rome\"}}},{\"node\":{\"id\":\"311838441\",\"title\":\"A
         New Chapter Awaits: R-Ladies Sydney End of Year Celebration\",\"description\":\"Get
@@ -260,7 +260,7 @@ http_interactions:
         walk away with a clear understanding of the emerging R–AI landscape, plus
         a set of R packages, resources, and tutorials to help you explore further
         on your own.\\n\\nIf you’d like to join us, please register here on the Meetup
-        page.\\n\\nWe look forward to seeing many of you there!\",\"status\":\"PAST\",\"dateTime\":\"2025-11-30T16:00:00+01:00\",\"duration\":\"PT1H\",\"eventUrl\":\"https://www.meetup.com/rladies-paris/events/312083756/\",\"featuredEventPhoto\":{\"id\":\"531391093\",\"baseUrl\":\"https://secure-content.meetupstatic.com/images/classic-events/\",\"highResUrl\":\"https://secure.meetupstatic.com/photos/event/7/9/7/5/highres_531391093.jpeg\",\"standardUrl\":\"https://secure.meetupstatic.com/photos/event/7/9/7/5/600_531391093.jpeg\",\"thumbUrl\":\"https://secure.meetupstatic.com/photos/event/7/9/7/5/thumb_531391093.jpeg\"},\"rsvps\":{\"yesCount\":92,\"waitlistCount\":0,\"totalCount\":92},\"venues\":[{\"id\":\"26906060\",\"name\":\"Online
+        page.\\n\\nWe look forward to seeing many of you there!\",\"status\":\"PAST\",\"dateTime\":\"2025-11-30T16:00:00+01:00\",\"duration\":\"PT1H\",\"eventUrl\":\"https://www.meetup.com/rladies-paris/events/312083756/\",\"featuredEventPhoto\":{\"id\":\"531391093\",\"baseUrl\":\"https://secure-content.meetupstatic.com/images/classic-events/\",\"highResUrl\":\"https://secure.meetupstatic.com/photos/event/7/9/7/5/highres_531391093.jpeg\",\"standardUrl\":\"https://secure.meetupstatic.com/photos/event/7/9/7/5/600_531391093.jpeg\",\"thumbUrl\":\"https://secure.meetupstatic.com/photos/event/7/9/7/5/thumb_531391093.jpeg\"},\"rsvps\":{\"yesCount\":91,\"waitlistCount\":0,\"totalCount\":91},\"venues\":[{\"id\":\"26906060\",\"name\":\"Online
         event\",\"address\":\"\",\"city\":\"\",\"state\":\"\",\"country\":\"\",\"lat\":-8.521147,\"lon\":179.1962,\"postalCode\":\"\",\"venueType\":\"online\"}],\"group\":{\"name\":\"R-Ladies
         Paris\",\"urlname\":\"rladies-paris\"}}},{\"node\":{\"id\":\"310294392\",\"title\":\"Aprendizado
         causal: um guia inicial\",\"description\":\"O que esperar desse curso?\\n\\nEste
@@ -17324,7 +17324,7 @@ http_interactions:
         akan share materi dan skripnya.\\nSeperti biasa, semua acara R Ladies adalah
         free for all, jadi jangan ragu untuk hadir dan ikutan :)\\nSampai bertemu!\\nSalam,\\nUlfah\",\"status\":\"PAST\",\"dateTime\":\"2022-11-26T14:00:00+07:00\",\"duration\":\"PT2H\",\"eventUrl\":\"https://www.meetup.com/rladies-bogor/events/289903626/\",\"featuredEventPhoto\":{\"id\":\"508766534\",\"baseUrl\":\"https://secure-content.meetupstatic.com/images/classic-events/\",\"highResUrl\":\"https://secure.meetupstatic.com/photos/event/6/7/a/6/highres_508766534.jpeg\",\"standardUrl\":\"https://secure.meetupstatic.com/photos/event/6/7/a/6/600_508766534.jpeg\",\"thumbUrl\":\"https://secure.meetupstatic.com/photos/event/6/7/a/6/thumb_508766534.jpeg\"},\"rsvps\":{\"yesCount\":3,\"waitlistCount\":0,\"totalCount\":3},\"venues\":[],\"group\":{\"name\":\"R-Ladies
         Bogor\",\"urlname\":\"rladies-bogor\"}}}]}}}}"
-  recorded_at: 2025-12-11 15:29:18
+  recorded_at: 2025-12-11 18:49:08
 - request:
     method: POST
     uri: https://api.meetup.com/gql-ext
@@ -17345,7 +17345,7 @@ http_interactions:
     headers:
       accept-ranges: bytes
       content-type: application/json;charset=utf-8
-      date: Thu, 11 Dec 2025 15:29:23 GMT
+      date: Thu, 11 Dec 2025 18:49:14 GMT
       content-length: '2205932'
     body:
       string: "{\"data\":{\"proNetwork\":{\"eventsSearch\":{\"totalCount\":5149,\"pageInfo\":{\"hasNextPage\":true,\"endCursor\":\"eyJ2YWx1ZXMiOlt7InR5cGUiOiJMb25nIiwidmFsdWUiOjE2MTY4NzUyMDAwMDB9LHsidHlwZSI6IkxvbmciLCJ2YWx1ZSI6Mjc3MDI3MDg1fV19\"},\"edges\":[{\"node\":{\"id\":\"289755187\",\"title\":\"Meetup
@@ -37079,7 +37079,7 @@ http_interactions:
         you soon!\\nYour R-Ladies Vienna & PyLadies Vienna Organizers\",\"status\":\"PAST\",\"dateTime\":\"2021-03-27T16:00:00+01:00\",\"duration\":\"PT2H\",\"eventUrl\":\"https://www.meetup.com/rladies-vienna/events/277027085/\",\"featuredEventPhoto\":{\"id\":\"495249554\",\"baseUrl\":\"https://secure-content.meetupstatic.com/images/classic-events/\",\"highResUrl\":\"https://secure.meetupstatic.com/photos/event/2/5/5/2/highres_495249554.jpeg\",\"standardUrl\":\"https://secure.meetupstatic.com/photos/event/2/5/5/2/600_495249554.jpeg\",\"thumbUrl\":\"https://secure.meetupstatic.com/photos/event/2/5/5/2/thumb_495249554.jpeg\"},\"rsvps\":{\"yesCount\":14,\"waitlistCount\":0,\"totalCount\":14},\"venues\":[{\"id\":\"26906060\",\"name\":\"Online
         event\",\"address\":\"\",\"city\":\"\",\"state\":\"\",\"country\":\"\",\"lat\":-8.521147,\"lon\":179.1962,\"postalCode\":\"\",\"venueType\":\"online\"}],\"group\":{\"name\":\"R-Ladies
         Vienna\",\"urlname\":\"rladies-vienna\"}}}]}}}}"
-  recorded_at: 2025-12-11 15:29:23
+  recorded_at: 2025-12-11 18:49:14
 - request:
     method: POST
     uri: https://api.meetup.com/gql-ext
@@ -37100,7 +37100,7 @@ http_interactions:
     headers:
       accept-ranges: bytes
       content-type: application/json;charset=utf-8
-      date: Thu, 11 Dec 2025 15:29:28 GMT
+      date: Thu, 11 Dec 2025 18:49:22 GMT
       content-length: '2135606'
     body:
       string: "{\"data\":{\"proNetwork\":{\"eventsSearch\":{\"totalCount\":5149,\"pageInfo\":{\"hasNextPage\":true,\"endCursor\":\"eyJ2YWx1ZXMiOlt7InR5cGUiOiJMb25nIiwidmFsdWUiOjE1ODI2NzE2MDAwMDB9LHsidHlwZSI6IkxvbmciLCJ2YWx1ZSI6MjY4NzA4NDg1fV19\"},\"edges\":[{\"node\":{\"id\":\"276057994\",\"title\":\"Books
@@ -56333,7 +56333,7 @@ http_interactions:
         of Political Science, University of Gothenburg\",\"address\":\"Sprängkullsgatan
         19\",\"city\":\"Gothenburg\",\"state\":\"al\",\"country\":\"se\",\"lat\":57.697742,\"lon\":11.960376,\"postalCode\":\"\",\"venueType\":\"\"}],\"group\":{\"name\":\"R-Ladies
         Göteborg\",\"urlname\":\"rladies-goteborg\"}}}]}}}}"
-  recorded_at: 2025-12-11 15:29:28
+  recorded_at: 2025-12-11 18:49:22
 - request:
     method: POST
     uri: https://api.meetup.com/gql-ext
@@ -56354,7 +56354,7 @@ http_interactions:
     headers:
       accept-ranges: bytes
       content-type: application/json;charset=utf-8
-      date: Thu, 11 Dec 2025 15:29:34 GMT
+      date: Thu, 11 Dec 2025 18:49:29 GMT
       content-length: '1940316'
     body:
       string: "{\"data\":{\"proNetwork\":{\"eventsSearch\":{\"totalCount\":5149,\"pageInfo\":{\"hasNextPage\":true,\"endCursor\":\"eyJ2YWx1ZXMiOlt7InR5cGUiOiJMb25nIiwidmFsdWUiOjE1NDgyODgwMDAwMDB9LHsidHlwZSI6IkxvbmciLCJ2YWx1ZSI6MjU4MDEzMjAyfV19\"},\"edges\":[{\"node\":{\"id\":\"268305212\",\"title\":\"2020
@@ -73730,7 +73730,7 @@ http_interactions:
         esperamos!\",\"status\":\"CANCELLED\",\"dateTime\":\"2019-01-23T19:00:00+01:00\",\"duration\":\"PT2H30M\",\"eventUrl\":\"https://www.meetup.com/rladies-madrid/events/258013202/\",\"featuredEventPhoto\":{\"id\":\"470767205\",\"baseUrl\":\"https://secure-content.meetupstatic.com/images/classic-events/\",\"highResUrl\":\"https://secure.meetupstatic.com/photos/event/1/c/2/5/highres_470767205.jpeg\",\"standardUrl\":\"https://secure.meetupstatic.com/photos/event/1/c/2/5/600_470767205.jpeg\",\"thumbUrl\":\"https://secure.meetupstatic.com/photos/event/1/c/2/5/thumb_470767205.jpeg\"},\"rsvps\":{\"yesCount\":40,\"waitlistCount\":25,\"totalCount\":40},\"venues\":[{\"id\":\"25552486\",\"name\":\"LA
         NAVE - Madrid Maker\",\"address\":\"Calle Cifuentes, 5 (Villaverde)\",\"city\":\"Madrid\",\"state\":\"\",\"country\":\"es\",\"lat\":40.347626,\"lon\":-3.696269,\"postalCode\":\"\",\"venueType\":\"\"}],\"group\":{\"name\":\"R-Ladies
         Madrid\",\"urlname\":\"rladies-madrid\"}}}]}}}}"
-  recorded_at: 2025-12-11 15:29:34
+  recorded_at: 2025-12-11 18:49:29
 - request:
     method: POST
     uri: https://api.meetup.com/gql-ext
@@ -73751,7 +73751,7 @@ http_interactions:
     headers:
       accept-ranges: bytes
       content-type: application/json;charset=utf-8
-      date: Thu, 11 Dec 2025 15:29:40 GMT
+      date: Thu, 11 Dec 2025 18:49:36 GMT
       content-length: '1782863'
     body:
       string: "{\"data\":{\"proNetwork\":{\"eventsSearch\":{\"totalCount\":5149,\"pageInfo\":{\"hasNextPage\":true,\"endCursor\":\"eyJ2YWx1ZXMiOlt7InR5cGUiOiJMb25nIiwidmFsdWUiOjE0ODkyNTE2MDAwMDB9LHsidHlwZSI6IkxvbmciLCJ2YWx1ZSI6MjM4MTY1MTUzfV19\"},\"edges\":[{\"node\":{\"id\":\"257668446\",\"title\":\"R
@@ -90005,7 +90005,7 @@ http_interactions:
         Dome Istanbul\",\"address\":\"Dalgıç Sk. 3, Yeşilce, 34418 Kağıthane/İstanbul,
         34418 Sanayi, Istanbul\",\"city\":\"Istanbul\",\"state\":\"\",\"country\":\"tr\",\"lat\":41.09338,\"lon\":29.002905,\"postalCode\":\"\",\"venueType\":\"\"}],\"group\":{\"name\":\"R-Ladies
         Istanbul\",\"urlname\":\"rladies-istanbul\"}}}]}}}}"
-  recorded_at: 2025-12-11 15:29:40
+  recorded_at: 2025-12-11 18:49:36
 - request:
     method: POST
     uri: https://api.meetup.com/gql-ext
@@ -90026,7 +90026,7 @@ http_interactions:
     headers:
       accept-ranges: bytes
       content-type: application/json;charset=utf-8
-      date: Thu, 11 Dec 2025 15:29:42 GMT
+      date: Thu, 11 Dec 2025 18:49:38 GMT
       content-length: '251360'
     body:
       string: "{\"data\":{\"proNetwork\":{\"eventsSearch\":{\"totalCount\":5149,\"pageInfo\":{\"hasNextPage\":false,\"endCursor\":\"eyJ2YWx1ZXMiOlt7InR5cGUiOiJMb25nIiwidmFsdWUiOjEzNTE3MjA4MDAwMDB9LHsidHlwZSI6IkxvbmciLCJ2YWx1ZSI6ODUzMjAzODJ9XX0=\"},\"edges\":[{\"node\":{\"id\":\"237573729\",\"title\":\"First
@@ -92370,5 +92370,5 @@ http_interactions:
         San Francisco\",\"address\":\"4th floor, 345 Spear Street\",\"city\":\"San
         Francisco\",\"state\":\"CA\",\"country\":\"us\",\"lat\":37.789761,\"lon\":-122.390175,\"postalCode\":\"94105\",\"venueType\":\"\"}],\"group\":{\"name\":\"R-Ladies
         San Francisco\",\"urlname\":\"rladies-san-francisco\"}}}]}}}}"
-  recorded_at: 2025-12-11 15:29:42
+  recorded_at: 2025-12-11 18:49:38
 recorded_with: VCR-vcr/2.0.0

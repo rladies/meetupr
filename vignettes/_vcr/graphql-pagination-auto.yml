@@ -21,7 +21,7 @@ http_interactions:
     headers:
       accept-ranges: bytes
       content-type: application/json;charset=utf-8
-      date: Thu, 11 Dec 2025 15:28:52 GMT
+      date: Thu, 11 Dec 2025 18:48:43 GMT
       content-length: '87421'
     body:
       string: '{"data":{"groupByUrlname":{"id":"5190472","name":"R-Ladies San Francisco","events":{"pageInfo":{"hasNextPage":true,"endCursor":"MjUyMjc5MTA1OjE1MzA4Mzg4MDAwMDA="},"totalCount":72,"edges":[{"cursor":"ODUzMjAzODI6MTM1MTczMTYwMDAwMA==","node":{"id":"85320382","title":"Introduction
@@ -802,5 +802,5 @@ http_interactions:
         and why it’s hard.","group":{"id":"5190472","name":"R-Ladies San Francisco","urlname":"rladies-san-francisco"},"venues":[{"id":"24906381","name":"WeWork
         600 California St","address":"600 California Street, 11th Floor","city":"San
         Francisco","state":"CA","postalCode":"","country":"US","lat":37.792953,"lon":-122.40479,"venueType":""}],"rsvps":{"totalCount":15},"featuredEventPhoto":{"baseUrl":"https://secure-content.meetupstatic.com/images/classic-events/"},"feeSettings":null}}]}}}}'
-  recorded_at: 2025-12-11 15:28:51
+  recorded_at: 2025-12-11 18:48:43
 recorded_with: VCR-vcr/2.0.0

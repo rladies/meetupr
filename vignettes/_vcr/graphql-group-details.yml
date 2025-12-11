@@ -11,7 +11,7 @@ http_interactions:
     headers:
       accept-ranges: bytes
       content-type: application/json;charset=utf-8
-      date: Thu, 11 Dec 2025 15:28:50 GMT
+      date: Thu, 11 Dec 2025 18:48:41 GMT
       content-length: '3411'
     body:
       string: '{"data":{"groupByUrlname":{"id":"32612004","name":"R-Ladies Lagos","description":"R-Ladies
@@ -55,7 +55,7 @@ http_interactions:
         include (but is not limited to), the right to use them in their printed and
         online publicity, social media, press releases and funding applications. If
         you do not wish to be recorded in these media please inform a community organizer.","city":"Lagos","country":"ng","timezone":"Africa/Lagos","memberships":{"totalCount":893}}}}'
-  recorded_at: 2025-12-11 15:28:50
+  recorded_at: 2025-12-11 18:48:41
 - request:
     method: POST
     uri: https://api.meetup.com/gql-ext
@@ -68,7 +68,7 @@ http_interactions:
     headers:
       accept-ranges: bytes
       content-type: application/json;charset=utf-8
-      date: Thu, 11 Dec 2025 15:28:51 GMT
+      date: Thu, 11 Dec 2025 18:48:42 GMT
       content-length: '3386'
     body:
       string: '{"data":{"groupByUrlname":{"id":"30655714","name":"R-Ladies Ottawa","description":"R-Ladies
@@ -113,5 +113,5 @@ http_interactions:
         their printed and online publicity, social media, press releases and funding
         applications. If you do not wish to be recorded in these media please inform
         a community organizer.*","city":"Ottawa","country":"ca","timezone":"America/Toronto","memberships":{"totalCount":1107}}}}'
-  recorded_at: 2025-12-11 15:28:51
+  recorded_at: 2025-12-11 18:48:42
 recorded_with: VCR-vcr/2.0.0

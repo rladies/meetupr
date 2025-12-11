@@ -117,21 +117,6 @@ meetupr_key_delete <- function(
   invisible(NULL)
 }
 
-#' Abort with a standard message if no token is found
-#' @keywords internal
-#' @noRd
-abort_no_token <- function(client_name) {
-  cli::cli_abort(
-    c(
-      "No valid authentication token found.",
-      "i" = paste(
-        "Run {.code meetupr_auth()} or check your credentials for client:",
-        client_name
-      )
-    )
-  )
-}
-
 #' Remove all credentials and cached tokens for a client
 #' @param client_name OAuth client name
 #' @export

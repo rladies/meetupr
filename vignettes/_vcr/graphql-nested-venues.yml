@@ -23,7 +23,7 @@ http_interactions:
     headers:
       accept-ranges: bytes
       content-type: application/json;charset=utf-8
-      date: Thu, 11 Dec 2025 15:28:49 GMT
+      date: Thu, 11 Dec 2025 18:48:40 GMT
       content-length: '6640'
     body:
       string: '{"data":{"groupByUrlname":{"id":"32612004","name":"R-Ladies Lagos","events":{"pageInfo":{"hasNextPage":true,"endCursor":"Mjg0NjEyMzk0OjE2NTE5MzU2MDAwMDA="},"totalCount":14,"edges":[{"cursor":"MjY0MTU2MDYxOjE1NjkwNTI4MDAwMDA=","node":{"id":"264156061","title":"satRday
@@ -81,5 +81,5 @@ http_interactions:
         welcome to contact the event organizer to signify your interest.","group":{"id":"32612004","name":"R-Ladies
         Lagos","urlname":"rladies-lagos"},"venues":[{"id":"26906060","name":"Online
         event","address":"","city":"","state":"","postalCode":"","country":"","lat":-8.521147,"lon":179.1962,"venueType":"online"}],"rsvps":{"totalCount":17},"featuredEventPhoto":{"baseUrl":"https://secure-content.meetupstatic.com/images/classic-events/"},"feeSettings":null}}]}}}}'
-  recorded_at: 2025-12-11 15:28:49
+  recorded_at: 2025-12-11 18:48:40
 recorded_with: VCR-vcr/2.0.0

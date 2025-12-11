@@ -380,7 +380,7 @@ describe("get_jwt_path()", {
     temp_dir <- withr::local_tempdir() |>
       normalize_path(mustWork = FALSE)
     default_path <- file.path(temp_dir, ".ssh/testclient.rsa")
-    default_path <- normalize_path(default_path)
+    default_path <- normalize_path(default_path, mustWork = FALSE)
     dir.create(dirname(default_path), recursive = TRUE)
 
     local_mocked_bindings(
