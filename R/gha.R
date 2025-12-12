@@ -30,43 +30,10 @@
 #' @param token_path Path to the encrypted token file in the repo.
 #'   Defaults to get_encrypted_path().
 #' @param overwrite If FALSE and file exists, function aborts.
+#' @param filename Path to write the workflow YAML file.
+#'   Defaults to appropriate path in `.github/workflows/`.
 #' @return Invisibly returns the path to the created workflow file.
 NULL
-
-#' @keywords internal
-#' @noRd
-get_gha_template_path <- function(name) {
-  path <- system.file("gha", name, package = "meetupr")
-  if (nzchar(path)) {
-    return(path)
-  }
-  cli::cli_abort(
-    c(
-      "GHA template {.file {name}} not found in installed package.",
-      i = "Install the package or add the template to inst/gha and re-build."
-    )
-  )
-}
-
-#' Read and replace placeholders in a GHA template
-#'
-#' Placeholders are of the form {{NAME}} and replaced using the named
-#' list `replacements`.
-#'
-#' @keywords internal
-#' @noRd
-read_replace_template <- function(name, replacements = list()) {
-  path <- get_gha_template_path(name)
-  txt <- paste0(readLines(path, warn = FALSE), collapse = "\n")
-  if (length(replacements)) {
-    for (nm in names(replacements)) {
-      placeholder <- paste0("<<", nm, ">>")
-      val <- as.character(replacements[[nm]])
-      txt <- gsub(placeholder, val, txt, fixed = TRUE)
-    }
-  }
-  unlist(strsplit(txt, "\n", fixed = TRUE))
-}
 
 #' @describeIn use_gha Create workflow for JWT token auth.
 #' @export
@@ -74,32 +41,27 @@ use_gha_jwt_token <- function(
   client_name = get_client_name(),
   jwt = "MEETUPR_JWT_TOKEN",
   client_key = "MEETUPR_client_key",
-  overwrite = FALSE
+  overwrite = FALSE,
+  filename = ".github/workflows/meetupr-jwt-token.yml"
 ) {
-  filename <- ".github/workflows/meetupr-jwt-token.yml"
-
   env_jwt_name <- paste0(client_name, "_jwt_token")
   env_clientid_name <- paste0(client_name, "_client_key")
 
   yaml_lines <- read_replace_template(
     "jwt-token.yml",
-    list(
-      CLIENT_ENV_JWT = env_jwt_name,
-      CLIENT_ENV_CLIENTID = env_clientid_name,
-      JWT_SECRET = jwt,
-      client_key_SECRET = client_key
-    )
+    client_name = client_name
   )
 
   write_gha_workflow(filename, yaml_lines, overwrite = overwrite)
 
   cli::cli_alert_success(
     c(
-      "Created GitHub Actions workflow for JWT token authentication at",
-      "{.path {filename}}",
+      "Created GitHub Actions workflow for JWT token authentication. ",
       "i" = "Remember to add the required secrets in your repository settings",
-      "  - {.envvar {jwt}}: Your JWT token",
-      "  - {.envvar {client_key}}: Your client ID"
+      "*" = "{.envvar MEETUPR_CLIENT_NAME}: {client_name}",
+      "*" = "{.envvar {client_name}_jwt_token}: Your JWT token",
+      "*" = "{.envvar {client_name}_jwt_issuer}: Your Meetup ID",
+      "*" = "{.envvar {client_name}_client_key}: Your client key"
     )
   )
   invisible(filename)
@@ -109,18 +71,12 @@ use_gha_jwt_token <- function(
 #' @export
 use_gha_encrypted_token <- function(
   token_path = get_encrypted_path(),
-  overwrite = FALSE
+  overwrite = FALSE,
+  filename = ".github/workflows/meetupr-rotate-token.yml"
 ) {
-  filename <- ".github/workflows/meetupr-rotate-token.yml"
-
-  secret_name <- "MEETUPR_ENCRYPT_PWD"
-
   yaml_lines <- read_replace_template(
     "rotate-token.yml",
-    list(
-      ENCRYPT_SECRET = secret_name,
-      TOKEN_PATH = token_path
-    )
+    token_path = token_path
   )
 
   write_gha_workflow(
@@ -131,17 +87,54 @@ use_gha_encrypted_token <- function(
 
   cli::cli_alert_success(
     c(
-      "Created GitHub Actions workflow for 
-      encrypted token rotation at",
-      "{.path {filename}}",
+      "Created GitHub Actions workflow for encrypted 
+      token rotation. ",
       "i" = "Remember to add the required secret
        in your repository settings",
-      "  - {.envvar {secret_name}}: Your 
+      "*" = "{.envvar meetupr_encrypt_pwd}: Your 
       encryption password"
     )
   )
   invisible(filename)
 }
+
+#' @keywords internal
+#' @noRd
+get_gha_template_path <- function(name) {
+  path <- system.file("gha", name, package = "meetupr")
+  if (nzchar(path)) {
+    return(path)
+  }
+  cli::cli_abort(
+    "GHA template {.file {name}} not found in installed package."
+  )
+}
+
+#' Read and replace placeholders in a GHA template
+#'
+#' Placeholders are of the form {{NAME}} and replaced using the named
+#' list `replacements`.
+#'
+#' @keywords internal
+#' @noRd
+read_replace_template <- function(name, ...) {
+  replacements <- list(...)
+
+  path <- get_gha_template_path(name)
+  txt <- readLines(path, warn = FALSE)
+  if (length(replacements) == 0) {
+    return(txt)
+  }
+
+  for (nm in names(replacements)) {
+    placeholder <- sprintf("<<%s>>", nm)
+    val <- as.character(replacements[[nm]])
+    txt <- gsub(placeholder, val, txt, fixed = TRUE)
+  }
+
+  txt
+}
+
 
 #' Write a GitHub Actions workflow file
 #'

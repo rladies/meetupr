@@ -13,8 +13,8 @@ jobs:
   rotate-token:
     runs-on: ubuntu-latest
     env:
-      <<client_name>>_encrypt_pwd: ${{ secrets.ENCRYPT_PWD }}
-      <<client_name>>_encrypt_path: ${{ secrets.ENCRYPT_PATH }}
+      meetupr_encrypt_pwd: ${{ secrets.ENCRYPT_PWD }}
+      meetupr_encrypt_path: <<token_path>>
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
@@ -43,6 +43,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add .<<client_name>>.rds
+          git add <<token_path>>
           git commit -m "Rotate meetupr token [skip ci]" || echo "No changes to commit"
           git push

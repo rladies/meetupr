@@ -1,19 +1,101 @@
-describe("write_gha_workflow", {
-  it("writes file and opens when requested", {
-    tmp <- withr::local_tempdir()
-    withr::local_dir(tmp)
-
-    # Mock rstudio navigation so utils::file.edit is not called
+describe("use_gha_jwt_token", {
+  it("reads template, substitutes placeholders and writes workflow", {
+    # Avoid opening editor: mock rstudio navigation
     local_mocked_bindings(
       hasFun = function(name) TRUE,
-      navigateToFile = function(path, line = 1L, ...) {
-        message("opened:", path)
+      navigateToFile = function(path, line = 1L) {
         invisible(TRUE)
       },
       .package = "rstudioapi"
     )
 
-    filename <- ".github/workflows/test.yml"
+    client <- "myapp"
+    temp_file <- withr::local_tempfile(fileext = ".yml")
+
+    expect_message(
+      res <- use_gha_jwt_token(
+        client_name = client,
+        jwt = jwt_secret,
+        client_key = client_key_secret,
+        overwrite = FALSE,
+        filename = temp_file
+      ),
+      "Created GitHub Actions workflow for JWT"
+    )
+
+    expect_equal(
+      res,
+      temp_file
+    )
+    expect_true(file.exists(res))
+    expect_true(
+      any(grepl(client, readLines(res), fixed = TRUE))
+    )
+
+    # Overwrite path + snapshot of cli output
+    expect_snapshot({
+      use_gha_jwt_token(
+        client_name = client,
+        jwt = jwt_secret,
+        client_key = client_key_secret,
+        overwrite = TRUE,
+        filename = temp_file
+      )
+    })
+  })
+})
+
+describe("use_gha_encrypted_token", {
+  it("reads rotate template, substitutes and writes workflow", {
+    local_mocked_bindings(
+      hasFun = function(name) TRUE,
+      navigateToFile = function(path, line = 1L) invisible(TRUE),
+      .package = "rstudioapi"
+    )
+
+    temp_file <- withr::local_tempfile(fileext = ".yml")
+    fake_token <- withr::local_tempfile(fileext = ".rds")
+
+    expect_message(
+      res <- use_gha_encrypted_token(
+        token_path = fake_token,
+        overwrite = FALSE,
+        filename = temp_file
+      ),
+      "Created GitHub Actions workflow for encrypted "
+    )
+
+    expect_equal(res, temp_file)
+    expect_true(file.exists(res))
+
+    content <- readLines(res)
+    expect_true(
+      any(grepl("meetupr_encrypt_pwd", content, fixed = TRUE))
+    )
+    expect_true(any(grepl(fake_token, content, fixed = TRUE)))
+
+    expect_snapshot({
+      use_gha_encrypted_token(
+        token_path = fake_token,
+        overwrite = TRUE,
+        filename = temp_file
+      )
+    })
+  })
+})
+
+describe("write_gha_workflow", {
+  it("writes file and opens when requested", {
+    # Mock rstudio navigation so utils::file.edit is not called
+    local_mocked_bindings(
+      hasFun = function(name) TRUE,
+      navigateToFile = function(path, line = 1L, ...) {
+        invisible(TRUE)
+      },
+      .package = "rstudioapi"
+    )
+
+    filename <- withr::local_tempfile(fileext = ".yml")
     yaml <- c("name: test", "jobs: {}")
 
     res <- write_gha_workflow(
@@ -38,10 +120,7 @@ describe("write_gha_workflow", {
   })
 
   it("errors when file exists and overwrite = FALSE", {
-    tmp <- withr::local_tempdir()
-    withr::local_dir(tmp)
-
-    filename <- ".github/workflows/exist.yml"
+    filename <- withr::local_tempfile(fileext = ".yml")
     fs::dir_create(fs::path_dir(filename))
     writeLines("existing", filename)
 
@@ -58,30 +137,35 @@ describe("write_gha_workflow", {
   })
 })
 
-describe("use_gha_jwt_token", {
-  it("reads template, substitutes placeholders and writes workflow", {
+
+describe("get_gha_template_path", {
+  it("returns correct path within package", {
+    path <- get_gha_template_path("jwt-token.yml")
+    expect_true(file.exists(path))
+    expect_true(grepl("jwt-token.yml$", path))
+  })
+
+  it("errors for unknown template", {
+    expect_error(
+      get_gha_template_path("nonexistent.yml"),
+      regexp = "not found in installed package"
+    )
+  })
+})
+
+describe("read_replace_template", {
+  it("reads template and replaces placeholders", {
     tmp <- withr::local_tempdir()
     withr::local_dir(tmp)
 
     # Create a simple template with placeholders
-    jwt_tmpl <- file.path(tmp, "jwt-token.yml")
+    tmpl <- file.path(tmp, "template.yml")
     writeLines(
       c(
-        "name: Test JWT",
-        "on:",
-        "  workflow_dispatch:",
-        "jobs:",
-        "  jwt-job:",
-        "    env:",
-        "      \"{{CLIENT_ENV_JWT}}\": 
-          ${{ secrets.{{JWT_SECRET}} }}",
-        "      \"{{CLIENT_ENV_CLIENTID}}\": 
-          ${{ secrets.{{client_key_SECRET}} }}",
-        "    steps:",
-        "      - name: noop",
-        "        run: echo ok"
+        "line1: <<PLACEHOLDER1>>",
+        "line2: <<PLACEHOLDER2>>"
       ),
-      jwt_tmpl
+      tmpl
     )
 
     local_mocked_bindings(
@@ -90,83 +174,32 @@ describe("use_gha_jwt_token", {
       }
     )
 
-    # Avoid opening editor: mock rstudio navigation
-    local_mocked_bindings(
-      hasFun = function(name) TRUE,
-      navigateToFile = function(path, line = 1L) {
-        invisible(TRUE)
-      },
-      .package = "rstudioapi"
+    result <- read_replace_template(
+      "template.yml",
+      PLACEHOLDER1 = "value1",
+      PLACEHOLDER2 = "value2"
     )
 
-    # Capture cli success output for snapshot
-    local_mocked_bindings(
-      cli_alert_success = function(x) {
-        message("CREATED:", paste(x, collapse = "\n"))
-        invisible(TRUE)
-      },
-      .package = "cli"
-    )
-
-    client <- "myapp"
-    jwt_secret <- "MEETUPR_JWT_TOKEN_X"
-    client_key_secret <- "MEETUPR_client_key_X"
-
-    res <- use_gha_jwt_token(
-      client_name = client,
-      jwt = jwt_secret,
-      client_key = client_key_secret,
-      overwrite = FALSE
-    )
-
-    expect_equal(res, ".github/workflows/meetupr-jwt-token.yml")
-    expect_true(file.exists(res))
-
-    content <- readLines(res)
-    # Ensure placeholders were replaced with expected env names
-    expect_true(
-      any(grepl(paste0(client, "_jwt_token"), content, fixed = TRUE))
-    )
-    expect_true(any(grepl(jwt_secret, content, fixed = TRUE)))
-    expect_true(
-      any(grepl(client_key_secret, content, fixed = TRUE))
-    )
-
-    # Overwrite path + snapshot of cli output
-    expect_snapshot({
-      use_gha_jwt_token(
-        client_name = client,
-        jwt = jwt_secret,
-        client_key = client_key_secret,
-        overwrite = TRUE
+    expect_equal(
+      result,
+      c(
+        "line1: value1",
+        "line2: value2"
       )
-    })
+    )
   })
-})
 
-describe("use_gha_encrypted_token", {
-  it("reads rotate template, substitutes and writes workflow", {
+  it("handles missing placeholders gracefully", {
     tmp <- withr::local_tempdir()
     withr::local_dir(tmp)
 
-    # Create rotate template with placeholders
-    rotate_tmpl <- file.path(tmp, "rotate-token.yml")
+    tmpl <- file.path(tmp, "template2.yml")
     writeLines(
       c(
-        "name: Rotate",
-        "on:",
-        "  workflow_dispatch:",
-        "jobs:",
-        "  rotate:",
-        "    env:",
-        "      \"meetupr_encrypt_pwd\": ${{ secrets.{{ENCRYPT_SECRET}} }}",
-        "    steps:",
-        "      - name: refresh",
-        "        run: echo refreshed",
-        "      - name: commit",
-        "        run: git add {{TOKEN_PATH}}"
+        "line1: <<PLACEHOLDER1>>",
+        "line2: <<PLACEHOLDER2>>"
       ),
-      rotate_tmpl
+      tmpl
     )
 
     local_mocked_bindings(
@@ -175,64 +208,17 @@ describe("use_gha_encrypted_token", {
       }
     )
 
-    local_mocked_bindings(
-      hasFun = function(name) TRUE,
-      navigateToFile = function(path, line = 1L) invisible(TRUE),
-      .package = "rstudioapi"
+    result <- read_replace_template(
+      "template2.yml",
+      PLACEHOLDER1 = "value1"
     )
 
-    local_mocked_bindings(
-      cli_alert_success = function(x) {
-        message("CREATED_ROT:", paste(x, collapse = "\n"))
-        invisible(TRUE)
-      },
-      .package = "cli"
-    )
-
-    fake_token <- "path/to/.meetupr.rds"
-
-    res <- use_gha_encrypted_token(
-      token_path = fake_token,
-      overwrite = FALSE
-    )
-
-    expect_equal(res, ".github/workflows/meetupr-rotate-token.yml")
-    expect_true(file.exists(res))
-
-    content <- readLines(res)
-    expect_true(
-      any(grepl("meetupr_encrypt_pwd", content, fixed = TRUE))
-    )
-    expect_true(any(grepl(fake_token, content, fixed = TRUE)))
-
-    expect_snapshot({
-      use_gha_encrypted_token(
-        token_path = fake_token,
-        overwrite = TRUE
+    expect_equal(
+      result,
+      c(
+        "line1: value1",
+        "line2: <<PLACEHOLDER2>>"
       )
-    })
-  })
-})
-
-describe("both helpers - existing workflow handling", {
-  it("error when workflow exists and overwrite = FALSE", {
-    tmp <- withr::local_tempdir()
-    withr::local_dir(tmp)
-
-    fs::dir_create(".github/workflows")
-    writeLines("x", ".github/workflows/meetupr-jwt-token.yml")
-    writeLines("x", ".github/workflows/meetupr-rotate-token.yml")
-
-    expect_error(
-      use_gha_jwt_token(overwrite = FALSE),
-      regexp = "Workflow file already exists",
-      fixed = FALSE
-    )
-
-    expect_error(
-      use_gha_encrypted_token(overwrite = FALSE),
-      regexp = "Workflow file already exists",
-      fixed = FALSE
     )
   })
 })

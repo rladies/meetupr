@@ -29,7 +29,9 @@ valid_keys <- c(
 #' @template client_name
 #' @param error Throw error if key not found. Default TRUE.
 #'
-#' @return `meetupr_key_set()` and `meetupr_key_delete()` return NULL (invisibly), and `meetupr_key_get()` returns a character string or NA.
+#' @return `meetupr_key_set()` and `meetupr_key_delete()` return
+#'    NULL (invisibly), and `meetupr_key_get()` returns a
+#'    character string or NA.
 #' @name meetupr_credentials
 NULL
 

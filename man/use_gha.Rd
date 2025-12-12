@@ -10,10 +10,15 @@ use_gha_jwt_token(
   client_name = get_client_name(),
   jwt = "MEETUPR_JWT_TOKEN",
   client_key = "MEETUPR_client_key",
-  overwrite = FALSE
+  overwrite = FALSE,
+  filename = ".github/workflows/meetupr-jwt-token.yml"
 )
 
-use_gha_encrypted_token(token_path = get_encrypted_path(), overwrite = FALSE)
+use_gha_encrypted_token(
+  token_path = get_encrypted_path(),
+  overwrite = FALSE,
+  filename = ".github/workflows/meetupr-rotate-token.yml"
+)
 }
 \arguments{
 \item{client_name}{A string representing the name of the client. By
@@ -27,6 +32,9 @@ Defaults to "MEETUPR_JWT_TOKEN".}
 id. Defaults to "MEETUPR_client_key".}
 
 \item{overwrite}{If FALSE and file exists, function aborts.}
+
+\item{filename}{Path to write the workflow YAML file.
+Defaults to appropriate path in \verb{.github/workflows/}.}
 
 \item{token_path}{Path to the encrypted token file in the repo.
 Defaults to get_encrypted_path().}

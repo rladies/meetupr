@@ -26,7 +26,9 @@ default, it is set to \code{"meetupr"} and retrieved from the
 \item{error}{Throw error if key not found. Default TRUE.}
 }
 \value{
-\code{meetupr_key_set()} and \code{meetupr_key_delete()} return NULL (invisibly), and \code{meetupr_key_get()} returns a character string or NA.
+\code{meetupr_key_set()} and \code{meetupr_key_delete()} return
+NULL (invisibly), and \code{meetupr_key_get()} returns a
+character string or NA.
 }
 \description{
 Store and retrieve credentials using environment variables.
