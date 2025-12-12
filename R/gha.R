@@ -60,7 +60,7 @@ read_replace_template <- function(name, replacements = list()) {
   txt <- paste0(readLines(path, warn = FALSE), collapse = "\n")
   if (length(replacements)) {
     for (nm in names(replacements)) {
-      placeholder <- paste0("{{", nm, "}}")
+      placeholder <- paste0("<<", nm, ">>")
       val <- as.character(replacements[[nm]])
       txt <- gsub(placeholder, val, txt, fixed = TRUE)
     }

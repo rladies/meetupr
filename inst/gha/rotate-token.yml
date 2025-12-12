@@ -1,35 +1,48 @@
 name: Meetupr Token Rotation
+
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
   schedule:
-    - cron: "0 0 * * 1" # Weekly on Monday at 00:00 UTC
+    # Weekly on Monday at 00:00 UTC
+    - cron: "0 0 * * 1"
+
 jobs:
   rotate-token:
     runs-on: ubuntu-latest
     env:
-      "meetupr_encrypt_pwd": ${{ secrets.{{ENCRYPT_SECRET}} }}
+      <<client_name>>_encrypt_pwd: ${{ secrets.ENCRYPT_PWD }}
+      <<client_name>>_encrypt_path: ${{ secrets.ENCRYPT_PATH }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
       - uses: actions/checkout@v4
+
       - name: Set up R
         uses: r-lib/actions/setup-r@v2
+
       - name: Install dependencies
         run: |
           install.packages('pak')
           pak::pak('rladies/meetupr')
         shell: Rscript {0}
+
       - name: Load encrypted token and refresh
         run: |
           meetupr::meetupr_encrypt_load()
-          meetupr::meetupr_auth_status()
+          meetupr::meetupr_sitrep()
         shell: Rscript {0}
+
       - name: Run your script
         run: |
           Rscript your_script.R
+
       - name: Commit and push updated token
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add {{TOKEN_PATH}}
+          git add .<<client_name>>.rds
           git commit -m "Rotate meetupr token [skip ci]" || echo "No changes to commit"
           git push
