@@ -14,7 +14,8 @@ meetupr_key_get(key, client_name = get_client_name(), error = TRUE)
 meetupr_key_delete(key, client_name = get_client_name())
 }
 \arguments{
-\item{key}{Key name, see details for options.}
+\item{key}{Key name: \code{"client_key"}, \code{"client_secret"}, \code{"encrypt_path"},
+\code{"encrypt_pwd"}, \code{"jwt_token"} or \code{"jwt_issuer"}.}
 
 \item{value}{Value to be stored.}
 
@@ -25,20 +26,7 @@ default, it is set to \code{"meetupr"} and retrieved from the
 \item{error}{Throw error if key not found. Default TRUE.}
 }
 \value{
-\itemize{
-\item 
-\item \code{\link[=meetupr_key_get]{meetupr_key_get()}}: Character string or NA
-\item Manage API Keys via Environment Variables
-}
-
-Store and retrieve credentials using environment variables.
-
-\itemize{
-\item 
-\item \code{\link[=meetupr_key_get]{meetupr_key_get()}}: Character string or NA
-\item 
-\item 
-}
+\code{meetupr_key_set()} and \code{meetupr_key_delete()} return NULL (invisibly), and \code{meetupr_key_get()} returns a character string or NA.
 }
 \description{
 Store and retrieve credentials using environment variables.
@@ -47,7 +35,6 @@ Store and retrieve credentials using environment variables.
 This is an alias of \code{meetupr_credentials} with hyphenated envvar names.
 Credentials are stored as environment variables with the pattern
 \code{{client_name}-{key}} (e.g., \code{meetupr-client_key}).
-
 \itemize{
 \item \code{client_key}: OAuth client ID
 \item \code{client_secret}: OAuth client secret
@@ -66,11 +53,3 @@ Credentials are stored as environment variables with the pattern
 \item \code{meetupr_key_delete()}: Delete a key from environment variables
 
 }}
-\examples{
-\dontrun{
-meetupr_key_set("client_key", "your_id")
-client_key <- meetupr_key_get("client_key")
-meetupr_key_delete("client_key")
-}
-
-}

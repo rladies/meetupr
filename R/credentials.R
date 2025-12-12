@@ -16,14 +16,12 @@ valid_keys <- c(
 #' Credentials are stored as environment variables with the pattern
 #' `{client_name}-{key}` (e.g., `meetupr-client_key`).
 #'
-#' \itemize{
-#' \item `client_key`: OAuth client ID
-#' \item `client_secret`: OAuth client secret
-#' \item `encrypt_path`: Path to encrypted token file
-#' \item `encrypt_pwd`: Password for encrypted token
-#' \item `jwt_token`: JWT token for service account authentication
-#' \item `jwt_issuer`: JWT issuer, Meetup account number
-#' }
+#' - `client_key`: OAuth client ID
+#' - `client_secret`: OAuth client secret
+#' - `encrypt_path`: Path to encrypted token file
+#' - `encrypt_pwd`: Password for encrypted token
+#' - `jwt_token`: JWT token for service account authentication
+#' - `jwt_issuer`: JWT issuer, Meetup account number
 #'
 #' @param key Key name: `"client_key"`, `"client_secret"`, `"encrypt_path"`,
 #'   `"encrypt_pwd"`, `"jwt_token"` or `"jwt_issuer"`.
@@ -31,34 +29,7 @@ valid_keys <- c(
 #' @template client_name
 #' @param error Throw error if key not found. Default TRUE.
 #'
-#' @return
-#' - [meetupr_key_set()]: NULL (invisibly)
-#' - [meetupr_key_get()]: Character string or NA
-#' - [meetupr_key_delete()]: NULL (invisibly)
-## Credentials helpers (underscore-only envvar names)
-
-#' Manage API Keys via Environment Variables
-#'
-#' Store and retrieve credentials using environment variables.
-#'
-#' @param key Key name, see details for options.
-#' @param value Value to be stored.
-#' @template client_name
-#' @param error Throw error if key not found. Default TRUE.
-#'
-#' @return
-#' - [meetupr_key_set()]: NULL (invisibly)
-#' - [meetupr_key_get()]: Character string or NA
-#' - [meetupr_key_delete()]: NULL (invisibly)
-#' - [key_available()]: Logical
-#'
-#' @examples
-#' \dontrun{
-#' meetupr_key_set("client_key", "your_id")
-#' client_key <- meetupr_key_get("client_key")
-#' meetupr_key_delete("client_key")
-#' }
-#'
+#' @return `meetupr_key_set()` and `meetupr_key_delete()` return NULL (invisibly), and `meetupr_key_get()` returns a character string or NA.
 #' @name meetupr_credentials
 NULL
 
