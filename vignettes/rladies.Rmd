@@ -7,8 +7,20 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r init, echo=FALSE}
+```{r}
+#| label: init
+#| include: false
+
 meetupr:::mock_if_no_auth()
+
+vcr::setup_knitr(prefix = "rladies-")
+meetupr::local_meetupr_debug(0)
+```
+
+```{r}
+#| label: setup
+#| include: false
+#| cassette: true
 
 knitr::opts_chunk$set(
   comment = "#>",
@@ -18,9 +30,6 @@ knitr::opts_chunk$set(
   cache = FALSE,
   eval = meetupr:::is_self_pro()
 )
-
-vcr::setup_knitr(prefix = "rladies-")
-meetupr::local_meetupr_debug(0)
 ```
 
 ## Install and load packages
