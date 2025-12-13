@@ -2,12 +2,14 @@
 # Need help debugging build failures? Start at https://github.com/r-lib/actions#where-to-find-help
 on:
   push:
+    branches:
+      - main
     paths:
       - "README.Rmd"
       - "man/rmd-fragments/**"
-      - ".github/workflows/render-readme.yaml"
+      - "_vcr"
 
-name: render-rmarkdown
+name: Render README
 
 jobs:
   render-rmarkdown:
@@ -20,7 +22,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: r-lib/actions/setup-pandoc@v1
+      - uses: r-lib/actions/setup-pandoc@v2
 
       - uses: r-lib/actions/setup-r@v2
 
