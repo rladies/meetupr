@@ -1,5 +1,6 @@
 ---
 format: gfm
+output: rmarkdown::github_document
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit the Rmd file -->
