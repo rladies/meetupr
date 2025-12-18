@@ -86,6 +86,7 @@ meetupr_auth <- function(client_name = get_client_name()) {
 #' Remove cached OAuth tokens and optionally clear stored credentials.
 #'
 #' @param client_name OAuth client name
+#' @return Invisible `NULL`
 #' @export
 meetupr_deauth <- function(
   client_name = get_client_name()

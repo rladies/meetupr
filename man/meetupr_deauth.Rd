@@ -9,6 +9,9 @@ meetupr_deauth(client_name = get_client_name())
 \arguments{
 \item{client_name}{OAuth client name}
 }
+\value{
+Invisible \code{NULL}
+}
 \description{
 Remove cached OAuth tokens and optionally clear stored credentials.
 }
