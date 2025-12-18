@@ -9,6 +9,9 @@ vignettes/*.html
 docs
 figure/
 
+cran-comments.md
+CRAN-SUBMISSION
+
 /.quarto/
 meetupr
 .Renviron
