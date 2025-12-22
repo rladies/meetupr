@@ -12,3 +12,8 @@ figure/
 /.quarto/
 meetupr
 .Renviron
+.meetupr.rds
+
+**/*.quarto_ipynb
+
+README_cache/

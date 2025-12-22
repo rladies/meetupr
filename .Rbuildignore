@@ -21,3 +21,6 @@ vignettes/figures/rladies
 ^CRAN-SUBMISSION$
 data-raw/
 .quarto
+.meetupr.rds
+README_cache/
+^_vcr$

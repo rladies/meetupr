@@ -2,17 +2,17 @@
   lifecycle::deprecate_warn(
     "0.3.0",
     ".fetch_results()",
-    "meetup_query()",
+    "meetupr_query()",
     details = "The REST API is no longer supported.
     Use GraphQL functions instead."
   )
 }
 
-meetup_call <- function(...) {
+meetupr_call <- function(...) {
   lifecycle::deprecate_warn(
     "0.3.0",
-    "meetup_call()",
-    "meetup_query()",
+    "meetupr_call()",
+    "meetupr_query()",
     details = "The REST API is no longer supported.
      Use GraphQL functions instead."
   )
@@ -22,16 +22,16 @@ meetup_call <- function(...) {
   lifecycle::deprecate_warn(
     "0.3.0",
     ".quick_fetch()",
-    "meetup_query()",
+    "meetupr_query()",
     details = "The REST API is no longer supported.
      Use GraphQL functions instead."
   )
 }
 
-get_meetup_comments <- function(...) {
+get_meetupr_comments <- function(...) {
   lifecycle::deprecate_stop(
     "0.3.0",
-    "get_meetup_comments()",
+    "get_meetupr_comments()",
     NULL,
     details = "Comments are no longer supported in the Meetup API."
   )

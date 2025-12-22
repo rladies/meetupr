@@ -1,331 +1,167 @@
-test_that("meetup_key_set stores value in keyring", {
-  stored <- NULL
+describe("meetupr_key_set", {
+  it("sets an environment variable for a valid key", {
+    withr::local_envvar(c())
+    meetupr_key_set("client_key", "abc123", "testclient")
+    expect_equal(Sys.getenv("testclient_client_key"), "abc123")
+  })
 
-  mock_backend <- list(
-    set_with_value = function(service, username, password) {
-      stored <<- list(
-        service = service,
-        username = username,
-        password = password
-      )
-      invisible(NULL)
-    }
-  )
+  it("overwrites an existing environment variable", {
+    withr::local_envvar("testclient_client_key" = "old")
+    meetupr_key_set("client_key", "new", "testclient")
+    expect_equal(Sys.getenv("testclient_client_key"), "new")
+  })
 
-  local_mocked_bindings(
-    get_keyring_backend = function() mock_backend
-  )
-
-  result <- meetup_key_set("client_id", "test_value")
-
-  expect_true(is.null(result))
-  expect_equal(stored$service, "meetupr")
-  expect_equal(stored$username, "client_id")
-  expect_equal(stored$password, "test_value")
+  it("errors for invalid key name", {
+    expect_error(
+      meetupr_key_set("notakey", "val", "testclient"),
+      "'arg' should be one of"
+    )
+  })
 })
 
-test_that("meetup_key_set prompts when value is NULL", {
-  mock_backend <- list(
-    set_with_value = function(service, username, password) {
-      invisible(NULL)
-    }
-  )
+describe("meetupr_key_get", {
+  it("returns value if env var is set", {
+    withr::local_envvar("testclient_client_key" = NA)
+    meetupr_key_set("client_key", "abc123", "testclient")
+    expect_equal(meetupr_key_get("client_key", "testclient"), "abc123")
+  })
 
-  local_mocked_bindings(
-    get_keyring_backend = function() mock_backend,
-    get_input = function(key) {
-      expect_equal(key, "token")
-      "prompted_value"
-    }
-  )
+  it("returns NA if env var is not set and error = FALSE", {
+    withr::local_envvar("testclient_client_key" = NA)
+    expect_true(is.na(meetupr_key_get(
+      "client_key",
+      "testclient",
+      error = FALSE
+    )))
+  })
 
-  result <- meetup_key_set("token", NULL)
-  expect_true(is.null(result))
+  it("errors if env var is not set and error = TRUE", {
+    withr::local_envvar(
+      "testclient_client_key" = NA
+    )
+    expect_error(
+      meetupr_key_get("client_key", "testclient", error = TRUE),
+      "not found."
+    )
+  })
+
+  it("errors for invalid key name", {
+    expect_error(
+      meetupr_key_get("notakey", "testclient"),
+      "'arg' should be one of"
+    )
+  })
 })
 
-test_that("meetup_key_get retrieves from keyring", {
-  mock_backend <- list(
-    get = function(service, username) {
-      if (service == "meetupr" && username == "token") {
-        return("token_value")
-      }
-      stop("Not found")
-    }
-  )
+describe("meetupr_key_delete", {
+  it("unsets an environment variable", {
+    withr::local_envvar("testclient_client_key" = "abc123")
+    meetupr_key_delete("client_key", "testclient")
+    expect_equal(
+      Sys.getenv("testclient_client_key", unset = "notset"),
+      "notset"
+    )
+  })
 
-  local_mocked_bindings(
-    get_keyring_backend = function() mock_backend
-  )
+  it("does nothing if env var is not set", {
+    withr::local_envvar("testclient_client_key" = NA)
+    expect_invisible(meetupr_key_delete("client_key", "testclient"))
+    expect_equal(
+      Sys.getenv("testclient_client_key", unset = "notset"),
+      "notset"
+    )
+  })
 
-  expect_equal(meetup_key_get("token"), "token_value")
+  it("errors for invalid key name", {
+    expect_error(
+      meetupr_key_delete("notakey", "testclient"),
+      "'arg' should be one of"
+    )
+  })
 })
 
-test_that("meetup_key_get handles missing keys with error = TRUE", {
-  mock_backend <- list(
-    get = function(...) stop("Not found")
-  )
+describe("key_name", {
+  it("validates input", {
+    expect_equal(key_name("client_key"), "client_key")
+    expect_equal(key_name("client_secret"), "client_secret")
+    expect_error(key_name("invalid"))
+  })
 
-  local_mocked_bindings(
-    get_keyring_backend = function(...) mock_backend
-  )
+  it("returns valid key names", {
+    expect_equal(key_name("client_key"), "client_key")
+    expect_equal(key_name("client_secret"), "client_secret")
+    expect_equal(key_name("encrypt_pwd"), "encrypt_pwd")
+    expect_equal(key_name("jwt_token"), "jwt_token")
+  })
 
-  expect_error(
-    meetup_key_get("client_id", error = TRUE),
-    "client_id.*not found"
-  )
+  it("errors for invalid key", {
+    expect_error(key_name("notakey"), "'arg' should be one of")
+  })
 })
 
-test_that("meetup_key_get returns NULL with error = FALSE", {
-  mock_backend <- list(
-    get = function(...) stop("Not found")
-  )
+describe("get_input() and key_available()", {
+  it("detects presence and absence of env keys", {
+    withr::local_envvar("testclient_client_key" = "x")
+    expect_true(
+      key_available("client_key", "testclient")
+    )
 
-  local_mocked_bindings(
-    get_keyring_backend = function() mock_backend
-  )
+    withr::local_envvar("testclient_client_key" = NA)
+    expect_false(
+      key_available("client_key", "testclient")
+    )
+  })
 
-  expect_null(meetup_key_get("client_id", error = FALSE))
-})
+  it("returns the readline value via meetupr_readline mock", {
+    local_mocked_bindings(
+      read_input = function(prompt = "") "my-input"
+    )
 
-test_that("meetup_key_delete removes key from keyring", {
-  deleted <- NULL
-
-  mock_backend <- list(
-    delete = function(service, username) {
-      deleted <<- list(service = service, username = username)
-      invisible(NULL)
-    }
-  )
-
-  local_mocked_bindings(
-    get_keyring_backend = function() mock_backend
-  )
-
-  meetup_key_delete("token")
-  expect_equal(deleted$service, "meetupr")
-  expect_equal(deleted$username, "token")
-})
-
-test_that("key_name validates input", {
-  expect_equal(key_name("client_id"), "client_id")
-  expect_equal(key_name("client_secret"), "client_secret")
-  expect_equal(key_name("token"), "token")
-  expect_equal(key_name("token_file"), "token_file")
-  expect_error(key_name("invalid"))
-})
-
-test_that("key_available returns TRUE if key exists", {
-  local_mocked_bindings(
-    key_list = function(service) {
-      data.frame(
-        service = "meetupr",
-        username = "token"
-      )
-    },
-    .package = "keyring"
-  )
-  expect_true(key_available("token"))
-})
-
-test_that("key_available returns FALSE if key does not exist", {
-  local_mocked_bindings(
-    key_list = function(service) {
-      data.frame(
-        service = character(0),
-        username = character(0)
-      )
-    },
-    .package = "keyring"
-  )
-  expect_false(key_available("token"))
-})
-
-test_that("get_input returns user input correctly", {
-  local_mocked_bindings(
-    readline = function(prompt) "user_input",
-    .package = "base"
-  )
-  expect_equal(get_input("token"), "user_input")
-})
-
-test_that("token_path finds token silently", {
-  temp_cache <- withr::local_tempdir()
-  file <- file.path(temp_cache, "meetupr", "test_token.rds.enc")
-  dir.create(dirname(file), recursive = TRUE)
-  writeBin(raw(), file)
-
-  local_mocked_bindings(
-    oauth_cache_path = function() temp_cache,
-    .package = "httr2"
-  )
-
-  expect_silent(path <- token_path(client_name = "meetupr", silent = TRUE))
-  expect_equal(path, file)
-})
-
-test_that("token_path shows message when not silent", {
-  temp_cache <- withr::local_tempdir()
-  file <- file.path(temp_cache, "meetupr", "test_token.rds.enc")
-  dir.create(dirname(file), recursive = TRUE)
-  writeBin(raw(), file)
-
-  local_mocked_bindings(
-    oauth_cache_path = function() temp_cache,
-    .package = "httr2"
-  )
-
-  expect_message(
-    token_path(client_name = "meetupr", silent = FALSE),
-    "Token found"
-  )
+    expect_identical(get_input("client_key"), "my-input")
+  })
 })
 
 
-test_that("get_keyring_backend suppresses warnings", {
-  local_clean_backend()
+describe("get_cached_token()", {
+  it("returns NULL when meetupr_client() yields NULL", {
+    local_mocked_bindings(
+      oauth_token_cached = function(...) stop("should not be called"),
+      .package = "httr2"
+    )
+    local_mocked_bindings(
+      meetupr_client = function(...) NULL
+    )
 
-  local_mocked_bindings(
-    default_backend = function() {
-      warning("Some warning")
-      structure(
-        list(),
-        class = c("backend_macos", "backend_keyrings", "backend", "R6")
-      )
-    },
-    .package = "keyring"
-  )
+    expect_null(get_cached_token(NULL))
+  })
 
-  expect_silent(result <- get_keyring_backend())
-  expect_s3_class(result, "backend_macos")
-})
+  it("returns token list when httr2::oauth_token_cached succeeds", {
+    local_mocked_bindings(
+      oauth_token_cached = function(client, flow, flow_params) {
+        structure(list(access_token = "cached-abc"))
+      },
+      .package = "httr2"
+    )
 
-test_that("get_keyring_backend returns default backend when available", {
-  local_clean_backend()
+    local_mocked_bindings(
+      meetupr_client = function(...) structure(list(name = "testclient"))
+    )
 
-  local_mocked_bindings(
-    default_backend = function() {
-      structure(
-        list(),
-        class = c("backend_macos", "backend_keyrings", "backend", "R6")
-      )
-    },
-    .package = "keyring"
-  )
+    res <- get_cached_token(client_name = "testclient")
+    expect_true(is.list(res))
+    expect_equal(res$access_token, "cached-abc")
+  })
 
-  result <- get_keyring_backend()
-  expect_s3_class(result, "backend_macos")
-})
+  it("returns NULL when httr2::oauth_token_cached errors", {
+    local_mocked_bindings(
+      oauth_token_cached = function(...) stop("no cache"),
+      .package = "httr2"
+    )
 
-test_that("get_keyring_backend falls back to env backend on error", {
-  local_clean_backend()
+    local_mocked_bindings(
+      meetupr_client = function(...) structure(list(name = "testclient"))
+    )
 
-  local_mocked_bindings(
-    default_backend = function() stop("No keyring support"),
-    backend_env = list(
-      new = function() {
-        structure(list(), class = c("backend_env", "backend", "R6"))
-      }
-    ),
-    .package = "keyring"
-  )
-
-  result <- get_keyring_backend()
-  expect_s3_class(result, "backend_env")
-})
-
-test_that("get_keyring_backend suppresses warnings from default_backend", {
-  local_clean_backend()
-
-  local_mocked_bindings(
-    default_backend = function() {
-      warning("Keyring warning")
-      structure(
-        list(),
-        class = c("backend_macos", "backend_keyrings", "backend", "R6")
-      )
-    },
-    .package = "keyring"
-  )
-
-  expect_silent(result <- get_keyring_backend())
-  expect_s3_class(result, "backend_macos")
-})
-
-test_that("get_keyring_backend caches backend across calls", {
-  local_clean_backend()
-
-  call_count <- 0
-  local_mocked_bindings(
-    default_backend = function() {
-      call_count <<- call_count + 1
-      structure(
-        list(),
-        class = c("backend_macos", "backend_keyrings", "backend", "R6")
-      )
-    },
-    .package = "keyring"
-  )
-
-  result1 <- get_keyring_backend()
-  result2 <- get_keyring_backend()
-
-  expect_equal(call_count, 1) # Called only once due to caching
-  expect_identical(result1, result2)
-})
-
-test_that("reset_keyring_backend clears cache", {
-  local_clean_backend()
-
-  # Populate cache first
-  local_mocked_bindings(
-    default_backend = function() {
-      structure(
-        list(),
-        class = c("backend_macos", "backend_keyrings", "backend", "R6")
-      )
-    },
-    .package = "keyring"
-  )
-
-  backend1 <- get_keyring_backend()
-  expect_false(is.null(.meetupr_env$keyring_backend))
-
-  # Reset
-  reset_keyring_backend()
-
-  # Should be NULL after reset
-  expect_null(.meetupr_env$keyring_backend)
-
-  # Next call should re-initialize
-  backend2 <- get_keyring_backend()
-  expect_false(is.null(backend2))
-})
-
-test_that("meetup_key_delete logs warning in debug mode on error", {
-  mock_backend <- list(
-    delete = function(service, username) {
-      stop("Keyring is locked")
-    }
-  )
-
-  local_mocked_bindings(
-    get_keyring_backend = function() mock_backend,
-    check_debug_mode = function() TRUE
-  )
-
-  expect_message(
-    meetup_key_delete("token"),
-    "Failed to delete key.*token.*Keyring is locked"
-  )
-})
-
-test_that("key_available returns FALSE when keyring::key_list errors", {
-  local_mocked_bindings(
-    key_list = function(service) {
-      stop("Keyring unavailable")
-    },
-    .package = "keyring"
-  )
-
-  expect_false(key_available("token"))
+    expect_null(get_cached_token(client_name = "testclient"))
+  })
 })

@@ -1,153 +1,105 @@
-#' Manage API keys in system keyring
+valid_keys <- c(
+  "client_key",
+  "client_secret",
+  "encrypt_path",
+  "encrypt_pwd",
+  "jwt_token",
+  "jwt_issuer"
+)
+
+#' Manage API Keys via Environment Variables
 #'
-#' Store and retrieve keys securely using the system keyring.
-#' Typically used for storing OAuth tokens and credentials
-#'  for the meetupr package.
+#' Store and retrieve credentials using environment variables.
 #'
-#' @param key Character string indicating the key name to store/retrieve.
-#'   Default is `"token"`. Valid options are `"client_id"`, `"client_secret"`,
-#'   `"token"`, and `"token_file"`.
-#' @param value Character string with the value to store. If
-#'   `NULL` (default),
-#'   prompts for interactive input.
+#' @details
+#' This is an alias of `meetupr_credentials` with hyphenated envvar names.
+#' Credentials are stored as environment variables with the pattern
+#' `{client_name}-{key}` (e.g., `meetupr-client_key`).
+#'
+#' - `client_key`: OAuth client ID
+#' - `client_secret`: OAuth client secret
+#' - `encrypt_path`: Path to encrypted token file
+#' - `encrypt_pwd`: Password for encrypted token
+#' - `jwt_token`: JWT token for service account authentication
+#' - `jwt_issuer`: JWT issuer, Meetup account number
+#'
+#' @param key Key name: `"client_key"`, `"client_secret"`, `"encrypt_path"`,
+#'   `"encrypt_pwd"`, `"jwt_token"` or `"jwt_issuer"`.
+#' @param value Value to be stored.
 #' @template client_name
-#' @param error Logical. If `TRUE` (default), raises an
-#'    error when key not found.
-#'   If `FALSE`, returns `NULL`.
+#' @param error Throw error if key not found. Default TRUE.
 #'
-#' @return
-#' - `meetup_key_set()`: Returns `TRUE` invisibly on success
-#' - `meetup_key_get()`: Returns the key value, or `NULL`
-#'  if not found and `error = FALSE`
-#'
-#' @examples
-#' \dontrun{
-#' meetup_key_set("token", "my-access-token")
-#' meetup_key_set("client_id")
-#'
-#' meetup_key_get("token")
-#' meetup_key_get("missing_key", error = FALSE)
-#' }
-#' @name meetup_keys
+#' @return `meetupr_key_set()` and `meetupr_key_delete()` return
+#'    NULL (invisibly), and `meetupr_key_get()` returns a
+#'    character string or NA.
+#' @name meetupr_credentials
 NULL
 
-#' Package environment for caching keyring backend
-#' @keywords internal
-#' @noRd
-.meetupr_env <- new.env(parent = emptyenv())
-.meetupr_env$keyring_backend <- NULL
 
-#' Get appropriate keyring backend (cached)
-#' @keywords internal
-#' @noRd
-get_keyring_backend <- function() {
-  # Return cached backend if available
-  if (!is.null(.meetupr_env$keyring_backend)) {
-    return(.meetupr_env$keyring_backend)
-  }
-
-  # Initialize and cache backend
-  backend <- tryCatch(
-    {
-      suppressWarnings(keyring::default_backend())
-    },
-    error = function(e) keyring::backend_env$new()
+#' @describeIn meetupr_credentials Store a key in environment variables
+#' @export
+meetupr_key_set <- function(
+  key,
+  value,
+  client_name = get_client_name()
+) {
+  key <- key_name(key)
+  env_var_name <- paste0(client_name, "_", key)
+  do.call(
+    Sys.setenv,
+    stats::setNames(list(value), env_var_name)
   )
-
-  .meetupr_env$keyring_backend <- backend
-  backend
-}
-
-#' Reset cached keyring backend (mainly for testing)
-#' @keywords internal
-#' @noRd
-reset_keyring_backend <- function() {
-  .meetupr_env$keyring_backend <- NULL
   invisible(NULL)
 }
 
-#' @describeIn meetup_keys Store a key in the system keyring
-#' @export
-meetup_key_set <- function(
-  key,
-  value,
-  client_name = Sys.getenv("MEETUP_CLIENT_NAME", "meetupr")
-) {
-  key <- key_name(key)
 
-  backend <- get_keyring_backend()
-  backend$set_with_value(
-    service = client_name,
-    username = key,
-    password = value
-  )
-}
-
-#' @describeIn meetup_keys Retrieve a key from the system keyring
+#' @describeIn meetupr_credentials Retrieve a key from environment variables
 #' @export
-meetup_key_get <- function(
+meetupr_key_get <- function(
   key,
-  client_name = Sys.getenv("MEETUP_CLIENT_NAME", "meetupr"),
+  client_name = get_client_name(),
   error = TRUE
 ) {
-  backend <- get_keyring_backend()
   key <- key_name(key)
-
-  tryCatch(
-    backend$get(
-      service = client_name,
-      username = key
-    ),
-    error = function(e) {
-      if (error) {
-        cli::cli_abort("Key {.val {key}} not found")
-      } else {
-        NULL
-      }
-    }
-  )
+  env_var_name <- paste0(client_name, "_", key)
+  env_value <- Sys.getenv(env_var_name, unset = NA)
+  if (!is_empty(env_value)) {
+    return(env_value)
+  }
+  if (error) {
+    cli::cli_abort(
+      c(
+        "Key {.val {key}} not found.",
+        "i" = "Set via {.envvar {env_var_name}} environment variable."
+      )
+    )
+  }
+  NA
 }
 
-#' @describeIn meetup_keys Delete a key in the system keyring
+
+#' @describeIn meetupr_credentials Delete a key from environment variables
 #' @export
-meetup_key_delete <- function(
+meetupr_key_delete <- function(
   key,
-  client_name = Sys.getenv("MEETUP_CLIENT_NAME", "meetupr")
+  client_name = get_client_name()
 ) {
-  backend <- get_keyring_backend()
   key <- key_name(key)
-
-  tryCatch(
-    backend$delete(
-      service = client_name,
-      username = key
-    ),
-    error = function(e) {
-      if (check_debug_mode()) {
-        cli::cli_alert_warning("Failed to delete key {.val {key}}: {e$message}")
-      }
-      invisible(NULL)
-    }
-  )
+  env_var_name <- paste0(client_name, "_", key)
+  Sys.unsetenv(env_var_name)
+  invisible(NULL)
 }
-
 
 #' Create standardized key names
 #'
-#' This function generates standardized key names for storing in the keyring,
-#' prefixing them with "MEETUP_" and converting to uppercase.
+#' Generates standardized key names for storing in env vars.
 #' @param key A character string indicating the name of the key.
-#' Valid options are "client_id", "client_secret", "token", and "token_file".
-#' Default is "token".
+#' Valid options are `r paste(valid_keys, collapse = ", ")`.
 #' @return A character string representing the standardized key name.
 #' @keywords internal
 #' @noRd
-key_name <- function(key = "token") {
-  match.arg(
-    key,
-    c("client_id", "client_secret", "token", "token_file"),
-    several.ok = FALSE
-  )
+key_name <- function(key) {
+  match.arg(key, valid_keys, several.ok = FALSE)
 }
 
 #' Prompt user for input
@@ -157,69 +109,48 @@ key_name <- function(key = "token") {
 #' @noRd
 get_input <- function(key) {
   glue::glue("Enter value for {.val {key}}: ") |>
-    readline()
+    read_input()
 }
 
-#' Find token
-#'
-#' Locate the OAuth token file in the httr2 cache directory.
-#' This function searches for a single token file matching the
-#' specified pattern within the httr2 OAuth cache directory.
-#' If multiple or no tokens are found, it raises an error.
-#' The function returns the path to the found token file.
-#' @param pattern A regex pattern to match the token file name.
-#' Defaults to ".rds.enc$".
-#' @template client_name
+#' Read input from the console
+#' @param text The prompt text to display to the user.
+#' @return The user input as a character string.
 #' @keywords internal
 #' @noRd
-token_path <- function(
-  pattern = ".rds.enc$",
-  client_name = Sys.getenv("MEETUP_CLIENT_NAME", "meetupr"),
-  silent = FALSE
-) {
-  cache_path <- file.path(
-    httr2::oauth_cache_path(),
-    client_name
-  )
-
-  cache_file <- list.files(
-    cache_path,
-    pattern,
-    full.names = TRUE,
-    recursive = TRUE
-  )
-
-  if (length(cache_file) != 1) {
-    if (length(cache_file) > 1) {
-      cli::cli_abort(
-        "Multiple tokens found. Please clean up: {.path {cache_path}}"
-      )
-    }
-    cli::cli_abort("No token found. Please authenticate first.")
-  }
-
-  if (!silent) {
-    cli::cli_alert_success("Token found: {.path {cache_file}}")
-  }
-
-  cache_file
+read_input <- function(text) {
+  readline(prompt = text) # nocov
 }
 
-#' Check if a Key is Available in the Keyring
+#' Check if a Key is Available in Environment Variables
 #' @keywords internal
 #' @noRd
 key_available <- function(
   key,
-  client_name = Sys.getenv("MEETUP_CLIENT_NAME", "meetupr")
+  client_name = get_client_name()
 ) {
   key_name_val <- key_name(key)
+  env_var_name <- paste0(client_name, "_", key_name_val)
+  val <- Sys.getenv(env_var_name, unset = "")
+  nzchar(val)
+}
+
+#' Retrieve a cached OAuth token for an httr2 client
+#'
+#' Uses httr2::oauth_token_cached() to load a cached token and returns a
+#' list with an `access_token` element, or NULL if none found.
+#' @param client An httr2 oauth client object (expects element `name`)
+#' @return A list with `access_token` or NULL
+#' @keywords internal
+#' @noRd
+get_cached_token <- function(...) {
+  client <- meetupr_client(...)
+
   tryCatch(
-    {
-      available <- keyring::key_list(client_name)
-      any(available$username == key_name_val)
-    },
-    error = function(e) {
-      FALSE
-    }
+    httr2::oauth_token_cached(
+      client = client,
+      flow = httr2::oauth_flow_auth_code,
+      flow_params = meetupr_oauth_flow_params()
+    ),
+    error = function(e) NULL
   )
 }

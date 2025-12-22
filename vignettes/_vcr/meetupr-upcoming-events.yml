@@ -13,14 +13,16 @@ http_interactions:
         eventFields on Event {\n  id\n  title\n  eventUrl\n  createdTime\n  status\n  dateTime\n  duration\n  description\n  \n  group
         {\n    id\n    name\n    urlname\n  }\n  \n  venues {\n    id\n    name\n    address\n    city\n    state\n    postalCode\n    country\n    lat\n    lon\n    venueType\n  }\n  \n  rsvps(first:
         1) {\n    totalCount\n  }\n  \n  featuredEventPhoto {\n    baseUrl\n  }\n  \n  feeSettings
-        {\n    required\n    amount\n    currency\n    accepts\n    refundPolicy {\n      notes\n      days\n    }\n  }\n  \n  \n}","variables":{"urlname":"rladies-lagos","status":["ACTIVE","AUTOSCHED","AUTOSCHED_CANCELLED","AUTOSCHED_DRAFT","AUTOSCHED_FINISHED","BLOCKED","CANCELLED","CANCELLED_PERM","DRAFT","PAST","PENDING","PROPOSED","TEMPLATE"]}}'
+        {\n    required\n    amount\n    currency\n    accepts\n    refundPolicy {\n      notes\n      days\n    }\n  }\n  \n  \n}","variables":{"urlname":"rladies-lagos","status":["ACTIVE","AUTOSCHED","AUTOSCHED_CANCELLED","AUTOSCHED_DRAFT","AUTOSCHED_FINISHED","BLOCKED","CANCELLED","CANCELLED_PERM","DRAFT","PAST","PENDING","PROPOSED","TEMPLATE"],"process_data":["function
+        (data, ...) ","{","    process_datetime_fields(dplyr::mutate(data, venues_country
+        = get_country_code(venues_country)), ","        c(\"created_time\", \"date_time\"))","}"]}}'
   response:
     status: 200
     headers:
-      content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 19 Oct 2025 21:43:23 GMT
-      content-length: '22631'
+      content-type: application/json;charset=utf-8
+      date: Thu, 11 Dec 2025 18:48:47 GMT
+      content-length: '22620'
     body:
       string: "{\"data\":{\"groupByUrlname\":{\"id\":\"32612004\",\"name\":\"R-Ladies
         Lagos\",\"events\":{\"pageInfo\":{\"hasNextPage\":false,\"endCursor\":\"MzA2ODI0MDI5OjE3NDMyNjQwMDAwMDA=\"},\"totalCount\":14,\"edges\":[{\"cursor\":\"MjY0MTU2MDYxOjE1NjkwNTI4MDAwMDA=\",\"node\":{\"id\":\"264156061\",\"title\":\"satRday
@@ -33,7 +35,7 @@ http_interactions:
         your projects.\\n\\nThis event is strictly hands-on so bring your laptops
         and devices along .\\n\\nSee you there .\",\"group\":{\"id\":\"32612004\",\"name\":\"R-Ladies
         Lagos\",\"urlname\":\"rladies-lagos\"},\"venues\":[{\"id\":\"26632228\",\"name\":\"Civil
-        Engineering Building, \",\"address\":\"YABATECH,\",\"city\":\"Lagos\",\"state\":\"al\",\"postalCode\":\"meetup1\",\"country\":\"ng\",\"lat\":6.652131,\"lon\":3.271455,\"venueType\":\"\"}],\"rsvps\":{\"totalCount\":26},\"featuredEventPhoto\":null,\"feeSettings\":null}},{\"cursor\":\"MjY2NzU3MjY1OjE1NzU3MDU2MDAwMDA=\",\"node\":{\"id\":\"266757265\",\"title\":\"Data
+        Engineering Building,\",\"address\":\"YABATECH,\",\"city\":\"Lagos\",\"state\":\"al\",\"postalCode\":\"meetup1\",\"country\":\"ng\",\"lat\":6.652131,\"lon\":3.271455,\"venueType\":\"\"}],\"rsvps\":{\"totalCount\":26},\"featuredEventPhoto\":null,\"feeSettings\":null}},{\"cursor\":\"MjY2NzU3MjY1OjE1NzU3MDU2MDAwMDA=\",\"node\":{\"id\":\"266757265\",\"title\":\"Data
         Mining using  R\",\"eventUrl\":\"https://www.meetup.com/rladies-lagos/events/266757265/\",\"createdTime\":\"2019-11-26T12:00:29-05:00\",\"status\":\"PAST\",\"dateTime\":\"2019-12-07T09:00:00+01:00\",\"duration\":\"PT7H\",\"description\":\"Hi
         there R Users, it is time again for our physical meetup. It promises to packed
         but very interesting time.\\n\\nAgenda\\n\\n* Project presentation from the
@@ -42,14 +44,14 @@ http_interactions:
         (St. Louis)\\n*R-Ladies Lagos 2020 Outlook\\n\\nCome with your computers,
         extension boxes and data visualization ideas.\",\"group\":{\"id\":\"32612004\",\"name\":\"R-Ladies
         Lagos\",\"urlname\":\"rladies-lagos\"},\"venues\":[{\"id\":\"26750374\",\"name\":\"Sweets
-        And Pastries Ltd\",\"address\":\"76 Ogudu Rd\",\"city\":\"Lagos\",\"state\":\"LA\",\"postalCode\":\"100242\",\"country\":\"ng\",\"lat\":6.57837,\"lon\":3.387718,\"venueType\":\"\"}],\"rsvps\":{\"totalCount\":14},\"featuredEventPhoto\":null,\"feeSettings\":null}},{\"cursor\":\"MjY3ODA0ODE0OjE1ODIzNTg0MDAwMDA=\",\"node\":{\"id\":\"267804814\",\"title\":\"Getting
+        And Pastries Ltd\",\"address\":\"76 Ogudu Rd\",\"city\":\"Lagos\",\"state\":\"LA\",\"postalCode\":\"100242\",\"country\":\"ng\",\"lat\":6.580285,\"lon\":3.385895,\"venueType\":\"\"}],\"rsvps\":{\"totalCount\":14},\"featuredEventPhoto\":null,\"feeSettings\":null}},{\"cursor\":\"MjY3ODA0ODE0OjE1ODIzNTg0MDAwMDA=\",\"node\":{\"id\":\"267804814\",\"title\":\"Getting
         started with animated data in R\",\"eventUrl\":\"https://www.meetup.com/rladies-lagos/events/267804814/\",\"createdTime\":\"2020-01-10T07:56:39-05:00\",\"status\":\"PAST\",\"dateTime\":\"2020-02-22T09:00:00+01:00\",\"duration\":\"PT7H\",\"description\":\"Hi
         there R Users, it is time again for our first physical meetup of the year
         2020.\\n\\nAgenda\\n\\n*2019 in Review\\n*Homework presentation\\n*Getting
         started with data animation in R\\n*Summer training.\\n\\nCome with your computers,
         extension boxes, and data - maker ideas.\",\"group\":{\"id\":\"32612004\",\"name\":\"R-Ladies
         Lagos\",\"urlname\":\"rladies-lagos\"},\"venues\":[{\"id\":\"26750374\",\"name\":\"Sweets
-        And Pastries Ltd\",\"address\":\"76 Ogudu Rd\",\"city\":\"Lagos\",\"state\":\"LA\",\"postalCode\":\"100242\",\"country\":\"ng\",\"lat\":6.57837,\"lon\":3.387718,\"venueType\":\"\"}],\"rsvps\":{\"totalCount\":15},\"featuredEventPhoto\":{\"baseUrl\":\"https://secure-content.meetupstatic.com/images/classic-events/\"},\"feeSettings\":null}},{\"cursor\":\"Mjg0MzIyMjczOjE2NDgyOTk2MDAwMDA=\",\"node\":{\"id\":\"284322273\",\"title\":\"Data
+        And Pastries Ltd\",\"address\":\"76 Ogudu Rd\",\"city\":\"Lagos\",\"state\":\"LA\",\"postalCode\":\"100242\",\"country\":\"ng\",\"lat\":6.580285,\"lon\":3.385895,\"venueType\":\"\"}],\"rsvps\":{\"totalCount\":15},\"featuredEventPhoto\":{\"baseUrl\":\"https://secure-content.meetupstatic.com/images/classic-events/\"},\"feeSettings\":null}},{\"cursor\":\"Mjg0MzIyMjczOjE2NDgyOTk2MDAwMDA=\",\"node\":{\"id\":\"284322273\",\"title\":\"Data
         Network Analysis : What to know.\",\"eventUrl\":\"https://www.meetup.com/rladies-lagos/events/284322273/\",\"createdTime\":\"2022-02-28T19:27:32-05:00\",\"status\":\"PAST\",\"dateTime\":\"2022-03-26T14:00:00+01:00\",\"duration\":\"PT2H\",\"description\":\"**About
         the Speaker**\\n\\nEmeka is a Senior Knowledge Engineer with Cymantiks Limited,
         a company that makes Government, Organizations and Cities smarter using Semantic
@@ -160,7 +162,7 @@ http_interactions:
         cutting-edge insights, ensuring you leave with a profound understanding of
         how Generative AI can revolutionize your R programming journey.\",\"group\":{\"id\":\"32612004\",\"name\":\"R-Ladies
         Lagos\",\"urlname\":\"rladies-lagos\"},\"venues\":[{\"id\":\"26906060\",\"name\":\"Online
-        event\",\"address\":\"\",\"city\":\"\",\"state\":\"\",\"postalCode\":\"\",\"country\":\"\",\"lat\":-8.521147,\"lon\":179.1962,\"venueType\":\"online\"}],\"rsvps\":{\"totalCount\":11},\"featuredEventPhoto\":{\"baseUrl\":\"https://secure-content.meetupstatic.com/images/classic-events/\"},\"feeSettings\":null}},{\"cursor\":\"MzAwMDI2NTk0OjE3MTI0MTkyMDAwMDA=\",\"node\":{\"id\":\"300026594\",\"title\":\"Build
+        event\",\"address\":\"\",\"city\":\"\",\"state\":\"\",\"postalCode\":\"\",\"country\":\"\",\"lat\":0.0,\"lon\":0.0,\"venueType\":\"online\"}],\"rsvps\":{\"totalCount\":11},\"featuredEventPhoto\":{\"baseUrl\":\"https://secure-content.meetupstatic.com/images/classic-events/\"},\"feeSettings\":null}},{\"cursor\":\"MzAwMDI2NTk0OjE3MTI0MTkyMDAwMDA=\",\"node\":{\"id\":\"300026594\",\"title\":\"Build
         With AI\",\"eventUrl\":\"https://www.meetup.com/rladies-lagos/events/300026594/\",\"createdTime\":\"2024-03-26T08:37:08-04:00\",\"status\":\"PAST\",\"dateTime\":\"2024-04-06T17:00:00+01:00\",\"duration\":\"PT3H\",\"description\":\"**\U0001F680
         Build with AI Event: Unlocking the Future, Empowering Everyone \U0001F680**\\nAre
         you ready to embark on an incredible journey into the world of Artificial
@@ -195,7 +197,7 @@ http_interactions:
         more information, call Blessing on 08063843498**\",\"group\":{\"id\":\"32612004\",\"name\":\"R-Ladies
         Lagos\",\"urlname\":\"rladies-lagos\"},\"venues\":[{\"id\":\"27790890\",\"name\":\"American
         Corner Ikeja\",\"address\":\"\",\"city\":\"Lagos\",\"state\":\"\",\"postalCode\":\"102214\",\"country\":\"ng\",\"lat\":6.565846,\"lon\":3.329845,\"venueType\":\"\"},{\"id\":\"26906060\",\"name\":\"Online
-        event\",\"address\":\"\",\"city\":\"\",\"state\":\"\",\"postalCode\":\"\",\"country\":\"\",\"lat\":-8.521147,\"lon\":179.1962,\"venueType\":\"online\"}],\"rsvps\":{\"totalCount\":11},\"featuredEventPhoto\":{\"baseUrl\":\"https://secure-content.meetupstatic.com/images/classic-events/\"},\"feeSettings\":null}},{\"cursor\":\"MzAwMDI3MDk0OjE3MTQyMzM2MDAwMDA=\",\"node\":{\"id\":\"300027094\",\"title\":\"International
+        event\",\"address\":\"\",\"city\":\"\",\"state\":\"\",\"postalCode\":\"\",\"country\":\"\",\"lat\":6.565846,\"lon\":3.329845,\"venueType\":\"online\"}],\"rsvps\":{\"totalCount\":11},\"featuredEventPhoto\":{\"baseUrl\":\"https://secure-content.meetupstatic.com/images/classic-events/\"},\"feeSettings\":null}},{\"cursor\":\"MzAwMDI3MDk0OjE3MTQyMzM2MDAwMDA=\",\"node\":{\"id\":\"300027094\",\"title\":\"International
         Women's Day 2024\",\"eventUrl\":\"https://www.meetup.com/rladies-lagos/events/300027094/\",\"createdTime\":\"2024-03-26T09:08:58-04:00\",\"status\":\"PAST\",\"dateTime\":\"2024-04-27T17:00:00+01:00\",\"duration\":\"PT3H\",\"description\":\"About
         this event\\n**What to expect**\\nLeadership and career development for women\\nEntrepreneurship
         and innovation\\nHealth and wellness for women\\nDiversity, equity, and inclusion\\nWork-life
@@ -233,5 +235,5 @@ http_interactions:
         invite your friends.\",\"group\":{\"id\":\"32612004\",\"name\":\"R-Ladies
         Lagos\",\"urlname\":\"rladies-lagos\"},\"venues\":[{\"id\":\"26906060\",\"name\":\"Online
         event\",\"address\":\"\",\"city\":\"\",\"state\":\"\",\"postalCode\":\"\",\"country\":\"\",\"lat\":-8.521147,\"lon\":179.1962,\"venueType\":\"online\"}],\"rsvps\":{\"totalCount\":1},\"featuredEventPhoto\":null,\"feeSettings\":null}}]}}}}"
-  recorded_at: 2025-10-19 21:43:23
+  recorded_at: 2025-12-11 18:48:47
 recorded_with: VCR-vcr/2.0.0

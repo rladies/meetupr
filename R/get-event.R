@@ -1,9 +1,11 @@
 #' Get information for a specified event
 #'
 #' @param id Required event ID
+#' @template asis
 #' @param ... Should be empty. Used for parameter expansion
 #' @template extra_graphql
-#' @return A meetup_event object with information about the specified event
+#' @template asis
+#' @return A meetupr_event object with information about the specified event
 #'
 #' @examples
 #' \dontshow{
@@ -18,25 +20,27 @@
 get_event <- function(
   id,
   extra_graphql = NULL,
+  asis = FALSE,
   ...
 ) {
   rlang::check_dots_empty()
 
   result <- execute(
-    meetup_template_query(
+    meetupr_template_query(
       template = template_path("get_event"),
       page_info_path = "data.event.pageInfo",
       edges_path = "data.event",
       process_data = process_event_data
     ),
     id = id,
-    extra_graphql = extra_graphql
+    extra_graphql = extra_graphql,
+    asis = asis
   )
 
   result
 }
 
-#' Process event data into meetup_event object
+#' Process event data into meetupr_event object
 #' @keywords internal
 #' @noRd
 process_event_data <- function(data, ...) {
@@ -47,12 +51,12 @@ process_event_data <- function(data, ...) {
   # Just add the class to the existing list
   structure(
     data,
-    class = c("meetup_event", "list")
+    class = c("meetupr_event", "list")
   )
 }
 
 #' @export
-print.meetup_event <- function(x, ...) {
+print.meetupr_event <- function(x, ...) {
   cli::cli_h2("Meetup Event")
 
   cli::cli_li("ID: {.val {x$id}}")
@@ -112,6 +116,7 @@ print.meetup_event <- function(x, ...) {
 #' @template max_results
 #' @template handle_multiples
 #' @template extra_graphql
+#' @template asis
 #' @return A tibble with the RSVPs for the specified event
 #'
 #' @examples
@@ -129,6 +134,7 @@ get_event_rsvps <- function(
   max_results = NULL,
   handle_multiples = "list",
   extra_graphql = NULL,
+  asis = FALSE,
   ...
 ) {
   rlang::check_dots_empty()
@@ -142,7 +148,8 @@ get_event_rsvps <- function(
     first = max_results,
     max_results = max_results,
     handle_multiples = handle_multiples,
-    extra_graphql = extra_graphql
+    extra_graphql = extra_graphql,
+    asis = asis
   )
 }
 
@@ -151,14 +158,7 @@ get_event_rsvps <- function(
 #' @param id Required event ID
 #' @param ... Should be empty. Used for parameter expansion
 #' @template extra_graphql
-#' @return A tibble with the following columns:
-#'    * id
-#'    * comment
-#'    * created
-#'    * like_count
-#'    * member_id
-#'    * member_name
-#'    * link
+#' @return A tibble
 #' @examples
 #' \dontrun{
 #' comments <- get_event_comments(id = "103349942")
@@ -172,13 +172,13 @@ get_event_comments <- function(
   rlang::check_dots_empty()
 
   cli::cli_warn(c(
-    "!" = "Event comments functionality has been 
+    "!" = "Event comments functionality has been
     removed from the current Meetup GraphQL API.",
-    "i" = "The 'comments' field is no longer available 
+    "i" = "The 'comments' field is no longer available
     on the Event type.",
     "i" = "This function returns an empty tibble for
      backwards compatibility.",
-    "i" = "Comment mutations may still work, but 
+    "i" = "Comment mutations may still work, but
     querying comments is not supported."
   ))
 

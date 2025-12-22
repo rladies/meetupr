@@ -14,16 +14,7 @@ get_event_comments(id, ..., extra_graphql = NULL)
 \item{extra_graphql}{A graphql object. Extra objects to return}
 }
 \value{
-A tibble with the following columns:
-\itemize{
-\item id
-\item comment
-\item created
-\item like_count
-\item member_id
-\item member_name
-\item link
-}
+A tibble
 }
 \description{
 Get the comments for a specified event

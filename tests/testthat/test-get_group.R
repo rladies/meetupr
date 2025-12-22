@@ -1,198 +1,204 @@
-test_that("get_group_events() works with one status", {
-  vcr::local_cassette("get_group_events")
-  events <- get_group_events(
-    urlname = "rladies-lagos",
-    status = "past"
-  )
+# Tests for get-group.R
 
-  expect_s3_class(events, "data.frame")
-})
-
-
-test_that("get_group_members() works with one status", {
-  mock_if_no_auth()
-  vcr::local_cassette("get_group_members")
-  # Limit to 20 members to reduce fixture size
-  members <- get_group_members("rladies-lagos", max_results = 20)
-  expect_s3_class(members, "data.frame")
-  expect_lte(nrow(members), 20)
-})
-
-test_that("get_group_members validates rlang", {
-  expect_error(get_group_members("valid_url", extra_parameter = "unexpected"))
-})
-
-
-test_that("get_group returns valid data", {
-  vcr::local_cassette("get_group")
-  res <- get_group("rladies-lagos")
-  expect_s3_class(res, "meetup_group")
-  expect_true(is.list(res))
-  expect_named(
-    res,
-    c(
-      "id",
-      "name",
-      "description",
-      "urlname",
-      "link",
-      "location",
-      "timezone",
-      "created",
-      "members",
-      "total_events",
-      "organizer",
-      "category",
-      "photo_url"
+describe("get_group_events", {
+  it("calls execute and returns result tibble", {
+    local_mocked_bindings(
+      execute = function(...) {
+        dplyr::tibble(event_id = "evt1")
+      }
     )
-  )
+
+    res <- get_group_events(
+      "rladies-lagos",
+      status = "past"
+    )
+
+    expect_s3_class(res, "tbl_df")
+    expect_equal(res$event_id, "evt1")
+  })
+
+  it("passes validated status to execute", {
+    local_mocked_bindings(
+      execute = function(..., status = NULL) {
+        dplyr::tibble(status = as.character(status))
+      }
+    )
+
+    res <- get_group_events("g", status = "past")
+    expect_equal(res$status, "PAST")
+  })
+
+  it("handles NULL status and date filters", {
+    local_mocked_bindings(
+      execute = function(...) dplyr::tibble(n = 1)
+    )
+
+    res <- get_group_events(
+      "g",
+      status = NULL,
+      date_before = "2023-01-01T00:00:00Z",
+      date_after = NULL
+    )
+
+    expect_s3_class(res, "tbl_df")
+    expect_equal(nrow(res), 1)
+  })
 })
 
+describe("get_group_members", {
+  it("returns members tibble from execute", {
+    local_mocked_bindings(
+      execute = function(...) dplyr::tibble(member = c("a", "b"))
+    )
 
-test_that("process_group_data parses data when non-empty", {
-  data <- list(
-    id = "test_id",
-    name = "test_name",
-    description = "test description",
-    urlname = "test_urlname",
-    link = "test_link",
-    city = "test_city",
-    country = "test_country",
-    timezone = "test_timezone",
-    foundedDate = "2023-01-01T00:00:00.000Z",
-    stats = list(memberCounts = list(all = 100)),
-    events = list(totalCount = 10),
-    organizer = list(id = "org_id", name = "org_name"),
-    topicCategory = list(id = "cat_id", name = "cat_name"),
-    keyGroupPhoto = list(baseUrl = "photo_url")
-  )
-  res <- process_group_data(data)
-  expect_s3_class(res, "meetup_group")
-  expect_equal(res$name, "test_name")
+    res <- get_group_members("rladies-lagos", max_results = 2)
+    expect_s3_class(res, "tbl_df")
+    expect_equal(res$member, c("a", "b"))
+  })
+
+  it("passes max_results through first/first arg", {
+    local_mocked_bindings(
+      execute = function(..., first = NULL, max_results = NULL) {
+        dplyr::tibble(
+          first = as.integer(first),
+          max_results = as.integer(max_results)
+        )
+      }
+    )
+
+    res <- get_group_members("g", max_results = 5)
+    expect_equal(res$max_results, 5L)
+  })
 })
 
-test_that("process_group_data handles edge cases", {
-  expect_error(process_group_data(NULL), "No group data returned")
-  expect_error(process_group_data(list()), "No group data returned")
+describe("get_group", {
+  it("returns processed group structure from execute", {
+    local_mocked_bindings(
+      execute = function(...) {
+        structure(
+          list(id = "grp1", name = "G1"),
+          class = c("meetupr_group", "list")
+        )
+      }
+    )
+
+    res <- get_group("rladies-lagos")
+    expect_s3_class(res, "meetupr_group")
+    expect_equal(res$id, "grp1")
+    expect_equal(res$name, "G1")
+  })
+
+  it("propagates asis = TRUE to execute and returns raw list", {
+    local_mocked_bindings(
+      execute = function(...) list(raw = TRUE)
+    )
+
+    res <- get_group("g", asis = TRUE)
+    expect_type(res, "list")
+    expect_true(res$raw)
+  })
 })
 
-test_that("extract_group_location returns correct location", {
-  data <- list(city = "City Test", country = "Country Test")
-  res <- extract_group_location(data)
-  expect_equal(res$city, "City Test")
-  expect_equal(res$country, "Country Test")
+describe("process_group_data and helpers", {
+  it("errors when no group data returned", {
+    expect_error(
+      process_group_data(NULL),
+      regexp = "No group data returned"
+    )
+  })
+
+  it("processes a full group data input", {
+    raw <- list(
+      id = "1",
+      name = "G",
+      description = "<p>hi</p>",
+      urlname = "g",
+      link = "http://g",
+      timezone = "UTC",
+      foundedDate = "2020-01-01",
+      stats = list(memberCounts = list(all = 10)),
+      events = list(totalCount = 3),
+      organizer = list(id = "o1", name = "Org"),
+      topicCategory = list(id = "t1", name = "Cat"),
+      keyGroupPhoto = list(baseUrl = "http://img")
+    )
+
+    res <- process_group_data(raw)
+    expect_s3_class(res, "meetupr_group")
+    expect_equal(res$members, 10)
+    expect_equal(res$total_events, 3)
+    expect_equal(res$organizer$name, "Org")
+    expect_equal(res$category$name, "Cat")
+    expect_equal(res$photo_url, "http://img")
+  })
 })
 
-test_that("extract_group_location handles NULL input", {
-  res <- extract_group_location(list())
-  expect_null(res$city)
-  expect_null(res$country)
+describe("extract_group_location", {
+  it("returns list with city and country", {
+    data <- list(city = "A", country = "B")
+    loc <- extract_group_location(data)
+    expect_named(loc, c("city", "country"))
+    expect_equal(loc$city, "A")
+    expect_equal(loc$country, "B")
+  })
 })
 
-test_that("extract_organizer_info extracts valid organizer data", {
-  data <- list(id = "123", name = "Organizer Name")
-  res <- extract_organizer_info(data)
-  expect_equal(res$id, "123")
-  expect_equal(res$name, "Organizer Name")
+describe("extract_organizer_info", {
+  it("returns NULL for missing organizer", {
+    expect_null(extract_organizer_info(NULL))
+  })
+
+  it("extracts id and name", {
+    o <- list(id = "o", name = "O")
+    res <- extract_organizer_info(o)
+    expect_named(res, c("id", "name"))
+    expect_equal(res$id, "o")
+    expect_equal(res$name, "O")
+  })
 })
 
-test_that("extract_organizer_info handles NULL input", {
-  res <- extract_organizer_info(NULL)
-  expect_null(res)
+describe("extract_category_info", {
+  it("returns NULL for missing category", {
+    expect_null(extract_category_info(NULL))
+  })
+
+  it("extracts id and name", {
+    c <- list(id = "c1", name = "Cats")
+    res <- extract_category_info(c)
+    expect_named(res, c("id", "name"))
+    expect_equal(res$id, "c1")
+    expect_equal(res$name, "Cats")
+  })
 })
 
-test_that("extract_category_info extracts valid category data", {
-  data <- list(id = "456", name = "Category Name")
-  res <- extract_category_info(data)
-  expect_equal(res$id, "456")
-  expect_equal(res$name, "Category Name")
-})
+describe("print.meetupr_group", {
+  it("prints a nicely formatted group summary", {
+    grp <- structure(
+      list(
+        id = "1",
+        name = "G",
+        urlname = "g",
+        link = "http://g",
+        location = list(city = "City", country = "CT"),
+        timezone = "UTC",
+        created = as.POSIXct("2020-01-01", tz = "UTC"),
+        members = 12,
+        total_events = 4,
+        organizer = list(name = "Org"),
+        category = list(name = "Cat"),
+        description = "<p>Hello world</p>"
+      ),
+      class = c("meetupr_group", "list")
+    )
 
-test_that("extract_category_info handles NULL input", {
-  res <- extract_category_info(NULL)
-  expect_null(res)
-})
+    expect_snapshot(print(grp))
+  })
 
-test_that("print.meetup_group outputs full data correctly", {
-  group <- structure(
-    list(
-      name = "Tech Enthusiasts",
-      urlname = "tech-enthusiasts",
-      link = "http://meetup.com/tech-enthusiasts",
-      location = list(city = "San Francisco", country = "USA"),
-      timezone = "PST",
-      created = as.POSIXct("2020-01-01"),
-      members = 500,
-      total_events = 100,
-      organizer = list(name = "Jane Doe"),
-      category = list(name = "Technology"),
-      description = "A group for tech lovers"
-    ),
-    class = c("meetup_group", "list")
-  )
-
-  expect_snapshot(print.meetup_group(group))
-})
-
-test_that("print.meetup_group handles missing optional fields", {
-  group <- structure(
-    list(
-      name = "Beginner Coders",
-      urlname = "beginner-coders",
-      link = "http://meetup.com/beginner-coders",
-      location = NULL,
-      timezone = "EST",
-      created = as.POSIXct("2021-06-15"),
-      members = 200,
-      total_events = 20,
-      organizer = NULL,
-      category = NULL,
-      description = NA_character_
-    ),
-    class = c("meetup_group", "list")
-  )
-  expect_snapshot(print.meetup_group(group))
-})
-
-test_that("print.meetup_group handles long descriptions", {
-  group <- structure(
-    list(
-      name = "History Lovers",
-      urlname = "history-lovers",
-      link = "http://meetup.com/history-lovers",
-      location = list(city = "Boston", country = "USA"),
-      timezone = "EST",
-      created = as.POSIXct("2019-09-20"),
-      members = 1000,
-      total_events = 50,
-      organizer = list(name = "John Smith"),
-      category = list(name = "Education"),
-      description = paste(
-        rep("This is a great group for history enthusiasts. ", 10),
-        collapse = ""
-      )
-    ),
-    class = c("meetup_group", "list")
-  )
-  expect_snapshot(print.meetup_group(group))
-})
-
-test_that("print.meetup_group handles edge case with location parts", {
-  group <- structure(
-    list(
-      name = "Science Gurus",
-      urlname = "science-gurus",
-      link = "http://meetup.com/science-gurus",
-      location = list(city = NULL, country = "USA"),
-      timezone = "CST",
-      created = as.POSIXct("2018-03-01"),
-      members = 300,
-      total_events = 30,
-      organizer = list(name = "Sarah Lee"),
-      category = NULL,
-      description = "Discussing science topics"
-    ),
-    class = c("meetup_group", "list")
-  )
-  expect_snapshot(print.meetup_group(group))
+  it("handles missing optional fields gracefully", {
+    grp <- structure(
+      list(id = "2", name = "NoDesc", urlname = "nd", link = NULL),
+      class = c("meetupr_group", "list")
+    )
+    expect_snapshot(print(grp))
+  })
 })

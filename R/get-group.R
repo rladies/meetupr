@@ -6,6 +6,7 @@
 #' @template handle_multiples
 #' @template date_before
 #' @template date_after
+#' @template asis
 #' @param ... Should be empty. Used for parameter expansion
 #' @template extra_graphql
 #' @return A tibble with the events for the specified group
@@ -16,9 +17,9 @@
 #' }
 #' get_group_events("rladies-lagos", "past")
 #' get_group_events(
-#'    "rladies-lagos",
-#'    status = "past",
-#'    date_before = "2023-01-01T12:00:00Z"
+#'   "rladies-lagos",
+#'   status = "past",
+#'   date_before = "2023-01-01T12:00:00Z"
 #' )
 #' \dontshow{
 #' vcr::eject_cassette()
@@ -32,6 +33,7 @@ get_group_events <- function(
   max_results = NULL,
   handle_multiples = "list",
   extra_graphql = NULL,
+  asis = FALSE,
   ...
 ) {
   rlang::check_dots_empty()
@@ -48,8 +50,20 @@ get_group_events <- function(
     first = max_results,
     max_results = max_results,
     handle_multiples = handle_multiples,
-    extra_graphql = extra_graphql
-  ) |>
+    extra_graphql = extra_graphql,
+    process_data = process_group_event_data,
+    asis = asis
+  )
+}
+
+#' Process Group Event Data
+#' @param data The raw data returned from the API
+#' @param ... Additional arguments (not used)
+#' @return A tibble with processed event data
+#' @keywords internal
+#' @noRd
+process_group_event_data <- function(data, ...) {
+  data |>
     dplyr::mutate(
       venues_country = get_country_code(venues_country)
     ) |>
@@ -67,6 +81,7 @@ get_group_events <- function(
 #' @template max_results
 #' @template handle_multiples
 #' @template extra_graphql
+#' @template asis
 #' @return A tibble with group members
 #' @export
 #' @examples
@@ -83,6 +98,7 @@ get_group_members <- function(
   max_results = NULL,
   handle_multiples = "list",
   extra_graphql = NULL,
+  asis = FALSE,
   ...
 ) {
   rlang::check_dots_empty()
@@ -96,13 +112,15 @@ get_group_members <- function(
     first = max_results,
     max_results = max_results,
     handle_multiples = handle_multiples,
-    extra_graphql = extra_graphql
+    extra_graphql = extra_graphql,
+    asis = asis
   )
 }
 
 #' Get detailed information about a Meetup group
 #'
 #' @param urlname The URL name of the Meetup group (e.g., "rladies-lagos")
+#' @template asis
 #' @return A list containing detailed information about the Meetup group
 #' @export
 #' @examples
@@ -114,9 +132,9 @@ get_group_members <- function(
 #' \dontshow{
 #' vcr::eject_cassette()
 #' }
-get_group <- function(urlname) {
+get_group <- function(urlname, asis = FALSE) {
   execute(
-    meetup_template_query(
+    meetupr_template_query(
       template = template_path("get_group"),
       page_info_path = ".pageInfo",
       edges_path = "data.groupByUrlname",
@@ -125,7 +143,8 @@ get_group <- function(urlname) {
     urlname = urlname,
     first = NULL,
     max_results = NULL,
-    handle_multiples = "list"
+    handle_multiples = "list",
+    asis = asis
   )
 }
 
@@ -139,7 +158,6 @@ process_group_data <- function(data, ...) {
   if (length(data) == 0 || is.null(data)) {
     cli::cli_abort("No group data returned")
   }
-
   structure(
     list(
       id = data$id,
@@ -156,7 +174,7 @@ process_group_data <- function(data, ...) {
       category = extract_category_info(data$topicCategory),
       photo_url = data$keyGroupPhoto$baseUrl
     ),
-    class = c("meetup_group", "list")
+    class = c("meetupr_group", "list")
   )
 }
 
@@ -205,7 +223,7 @@ extract_category_info <- function(category_data) {
 }
 
 #' @export
-print.meetup_group <- function(x, ...) {
+print.meetupr_group <- function(x, ...) {
   cli::cli_h2("Meetup Group:")
   cli::cli_li("Name: {x$name}")
   cli::cli_li("URL: {x$urlname}")

@@ -11,25 +11,25 @@ http_interactions:
         {\n    pageInfo {\n      hasNextPage\n      endCursor\n    }\n    totalCount\n    edges
         {\n      node {\n        id\n        name\n        urlname\n        city\n        state\n        country\n        lat\n        lon\n        memberships
         {\n          totalCount\n        }\n        foundedDate\n        timezone\n        joinMode\n        isPrivate\n        membershipMetadata
-        {\n          status\n        }\n      }\n    }\n    \n  }\n}","variables":{"query":"R-Ladies","first":10}}'
+        {\n          status\n        }\n        \n      }\n    }\n  }\n}","variables":{"query":"R-Ladies","first":10}}'
   response:
     status: 200
     headers:
       content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 19 Oct 2025 21:21:02 GMT
-      content-length: '3441'
+      date: Sun, 26 Oct 2025 19:30:14 GMT
+      content-length: '3306'
     body:
       string: '{"data":{"groupSearch":{"pageInfo":{"hasNextPage":true,"endCursor":"MTA="},"totalCount":10,"edges":[{"node":{"id":"38219424","name":"R
-        gRanada","urlname":"r-granada-es","city":"Granada","state":"","country":"es","lat":37.17,"lon":-3.59,"memberships":{"totalCount":17},"foundedDate":"2025-10-09T03:38:12+02:00","timezone":"Europe/Madrid","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"24820200","name":"R-Ladies
-        CDMX","urlname":"rladies-cdmx","city":"México City","state":"","country":"mx","lat":19.43,"lon":-99.14,"memberships":{"totalCount":2933},"foundedDate":"2017-07-03T23:36:23-05:00","timezone":"America/Mexico_City","joinMode":"OPEN","isPrivate":false,"membershipMetadata":{"status":"LEADER"}}},{"node":{"id":"32767673","name":"R-Ladies
-        Pachuca","urlname":"rladies-pachuca","city":"Pachuca","state":"","country":"mx","lat":20.12,"lon":-98.76,"memberships":{"totalCount":38},"foundedDate":"2019-09-15T05:15:37-05:00","timezone":"America/Mexico_City","joinMode":"OPEN","isPrivate":false,"membershipMetadata":{"status":"LEADER"}}},{"node":{"id":"33041212","name":"R-Ladies
-        Al-Khartum","urlname":"rladies-al-khartum","city":"al-Khartum","state":"","country":"sd","lat":15.58,"lon":32.52,"memberships":{"totalCount":110},"foundedDate":"2019-11-23T13:15:46+02:00","timezone":"Africa/Khartoum","joinMode":"OPEN","isPrivate":false,"membershipMetadata":{"status":"LEADER"}}},{"node":{"id":"35897820","name":"R-Ladies
-        Gaborone","urlname":"rladies-gaborone","city":"Gaborone","state":"","country":"bw","lat":-24.65,"lon":25.91,"memberships":{"totalCount":1123},"foundedDate":"2021-09-25T11:42:27+02:00","timezone":"Africa/Maputo","joinMode":"OPEN","isPrivate":false,"membershipMetadata":{"status":"LEADER"}}},{"node":{"id":"28441250","name":"R-Ladies
-        Bariloche","urlname":"rladies-bariloche","city":"San Carlos de Bariloche","state":"","country":"ar","lat":-41.14,"lon":-71.32,"memberships":{"totalCount":582},"foundedDate":"2018-05-09T22:22:15-03:00","timezone":"America/Argentina/Cordoba","joinMode":"OPEN","isPrivate":false,"membershipMetadata":{"status":"LEADER"}}},{"node":{"id":"20378903","name":"R-Ladies
-        Melbourne","urlname":"rladies-melbourne","city":"Melbourne","state":"","country":"au","lat":-37.81,"lon":144.96,"memberships":{"totalCount":2683},"foundedDate":"2016-09-01T20:31:57+10:00","timezone":"Australia/Melbourne","joinMode":"OPEN","isPrivate":false,"membershipMetadata":{"status":"LEADER"}}},{"node":{"id":"28706674","name":"R-Ladies
-        Niterói","urlname":"rladies-niteroi","city":"Niterói","state":"","country":"br","lat":-22.9,"lon":-43.13,"memberships":{"totalCount":1160},"foundedDate":"2018-06-04T19:31:17-03:00","timezone":"America/Sao_Paulo","joinMode":"OPEN","isPrivate":false,"membershipMetadata":{"status":"LEADER"}}},{"node":{"id":"31829495","name":"R-Ladies
-        Goiânia","urlname":"rladies-goiania","city":"Goiania","state":"","country":"br","lat":-16.72,"lon":-49.26,"memberships":{"totalCount":613},"foundedDate":"2019-05-06T12:59:50-03:00","timezone":"America/Sao_Paulo","joinMode":"OPEN","isPrivate":false,"membershipMetadata":{"status":"LEADER"}}},{"node":{"id":"33361775","name":"R-Ladies
-        Ha Noi","urlname":"rladies-ha-noi","city":"Ha Noi","state":"","country":"vn","lat":21.03,"lon":105.84,"memberships":{"totalCount":123},"foundedDate":"2020-02-16T13:43:44+07:00","timezone":"Asia/Ho_Chi_Minh","joinMode":"OPEN","isPrivate":false,"membershipMetadata":{"status":"LEADER"}}}]}}}'
-  recorded_at: 2025-10-19 21:21:02
+        gRanada","urlname":"r-granada-es","city":"Granada","state":"","country":"es","lat":37.17,"lon":-3.59,"memberships":{"totalCount":19},"foundedDate":"2025-10-09T03:38:12+02:00","timezone":"Europe/Madrid","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"24820200","name":"R-Ladies
+        CDMX","urlname":"rladies-cdmx","city":"México City","state":"","country":"mx","lat":19.43,"lon":-99.14,"memberships":{"totalCount":2933},"foundedDate":"2017-07-03T23:36:23-05:00","timezone":"America/Mexico_City","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"32767673","name":"R-Ladies
+        Pachuca","urlname":"rladies-pachuca","city":"Pachuca","state":"","country":"mx","lat":20.12,"lon":-98.76,"memberships":{"totalCount":38},"foundedDate":"2019-09-15T05:15:37-05:00","timezone":"America/Mexico_City","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"33041212","name":"R-Ladies
+        Al-Khartum","urlname":"rladies-al-khartum","city":"al-Khartum","state":"","country":"sd","lat":15.58,"lon":32.52,"memberships":{"totalCount":110},"foundedDate":"2019-11-23T13:15:46+02:00","timezone":"Africa/Khartoum","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"35897820","name":"R-Ladies
+        Gaborone","urlname":"rladies-gaborone","city":"Gaborone","state":"","country":"bw","lat":-24.65,"lon":25.91,"memberships":{"totalCount":1125},"foundedDate":"2021-09-25T11:42:27+02:00","timezone":"Africa/Maputo","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"28441250","name":"R-Ladies
+        Bariloche","urlname":"rladies-bariloche","city":"San Carlos de Bariloche","state":"","country":"ar","lat":-41.14,"lon":-71.32,"memberships":{"totalCount":583},"foundedDate":"2018-05-09T22:22:15-03:00","timezone":"America/Argentina/Cordoba","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"20378903","name":"R-Ladies
+        Melbourne","urlname":"rladies-melbourne","city":"Melbourne","state":"","country":"au","lat":-37.81,"lon":144.96,"memberships":{"totalCount":2685},"foundedDate":"2016-09-01T20:31:57+10:00","timezone":"Australia/Melbourne","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"28706674","name":"R-Ladies
+        Niterói","urlname":"rladies-niteroi","city":"Niterói","state":"","country":"br","lat":-22.9,"lon":-43.13,"memberships":{"totalCount":1163},"foundedDate":"2018-06-04T19:31:17-03:00","timezone":"America/Sao_Paulo","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"31829495","name":"R-Ladies
+        Goiânia","urlname":"rladies-goiania","city":"Goiania","state":"","country":"br","lat":-16.72,"lon":-49.26,"memberships":{"totalCount":613},"foundedDate":"2019-05-06T12:59:50-03:00","timezone":"America/Sao_Paulo","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}},{"node":{"id":"33361775","name":"R-Ladies
+        Ha Noi","urlname":"rladies-ha-noi","city":"Ha Noi","state":"","country":"vn","lat":21.03,"lon":105.84,"memberships":{"totalCount":123},"foundedDate":"2020-02-16T13:43:44+07:00","timezone":"Asia/Ho_Chi_Minh","joinMode":"OPEN","isPrivate":false,"membershipMetadata":null}}]}}}'
+  recorded_at: 2025-10-26 19:30:14
 recorded_with: VCR-vcr/2.0.0

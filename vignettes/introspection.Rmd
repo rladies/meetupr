@@ -33,7 +33,7 @@ library(dplyr)
 GraphQL APIs are self-documenting through a feature called **introspection**.
 This means you can query the API to learn about its own structure: what types exist, what fields are available on each type, and what operations you can perform.
 
-The meetupr package exposes this introspection capability through a family of `meetup_schema_*` functions.
+The meetupr package exposes this introspection capability through a family of `meetupr_schema_*` functions.
 These functions help you discover the full capabilities of the Meetup API beyond what the package's built-in wrapper functions provide.
 
 ### Why Use Introspection?
@@ -63,31 +63,31 @@ The schema also specifies:
 
 ## Recommended Exploration Workflow
 
-1. **Cache the schema**: `schema <- meetup_schema()`  
-2. **Browse queries**: `meetup_schema_queries(schema)` to see entry points  
-3. **Search for types**: `meetup_schema_search("topic", schema)` to find relevant types  
-4. **Examine type fields**: `meetup_schema_type("TypeName", schema)` for details  
+1. **Cache the schema**: `schema <- meetupr_schema()`  
+2. **Browse queries**: `meetupr_schema_queries(schema)` to see entry points  
+3. **Search for types**: `meetupr_schema_search("topic", schema)` to find relevant types  
+4. **Examine type fields**: `meetupr_schema_type("TypeName", schema)` for details  
 5. **Check related types**: Follow object-type fields to discover relationships  
 6. **Build query**: Combine fields based on introspection data  
 7. **Test in Playground**: Validate query at <https://www.meetup.com/api/playground>  
-8. **Execute in R**: `meetup_query()` with your final query  
+8. **Execute in R**: `meetupr_query()` with your final query  
 9. **Extract data**: Use purrr or dplyr to transform nested results  
 
 This systematic approach helps you efficiently discover and utilize the full Meetup API schema for custom data extraction beyond the package's built-in functions.
 
-## The meetup_schema_* Function Family
+## The meetupr_schema_* Function Family
 
-meetupr provides five introspection functions, all starting with `meetup_schema_`:
+meetupr provides five introspection functions, all starting with `meetupr_schema_`:
 
 ```r
-meetup_schema()           # Get the complete schema
-meetup_schema_queries()   # List available query entry points
-meetup_schema_mutations() # List available mutations
-meetup_schema_search()    # Search for types by name/description
-meetup_schema_type()      # Examine fields on a specific type
+meetupr_schema()           # Get the complete schema
+meetupr_schema_queries()   # List available query entry points
+meetupr_schema_mutations() # List available mutations
+meetupr_schema_search()    # Search for types by name/description
+meetupr_schema_type()      # Examine fields on a specific type
 ```
 
-Type `meetup_schema_` in your console and press Tab to see all available functions.
+Type `meetupr_schema_` in your console and press Tab to see all available functions.
 
 ### Performance Tip: Cache the Schema
 
@@ -99,12 +99,12 @@ Fetch it once and pass it to subsequent functions:
 #| cassette: true
 
 # Fetch once
-schema <- meetup_schema()
+schema <- meetupr_schema()
 
 # Reuse for multiple queries (no additional API calls)
-queries <- meetup_schema_queries(schema = schema)
-mutations <- meetup_schema_mutations(schema = schema)
-event_fields <- meetup_schema_type("Event", schema = schema)
+queries <- meetupr_schema_queries(schema = schema)
+mutations <- meetupr_schema_mutations(schema = schema)
+event_fields <- meetupr_schema_type("Event", schema = schema)
 ```
 
 This pattern avoids repeated introspection queries and speeds up exploration significantly.
@@ -120,7 +120,7 @@ Start by seeing what top-level queries exist:
 ```{r}
 #| label: query-fields
 
-query_fields <- meetup_schema_queries(schema = schema)
+query_fields <- meetupr_schema_queries(schema = schema)
 query_fields
 ```
 
@@ -155,7 +155,7 @@ Once you know what queries exist, search for related data types:
 #| label: search-types
 
 # Find all event-related types
-event_types <- meetup_schema_search("event", schema = schema)
+event_types <- meetupr_schema_search("event", schema = schema)
 event_types
 ```
 
@@ -184,11 +184,11 @@ The search looks in both type names and descriptions, so you might find:
 #| label: search-users
 
 # Find user/member related types
-user_types <- meetup_schema_search("user", schema = schema)
+user_types <- meetupr_schema_search("user", schema = schema)
 user_types
 
 # Find location-related types
-location_types <- meetup_schema_search("location", schema = schema)
+location_types <- meetupr_schema_search("location", schema = schema)
 location_types
 ```
 
@@ -199,7 +199,7 @@ Now inspect what fields a specific type has:
 ```{r}
 #| label: event-fields
 
-event_fields <- meetup_schema_type("Event", schema = schema)
+event_fields <- meetupr_schema_type("Event", schema = schema)
 event_fields
 ```
 
@@ -207,7 +207,7 @@ When multiple types match your search, use regex to select one:
 
 ```{r}
 # Use regular expression to choose one specific type
-event <- meetup_schema_type("^Event$", schema = schema)
+event <- meetupr_schema_type("^Event$", schema = schema)
 event
 ```
 
@@ -249,7 +249,7 @@ event |>
 #| label: group-fields
 
 # See what fields are on Group objects
-group_fields <- meetup_schema_type("^Group$", schema = schema)
+group_fields <- meetupr_schema_type("^Group$", schema = schema)
 group_fields
 ```
 
@@ -283,7 +283,7 @@ query GetEventDetails($eventId: ID!) {
     description
     dateTime
     duration
-    
+
     # Nested group information
     group {
       name
@@ -317,20 +317,20 @@ query GetEventDetails($eventId: ID!) {
 
 **How to choose fields**:
 
-1. Use `meetup_schema_type()` to see available fields  
+1. Use `meetupr_schema_type()` to see available fields  
 2. Include scalar fields (String, Int, etc.) directly  
 3. For object fields (Group, Venue), nest another selection set  
 4. Test in the [Meetup API Playground](https://www.meetup.com/api/playground) first  
 
 ### Step 5: Execute Your Query
 
-Run the query with `meetup_query()`:
+Run the query with `meetupr_query()`:
 
 ```{r}
 #| label: custom-query
 #| cassette: true
 
-result <- meetup_query(custom_query, eventId = "103349942")
+result <- meetupr_query(custom_query, eventId = "103349942")
 result
 ```
 
@@ -365,7 +365,7 @@ They require appropriate permissions based on your Meetup account and group role
 ```{r}
 #| label: mutations
 
-mutations <- meetup_schema_mutations(schema = schema)
+mutations <- meetupr_schema_mutations(schema = schema)
 mutations
 ```
 
@@ -396,7 +396,7 @@ mutation OperationName($input: InputType!) {
       code
       message
     }
-    
+
     # The modified object (if successful)
     resultField {
       id
@@ -425,7 +425,7 @@ mutations |>
   filter(field_name == "createEventRsvp")
 
 # Check what input fields are needed
-rsvp_input <- meetup_schema_type("CreateEventRsvpInput", schema = schema)
+rsvp_input <- meetupr_schema_type("CreateEventRsvpInput", schema = schema)
 rsvp_input
 
 # Build the mutation
@@ -446,7 +446,7 @@ mutation RSVPToEvent($input: CreateEventRsvpInput!) {
 "
 
 # Execute (requires authentication and valid event)
-result <- meetup_query(
+result <- meetupr_query(
   rsvp_mutation,
   input = list(
     eventId = "123456",
@@ -521,7 +521,7 @@ Input types define what data mutations accept:
 #| label: input-types
 
 # Find all input types
-input_types <- meetup_schema_search("Input", schema = schema) |>
+input_types <- meetupr_schema_search("Input", schema = schema) |>
   filter(kind == "INPUT_OBJECT")
 
 input_types
@@ -533,7 +533,7 @@ Examine specific input types to see required fields:
 #| label: examine-input
 
 # See what fields CreateEventInput requires
-create_event_input <- meetup_schema_type("CreateEventInput", schema = schema)
+create_event_input <- meetupr_schema_type("CreateEventInput", schema = schema)
 create_event_input
 ```
 
@@ -545,7 +545,7 @@ Meetup uses cursor-based pagination with Connection/Edge patterns:
 #| label: pagination-types
 
 # Find pagination-related types
-pagination_types <- meetup_schema_search("Connection", schema = schema)
+pagination_types <- meetupr_schema_search("Connection", schema = schema)
 pagination_types
 ```
 
@@ -585,8 +585,8 @@ Export the schema as JSON:
 #| eval: false
 
 # Export full schema
-schema_json <- meetup_schema(asis = TRUE)
-writeLines(schema_json, "meetup_schema.json")
+schema_json <- meetupr_schema(asis = TRUE)
+writeLines(schema_json, "meetupr_schema.json")
 ```
 
 This JSON can be imported into:
@@ -603,7 +603,7 @@ The [Meetup API Playground](https://www.meetup.com/api/playground) provides:
 - Example queries  
 - Schema documentation browser  
 
-Build and test your query there, then copy it into `meetup_query()`.
+Build and test your query there, then copy it into `meetupr_query()`.
 
 ### Use Debug Mode
 
@@ -613,12 +613,12 @@ Enable debug mode to see the exact GraphQL being sent:
 #| label: debug-mode
 #| eval: false
 
-meetupr::local_meetupr_debug(1)
+meetupr::local_meetupr_debug(TRUE)
 
 # Your query here
-result <- meetup_query(custom_query, eventId = "123")
+result <- meetupr_query(custom_query, eventId = "123")
 
-meetupr::local_meetupr_debug(0)
+meetupr::local_meetupr_debug(FALSE)
 ```
 
 This prints:
@@ -631,4 +631,4 @@ This prints:
 - **Build custom queries**: See the [Custom Queries vignette](graphql.html) for template-based query patterns  
 - **Authentication**: See the [Getting Started vignette](meetupr.html) for auth setup  
 - **Advanced auth**: See the [Advanced Authentication vignette](advanced-auth.html) for custom OAuth apps  
-- **API Reference**: Visit <https://www.meetup.com/api/schema/> for official schema documentation
+- **API Reference**: Visit <https://www.meetup.com/graphql/> for official schema documentation

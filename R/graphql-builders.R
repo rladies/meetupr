@@ -1,8 +1,8 @@
 #' S7 class for representing GraphQL query configurations
 #' @keywords internal
 #' @noRd
-meetup_template <- S7::new_class(
-  "meetup_template",
+meetupr_template <- S7::new_class(
+  "meetupr_template",
   properties = list(
     template = S7::class_character,
     page_info_path = S7::class_character,
@@ -11,16 +11,16 @@ meetup_template <- S7::new_class(
   )
 )
 
-#' Constructor for meetup_template
+#' Constructor for meetupr_template
 #' @keywords internal
 #' @noRd
-meetup_template_query <- function(
+meetupr_template_query <- function(
   template,
   page_info_path,
   edges_path,
   process_data = process_graphql_list
 ) {
-  meetup_template(
+  meetupr_template(
     template = template,
     page_info_path = page_info_path,
     edges_path = edges_path,
@@ -28,16 +28,63 @@ meetup_template_query <- function(
   )
 }
 
-#' Execute a meetup_template
+#' Extract data at a specified dot-separated path
+#' @keywords internal
+#' @noRd
+extract_at_path <- function(response, edges_path) {
+  if (is_empty(edges_path)) {
+    return(list())
+  }
+
+  parts <- strsplit(edges_path, "\\.")[[1]]
+  node <- response
+  for (p in parts) {
+    if (is.null(node)) {
+      break
+    }
+    node <- node[[p]]
+  }
+  if (!is_empty(node)) {
+    return(node)
+  }
+  list()
+}
+
+#' Get pagination cursor from response
+#' @keywords internal
+#' @noRd
+get_cursor <- function(response, page_info_path) {
+  if (is.null(page_info_path) || page_info_path == "") {
+    return(NULL)
+  }
+
+  parts <- strsplit(page_info_path, "\\.")[[1]]
+  info <- response
+  for (p in parts) {
+    if (is.null(info)) {
+      break
+    }
+    info <- info[[p]]
+  }
+
+  if (!is.null(info) && isTRUE(info$hasNextPage)) {
+    list(cursor = info$endCursor)
+  } else {
+    NULL
+  }
+}
+
+#' Execute a meetupr_template
 #' @keywords internal
 #' @noRd
 execute <- S7::new_generic("execute", "object")
 
-S7::method(execute, meetup_template) <- function(
+S7::method(execute, meetupr_template) <- function(
   object,
   max_results = NULL,
   handle_multiples = "list",
   extra_graphql = NULL,
+  asis = FALSE,
   ...,
   .progress = TRUE
 ) {
@@ -55,8 +102,10 @@ S7::method(execute, meetup_template) <- function(
       cursor = cursor,
       extra_graphql = extra_graphql
     )
-
-    current_data <- extract_at_path(object, response)
+    current_data <- extract_at_path(
+      response,
+      object@edges_path
+    )
     if (length(current_data) == 0) {
       break
     }
@@ -68,7 +117,7 @@ S7::method(execute, meetup_template) <- function(
       break
     }
 
-    cursor_info <- get_cursor(object, response)
+    cursor_info <- get_cursor(response, object@page_info_path)
     if (is.null(cursor_info)) {
       break
     }
@@ -87,6 +136,9 @@ S7::method(execute, meetup_template) <- function(
   if (!is.null(max_results) && length(all_data) > max_results) {
     all_data <- all_data[1:max_results]
   }
+  if (asis) {
+    return(all_data)
+  }
   object@process_data(all_data, handle_multiples)
 }
 
@@ -97,50 +149,11 @@ parse_path_to_pluck <- function(path) {
   strsplit(path, "\\.")[[1]]
 }
 
-# Generic path extraction
-extract_at_path <- S7::new_generic("extract_at_path", c("object", "response"))
-
-S7::method(extract_at_path, list(meetup_template, S7::class_any)) <- function(
-  object,
-  response
-) {
-  edges_parts <- strsplit(object@edges_path, "\\.")[[1]]
-  edges <- purrr::pluck(response, !!!edges_parts)
-  if (!is.null(edges) && length(edges) > 0) {
-    if (!any(sapply(edges, function(x) "node" %in% names(x)))) {
-      return(edges)
-    }
-    return(
-      lapply(edges, `[[`, "node")
-    )
-  }
-  list()
-}
-
-# Pagination using stored path
-get_cursor <- S7::new_generic("get_cursor", c("object", "response"))
-
-S7::method(get_cursor, list(meetup_template, S7::class_any)) <- function(
-  object,
-  response
-) {
-  page_info_parts <- strsplit(object@page_info_path, "\\.")[[1]]
-  if (length(page_info_parts) == 0) {
-    return(NULL)
-  }
-  page_info <- purrr::pluck(response, !!!page_info_parts)
-
-  if (!is.null(page_info) && page_info$hasNextPage) {
-    return(
-      list(cursor = page_info$endCursor)
-    )
-  }
-  NULL
-}
-
-# For common patterns
+#' Create a standard meetupr_template query
+#' @keywords internal
+#' @noRd
 standard_query <- function(template, base_path) {
-  meetup_template_query(
+  meetupr_template_query(
     template = template_path(template),
     page_info_path = paste0(
       base_path,

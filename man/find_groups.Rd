@@ -11,6 +11,7 @@ find_groups(
   max_results = 200,
   handle_multiples = "list",
   extra_graphql = NULL,
+  asis = FALSE,
   ...
 )
 }
@@ -31,7 +32,16 @@ If "first", return only the first match.}
 
 \item{extra_graphql}{A graphql object. Extra objects to return}
 
-\item{...}{Should be empty. Used for parameter expansion}
+\item{asis}{Return the raw API response as-is without processing}
+
+\item{...}{other named variables for graphql query. options are:
+\itemize{
+\item lat: Float
+\item lon: Float
+\item radius: Float
+\item categoryId: ID
+\item topicCategoryId: ID
+}}
 }
 \value{
 A tibble with group information
@@ -46,6 +56,7 @@ vcr::insert_example_cassette("find_groups", package = "meetupr")
 meetupr:::mock_if_no_auth()
 }
 groups <- find_groups("R-Ladies")
+groups
 \dontshow{
 vcr::eject_cassette()
 }

@@ -7,8 +7,20 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r init, echo=FALSE}
+```{r}
+#| label: init
+#| include: false
+
 meetupr:::mock_if_no_auth()
+
+vcr::setup_knitr(prefix = "rladies-")
+meetupr::local_meetupr_debug(0)
+```
+
+```{r}
+#| label: setup
+#| include: false
+#| cassette: true
 
 knitr::opts_chunk$set(
   comment = "#>",
@@ -18,9 +30,6 @@ knitr::opts_chunk$set(
   cache = FALSE,
   eval = meetupr:::is_self_pro()
 )
-
-vcr::setup_knitr(prefix = "rladies-")
-Sys.setenv(MEETUPR_DEBUG = "")
 ```
 
 ## Install and load packages
@@ -45,8 +54,8 @@ Note that the function returns up to 200 results, so we will filter them afterwa
 #| label: find
 #| cassette: true
 
-meetup_groups <- find_groups("r-ladies")
-meetup_groups
+meetupr_groups <- find_groups("r-ladies")
+meetupr_groups
 ```
 
 Since the search might return groups that are not actually R-Ladies chapters, we will filter them by name.
@@ -54,7 +63,7 @@ Since the search might return groups that are not actually R-Ladies chapters, we
 ```{r}
 #| label: filter
 
-rladies <- meetup_groups |>
+rladies <- meetupr_groups |>
   filter(grepl("R-Ladies", name, ignore.case = TRUE))
 
 rladies
@@ -218,7 +227,6 @@ rladies_wc <- function(data, column, n = 100) {
     ) |>
     count(word, sort = TRUE) |>
     slice_max(n, n = n) |>
-
     ggplot(aes(
       label = word,
       size = n,
@@ -232,7 +240,6 @@ rladies_wc <- function(data, column, n = 100) {
     ) +
     theme_minimal()
 }
-
 ```
 
 ```{r}

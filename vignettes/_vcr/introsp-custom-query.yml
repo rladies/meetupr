@@ -4,15 +4,15 @@ http_interactions:
     uri: https://api.meetup.com/gql-ext
     body:
       string: '{"query":"\nquery GetEventDetails($eventId: ID!) {\n  event(id: $eventId)
-        {\n    id\n    title\n    description\n    dateTime\n    duration\n    \n    #
+        {\n    id\n    title\n    description\n    dateTime\n    duration\n\n    #
         Nested group information\n    group {\n      name\n      urlname\n      city\n    }\n\n    venues
         {\n      name\n      address\n      city\n      state\n      postalCode\n      country\n      lat\n      lon\n      venueType\n    }\n  }\n}\n","variables":{"eventId":"103349942"}}'
   response:
     status: 200
     headers:
-      content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 19 Oct 2025 22:22:53 GMT
+      content-type: application/json;charset=utf-8
+      date: Thu, 11 Dec 2025 18:48:45 GMT
       content-length: '3322'
     body:
       string: '{"data":{"event":{"id":"103349942","title":"Ecosystem GIS & Community
@@ -55,5 +55,5 @@ http_interactions:
         from Augustana College.","dateTime":"2013-02-18T18:30:00-05:00","duration":"PT2H","group":{"name":"Data
         Visualization DC","urlname":"data-visualization-dc","city":"Washington"},"venues":[{"name":"Browsermedia/NClud","address":"1203
         19th Street","city":"Washington","state":"DC","postalCode":"20036","country":"us","lat":38.905802,"lon":-77.043432,"venueType":""}]}}}'
-  recorded_at: 2025-10-19 22:22:54
+  recorded_at: 2025-12-11 18:48:45
 recorded_with: VCR-vcr/2.0.0

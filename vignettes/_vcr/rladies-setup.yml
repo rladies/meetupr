@@ -1,0 +1,17 @@
+http_interactions:
+- request:
+    method: POST
+    uri: https://api.meetup.com/gql-ext
+    body:
+      string: '{"query":"\n  query { self {\n    isProOrganizer\n    } }\n  ","variables":{}}'
+  response:
+    status: 200
+    headers:
+      accept-ranges: bytes
+      content-type: application/json;charset=utf-8
+      date: Fri, 12 Dec 2025 11:51:39 GMT
+      content-length: '41'
+    body:
+      string: '{"data":{"self":{"isProOrganizer":true}}}'
+  recorded_at: 2025-12-12 11:51:39
+recorded_with: VCR-vcr/2.0.0

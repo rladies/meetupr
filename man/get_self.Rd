@@ -4,7 +4,10 @@
 \alias{get_self}
 \title{Get information about the authenticated user}
 \usage{
-get_self()
+get_self(asis = FALSE)
+}
+\arguments{
+\item{asis}{Return the raw API response as-is without processing}
 }
 \value{
 A list containing user information

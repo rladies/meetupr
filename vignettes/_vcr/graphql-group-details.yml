@@ -4,14 +4,14 @@ http_interactions:
     uri: https://api.meetup.com/gql-ext
     body:
       string: '{"query":"\n  query GetGroupWithDetails($urlname: String!) {\n    groupByUrlname(urlname:
-        $urlname) {\n      id\n      name\n      description\n      city\n      country\n      timezone\n      \n      memberships
+        $urlname) {\n      id\n      name\n      description\n      city\n      country\n      timezone\n\n      memberships
         {\n        totalCount\n      }\n    }\n  }","variables":{"urlname":"rladies-lagos"}}'
   response:
     status: 200
     headers:
-      content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 19 Oct 2025 21:43:18 GMT
+      content-type: application/json;charset=utf-8
+      date: Thu, 11 Dec 2025 18:48:41 GMT
       content-length: '3411'
     body:
       string: '{"data":{"groupByUrlname":{"id":"32612004","name":"R-Ladies Lagos","description":"R-Ladies
@@ -54,21 +54,21 @@ http_interactions:
         fundraising or other purposes to help achieve the community’s aims. This might
         include (but is not limited to), the right to use them in their printed and
         online publicity, social media, press releases and funding applications. If
-        you do not wish to be recorded in these media please inform a community organizer.","city":"Lagos","country":"ng","timezone":"Africa/Lagos","memberships":{"totalCount":880}}}}'
-  recorded_at: 2025-10-19 21:43:18
+        you do not wish to be recorded in these media please inform a community organizer.","city":"Lagos","country":"ng","timezone":"Africa/Lagos","memberships":{"totalCount":893}}}}'
+  recorded_at: 2025-12-11 18:48:41
 - request:
     method: POST
     uri: https://api.meetup.com/gql-ext
     body:
       string: '{"query":"\n  query GetGroupWithDetails($urlname: String!) {\n    groupByUrlname(urlname:
-        $urlname) {\n      id\n      name\n      description\n      city\n      country\n      timezone\n      \n      memberships
+        $urlname) {\n      id\n      name\n      description\n      city\n      country\n      timezone\n\n      memberships
         {\n        totalCount\n      }\n    }\n  }","variables":{"urlname":"rladies-ottawa"}}'
   response:
     status: 200
     headers:
-      content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 19 Oct 2025 21:43:18 GMT
+      content-type: application/json;charset=utf-8
+      date: Thu, 11 Dec 2025 18:48:42 GMT
       content-length: '3386'
     body:
       string: '{"data":{"groupByUrlname":{"id":"30655714","name":"R-Ladies Ottawa","description":"R-Ladies
@@ -112,6 +112,6 @@ http_interactions:
         aims. This might include (but is not limited to), the right to use them in
         their printed and online publicity, social media, press releases and funding
         applications. If you do not wish to be recorded in these media please inform
-        a community organizer.*","city":"Ottawa","country":"ca","timezone":"America/Toronto","memberships":{"totalCount":1076}}}}'
-  recorded_at: 2025-10-19 21:43:18
+        a community organizer.*","city":"Ottawa","country":"ca","timezone":"America/Toronto","memberships":{"totalCount":1107}}}}'
+  recorded_at: 2025-12-11 18:48:42
 recorded_with: VCR-vcr/2.0.0

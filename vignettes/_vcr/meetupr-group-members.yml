@@ -4,19 +4,19 @@ http_interactions:
     uri: https://api.meetup.com/gql-ext
     body:
       string: '{"query":"query members(\n  $urlname: String!\n  $cursor: String\n  $first:
-        Int = 1000\n) {\n  groupByUrlname(urlname: $urlname) {\n    id\n    name\n    memberships(after:
-        $cursor, first: $first) {\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n      edges
+        Int = 1000\n) {\n  groupByUrlname(urlname: $urlname) {\n    id\n    name\n    memberships(\n      after:
+        $cursor, \n      first: $first\n    ) {\n      pageInfo {\n        hasNextPage\n        endCursor\n      }\n      totalCount\n      edges
         {\n        node {\n          id\n          name\n          memberUrl\n          memberPhoto
         {\n            baseUrl\n          }\n        }\n        metadata {\n          status\n          role\n          joinTime\n          lastAccessTime\n        }\n      }\n    }\n    \n  }\n}","variables":{"urlname":"rladies-lagos","first":10}}'
   response:
     status: 200
     headers:
-      content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 19 Oct 2025 21:43:24 GMT
+      content-type: application/json;charset=utf-8
+      date: Thu, 11 Dec 2025 18:48:51 GMT
       content-length: '3270'
     body:
-      string: '{"data":{"groupByUrlname":{"id":"32612004","name":"R-Ladies Lagos","memberships":{"pageInfo":{"hasNextPage":true,"endCursor":"MTU2NjI4OTI5NjAwMDoyNTM5ODY1MDE="},"totalCount":880,"edges":[{"node":{"id":"251470805","name":"R-Ladies
+      string: '{"data":{"groupByUrlname":{"id":"32612004","name":"R-Ladies Lagos","memberships":{"pageInfo":{"hasNextPage":true,"endCursor":"MTU2NjI4OTI5NjAwMDoyNTM5ODY1MDE="},"totalCount":893,"edges":[{"node":{"id":"251470805","name":"R-Ladies
         Global","memberUrl":"https://www.meetup.com/members/251470805/","memberPhoto":{"baseUrl":"https://secure-content.meetupstatic.com/images/classic-member/"}},"metadata":{"status":"LEADER","role":"ORGANIZER","joinTime":"2019-08-16T09:45:21+01:00","lastAccessTime":"2025-09-10T12:35:45+01:00"}},{"node":{"id":"225839690","name":"EYITAYO
         ALIMI","memberUrl":"https://www.meetup.com/members/225839690/","memberPhoto":{"baseUrl":"https://secure-content.meetupstatic.com/images/classic-member/"}},"metadata":{"status":"LEADER","role":"COORGANIZER","joinTime":"2019-08-16T15:33:34+01:00","lastAccessTime":"2025-03-28T21:56:10+01:00"}},{"node":{"id":"236466773","name":"Adedamilola
         Adekanye","memberUrl":"https://www.meetup.com/members/236466773/","memberPhoto":{"baseUrl":"https://secure-content.meetupstatic.com/images/classic-member/"}},"metadata":{"status":"ACTIVE","role":"MEMBER","joinTime":"2019-08-16T16:00:28+01:00","lastAccessTime":"2019-08-21T01:57:32+01:00"}},{"node":{"id":"255806325","name":"Helen","memberUrl":"https://www.meetup.com/members/255806325/","memberPhoto":{"baseUrl":"https://secure-content.meetupstatic.com/images/classic-member/"}},"metadata":{"status":"ACTIVE","role":"MEMBER","joinTime":"2019-08-16T17:24:28+01:00","lastAccessTime":"2022-03-18T04:45:12+01:00"}},{"node":{"id":"287781170","name":"Alvin","memberUrl":"https://www.meetup.com/members/287781170/","memberPhoto":{"baseUrl":"https://secure-content.meetupstatic.com/images/classic-member/"}},"metadata":{"status":"ACTIVE","role":"MEMBER","joinTime":"2019-08-17T10:59:48+01:00","lastAccessTime":"2019-08-17T10:59:48+01:00"}},{"node":{"id":"266271010","name":"ijeoma
@@ -24,5 +24,5 @@ http_interactions:
         Aroloye","memberUrl":"https://www.meetup.com/members/249638660/","memberPhoto":{"baseUrl":"https://secure-content.meetupstatic.com/images/classic-member/"}},"metadata":{"status":"ACTIVE","role":"MEMBER","joinTime":"2019-08-19T05:11:39+01:00","lastAccessTime":"2019-12-01T07:07:04+01:00"}},{"node":{"id":"287607204","name":"Olaniyi
         ayomide recheal ","memberUrl":"https://www.meetup.com/members/287607204/","memberPhoto":null},"metadata":{"status":"ACTIVE","role":"MEMBER","joinTime":"2019-08-19T09:25:11+01:00","lastAccessTime":"2019-08-23T11:33:21+01:00"}},{"node":{"id":"253986501","name":"Ofure
         Ughu","memberUrl":"https://www.meetup.com/members/253986501/","memberPhoto":null},"metadata":{"status":"ACTIVE","role":"MEMBER","joinTime":"2019-08-20T04:21:36+01:00","lastAccessTime":"2019-08-20T04:21:36+01:00"}}]}}}}'
-  recorded_at: 2025-10-19 21:43:24
+  recorded_at: 2025-12-11 18:48:51
 recorded_with: VCR-vcr/2.0.0

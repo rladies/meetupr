@@ -30,12 +30,13 @@ reference:
   - title: Authentication
     desc: Functions for authenticating and verification
     contents:
-      - meetup_sitrep
+      - meetupr_sitrep
       - contains("auth")
       - starts_with("has")
-      - meetup_client
-      - meetup_keys
+      - meetupr_client
       - contains("_ci")
+      - meetupr_credentials
+      - use_gha
   - title: Retrieving data and working with data
     desc: |
       Functions for retrieving data
@@ -45,10 +46,10 @@ reference:
   - title: Query functions
     desc: Functions enabling querying of data
     contents:
-      - meetup_req
-      - meetup_query
+      - meetupr_req
+      - meetupr_query
   - title: Introspection
-    desc: Functions for introspection and debugging
+    desc: Functions for introspection
     contents:
-      - starts_with("meetup_schema")
+      - starts_with("meetupr_schema")
       - contains("debug")

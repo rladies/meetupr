@@ -13,14 +13,16 @@ http_interactions:
         eventFields on Event {\n  id\n  title\n  eventUrl\n  createdTime\n  status\n  dateTime\n  duration\n  description\n  \n  group
         {\n    id\n    name\n    urlname\n  }\n  \n  venues {\n    id\n    name\n    address\n    city\n    state\n    postalCode\n    country\n    lat\n    lon\n    venueType\n  }\n  \n  rsvps(first:
         1) {\n    totalCount\n  }\n  \n  featuredEventPhoto {\n    baseUrl\n  }\n  \n  feeSettings
-        {\n    required\n    amount\n    currency\n    accepts\n    refundPolicy {\n      notes\n      days\n    }\n  }\n  \n  \n}","variables":{"urlname":"rladies-san-francisco","status":"PAST","first":50}}'
+        {\n    required\n    amount\n    currency\n    accepts\n    refundPolicy {\n      notes\n      days\n    }\n  }\n  \n  \n}","variables":{"urlname":"rladies-san-francisco","status":"PAST","first":50,"process_data":["function
+        (data, ...) ","{","    process_datetime_fields(dplyr::mutate(data, venues_country
+        = get_country_code(venues_country)), ","        c(\"created_time\", \"date_time\"))","}"]}}'
   response:
     status: 200
     headers:
-      content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 19 Oct 2025 21:43:26 GMT
-      content-length: '99533'
+      content-type: application/json;charset=utf-8
+      date: Thu, 11 Dec 2025 18:48:53 GMT
+      content-length: '99532'
     body:
       string: '{"data":{"groupByUrlname":{"id":"5190472","name":"R-Ladies San Francisco","events":{"pageInfo":{"hasNextPage":true,"endCursor":"MjU4MzQ5MjczOjE1NDk1OTEyMDAwMDA="},"totalCount":65,"edges":[{"cursor":"ODUzMjAzODI6MTM1MTczMTYwMDAwMA==","node":{"id":"85320382","title":"Introduction
         to R (beginners and pre-beginners)","eventUrl":"https://www.meetup.com/rladies-san-francisco/events/85320382/","createdTime":"2012-10-03T13:17:44-04:00","status":"PAST","dateTime":"2012-10-31T18:00:00-07:00","duration":"PT2H","description":"Hello
@@ -31,7 +33,7 @@ http_interactions:
         simple plots, etc) loading packages the help function and how to read its
         output\n\nAll you need is your laptop and charger.\n\nWe look forward to seeing
         you!","group":{"id":"5190472","name":"R-Ladies San Francisco","urlname":"rladies-san-francisco"},"venues":[{"id":"7927512","name":"Google
-        San Francisco ","address":"4th floor, 345 Spear Street","city":"San Francisco","state":"CA","postalCode":"94105","country":"us","lat":37.789761,"lon":-122.390175,"venueType":""}],"rsvps":{"totalCount":15},"featuredEventPhoto":null,"feeSettings":null}},{"cursor":"MTAxMDMyNDYyOjEzNjA1MzM2MDAwMDA=","node":{"id":"101032462","title":"R
+        San Francisco","address":"4th floor, 345 Spear Street","city":"San Francisco","state":"CA","postalCode":"94105","country":"us","lat":37.789761,"lon":-122.390175,"venueType":""}],"rsvps":{"totalCount":15},"featuredEventPhoto":null,"feeSettings":null}},{"cursor":"MTAxMDMyNDYyOjEzNjA1MzM2MDAwMDA=","node":{"id":"101032462","title":"R
         & Coffee","eventUrl":"https://www.meetup.com/rladies-san-francisco/events/101032462/","createdTime":"2013-01-23T14:12:43-05:00","status":"PAST","dateTime":"2013-02-10T14:00:00-08:00","duration":"PT3H","description":"Hello
         R-ladies,\n\nIt''s time to get together again!\nIn this second meetup I''d
         like to do something more informal.\nLet''s meet in the Arlequin Cafe ( http://www.arlequincafe.com/
@@ -948,5 +950,5 @@ http_interactions:
         and food will be provided.\n\nA huge thank you to Instacart (https://www.instacart.com/)
         for hosting us!","group":{"id":"5190472","name":"R-Ladies San Francisco","urlname":"rladies-san-francisco"},"venues":[{"id":"26155420","name":"Instacart","address":"50
         Beale St Suite 1100","city":"San Francisco","state":"ca","postalCode":"94105","country":"us","lat":37.791138,"lon":-122.396065,"venueType":""}],"rsvps":{"totalCount":71},"featuredEventPhoto":{"baseUrl":"https://secure-content.meetupstatic.com/images/classic-events/"},"feeSettings":null}}]}}}}'
-  recorded_at: 2025-10-19 21:43:26
+  recorded_at: 2025-12-11 18:48:53
 recorded_with: VCR-vcr/2.0.0

@@ -13,14 +13,16 @@ http_interactions:
         eventFields on Event {\n  id\n  title\n  eventUrl\n  createdTime\n  status\n  dateTime\n  duration\n  description\n  \n  group
         {\n    id\n    name\n    urlname\n  }\n  \n  venues {\n    id\n    name\n    address\n    city\n    state\n    postalCode\n    country\n    lat\n    lon\n    venueType\n  }\n  \n  rsvps(first:
         1) {\n    totalCount\n  }\n  \n  featuredEventPhoto {\n    baseUrl\n  }\n  \n  feeSettings
-        {\n    required\n    amount\n    currency\n    accepts\n    refundPolicy {\n      notes\n      days\n    }\n  }\n  \n  \n}","variables":{"urlname":"rladies-lagos","status":"PAST","date_after":"2024-01-01T00:00:00Z"}}'
+        {\n    required\n    amount\n    currency\n    accepts\n    refundPolicy {\n      notes\n      days\n    }\n  }\n  \n  \n}","variables":{"urlname":"rladies-lagos","status":"PAST","date_after":"2024-01-01T00:00:00Z","process_data":["function
+        (data, ...) ","{","    process_datetime_fields(dplyr::mutate(data, venues_country
+        = get_country_code(venues_country)), ","        c(\"created_time\", \"date_time\"))","}"]}}'
   response:
     status: 200
     headers:
-      content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Sun, 19 Oct 2025 21:43:23 GMT
-      content-length: '5265'
+      content-type: application/json;charset=utf-8
+      date: Thu, 11 Dec 2025 18:48:49 GMT
+      content-length: '5264'
     body:
       string: "{\"data\":{\"groupByUrlname\":{\"id\":\"32612004\",\"name\":\"R-Ladies
         Lagos\",\"events\":{\"pageInfo\":{\"hasNextPage\":false,\"endCursor\":\"MzAwMDI3MDk0OjE3MTQyMzM2MDAwMDA=\"},\"totalCount\":3,\"edges\":[{\"cursor\":\"MzAwMDI2NTk0OjE3MTI0MTkyMDAwMDA=\",\"node\":{\"id\":\"300026594\",\"title\":\"Build
@@ -58,7 +60,7 @@ http_interactions:
         more information, call Blessing on 08063843498**\",\"group\":{\"id\":\"32612004\",\"name\":\"R-Ladies
         Lagos\",\"urlname\":\"rladies-lagos\"},\"venues\":[{\"id\":\"27790890\",\"name\":\"American
         Corner Ikeja\",\"address\":\"\",\"city\":\"Lagos\",\"state\":\"\",\"postalCode\":\"102214\",\"country\":\"ng\",\"lat\":6.565846,\"lon\":3.329845,\"venueType\":\"\"},{\"id\":\"26906060\",\"name\":\"Online
-        event\",\"address\":\"\",\"city\":\"\",\"state\":\"\",\"postalCode\":\"\",\"country\":\"\",\"lat\":-8.521147,\"lon\":179.1962,\"venueType\":\"online\"}],\"rsvps\":{\"totalCount\":11},\"featuredEventPhoto\":{\"baseUrl\":\"https://secure-content.meetupstatic.com/images/classic-events/\"},\"feeSettings\":null}},{\"cursor\":\"MzAwMDI3MDk0OjE3MTQyMzM2MDAwMDA=\",\"node\":{\"id\":\"300027094\",\"title\":\"International
+        event\",\"address\":\"\",\"city\":\"\",\"state\":\"\",\"postalCode\":\"\",\"country\":\"\",\"lat\":6.565846,\"lon\":3.329845,\"venueType\":\"online\"}],\"rsvps\":{\"totalCount\":11},\"featuredEventPhoto\":{\"baseUrl\":\"https://secure-content.meetupstatic.com/images/classic-events/\"},\"feeSettings\":null}},{\"cursor\":\"MzAwMDI3MDk0OjE3MTQyMzM2MDAwMDA=\",\"node\":{\"id\":\"300027094\",\"title\":\"International
         Women's Day 2024\",\"eventUrl\":\"https://www.meetup.com/rladies-lagos/events/300027094/\",\"createdTime\":\"2024-03-26T09:08:58-04:00\",\"status\":\"PAST\",\"dateTime\":\"2024-04-27T17:00:00+01:00\",\"duration\":\"PT3H\",\"description\":\"About
         this event\\n**What to expect**\\nLeadership and career development for women\\nEntrepreneurship
         and innovation\\nHealth and wellness for women\\nDiversity, equity, and inclusion\\nWork-life
@@ -72,5 +74,5 @@ http_interactions:
         motivated to achieve your goals\\nWin fantastic prices\",\"group\":{\"id\":\"32612004\",\"name\":\"R-Ladies
         Lagos\",\"urlname\":\"rladies-lagos\"},\"venues\":[{\"id\":\"26906060\",\"name\":\"Online
         event\",\"address\":\"\",\"city\":\"\",\"state\":\"\",\"postalCode\":\"\",\"country\":\"\",\"lat\":-8.521147,\"lon\":179.1962,\"venueType\":\"online\"}],\"rsvps\":{\"totalCount\":31},\"featuredEventPhoto\":{\"baseUrl\":\"https://secure-content.meetupstatic.com/images/classic-events/\"},\"feeSettings\":null}}]}}}}"
-  recorded_at: 2025-10-19 21:43:23
+  recorded_at: 2025-12-11 18:48:49
 recorded_with: VCR-vcr/2.0.0

@@ -10,12 +10,12 @@ http_interactions:
   response:
     status: 200
     headers:
-      content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Wed, 17 Sep 2025 15:05:26 GMT
-      content-length: '1756'
+      content-type: application/json;charset=utf-8
+      date: Fri, 05 Dec 2025 12:58:36 GMT
+      content-length: '1704'
     body:
-      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJEb3VibGUiLCJ2YWx1ZSI6Mi44MDIxODgyfSx7InR5cGUiOiJTdHJpbmciLCJ2YWx1ZSI6IjU4NDkwMi1lbl9VUyJ9XX0="},"totalCount":10000,"edges":[{"node":{"id":"109937","name":"Board
+      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJEb3VibGUiLCJ2YWx1ZSI6Mi43OTc3NTM4fSx7InR5cGUiOiJTdHJpbmciLCJ2YWx1ZSI6IjU4NDkwMi1lbl9VUyJ9XX0="},"totalCount":10000,"edges":[{"node":{"id":"109937","name":"Board
         Games","urlkey":"board-games","description":null}},{"node":{"id":"24384","name":"Consciousness","urlkey":"consciousness","description":"Meet
         other local people who are interested in the Science of Consciousness. Discuss
         the recent steps that have been made in the science of consciousness and the
@@ -28,10 +28,10 @@ http_interactions:
         other local hiking enthusiasts! All those who are dedicated to hiking excursions
         near and far, with a focus on leaving no trace of litter on our lands."}},{"node":{"id":"43699","name":"Reading","urlkey":"reading","description":null}},{"node":{"id":"19285","name":"Real
         Estate Investors","urlkey":"real-estate-investors","description":null}},{"node":{"id":"73492","name":"Real
-        Estate Investing","urlkey":"real-estate-investing","description":null}},{"node":{"id":"16714","name":"Tabletop
-        Role Playing and Board Games","urlkey":"tabletop-role-playing-and-board-games","description":null}},{"node":{"id":"584902","name":"Machine
+        Estate Investing","urlkey":"real-estate-investing","description":null}},{"node":{"id":"87372","name":"Real
+        Estate","urlkey":"real-estate","description":null}},{"node":{"id":"584902","name":"Machine
         Learning","urlkey":"machine-learning","description":null}}]}}}'
-  recorded_at: 2025-09-17 15:05:26
+  recorded_at: 2025-12-05 12:58:36
 - request:
     method: POST
     uri: https://api.meetup.com/gql-ext
@@ -44,15 +44,15 @@ http_interactions:
   response:
     status: 200
     headers:
-      content-type: application/json;charset=utf-8
       accept-ranges: bytes
-      date: Wed, 17 Sep 2025 15:05:27 GMT
-      content-length: '699'
+      content-type: application/json;charset=utf-8
+      date: Fri, 05 Dec 2025 12:58:37 GMT
+      content-length: '669'
     body:
-      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJEb3VibGUiLCJ2YWx1ZSI6MTQuODczNDMyfSx7InR5cGUiOiJTdHJpbmciLCJ2YWx1ZSI6IjE3MzMzMy1lbl9VUyJ9XX0="},"totalCount":558,"edges":[{"node":{"id":"1401412","name":"Data
-        Vault Database Modeling","urlkey":"data-vault-database-modeling","description":null}},{"node":{"id":"1413652","name":"Data
-        Warehouse","urlkey":"data-warehouse","description":null}},{"node":{"id":"95904","name":"Data
-        Privacy","urlkey":"data-privacy","description":null}},{"node":{"id":"480642","name":"Data","urlkey":"data","description":null}},{"node":{"id":"173333","name":"Data
-        Governance","urlkey":"data-governance","description":null}}]}}}'
-  recorded_at: 2025-09-17 15:05:27
+      string: '{"data":{"suggestTopics":{"pageInfo":{"hasNextPage":true,"endCursor":"eyJ2YWx1ZXMiOlt7InR5cGUiOiJEb3VibGUiLCJ2YWx1ZSI6MTQuNjI5NzI1fSx7InR5cGUiOiJTdHJpbmciLCJ2YWx1ZSI6IjU1MzI0LWVuX1VTIn1dfQ=="},"totalCount":558,"edges":[{"node":{"id":"1515085","name":"Data
+        Analytics","urlkey":"data-analytics","description":null}},{"node":{"id":"37381","name":"Data
+        Visualization","urlkey":"data-visualization","description":null}},{"node":{"id":"480642","name":"Data","urlkey":"data","description":null}},{"node":{"id":"102811","name":"Data
+        Science","urlkey":"data-science","description":null}},{"node":{"id":"55324","name":"Data
+        Mining","urlkey":"data-mining","description":null}}]}}}'
+  recorded_at: 2025-12-05 12:58:37
 recorded_with: VCR-vcr/2.0.0

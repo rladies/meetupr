@@ -21,11 +21,17 @@ execute_from_template <- function(
     extra_graphql
   )
 
-  template <- get_template_path(path) |>
+  template <- get_template_path(path)
+
+  if (check_debug_mode()) {
+    cli::cli_alert_info("Using GraphQL template: {.path {template}}")
+  }
+
+  template <- template |>
     read_template() |>
     insert_extra_graphql(extra_graphql)
 
-  meetup_query(
+  meetupr_query(
     graphql = template,
     ...,
     .envir = .envir
@@ -49,14 +55,14 @@ get_template_path <- function(path) {
     cli::cli_abort(c(
       "The {.code path} argument must include
          the {.code .graphql} extension.",
-      "i" = "Please provide the full filename, 
+      "i" = "Please provide the full filename,
         e.g., {.code 'custom_query.graphql'}."
     ))
   }
 
   # Check if file exists before normalizing path (avoids Windows warning)
   if (file.exists(path)) {
-    return(normalizePath(path, mustWork = TRUE))
+    return(normalize_path(path, mustWork = TRUE))
   }
 
   # File not found anywhere
@@ -88,9 +94,11 @@ template_path <- function(path) {
 read_template <- function(file_path) {
   tryCatch(
     {
-      content <- readChar(
-        file_path,
-        file.info(file_path)$size
+      suppressWarnings(
+        content <- readChar(
+          file_path,
+          file.info(file_path)$size
+        )
       )
       gsub("\r", "", content)
     },

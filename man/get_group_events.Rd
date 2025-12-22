@@ -12,6 +12,7 @@ get_group_events(
   max_results = NULL,
   handle_multiples = "list",
   extra_graphql = NULL,
+  asis = FALSE,
   ...
 )
 }
@@ -35,6 +36,8 @@ If "first", return only the first match.}
 
 \item{extra_graphql}{A graphql object. Extra objects to return}
 
+\item{asis}{Return the raw API response as-is without processing}
+
 \item{...}{Should be empty. Used for parameter expansion}
 }
 \value{
@@ -50,9 +53,9 @@ meetupr:::mock_if_no_auth()
 }
 get_group_events("rladies-lagos", "past")
 get_group_events(
-   "rladies-lagos",
-   status = "past",
-   date_before = "2023-01-01T12:00:00Z"
+  "rladies-lagos",
+  status = "past",
+  date_before = "2023-01-01T12:00:00Z"
 )
 \dontshow{
 vcr::eject_cassette()

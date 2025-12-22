@@ -1,214 +1,309 @@
-test_that("meetup_api_prefix returns the correct default URL", {
-  withr::local_envvar(c(MEETUP_API_URL = NULL))
-  expect_equal(meetup_api_prefix(), "https://api.meetup.com/gql-ext")
+library(testthat)
+library(meetupr)
+library(httr2)
+library(openssl)
+
+describe("meetupr_api_urls()", {
+  it("returns the correct default URL", {
+    withr::local_envvar(c(MEETUP_API_URL = NA))
+    urls <- meetupr_api_urls()
+    expect_equal(urls$api, "https://api.meetup.com/gql-ext")
+    expect_named(urls, c("api", "auth", "token", "redirect"))
+  })
+
+  it("returns custom URL if set", {
+    withr::local_envvar(
+      c(MEETUP_API_URL = "https://custom.meetup.com")
+    )
+    expect_equal(
+      meetupr_api_urls()$api,
+      "https://custom.meetup.com"
+    )
+  })
 })
 
-test_that("meetup_api_prefix returns custom URL if set", {
-  withr::local_envvar(c(MEETUP_API_URL = "https://custom.meetup.com"))
-  expect_equal(meetup_api_prefix(), "https://custom.meetup.com")
+describe("build_request()", {
+  it("constructs proper GraphQL request with variables", {
+    local_mocked_bindings(
+      meetupr_req = function() structure(list(), class = "httr2_request")
+    )
+    local_mocked_bindings(
+      req_body_json = function(req, body_list, auto_unbox = TRUE) {
+        req$body <- list(data = body_list)
+        req
+      },
+      .package = "httr2"
+    )
+
+    query <- "query { viewer { id } }"
+    variables <- list(id = "123")
+    req <- build_request(query, variables)
+    expect_s3_class(req, "httr2_request")
+    expect_equal(req$body$data$query, query)
+    expect_equal(req$body$data$variables$id, "123")
+  })
+
+  it("handles empty and NULL variables as empty object", {
+    local_mocked_bindings(
+      meetupr_req = function() structure(list(), class = "httr2_request")
+    )
+    local_mocked_bindings(
+      req_body_json = function(req, body_list, auto_unbox = TRUE) {
+        req$body <- list(data = body_list)
+        req
+      },
+      .package = "httr2"
+    )
+
+    q <- "query { viewer { id } }"
+    r1 <- build_request(q, list())
+    expect_equal(length(r1$body$data$variables), 0)
+
+    r2 <- build_request(q, NULL)
+    expect_equal(length(r2$body$data$variables), 0)
+  })
 })
 
-test_that("meetup_req configures request with proper headers", {
-  mock_if_no_auth()
-  req <- meetup_req()
-  expect_equal(httr2::req_get_headers(req)$`Content-Type`, "application/json")
-})
-
-test_that("meetup_req handles OAuth authentication", {
-  mock_if_no_auth()
-  withr::local_envvar(c(
-    MEETUP_AUTH_METHOD = "oauth",
-    `meetup:client_id` = "client_id",
-    `meetup:client_secret` = "client_secret"
-  ))
-  req <- meetup_req(cache = FALSE)
-  expect_equal(
-    req$policies$auth_sign$params$flow,
-    "oauth_flow_auth_code"
-  )
-})
-
-
-test_that("meetup_req error handler formats API errors correctly", {
-  mock_if_no_auth()
-
-  req <- meetup_req()
-  error_handler <- req$policies$error_body
-
-  mock_resp <- structure(list(), class = "httr2_response")
-
-  local_mocked_bindings(
-    resp_body_json = function(resp) {
-      list(
-        errors = list(
-          list(message = "Field 'user' not found"),
-          list(message = "Invalid argument")
+describe("handle_api_error()", {
+  it("formats GraphQL errors", {
+    local_mocked_bindings(
+      resp_body_json = function(resp) {
+        list(
+          errors = list(
+            list(message = "Field 'x' not found"),
+            list(message = "Invalid input")
+          )
         )
+      },
+      .package = "httr2"
+    )
+    mock_resp <- structure(list(), class = "httr2_response")
+    msg <- handle_api_error(mock_resp)
+    expect_match(msg, "Meetup API errors:")
+    expect_match(msg, "Field 'x' not found")
+    expect_match(msg, "Invalid input")
+  })
+
+  it("returns generic message for unknown shapes", {
+    local_mocked_bindings(
+      resp_body_json = function(resp) {
+        list(message = "Something went wrong")
+      },
+      .package = "httr2"
+    )
+    mock_resp <- structure(list(), class = "httr2_response")
+    expect_equal(handle_api_error(mock_resp), "Unknown Meetup API error")
+  })
+})
+
+describe("meetupr_query()", {
+  it("executes GraphQL query successfully", {
+    local_mocked_bindings(
+      req_perform = function(req) {
+        structure(list(status_code = 200), class = "httr2_response")
+      },
+      resp_body_json = function(resp) {
+        list(data = list(user = list(id = "123", name = "X")))
+      },
+      .package = "httr2"
+    )
+
+    q <- "query { user { id name } }"
+    res <- meetupr_query(q)
+    expect_equal(res$data$user$id, "123")
+    expect_equal(res$data$user$name, "X")
+  })
+
+  it("errors on GraphQL errors", {
+    local_mocked_bindings(
+      req_perform = function(req) {
+        structure(list(status_code = 200), class = "httr2_response")
+      },
+      resp_body_json = function(resp) {
+        list(errors = list(list(message = "User not found")))
+      },
+      .package = "httr2"
+    )
+
+    q <- "query { user { id } }"
+    expect_error(
+      meetupr_query(q),
+      "Failed to execute GraphQL query"
+    )
+  })
+
+  it("compacts variables by removing NULLs", {
+    local_mocked_bindings(
+      req_perform = function(req) {
+        structure(list(status_code = 200), class = "httr2_response")
+      },
+      resp_body_json = function(resp) {
+        list(data = list(user = list(id = "1")))
+      },
+      .package = "httr2"
+    )
+
+    q <- "query { user { id } }"
+    res <- meetupr_query(q, id = "1", empty = NULL)
+    expect_equal(res$data$user$id, "1")
+  })
+})
+
+describe("meetupr_req() and req_auth()", {
+  it("applies headers and throttling", {
+    local_mocked_bindings(
+      req_auth = function(req, ...) req
+    )
+    local_mocked_bindings(
+      request = function(url) {
+        structure(list(url = url), class = "httr2_request")
+      },
+      req_headers = function(req, ...) {
+        req$headers <- list(...)
+        req
+      },
+      req_error = function(req, body) req,
+      req_throttle = function(req, rate) {
+        req$rate <- rate
+        req
+      },
+      .package = "httr2"
+    )
+
+    r <- meetupr_req(rate_limit = 1, cache = FALSE)
+    expect_s3_class(r, "httr2_request")
+    expect_equal(r$headers[["Content-Type"]], "application/json")
+    expect_equal(r$rate, 1)
+  })
+
+  it("uses JWT auth when available", {
+    local_mocked_bindings(
+      meetupr_auth_status = function(...) {
+        list(
+          jwt = list(
+            available = TRUE,
+            value = "path/to/jwt.pem",
+            issuer = "issuer-id",
+            id = "KID123",
+            client_key = "client-key"
+          )
+        )
+      }
+    )
+
+    base <- structure(list(), class = "httr2_request")
+    res <- req_auth(base)
+    expect_s3_class(res, "httr2_request")
+    expect_true(res$policies$auth_oauth)
+    expect_s3_class(
+      res$policies$auth_sign$params$flow_params$claim,
+      "jwt_claim"
+    )
+  })
+
+  it("uses encrypted token when available", {
+    local_mocked_bindings(
+      meetupr_key_get = function(...) NULL,
+      meetupr_encrypt_load = function(...) "path/to/encrypted_token",
+    )
+    local_mocked_bindings(
+      req_auth_bearer_token = function(req, ...) {
+        message("Using encrypted token auth")
+        req$auth_token <- "enc-token"
+        req
+      },
+      .package = "httr2"
+    )
+
+    base <- structure(list(), class = "httr2_request")
+    res <- req_auth(base)
+
+    expect_equal(res$auth_token, "enc-token")
+  })
+
+  it("falls back to oauth auth code flow when no tokens", {
+    local_mocked_bindings(
+      meetupr_key_get = function(...) NULL,
+      meetupr_encrypt_load = function(...) NULL,
+      meetupr_oauth_flow_params = function() {
+        list(
+          auth_url = "https://a",
+          redirect_uri = "http://r"
+        )
+      }
+    )
+    local_mocked_bindings(
+      req_oauth_auth_code = function(
+        req,
+        client,
+        auth_url,
+        redirect_uri,
+        cache_disk = TRUE
+      ) {
+        list(oauth = TRUE, auth_url = auth_url, redirect = redirect_uri)
+      },
+      .package = "httr2"
+    )
+
+    base <- structure(list(), class = "httr2_request")
+    res <- req_auth(base)
+    expect_true(is.list(res))
+    expect_true(res$oauth)
+    expect_equal(res$auth_url, "https://a")
+  })
+
+  test_that("meetupr_req uses JWT auth when jwt available", {
+    # generate a temporary RSA key (written to a temp pem file)
+    pem_path <- withr::local_tempfile(fileext = ".pem")
+    key <- openssl::rsa_keygen()
+    openssl::write_pem(key, pem_path)
+
+    fake_auth <- list(
+      jwt = list(
+        available = TRUE,
+        value = pem_path,
+        issuer = "251470805",
+        id = "TESTKID",
+        client_key = "sr_test_client"
       )
-    },
-    .package = "httr2"
-  )
+    )
 
-  result <- error_handler(mock_resp)
-  expect_match(result, "Meetup API errors:")
-  expect_match(result, "Field 'user' not found")
-  expect_match(result, "Invalid argument")
-})
+    local_mocked_bindings(
+      meetupr_auth_status = function(...) fake_auth
+    )
 
-test_that("meetup_req error handler handles unknown errors", {
-  mock_if_no_auth()
+    local_mocked_bindings(
+      req_oauth_bearer_jwt = function(req, ...) {
+        attr(req, "jwt_attached") <- TRUE
+        req
+      },
+      .package = "httr2"
+    )
 
-  req <- meetup_req()
-  error_handler <- req$policies$error_body
+    req <- meetupr_req(cache = FALSE)
+    expect_true(inherits(req, "httr2_request"))
+    expect_true(isTRUE(attr(req, "jwt_attached")))
+  })
 
-  mock_resp <- structure(list(), class = "httr2_response")
+  test_that("meetupr_query aborts on GraphQL errors", {
+    # Mock build_request to produce a harmless request object
+    local_mocked_bindings(
+      build_request = function(graphql, variables = list()) {
+        httr2::request("https://api.meetup.test/gql")
+      }
+    )
 
-  local_mocked_bindings(
-    resp_body_json = function(resp) {
-      list(message = "Something went wrong")
-    },
-    .package = "httr2"
-  )
+    # Mock httr2::resp_body_json to return a GraphQL error payload
+    local_mocked_bindings(
+      resp_body_json = function(resp, ...) {
+        list(errors = list(list(message = "simulated graphql error")))
+      },
+      .package = "httr2"
+    )
 
-  result <- error_handler(mock_resp)
-  expect_equal(result, "Unknown Meetup API error")
-})
-
-
-test_that("meetup_req uses OAuth when method is oauth", {
-  withr::local_envvar(
-    MEETUP_AUTH_METHOD = "oauth",
-    `meetup:client_id` = "test_client",
-    `meetup:client_secret` = "test_secret"
-  )
-
-  mock_client <- structure(
-    list(name = "test_client"),
-    class = "httr2_oauth_client"
-  )
-
-  local_mocked_bindings(
-    meetup_auth_status = function(...) TRUE,
-    meetup_client = function(...) mock_client
-  )
-
-  req <- meetup_req()
-
-  expect_equal(
-    req$policies$auth_sign$params$flow,
-    "oauth_flow_auth_code"
-  )
-})
-
-
-test_that("meetup_query executes GraphQL query successfully", {
-  mock_if_no_auth()
-
-  local_mocked_bindings(
-    req_perform = function(req) {
-      structure(list(status_code = 200), class = "httr2_response")
-    },
-    resp_body_json = function(resp) {
-      list(data = list(user = list(id = "123", name = "Test User")))
-    },
-    .package = "httr2"
-  )
-
-  query <- "query GetUser($id: ID!) { user(id: $id) { id name } }"
-  result <- meetup_query(query, id = "123")
-
-  expect_equal(result$data$user$id, "123")
-  expect_equal(result$data$user$name, "Test User")
-})
-
-test_that("meetup_query handles GraphQL errors", {
-  mock_if_no_auth()
-
-  local_mocked_bindings(
-    req_perform = function(req) {
-      structure(list(status_code = 200), class = "httr2_response")
-    },
-    resp_body_json = function(resp) {
-      list(errors = list(list(message = "User not found")))
-    },
-    .package = "httr2"
-  )
-
-  query <- "query GetUser($id: ID!) { user(id: $id) { id name } }"
-  expect_error(
-    meetup_query(query, id = "invalid"),
-    "Failed to execute GraphQL query"
-  )
-})
-
-test_that("meetup_query compacts variables", {
-  mock_if_no_auth()
-
-  local_mocked_bindings(
-    req_perform = function(req) {
-      structure(list(status_code = 200), class = "httr2_response")
-    },
-    resp_body_json = function(resp) {
-      list(data = list(user = list(id = "123")))
-    },
-    .package = "httr2"
-  )
-
-  query <- "query GetUser($id: ID!) { user(id: $id) { id } }"
-  result <- meetup_query(
-    query,
-    id = "123",
-    empty_var = NULL
-  )
-
-  expect_equal(result$data$user$id, "123")
-})
-
-test_that("build_request constructs proper GraphQL request", {
-  mock_if_no_auth()
-
-  query <- "query GetUser($id: ID!) { user(id: $id) { id } }"
-  variables <- list(id = "123")
-
-  req <- build_request(query, variables)
-
-  expect_s3_class(req, "httr2_request")
-  expect_equal(req$body$data$query, query)
-  expect_equal(req$body$data$variables$id, "123")
-})
-
-test_that("build_request handles empty variables", {
-  mock_if_no_auth()
-
-  query <- "query { viewer { id } }"
-  req <- build_request(query, list())
-
-  expect_s3_class(req, "httr2_request")
-  expect_equal(req$body$data$query, query)
-  expect_equal(length(req$body$data$variables), 0)
-})
-
-test_that("build_request handles NULL variables", {
-  mock_if_no_auth()
-
-  query <- "query { viewer { id } }"
-  req <- build_request(query, NULL)
-
-  expect_s3_class(req, "httr2_request")
-  expect_equal(req$body$data$query, query)
-  expect_equal(length(req$body$data$variables), 0)
-})
-
-test_that("build_request shows debug output when MEETUPR_DEBUG is set", {
-  mock_if_no_auth()
-
-  withr::local_envvar(c(MEETUPR_DEBUG = "1"))
-
-  expect_message(
-    {
-      query <- "query { viewer { id } }"
-      build_request(query, list())
-    },
-    "DEBUG: JSON to be sent:"
-  )
+    expect_error(
+      meetupr_query("query { dummy }"),
+      "Failed to execute GraphQL query"
+    )
+  })
 })

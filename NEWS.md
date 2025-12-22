@@ -1,13 +1,24 @@
+$ # meetupr NEWS
+
+## meetupr 0.3.1
+
+- Added JWT authentication support for the Meetup API.
+- Added experimental support for encrypting stored tokens for CI/CD
+- Fixed bug that made only "node" response format work,
+  more data is now available from the API.
+- Updated vignettes to reflect new authentication methods.
+- adds the option to return data from the API "asis", without any processing by the package.
+
 ## meetupr 0.3.0
 
 - Updated to use new Meetup schema from February 2025
 - Switched to using the `httr2` package for making API requests instead of `httr`.
 - Uses s7 classes for internal query objects instead of lists.
 - Added functions:
-  - `meetup_query()` - Run custom queries against the Meetup API.
-  - `meetup_sitrep()` - Get information about your API connection status.
-  - `meetup_schema()` - Get information about the Meetup API query options.
-- added deprecation warnings for `get_meetup_comments()`.
+  - `meetupr_query()` - Run custom queries against the Meetup API.
+  - `meetupr_sitrep()` - Get information about your API connection status.
+  - `meetupr_schema()` - Get information about the Meetup API query options.
+- added deprecation warnings for `get_meetupr_comments()`.
 - Added new vignettes
 - Expanded test suite
 - Uses vcr in examples and vignettes in addition to tests
@@ -41,9 +52,9 @@
 Updated `get_events()`, `get_boards()`, and `get_group_members()` to output a tibble with summarised information. The raw content previously output by these functions can be found in the `resource` column of each output tibble.  
 
 ### BREAKING CHANGES
-Changed the name of `get_meetup_attendees()` and `get_meetup_comments()` to `get_comments()` and `get_attendees()` for distinction (all other `get_*` functions get something about a group, not a specific event from that group).  Also updated the output of these functions from lists to tibbles. The raw content previously output by these functions can be found in the `resource` column of each output tibble. 
+Changed the name of `get_meetupr_attendees()` and `get_meetupr_comments()` to `get_comments()` and `get_attendees()` for distinction (all other `get_*` functions get something about a group, not a specific event from that group).  Also updated the output of these functions from lists to tibbles. The raw content previously output by these functions can be found in the `resource` column of each output tibble. 
 
-* Officially deprecated the `get_meetup_attendees()` and `get_meetup_comments()` functions.
+* Officially deprecated the `get_meetupr_attendees()` and `get_meetupr_comments()` functions.
 * Added a bunch of fields to the `get_events()` output.
 * Added ability to pass in a vector of statuses for `event_status` in addition to a single string.
 * Added `find_groups()` function to get list of groups using text-based search.

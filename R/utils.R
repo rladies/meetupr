@@ -65,14 +65,14 @@ uq_filename <- function(file_name) {
     return(file_name)
   }
 
-  normalized_path <- normalizePath(
+  normalized_path <- normalize_path(
     file_name,
     winslash = "/",
     mustWork = FALSE
   )
   dir_path <- dirname(normalized_path)
 
-  existing_files <- normalizePath(
+  existing_files <- normalize_path(
     list.files(dir_path, all.files = TRUE, full.names = TRUE),
     winslash = "/",
     mustWork = FALSE
@@ -162,47 +162,73 @@ country_code <- function(x) {
 
 #' Temporarily enable debug mode
 #'
-#' @param level Debug level: 1 for on, 0 for off
-#' @param env The environment to use for scoping
+#' Sets the level of verbosity for `httr2::local_verbosity()`,
+#' and the MEETUPR_DEBUG environment variable.
+#' Can help debug issues with API requests.
+#'
+#' @param verbosity How much debug information to show.
+#'   0 = off, 1 = basic, 2 = verbose, 3 = very verbose
+#' @param env The environment in which to set the variable.
 #' @return The old debug value (invisibly)
 #' @export
 #' @examples
 #' \dontrun{
-#' # Within a function or test
-#' local_meetupr_debug(1)
-#' # Debug output enabled for remainder of scope
+#' local_meetupr_debug(2)
 #'
-#' # Manual cleanup
-#' old <- local_meetupr_debug(1, env = emptyenv())
-#' # ... code with debugging ...
-#' Sys.setenv(MEETUPR_DEBUG = old)
+#' # Turn off debug mode
+#' local_meetupr_debug(0)
 #' }
-local_meetupr_debug <- function(
-  level = 1,
-  env = parent.frame()
-) {
-  level <- match.arg(
-    as.character(level),
-    c("0", "1")
+local_meetupr_debug <- function(verbosity = 0, env = rlang::caller_env()) {
+  if (verbosity < 0 || verbosity > 3) {
+    cli::cli_abort("Verbosity must be between 0 and 3.")
+  }
+  httr2::local_verbosity(verbosity, env = env)
+
+  withr::local_envvar(
+    "MEETUPR_DEBUG" = verbosity,
+    .local_envir = env
   )
-  old <- Sys.getenv("MEETUPR_DEBUG", unset = "0")
-  Sys.setenv(MEETUPR_DEBUG = level)
-  withr::defer(
-    Sys.setenv(MEETUPR_DEBUG = old),
-    envir = env
-  )
-  invisible(old)
 }
 
-# nocov start
-mock_if_no_auth <- function() {
-  if (meetup_auth_status(silent = TRUE)) {
-    return(invisible())
-  }
-  Sys.setenv(
-    `meetupr:token` = "123456",
-    `meetupr:token_file` = "aB3xK9mP2.rds.enc"
+#' Check if debug mode is enabled
+#' @keywords internal
+#' @noRd
+check_debug_mode <- function() {
+  val <- suppressWarnings(
+    Sys.getenv("MEETUPR_DEBUG") |>
+      as.integer()
   )
-  invisible()
+
+  if (is.na(val)) {
+    return(FALSE)
+  }
+  val > 0
 }
-# nocov end
+
+
+#' Check if variable is empty
+#' @return Logical
+#' @keywords internal
+#' @noRd
+is_empty <- function(x) {
+  if (is.null(x)) {
+    return(TRUE)
+  }
+  if (length(x) == 0) {
+    return(TRUE)
+  }
+  if (all(is.na(x))) {
+    return(TRUE)
+  }
+  if (is.character(x) && all(!nzchar(x))) {
+    return(TRUE)
+  }
+  FALSE
+}
+
+#' Normalize Path with Debug Info
+#' @keywords internal
+#' @noRd
+normalize_path <- function(path, ...) {
+  base::normalizePath(path, ...)
+}

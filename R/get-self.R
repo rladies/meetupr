@@ -4,6 +4,7 @@
 #' including basic profile data, account type,
 #' subscription status, and API access permissions.
 #'
+#' @template asis
 #' @return A list containing user information
 #' @export
 #' @examples
@@ -16,15 +17,18 @@
 #' \dontshow{
 #' vcr::eject_cassette()
 #' }
-get_self <- function() {
-  execute(
-    meetup_template_query(
-      template_path("get_self"),
-      "",
-      "data.self",
-      process_data = process_self_data
+get_self <- function(asis = FALSE) {
+  tryCatch(
+    execute(
+      meetupr_template_query(
+        template_path("get_self"),
+        page_info_path = "data.self.pageInfo",
+        edges_path = "data.self",
+        process_data = process_self_data
+      ),
+      asis = asis
     ),
-    extra_graphql = NULL
+    error = function(e) NULL
   )
 }
 
@@ -65,7 +69,7 @@ determine_pro_status <- function(user_data) {
 }
 
 #' @export
-print.meetup_user <- function(x, ...) {
+print.meetupr_user <- function(x, ...) {
   cli::cli_h2("Meetup User:")
   cli::cli_li("ID: {x$id}")
   cli::cli_li("Name: {x$name}")
@@ -100,9 +104,10 @@ print.meetup_user <- function(x, ...) {
 #' @keywords internal
 #' @noRd
 process_self_data <- function(data, ...) {
-  if (length(data) == 0 || is.null(data[[1]])) {
+  if (is_empty(data)) {
     cli::cli_abort("No user data returned from self query")
   }
+
   pro_status <- determine_pro_status(data)
 
   structure(
@@ -120,6 +125,24 @@ process_self_data <- function(data, ...) {
       profile = extract_profile_info(data),
       raw = data
     ),
-    class = c("meetup_user", "list")
+    class = c("meetupr_user", "list")
   )
+}
+
+#' Check if the authenticated user has Pro access
+#' @keywords internal
+#' @noRd
+is_self_pro <- function() {
+  if (!has_auth()) {
+    return(FALSE)
+  }
+
+  resp <- meetupr_query(
+    "
+  query { self {
+    isProOrganizer
+    } }
+  "
+  )
+  unlist(resp, use.names = FALSE) %||% FALSE
 }

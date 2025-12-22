@@ -30,7 +30,8 @@ process_graphql_list <- function(
   }) |>
     silent_bind_rows() |>
     handle_fun() |>
-    clean_field_names()
+    clean_field_names() |>
+    dplyr::select(-dplyr::any_of("cursor"))
 }
 
 silent_bind_rows <- function(...) {
@@ -158,6 +159,8 @@ clean_field_name <- function(name) {
     gsub("_total_count$", "_count", x = _) |>
     gsub("_base_url$", "_url", x = _) |>
     gsub("_metadata_", "_", x = _) |>
+    gsub("^metadata_", "", x = _) |>
+    gsub("^node_", "", x = _) |>
     # Remove duplicate words (e.g., "group_group" -> "group")
     gsub("(\\w+)_\\1(?=_|$)", "\\1", x = _, perl = TRUE)
 }

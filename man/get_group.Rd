@@ -4,10 +4,12 @@
 \alias{get_group}
 \title{Get detailed information about a Meetup group}
 \usage{
-get_group(urlname)
+get_group(urlname, asis = FALSE)
 }
 \arguments{
 \item{urlname}{The URL name of the Meetup group (e.g., "rladies-lagos")}
+
+\item{asis}{Return the raw API response as-is without processing}
 }
 \value{
 A list containing detailed information about the Meetup group
