@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="index.html">meetupr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,6 +33,7 @@
       <small class="dont-index">Source: <a href="https://github.com/rladies/meetupr/blob/main/.github/copilot-instructions.md" class="external-link"><code>.github/copilot-instructions.md</code></a></small>
     </div>
 
+
 <div id="meetupr-package---ai-coding-agent-instructions" class="section level1">
 
 <div class="section level2">
@@ -43,7 +44,7 @@
 <ul><li>
 <strong>GraphQL Layer</strong> (<code>R/graphql-*.R</code>): Template-based query execution with S7 classes for pagination</li>
 <li>
-<strong>Authentication</strong> (<code>R/auth.R</code>, <code>R/credentials.R</code>): OAuth2 flow with keyring-based credential storage</li>
+<strong>Authentication</strong> (<code>R/auth.R</code>, <code>R/credentials.R</code>): OAuth2 flow with credential storage</li>
 <li>
 <strong>API Interface</strong> (<code>R/api.R</code>): Request building and error handling</li>
 <li>
@@ -52,13 +53,13 @@
 <div class="section level3">
 <h3 id="data-flow">Data Flow<a class="anchor" aria-label="anchor" href="#data-flow"></a></h3>
 <ol style="list-style-type: decimal"><li>User calls wrapper function (e.g., <code><a href="reference/get_group_events.html">get_group_events()</a></code>)</li>
-<li>Function creates <code>meetup_template</code> S7 object with query file path and extraction paths</li>
+<li>Function creates <code>meetupr_template</code> S7 object with query file path and extraction paths</li>
 <li>
 <code>execute()</code> generic reads <code>.graphql</code> template from <code>inst/graphql/</code>
 </li>
 <li>Template interpolation handles <code>extra_graphql</code> parameter and cursor-based pagination</li>
 <li>
-<code><a href="reference/meetup_query.html">meetup_query()</a></code> builds request → <code><a href="reference/meetup_req.html">meetup_req()</a></code> adds OAuth → <code><a href="https://httr2.r-lib.org/reference/req_perform.html" class="external-link">httr2::req_perform()</a></code>
+<code><a href="reference/meetupr_query.html">meetupr_query()</a></code> builds request → <code><a href="reference/meetupr_req.html">meetupr_req()</a></code> adds OAuth → <code><a href="https://httr2.r-lib.org/reference/req_perform.html" class="external-link">httr2::req_perform()</a></code>
 </li>
 <li>Response extraction via dot-path plucking (e.g., <code>"data.event.rsvps.edges"</code>)</li>
 <li>
@@ -71,19 +72,26 @@
 <h3 id="testing-with-vcr">Testing with vcr<a class="anchor" aria-label="anchor" href="#testing-with-vcr"></a></h3>
 <p>Tests use <strong>vcr</strong> package to record/replay HTTP interactions. Always follow this pattern:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">test_that</span><span class="op">(</span><span class="st">"description"</span>, <span class="op">{</span></span>
-<span>  <span class="fu">mock_if_no_auth</span><span class="op">(</span><span class="op">)</span>  <span class="co"># Sets fake env vars when not authenticated</span></span>
-<span>  <span class="fu">vcr</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/vcr/reference/use_cassette.html" class="external-link">local_cassette</a></span><span class="op">(</span><span class="st">"cassette_name"</span><span class="op">)</span>  <span class="co"># Loads YAML from inst/_vcr/</span></span>
-<span>  <span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">get_something</span><span class="op">(</span><span class="op">)</span></span>
-<span>  <span class="co"># assertions</span></span>
+<code class="sourceCode R"><span><span class="fu">describe</span><span class="op">(</span><span class="st">"function()"</span>, <span class="op">{</span></span>
+<span>  <span class="fu">it</span><span class="op">(</span><span class="st">"does something"</span>, <span class="op">{</span></span>
+<span>    <span class="fu">mock_if_no_auth</span><span class="op">(</span><span class="op">)</span>  <span class="co"># Sets fake env vars when not authenticated</span></span>
+<span>    <span class="fu">vcr</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/vcr/reference/use_cassette.html" class="external-link">local_cassette</a></span><span class="op">(</span><span class="st">"cassette_name"</span><span class="op">)</span>  <span class="co"># Loads YAML from inst/_vcr/</span></span>
+<span>    <span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">get_something</span><span class="op">(</span><span class="op">)</span></span>
+<span>    <span class="co"># assertions</span></span>
+<span>  <span class="op">}</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
 <p>Cassettes in <code>inst/_vcr/</code> are committed. To re-record, delete YAML and run tests authenticated.</p>
 </div>
 <div class="section level3">
-<h3 id="coverage-testing">Coverage Testing<a class="anchor" aria-label="anchor" href="#coverage-testing"></a></h3>
-<p>Run <code><a href="http://covr.r-lib.org/reference/package_coverage.html" class="external-link">covr::package_coverage()</a></code> to see line-level coverage. Focus areas with &lt;100%: - <strong><code>R/auth.R</code></strong>: Branch coverage for keyring vs env backend, clipboard availability - <strong><code>R/get-event.R</code></strong>: Error paths in <code><a href="reference/get_event_comments.html">get_event_comments()</a></code> (deprecated endpoint)</p>
-<p>Use <code>local_mocked_bindings()</code> from withr to mock functions like <code>keyring::*</code>, <code>clipr::*</code>, <code><a href="https://httr2.r-lib.org/reference/oauth_cache_path.html" class="external-link">httr2::oauth_cache_path()</a></code>.</p>
+<h3 id="testing-with-mock-authentication">Testing with Mock Authentication<a class="anchor" aria-label="anchor" href="#testing-with-mock-authentication"></a></h3>
+<p>The <code>mock_if_no_auth()</code> function provides mock authentication for testing using <code>withr</code> for automatic cleanup.</p>
+<p>Use <code>local_mocked_bindings()</code> from testthat to mock functions, using the <code>.package</code> argument to specify which package the functions to mock are from (this is not necessary for functions from the current package). Do no mock base R functions.</p>
 </div>
+</div>
+</div>
+<div class="section level1">
+<h1 id="coverage-testing">Coverage Testing<a class="anchor" aria-label="anchor" href="#coverage-testing"></a></h1>
+<p>Run <code><a href="http://covr.r-lib.org/reference/package_coverage.html" class="external-link">covr::package_coverage()</a></code> to see line-level coverage. Focus areas with &lt;100%:</p>
 <div class="section level3">
 <h3 id="building-and-documenting">Building and Documenting<a class="anchor" aria-label="anchor" href="#building-and-documenting"></a></h3>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -93,26 +101,104 @@
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">check</span><span class="op">(</span><span class="op">)</span>        <span class="co"># R CMD check (required before CRAN submission)</span></span></code></pre></div>
 <p>Roxygen templates in <code>man-roxygen/</code> (e.g., <code>@template client_name</code>) reduce duplication.</p>
 </div>
+<div class="section level2">
+<h2 id="code-style-guidelines">Code Style Guidelines<a class="anchor" aria-label="anchor" href="#code-style-guidelines"></a></h2>
+<div class="section level3">
+<h3 id="line-length">Line Length<a class="anchor" aria-label="anchor" href="#line-length"></a></h3>
+<p><strong>Keep all lines to 80 characters maximum.</strong> This follows lintr standards and ensures readability in split-screen editors and code review tools.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># ❌ BAD: Line exceeds 80 characters</span></span>
+<span><span class="va">very_long_function_name</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">parameter_one</span>, <span class="va">parameter_two</span>, <span class="va">parameter_three</span>, <span class="va">parameter_four</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">some_other_long_function</span><span class="op">(</span><span class="va">parameter_one</span>, <span class="va">parameter_two</span>, <span class="va">parameter_three</span><span class="op">)</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">result</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># ✅ GOOD: Break long lines</span></span>
+<span><span class="va">very_long_function_name</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span></span>
+<span>  <span class="va">parameter_one</span>,</span>
+<span>  <span class="va">parameter_two</span>,</span>
+<span>  <span class="va">parameter_three</span>,</span>
+<span>  <span class="va">parameter_four</span></span>
+<span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">result</span> <span class="op">&lt;-</span> <span class="fu">some_other_long_function</span><span class="op">(</span></span>
+<span>    <span class="va">parameter_one</span>,</span>
+<span>    <span class="va">parameter_two</span>,</span>
+<span>    <span class="va">parameter_three</span></span>
+<span>  <span class="op">)</span></span>
+<span>  <span class="va">result</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># ✅ GOOD: Use pipe for long chains</span></span>
+<span><span class="va">result</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">status</span> <span class="op">==</span> <span class="st">"active"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">category</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">summarise</span><span class="op">(</span>total <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">count</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># ❌ BAD: Long pipe chain on one line</span></span>
+<span><span class="va">result</span> <span class="op">&lt;-</span> <span class="va">data</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">status</span> <span class="op">==</span> <span class="st">"active"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">group_by</span><span class="op">(</span><span class="va">category</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">summarise</span><span class="op">(</span>total <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">count</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p><strong>Breaking function calls:</strong> - One argument per line when exceeding 80 characters - Closing parenthesis on its own line, aligned with function name - For short argument lists that fit, keep on one line</p>
+<p><strong>Breaking pipes:</strong> - One operation per line - Pipe operator <code>|&gt;</code> at end of line, not start of next line</p>
+<p><strong>Breaking strings:</strong> - Use <code><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0()</a></code> or <code><a href="https://glue.tidyverse.org/reference/glue.html" class="external-link">glue::glue()</a></code> for multi-line strings, use <code><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf()</a></code> for formatted strings.</p>
+<p><strong>Breaking conditionals:</strong></p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># ✅ GOOD: Break long conditions</span></span>
+<span><span class="kw">if</span> <span class="op">(</span></span>
+<span>  <span class="va">condition_one</span> <span class="op">&amp;&amp;</span></span>
+<span>  <span class="va">condition_two</span> <span class="op">&amp;&amp;</span></span>
+<span>  <span class="va">condition_three</span></span>
+<span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu">do_something</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="co"># ✅ GOOD: Extract to variable</span></span>
+<span><span class="va">has_valid_state</span> <span class="op">&lt;-</span> <span class="va">condition_one</span> <span class="op">&amp;&amp;</span></span>
+<span>  <span class="va">condition_two</span> <span class="op">&amp;&amp;</span></span>
+<span>  <span class="va">condition_three</span></span>
+<span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="va">has_valid_state</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu">do_something</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+<p>Run <code>lintr::lint_package()</code> to check compliance. The package uses: - <code>line_length_linter(80)</code> to enforce this limit - <code>object_length_linter(30)</code> for variable names - <code>cyclocomp_linter(15)</code> for function complexity</p>
+</div>
+<div class="section level3">
+<h3 id="comments">Comments<a class="anchor" aria-label="anchor" href="#comments"></a></h3>
+<p><strong>Minimize code comments.</strong> Write self-documenting code with clear variable and function names. Only add comments to explain <strong>why</strong> something is done, not <strong>what</strong> it does.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># ❌ BAD: Explaining what the code does</span></span>
+<span><span class="co"># Loop through each event and extract the ID</span></span>
+<span><span class="va">event_ids</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">events</span>, <span class="kw">function</span><span class="op">(</span><span class="va">e</span><span class="op">)</span> <span class="va">e</span><span class="op">$</span><span class="va">id</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># ✅ GOOD: Self-documenting code, no comment needed</span></span>
+<span><span class="va">event_ids</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">events</span>, <span class="kw">function</span><span class="op">(</span><span class="va">e</span><span class="op">)</span> <span class="va">e</span><span class="op">$</span><span class="va">id</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># ✅ GOOD: Comment explains why, not what</span></span>
+<span><span class="co"># Meetup API returns duplicates when events span multiple groups</span></span>
+<span><span class="co"># See: https://github.com/meetup/api/issues/123</span></span>
+<span><span class="va">event_ids</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">events</span>, <span class="kw">function</span><span class="op">(</span><span class="va">e</span><span class="op">)</span> <span class="va">e</span><span class="op">$</span><span class="va">id</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>Appropriate use cases for comments: - <strong>API quirks</strong>: Unexpected behavior from external services - <strong>Workarounds</strong>: Temporary fixes for upstream bugs - <strong>Non-obvious design decisions</strong>: Why this approach vs. alternatives - <strong>Performance optimizations</strong>: Why code is structured for speed</p>
+<p>Do not comment: - Variable assignments - Control flow (if/else, loops) - Function calls - Data transformations that are clear from the code</p>
+<p>Rely on <strong>roxygen2 documentation</strong> for function-level explanations. Code comments are for maintainers, roxygen is for users.</p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="project-conventions">Project Conventions<a class="anchor" aria-label="anchor" href="#project-conventions"></a></h2>
 <div class="section level3">
 <h3 id="graphql-query-templates">GraphQL Query Templates<a class="anchor" aria-label="anchor" href="#graphql-query-templates"></a></h3>
 <p>Queries live in <code>inst/graphql/*.graphql</code>. Use <strong>placeholder syntax</strong> for dynamic fields:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode graphql"><code class="sourceCode graphql"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="kw">query</span> GetEvent(<span class="va">$id</span>: <span class="dt">ID</span>!) {</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  event(id: <span class="va">$id</span>) {</span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>    id</span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>    title</span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>    &lt;&lt; extra_graphql &gt;&gt;  <span class="co"># Replaced by glue::glue_data()</span></span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>  }</span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode graphql"><code class="sourceCode graphql"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="kw">query</span> GetEvent(<span class="va">$id</span>: <span class="dt">ID</span>!) {</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  event(id: <span class="va">$id</span>) {</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>    id</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>    title</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>    &lt;&lt; extra_graphql &gt;&gt;  <span class="co"># Replaced by glue::glue_data()</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>  }</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>}</span></code></pre></div>
 <p>The <code>&lt;&lt; extra_graphql &gt;&gt;</code> marker allows users to inject custom fields via function parameters.</p>
 </div>
 <div class="section level3">
 <h3 id="s7-generic-system">S7 Generic System<a class="anchor" aria-label="anchor" href="#s7-generic-system"></a></h3>
 <p>Pagination uses S7 (not S3/S4). Key pattern in <code>R/graphql-builders.R</code>:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">meetup_template</span> <span class="op">&lt;-</span> <span class="fu">S7</span><span class="fu">::</span><span class="fu"><a href="https://rconsortium.github.io/S7/reference/new_class.html" class="external-link">new_class</a></span><span class="op">(</span></span>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">meetupr_template</span> <span class="op">&lt;-</span> <span class="fu">S7</span><span class="fu">::</span><span class="fu"><a href="https://rconsortium.github.io/S7/reference/new_class.html" class="external-link">new_class</a></span><span class="op">(</span></span>
 <span>  properties <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>    template <span class="op">=</span> <span class="fu">S7</span><span class="fu">::</span><span class="va"><a href="https://rconsortium.github.io/S7/reference/base_classes.html" class="external-link">class_character</a></span>,       <span class="co"># Query filename</span></span>
 <span>    edges_path <span class="op">=</span> <span class="fu">S7</span><span class="fu">::</span><span class="va"><a href="https://rconsortium.github.io/S7/reference/base_classes.html" class="external-link">class_character</a></span>,     <span class="co"># "data.group.events.edges"</span></span>
@@ -122,7 +208,7 @@
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">execute</span> <span class="op">&lt;-</span> <span class="fu">S7</span><span class="fu">::</span><span class="fu"><a href="https://rconsortium.github.io/S7/reference/new_generic.html" class="external-link">new_generic</a></span><span class="op">(</span><span class="st">"execute"</span>, <span class="st">"object"</span><span class="op">)</span></span>
-<span><span class="fu">S7</span><span class="fu">::</span><span class="fu"><a href="https://rconsortium.github.io/S7/reference/method.html" class="external-link">method</a></span><span class="op">(</span><span class="va">execute</span>, <span class="va">meetup_template</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">object</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span> <span class="va">...</span> <span class="op">}</span></span></code></pre></div>
+<span><span class="fu">S7</span><span class="fu">::</span><span class="fu"><a href="https://rconsortium.github.io/S7/reference/method.html" class="external-link">method</a></span><span class="op">(</span><span class="va">execute</span>, <span class="va">meetupr_template</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">object</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span> <span class="va">...</span> <span class="op">}</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="authentication-patterns">Authentication Patterns<a class="anchor" aria-label="anchor" href="#authentication-patterns"></a></h3>
@@ -130,14 +216,12 @@
 <strong>Interactive</strong>: User calls any function → OAuth prompt → token cached in <code>httr2::oauth_cache_path()/meetupr/</code>
 </li>
 <li>
-<strong>CI Mode</strong>: <code><a href="reference/meetup_ci.html">meetup_ci_setup()</a></code> base64-encodes token → store in secrets → <code><a href="reference/meetup_ci.html">meetup_ci_load()</a></code> decodes in workflow</li>
-<li>
-<strong>Credentials</strong>: Prefer system keyring via <code>meetup_key_set/get()</code>. Falls back to env vars (<code>meetupr:*</code>) when keyring unavailable</li>
+<strong>CI Mode</strong>: <code><a href="reference/meetupr_encrypt.html">meetupr_encrypt_setup()</a></code> base64-encodes token → store in secrets → <code><a href="reference/meetupr_encrypt.html">meetupr_encrypt_load()</a></code> decodes in workflow</li>
 </ul></div>
 <div class="section level3">
 <h3 id="error-handling">Error Handling<a class="anchor" aria-label="anchor" href="#error-handling"></a></h3>
-<p>GraphQL errors are structured responses (not HTTP errors). Pattern in <code><a href="reference/meetup_query.html">meetup_query()</a></code>:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<p>GraphQL errors are structured responses (not HTTP errors). Pattern in <code><a href="reference/meetupr_query.html">meetupr_query()</a></code>:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">resp</span> <span class="op">&lt;-</span> <span class="fu">httr2</span><span class="fu">::</span><span class="fu"><a href="https://httr2.r-lib.org/reference/req_perform.html" class="external-link">req_perform</a></span><span class="op">(</span><span class="va">req</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">httr2</span><span class="fu">::</span><span class="fu"><a href="https://httr2.r-lib.org/reference/resp_body_raw.html" class="external-link">resp_body_json</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">resp</span><span class="op">$</span><span class="va">errors</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu">cli</span><span class="fu">::</span><span class="fu"><a href="https://cli.r-lib.org/reference/cli_abort.html" class="external-link">cli_abort</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">resp</span><span class="op">$</span><span class="va">errors</span>, <span class="kw">function</span><span class="op">(</span><span class="va">e</span><span class="op">)</span> <span class="va">e</span><span class="op">$</span><span class="va">message</span><span class="op">)</span><span class="op">)</span></span>
@@ -156,8 +240,6 @@
 <ul><li>
 <strong>httr2</strong>: OAuth client, request building, throttling (500 req/60s default)</li>
 <li>
-<strong>keyring</strong>: Cross-platform credential storage (macOS Keychain, Windows Credential Manager, etc.)</li>
-<li>
 <strong>vcr</strong>: Test fixture management for HTTP interactions</li>
 <li>
 <strong>cli</strong>: Styled console output (use <code>cli::cli_alert_*</code> not <code><a href="https://rdrr.io/r/base/message.html" class="external-link">message()</a></code>)</li>
@@ -165,11 +247,11 @@
 <div class="section level3">
 <h3 id="meetup-graphql-api">Meetup GraphQL API<a class="anchor" aria-label="anchor" href="#meetup-graphql-api"></a></h3>
 <p>Base URL: <code>https://api.meetup.com/gql-ext</code> (override with <code>MEETUP_API_URL</code> env var)</p>
-<p>Key quirks: - Pagination uses cursor-based system (not offset/limit) - Some fields Pro-only (e.g., <code>UPCOMING</code> status for events) - Comments endpoint removed from schema (see <code><a href="reference/get_event_comments.html">get_event_comments()</a></code> for deprecation pattern) - Introspection available via <code><a href="reference/meetup_schema.html">meetup_schema()</a></code> to explore schema</p>
+<p>Key quirks: - Pagination uses cursor-based system (not offset/limit) - Some fields Pro-only (e.g., <code>UPCOMING</code> status for events) - Comments endpoint removed from schema (see <code><a href="reference/get_event_comments.html">get_event_comments()</a></code> for deprecation pattern) - Introspection available via <code><a href="reference/meetupr_schema.html">meetupr_schema()</a></code> to explore schema</p>
 </div>
 <div class="section level3">
 <h3 id="debug-mode">Debug Mode<a class="anchor" aria-label="anchor" href="#debug-mode"></a></h3>
-<p>Set <code>MEETUPR_DEBUG=1</code> to log GraphQL requests. Check with <code>check_debug_mode()</code>. Uses <code><a href="reference/local_meetupr_debug.html">local_meetupr_debug()</a></code> in tests.</p>
+<p>Set <code>MEETUPR_DEBUG=TRUE</code> to log GraphQL requests. Check with <code>check_debug_mode()</code>.</p>
 </div>
 </div>
 <div class="section level2">
@@ -186,16 +268,17 @@
 <div class="section level2">
 <h2 id="testing-patterns-for-100-coverage">Testing Patterns for 100% Coverage<a class="anchor" aria-label="anchor" href="#testing-patterns-for-100-coverage"></a></h2>
 <ol style="list-style-type: decimal"><li>
-<strong>Mock external system interactions</strong>: keyring, clipboard, httr2 OAuth cache paths</li>
+<strong>Mock external system interactions</strong>: clipboard, httr2 OAuth cache paths</li>
 <li>
 <strong>Test error branches</strong>: missing keys, multiple tokens, network failures</li>
 <li>
 <strong>Cover CLI output paths</strong>: silent vs. verbose modes, different alert types</li>
 <li>
 <strong>Deprecated functions</strong>: Ensure warnings are tested even if functionality is a no-op</li>
-</ol><p>When writing new tests: - Use <code>withr::local_*</code> for temporary state changes (envvars, tempdir, mocked bindings) - Verify CLI messages with <code>expect_message()</code> / <code>expect_warning()</code> - Test both success and failure paths for any external call</p>
+</ol><p>When writing new tests: - Use <code>withr::local_*</code> for temporary state changes (envvars, tempdir, mocked bindings) - Verify CLI messages with <code>expect_message()</code> / <code>expect_warning()</code> - Test both success and failure paths for any external call - do not mock base R functions - Use <code><a href="https://docs.ropensci.org/vcr/reference/use_cassette.html" class="external-link">vcr::use_cassette()</a></code> to record HTTP interactions for reproducible tests - do not add testthat:: namespacing, as testthat is loaded automatically in tests</p>
 </div>
 </div>
+
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
@@ -206,7 +289,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

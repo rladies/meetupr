@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">meetupr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,6 +48,7 @@
 <span>  max_results <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  handle_multiples <span class="op">=</span> <span class="st">"list"</span>,</span>
 <span>  extra_graphql <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  asis <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -89,6 +90,10 @@ If "first", return only the first match.</p></dd>
 <dd><p>A graphql object. Extra objects to return</p></dd>
 
 
+<dt id="arg-asis">asis<a class="anchor" aria-label="anchor" href="#arg-asis"></a></dt>
+<dd><p>Return the raw API response as-is without processing</p></dd>
+
+
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Should be empty. Used for parameter expansion</p></dd>
 
@@ -102,46 +107,44 @@ If "first", return only the first match.</p></dd>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">get_group_events</span><span class="op">(</span><span class="st">"rladies-lagos"</span>, <span class="st">"past"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 13 × 23</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    id    title event_url created_time        status date_time           duration</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 2641… satR… https://… 2019-08-20 <span style="color: #949494;">11:54:50</span> PAST   2019-09-21 <span style="color: #949494;">08:00:00</span> PT7H    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 2667… Data… https://… 2019-11-26 <span style="color: #949494;">17:00:29</span> PAST   2019-12-07 <span style="color: #949494;">08:00:00</span> PT7H    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 2678… Gett… https://… 2020-01-10 <span style="color: #949494;">12:56:39</span> PAST   2020-02-22 <span style="color: #949494;">08:00:00</span> PT7H    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 2843… Data… https://… 2022-03-01 <span style="color: #949494;">00:27:32</span> PAST   2022-03-26 <span style="color: #949494;">13:00:00</span> PT2H    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 2846… R La… https://… 2022-03-14 <span style="color: #949494;">16:37:46</span> PAST   2022-05-07 <span style="color: #949494;">15:00:00</span> PT1H    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 2922… Wome… https://… 2023-03-15 <span style="color: #949494;">19:29:08</span> PAST   2023-03-24 <span style="color: #949494;">09:00:00</span> PT2H    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 2931… R Pa… https://… 2023-04-27 <span style="color: #949494;">23:25:21</span> PAST   2023-05-06 <span style="color: #949494;">08:00:00</span> PT2H    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 2947… Unlo… https://… 2023-07-11 <span style="color: #949494;">23:50:20</span> PAST   2023-07-22 <span style="color: #949494;">15:30:00</span> PT2H    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 2950… Hack… https://… 2023-07-24 <span style="color: #949494;">18:24:33</span> PAST   2023-08-14 <span style="color: #949494;">16:00:00</span> PT30H   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 2939… Gene… https://… 2023-06-01 <span style="color: #949494;">14:20:57</span> PAST   2023-09-09 <span style="color: #949494;">14:00:00</span> PT2H    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> 3000… Buil… https://… 2024-03-26 <span style="color: #949494;">12:37:08</span> PAST   2024-04-06 <span style="color: #949494;">16:00:00</span> PT3H    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> 3003… Inte… https://… 2024-04-11 <span style="color: #949494;">19:14:08</span> PAST   2024-04-25 <span style="color: #949494;">10:00:00</span> PT5H    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> 3000… Inte… https://… 2024-03-26 <span style="color: #949494;">13:08:58</span> PAST   2024-04-27 <span style="color: #949494;">16:00:00</span> PT3H    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 16 more variables: description &lt;chr&gt;, group_id &lt;chr&gt;, group_name &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   group_urlname &lt;chr&gt;, venues_id &lt;list&gt;, venues_name &lt;list&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   venues_address &lt;list&gt;, venues_city &lt;list&gt;, venues_state &lt;list&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   venues_postal_code &lt;list&gt;, venues_country &lt;list&gt;, venues_lat &lt;list&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   venues_lon &lt;list&gt;, venues_venue_type &lt;list&gt;, rsvps_count &lt;int&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   featured_event_photo_url &lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    id        title  event_url created_time status date_time duration description</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 264156061 satRd… https://… 2019-08-20T… PAST   2019-09-… PT7H     <span style="color: #949494;">"</span>satRday-L…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 266757265 Data … https://… 2019-11-26T… PAST   2019-12-… PT7H     <span style="color: #949494;">"</span>Hi there …</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 267804814 Getti… https://… 2020-01-10T… PAST   2020-02-… PT7H     <span style="color: #949494;">"</span>Hi there …</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 284322273 Data … https://… 2022-02-28T… PAST   2022-03-… PT2H     <span style="color: #949494;">"</span>**About t…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 284612394 R Lad… https://… 2022-03-14T… PAST   2022-05-… PT1H     <span style="color: #949494;">"</span>Join us f…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 292261535 Women… https://… 2023-03-15T… PAST   2023-03-… PT2H     <span style="color: #949494;">"</span>Join us f…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 293181201 R Pac… https://… 2023-04-27T… PAST   2023-05-… PT2H     <span style="color: #949494;">"</span>Are you i…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 294750659 Unloc… https://… 2023-07-11T… PAST   2023-07-… PT2H     <span style="color: #949494;">"</span>In today'…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 295011502 Hackn… https://… 2023-07-24T… PAST   2023-08-… PT30H    <span style="color: #949494;">"</span># The Cha…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 293909113 Gener… https://… 2023-06-01T… PAST   2023-09-… PT2H     <span style="color: #949494;">"</span>Discover …</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">11</span> 300026594 Build… https://… 2024-03-26T… PAST   2024-04-… PT3H     <span style="color: #949494;">"</span>**🚀 Build…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">12</span> 300356000 Inter… https://… 2024-04-11T… PAST   2024-04-… PT5H     <span style="color: #949494;">"</span>**Celebra…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">13</span> 300027094 Inter… https://… 2024-03-26T… PAST   2024-04-… PT3H     <span style="color: #949494;">"</span>About thi…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 15 more variables: group_id &lt;chr&gt;, group_name &lt;chr&gt;, group_urlname &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   venues_id &lt;list&gt;, venues_name &lt;list&gt;, venues_address &lt;list&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   venues_city &lt;list&gt;, venues_state &lt;list&gt;, venues_postal_code &lt;list&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   venues_country &lt;list&gt;, venues_lat &lt;list&gt;, venues_lon &lt;list&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   venues_venue_type &lt;list&gt;, rsvps_count &lt;int&gt;, featured_event_photo_url &lt;chr&gt;</span></span>
 <span class="r-in"><span><span class="fu">get_group_events</span><span class="op">(</span></span></span>
-<span class="r-in"><span>   <span class="st">"rladies-lagos"</span>,</span></span>
-<span class="r-in"><span>   status <span class="op">=</span> <span class="st">"past"</span>,</span></span>
-<span class="r-in"><span>   date_before <span class="op">=</span> <span class="st">"2023-01-01T12:00:00Z"</span></span></span>
+<span class="r-in"><span>  <span class="st">"rladies-lagos"</span>,</span></span>
+<span class="r-in"><span>  status <span class="op">=</span> <span class="st">"past"</span>,</span></span>
+<span class="r-in"><span>  date_before <span class="op">=</span> <span class="st">"2023-01-01T12:00:00Z"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 23</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   id     title event_url created_time        status date_time           duration</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 26415… satR… https://… 2019-08-20 <span style="color: #949494;">11:54:50</span> PAST   2019-09-21 <span style="color: #949494;">08:00:00</span> PT7H    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 26675… Data… https://… 2019-11-26 <span style="color: #949494;">17:00:29</span> PAST   2019-12-07 <span style="color: #949494;">08:00:00</span> PT7H    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 26780… Gett… https://… 2020-01-10 <span style="color: #949494;">12:56:39</span> PAST   2020-02-22 <span style="color: #949494;">08:00:00</span> PT7H    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 28432… Data… https://… 2022-03-01 <span style="color: #949494;">00:27:32</span> PAST   2022-03-26 <span style="color: #949494;">13:00:00</span> PT2H    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 28461… R La… https://… 2022-03-14 <span style="color: #949494;">16:37:46</span> PAST   2022-05-07 <span style="color: #949494;">15:00:00</span> PT1H    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 16 more variables: description &lt;chr&gt;, group_id &lt;chr&gt;, group_name &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   group_urlname &lt;chr&gt;, venues_id &lt;chr&gt;, venues_name &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   venues_address &lt;chr&gt;, venues_city &lt;chr&gt;, venues_state &lt;chr&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   venues_postal_code &lt;chr&gt;, venues_country &lt;chr&gt;, venues_lat &lt;dbl&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   venues_lon &lt;dbl&gt;, venues_venue_type &lt;chr&gt;, rsvps_count &lt;int&gt;,</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   featured_event_photo_url &lt;chr&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   id        title   event_url created_time status date_time duration description</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 264156061 satRda… https://… 2019-08-20T… PAST   2019-09-… PT7H     <span style="color: #949494;">"</span>satRday-L…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 266757265 Data M… https://… 2019-11-26T… PAST   2019-12-… PT7H     <span style="color: #949494;">"</span>Hi there …</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 267804814 Gettin… https://… 2020-01-10T… PAST   2020-02-… PT7H     <span style="color: #949494;">"</span>Hi there …</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 284322273 Data N… https://… 2022-02-28T… PAST   2022-03-… PT2H     <span style="color: #949494;">"</span>**About t…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 284612394 R Ladi… https://… 2022-03-14T… PAST   2022-05-… PT1H     <span style="color: #949494;">"</span>Join us f…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 15 more variables: group_id &lt;chr&gt;, group_name &lt;chr&gt;, group_urlname &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   venues_id &lt;chr&gt;, venues_name &lt;chr&gt;, venues_address &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   venues_city &lt;chr&gt;, venues_state &lt;chr&gt;, venues_postal_code &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   venues_country &lt;chr&gt;, venues_lat &lt;dbl&gt;, venues_lon &lt;dbl&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   venues_venue_type &lt;chr&gt;, rsvps_count &lt;int&gt;, featured_event_photo_url &lt;chr&gt;</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -153,7 +156,7 @@ If "first", return only the first match.</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

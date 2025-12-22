@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">meetupr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,24 +67,14 @@
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rladies.org/meetupr/" class="external-link">meetupr</a></span><span class="op">)</span></span></code></pre></div>
-<div class="section level2">
-<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
-</h2>
-<p>This vignette covers advanced authentication topics for meetupr users
-who need:</p>
-<ul>
-<li>Higher API rate limits<br>
-</li>
-<li>Production applications with their own OAuth credentials<br>
-</li>
-<li>Fine-grained control over authentication flow<br>
-</li>
-<li>Credential management across teams or environments</li>
-</ul>
-<p>For basic usage, see the <a href="meetupr.html">Getting Started
-vignette</a>. Most users don’t need custom OAuth credentials and can use
-the package’s built-in authentication.</p>
-</div>
+<p>This package supports three main authentication methods: 1. OAuth2
+Interactive Flow (default for local use)<br>
+2. JWT Token (for Meetup Pro accounts)<br>
+3. Encrypted OAuth Token File (CI/CD and automation for non-pro
+accounts, experimental)</p>
+<p>This vignette covers advanced topics around authentication, including
+how to register and use custom OAuth credentials, and how to use
+different authentication methods supported by meetupr.</p>
 <div class="section level2">
 <h2 id="why-use-custom-oauth-credentials">Why Use Custom OAuth Credentials<a class="anchor" aria-label="anchor" href="#why-use-custom-oauth-credentials"></a>
 </h2>
@@ -121,8 +111,8 @@ better control over how authentication is managed.</p>
 <div class="section level3">
 <h3 id="step-1-create-the-oauth-app">Step 1: Create the OAuth App<a class="anchor" aria-label="anchor" href="#step-1-create-the-oauth-app"></a>
 </h3>
-<p>Navigate to the Meetup OAuth app registration page:</p>
-<p><a href="https://www.meetup.com/api/oauth/list/" class="external-link uri">https://www.meetup.com/api/oauth/list/</a></p>
+<p>Navigate to the <a href="https://www.meetup.com/api/oauth/list/" class="external-link">Meetup OAuth app
+registration</a>(must be logged in to Meetup for access) page.</p>
 <p>Click <strong>Create New OAuth Consumer</strong> and fill in the
 required fields:</p>
 <ul>
@@ -135,8 +125,8 @@ Analysis App”)<br>
 GitHub repository<br>
 </li>
 <li>
-<strong>Redirect URI</strong>: <code>http://localhost:1410/</code>
-(required for OAuth flow in R)<br>
+<strong>Redirect URI</strong>: defaults
+to<code>http://localhost:1410/</code>
 </li>
 <li>
 <strong>Consumer Description</strong>: Brief description of what
@@ -156,100 +146,67 @@ application<br>
 <strong>Secret</strong> (Client Secret): A confidential string used
 to authenticate your app</li>
 </ul>
-<p><strong>Important</strong>: Keep the client secret confidential.
-Never commit it to version control or share it publicly. Anyone with
-your secret can make API requests as your application.</p>
-</div>
-<div class="section level3">
-<h3 id="step-3-understand-oauth-scopes">Step 3: Understand OAuth Scopes<a class="anchor" aria-label="anchor" href="#step-3-understand-oauth-scopes"></a>
-</h3>
-<p>Meetup’s API uses scopes to control what data your application can
-access. The meetupr package requests these scopes by default:</p>
-<ul>
-<li>
-<code>basic</code>: Read basic profile information<br>
-</li>
-<li>
-<code>event_management</code>: Read event data and RSVPs<br>
-</li>
-<li>
-<code>group_join</code>: Read group membership information</li>
-</ul>
-<p>You can customize scopes when creating your OAuth app, but the
-defaults work for most meetupr use cases.</p>
+<p><strong>Important</strong>: Keep the client secret confidential. Do
+not commit it to version control or share it publicly. While the secret
+alone is not sufficient to access user data, it should still be
+protected.</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="storing-custom-credentials">Storing Custom Credentials<a class="anchor" aria-label="anchor" href="#storing-custom-credentials"></a>
 </h2>
-<p>meetupr uses the <a href="https://keyring.r-lib.org/" class="external-link">keyring</a>
-package to securely store credentials in your system’s native credential
-manager.</p>
+<p>meetupr stores and retrieves OAuth credentials from your R
+environment. We highly recommend using the <code>keyring</code> package
+to securely manage your secrets, but do note that meetupr natively reads
+from environment variables. Use the pattern <clientname>_<key>. Default
+client name is “meetupr”, but replace <clientname> with your client name
+for custom apps.</clientname></key></clientname></p>
+<p>To use a custom OAuth application, you need to provide at least the
+following credentials: - <code>client_key</code>: Your OAuth Client
+ID<br>
+- <code>client_secret</code>: Your OAuth Client Secret</p>
+<p>These should be clearly stated when you register your OAuth app with
+Meetup. When you make your custom app, you will need to set the redirect
+URI to <code>http://localhost:1410/</code>, as this is what meetupr
+uses.</p>
 <div class="section level3">
-<h3 id="using-the-keyring">Using the Keyring<a class="anchor" aria-label="anchor" href="#using-the-keyring"></a>
+<h3 id="storing-credentials-in-your-environment">Storing Credentials in your environment<a class="anchor" aria-label="anchor" href="#storing-credentials-in-your-environment"></a>
 </h3>
-<p>Store your custom credentials:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Store client ID and secret</span></span>
-<span><span class="fu"><a href="../reference/meetup_keys.html">meetup_key_set</a></span><span class="op">(</span><span class="st">"client_id"</span>, <span class="st">"your_client_id_here"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/meetup_keys.html">meetup_key_set</a></span><span class="op">(</span><span class="st">"client_secret"</span>, <span class="st">"your_client_secret_here"</span><span class="op">)</span></span></code></pre></div>
-<p>If you don’t provide values, you’ll be prompted interactively:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Prompts for input</span></span>
-<span><span class="fu"><a href="../reference/meetup_keys.html">meetup_key_set</a></span><span class="op">(</span><span class="st">"client_id"</span><span class="op">)</span></span></code></pre></div>
-<p>The credentials are stored securely in:</p>
-<ul>
-<li>
-<strong>macOS</strong>: Keychain<br>
-</li>
-<li>
-<strong>Windows</strong>: Credential Manager<br>
-</li>
-<li>
-<strong>Linux</strong>: Secret Service API (via libsecret)</li>
-</ul>
+<p>You can to set credentials in either user or project specific
+<code>.Renviron</code> file. But be cautious not to commit secrets to
+version control. For local development, you can set them in your
+user-level <code>.Renviron</code> file, but we recommend using the
+<code>[keyring](https://keyring.r-lib.org/)</code> package for better
+security. For example, in your <code>.Renviron</code> file, add:</p>
+<pre><code><span><span class="va">meetupr_client_key</span><span class="op">=</span><span class="va">your_client_key_here</span></span>
+<span><span class="va">meetupr_client_secret</span><span class="op">=</span><span class="va">your_client_secret_here</span></span></code></pre>
+<p>values will be read automatically when you start R.</p>
 </div>
 <div class="section level3">
 <h3 id="verifying-stored-credentials">Verifying Stored Credentials<a class="anchor" aria-label="anchor" href="#verifying-stored-credentials"></a>
 </h3>
 <p>Check what credentials are available:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Check if credentials exist</span></span>
-<span><span class="fu">key_available</span><span class="op">(</span><span class="st">"client_id"</span><span class="op">)</span></span>
+<span><span class="fu">key_available</span><span class="op">(</span><span class="st">"client_key"</span><span class="op">)</span></span>
 <span><span class="fu">key_available</span><span class="op">(</span><span class="st">"client_secret"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Retrieve stored values (for debugging only - don't print secrets!)</span></span>
-<span><span class="va">client_id</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meetup_keys.html">meetup_key_get</a></span><span class="op">(</span><span class="st">"client_id"</span><span class="op">)</span></span>
+<span><span class="va">client_key</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meetupr_credentials.html">meetupr_key_get</a></span><span class="op">(</span><span class="st">"client_key"</span><span class="op">)</span></span>
 <span><span class="co"># Note: Never print client_secret in logs or console</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="retrieving-credentials">Retrieving Credentials<a class="anchor" aria-label="anchor" href="#retrieving-credentials"></a>
-</h3>
-<p>meetupr automatically retrieves credentials from keyring when needed.
-The lookup order is:</p>
-<ol style="list-style-type: decimal">
-<li>System keyring (via <code><a href="../reference/meetup_keys.html">meetup_key_get()</a></code>)<br>
-</li>
-<li>Environment variables (<code>MEETUP_CLIENT_ID</code>,
-<code>MEETUP_CLIENT_SECRET</code>)<br>
-</li>
-<li>Built-in package credentials (fallback)</li>
-</ol>
-<p>This allows you to override credentials at different levels
-(system-wide, project-specific, or per-session).</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="authenticating-with-custom-credentials">Authenticating with Custom Credentials<a class="anchor" aria-label="anchor" href="#authenticating-with-custom-credentials"></a>
 </h2>
 <p>Once credentials are stored, authentication works the same as with
-built-in credentials:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+the built-in credentials as long as everything is correct.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Authenticate (will use stored credentials automatically)</span></span>
-<span><span class="fu"><a href="../reference/meetup_auth.html">meetup_auth</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/meetupr_auth.html">meetupr_auth</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Verify authentication</span></span>
-<span><span class="fu"><a href="../reference/meetup_auth_status.html">meetup_auth_status</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<span><span class="co"># Get situation report</span></span>
+<span><span class="fu"><a href="../reference/meetupr_sitrep.html">meetupr_sitrep</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>The OAuth flow opens a browser where you:</p>
 <ol style="list-style-type: decimal">
 <li>Log in with your Meetup account<br>
@@ -258,776 +215,189 @@ built-in credentials:</p>
 </li>
 <li>Get redirected back to R with an access token</li>
 </ol>
-<p>The token is cached locally and reused until it expires (typically 90
-days).</p>
-<div class="section level3">
-<h3 id="using-environment-variables">Using Environment Variables<a class="anchor" aria-label="anchor" href="#using-environment-variables"></a>
-</h3>
-<p>For project-specific configurations, you can use environment
-variables instead of keyring. Create a <code>.Renviron</code> file in
-your project:</p>
-<pre><code><span><span class="va">MEETUP_CLIENT_ID</span><span class="op">=</span><span class="va">your_client_id</span></span>
-<span><span class="va">MEETUP_CLIENT_SECRET</span><span class="op">=</span><span class="va">your_client_secret</span></span></code></pre>
-<p><strong>Important</strong>: Add <code>.Renviron</code> to
-<code>.gitignore</code> to avoid committing secrets.</p>
-<p>Environment variables take precedence over keyring, allowing
-per-project overrides.</p>
-</div>
+<p>The token is cached locally and reused until it expires, after which
+it will be refreshed automatically.</p>
 <div class="section level3">
 <h3 id="using-a-custom-client-name">Using a Custom Client Name<a class="anchor" aria-label="anchor" href="#using-a-custom-client-name"></a>
 </h3>
 <p>By default, tokens are cached under the service name
-<code>"meetupr"</code>. If you’re using multiple OAuth apps, you can
-specify a custom client name:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Store credentials for a specific app</span></span>
-<span><span class="fu"><a href="../reference/meetup_keys.html">meetup_key_set</a></span><span class="op">(</span><span class="st">"client_id"</span>, <span class="st">"app1_client_id"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/meetup_keys.html">meetup_key_set</a></span><span class="op">(</span><span class="st">"client_secret"</span>, <span class="st">"app1_secret"</span><span class="op">)</span></span>
+<code>"meetupr"</code>, which is the default <code>client_name</code>.
+If you’re using multiple OAuth apps, you can specify a custom client
+name:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Sets a custom client name for this session</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv</a></span><span class="op">(</span><span class="st">"MEETUPR_CLIENT_NAME"</span> <span class="op">=</span> <span class="st">"myApp"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Authenticate with custom client name</span></span>
-<span><span class="fu"><a href="../reference/meetup_auth.html">meetup_auth</a></span><span class="op">(</span>client_name <span class="op">=</span> <span class="st">"my_custom_app"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Use the custom client for API calls</span></span>
-<span><span class="fu"><a href="../reference/get_group.html">get_group</a></span><span class="op">(</span><span class="st">"rladies-lagos"</span>, client_name <span class="op">=</span> <span class="st">"my_custom_app"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/meetupr_sitrep.html">meetupr_sitrep</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>Or specify the client name directly in function calls:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Authenticate with custom client name</span></span>
+<span><span class="fu"><a href="../reference/meetupr_auth.html">meetupr_auth</a></span><span class="op">(</span>client_name <span class="op">=</span> <span class="st">"myApp"</span><span class="op">)</span></span></code></pre></div>
 <p>This allows you to maintain separate authentication for different
-projects or OAuth applications.</p>
-</div>
-</div>
-<div class="section level2">
-<h2 id="advanced-cicd-authentication">Advanced CI/CD Authentication<a class="anchor" aria-label="anchor" href="#advanced-cicd-authentication"></a>
-</h2>
-<p>For production deployments, automated workflows, or team
-environments, you need non-interactive authentication.</p>
-<div class="section level3">
-<h3 id="understanding-ci-authentication-flow">Understanding CI Authentication Flow<a class="anchor" aria-label="anchor" href="#understanding-ci-authentication-flow"></a>
-</h3>
-<p>The CI authentication pattern:</p>
-<ol style="list-style-type: decimal">
-<li>
-<strong>Locally</strong> (one-time setup): Authenticate
-interactively and encode the token<br>
-</li>
-<li>
-<strong>CI Environment</strong>: Store the encoded token as a
-secret<br>
-</li>
-<li>
-<strong>CI Runtime</strong>: Decode and use the token without
-browser interaction</li>
-</ol>
-<p>This lets automated systems use your OAuth credentials without
-exposing the client secret.</p>
+projects or OAuth applications. The client name is safe to share
+publicly, as it does not contain sensitive information, and can thus
+safely be stored in project specific <code>.Renviron</code> files and
+version controlled.</p>
 </div>
 <div class="section level3">
-<h3 id="setting-up-ci-authentication">Setting Up CI Authentication<a class="anchor" aria-label="anchor" href="#setting-up-ci-authentication"></a>
+<h3 id="supported-keys">Supported Keys<a class="anchor" aria-label="anchor" href="#supported-keys"></a>
 </h3>
-<div class="section level4">
-<h4 id="step-1-authenticate-locally">Step 1: Authenticate Locally<a class="anchor" aria-label="anchor" href="#step-1-authenticate-locally"></a>
-</h4>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># First, ensure custom credentials are stored</span></span>
-<span><span class="fu"><a href="../reference/meetup_keys.html">meetup_key_set</a></span><span class="op">(</span><span class="st">"client_id"</span>, <span class="st">"your_client_id"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/meetup_keys.html">meetup_key_set</a></span><span class="op">(</span><span class="st">"client_secret"</span>, <span class="st">"your_client_secret"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Authenticate interactively</span></span>
-<span><span class="fu"><a href="../reference/meetup_auth.html">meetup_auth</a></span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Generate CI credentials</span></span>
-<span><span class="fu"><a href="../reference/meetup_ci.html">meetup_ci_setup</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p>The <code><a href="../reference/meetup_ci.html">meetup_ci_setup()</a></code> function will:</p>
-<ol style="list-style-type: decimal">
-<li>Read your cached OAuth token<br>
-</li>
-<li>Encode it as base64<br>
-</li>
-<li>Store it in keyring under <code>"token"</code> and
-<code>"token_file"</code> keys<br>
-</li>
-<li>Display the values for setting CI secrets<br>
-</li>
-<li>Provide platform-specific instructions</li>
-</ol>
-<p><strong>Output example</strong>:</p>
-<pre><code>Setting up CI credentials...
-
-Add these secrets to your CI environment:
-
-  meetupr:token:
-    eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...
-
-  meetupr:token_file:
-    ae743e0fbd718c21f2cca632e77bd180-token.rds.enc
-
-GitHub Actions:
-  Settings &gt; Secrets and variables &gt; Actions &gt; New repository secret
-  Name: MEETUPR_TOKEN (value: meetupr:token above)
-  Name: MEETUPR_TOKEN_FILE (value: meetupr:token_file above)</code></pre>
+<table class="table">
+<colgroup>
+<col width="24%">
+<col width="75%">
+</colgroup>
+<thead><tr class="header">
+<th>Key</th>
+<th>Purpose/Usage</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>client_key</td>
+<td>OAuth client key, necessary if using custom app</td>
+</tr>
+<tr class="even">
+<td>client_secret</td>
+<td>OAuth client secret, necessary if using custom app</td>
+</tr>
+<tr class="odd">
+<td>jwt_token</td>
+<td>JWT token (string or file path) for Meetup Pro authentication</td>
+</tr>
+<tr class="even">
+<td>jwt_issuer</td>
+<td>Necessary if using JWT, your Meetup Member ID (number)</td>
+</tr>
+<tr class="odd">
+<td>encrypt_path</td>
+<td>Path to encrypted token file (default:
+<code>.meetupr.rds</code>)</td>
+</tr>
+<tr class="even">
+<td>encrypt_pwd</td>
+<td>Password for decrypting encrypted token files</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="section level4">
-<h4 id="step-2-configure-ci-secrets">Step 2: Configure CI Secrets<a class="anchor" aria-label="anchor" href="#step-2-configure-ci-secrets"></a>
-</h4>
-<p><strong>GitHub Actions</strong>:</p>
-<p>Go to repository Settings &gt; Secrets and variables &gt; Actions,
-then add:</p>
-<ul>
-<li>
-<code>MEETUPR_TOKEN</code>: Base64-encoded token (the long
-string)<br>
-</li>
-<li>
-<code>MEETUPR_TOKEN_FILE</code>: Token filename (e.g.,
-<code>ae743e0-token.rds.enc</code>)</li>
-</ul>
-<p><strong>GitLab CI</strong>:</p>
-<p>Go to Settings &gt; CI/CD &gt; Variables, then add:</p>
-<ul>
-<li>
-<code>MEETUPR_TOKEN</code>: Base64-encoded token (mask
-variable)<br>
-</li>
-<li>
-<code>MEETUPR_TOKEN_FILE</code>: Token filename</li>
-</ul>
-<p><strong>Other CI platforms</strong>:</p>
-<p>Most platforms have a secrets management feature. Store both values
-as environment variables that will be available at runtime.</p>
+<div class="section level3">
+<h3 id="jwt-flow-meetup-pro-accounts">1. JWT Flow (Meetup Pro accounts)<a class="anchor" aria-label="anchor" href="#jwt-flow-meetup-pro-accounts"></a>
+</h3>
+<p>JWT is only available for Meetup Pro accounts. To use JWT
+authentication, you need to obtain a JWT token from Meetup, from your
+custom oAuth app page, and your Member ID (numeric).</p>
+<p>The member ID is required to identify the user associated with the
+JWT token, and can be found in your Meetup profile URL (e.g.,
+<code>https://www.meetup.com/members/12345678/</code> where
+<code>12345678</code> is your member ID). Then set the following keys in
+your environment (using keyring or <code>.Renviron</code>):</p>
+<pre><code><span><span class="va">meetupr_jwt_issuer</span><span class="op">=</span><span class="fl">12345678</span></span></code></pre>
+<p>The JWT token is a PEM-encoded string that can be used to
+authenticate API requests directly, without going through the OAuth2
+flow.</p>
+<p>For local development, you should download the PEM file from your
+oAuth custom app setup page, and store it in a secure place outside your
+project directory. {meetupr} will automatically look for the file at
+<code>~/.ssh/meetupr.rsa</code> by default, but you can store it
+anywhere you like and then reference the file path as the
+<code>jwt_token</code> key.</p>
+<pre><code>meetupr_jwt_token=/path/to/your/meetup.rsa
+meetupr_jwt_issuer=12345678</code></pre>
+<p>For CI/CD, you can store the JWT token as an environment variable, by
+copying the token string directly and pasting it into your CI
+environment variable settings. meetupr will read the token from the env
+var directly.</p>
 </div>
-<div class="section level4">
-<h4 id="step-3-load-token-in-ci-workflow">Step 3: Load Token in CI Workflow<a class="anchor" aria-label="anchor" href="#step-3-load-token-in-ci-workflow"></a>
-</h4>
-<p>Add this to the beginning of your CI script:</p>
+<div class="section level3">
+<h3 id="encrypted-oauth-token-file-for-cicd">2. Encrypted OAuth Token File (for CI/CD)<a class="anchor" aria-label="anchor" href="#encrypted-oauth-token-file-for-cicd"></a>
+</h3>
+<p>This experimental method provides non-interactive, automated API
+access for non‑Pro accounts. It stores an encrypted copy of your OAuth
+token file (default: <code>.meetupr.rds</code>) in the repository and
+uses a password kept in CI secrets to decrypt it at runtime.</p>
+<p><strong>Why use it</strong><br>
+- Handles expiring OAuth tokens when JWT is not available.<br>
+- Keeps the token file encrypted in the repo or CI artifacts.<br>
+- Allows scheduled or automated workflows to run without manual
+login.</p>
+<p><strong>Important constraint</strong> Meetup refresh tokens are
+single‑use. If a run refreshes the token you must re‑encrypt and update
+the stored file after that run, otherwise the next run will fail.</p>
+</div>
+<div class="section level3">
+<h3 id="setting-up-encrypted-token-authentication">Setting Up Encrypted Token Authentication<a class="anchor" aria-label="anchor" href="#setting-up-encrypted-token-authentication"></a>
+</h3>
+<p>Start by authenticating locally, where you will receive a token.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/meetupr_auth.html">meetupr_auth</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># verify everything is working</span></span>
+<span><span class="fu"><a href="../reference/meetupr_sitrep.html">meetupr_sitrep</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>Then, set up encryption locally:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># At the start of your CI script</span></span>
-<span><span class="fu"><a href="../reference/meetup_ci.html">meetup_ci_load</a></span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Now you can use the API</span></span>
-<span><span class="va">groups</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_pro.html">get_pro_groups</a></span><span class="op">(</span><span class="st">"rladies"</span><span class="op">)</span></span></code></pre></div>
-<p>For GitHub Actions, your workflow YAML should include:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">name</span><span class="kw">:</span><span class="at"> Meetup Data Analysis</span></span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="fu">on</span><span class="kw">:</span></span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="at">  </span><span class="fu">schedule</span><span class="kw">:</span></span>
-<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">cron</span><span class="kw">:</span><span class="at"> </span><span class="st">'0 0 * * 0'</span><span class="co">  # Weekly on Sunday</span></span>
-<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="at">  </span><span class="fu">workflow_dispatch</span><span class="kw">:</span></span>
-<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a></span>
-<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="fu">jobs</span><span class="kw">:</span></span>
-<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a><span class="at">  </span><span class="fu">analyze</span><span class="kw">:</span></span>
-<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="at">    </span><span class="fu">runs-on</span><span class="kw">:</span><span class="at"> ubuntu-latest</span></span>
-<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a><span class="at">    </span></span>
-<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a><span class="at">    </span><span class="fu">env</span><span class="kw">:</span></span>
-<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a><span class="at">      </span><span class="fu">"meetupr:token"</span><span class="kw">:</span><span class="at"> ${{ secrets.MEETUPR_TOKEN }}</span></span>
-<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a><span class="at">      </span><span class="fu">"meetupr:token_file"</span><span class="kw">:</span><span class="at"> ${{ secrets.MEETUPR_TOKEN_FILE }}</span></span>
-<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a><span class="at">    </span></span>
-<span id="cb11-16"><a href="#cb11-16" tabindex="-1"></a><span class="at">    </span><span class="fu">steps</span><span class="kw">:</span></span>
-<span id="cb11-17"><a href="#cb11-17" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/checkout@v3</span></span>
-<span id="cb11-18"><a href="#cb11-18" tabindex="-1"></a><span class="at">      </span></span>
-<span id="cb11-19"><a href="#cb11-19" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> r-lib/actions/setup-r@v2</span></span>
-<span id="cb11-20"><a href="#cb11-20" tabindex="-1"></a><span class="at">      </span></span>
-<span id="cb11-21"><a href="#cb11-21" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Install dependencies</span></span>
-<span id="cb11-22"><a href="#cb11-22" tabindex="-1"></a><span class="fu">        run</span><span class="kw">: </span><span class="ch">|</span></span>
-<span id="cb11-23"><a href="#cb11-23" tabindex="-1"></a>          install.packages(c("remotes", "meetupr"))</span>
-<span id="cb11-24"><a href="#cb11-24" tabindex="-1"></a><span class="at">        </span><span class="fu">shell</span><span class="kw">:</span><span class="at"> Rscript {0}</span></span>
-<span id="cb11-25"><a href="#cb11-25" tabindex="-1"></a><span class="at">      </span></span>
-<span id="cb11-26"><a href="#cb11-26" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Run analysis</span></span>
-<span id="cb11-27"><a href="#cb11-27" tabindex="-1"></a><span class="fu">        run</span><span class="kw">: </span><span class="ch">|</span></span>
-<span id="cb11-28"><a href="#cb11-28" tabindex="-1"></a>          library(meetupr)</span>
-<span id="cb11-29"><a href="#cb11-29" tabindex="-1"></a>          meetup_ci_load()</span>
-<span id="cb11-30"><a href="#cb11-30" tabindex="-1"></a>          </span>
-<span id="cb11-31"><a href="#cb11-31" tabindex="-1"></a>          # Your analysis code here</span>
-<span id="cb11-32"><a href="#cb11-32" tabindex="-1"></a>          groups &lt;- get_pro_groups("rladies")</span>
-<span id="cb11-33"><a href="#cb11-33" tabindex="-1"></a>          saveRDS(groups, "groups.rds")</span>
-<span id="cb11-34"><a href="#cb11-34" tabindex="-1"></a><span class="at">        </span><span class="fu">shell</span><span class="kw">:</span><span class="at"> Rscript {0}</span></span>
-<span id="cb11-35"><a href="#cb11-35" tabindex="-1"></a><span class="at">      </span></span>
-<span id="cb11-36"><a href="#cb11-36" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Upload results</span></span>
-<span id="cb11-37"><a href="#cb11-37" tabindex="-1"></a><span class="at">        </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/upload-artifact@v3</span></span>
-<span id="cb11-38"><a href="#cb11-38" tabindex="-1"></a><span class="at">        </span><span class="fu">with</span><span class="kw">:</span></span>
-<span id="cb11-39"><a href="#cb11-39" tabindex="-1"></a><span class="at">          </span><span class="fu">name</span><span class="kw">:</span><span class="at"> analysis-results</span></span>
-<span id="cb11-40"><a href="#cb11-40" tabindex="-1"></a><span class="at">          </span><span class="fu">path</span><span class="kw">:</span><span class="at"> groups.rds</span></span></code></pre></div>
-<p><strong>Important</strong>: Quote the environment variable names in
-YAML because they contain colons.</p>
-</div>
-</div>
-<div class="section level3">
-<h3 id="token-expiration-and-refresh">Token Expiration and Refresh<a class="anchor" aria-label="anchor" href="#token-expiration-and-refresh"></a>
-</h3>
-<p>OAuth tokens typically expire after 90 days. When your CI workflow
-fails with authentication errors:</p>
-<ol style="list-style-type: decimal">
-<li>Re-run <code><a href="../reference/meetup_auth.html">meetup_auth()</a></code> locally to get a fresh token<br>
-</li>
-<li>Run <code><a href="../reference/meetup_ci.html">meetup_ci_setup()</a></code> to regenerate CI
-credentials<br>
-</li>
-<li>Update the secrets in your CI platform with the new values</li>
-</ol>
-<p>Consider setting up calendar reminders to refresh tokens before they
-expire.</p>
-</div>
-<div class="section level3">
-<h3 id="team-credential-management">Team Credential Management<a class="anchor" aria-label="anchor" href="#team-credential-management"></a>
-</h3>
-<p>For teams using shared CI credentials:</p>
-<p><strong>Option 1: Shared Keyring Credentials</strong></p>
-<p>Designate one person to:</p>
-<ol style="list-style-type: decimal">
-<li>Register the OAuth app<br>
-</li>
-<li>Store credentials in keyring<br>
-</li>
-<li>Run CI setup and distribute secrets<br>
-</li>
-<li>Refresh tokens when they expire</li>
-</ol>
-<p><strong>Option 2: Service Account</strong></p>
-<p>Create a dedicated Meetup account for API access:</p>
-<ol style="list-style-type: decimal">
-<li>Register the account with a team email<br>
-</li>
-<li>Grant it organizer access to relevant groups<br>
-</li>
-<li>Register the OAuth app under this account<br>
-</li>
-<li>Store credentials in team password manager</li>
-</ol>
-<p>This centralizes management and doesn’t depend on individual team
-members’ accounts.</p>
-<p><strong>Option 3: Environment-Specific Apps</strong></p>
-<p>Register separate OAuth apps for different environments:</p>
+<code class="sourceCode R"><span><span class="co"># creates .meetupr.rds and displays password</span></span>
+<span><span class="fu"><a href="../reference/meetupr_encrypt.html">meetupr_encrypt_setup</a></span><span class="op">(</span><span class="op">)</span>  </span></code></pre></div>
+<p>This will create an encrypted token file <code>.meetupr.rds</code> in
+your working directory, and display a randomly generated password.
+<strong>Make sure to copy and save this password securely</strong>, as
+you will need it to decrypt the token file in your CI environment.</p>
+<p>Next, in your CI environment (e.g., GitHub Actions, Travis CI, etc.),
+set the decryption password as an environment variable named
+<code>meetupr_encrypt_pwd</code>.</p>
+<p>Finally, in your CI scripts, load the encrypted token file before
+making API calls:</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/meetupr_encrypt.html">meetupr_encrypt_load</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/meetupr_sitrep.html">meetupr_sitrep</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <ul>
-<li>Development: Individual developer credentials<br>
-</li>
-<li>Staging: Shared staging app<br>
-</li>
-<li>Production: Production-only app with restricted access</li>
+<li>You can override the encrypted token path by setting the keyring key
+<code>"encrypt_path"</code>.</li>
 </ul>
-<p>Use environment variables to switch between them:</p>
+<div class="section level4">
+<h4 id="rotating-an-encrypted-token-in-github-actions">Rotating an Encrypted Token in GitHub Actions<a class="anchor" aria-label="anchor" href="#rotating-an-encrypted-token-in-github-actions"></a>
+</h4>
+<p>Set up a GitHub action with:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># In .Renviron for each environment</span></span>
-<span><span class="va">MEETUP_CLIENT_ID</span><span class="op">=</span><span class="va">dev_client_id</span></span>
-<span><span class="va">MEETUP_CLIENT_SECRET</span><span class="op">=</span><span class="va">dev_secret</span></span></code></pre></div>
-</div>
-</div>
-<div class="section level2">
-<h2 id="credential-security-best-practices">Credential Security Best Practices<a class="anchor" aria-label="anchor" href="#credential-security-best-practices"></a>
-</h2>
-<div class="section level3">
-<h3 id="dos">Do’s<a class="anchor" aria-label="anchor" href="#dos"></a>
-</h3>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/use_gha.html">use_gha_encrypted_token</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <ul>
-<li>Store credentials in keyring or environment variables<br>
+<li>Loads the encrypted token file from the repository<br>
 </li>
-<li>Add <code>.Renviron</code> to <code>.gitignore</code><br>
+<li>Uses the decryption password from a GitHub secret<br>
 </li>
-<li>Use CI platform’s secrets management<br>
-</li>
-<li>Rotate tokens periodically<br>
-</li>
-<li>Use separate OAuth apps for dev/staging/production<br>
-</li>
-<li>Limit scope to minimum required permissions</li>
+<li>Refreshes the token (if needed) and writes the updated
+<code>.meetupr.rds</code> back to the repository</li>
 </ul>
 </div>
-<div class="section level3">
-<h3 id="donts">Don’ts<a class="anchor" aria-label="anchor" href="#donts"></a>
-</h3>
-<ul>
-<li>Never commit credentials to version control<br>
-</li>
-<li>Don’t share client secrets in plain text (Slack, email, etc.)<br>
-</li>
-<li>Don’t print secrets in logs or console output<br>
-</li>
-<li>Don’t use production credentials in development<br>
-</li>
-<li>Don’t share OAuth tokens between applications</li>
-</ul>
 </div>
 <div class="section level3">
-<h3 id="credential-rotation">Credential Rotation<a class="anchor" aria-label="anchor" href="#credential-rotation"></a>
+<h3 id="oauth2-interactive-flow">3. OAuth2 Interactive Flow<a class="anchor" aria-label="anchor" href="#oauth2-interactive-flow"></a>
 </h3>
-<p>To rotate compromised credentials:</p>
+<ul>
+<li>
+<p><strong>Default for interactive sessions</strong>:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># 1. Delete old credentials from keyring</span></span>
-<span><span class="fu"><a href="../reference/meetup_keys.html">meetup_key_delete</a></span><span class="op">(</span><span class="st">"client_id"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/meetup_keys.html">meetup_key_delete</a></span><span class="op">(</span><span class="st">"client_secret"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/meetup_keys.html">meetup_key_delete</a></span><span class="op">(</span><span class="st">"token"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/meetup_keys.html">meetup_key_delete</a></span><span class="op">(</span><span class="st">"token_file"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># 2. Revoke the OAuth app on Meetup.com</span></span>
-<span><span class="co"># Go to https://www.meetup.com/api/oauth/list/</span></span>
-<span><span class="co"># Click "Revoke" on the compromised app</span></span>
-<span></span>
-<span><span class="co"># 3. Create a new OAuth app (or regenerate secret)</span></span>
-<span></span>
-<span><span class="co"># 4. Store new credentials</span></span>
-<span><span class="fu"><a href="../reference/meetup_keys.html">meetup_key_set</a></span><span class="op">(</span><span class="st">"client_id"</span>, <span class="st">"new_client_id"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/meetup_keys.html">meetup_key_set</a></span><span class="op">(</span><span class="st">"client_secret"</span>, <span class="st">"new_secret"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># 5. Re-authenticate</span></span>
-<span><span class="fu"><a href="../reference/meetup_auth.html">meetup_auth</a></span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># 6. Update CI secrets</span></span>
-<span><span class="fu"><a href="../reference/meetup_ci.html">meetup_ci_setup</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/meetupr_auth.html">meetupr_auth</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/meetupr_sitrep.html">meetupr_sitrep</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+</li>
+</ul>
 </div>
 <div class="section level3">
-<h3 id="audit-trail">Audit Trail<a class="anchor" aria-label="anchor" href="#audit-trail"></a>
+<h3 id="how-authentication-is-chosen">How Authentication is Chosen<a class="anchor" aria-label="anchor" href="#how-authentication-is-chosen"></a>
 </h3>
-<p>Monitor your OAuth app usage:</p>
+<p>When you call any meetupr function, authentication is resolved in
+this order:</p>
 <ol style="list-style-type: decimal">
-<li>Visit <a href="https://www.meetup.com/api/oauth/list/" class="external-link uri">https://www.meetup.com/api/oauth/list/</a><br>
-</li>
-<li>Click on your app name<br>
-</li>
-<li>View analytics and recent API usage</li>
+<li>If a valid JWT token is found (keyring, env var, or file), it is
+used.</li>
+<li>If an encrypted token file (<code>.meetupr.rds</code> or custom) and
+password are available, it is used.</li>
+<li>Otherwise, the interactive OAuth2 browser flow is triggered.</li>
 </ol>
-<p>This helps detect unauthorized usage or unusual patterns.</p>
-</div>
-</div>
-<div class="section level2">
-<h2 id="debugging-authentication-issues">Debugging Authentication Issues<a class="anchor" aria-label="anchor" href="#debugging-authentication-issues"></a>
-</h2>
-<div class="section level3">
-<h3 id="common-problems">Common Problems<a class="anchor" aria-label="anchor" href="#common-problems"></a>
-</h3>
-<p><strong>Problem</strong>: <code><a href="../reference/meetup_auth.html">meetup_auth()</a></code> fails with
-“invalid_client”</p>
-<p><strong>Solution</strong>: Verify client ID and secret are
-correct:</p>
+<p>You can check which method is active with:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Check stored values</span></span>
-<span><span class="va">client_id</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meetup_keys.html">meetup_key_get</a></span><span class="op">(</span><span class="st">"client_id"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">client_id</span><span class="op">)</span> <span class="co"># Should match OAuth app key</span></span>
-<span></span>
-<span><span class="co"># Re-enter credentials if incorrect</span></span>
-<span><span class="fu"><a href="../reference/meetup_keys.html">meetup_key_set</a></span><span class="op">(</span><span class="st">"client_id"</span>, <span class="st">"correct_client_id"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/meetup_keys.html">meetup_key_set</a></span><span class="op">(</span><span class="st">"client_secret"</span>, <span class="st">"correct_secret"</span><span class="op">)</span></span></code></pre></div>
-<p><strong>Problem</strong>: Token cached for wrong OAuth app</p>
-<p><strong>Solution</strong>: Clear cache and re-authenticate:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Clear all authentication</span></span>
-<span><span class="fu"><a href="../reference/meetup_auth.html">meetup_deauth</a></span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Remove cached tokens</span></span>
-<span><span class="va">token_dir</span> <span class="op">&lt;-</span> <span class="fu">httr2</span><span class="fu">::</span><span class="fu"><a href="https://httr2.r-lib.org/reference/oauth_cache_path.html" class="external-link">oauth_cache_path</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">token_dir</span>, <span class="st">"meetupr"</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Delete specific token file if needed</span></span>
-<span><span class="co"># file.remove(file.path(</span></span>
-<span><span class="co">#   token_dir,</span></span>
-<span><span class="co">#   "meetupr",</span></span>
-<span><span class="co">#   "token.rds.enc"</span></span>
-<span><span class="co"># ))</span></span>
-<span></span>
-<span><span class="co"># Re-authenticate</span></span>
-<span><span class="fu"><a href="../reference/meetup_auth.html">meetup_auth</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><strong>Problem</strong>: Multiple tokens warning</p>
-<p><strong>Solution</strong>: This happens when you’ve authenticated
-with different OAuth apps:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># See all cached tokens</span></span>
-<span><span class="va">token_dir</span> <span class="op">&lt;-</span> <span class="fu">httr2</span><span class="fu">::</span><span class="fu"><a href="https://httr2.r-lib.org/reference/oauth_cache_path.html" class="external-link">oauth_cache_path</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html" class="external-link">file.path</a></span><span class="op">(</span><span class="va">token_dir</span>, <span class="st">"meetupr"</span><span class="op">)</span>, pattern <span class="op">=</span> <span class="st">"token.rds.enc$"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Remove all tokens and start fresh</span></span>
-<span><span class="fu"><a href="../reference/meetup_auth.html">meetup_deauth</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/meetup_auth.html">meetup_auth</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><strong>Problem</strong>: CI authentication fails</p>
-<p><strong>Solution</strong>: Verify environment variables are set
-correctly:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Check if env vars are present</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"meetupr:token"</span><span class="op">)</span> <span class="co"># Should be long base64 string</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Sys.getenv.html" class="external-link">Sys.getenv</a></span><span class="op">(</span><span class="st">"meetupr:token_file"</span><span class="op">)</span> <span class="co"># Should be filename</span></span>
-<span></span>
-<span><span class="co"># If empty, check CI platform secrets configuration</span></span>
-<span><span class="co"># Ensure quotes around variable names in YAML: "meetupr:token"</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/meetupr_sitrep.html">meetupr_sitrep</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="section level3">
-<h3 id="enable-debug-mode">Enable Debug Mode<a class="anchor" aria-label="anchor" href="#enable-debug-mode"></a>
-</h3>
-<p>For detailed authentication diagnostics:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Enable debug mode</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv</a></span><span class="op">(</span>MEETUPR_DEBUG <span class="op">=</span> <span class="st">"1"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Run authentication</span></span>
-<span><span class="fu"><a href="../reference/meetup_sitrep.html">meetup_sitrep</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/meetup_auth.html">meetup_auth</a></span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Disable debug mode</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv</a></span><span class="op">(</span>MEETUPR_DEBUG <span class="op">=</span> <span class="st">"0"</span><span class="op">)</span></span></code></pre></div>
-<p>Debug output shows:</p>
-<ul>
-<li>Credential lookup paths (keyring vs env vars)<br>
-</li>
-<li>OAuth token cache location<br>
-</li>
-<li>Request/response details</li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="inspect-token-state">Inspect Token State<a class="anchor" aria-label="anchor" href="#inspect-token-state"></a>
-</h3>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Check authentication status</span></span>
-<span><span class="va">status</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meetup_auth_status.html">meetup_auth_status</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">status</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Verify which credentials are being used</span></span>
-<span><span class="fu"><a href="../reference/meetup_sitrep.html">meetup_sitrep</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-</div>
-</div>
-<div class="section level2">
-<h2 id="environment-variables-reference">Environment Variables Reference<a class="anchor" aria-label="anchor" href="#environment-variables-reference"></a>
-</h2>
-<div class="section level3">
-<h3 id="authentication-credentials">Authentication Credentials<a class="anchor" aria-label="anchor" href="#authentication-credentials"></a>
-</h3>
-<table class="table">
-<thead><tr class="header">
-<th>Variable</th>
-<th>Purpose</th>
-<th>Example</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td><code>MEETUP_CLIENT_ID</code></td>
-<td>OAuth app client ID</td>
-<td><code>ABC123XYZ</code></td>
-</tr>
-<tr class="even">
-<td><code>MEETUP_CLIENT_SECRET</code></td>
-<td>OAuth app client secret</td>
-<td><code>secret_key_here</code></td>
-</tr>
-<tr class="odd">
-<td><code>MEETUP_CLIENT_NAME</code></td>
-<td>Client name for token cache</td>
-<td><code>my_app</code></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="section level3">
-<h3 id="cicd-mode">CI/CD Mode<a class="anchor" aria-label="anchor" href="#cicd-mode"></a>
-</h3>
-<table class="table">
-<colgroup>
-<col width="35%">
-<col width="32%">
-<col width="32%">
-</colgroup>
-<thead><tr class="header">
-<th>Variable</th>
-<th>Purpose</th>
-<th>Example</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td><code>meetupr:token</code></td>
-<td>Base64-encoded OAuth token</td>
-<td><code>eyJhbGc...</code></td>
-</tr>
-<tr class="even">
-<td><code>meetupr:token_file</code></td>
-<td>Token cache filename</td>
-<td><code>ae743e0-token.rds.enc</code></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="section level3">
-<h3 id="configuration">Configuration<a class="anchor" aria-label="anchor" href="#configuration"></a>
-</h3>
-<table class="table">
-<colgroup>
-<col width="27%">
-<col width="24%">
-<col width="24%">
-<col width="24%">
-</colgroup>
-<thead><tr class="header">
-<th>Variable</th>
-<th>Purpose</th>
-<th>Default</th>
-<th>Example</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td><code>MEETUP_API_URL</code></td>
-<td>API base URL (for testing)</td>
-<td><code>https://api.meetup.com/gql-ext</code></td>
-<td>Custom URL</td>
-</tr>
-<tr class="even">
-<td><code>MEETUPR_DEBUG</code></td>
-<td>Enable debug logging</td>
-<td>
-<code>0</code> (off)</td>
-<td>
-<code>1</code> (on)</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Note</strong>: Variables with colons
-(<code>meetupr:token</code>) must be quoted in YAML files.</p>
-</div>
-</div>
-<div class="section level2">
-<h2 id="keyring-functions-reference">Keyring Functions Reference<a class="anchor" aria-label="anchor" href="#keyring-functions-reference"></a>
-</h2>
-<div class="section level3">
-<h3 id="storing-credentials">Storing Credentials<a class="anchor" aria-label="anchor" href="#storing-credentials"></a>
-</h3>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Store with explicit value</span></span>
-<span><span class="fu"><a href="../reference/meetup_keys.html">meetup_key_set</a></span><span class="op">(</span><span class="st">"client_id"</span>, <span class="st">"your_value"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Store with interactive prompt</span></span>
-<span><span class="fu"><a href="../reference/meetup_keys.html">meetup_key_set</a></span><span class="op">(</span><span class="st">"client_secret"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Valid key names: "client_id", "client_secret", "token", "token_file"</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="retrieving-credentials-1">Retrieving Credentials<a class="anchor" aria-label="anchor" href="#retrieving-credentials-1"></a>
-</h3>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Get credential (errors if not found)</span></span>
-<span><span class="va">value</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meetup_keys.html">meetup_key_get</a></span><span class="op">(</span><span class="st">"client_id"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Get credential (returns NULL if not found)</span></span>
-<span><span class="va">value</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meetup_keys.html">meetup_key_get</a></span><span class="op">(</span><span class="st">"client_id"</span>, error <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="checking-availability">Checking Availability<a class="anchor" aria-label="anchor" href="#checking-availability"></a>
-</h3>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Check if key exists</span></span>
-<span><span class="kw">if</span> <span class="op">(</span><span class="fu">key_available</span><span class="op">(</span><span class="st">"client_id"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="co"># Credential is stored</span></span>
-<span><span class="op">}</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="deleting-credentials">Deleting Credentials<a class="anchor" aria-label="anchor" href="#deleting-credentials"></a>
-</h3>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Remove specific credential</span></span>
-<span><span class="fu"><a href="../reference/meetup_keys.html">meetup_key_delete</a></span><span class="op">(</span><span class="st">"client_id"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Or delete all with deauth</span></span>
-<span><span class="fu"><a href="../reference/meetup_auth.html">meetup_deauth</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-</div>
-</div>
-<div class="section level2">
-<h2 id="production-deployment-checklist">Production Deployment Checklist<a class="anchor" aria-label="anchor" href="#production-deployment-checklist"></a>
-</h2>
-<p>Before deploying meetupr in production:</p>
-<ul class="task-list">
-<li><label><input type="checkbox">Register dedicated OAuth app on
-Meetup.com<br></label></li>
-<li><label><input type="checkbox">Store client ID and secret securely
-(keyring or secrets manager)<br></label></li>
-<li><label><input type="checkbox">Test authentication flow in staging
-environment<br></label></li>
-<li><label><input type="checkbox">Set up CI credentials with
-<code><a href="../reference/meetup_ci.html">meetup_ci_setup()</a></code><br></label></li>
-<li><label><input type="checkbox">Configure CI platform secrets (quote
-variable names!)<br></label></li>
-<li><label><input type="checkbox">Add token refresh reminder (90
-days)<br></label></li>
-<li><label><input type="checkbox">Document credential rotation
-procedure for team<br></label></li>
-<li><label><input type="checkbox">Set up monitoring for API rate
-limits<br></label></li>
-<li><label><input type="checkbox">Implement error handling for auth
-failures<br></label></li>
-<li><label><input type="checkbox">Add logging for API usage (without
-exposing secrets)</label></li>
-</ul>
-</div>
-<div class="section level2">
-<h2 id="complete-cicd-example">Complete CI/CD Example<a class="anchor" aria-label="anchor" href="#complete-cicd-example"></a>
-</h2>
-<p>Here’s a complete workflow for automated group analytics:</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="fu">name</span><span class="kw">:</span><span class="at"> Weekly R-Ladies Analytics</span></span>
-<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a></span>
-<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a><span class="fu">on</span><span class="kw">:</span></span>
-<span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a><span class="at">  </span><span class="fu">schedule</span><span class="kw">:</span></span>
-<span id="cb24-5"><a href="#cb24-5" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">cron</span><span class="kw">:</span><span class="at"> </span><span class="st">'0 8 * * 1'</span><span class="co">  # Monday at 8 AM UTC</span></span>
-<span id="cb24-6"><a href="#cb24-6" tabindex="-1"></a><span class="at">  </span><span class="fu">workflow_dispatch</span><span class="kw">:</span></span>
-<span id="cb24-7"><a href="#cb24-7" tabindex="-1"></a></span>
-<span id="cb24-8"><a href="#cb24-8" tabindex="-1"></a><span class="fu">jobs</span><span class="kw">:</span></span>
-<span id="cb24-9"><a href="#cb24-9" tabindex="-1"></a><span class="at">  </span><span class="fu">analyze</span><span class="kw">:</span></span>
-<span id="cb24-10"><a href="#cb24-10" tabindex="-1"></a><span class="at">    </span><span class="fu">runs-on</span><span class="kw">:</span><span class="at"> ubuntu-latest</span></span>
-<span id="cb24-11"><a href="#cb24-11" tabindex="-1"></a><span class="at">    </span></span>
-<span id="cb24-12"><a href="#cb24-12" tabindex="-1"></a><span class="at">    </span><span class="fu">env</span><span class="kw">:</span></span>
-<span id="cb24-13"><a href="#cb24-13" tabindex="-1"></a><span class="at">      </span><span class="fu">"meetupr:token"</span><span class="kw">:</span><span class="at"> ${{ secrets.MEETUPR_TOKEN }}</span></span>
-<span id="cb24-14"><a href="#cb24-14" tabindex="-1"></a><span class="at">      </span><span class="fu">"meetupr:token_file"</span><span class="kw">:</span><span class="at"> ${{ secrets.MEETUPR_TOKEN_FILE }}</span></span>
-<span id="cb24-15"><a href="#cb24-15" tabindex="-1"></a><span class="at">      </span><span class="fu">GITHUB_PAT</span><span class="kw">:</span><span class="at"> ${{ secrets.GITHUB_TOKEN }}</span></span>
-<span id="cb24-16"><a href="#cb24-16" tabindex="-1"></a><span class="at">    </span></span>
-<span id="cb24-17"><a href="#cb24-17" tabindex="-1"></a><span class="at">    </span><span class="fu">steps</span><span class="kw">:</span></span>
-<span id="cb24-18"><a href="#cb24-18" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Checkout repository</span></span>
-<span id="cb24-19"><a href="#cb24-19" tabindex="-1"></a><span class="at">        </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> actions/checkout@v3</span></span>
-<span id="cb24-20"><a href="#cb24-20" tabindex="-1"></a><span class="at">      </span></span>
-<span id="cb24-21"><a href="#cb24-21" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Setup R</span></span>
-<span id="cb24-22"><a href="#cb24-22" tabindex="-1"></a><span class="at">        </span><span class="fu">uses</span><span class="kw">:</span><span class="at"> r-lib/actions/setup-r@v2</span></span>
-<span id="cb24-23"><a href="#cb24-23" tabindex="-1"></a><span class="at">        </span><span class="fu">with</span><span class="kw">:</span></span>
-<span id="cb24-24"><a href="#cb24-24" tabindex="-1"></a><span class="at">          </span><span class="fu">r-version</span><span class="kw">:</span><span class="at"> </span><span class="st">'release'</span></span>
-<span id="cb24-25"><a href="#cb24-25" tabindex="-1"></a><span class="at">      </span></span>
-<span id="cb24-26"><a href="#cb24-26" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Install system dependencies</span></span>
-<span id="cb24-27"><a href="#cb24-27" tabindex="-1"></a><span class="fu">        run</span><span class="kw">: </span><span class="ch">|</span></span>
-<span id="cb24-28"><a href="#cb24-28" tabindex="-1"></a>          sudo apt-get update</span>
-<span id="cb24-29"><a href="#cb24-29" tabindex="-1"></a>          sudo apt-get install -y libcurl4-openssl-dev libssl-dev</span>
-<span id="cb24-30"><a href="#cb24-30" tabindex="-1"></a><span class="at">      </span></span>
-<span id="cb24-31"><a href="#cb24-31" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Install R packages</span></span>
-<span id="cb24-32"><a href="#cb24-32" tabindex="-1"></a><span class="fu">        run</span><span class="kw">: </span><span class="ch">|</span></span>
-<span id="cb24-33"><a href="#cb24-33" tabindex="-1"></a>          install.packages(c("remotes", "dplyr", "ggplot2"))</span>
-<span id="cb24-34"><a href="#cb24-34" tabindex="-1"></a>          remotes::install_github("rladies/meetupr")</span>
-<span id="cb24-35"><a href="#cb24-35" tabindex="-1"></a><span class="at">        </span><span class="fu">shell</span><span class="kw">:</span><span class="at"> Rscript {0}</span></span>
-<span id="cb24-36"><a href="#cb24-36" tabindex="-1"></a><span class="at">      </span></span>
-<span id="cb24-37"><a href="#cb24-37" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Load CI token</span></span>
-<span id="cb24-38"><a href="#cb24-38" tabindex="-1"></a><span class="fu">        run</span><span class="kw">: </span><span class="ch">|</span></span>
-<span id="cb24-39"><a href="#cb24-39" tabindex="-1"></a>          library(meetupr)</span>
-<span id="cb24-40"><a href="#cb24-40" tabindex="-1"></a>          meetup_ci_load()</span>
-<span id="cb24-41"><a href="#cb24-41" tabindex="-1"></a>          meetup_sitrep()</span>
-<span id="cb24-42"><a href="#cb24-42" tabindex="-1"></a><span class="at">        </span><span class="fu">shell</span><span class="kw">:</span><span class="at"> Rscript {0}</span></span>
-<span id="cb24-43"><a href="#cb24-43" tabindex="-1"></a><span class="at">      </span></span>
-<span id="cb24-44"><a href="#cb24-44" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Fetch data</span></span>
-<span id="cb24-45"><a href="#cb24-45" tabindex="-1"></a><span class="fu">        run</span><span class="kw">: </span><span class="ch">|</span></span>
-<span id="cb24-46"><a href="#cb24-46" tabindex="-1"></a>          library(meetupr)</span>
-<span id="cb24-47"><a href="#cb24-47" tabindex="-1"></a>          library(dplyr)</span>
-<span id="cb24-48"><a href="#cb24-48" tabindex="-1"></a>          </span>
-<span id="cb24-49"><a href="#cb24-49" tabindex="-1"></a>          # Get all R-Ladies groups</span>
-<span id="cb24-50"><a href="#cb24-50" tabindex="-1"></a>          groups &lt;- get_pro_groups("rladies")</span>
-<span id="cb24-51"><a href="#cb24-51" tabindex="-1"></a>          saveRDS(groups, "data/groups.rds")</span>
-<span id="cb24-52"><a href="#cb24-52" tabindex="-1"></a>          </span>
-<span id="cb24-53"><a href="#cb24-53" tabindex="-1"></a>          # Get recent events</span>
-<span id="cb24-54"><a href="#cb24-54" tabindex="-1"></a>          events &lt;- get_pro_events("rladies", "past", max_results = 100)</span>
-<span id="cb24-55"><a href="#cb24-55" tabindex="-1"></a>          saveRDS(events, "data/events.rds")</span>
-<span id="cb24-56"><a href="#cb24-56" tabindex="-1"></a>          </span>
-<span id="cb24-57"><a href="#cb24-57" tabindex="-1"></a>          # Summary stats</span>
-<span id="cb24-58"><a href="#cb24-58" tabindex="-1"></a>          summary &lt;- events |&gt;</span>
-<span id="cb24-59"><a href="#cb24-59" tabindex="-1"></a>            group_by(group_urlname) |&gt;</span>
-<span id="cb24-60"><a href="#cb24-60" tabindex="-1"></a>            summarise(</span>
-<span id="cb24-61"><a href="#cb24-61" tabindex="-1"></a>              total_events = n(),</span>
-<span id="cb24-62"><a href="#cb24-62" tabindex="-1"></a>              avg_attendance = mean(going, na.rm = TRUE),</span>
-<span id="cb24-63"><a href="#cb24-63" tabindex="-1"></a>              .groups = "drop"</span>
-<span id="cb24-64"><a href="#cb24-64" tabindex="-1"></a>            )</span>
-<span id="cb24-65"><a href="#cb24-65" tabindex="-1"></a>          </span>
-<span id="cb24-66"><a href="#cb24-66" tabindex="-1"></a>          write.csv(summary, "reports/summary.csv", row.names = FALSE)</span>
-<span id="cb24-67"><a href="#cb24-67" tabindex="-1"></a><span class="at">        </span><span class="fu">shell</span><span class="kw">:</span><span class="at"> Rscript {0}</span></span>
-<span id="cb24-68"><a href="#cb24-68" tabindex="-1"></a><span class="at">      </span></span>
-<span id="cb24-69"><a href="#cb24-69" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Generate report</span></span>
-<span id="cb24-70"><a href="#cb24-70" tabindex="-1"></a><span class="fu">        run</span><span class="kw">: </span><span class="ch">|</span></span>
-<span id="cb24-71"><a href="#cb24-71" tabindex="-1"></a>          library(rmarkdown)</span>
-<span id="cb24-72"><a href="#cb24-72" tabindex="-1"></a>          rmarkdown::render("reports/weekly_report.Rmd")</span>
-<span id="cb24-73"><a href="#cb24-73" tabindex="-1"></a><span class="at">        </span><span class="fu">shell</span><span class="kw">:</span><span class="at"> Rscript {0}</span></span>
-<span id="cb24-74"><a href="#cb24-74" tabindex="-1"></a><span class="at">      </span></span>
-<span id="cb24-75"><a href="#cb24-75" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">name</span><span class="kw">:</span><span class="at"> Commit results</span></span>
-<span id="cb24-76"><a href="#cb24-76" tabindex="-1"></a><span class="fu">        run</span><span class="kw">: </span><span class="ch">|</span></span>
-<span id="cb24-77"><a href="#cb24-77" tabindex="-1"></a>          git config --local user.name "GitHub Actions"</span>
-<span id="cb24-78"><a href="#cb24-78" tabindex="-1"></a>          git config --local user.email "actions@github.com"</span>
-<span id="cb24-79"><a href="#cb24-79" tabindex="-1"></a>          git add data/ reports/</span>
-<span id="cb24-80"><a href="#cb24-80" tabindex="-1"></a>          git diff --quiet &amp;&amp; git diff --staged --quiet || git commit -m "Update weekly analytics"</span>
-<span id="cb24-81"><a href="#cb24-81" tabindex="-1"></a>          git push</span></code></pre></div>
-<p>This workflow:</p>
-<ol style="list-style-type: decimal">
-<li>Runs weekly on a schedule<br>
-</li>
-<li>Loads CI credentials from secrets<br>
-</li>
-<li>Fetches Pro group and event data<br>
-</li>
-<li>Generates summary statistics<br>
-</li>
-<li>Renders a report<br>
-</li>
-<li>Commits results back to repository</li>
-</ol>
-</div>
-<div class="section level2">
-<h2 id="additional-resources">Additional Resources<a class="anchor" aria-label="anchor" href="#additional-resources"></a>
-</h2>
-<div class="section level3">
-<h3 id="official-documentation">Official Documentation<a class="anchor" aria-label="anchor" href="#official-documentation"></a>
-</h3>
-<ul>
-<li>
-<strong>Meetup OAuth Documentation</strong>: <a href="https://www.meetup.com/api/authentication/" class="external-link uri">https://www.meetup.com/api/authentication/</a><br>
-</li>
-<li>
-<strong>OAuth App Management</strong>: <a href="https://www.meetup.com/api/oauth/list/" class="external-link uri">https://www.meetup.com/api/oauth/list/</a><br>
-</li>
-<li>
-<strong>API Rate Limits</strong>: <a href="https://www.meetup.com/api/general/" class="external-link uri">https://www.meetup.com/api/general/</a>
-</li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="related-vignettes">Related Vignettes<a class="anchor" aria-label="anchor" href="#related-vignettes"></a>
-</h3>
-<ul>
-<li>
-<strong>Getting Started</strong>: See
-<code><a href="../articles/meetupr.html">vignette("meetupr")</a></code> for basic authentication and
-usage<br>
-</li>
-<li>
-<strong>Custom GraphQL Queries</strong>: See
-<code><a href="../articles/graphql.html">vignette("graphql")</a></code> for advanced API queries</li>
-</ul>
-</div>
-<div class="section level3">
-<h3 id="security-resources">Security Resources<a class="anchor" aria-label="anchor" href="#security-resources"></a>
-</h3>
-<ul>
-<li>
-<strong>OWASP OAuth 2.0 Security</strong>: <a href="https://oauth.net/2/security-considerations/" class="external-link uri">https://oauth.net/2/security-considerations/</a><br>
-</li>
-<li>
-<strong>R Keyring Package</strong>: <a href="https://keyring.r-lib.org/" class="external-link uri">https://keyring.r-lib.org/</a><br>
-</li>
-<li>
-<strong>GitHub Actions Secrets</strong>: <a href="https://docs.github.com/en/actions/security-guides/encrypted-secrets" class="external-link uri">https://docs.github.com/en/actions/security-guides/encrypted-secrets</a>
-</li>
-</ul>
-</div>
-</div>
-<div class="section level2">
-<h2 id="getting-help">Getting Help<a class="anchor" aria-label="anchor" href="#getting-help"></a>
-</h2>
-<p>For authentication issues:</p>
-<ol style="list-style-type: decimal">
-<li>
-<strong>Run diagnostics</strong>: <code><a href="../reference/meetup_sitrep.html">meetup_sitrep()</a></code> shows
-authentication status<br>
-</li>
-<li>
-<strong>Enable debug mode</strong>:
-<code>Sys.setenv(MEETUPR_DEBUG = "1")</code><br>
-</li>
-<li>
-<strong>Check keyring</strong>: Verify credentials with
-<code>key_available()</code><br>
-</li>
-<li>
-<strong>Clear and retry</strong>: <code><a href="../reference/meetup_auth.html">meetup_deauth()</a></code> then
-<code><a href="../reference/meetup_auth.html">meetup_auth()</a></code>
-</li>
-</ol>
-<p>When reporting issues, include:</p>
-<ul>
-<li>Output from <code><a href="../reference/meetup_sitrep.html">meetup_sitrep()</a></code><br>
-</li>
-<li>Whether you’re using custom credentials<br>
-</li>
-<li>Authentication method (interactive vs CI)<br>
-</li>
-<li>Platform (macOS, Windows, Linux)<br>
-</li>
-<li><strong>Never include actual tokens or secrets</strong></li>
-</ul>
-<p>For package updates and issues, visit the <a href="https://github.com/rladies/meetupr" class="external-link">GitHub repository</a>.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
@@ -1040,7 +410,7 @@ authentication status<br>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">meetupr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -157,13 +157,13 @@ included in the default <code><a href="../reference/get_group_events.html">get_g
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">title</span>, <span class="va">date_time</span>, <span class="va">featured_event_photo_high_res_url</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 3</span></span></span>
-<span><span class="co">#&gt;   title                               date_time           featured_event_photo…¹</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                               <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> satRday Lagos +  The Launch of RLa… 2019-09-21 <span style="color: #949494;">08:00:00</span> <span style="color: #BB0000;">NA</span>                    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Data Mining using  R                2019-12-07 <span style="color: #949494;">08:00:00</span> <span style="color: #BB0000;">NA</span>                    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Getting started with animated data… 2020-02-22 <span style="color: #949494;">08:00:00</span> https://secure.meetup…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Data Network Analysis : What to kn… 2022-03-26 <span style="color: #949494;">13:00:00</span> https://secure.meetup…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> R Ladies Panel                      2022-05-07 <span style="color: #949494;">15:00:00</span> https://secure.meetup…</span></span>
+<span><span class="co">#&gt;   title                                         date_time featured_event_photo…¹</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                         <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> satRday Lagos +  The Launch of RLadies Lagos. 2019-09-… <span style="color: #BB0000;">NA</span>                    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Data Mining using  R                          2019-12-… <span style="color: #BB0000;">NA</span>                    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Getting started with animated data in R       2020-02-… https://secure.meetup…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Data Network Analysis : What to know.         2022-03-… https://secure.meetup…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> R Ladies Panel                                2022-05-… https://secure.meetup…</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ abbreviated name: ¹​featured_event_photo_high_res_url</span></span></span></code></pre></div>
 <p>Notice how the nested <code>featuredEventPhoto</code> fields are
 automatically flattened into columns with underscores
@@ -220,11 +220,11 @@ need to fetch related data like venues or host information:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 4</span></span></span>
 <span><span class="co">#&gt;   title                                       venues_name venues_city group_name</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> satRday Lagos +  The Launch of RLadies Lag… <span style="color: #949494;">"</span>Civil Eng… <span style="color: #949494;">"</span>Lagos<span style="color: #949494;">"</span>     R-Ladies …</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Data Mining using  R                        <span style="color: #949494;">"</span>Sweets An… <span style="color: #949494;">"</span>Lagos<span style="color: #949494;">"</span>     R-Ladies …</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Getting started with animated data in R     <span style="color: #949494;">"</span>Sweets An… <span style="color: #949494;">"</span>Lagos<span style="color: #949494;">"</span>     R-Ladies …</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Data Network Analysis : What to know.       <span style="color: #949494;">"</span>Online ev… <span style="color: #949494;">""</span>          R-Ladies …</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> R Ladies Panel                              <span style="color: #949494;">"</span>Online ev… <span style="color: #949494;">""</span>          R-Ladies …</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> satRday Lagos +  The Launch of RLadies Lag… Civil Engi… <span style="color: #949494;">"</span>Lagos<span style="color: #949494;">"</span>     R-Ladies …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> Data Mining using  R                        Sweets And… <span style="color: #949494;">"</span>Lagos<span style="color: #949494;">"</span>     R-Ladies …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> Getting started with animated data in R     Sweets And… <span style="color: #949494;">"</span>Lagos<span style="color: #949494;">"</span>     R-Ladies …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> Data Network Analysis : What to know.       Online eve… <span style="color: #949494;">""</span>          R-Ladies …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> R Ladies Panel                              Online eve… <span style="color: #949494;">""</span>          R-Ladies …</span></span></code></pre></div>
 <p>The naming convention follows a consistent pattern: nested fields are
 joined with underscores, making them easy to select and filter in your
 data analysis pipelines.</p>
@@ -248,17 +248,17 @@ you can control how meetupr handles this using the
 <span><span class="op">)</span></span>
 <span><span class="va">events_list</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 24</span></span></span>
-<span><span class="co">#&gt;   id     title event_url created_time        status date_time           duration</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 26415… satR… https://… 2019-08-20 <span style="color: #949494;">11:54:50</span> PAST   2019-09-21 <span style="color: #949494;">08:00:00</span> PT7H    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 26675… Data… https://… 2019-11-26 <span style="color: #949494;">17:00:29</span> PAST   2019-12-07 <span style="color: #949494;">08:00:00</span> PT7H    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 26780… Gett… https://… 2020-01-10 <span style="color: #949494;">12:56:39</span> PAST   2020-02-22 <span style="color: #949494;">08:00:00</span> PT7H    </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 17 more variables: description &lt;chr&gt;, group_id &lt;chr&gt;, group_name &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   group_urlname &lt;chr&gt;, venues_id &lt;chr&gt;, venues_name &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   venues_address &lt;chr&gt;, venues_city &lt;chr&gt;, venues_state &lt;chr&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   venues_postal_code &lt;chr&gt;, venues_country &lt;chr&gt;, venues_lat &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   venues_lon &lt;dbl&gt;, venues_venue_type &lt;chr&gt;, rsvps_count &lt;int&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   featured_event_photo_url &lt;chr&gt;, featured_event_photo_high_res_url &lt;chr&gt;</span></span></span></code></pre></div>
+<span><span class="co">#&gt;   id        title   event_url created_time status date_time duration description</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 264156061 satRda… https://… 2019-08-20T… PAST   2019-09-… PT7H     <span style="color: #949494;">"</span>satRday-L…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 266757265 Data M… https://… 2019-11-26T… PAST   2019-12-… PT7H     <span style="color: #949494;">"</span>Hi there …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> 267804814 Gettin… https://… 2020-01-10T… PAST   2020-02-… PT7H     <span style="color: #949494;">"</span>Hi there …</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 16 more variables: group_id &lt;chr&gt;, group_name &lt;chr&gt;, group_urlname &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   venues_id &lt;chr&gt;, venues_name &lt;chr&gt;, venues_address &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   venues_city &lt;chr&gt;, venues_state &lt;chr&gt;, venues_postal_code &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   venues_country &lt;chr&gt;, venues_lat &lt;dbl&gt;, venues_lon &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   venues_venue_type &lt;chr&gt;, rsvps_count &lt;int&gt;, featured_event_photo_url &lt;chr&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   featured_event_photo_high_res_url &lt;chr&gt;</span></span></span></code></pre></div>
 <p>This approach preserves the one-to-many relationship structure.
 Alternatively, setting <code>handle_multiples = "first"</code> would
 keep only the first of the lists.</p>
@@ -268,9 +268,9 @@ keep only the first of the lists.</p>
 <h2 id="custom-queries-from-scratch">Custom Queries from Scratch<a class="anchor" aria-label="anchor" href="#custom-queries-from-scratch"></a>
 </h2>
 <p>For complete control, you can write full GraphQL queries using
-<code><a href="../reference/meetup_query.html">meetup_query()</a></code>. This is useful when wrapper functions don’t
-exist for the data you need, or when you’re constructing complex queries
-with multiple nested levels.</p>
+<code><a href="../reference/meetupr_query.html">meetupr_query()</a></code>. This is useful when wrapper functions
+don’t exist for the data you need, or when you’re constructing complex
+queries with multiple nested levels.</p>
 <p>GraphQL queries follow a structured syntax. At the top level, you
 define a query operation with a name and any variables it accepts.
 Variables are prefixed with <code>$</code> and must have type
@@ -286,7 +286,7 @@ annotations (like <code>String!</code> for a required string).</p>
 <span><span class="st">      city</span></span>
 <span><span class="st">      country</span></span>
 <span><span class="st">      timezone</span></span>
-<span><span class="st">      </span></span>
+<span><span class="st"></span></span>
 <span><span class="st">      memberships {</span></span>
 <span><span class="st">        totalCount</span></span>
 <span><span class="st">      }</span></span>
@@ -312,17 +312,17 @@ related data in one request</li>
 <div class="section level3">
 <h3 id="executing-custom-queries">Executing Custom Queries<a class="anchor" aria-label="anchor" href="#executing-custom-queries"></a>
 </h3>
-<p>The <code><a href="../reference/meetup_query.html">meetup_query()</a></code> function executes your custom GraphQL
-and handles variable substitution. You pass variables as additional
-named arguments:</p>
+<p>The <code><a href="../reference/meetupr_query.html">meetupr_query()</a></code> function executes your custom
+GraphQL and handles variable substitution. You pass variables as
+additional named arguments:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Execute for different groups using the same query</span></span>
-<span><span class="va">lagos</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meetup_query.html">meetup_query</a></span><span class="op">(</span></span>
+<span><span class="va">lagos</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meetupr_query.html">meetupr_query</a></span><span class="op">(</span></span>
 <span>  <span class="va">custom_query</span>,</span>
 <span>  urlname <span class="op">=</span> <span class="st">"rladies-lagos"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">ottawa</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meetup_query.html">meetup_query</a></span><span class="op">(</span></span>
+<span><span class="va">ottawa</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meetupr_query.html">meetupr_query</a></span><span class="op">(</span></span>
 <span>  <span class="va">custom_query</span>,</span>
 <span>  urlname <span class="op">=</span> <span class="st">"rladies-ottawa"</span></span>
 <span><span class="op">)</span></span>
@@ -331,7 +331,7 @@ named arguments:</p>
 <span><span class="va">lagos</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">groupByUrlname</span><span class="op">$</span><span class="va">name</span></span>
 <span><span class="co">#&gt; [1] "R-Ladies Lagos"</span></span>
 <span><span class="va">ottawa</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">groupByUrlname</span><span class="op">$</span><span class="va">memberships</span><span class="op">$</span><span class="va">totalCount</span></span>
-<span><span class="co">#&gt; [1] 1076</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 1107</span></span></code></pre></div>
 <p>The response structure mirrors the query structure. Data is nested
 under <code>data</code>, then under each field name you queried. This
 differs from wrapper functions that return flat tibbles, giving you more
@@ -417,17 +417,17 @@ meetupr:</p>
 <h3 id="creating-custom-extractors">Creating Custom Extractors<a class="anchor" aria-label="anchor" href="#creating-custom-extractors"></a>
 </h3>
 <p>For advanced use cases, you can create your own
-<code>meetup_template</code> objects that define how to process
+<code>meetupr_template</code> objects that define how to process
 responses:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Define a custom template with extraction logic</span></span>
-<span><span class="va">template</span> <span class="op">&lt;-</span> <span class="fu">meetup_template</span><span class="op">(</span></span>
+<span><span class="va">template</span> <span class="op">&lt;-</span> <span class="fu">meetupr_template</span><span class="op">(</span></span>
 <span>  template <span class="op">=</span> <span class="st">"my_custom_query.graphql"</span>,</span>
 <span>  edges_path <span class="op">=</span> <span class="st">"data.group.customField.edges"</span>,</span>
 <span>  page_info_path <span class="op">=</span> <span class="st">"data.group.customField.pageInfo"</span>,</span>
 <span>  process_data <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="op">{</span></span>
 <span>    <span class="co"># Custom processing for your specific data structure</span></span>
-<span>    <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
+<span>    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
 <span>      id <span class="op">=</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_chr</a></span><span class="op">(</span><span class="va">data</span>, <span class="st">"node.id"</span><span class="op">)</span>,</span>
 <span>      name <span class="op">=</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_chr</a></span><span class="op">(</span><span class="va">data</span>, <span class="st">"node.name"</span><span class="op">)</span>,</span>
 <span>      custom_field <span class="op">=</span> <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map_dbl</a></span><span class="op">(</span><span class="va">data</span>, <span class="st">"node.customField"</span><span class="op">)</span></span>
@@ -455,7 +455,7 @@ sent:</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv</a></span><span class="op">(</span>MEETUPR_DEBUG <span class="op">=</span> <span class="st">"1"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Run a query - you'll see the full request/response</span></span>
-<span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meetup_query.html">meetup_query</a></span><span class="op">(</span></span>
+<span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/meetupr_query.html">meetupr_query</a></span><span class="op">(</span></span>
 <span>  <span class="st">"</span></span>
 <span><span class="st">  query {</span></span>
 <span><span class="st">    groupByUrlname(urlname: \"rladies-san-francisco\") {</span></span>
@@ -464,17 +464,7 @@ sent:</p>
 <span><span class="st">    }</span></span>
 <span><span class="st">  }"</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> DEBUG: JSON to be sent:</span></span>
-<span><span class="co">#&gt; {</span></span>
-<span><span class="co">#&gt;   "query": "</span></span>
-<span><span class="co">#&gt;   query {</span></span>
-<span><span class="co">#&gt;     groupByUrlname(urlname: \"rladies-san-francisco\") {</span></span>
-<span><span class="co">#&gt;       id</span></span>
-<span><span class="co">#&gt;       name</span></span>
-<span><span class="co">#&gt;     }</span></span>
-<span><span class="co">#&gt;   }",</span></span>
-<span><span class="co">#&gt;   "variables": {}</span></span>
-<span><span class="co">#&gt; }</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Using jwt token authentication</span></span>
 <span></span>
 <span><span class="co"># Disable debug mode</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Sys.setenv.html" class="external-link">Sys.setenv</a></span><span class="op">(</span>MEETUPR_DEBUG <span class="op">=</span> <span class="st">"0"</span><span class="op">)</span></span></code></pre></div>
@@ -618,10 +608,7 @@ case.</p>
 </h3>
 <ul>
 <li>
-<strong>Meetup GraphQL Schema</strong>: <a href="https://www.meetup.com/api/schema/" class="external-link uri">https://www.meetup.com/api/schema/</a><br>
-</li>
-<li>
-<strong>GraphQL General Guide</strong>: <a href="https://www.meetup.com/api/general/" class="external-link uri">https://www.meetup.com/api/general/</a><br>
+<strong>GraphQL General Guide</strong>: <a href="https://www.meetup.com/graphql/" class="external-link uri">https://www.meetup.com/graphql/</a><br>
 </li>
 <li>
 <strong>GraphQL Learning</strong>: <a href="https://graphql.org/learn/" class="external-link uri">https://graphql.org/learn/</a>
@@ -680,7 +667,7 @@ assistance.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

@@ -9,7 +9,7 @@ This function allows you to find topics that match your search criteria."><meta 
 
     <a class="navbar-brand me-2" href="../index.html">meetupr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,6 +48,7 @@ This function allows you to find topics that match your search criteria.</p>
 <span>  max_results <span class="op">=</span> <span class="fl">200</span>,</span>
 <span>  handle_multiples <span class="op">=</span> <span class="st">"list"</span>,</span>
 <span>  extra_graphql <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  asis <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -76,6 +77,10 @@ If "first", return only the first match.</p></dd>
 <dd><p>A graphql object. Extra objects to return</p></dd>
 
 
+<dt id="arg-asis">asis<a class="anchor" aria-label="anchor" href="#arg-asis"></a></dt>
+<dd><p>Return the raw API response as-is without processing</p></dd>
+
+
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Used for parameter expansion, must be empty.</p></dd>
 
@@ -89,27 +94,27 @@ If "first", return only the first match.</p></dd>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">find_topics</span><span class="op">(</span><span class="st">"R"</span>, max_results <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 10 × 4</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    id     name                                  urlkey               description</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 109937 Board Games                           board-games          <span style="color: #BB0000;">NA</span>         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 24384  Consciousness                         consciousness        Meet other…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 21137  Recreational Sports                   recreational-sports  Meet other…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 35073  Business Referral Networking          business-referral-n… Meet other…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 35170  Hiking                                hiking               Meet other…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 43699  Reading                               reading              <span style="color: #BB0000;">NA</span>         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 19285  Real Estate Investors                 real-estate-investo… <span style="color: #BB0000;">NA</span>         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 73492  Real Estate Investing                 real-estate-investi… <span style="color: #BB0000;">NA</span>         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 16714  Tabletop Role Playing and Board Games tabletop-role-playi… <span style="color: #BB0000;">NA</span>         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 584902 Machine Learning                      machine-learning     <span style="color: #BB0000;">NA</span>         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    id     name                         urlkey                       description </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 109937 Board Games                  board-games                  <span style="color: #BB0000;">NA</span>          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 24384  Consciousness                consciousness                Meet other …</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 21137  Recreational Sports          recreational-sports          Meet other …</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 35073  Business Referral Networking business-referral-networking Meet other …</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 35170  Hiking                       hiking                       Meet other …</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 43699  Reading                      reading                      <span style="color: #BB0000;">NA</span>          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 19285  Real Estate Investors        real-estate-investors        <span style="color: #BB0000;">NA</span>          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 73492  Real Estate Investing        real-estate-investing        <span style="color: #BB0000;">NA</span>          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 87372  Real Estate                  real-estate                  <span style="color: #BB0000;">NA</span>          </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 584902 Machine Learning             machine-learning             <span style="color: #BB0000;">NA</span>          </span>
 <span class="r-in"><span><span class="fu">find_topics</span><span class="op">(</span><span class="st">"Data Science"</span>, max_results <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 5 × 3</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   id      name                         urlkey                      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 1401412 Data Vault Database Modeling data-vault-database-modeling</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 1413652 Data Warehouse               data-warehouse              </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 95904   Data Privacy                 data-privacy                </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 480642  Data                         data                        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 173333  Data Governance              data-governance             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   id      name               urlkey            </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> 1515085 Data Analytics     data-analytics    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> 37381   Data Visualization data-visualization</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> 480642  Data               data              </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> 102811  Data Science       data-science      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">5</span> 55324   Data Mining        data-mining       </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -121,7 +126,7 @@ If "first", return only the first match.</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

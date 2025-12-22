@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">meetupr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,114 +37,147 @@
 
       <div class="section-desc"><p>Functions for authenticating and verification</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
 
       <dl><dt>
 
-          <code><a href="meetup_sitrep.html">meetup_sitrep()</a></code>
+          <code><a href="meetupr_sitrep.html">meetupr_sitrep()</a></code>
 
         </dt>
         <dd>Show meetupr authentication status</dd>
-      </dl><dl><dt>
 
-          <code><a href="meetup_auth.html">meetup_auth()</a></code> <code><a href="meetup_auth.html">meetup_deauth()</a></code>
+        <dt>
 
-        </dt>
-        <dd>Meetup API Authentication</dd>
-      </dl><dl><dt>
-
-          <code><a href="meetup_auth_status.html">meetup_auth_status()</a></code> <code><a href="meetup_auth_status.html">has_auth()</a></code>
+          <code><a href="meetupr_auth.html">meetupr_auth()</a></code>
 
         </dt>
-        <dd>Check Authentication Status for Meetup API</dd>
-      </dl><dl><dt>
+        <dd>Authenticate and return the current user</dd>
 
-          <code><a href="meetup_client.html">meetup_client()</a></code>
+        <dt>
 
-        </dt>
-        <dd>Create a Meetup OAuth Client</dd>
-      </dl><dl><dt>
-
-          <code><a href="meetup_keys.html">meetup_key_set()</a></code> <code><a href="meetup_keys.html">meetup_key_get()</a></code> <code><a href="meetup_keys.html">meetup_key_delete()</a></code>
+          <code><a href="meetupr_auth_status.html">meetupr_auth_status()</a></code> <code><a href="meetupr_auth_status.html">has_auth()</a></code>
 
         </dt>
-        <dd>Manage API keys in system keyring</dd>
-      </dl><dl><dt>
+        <dd>Check all authentication methods and return details</dd>
 
-          <code><a href="meetup_ci.html">meetup_ci_setup()</a></code> <code><a href="meetup_ci.html">meetup_ci_load()</a></code>
+        <dt>
+
+          <code><a href="meetupr_deauth.html">meetupr_deauth()</a></code>
 
         </dt>
-        <dd>Meetup API CI Authentication</dd>
+        <dd>Deauthorize and remove cached authentication</dd>
+
+        <dt>
+
+          <code><a href="meetupr_client.html">meetupr_client()</a></code>
+
+        </dt>
+        <dd>Create a Meetup OAuth client</dd>
+
+        <dt>
+
+          <code><a href="meetupr_credentials.html">meetupr_key_set()</a></code> <code><a href="meetupr_credentials.html">meetupr_key_get()</a></code> <code><a href="meetupr_credentials.html">meetupr_key_delete()</a></code>
+
+        </dt>
+        <dd>Manage API Keys via Environment Variables</dd>
+
+        <dt>
+
+          <code><a href="use_gha.html">use_gha_jwt_token()</a></code> <code><a href="use_gha.html">use_gha_encrypted_token()</a></code>
+
+        </dt>
+        <dd>GitHub Actions workflow helpers</dd>
       </dl></div><div class="section level2">
       <h2 id="retrieving-data-and-working-with-data">Retrieving data and working with data<a class="anchor" aria-label="anchor" href="#retrieving-data-and-working-with-data"></a></h2>
 
       <div class="section-desc"><p>Functions for retrieving data</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
 
       <dl><dt>
 
+          <code><a href="get_client_name.html">get_client_name()</a></code>
+
+        </dt>
+        <dd>Get Meetup OAuth Client Name</dd>
+
+        <dt>
+
           <code><a href="get_event.html">get_event()</a></code>
 
         </dt>
         <dd>Get information for a specified event</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_event_comments.html">get_event_comments()</a></code>
 
         </dt>
         <dd>Get the comments for a specified event</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_event_rsvps.html">get_event_rsvps()</a></code>
 
         </dt>
         <dd>Get the RSVPs for a specified event</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_group.html">get_group()</a></code>
 
         </dt>
         <dd>Get detailed information about a Meetup group</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_group_events.html">get_group_events()</a></code>
 
         </dt>
         <dd>Get the events from a meetup group</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_group_members.html">get_group_members()</a></code>
 
         </dt>
         <dd>Get the members from a meetup group</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_pro.html">get_pro_groups()</a></code> <code><a href="get_pro.html">get_pro_events()</a></code>
 
         </dt>
         <dd>Retrieve information about Meetup Pro networks, including groups and events.</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="get_self.html">get_self()</a></code>
 
         </dt>
         <dd>Get information about the authenticated user</dd>
-      </dl><dl><dt>
+
+        <dt>
+
+          <code><a href="meetupr_encrypt.html">meetupr_encrypt_setup()</a></code> <code><a href="meetupr_encrypt.html">meetupr_encrypt_load()</a></code> <code><a href="meetupr_encrypt.html">get_encrypted_path()</a></code>
+
+        </dt>
+        <dd>CI Authentication with Encrypted Token Rotation</dd>
+
+        <dt>
 
           <code><a href="find_groups.html">find_groups()</a></code>
 
         </dt>
         <dd>Find groups using text-based search</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="find_topics.html">find_topics()</a></code>
 
@@ -155,66 +188,70 @@
 
       <div class="section-desc"><p>Functions enabling querying of data</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
 
       <dl><dt>
 
-          <code><a href="meetup_req.html">meetup_req()</a></code>
+          <code><a href="meetupr_req.html">meetupr_req()</a></code>
 
         </dt>
         <dd>Create and Configure a Meetup API Request</dd>
-      </dl><dl><dt>
 
-          <code><a href="meetup_query.html">meetup_query()</a></code>
+        <dt>
+
+          <code><a href="meetupr_query.html">meetupr_query()</a></code>
 
         </dt>
         <dd>Execute GraphQL query</dd>
       </dl></div><div class="section level2">
       <h2 id="introspection">Introspection<a class="anchor" aria-label="anchor" href="#introspection"></a></h2>
 
-      <div class="section-desc"><p>Functions for introspection and debugging</p></div>
+      <div class="section-desc"><p>Functions for introspection</p></div>
 
-
-    </div><div class="section level2">
+      <dl></dl></div><div class="section level2">
 
 
 
 
       <dl><dt>
 
-          <code><a href="meetup_schema.html">meetup_schema()</a></code>
+          <code><a href="meetupr_schema.html">meetupr_schema()</a></code>
 
         </dt>
         <dd>Introspect the Meetup GraphQL API schema</dd>
-      </dl><dl><dt>
 
-          <code><a href="meetup_schema_mutations.html">meetup_schema_mutations()</a></code>
+        <dt>
+
+          <code><a href="meetupr_schema_mutations.html">meetupr_schema_mutations()</a></code>
 
         </dt>
         <dd>Explore available mutations in the Meetup GraphQL API</dd>
-      </dl><dl><dt>
 
-          <code><a href="meetup_schema_queries.html">meetup_schema_queries()</a></code>
+        <dt>
+
+          <code><a href="meetupr_schema_queries.html">meetupr_schema_queries()</a></code>
 
         </dt>
         <dd>Explore available query fields in the Meetup GraphQL API</dd>
-      </dl><dl><dt>
 
-          <code><a href="meetup_schema_search.html">meetup_schema_search()</a></code>
+        <dt>
+
+          <code><a href="meetupr_schema_search.html">meetupr_schema_search()</a></code>
 
         </dt>
         <dd>Search for types in the Meetup GraphQL API schema</dd>
-      </dl><dl><dt>
 
-          <code><a href="meetup_schema_type.html">meetup_schema_type()</a></code>
+        <dt>
+
+          <code><a href="meetupr_schema_type.html">meetupr_schema_type()</a></code>
 
         </dt>
         <dd>Get fields for a specific type in the Meetup GraphQL API schema</dd>
-      </dl><dl><dt>
+
+        <dt>
 
           <code><a href="local_meetupr_debug.html">local_meetupr_debug()</a></code>
 
@@ -230,7 +267,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

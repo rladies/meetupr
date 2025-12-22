@@ -1,0 +1,291 @@
+# Advanced Authentication
+
+``` r
+library(meetupr)
+```
+
+This package supports three main authentication methods: 1. OAuth2
+Interactive Flow (default for local use)  
+2. JWT Token (for Meetup Pro accounts)  
+3. Encrypted OAuth Token File (CI/CD and automation for non-pro
+accounts, experimental)
+
+This vignette covers advanced topics around authentication, including
+how to register and use custom OAuth credentials, and how to use
+different authentication methods supported by meetupr.
+
+## Why Use Custom OAuth Credentials
+
+The meetupr package includes built-in OAuth credentials that work for
+most users. However, you should consider registering your own OAuth
+application if:
+
+- **Rate limits**: You’re hitting the default rate limit (500 requests
+  per 60 seconds) and need higher throughput  
+- **Production apps**: You’re building a Shiny app, API, or other
+  production service that uses meetupr  
+- **Team usage**: Multiple people share API access and you want
+  centralized credential management  
+- **Compliance**: Your organization requires using OAuth apps registered
+  under your account  
+- **Analytics**: You want detailed usage analytics from the Meetup
+  developer dashboard
+
+Custom credentials don’t provide access to different data, only better
+control over how authentication is managed.
+
+## Registering a Meetup OAuth Application
+
+### Step 1: Create the OAuth App
+
+Navigate to the [Meetup OAuth app
+registration](https://www.meetup.com/api/oauth/list/)(must be logged in
+to Meetup for access) page.
+
+Click **Create New OAuth Consumer** and fill in the required fields:
+
+- **Consumer Name**: A descriptive name (e.g., “My R Analysis App”)  
+- **Application Website**: Your organization’s website or GitHub
+  repository  
+- **Redirect URI**: defaults to`http://localhost:1410/`
+- **Consumer Description**: Brief description of what your app does
+
+### Step 2: Note Your Credentials
+
+After creating the app, you’ll receive:
+
+- **Key** (Client ID): A unique identifier for your application  
+- **Secret** (Client Secret): A confidential string used to authenticate
+  your app
+
+**Important**: Keep the client secret confidential. Do not commit it to
+version control or share it publicly. While the secret alone is not
+sufficient to access user data, it should still be protected.
+
+## Storing Custom Credentials
+
+meetupr stores and retrieves OAuth credentials from your R environment.
+We highly recommend using the `keyring` package to securely manage your
+secrets, but do note that meetupr natively reads from environment
+variables. Use the pattern \_. Default client name is “meetupr”, but
+replace with your client name for custom apps.
+
+To use a custom OAuth application, you need to provide at least the
+following credentials: - `client_key`: Your OAuth Client ID  
+- `client_secret`: Your OAuth Client Secret
+
+These should be clearly stated when you register your OAuth app with
+Meetup. When you make your custom app, you will need to set the redirect
+URI to `http://localhost:1410/`, as this is what meetupr uses.
+
+### Storing Credentials in your environment
+
+You can to set credentials in either user or project specific
+`.Renviron` file. But be cautious not to commit secrets to version
+control. For local development, you can set them in your user-level
+`.Renviron` file, but we recommend using the
+`[keyring](https://keyring.r-lib.org/)` package for better security. For
+example, in your `.Renviron` file, add:
+
+    meetupr_client_key=your_client_key_here
+    meetupr_client_secret=your_client_secret_here
+
+values will be read automatically when you start R.
+
+### Verifying Stored Credentials
+
+Check what credentials are available:
+
+``` r
+# Check if credentials exist
+key_available("client_key")
+key_available("client_secret")
+
+# Retrieve stored values (for debugging only - don't print secrets!)
+client_key <- meetupr_key_get("client_key")
+# Note: Never print client_secret in logs or console
+```
+
+## Authenticating with Custom Credentials
+
+Once credentials are stored, authentication works the same as with the
+built-in credentials as long as everything is correct.
+
+``` r
+# Authenticate (will use stored credentials automatically)
+meetupr_auth()
+
+# Get situation report
+meetupr_sitrep()
+```
+
+The OAuth flow opens a browser where you:
+
+1.  Log in with your Meetup account  
+2.  Grant permission to your registered OAuth app  
+3.  Get redirected back to R with an access token
+
+The token is cached locally and reused until it expires, after which it
+will be refreshed automatically.
+
+### Using a Custom Client Name
+
+By default, tokens are cached under the service name `"meetupr"`, which
+is the default `client_name`. If you’re using multiple OAuth apps, you
+can specify a custom client name:
+
+``` r
+# Sets a custom client name for this session
+Sys.setenv("MEETUPR_CLIENT_NAME" = "myApp")
+
+# Authenticate with custom client name
+meetupr_sitrep()
+```
+
+Or specify the client name directly in function calls:
+
+``` r
+# Authenticate with custom client name
+meetupr_auth(client_name = "myApp")
+```
+
+This allows you to maintain separate authentication for different
+projects or OAuth applications. The client name is safe to share
+publicly, as it does not contain sensitive information, and can thus
+safely be stored in project specific `.Renviron` files and version
+controlled.
+
+### Supported Keys
+
+| Key           | Purpose/Usage                                                 |
+|---------------|---------------------------------------------------------------|
+| client_key    | OAuth client key, necessary if using custom app               |
+| client_secret | OAuth client secret, necessary if using custom app            |
+| jwt_token     | JWT token (string or file path) for Meetup Pro authentication |
+| jwt_issuer    | Necessary if using JWT, your Meetup Member ID (number)        |
+| encrypt_path  | Path to encrypted token file (default: `.meetupr.rds`)        |
+| encrypt_pwd   | Password for decrypting encrypted token files                 |
+
+### 1. JWT Flow (Meetup Pro accounts)
+
+JWT is only available for Meetup Pro accounts. To use JWT
+authentication, you need to obtain a JWT token from Meetup, from your
+custom oAuth app page, and your Member ID (numeric).
+
+The member ID is required to identify the user associated with the JWT
+token, and can be found in your Meetup profile URL (e.g.,
+`https://www.meetup.com/members/12345678/` where `12345678` is your
+member ID). Then set the following keys in your environment (using
+keyring or `.Renviron`):
+
+    meetupr_jwt_issuer=12345678
+
+The JWT token is a PEM-encoded string that can be used to authenticate
+API requests directly, without going through the OAuth2 flow.
+
+For local development, you should download the PEM file from your oAuth
+custom app setup page, and store it in a secure place outside your
+project directory. {meetupr} will automatically look for the file at
+`~/.ssh/meetupr.rsa` by default, but you can store it anywhere you like
+and then reference the file path as the `jwt_token` key.
+
+    meetupr_jwt_token=/path/to/your/meetup.rsa
+    meetupr_jwt_issuer=12345678
+
+For CI/CD, you can store the JWT token as an environment variable, by
+copying the token string directly and pasting it into your CI
+environment variable settings. meetupr will read the token from the env
+var directly.
+
+### 2. Encrypted OAuth Token File (for CI/CD)
+
+This experimental method provides non-interactive, automated API access
+for non‑Pro accounts. It stores an encrypted copy of your OAuth token
+file (default: `.meetupr.rds`) in the repository and uses a password
+kept in CI secrets to decrypt it at runtime.
+
+**Why use it**  
+- Handles expiring OAuth tokens when JWT is not available.  
+- Keeps the token file encrypted in the repo or CI artifacts.  
+- Allows scheduled or automated workflows to run without manual login.
+
+**Important constraint** Meetup refresh tokens are single‑use. If a run
+refreshes the token you must re‑encrypt and update the stored file after
+that run, otherwise the next run will fail.
+
+### Setting Up Encrypted Token Authentication
+
+Start by authenticating locally, where you will receive a token.
+
+``` r
+meetupr_auth()
+
+# verify everything is working
+meetupr_sitrep()
+```
+
+Then, set up encryption locally:
+
+``` r
+# creates .meetupr.rds and displays password
+meetupr_encrypt_setup()  
+```
+
+This will create an encrypted token file `.meetupr.rds` in your working
+directory, and display a randomly generated password. **Make sure to
+copy and save this password securely**, as you will need it to decrypt
+the token file in your CI environment.
+
+Next, in your CI environment (e.g., GitHub Actions, Travis CI, etc.),
+set the decryption password as an environment variable named
+`meetupr_encrypt_pwd`.
+
+Finally, in your CI scripts, load the encrypted token file before making
+API calls:
+
+``` r
+meetupr_encrypt_load()
+meetupr_sitrep()
+```
+
+- You can override the encrypted token path by setting the keyring key
+  `"encrypt_path"`.
+
+#### Rotating an Encrypted Token in GitHub Actions
+
+Set up a GitHub action with:
+
+``` r
+use_gha_encrypted_token()
+```
+
+- Loads the encrypted token file from the repository  
+- Uses the decryption password from a GitHub secret  
+- Refreshes the token (if needed) and writes the updated `.meetupr.rds`
+  back to the repository
+
+### 3. OAuth2 Interactive Flow
+
+- **Default for interactive sessions**:
+
+  ``` r
+  meetupr_auth()
+  meetupr_sitrep()
+  ```
+
+### How Authentication is Chosen
+
+When you call any meetupr function, authentication is resolved in this
+order:
+
+1.  If a valid JWT token is found (keyring, env var, or file), it is
+    used.
+2.  If an encrypted token file (`.meetupr.rds` or custom) and password
+    are available, it is used.
+3.  Otherwise, the interactive OAuth2 browser flow is triggered.
+
+You can check which method is active with:
+
+``` r
+meetupr_sitrep()
+```

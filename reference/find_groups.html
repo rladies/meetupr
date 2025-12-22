@@ -9,7 +9,7 @@ you to find groups that match your search criteria."><meta property="og:image" c
 
     <a class="navbar-brand me-2" href="../index.html">meetupr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,6 +50,7 @@ you to find groups that match your search criteria.</p>
 <span>  max_results <span class="op">=</span> <span class="fl">200</span>,</span>
 <span>  handle_multiples <span class="op">=</span> <span class="st">"list"</span>,</span>
 <span>  extra_graphql <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  asis <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -86,8 +87,17 @@ If "first", return only the first match.</p></dd>
 <dd><p>A graphql object. Extra objects to return</p></dd>
 
 
+<dt id="arg-asis">asis<a class="anchor" aria-label="anchor" href="#arg-asis"></a></dt>
+<dd><p>Return the raw API response as-is without processing</p></dd>
+
+
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>Should be empty. Used for parameter expansion</p></dd>
+<dd><p>other named variables for graphql query. options are:</p><ul><li><p>lat: Float</p></li>
+<li><p>lon: Float</p></li>
+<li><p>radius: Float</p></li>
+<li><p>categoryId: ID</p></li>
+<li><p>topicCategoryId: ID</p></li>
+</ul></dd>
 
 </dl></div>
     <div class="section level2">
@@ -98,6 +108,23 @@ If "first", return only the first match.</p></dd>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">groups</span> <span class="op">&lt;-</span> <span class="fu">find_groups</span><span class="op">(</span><span class="st">"R-Ladies"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">groups</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 200 × 13</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    id       name       urlname city  state country   lat   lon memberships_count</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 38267718 R User Gr… r-nvsu  Mani… <span style="color: #949494;">""</span>    ph       14.6 121.                  3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 24820200 R-Ladies … rladie… Méxi… <span style="color: #949494;">""</span>    mx       19.4 -<span style="color: #BB0000;">99.1</span>              <span style="text-decoration: underline;">2</span>942</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 20378903 R-Ladies … rladie… Melb… <span style="color: #949494;">""</span>    au      -<span style="color: #BB0000;">37.8</span> 145.               <span style="text-decoration: underline;">2</span>708</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 32767673 R-Ladies … rladie… Pach… <span style="color: #949494;">""</span>    mx       20.1 -<span style="color: #BB0000;">98.8</span>                40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 33041212 R-Ladies … rladie… al-K… <span style="color: #949494;">""</span>    sd       15.6  32.5               112</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 35897820 R-Ladies … rladie… Gabo… <span style="color: #949494;">""</span>    bw      -<span style="color: #BB0000;">24.6</span>  25.9              <span style="text-decoration: underline;">1</span>131</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 28706674 R-Ladies … rladie… Nite… <span style="color: #949494;">""</span>    br      -<span style="color: #BB0000;">22.9</span> -<span style="color: #BB0000;">43.1</span>              <span style="text-decoration: underline;">1</span>276</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 33361775 R-Ladies … rladie… Ha N… <span style="color: #949494;">""</span>    vn       21.0 106.                124</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 27456719 R-Ladies … rladie… São … <span style="color: #949494;">""</span>    br      -<span style="color: #BB0000;">23.5</span> -<span style="color: #BB0000;">46.6</span>              <span style="text-decoration: underline;">1</span>818</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 28441250 R-Ladies … rladie… San … <span style="color: #949494;">""</span>    ar      -<span style="color: #BB0000;">41.1</span> -<span style="color: #BB0000;">71.3</span>               588</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 190 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 4 more variables: founded_date &lt;dttm&gt;, timezone &lt;chr&gt;, join_mode &lt;chr&gt;,</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;">#   is_private &lt;lgl&gt;</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -109,7 +136,7 @@ If "first", return only the first match.</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">meetupr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,6 +45,7 @@
 <span>  max_results <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  handle_multiples <span class="op">=</span> <span class="st">"list"</span>,</span>
 <span>  extra_graphql <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  asis <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -74,6 +75,10 @@ If "first", return only the first match.</p></dd>
 <dd><p>A graphql object. Extra objects to return</p></dd>
 
 
+<dt id="arg-asis">asis<a class="anchor" aria-label="anchor" href="#arg-asis"></a></dt>
+<dd><p>Return the raw API response as-is without processing</p></dd>
+
+
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Should be empty. Used for parameter expansion</p></dd>
 
@@ -86,20 +91,21 @@ If "first", return only the first match.</p></dd>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">get_group_members</span><span class="op">(</span><span class="st">"rladies-lagos"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 866 × 4</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    id        name                       member_url              member_photo_url</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 251470805 <span style="color: #949494;">"</span>R-Ladies Global<span style="color: #949494;">"</span>          https://www.meetup.com… https://secure-…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 225839690 <span style="color: #949494;">"</span>EYITAYO ALIMI<span style="color: #949494;">"</span>            https://www.meetup.com… https://secure-…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 236466773 <span style="color: #949494;">"</span>Adedamilola Adekanye<span style="color: #949494;">"</span>     https://www.meetup.com… https://secure-…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 255806325 <span style="color: #949494;">"</span>Helen<span style="color: #949494;">"</span>                    https://www.meetup.com… https://secure-…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 287781170 <span style="color: #949494;">"</span>Alvin<span style="color: #949494;">"</span>                    https://www.meetup.com… https://secure-…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 266271010 <span style="color: #949494;">"</span>ijeoma benson<span style="color: #949494;">"</span>            https://www.meetup.com… <span style="color: #BB0000;">NA</span>              </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 284993544 <span style="color: #949494;">"</span>Ochuko<span style="color: #949494;">"</span>                   https://www.meetup.com… https://secure-…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 249638660 <span style="color: #949494;">"</span>Folajimi Aroloye<span style="color: #949494;">"</span>         https://www.meetup.com… https://secure-…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 287607204 <span style="color: #949494;">"</span>Olaniyi ayomide recheal <span style="color: #949494;">"</span> https://www.meetup.com… <span style="color: #BB0000;">NA</span>              </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 253986501 <span style="color: #949494;">"</span>Ofure Ughu<span style="color: #949494;">"</span>               https://www.meetup.com… <span style="color: #BB0000;">NA</span>              </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 856 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 890 × 8</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    id        name             member_url member_photo_url status role  join_time</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 251470805 <span style="color: #949494;">"</span>R-Ladies Globa… https://w… https://secure-… LEADER ORGA… 2019-08-…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 225839690 <span style="color: #949494;">"</span>EYITAYO ALIMI<span style="color: #949494;">"</span>  https://w… https://secure-… LEADER COOR… 2019-08-…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 236466773 <span style="color: #949494;">"</span>Adedamilola Ad… https://w… https://secure-… ACTIVE MEMB… 2019-08-…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 255806325 <span style="color: #949494;">"</span>Helen<span style="color: #949494;">"</span>          https://w… https://secure-… ACTIVE MEMB… 2019-08-…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 287781170 <span style="color: #949494;">"</span>Alvin<span style="color: #949494;">"</span>          https://w… https://secure-… ACTIVE MEMB… 2019-08-…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 266271010 <span style="color: #949494;">"</span>ijeoma benson<span style="color: #949494;">"</span>  https://w… <span style="color: #BB0000;">NA</span>               ACTIVE MEMB… 2019-08-…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 284993544 <span style="color: #949494;">"</span>Ochuko<span style="color: #949494;">"</span>         https://w… https://secure-… ACTIVE MEMB… 2019-08-…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 249638660 <span style="color: #949494;">"</span>Folajimi Arolo… https://w… https://secure-… ACTIVE MEMB… 2019-08-…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 287607204 <span style="color: #949494;">"</span>Olaniyi ayomid… https://w… <span style="color: #BB0000;">NA</span>               ACTIVE MEMB… 2019-08-…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 253986501 <span style="color: #949494;">"</span>Ofure Ughu<span style="color: #949494;">"</span>     https://w… <span style="color: #BB0000;">NA</span>               ACTIVE MEMB… 2019-08-…</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 880 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 1 more variable: last_access_time &lt;chr&gt;</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -111,7 +117,7 @@ If "first", return only the first match.</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>

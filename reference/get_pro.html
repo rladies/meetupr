@@ -15,7 +15,7 @@ and the events they host."><meta property="og:image" content="http://rladies.org
 
     <a class="navbar-brand me-2" href="../index.html">meetupr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,17 +57,19 @@ and the events they host.</p>
 <span>  max_results <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  handle_multiples <span class="op">=</span> <span class="st">"list"</span>,</span>
 <span>  extra_graphql <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  asis <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">get_pro_events</span><span class="op">(</span></span>
 <span>  <span class="va">urlname</span>,</span>
 <span>  status <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  date_before <span class="op">=</span> <span class="va">date_before</span>,</span>
-<span>  date_after <span class="op">=</span> <span class="va">date_after</span>,</span>
+<span>  date_before <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  date_after <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  max_results <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  handle_multiples <span class="op">=</span> <span class="st">"list"</span>,</span>
 <span>  extra_graphql <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  asis <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -95,6 +97,10 @@ If "first", return only the first match.</p></dd>
 
 <dt id="arg-extra-graphql">extra_graphql<a class="anchor" aria-label="anchor" href="#arg-extra-graphql"></a></dt>
 <dd><p>A graphql object. Extra objects to return</p></dd>
+
+
+<dt id="arg-asis">asis<a class="anchor" aria-label="anchor" href="#arg-asis"></a></dt>
+<dd><p>Return the raw API response as-is without processing</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -131,7 +137,6 @@ If "first", return only the first match.</p></dd>
 <span class="r-in"><span><span class="va">members</span> <span class="op">&lt;-</span> <span class="fu">get_pro_groups</span><span class="op">(</span><span class="va">urlname</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">upcoming_events</span> <span class="op">&lt;-</span> <span class="fu">get_pro_events</span><span class="op">(</span><span class="va">urlname</span>, <span class="st">"upcoming"</span>, max_results <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>The authenticated user must have Pro access to retrieve Network event data.</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -143,7 +148,7 @@ If "first", return only the first match.</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>
