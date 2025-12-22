@@ -36,7 +36,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/rladies/meetupr/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/rladies/meetupr/blob/v0.3.1/DESCRIPTION)
 
 Mowinckel A, LeDell E, Mierzwa-Sulima O, D'Agostino McGowan L, Vitolo C
 (2025). *meetupr: Access Meetup Data*. R package version 0.3.1,
