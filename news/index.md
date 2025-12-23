@@ -2,6 +2,8 @@
 
 ## meetupr 0.3.1
 
+CRAN release: 2025-12-22
+
 - Added JWT authentication support for the Meetup API.
 - Added experimental support for encrypting stored tokens for CI/CD
 - Fixed bug that made only “node” response format work, more data is now
@@ -45,6 +47,34 @@
 
 - Renamed `api_method` to `api_path` in internal function,
   `.fetch_results()`, as it’s less confusing.
+
+## meetupr 0.2.99.9000 (development)
+
+- Development snapshot: GraphQL groundwork and CI updates.
+- Added initial GraphQL queries and plumbing to support flattening
+  nested lists into tibbles; set up `gh`-backed GraphQL helpers and
+  cleaned up developer warnings. (commit: 2021-12-28)
+
+## meetupr 0.2.3
+
+- Documentation and packaging housekeeping:
+  - Updated `DESCRIPTION` and README.
+  - Added/updated pkgdown configuration and vignette metadata.
+  - Added Ben as contributor. (commit: 2020-10-16)
+
+## meetupr 0.2.1
+
+- Bug fixes and internal improvements to event/member handling:
+  - Improve handling of attendee/member fields (bio, rsvp_response).
+  - Fix membership/joined date acquisition.
+  - Improve HTTP 400 error messages so failing request URLs are easier
+    to inspect. (commit: 2020-06-30)
+
+## meetupr 0.0.2
+
+- Small fixes and contributor updates; bumped version. Rick Pack was
+  added as a contributor and the package improved messaging for invalid
+  API calls. (commit: 2020-06-30)
 
 ## meetupr 0.1.1
 

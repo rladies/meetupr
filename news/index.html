@@ -30,11 +30,11 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/rladies/meetupr/blob/v0.3.1/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/rladies/meetupr/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.3.1" id="meetupr-031">meetupr 0.3.1<a class="anchor" aria-label="anchor" href="#meetupr-031"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.3.1" id="meetupr-031">meetupr 0.3.1<a class="anchor" aria-label="anchor" href="#meetupr-031"></a></h2><p class="text-muted">CRAN release: 2025-12-22</p>
 <ul><li>Added JWT authentication support for the Meetup API.</li>
 <li>Added experimental support for encrypting stored tokens for CI/CD</li>
 <li>Fixed bug that made only “node” response format work, more data is now available from the API.</li>
@@ -76,6 +76,31 @@
 <ul><li>Renamed <code>api_method</code> to <code>api_path</code> in internal function, <code>.fetch_results()</code>, as it’s less confusing.</li>
 </ul></div>
 </div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.99.9000" id="meetupr-02999000-development">meetupr 0.2.99.9000 (development)<a class="anchor" aria-label="anchor" href="#meetupr-02999000-development"></a></h2>
+<ul><li>Development snapshot: GraphQL groundwork and CI updates.</li>
+<li>Added initial GraphQL queries and plumbing to support flattening nested lists into tibbles; set up <code>gh</code>-backed GraphQL helpers and cleaned up developer warnings. (commit: 2021-12-28)</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.3" id="meetupr-023">meetupr 0.2.3<a class="anchor" aria-label="anchor" href="#meetupr-023"></a></h2>
+<ul><li>Documentation and packaging housekeeping:
+<ul><li>Updated <code>DESCRIPTION</code> and README.</li>
+<li>Added/updated pkgdown configuration and vignette metadata.</li>
+<li>Added Ben as contributor. (commit: 2020-10-16)</li>
+</ul></li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.1" id="meetupr-021">meetupr 0.2.1<a class="anchor" aria-label="anchor" href="#meetupr-021"></a></h2>
+<ul><li>Bug fixes and internal improvements to event/member handling:
+<ul><li>Improve handling of attendee/member fields (bio, rsvp_response).</li>
+<li>Fix membership/joined date acquisition.</li>
+<li>Improve HTTP 400 error messages so failing request URLs are easier to inspect. (commit: 2020-06-30)</li>
+</ul></li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.0.2" id="meetupr-002">meetupr 0.0.2<a class="anchor" aria-label="anchor" href="#meetupr-002"></a></h2>
+<ul><li>Small fixes and contributor updates; bumped version. Rick Pack was added as a contributor and the package improved messaging for invalid API calls. (commit: 2020-06-30)</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.1" id="meetupr-011">meetupr 0.1.1<a class="anchor" aria-label="anchor" href="#meetupr-011"></a></h2>
 <ul><li>Added <code><a href="../reference/get_event_rsvps.html">get_event_rsvps()</a></code> function. Contribution by Michael Beigelmacher: <a href="https://github.com/rladies/meetupr/pull/19" class="external-link uri">https://github.com/rladies/meetupr/pull/19</a>
