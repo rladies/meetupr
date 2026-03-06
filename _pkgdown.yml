@@ -1,6 +1,7 @@
+url: https://rladies.org/meetupr/
 template:
+  package: rladiesdocs
   bootstrap: 5
-url: http://rladies.org/meetupr/
 
 logo:
   image: man/figures/logo.png
