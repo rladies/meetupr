@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "meetupr: Access Meetup Data"
+version: 0.3.1
+license: MIT
+url: "https://rladies.org/meetupr/"
+repository-code: "https://github.com/rladies/meetupr"
+authors:
+  - family-names: Mowinckel
+    given-names: Athanasia Mo
+    orcid: "https://orcid.org/0000-0002-5756-0223"
+  - family-names: LeDell
+    given-names: Erin
+  - family-names: Mierzwa-Sulima
+    given-names: Olga
+  - family-names: D'Agostino McGowan
+    given-names: Lucy
+  - family-names: Vitolo
+    given-names: Claudia
+identifiers:
+  - type: url
+    value: "https://ror.org/05wpb1k41"
+    description: "ROR ID for R-Ladies Global"
