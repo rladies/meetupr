@@ -19,7 +19,8 @@ Authors@R: c(
            comment = c(ORCID = "0000-0002-2815-0399")),
     person("Barret", "Schloerke", , "barret@rstudio.com", role = "ctb",
            comment = c(ORCID = "0000-0001-9986-114X")),
-    person("R-Ladies Global", role = "cph")
+    person("R-Ladies Global", role = "cph",
+           comment = c(ROR = "https://ror.org/05wpb1k41"))
   )
 Description: Provides programmatic access to the 'Meetup' 'GraphQL' API 
     (<https://www.meetup.com/graphql/>), enabling users to retrieve
