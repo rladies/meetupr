@@ -3,6 +3,7 @@
 ## Install and load packages
 
 ``` r
+
 library(tidytext)
 library(ggwordcloud)
 library(dplyr)
@@ -20,6 +21,7 @@ the function returns up to 200 results, so we will filter them
 afterwards.
 
 ``` r
+
 meetupr_groups <- find_groups("r-ladies")
 meetupr_groups
 #> # A tibble: 200 × 14
@@ -44,6 +46,7 @@ Since the search might return groups that are not actually R-Ladies
 chapters, we will filter them by name.
 
 ``` r
+
 rladies <- meetupr_groups |>
   filter(grepl("R-Ladies", name, ignore.case = TRUE))
 
@@ -74,6 +77,7 @@ R-Ladies is a pro organization on meetup.com, we can use this function
 to get the list of all chapters that are part of the R-Ladies network.
 
 ``` r
+
 rladies_pro <- get_pro_groups("rladies")
 ```
 
@@ -82,6 +86,7 @@ rladies_pro <- get_pro_groups("rladies")
 Let us now visualize the growth of R-Ladies chapters over time.
 
 ``` r
+
 df <- rladies_pro |>
   mutate(
     dategroup = format(founded_date, "%Y-%m")
@@ -124,6 +129,7 @@ Let us now extract the number of past events and the dates of last and
 next events, for each chapter.
 
 ``` r
+
 rladies_events <- get_pro_events("rladies")
 
 event_summary <- rladies_events |>
@@ -163,6 +169,7 @@ event_summary
 have been created more than 6 months ago)?*
 
 ``` r
+
 rladies <- rladies_pro |>
   rename(group_urlname = urlname) |>
   left_join(event_summary, by = "group_urlname")
@@ -187,6 +194,7 @@ rladies |>
 planned one?*
 
 ``` r
+
 rladies |>
   filter(
     last_event < as.POSIXct("2019-03-29"),
@@ -208,6 +216,7 @@ Finally, let us create a wordcloud of the most common words in the event
 descriptions of all R-Ladies chapters.
 
 ``` r
+
 # Strip html tags from event descriptions
 strip_html <- function(x) {
   sapply(x, function(x) {
@@ -264,6 +273,7 @@ rladies_wc <- function(data, column, n = 100) {
 ```
 
 ``` r
+
 rladies_wc(rladies_events, description) +
   labs(
     title = "Most common words in R-Ladies event descriptions",

@@ -42,6 +42,7 @@ Tests use **vcr** package to record/replay HTTP interactions. Always
 follow this pattern:
 
 ``` r
+
 describe("function()", {
   it("does something", {
     mock_if_no_auth()  # Sets fake env vars when not authenticated
@@ -74,6 +75,7 @@ to see line-level coverage. Focus areas with \<100%:
 ### Building and Documenting
 
 ``` r
+
 devtools::document()     # Generates man/*.Rd from roxygen2 comments
 devtools::load_all()     # Simulates package installation
 devtools::test()         # Runs testthat suite
@@ -92,6 +94,7 @@ standards and ensures readability in split-screen editors and code
 review tools.
 
 ``` r
+
 # ❌ BAD: Line exceeds 80 characters
 very_long_function_name <- function(parameter_one, parameter_two, parameter_three, parameter_four) {
   result <- some_other_long_function(parameter_one, parameter_two, parameter_three)
@@ -140,6 +143,7 @@ strings.
 **Breaking conditionals:**
 
 ``` r
+
 # ✅ GOOD: Break long conditions
 if (
   condition_one &&
@@ -171,6 +175,7 @@ variable and function names. Only add comments to explain **why**
 something is done, not **what** it does.
 
 ``` r
+
 # ❌ BAD: Explaining what the code does
 # Loop through each event and extract the ID
 event_ids <- lapply(events, function(e) e$id)
@@ -221,6 +226,7 @@ via function parameters.
 Pagination uses S7 (not S3/S4). Key pattern in `R/graphql-builders.R`:
 
 ``` r
+
 meetupr_template <- S7::new_class(
   properties = list(
     template = S7::class_character,       # Query filename
@@ -250,6 +256,7 @@ GraphQL errors are structured responses (not HTTP errors). Pattern in
 [`meetupr_query()`](http://rladies.org/meetupr/reference/meetupr_query.md):
 
 ``` r
+
 resp <- httr2::req_perform(req) |> httr2::resp_body_json()
 if (!is.null(resp$errors)) {
   cli::cli_abort(sapply(resp$errors, function(e) e$message))

@@ -1,6 +1,7 @@
 # Advanced Authentication
 
 ``` r
+
 library(meetupr)
 ```
 
@@ -97,6 +98,7 @@ values will be read automatically when you start R.
 Check what credentials are available:
 
 ``` r
+
 # Check if credentials exist
 key_available("client_key")
 key_available("client_secret")
@@ -112,6 +114,7 @@ Once credentials are stored, authentication works the same as with the
 built-in credentials as long as everything is correct.
 
 ``` r
+
 # Authenticate (will use stored credentials automatically)
 meetupr_auth()
 
@@ -135,6 +138,7 @@ is the default `client_name`. If you’re using multiple OAuth apps, you
 can specify a custom client name:
 
 ``` r
+
 # Sets a custom client name for this session
 Sys.setenv("MEETUPR_CLIENT_NAME" = "myApp")
 
@@ -145,6 +149,7 @@ meetupr_sitrep()
 Or specify the client name directly in function calls:
 
 ``` r
+
 # Authenticate with custom client name
 meetupr_auth(client_name = "myApp")
 ```
@@ -157,14 +162,14 @@ controlled.
 
 ### Supported Keys
 
-| Key           | Purpose/Usage                                                 |
-|---------------|---------------------------------------------------------------|
-| client_key    | OAuth client key, necessary if using custom app               |
-| client_secret | OAuth client secret, necessary if using custom app            |
-| jwt_token     | JWT token (string or file path) for Meetup Pro authentication |
-| jwt_issuer    | Necessary if using JWT, your Meetup Member ID (number)        |
-| encrypt_path  | Path to encrypted token file (default: `.meetupr.rds`)        |
-| encrypt_pwd   | Password for decrypting encrypted token files                 |
+| Key | Purpose/Usage |
+|----|----|
+| client_key | OAuth client key, necessary if using custom app |
+| client_secret | OAuth client secret, necessary if using custom app |
+| jwt_token | JWT token (string or file path) for Meetup Pro authentication |
+| jwt_issuer | Necessary if using JWT, your Meetup Member ID (number) |
+| encrypt_path | Path to encrypted token file (default: `.meetupr.rds`) |
+| encrypt_pwd | Password for decrypting encrypted token files |
 
 ### 1. JWT Flow (Meetup Pro accounts)
 
@@ -218,6 +223,7 @@ that run, otherwise the next run will fail.
 Start by authenticating locally, where you will receive a token.
 
 ``` r
+
 meetupr_auth()
 
 # verify everything is working
@@ -227,6 +233,7 @@ meetupr_sitrep()
 Then, set up encryption locally:
 
 ``` r
+
 # creates .meetupr.rds and displays password
 meetupr_encrypt_setup()  
 ```
@@ -244,6 +251,7 @@ Finally, in your CI scripts, load the encrypted token file before making
 API calls:
 
 ``` r
+
 meetupr_encrypt_load()
 meetupr_sitrep()
 ```
@@ -256,6 +264,7 @@ meetupr_sitrep()
 Set up a GitHub action with:
 
 ``` r
+
 use_gha_encrypted_token()
 ```
 
@@ -269,6 +278,7 @@ use_gha_encrypted_token()
 - **Default for interactive sessions**:
 
   ``` r
+
   meetupr_auth()
   meetupr_sitrep()
   ```
@@ -287,5 +297,6 @@ order:
 You can check which method is active with:
 
 ``` r
+
 meetupr_sitrep()
 ```

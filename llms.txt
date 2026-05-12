@@ -7,12 +7,14 @@ R interface to the Meetup GraphQL API
 Install the CRAN version:
 
 ``` r
+
 install.packages("meetupr")
 ```
 
 To install the development version from R-universe:
 
 ``` r
+
 install.packages(
   'meetupr', 
   repos = c(
@@ -25,6 +27,7 @@ install.packages(
 or from GitHub:
 
 ``` r
+
 # install.packages("remotes")
 remotes::install_github("rladies/meetupr")
 ```
@@ -41,6 +44,7 @@ sessions.
 ### Get group events
 
 ``` r
+
 library(meetupr)
 
 get_group_events("rladies-san-francisco", "past")
@@ -71,6 +75,7 @@ get_group_events("rladies-san-francisco", "past")
 ### Get group members
 
 ``` r
+
 get_group_members("rladies-san-francisco")
 ```
 
@@ -95,6 +100,7 @@ get_group_members("rladies-san-francisco")
 ### Search for groups
 
 ``` r
+
 find_groups("R-Ladies") |>
   dplyr::arrange(desc(founded_date))
 ```
@@ -124,6 +130,7 @@ For Meetup Pro networks, note that user needs to be a **pro** network
 organizer to access the data.
 
 ``` r
+
 # Get all groups in a pro network
 pro_groups <- get_pro_groups("rladies")
 

@@ -1,6 +1,7 @@
 # Setting up and Getting Started with meetupr
 
 ``` r
+
 library(meetupr)
 ```
 
@@ -17,6 +18,7 @@ Start by running
 to check your authentication status or set up authentication:
 
 ``` r
+
 meetupr_sitrep()
 #> 
 #> ── meetupr Situation Report ────────────────────────────────────────────────────
@@ -64,6 +66,7 @@ to determine the context and switch authentication flows accordingly.
 When working interactively:
 
 ``` r
+
 # First time: browser opens for authorization
 get_group("rladies-lagos")
 
@@ -74,6 +77,7 @@ get_group_events("rladies-lagos")
 When running non-interactively (GitHub Actions, cron jobs):
 
 ``` r
+
 # Load token from environment variables (set via CI secrets)
 meetupr_encrypt_load()
 
@@ -90,6 +94,7 @@ For interactive use (exploring data, one-off analyses), simply
 authenticate when prompted:
 
 ``` r
+
 # Authenticate interactively (opens browser)
 meetupr_auth()
 
@@ -129,6 +134,7 @@ vignette.
 After authenticating, verify the setup:
 
 ``` r
+
 meetupr_sitrep()
 #> 
 #> ── meetupr Situation Report ────────────────────────────────────────────────────
@@ -166,6 +172,7 @@ Retrieve detailed information about a specific group using its URL name
 (the part after `meetup.com/` in the URL):
 
 ``` r
+
 group_info <- get_group("rladies-lagos")
 str(group_info)
 #> List of 13
@@ -205,6 +212,7 @@ Get events for a specific group. By default, this returns upcoming
 events:
 
 ``` r
+
 events <- get_group_events("rladies-lagos")
 head(events)
 #> # A tibble: 6 × 23
@@ -236,6 +244,7 @@ Each row represents an event with:
 To retrieve historical events, use the `status` parameter:
 
 ``` r
+
 past_events <- get_group_events(
   "rladies-lagos",
   status = "past",
@@ -263,6 +272,7 @@ head(past_events)
 You can filter events within a specific date range:
 
 ``` r
+
 # Events from 2024 onwards
 recent_events <- get_group_events(
   "rladies-lagos",
@@ -291,6 +301,7 @@ Dates must be in ISO 8601 format with timezone (typically UTC:
 Retrieve detailed information about a specific event using its ID:
 
 ``` r
+
 event <- get_event(id = "103349942")
 event
 #> 
@@ -317,6 +328,7 @@ The [`print()`](https://rdrr.io/r/base/print.html) method displays a
 formatted summary. Access individual fields with `$` notation:
 
 ``` r
+
 event$title
 event$dateTime
 event$going
@@ -327,6 +339,7 @@ event$going
 See who has RSVP’d to an event:
 
 ``` r
+
 rsvps <- get_event_rsvps(id = "103349942")
 head(rsvps)
 #> # A tibble: 6 × 9
@@ -357,6 +370,7 @@ This is useful for analyzing attendance patterns or contacting attendees
 List members of a group:
 
 ``` r
+
 members <- get_group_members("rladies-lagos", max_results = 10)
 head(members)
 #> # A tibble: 6 × 8
@@ -385,6 +399,7 @@ Note: Due to privacy settings, some member information may be limited.
 Find groups matching a search term:
 
 ``` r
+
 r_groups <- find_groups("R programming")
 head(r_groups)
 #> # A tibble: 6 × 14
@@ -416,6 +431,7 @@ The Meetup API limits how many results can be returned in a single
 request. The `max_results` parameter controls pagination:
 
 ``` r
+
 # Get up to 50 events (may require multiple API calls)
 many_events <- get_group_events(
   "rladies-san-francisco",
@@ -436,6 +452,7 @@ automatically throttles requests to stay under this limit. For large
 batch operations, consider adding explicit delays:
 
 ``` r
+
 # Process multiple groups with delays
 groups <- c("rladies-nyc", "rladies-sf", "rladies-london")
 
@@ -455,6 +472,7 @@ will error if you don’t have Pro access.
 ### List All Pro Groups
 
 ``` r
+
 # Get all groups in the R-Ladies network
 pro_groups <- get_pro_groups("rladies")
 head(pro_groups)
@@ -463,6 +481,7 @@ head(pro_groups)
 ### Network-Wide Events
 
 ``` r
+
 # Get upcoming events across all groups in network
 upcoming <- get_pro_events("rladies", status = "upcoming")
 head(upcoming)
@@ -482,6 +501,7 @@ behavior. Enabling debug mode shows the exact GraphQL queries being sent
 to the API.
 
 ``` r
+
 local_meetupr_debug(1)
 meetupr_sitrep()
 #> 
@@ -535,6 +555,7 @@ data is being returned.
 To turn it off again, set it to `0`:
 
 ``` r
+
 local_meetupr_debug(0)
 meetupr_sitrep()
 #> 
@@ -601,6 +622,7 @@ to diagnose the issue. Common causes include:
 **Solution**: Clear old tokens and re-authenticate:
 
 ``` r
+
 meetupr_deauth()
 meetupr_auth()
 ```

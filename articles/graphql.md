@@ -1,6 +1,7 @@
 # Custom Meetup Queries
 
 ``` r
+
 library(meetupr)
 library(dplyr)
 #> 
@@ -67,6 +68,7 @@ included in the default
 response:
 
 ``` r
+
 # Define additional fields to fetch
 extra_fields <- "
     featuredEventPhoto {
@@ -109,6 +111,7 @@ parameter works particularly well when you need to fetch related data
 like venues or host information:
 
 ``` r
+
 # Fetch detailed venue information
 venue_fields <- "
     venues {
@@ -171,6 +174,7 @@ can control how meetupr handles this using the `handle_multiples`
 parameter:
 
 ``` r
+
 events_list <- get_group_events(
   "rladies-lagos",
   extra_graphql = "
@@ -215,6 +219,7 @@ a required string).
 Here’s a custom query fetching detailed group information:
 
 ``` r
+
 custom_query <- "
   query GetGroupWithDetails($urlname: String!) {
     groupByUrlname(urlname: $urlname) {
@@ -250,6 +255,7 @@ function executes your custom GraphQL and handles variable substitution.
 You pass variables as additional named arguments:
 
 ``` r
+
 # Execute for different groups using the same query
 lagos <- meetupr_query(
   custom_query,
@@ -285,6 +291,7 @@ When you request more results than fit in one API response, meetupr
 makes multiple requests for you:
 
 ``` r
+
 # Request 50 events - may require multiple API calls
 many_events <- get_group_events(
   "rladies-san-francisco",
@@ -349,6 +356,7 @@ For advanced use cases, you can create your own `meetupr_template`
 objects that define how to process responses:
 
 ``` r
+
 # Define a custom template with extraction logic
 template <- meetupr_template(
   template = "my_custom_query.graphql",
@@ -383,6 +391,7 @@ When a query fails, enable debug mode to see the exact GraphQL being
 sent:
 
 ``` r
+
 # Enable debug mode
 Sys.setenv(MEETUPR_DEBUG = "1")
 
@@ -422,6 +431,7 @@ limits.
 GraphQL’s main advantage is precise field selection. Use it:
 
 ``` r
+
 # Avoid: Fetches everything including large nested objects
 heavy_query <- "
   query {
@@ -472,6 +482,7 @@ When you need data from multiple groups, consider whether you can get it
 in fewer API calls:
 
 ``` r
+
 groups <- c("rladies-nyc", "rladies-sf", "rladies-london")
 
 # Inefficient: One API call per group
@@ -498,6 +509,7 @@ For large batch operations, add explicit delays to stay well under rate
 limits:
 
 ``` r
+
 # Process many groups with deliberate pacing
 many_groups <- c("group1", "group2", "group3", "...")
 
@@ -520,6 +532,7 @@ simultaneously or sharing API credentials across processes.
 Don’t request more data than you need:
 
 ``` r
+
 # If you only need recent events, limit the request
 recent_events <- get_group_events(
   "rladies-sf",
