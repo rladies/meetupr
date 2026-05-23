@@ -14,9 +14,15 @@ name: Render README
 jobs:
   render-rmarkdown:
     runs-on: ubuntu-latest
-    env:
-      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
+      - name: Generate app token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.JINX_APP_ID }}
+          private-key: ${{ secrets.JINX_PRIVATE_KEY }}
+          owner: rladies
+
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
@@ -32,6 +38,8 @@ jobs:
           extra-packages: |
             devtools
             rmarkdown
+        env:
+          GITHUB_PAT: ${{ steps.app-token.outputs.token }}
 
       - name: Render Rmarkdown files
         shell: Rscript {0}
@@ -39,8 +47,10 @@ jobs:
           devtools::build_readme()
 
       - name: Commit results
+        env:
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
-          git config --local user.name "$GITHUB_ACTOR"
-          git config --local user.email "$GITHUB_ACTOR@users.noreply.github.com"
+          git config --local user.name "Jinx[bot]"
+          git config --local user.email "jinx@rladies.org"
           git commit README.md -m 'Re-build README' || echo "No changes to commit"
           git push origin || echo "No changes to commit"
